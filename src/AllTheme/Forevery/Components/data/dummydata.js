@@ -198,3 +198,24 @@ export const foreveryProcess = [
     Subtitle  :"Your dream ring is ready for collection.",
     description: 'Your ring will be manufactured by our artisans and made available to you within the specified time committed to you. This whole process will be smooth and hassle-free owing to our reliable features of free shipping, free 30 Day returns and 60- Days free resizing. From the moment you conceived the idea of a tailor-made ring till the time you receive it, Forevery will be by your side.'  }
 ];
+
+export const education = [
+  {
+    title: "Engagement Rings",
+    description: "Browse stunning women's wedding bands, from nature inspired styles to modern designs.",
+    linkText: "read more" ,
+    img : `${storImagePath()}/Forevery/education/32.webp`
+  },
+  {
+    title: "Wedding Rings",
+    description: "Explore our broad selection of men's wedding bands that features classic and unique styles.",
+    linkText: "read more" ,
+    img : `${storImagePath()}/Forevery/education/30.webp`
+  },
+  {
+    title: "Labgrown Diamonds",
+    description: "Discover Our Collection Of Diamonds, Which Offers Both Classic And Unique Styles.",
+    linkText: "read more" ,
+    img : `${storImagePath()}/Forevery/education/29.jpg`
+  }
+];

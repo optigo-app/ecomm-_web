@@ -32,6 +32,7 @@ import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Preloader from "../../../../../../dum/Load";
 import { RxCross1 } from "react-icons/rx";
+import UseNavbar from "../../../hooks/UseNavbar";
 
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
@@ -47,10 +48,15 @@ const Navbar = () => {
   const [cartCountNum, setCartCountNum] = useRecoilState(for_CartCount);
   const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
   const [searchText, setSearchText] = useState("");
+  const [showMenu, setshowMenu] = useState(true);
 
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
+
+  // useEffect(()=>{
+  //         setshowMenu(true)
+  // },[])
 
   const handleLogout = () => {
     Navigate("/");
@@ -180,8 +186,12 @@ const Navbar = () => {
     }
   };
 
+  const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
+
+  console.log(navbarHeight, "height");
+
   return (
-    <div className="for_Navbar">
+    <div className="for_Navbar" ref={navRef}>
       <Preloader />
       <nav className="for_nav">
         <NavbarLeft
@@ -190,8 +200,11 @@ const Navbar = () => {
           setActiveMenu={setActiveMenu}
           setHoveredIndex={setHoveredIndex}
           hoveredIndex={hoveredIndex}
+          height={navbarHeight}
+          showMenu={showMenu}
+          setshowMenu={setshowMenu}
         />
-        <NavbarCenter Navigate={Navigate} />
+        <NavbarCenter Navigate={Navigate} onLoad={handleLogoLoad} />
         <NavbarRight
           Navigate={Navigate}
           ShowSearchBar={ShowSearchBar}
@@ -204,6 +217,8 @@ const Navbar = () => {
           searchDataFucn={searchDataFucn}
           searchText={searchText}
           setSearchText={setSearchText}
+          showMenu={showMenu}
+          setshowMenu={setshowMenu}
         />
       </nav>
     </div>
@@ -383,7 +398,7 @@ const NavbarRight = ({
     </div>
   );
 };
-const NavbarCenter = ({ Navigate }) => {
+const NavbarCenter = ({ Navigate, onLoad }) => {
   return (
     <div className="center">
       <div
@@ -397,6 +412,7 @@ const NavbarCenter = ({ Navigate }) => {
           src={`${storImagePath()}/Forevery/logo.webp`}
           alt=""
           style={{ cursor: "pointer" }}
+          onLoad={onLoad}
         />
       </div>
     </div>
@@ -407,8 +423,12 @@ const NavbarLeft = ({
   ActiveMenu,
   setHoveredIndex,
   hoveredIndex,
+  height,
+  showMenu,
+  setshowMenu,
 }) => {
   const Navigate = useNavigate();
+  const NavItemsHeight = height - 25;
   return (
     <>
       <div className="left">
@@ -417,11 +437,20 @@ const NavbarLeft = ({
             <div
               className="for_menu_items"
               key={i}
+              style={{
+                height: `${NavItemsHeight}px`,
+              }}
               onMouseOver={() => {
                 setActiveMenu({ menu: val, index: i });
                 setHoveredIndex(i);
+                setTimeout(()=>{
+                  setshowMenu(true)
+                },300)
               }}
-              onClick={() => Navigate(val?.link)}
+              onClick={() => {
+                Navigate(val?.link);
+                setshowMenu(false);
+              }}
             >
               <Link to={val?.link} className="for_nav_menu">
                 {val?.category}
@@ -441,17 +470,27 @@ const NavbarLeft = ({
           );
         })}
         <>
-          <NavitemsWrapper
-            SelectedMenu={ActiveMenu}
-            setActiveMenu={setActiveMenu}
-            setHoveredIndex={setHoveredIndex}
-          />
+          {showMenu && (
+            <NavitemsWrapper
+              SelectedMenu={ActiveMenu}
+              setActiveMenu={setActiveMenu}
+              setHoveredIndex={setHoveredIndex}
+              height={height}
+              setshowMenu={setshowMenu}
+            />
+          )}
         </>
       </div>
     </>
   );
 };
-const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
+const NavitemsWrapper = ({
+  SelectedMenu,
+  setActiveMenu,
+  setHoveredIndex,
+  height,
+  setshowMenu
+}) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
@@ -494,7 +533,13 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
   }, []);
   return (
     <>
-      <div className="first_nav" ref={firstNavRef}>
+      <div
+        className="first_nav"
+        style={{
+          top: `${height}px`,
+        }}
+        ref={firstNavRef}
+      >
         <div className="bg-for-hoverlay">
           <div className="nav_bottom_top_head">
             {NavbarMenuRender(NavbarMenu).map((val, i) => {
@@ -517,6 +562,7 @@ const NavitemsWrapper = ({ SelectedMenu, setActiveMenu, setHoveredIndex }) => {
             {SelectedMenu?.index == 0 && (
               <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
                 setCustomizeStep1={setCustomizeStep1}
+                setCustomizeStep={setCustomizeStep}
               />
             )}
             {SelectedMenu?.index == 1 && (
@@ -544,6 +590,7 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [checkIndex, setCheckIndex] = useState();
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -553,42 +600,64 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
-  const handleCheckSteps = () => {
+  const handleCheckSteps = (index) => {
     if (checkSteps) {
       setShowModal(true);
+      setCheckIndex(index)
     } else {
-      console.log('Alternative action');
+      console.log("Alternative action");
     }
   };
 
   const HandleSettingNavigation = () => {
-    const addCategory = `Ring/category`;
-    const filterKeyVal = btoa(addCategory)
-    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
-    setCustomizeStep1({
-      step1: true,
-    })
-    const step1 = [{ "step1": true, "Setting": 'Ring' }];
-    sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+    if ((steps?.[0] !== undefined && steps?.[0] !== null || steps?.[1] !== undefined && steps?.[1] !== null)) {
+      sessionStorage.removeItem('customizeSteps')
+      sessionStorage.removeItem('custStepData')
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory)
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    }
+    else {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory)
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      setCustomizeStep1({
+        step1: true,
+      })
+      const step1 = [{ "step1": true, "Setting": 'Ring' }];
+      sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+    }
   };
 
   const HandleDiamondNavigation = () => {
-    navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
-    setCustomizeStep({
-      step1: true,
-    })
-    const step1 = [{ "step1": true, "shape": "Round" }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    if ((steps1?.[0] !== undefined && steps1?.[0] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null)) {
+      sessionStorage.removeItem('customizeSteps2')
+      sessionStorage.removeItem('custStepData2')
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+    } else {
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+      setCustomizeStep({
+        step1: true,
+      })
+      const step1 = [{ "step1": true, "shape": "Round" }];
+      sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    }
   };
 
-  const handleRemoveData = () => {
+  const handleRemoveData = (index) => {
     sessionStorage.removeItem('customizeSteps');
     sessionStorage.removeItem('custStepData');
     sessionStorage.removeItem('customizeSteps2');
     sessionStorage.removeItem('custStepData2');
-    navigate('/');
+    if (index === 0) {
+      const addCategory = `Ring/category`;
+      const filterKeyVal = btoa(addCategory);
+      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    } else {
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+    }
     handleToggle();
-  }
+  };
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -599,24 +668,29 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
               <h3>create your own diamond ring</h3>
               <div class="ring-types">
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                  <span class="ring-type" onClick={() => handleCheckSteps(0)}>
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
                 ) : (
-                  <span class="ring-type" onClick={() => HandleSettingNavigation()}>
+                  <span
+                    class="ring-type"
+                    onClick={() => HandleSettingNavigation()}
+                  >
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
                 )}
                 {checkSteps ? (
-                  <span class="ring-type" onClick={() => handleCheckSteps()}>
+                  <span class="ring-type" onClick={() => handleCheckSteps(1)}>
                     <IoDiamondOutline size={15} /> Start With a Diamond
                   </span>
                 ) : (
-                  <span class="ring-type" onClick={() => HandleDiamondNavigation()}>
+                  <span
+                    class="ring-type"
+                    onClick={() => HandleDiamondNavigation()}
+                  >
                     <IoDiamondOutline size={15} /> Start With a Diamond
                   </span>
                 )}
-
               </div>
             </div>
             <div className="for_col_2">
@@ -675,12 +749,13 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
           <img src={commonImage} alt="" />
         </div>
       </div>
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={checkIndex} />
     </>
   );
 };
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
+  const [shape, setShape] = useState();
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -691,33 +766,34 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
-  const handleCheckSteps = () => {
+  const handleCheckSteps = (value) => {
     if (checkSteps) {
       setShowModal(true);
+      setShape(value);
     } else {
-      console.log('Alternative action');
+      console.log("Alternative action");
     }
   };
 
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-    setCustomizeStep({
-      step1: true,
-      step2: false,
-      step3: false,
-    });
-    const step1 = [{ "step1": true, "shape": shape }];
-    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    // setCustomizeStep({
+    //   step1: true,
+    //   step2: false,
+    //   step3: false,
+    // });
+    // const step1 = [{ "step1": true, "shape": shape }];
+    // sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
-  const handleRemoveData = () => {
+  const handleRemoveData = (shape) => {
     sessionStorage.removeItem('customizeSteps');
     sessionStorage.removeItem('custStepData');
     sessionStorage.removeItem('customizeSteps2');
     sessionStorage.removeItem('custStepData2');
-    Navigate('/');
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
-  }
+  };
 
   return (
     <div className="Second_Nav_first_Menu">
@@ -731,7 +807,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
                 return (
                   <>
                     {checkSteps ? (
-                      <span onClick={() => handleCheckSteps()}>
+                      <span onClick={() => handleCheckSteps(val?.name)}>
                         <img src={val?.img} alt="" width={15} height={15} />
                         {val?.name}
                       </span>
@@ -764,7 +840,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <img src={commonImage} alt="" />
       </div>
 
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} />
+      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={shape} />
     </div>
   );
 };
@@ -985,6 +1061,7 @@ const Modal = ({
   open,
   handleClose,
   handleRemoveData,
+  index,
 }) => {
   return (
     <>
@@ -994,43 +1071,44 @@ const Modal = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         sx={{
-          '& .MuiDialog-root': {
+          "& .MuiDialog-root": {
             zIndex: 9999,
           },
-          '& .MuiDialog-paper': {
-            backgroundColor: 'transparent',
-            border: '1px solid white',
+          "& .MuiDialog-paper": {
+            backgroundColor: "transparent",
+            border: "1px solid white",
             zIndex: 9999,
           },
-          '& .MuiDialogContent-root': {
-            padding: '10px',
+          "& .MuiDialogContent-root": {
+            padding: "10px",
           },
         }}
       >
         <DialogContent
           sx={{
             minWidth: 260,
-            padding: '0px',
-            position: 'relative',
-            overflow: 'hidden',
+            padding: "0px",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
           <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
-            <RxCross1 className='for_modal_cancel_nav_btn' size={'12px'} />
+            <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
           </div>
           <div className="for_modal_inner_nav_div">
-            <span className='for_modal_nav_title'>
-              You have already selected mount & diamond, would you like to view it?
+            <span className="for_modal_nav_title">
+              You have already selected mount & diamond, would you like to view
+              it?
             </span>
             <div className="for_modal_buttons_nav_div">
               <button onClick={() => {
                 handleClose();
               }}>Yes</button>
-              <button onClick={() => { handleRemoveData() }}>No</button>
+              <button onClick={() => { handleRemoveData(index) }}>No</button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
     </>
-  )
-}
+  );
+};

@@ -55,7 +55,9 @@ const DiamondDetails = () => {
     console.log('settingSteps: ', settingSteps?.[1]?.step2);
     const stepsData = JSON.parse(sessionStorage.getItem('custStepData'))
     console.log('stepsData: ', stepsData);
-    const steps = JSON.parse(sessionStorage.getItem('customizeSteps'))
+    const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+    const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+    console.log('steps22: ', steps1);
     console.log('steps21: ', steps);
 
     useEffect(() => {
@@ -124,7 +126,9 @@ const DiamondDetails = () => {
     const [wishListFlag, setWishListFlag] = useState(null);
     const [PdImageArr, setPdImageArr] = useState([]);
     const [price, setPrice] = useState();
+    console.log('price: ', price);
     const [ratingvalue, setratingvalue] = useState(5);
+    const [filterVal, setFilterVal] = useState();
     const [Swap, setswap] = useState("diamond");
     const breadCrumb = location?.pathname?.split("/")[2];
     const [compSet, setCompSet] = useState(false);
@@ -157,35 +161,58 @@ const DiamondDetails = () => {
         }
     }, [compSet])
 
+    useEffect(() => {
+        if (compSet) {
+            const Settingcategory = (setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === "Ring" ? 'Ring/category' : 'Pendant/category';
+            const filterKeyVal = btoa(Settingcategory)
+            setFilterVal(filterKeyVal);
+        }
+    }, [compSet])
+
+
     const totalPrice = (Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2);
 
     useEffect(() => {
         if (compSet && !isNaN(totalPrice)) {
-            const existingSteps = JSON.parse(sessionStorage.getItem('customizeSteps')) || {};
+            const existingSteps = JSON.parse(sessionStorage.getItem('customizeSteps')) || [];
+            const existingSteps1 = JSON.parse(sessionStorage.getItem('customizeSteps2')) || [];
+            console.log('existingSteps1: ', existingSteps1);
 
-            const updatedStep = {
-                ...customizeStep,
-                step3: {
-                    ...customizeStep?.step3,
-                    price: totalPrice,
+            if (steps?.[1]?.step2 === true) {
+                const updatedStep1 = existingSteps?.map(step => {
+                    if (step.step3 !== undefined) {
+                        return { "step3": true, "url": existingSteps?.[2]?.url, "price": totalPrice };
+                    }
+                    return step;
+                });
+
+                // Check if step3 was updated; if not, add it
+                if (!updatedStep1?.some(step => step.step3 !== undefined)) {
+                    updatedStep1?.push({ "step3": true, "url": existingSteps?.[2]?.url, "price": totalPrice });
                 }
-            };
 
-            const updatedStep1 = steps.map(step => {
-                if (step.step3 !== undefined) {
-                    return { "step3": true, "url": existingSteps?.[2]?.url, "price": totalPrice };
-                }
-                return step;
-            });
-
-            if (!updatedStep1.some(step => step.step3 !== undefined)) {
-                updatedStep1.push({ "step3": true, "url": existingSteps?.[2]?.url, "price": totalPrice });
+                sessionStorage.setItem('customizeSteps', JSON.stringify(updatedStep1));
             }
 
-            sessionStorage.setItem('customizeSteps', JSON.stringify(updatedStep1));
-            setCustomizeStep(updatedStep);
+            if (steps1?.[1]?.step2 === true) {
+                const updatedStep2 = existingSteps1?.map(step => {
+                    if (step.step3 !== undefined) {
+                        return { "step3": true, "url": existingSteps1?.[2]?.url, "price": totalPrice };
+                    }
+                    return step;
+                });
+
+                // Check if step3 was updated; if not, add it
+                if (!updatedStep2?.some(step => step.step3 !== undefined)) {
+                    updatedStep2?.push({ step3: { url: existingSteps1?.[2]?.url, price: totalPrice } });
+                }
+
+                sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
+            }
         }
-    }, [compSet, totalPrice]);
+        setPrice(totalPrice);
+    }, [compSet, totalPrice, steps, steps1]);
+
 
     console.log('diamondData: ', diamondData);
     console.log('settingData: ', settingData);
@@ -474,14 +501,14 @@ const DiamondDetails = () => {
             const updatedStep1 = step1?.map(step => {
                 if (step.step3 !== undefined) {
                     // Replace existing step2 data
-                    return { "step3": true, "url": encodeObj, "price": customizeStep?.step3?.price };
+                    return { "step3": true, "url": encodeObj };
                 }
                 return step;
             });
 
             // If no existing step2, add new entry
             if (!updatedStep1.some(step => step.step3 !== undefined)) {
-                updatedStep1.push({ "step3": true, "url": encodeObj, "price": customizeStep?.step3?.price });
+                updatedStep1.push({ "step3": true, "url": encodeObj });
             }
 
             const updatedStepData = stepsData.map(step => {
@@ -566,7 +593,7 @@ const DiamondDetails = () => {
                 navigate(`d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
             }
             else {
-                navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
+                navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=${filterKeyVal}`);
             }
         }
 
@@ -1108,7 +1135,7 @@ const DiamondDetails = () => {
                                                             <div className="for_Complete_set_price">
                                                                 <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)}</span>
                                                             </div>
-                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=V29tZW4vZ2VuZGVy' : 'M=Q2xhaXJlL2NvbGxlY3Rpb24=')}`) }}>
+                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/M=${filterVal}`) }}>
 
                                                                 <HiOutlinePencilSquare fontWeight={700} />
                                                                 <span style={{ marginTop: '1px' }}>Change</span>
@@ -1571,8 +1598,6 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
         setOpen(open === index ? null : index);
     };
 
-    console.log('step3:', getCustStepData?.[3]?.step3);
-
     const renderSteps = () => {
         return (
             <>
@@ -1583,7 +1608,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
                             setswap("settings");
                         }}
                     >
-                        <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={
+                        <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={
                             (getCustStepData2?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
                             StepImages[1]?.img
                         } alt="" /> Settings
@@ -1637,8 +1662,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
 
                 <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
                     <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-                        <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData2?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
-                            StepImages[2]?.img} alt="" /> {getCustStepData2?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
+                        <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+                            StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
                     </span>
                     {(compSet || getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
                         <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>
@@ -1682,11 +1707,11 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
                     <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
                         <span className="for_title_span" style={StyleCondition}
                             onClick={() => {
-                                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[0]?.shape ?? setshape?.[1]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                                 setswap("settings");
                             }}
                         >
-                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+                            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[1]?.img1 : StepImages[1]?.img) ||
                                 StepImages[2]?.img} alt="" /> Settings
                         </span>
                         {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -1711,8 +1736,8 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
 
                     <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
                         <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-                            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData2?.[1]?.Setting === 'Pendant' ? StepImages[2]?.img1 : StepImages[2]?.img) ||
-                                StepImages[2]?.img} alt="" /> {getCustStepData2?.[1]?.Setting === "Pendant" ? 'Pendant' : 'Ring'}
+                            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+                                StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
                         </span>
                         {(compSet || getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
                             <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>

@@ -34,6 +34,9 @@ const Card = ({ title = "", img = "" }) => {
       onClick={() =>
         Navigate("/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u")
       }
+      style={{
+        cursor: "pointer",
+      }}
     >
       <img src={img} alt="" />
       <div className="for_square"></div>

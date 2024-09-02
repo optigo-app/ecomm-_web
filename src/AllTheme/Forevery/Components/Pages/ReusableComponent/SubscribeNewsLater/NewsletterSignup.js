@@ -23,7 +23,7 @@ const NewsletterSignup = () => {
                 <img src="https://forevery.one/images_new/foreveryimg/subscribe.png" alt="email-icon" />
             </div>
             <h2>Deals are delivered to your Inbox.</h2>
-            <p>Be the first one to get the details of the 'Forevery' Brand New Collection.</p>
+            <p className="sub-text">Be the first one to get the details of the 'Forevery' Brand New Collection.</p>
             <div className="email-input">
                 <input
                     type="email"
@@ -39,10 +39,9 @@ const NewsletterSignup = () => {
                 our privacy policy. Any information provided will be collected and used
                 for the purpose of sending news, promotions, and updates through email
                 communication. You can withdraw your consent at any time by
-                unsubscribing or reaching out to the customer service team at
+                unsubscribing or reaching out to the customer service team at&nbsp;<a href="mailto:service@forevery.com">service@forevery.com.</a>
             </p>
             <span className="newslatterEmail">
-                <a href="mailto:service@forevery.com">service@forevery.com.</a>
             </span>
         </div>
     );
