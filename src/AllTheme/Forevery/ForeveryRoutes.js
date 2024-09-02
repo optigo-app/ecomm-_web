@@ -54,6 +54,7 @@ import FineJewelry from "./Components/Pages/Home/FineJewelry/FineJewelry";
 import Preloader from "../../dum/Load";
 import Bespokejewelry from "./Components/Pages/staticpages/Bespokejewelry/Bespokejewelry";
 import Test from "./Components/Pages/ReusableComponent/Test";
+import Account from "./Components/Pages/Account/Account"
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -247,6 +248,8 @@ const ForEveryRoutes = () => {
         <Route path="/Delivery" element={<Delivery />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/Confirmation" element={<Confirmation />} />
+
+        <Route path="/account" element={<Account />} />
 
         {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
         {/* <Route path="/FunFact" element={<FunFact />} /> */}

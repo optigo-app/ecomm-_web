@@ -208,6 +208,16 @@
         padding: 10px 0 !important;
     }
 }
+@media screen and (max-width:1024px){
+    .yourAccount .MuiButtonBase-root{
+        padding: 0px !important;
+        min-height: auto !important;
+        align-items: flex-start;
+    }
+    .d_none_acc_elvee{
+        display: none !important;
+    }
+}
 
 @media(max-width: 768px){
     .YourAccountPageTabs div[aria-orientation="vertical"] > .MuiTab-textColorPrimary {

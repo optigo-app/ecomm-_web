@@ -266,11 +266,11 @@ const NewOrderHistoryF = () => {
               paddingTop: "10px",
             }}
           >
-            <CircularProgress className="loadingBarManage" />
+            <CircularProgress className="loadingBarManage" style={{zIndex:1000000}} />
           </Box>
         ) : (
           <div>
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "100%" }} className="smr_yourProfile_mt8_for">
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
                     return (
