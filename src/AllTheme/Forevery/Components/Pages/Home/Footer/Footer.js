@@ -106,9 +106,9 @@ const Footer = () => {
     {
       title: "Quick Links",
       items: [
-        { name: "Engagement Rings", path: "/engagement-rings" },
-        { name: "Wedding Rings", path: "/wedding-rings" },
-        { name: "Fine Jewelry", path: "/fine-jewelry" },
+        { name: "Engagement Rings", path: "/engagement-rings", disabled: true },
+        { name: "Wedding Rings", path: "/wedding-rings", disabled: true },
+        { name: "Fine Jewelry", path: "/fine-jewelry", disabled: true },
         // { name: 'Certified Loose Diamonds', path: '/loose-diamonds' },
         // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' }
       ],
@@ -145,13 +145,15 @@ const Footer = () => {
               onClick={() => isMobile && toggleSection(index)}
             >
               <span>{section.title}</span>
-             {isMobile &&  <span>
-                {activeSection === index ? (
-                  <HiOutlineMinusSmall  size={22}/>
-                ) : (
-                  <BsPlus  size={22}/>
-                )}
-              </span>}
+              {isMobile && (
+                <span>
+                  {activeSection === index ? (
+                    <HiOutlineMinusSmall size={22} />
+                  ) : (
+                    <BsPlus size={22} />
+                  )}
+                </span>
+              )}
             </h4>
             <ul>
               {section.title === "Social Media" ? (
@@ -210,8 +212,17 @@ const Footer = () => {
                   {section.items.map((item, idx) => (
                     <li key={idx}>
                       <a
+                        style={
+                          item.disabled
+                            ? {  color: "gray" ,cursor  :"not-allowed" }
+                            : {}
+                        }
                         href={item?.path}
                         onClick={(e) => {
+                          if (item.disabled) {
+                            e.preventDefault();
+                            return;
+                          }
                           e.preventDefault();
                           handleNavigate(e, item.path);
                         }}

@@ -23,6 +23,7 @@ const NavbarMenu = [
   {
     category: "Engagement & Wedding Diamonds",
     link: "lab-created-engagement-rings",
+    disabled: false,
     submenu: [
       {
         title: ` Engagement Ring`,
@@ -76,18 +77,22 @@ const NavbarMenu = [
   {
     category: "Diamond",
     link: "diamond",
+    disabled: false,
   },
   {
     category: "High End Jewelry",
     link: "p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u",
+    disabled: false,
   },
   {
     category: "Fine Jewelry",
     link: "lab-grown-fine-jewelry",
+    disabled: false,
   },
   {
     category: "Letter Diamonds",
     link: "letter-diamonds/all",
+    disabled: true,
   },
 ];
 
@@ -111,18 +116,33 @@ const diamondShapes = [
   },
 ];
 // diamond
+
+const RingCategory = `Ring/category`;
+const filterKeyVal1 = btoa(RingCategory);
+
+const RingsNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal1}`;
+const EaringCategory = `Earring/category`;
+const filterKeyVal2 = btoa(EaringCategory);
+const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal2}`;
+const PendantCategory = `Pendant/category`;
+const filterKeyVal3 = btoa(PendantCategory);
+const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal3}`;
+
 const SideItems = [
   {
     name: "Diamond Rings",
     img: `${storImagePath()}/Forevery/diamond/side/wedding-rings.png`,
+    link: RingsNavi,
   },
   {
     name: "Diamond Earrings",
     img: `${storImagePath()}/Forevery/diamond/side/easrrings.png`,
+    link: EaringNavi,
   },
   {
     name: "Diamond Pendant",
     img: `${storImagePath()}/Forevery/diamond/side/s.png`,
+    link: PendantNavi,
   },
 ];
 
@@ -464,5 +484,3 @@ export {
   DiamondProductList,
   LooseDiamond,
 };
-
-
