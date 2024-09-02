@@ -101,17 +101,17 @@ export default function Footer() {
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>QUICK LINKS</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>FAQs</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>FAQs</p>
                             <p className='FoooterTextLink' onClick={openPdf}>Size Guide</p>
                             {/* <p className='FoooterTextLink'>Gift Cards</p> */}
-                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Material & Care</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/term&condition')}>Terms & Conditions</p>
-                            <p className='FoooterTextLink' onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/MaterialCore'); window.scroll(0, 0); }}>Material & Care</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/term&condition'); window.scroll(0, 0); }}>Terms & Conditions</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/PrivacyPolicy'); window.scroll(0, 0); }}>Privacy Policy</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
-                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>Shipping & Returns</p>
-                            <p className='FoooterTextLink' onClick={() => { navigation('/faq'); window.scroll(0, 0); }}>Exchange & Buyback</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/ShipingReturn'); window.scroll(0, 0); }}>Shipping & Returns</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/ShipingReturn'); window.scroll(0, 0); }}>Exchange & Buyback</p>
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             {/* <p className='FoooterTextLink'>Material & Care</p> */}
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}

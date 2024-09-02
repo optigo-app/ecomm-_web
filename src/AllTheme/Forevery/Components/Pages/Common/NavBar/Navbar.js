@@ -188,8 +188,6 @@ const Navbar = () => {
 
   const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
 
-  console.log(navbarHeight, "height");
-
   return (
     <div className="for_Navbar" ref={navRef}>
       <Preloader />
@@ -440,32 +438,77 @@ const NavbarLeft = ({
               style={{
                 height: `${NavItemsHeight}px`,
               }}
+              // onMouseOver={() => {
+              //   setActiveMenu({ menu: val, index: i });
+              //   setHoveredIndex(i);
+              //   setTimeout(()=>{
+              //     setshowMenu(true)
+              //   },300)
+              // }}
+              // onClick={() => {
+              //   Navigate(val?.link);
+              //   setshowMenu(false);
               onMouseOver={() => {
-                setActiveMenu({ menu: val, index: i });
-                setHoveredIndex(i);
-                setTimeout(() => {
-                  setshowMenu(true)
-                }, 300)
+                if (!val?.disabled) {
+                  setActiveMenu({ menu: val, index: i });
+                  setHoveredIndex(i);
+                  setTimeout(() => {
+                    setshowMenu(true);
+                  }, 300);
+                } else {
+                  setshowMenu(false);
+                }
               }}
               onClick={() => {
-                Navigate(val?.link);
-                setshowMenu(false);
+                if (!val?.disabled) {
+                  Navigate(val?.link);
+                  setshowMenu(false);
+                }
               }}
+              // }}
             >
-              <Link to={val?.link} className="for_nav_menu">
-                {val?.category}
-                {hoveredIndex === i ? (
-                  <FaChevronUp
-                    size={13}
-                    className={`chevorn-icon hide-Fo-1 `}
-                  />
-                ) : (
-                  <FaChevronDown
-                    size={13}
-                    className={`chevorn-icon hide-Fo-2 `}
-                  />
-                )}
-              </Link>
+              {val?.disabled ? (
+                <div
+                  style={{
+                    cursor: val?.disabled ? "not-allowed" : "pointer",
+                  }}
+                  className="for_nav_menu"
+                >
+                  {val?.category}
+                  {hoveredIndex === i ? (
+                    <FaChevronUp
+                      size={13}
+                      className={`chevorn-icon hide-Fo-1 `}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      size={13}
+                      className={`chevorn-icon hide-Fo-2 `}
+                    />
+                  )}
+                </div>
+              ) : (
+                <Link
+                  style={{
+                    cursor: val?.disabled ? "not-allowed" : "pointer",
+                  }}
+                  to={val?.link}
+                  className="for_nav_menu"
+                >
+                  {val?.category}
+                  {hoveredIndex === i ? (
+                    <FaChevronUp
+                      size={13}
+                      className={`chevorn-icon hide-Fo-1 `}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      size={13}
+                      className={`chevorn-icon hide-Fo-2 `}
+                    />
+                  )}
+                </Link>
+              )}
             </div>
           );
         })}
@@ -489,7 +532,7 @@ const NavitemsWrapper = ({
   setActiveMenu,
   setHoveredIndex,
   height,
-  setshowMenu
+  setshowMenu,
 }) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
@@ -503,7 +546,9 @@ const NavitemsWrapper = ({
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
-  const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps1);
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(
+    for_customizationSteps1
+  );
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -539,6 +584,7 @@ const NavitemsWrapper = ({
           top: `${height}px`,
         }}
         ref={firstNavRef}
+        onClick={() => setshowMenu(false)}
       >
         <div className="bg-for-hoverlay">
           <div className="nav_bottom_top_head">
@@ -560,7 +606,8 @@ const NavitemsWrapper = ({
           </div>
           <div className="for_Selected_Menu_item_list">
             {SelectedMenu?.index == 0 && (
-              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
+              <FirstNavMenu
+                data={NavbarMenu[SelectedMenu?.index]}
                 setCustomizeStep1={setCustomizeStep1}
                 setCustomizeStep={setCustomizeStep}
               />
@@ -596,9 +643,11 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
     setShowModal(!showModal);
   };
 
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = (index) => {
     if (checkSteps) {
@@ -762,9 +811,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const Navigate = useNavigate();
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = (value) => {
     if (checkSteps) {
@@ -829,7 +880,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
           {SideItems?.map((val, i) => (
-            <span className="ring-type" key={i}>
+            <span
+              className="ring-type"
+              key={i}
+              onClick={() => Navigate(val?.link)}
+            >
               <img src={val?.img} alt="" width={18} height={18} />
               {val?.name}
             </span>

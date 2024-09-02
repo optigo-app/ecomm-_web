@@ -458,22 +458,22 @@ const ProductList = () => {
                   res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    )[0]
                     : [];
                 let diafilter1 =
                   res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    )[0]
                     : [];
                 let diafilter2 =
                   res?.filter((ele) => ele?.Name == "Gross")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    )[0]
                     : [];
 
                 // console.log("diafilter",diafilter);
@@ -842,7 +842,7 @@ const ProductList = () => {
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    console.log('aaaaaaaa',decodeURI(extractedPart));
+    console.log('aaaaaaaa', decodeURI(extractedPart));
     let prodObj = {
       autocode: ele?.autocode,
       Metalid: selectedMetalId ?? ele?.MetalPurityid,
@@ -1008,8 +1008,7 @@ const ProductList = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1797,7 +1796,7 @@ const ProductList = () => {
                             className="pSkelton"
                           />
                         ) : ( */}
-                          <span>{`Product Found:: ${afterFilterCount}`}</span>
+                        <span>{`Product Found:: ${afterFilterCount}`}</span>
                         {/* )} */}
                       </>
                     )}
@@ -1816,7 +1815,7 @@ const ProductList = () => {
                             className="pSkelton"
                           />
                         ) : ( */}
-                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                        <span>{`Total Products: ${afterFilterCount}`}</span>
                         {/* )} */}
                       </>
                     )}
@@ -1833,10 +1832,10 @@ const ProductList = () => {
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
@@ -1888,8 +1887,8 @@ const ProductList = () => {
                                             ?.checked === undefined
                                             ? false
                                             : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -1960,7 +1959,7 @@ const ProductList = () => {
                             {(JSON.parse(ele?.options) ?? []).map(
                               (opt, i) => (
                                 <div
-                                className="formcontroller_box"
+                                  className="formcontroller_box"
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -2002,15 +2001,15 @@ const ProductList = () => {
                                       />
                                     }
                                     // .MuiFormControlLabel-root .MuiFormControlLabel-label
-                                   
+
                                     className="smr_mui_checkbox_label smr_mui_label_price "
                                     label={
                                       // <div style={{fontSize:'0.6vw !important'}}>
-                                        opt?.Minval == 0
-                                          ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
-                                          : opt?.Maxval == 0
-                                            ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${formatter.format(opt?.Minval)}`
-                                            : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Minval)} 
+                                      opt?.Minval == 0
+                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
+                                        : opt?.Maxval == 0
+                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${formatter.format(opt?.Minval)}`
+                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Minval)} 
                                                      - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${formatter.format(opt?.Maxval)}`
                                       // </div>
                                     }
@@ -2035,8 +2034,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2070,7 +2069,7 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{width:"94%", height: 88 }}>
+                            <Box sx={{ width: "94%", height: 88 }}>
                               {RangeFilterView(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2090,8 +2089,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2125,7 +2124,7 @@ const ProductList = () => {
                             }}
                           >
                             {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{width:"94%", height: 88}}>
+                            <Box sx={{ width: "94%", height: 88 }}>
                               {RangeFilterView1(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2145,8 +2144,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2179,7 +2178,7 @@ const ProductList = () => {
                               overflow: "auto",
                             }}
                           >
-                            <Box sx={{width:"94%", height: 88}}>
+                            <Box sx={{ width: "94%", height: 88 }}>
                               {RangeFilterView2(ele)}
                             </Box>
                           </AccordionDetails>
@@ -2228,223 +2227,223 @@ const ProductList = () => {
                       />
                     </div>
                   ) : null
-                  // <div className="smr_prodSorting">
-                  //   <div className="empty_sorting_div">
-                  //     <span
-                  //       className="smr_breadcums_port "
-                  //       style={{ marginLeft: "72px" }}
-                  //       onClick={() => {
-                  //         navigate("/");
-                  //       }}
-                  //     >
-                  //       {"Home >"}{" "}
-                  //     </span>
+                    // <div className="smr_prodSorting">
+                    //   <div className="empty_sorting_div">
+                    //     <span
+                    //       className="smr_breadcums_port "
+                    //       style={{ marginLeft: "72px" }}
+                    //       onClick={() => {
+                    //         navigate("/");
+                    //       }}
+                    //     >
+                    //       {"Home >"}{" "}
+                    //     </span>
 
-                  //     {location?.search.charAt(1) == "A" && (
-                  //       <div
-                  //         className="smr_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"Album"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "A" && (
+                    //       <div
+                    //         className="smr_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"Album"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {location?.search.charAt(1) == "T" && (
-                  //       <div
-                  //         className="smr_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"Trending"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "T" && (
+                    //       <div
+                    //         className="smr_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"Trending"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {location?.search.charAt(1) == "B" && (
-                  //       <div
-                  //         className="smr_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"Best Seller"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "B" && (
+                    //       <div
+                    //         className="smr_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"Best Seller"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {location?.search.charAt(1) == "N" && (
-                  //       <div
-                  //         className="smr_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         <span>{"New Arrival"}</span>
-                  //       </div>
-                  //     )}
+                    //     {location?.search.charAt(1) == "N" && (
+                    //       <div
+                    //         className="smr_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         <span>{"New Arrival"}</span>
+                    //       </div>
+                    //     )}
 
-                  //     {IsBreadCumShow && (
-                  //       <div
-                  //         className="smr_breadcums_port"
-                  //         style={{ marginLeft: "3px" }}
-                  //       >
-                  //         {menuParams?.menuname && (
-                  //           <span
-                  //             onClick={() =>
-                  //               handleBreadcums({
-                  //                 [menuParams?.FilterKey]:
-                  //                   menuParams?.FilterVal,
-                  //               })
-                  //             }
-                  //           >
-                  //             {menuParams?.menuname}
-                  //           </span>
-                  //         )}
+                    //     {IsBreadCumShow && (
+                    //       <div
+                    //         className="smr_breadcums_port"
+                    //         style={{ marginLeft: "3px" }}
+                    //       >
+                    //         {menuParams?.menuname && (
+                    //           <span
+                    //             onClick={() =>
+                    //               handleBreadcums({
+                    //                 [menuParams?.FilterKey]:
+                    //                   menuParams?.FilterVal,
+                    //               })
+                    //             }
+                    //           >
+                    //             {menuParams?.menuname}
+                    //           </span>
+                    //         )}
 
-                  //         {menuParams?.FilterVal1 && (
-                  //           <span
-                  //             onClick={() =>
-                  //               handleBreadcums({
-                  //                 [menuParams?.FilterKey]:
-                  //                   menuParams?.FilterVal,
-                  //                 [menuParams?.FilterKey1]:
-                  //                   menuParams?.FilterVal1,
-                  //               })
-                  //             }
-                  //           >
-                  //             {` > ${menuParams?.FilterVal1}`}
-                  //           </span>
-                  //         )}
+                    //         {menuParams?.FilterVal1 && (
+                    //           <span
+                    //             onClick={() =>
+                    //               handleBreadcums({
+                    //                 [menuParams?.FilterKey]:
+                    //                   menuParams?.FilterVal,
+                    //                 [menuParams?.FilterKey1]:
+                    //                   menuParams?.FilterVal1,
+                    //               })
+                    //             }
+                    //           >
+                    //             {` > ${menuParams?.FilterVal1}`}
+                    //           </span>
+                    //         )}
 
-                  //         {menuParams?.FilterVal2 && (
-                  //           <span
-                  //             onClick={() =>
-                  //               handleBreadcums({
-                  //                 [menuParams?.FilterKey]:
-                  //                   menuParams?.FilterVal,
-                  //                 [menuParams?.FilterKey1]:
-                  //                   menuParams?.FilterVal1,
-                  //                 [menuParams?.FilterKey2]:
-                  //                   menuParams?.FilterVal2,
-                  //               })
-                  //             }
-                  //           >
-                  //             {` > ${menuParams?.FilterVal2}`}
-                  //           </span>
-                  //         )}
+                    //         {menuParams?.FilterVal2 && (
+                    //           <span
+                    //             onClick={() =>
+                    //               handleBreadcums({
+                    //                 [menuParams?.FilterKey]:
+                    //                   menuParams?.FilterVal,
+                    //                 [menuParams?.FilterKey1]:
+                    //                   menuParams?.FilterVal1,
+                    //                 [menuParams?.FilterKey2]:
+                    //                   menuParams?.FilterVal2,
+                    //               })
+                    //             }
+                    //           >
+                    //             {` > ${menuParams?.FilterVal2}`}
+                    //           </span>
+                    //         )}
 
-                  //         {/* {
-                  //           decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
-                  //               (i !== 2 && <span
-                  //                 onClick={() =>
-                  //                   handleBreadcums({
-                  //                     [menuParams?.FilterKey]:
-                  //                       menuParams?.FilterVal,
-                  //                   })
-                  //                 }
-                  //               >
-                  //                 {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
-                  //               </span>)
-                  //           ))
-                  //         } */}
-                  //       </div>
-                  //     )}
-                  //   </div>
+                    //         {/* {
+                    //           decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.map((ele,i)=>(
+                    //               (i !== 2 && <span
+                    //                 onClick={() =>
+                    //                   handleBreadcums({
+                    //                     [menuParams?.FilterKey]:
+                    //                       menuParams?.FilterVal,
+                    //                   })
+                    //                 }
+                    //               >
+                    //                 {ele} {i !== decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")[decodeURIComponent(location?.pathname)?.slice(3)?.slice(0,-1)?.split("/")?.length-1] && ">"} {" "}
+                    //               </span>)
+                    //           ))
+                    //         } */}
+                    //       </div>
+                    //     )}
+                    //   </div>
 
-                  // <div className="smr_main_sorting_div">
-                  //   <div className="smr_metal_custom">
-                  //     <label className="label">Metal:&nbsp;</label>
-                  //     <select
-                  //       className="select"
-                  //       value={selectedMetalId}
-                  //       onChange={(e) => setSelectedMetalId(e.target.value)}
-                  //     >
-                  //       {metalTypeCombo?.map((metalele, i) => (
-                  //         <option
-                  //           className="option"
-                  //           key={i}
-                  //           value={metalele?.Metalid}
-                  //         >
-                  //           {metalele?.metaltype.toUpperCase()}
-                  //         </option>
-                  //       ))}
-                  //     </select>
-                  //   </div>
+                    // <div className="smr_main_sorting_div">
+                    //   <div className="smr_metal_custom">
+                    //     <label className="label">Metal:&nbsp;</label>
+                    //     <select
+                    //       className="select"
+                    //       value={selectedMetalId}
+                    //       onChange={(e) => setSelectedMetalId(e.target.value)}
+                    //     >
+                    //       {metalTypeCombo?.map((metalele, i) => (
+                    //         <option
+                    //           className="option"
+                    //           key={i}
+                    //           value={metalele?.Metalid}
+                    //         >
+                    //           {metalele?.metaltype.toUpperCase()}
+                    //         </option>
+                    //       ))}
+                    //     </select>
+                    //   </div>
 
-                  //   {storeInit?.IsDiamondCustomization === 1 && (
-                  //     <div className="smr_dia_custom">
-                  //       <label className="label">Diamond:&nbsp;</label>
-                  //       <select
-                  //         className="select"
-                  //         value={selectedDiaId}
-                  //         onChange={(e) => setSelectedDiaId(e.target.value)}
-                  //       >
-                  //         {diaQcCombo?.map((diaQc, i) => (
-                  //           <option
-                  //             className="option"
-                  //             key={i}
-                  //             value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                  //           >
-                  //             {" "}
-                  //             {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                  //           </option>
-                  //         ))}
-                  //       </select>
-                  //     </div>
-                  //   )}
+                    //   {storeInit?.IsDiamondCustomization === 1 && (
+                    //     <div className="smr_dia_custom">
+                    //       <label className="label">Diamond:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={selectedDiaId}
+                    //         onChange={(e) => setSelectedDiaId(e.target.value)}
+                    //       >
+                    //         {diaQcCombo?.map((diaQc, i) => (
+                    //           <option
+                    //             className="option"
+                    //             key={i}
+                    //             value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                    //           >
+                    //             {" "}
+                    //             {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+                    //   )}
 
-                  //   {storeInit?.IsCsCustomization === 1 && (
-                  //     <div className="smr_cs_custom">
-                  //       <label className="label">color stone:&nbsp;</label>
-                  //       <select
-                  //         className="select"
-                  //         value={selectedCsId}
-                  //         onChange={(e) => setSelectedCsId(e.target.value)}
-                  //       >
-                  //         {csQcCombo?.map((csCombo, i) => (
-                  //           <option
-                  //             className="option"
-                  //             key={i}
-                  //             value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                  //           >
-                  //             {" "}
-                  //             {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                  //           </option>
-                  //         ))}
-                  //       </select>
-                  //     </div>
-                  //   )}
+                    //   {storeInit?.IsCsCustomization === 1 && (
+                    //     <div className="smr_cs_custom">
+                    //       <label className="label">color stone:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={selectedCsId}
+                    //         onChange={(e) => setSelectedCsId(e.target.value)}
+                    //       >
+                    //         {csQcCombo?.map((csCombo, i) => (
+                    //           <option
+                    //             className="option"
+                    //             key={i}
+                    //             value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+                    //           >
+                    //             {" "}
+                    //             {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+                    //   )}
 
-                  //   <div className="smr_sorting_custom">
-                  //     <div className="container">
-                  //       <label className="label">Sort By:&nbsp;</label>
-                  //       <select
-                  //         className="select"
-                  //         value={sortBySelect}
-                  //         onChange={(e) => handleSortby(e)}
-                  //       >
-                  //         <option className="option" value="Recommended">
-                  //           Recommended
-                  //         </option>
-                  //         <option className="option" value="New">
-                  //           New
-                  //         </option>
-                  //         <option className="option" value="Trending">
-                  //           Trending
-                  //         </option>
-                  //         <option className="option" value="In Stock">
-                  //           In stock
-                  //         </option>
-                  //         <option
-                  //           className="option"
-                  //           value="PRICE HIGH TO LOW"
-                  //         >
-                  //           Price High To Low
-                  //         </option>
-                  //         <option
-                  //           className="option"
-                  //           value="PRICE LOW TO HIGH"
-                  //         >
-                  //           Price Low To High
-                  //         </option>
-                  //       </select>
-                  //     </div>
-                  //   </div>
-                  // </div>
-                  // </div>
+                    //   <div className="smr_sorting_custom">
+                    //     <div className="container">
+                    //       <label className="label">Sort By:&nbsp;</label>
+                    //       <select
+                    //         className="select"
+                    //         value={sortBySelect}
+                    //         onChange={(e) => handleSortby(e)}
+                    //       >
+                    //         <option className="option" value="Recommended">
+                    //           Recommended
+                    //         </option>
+                    //         <option className="option" value="New">
+                    //           New
+                    //         </option>
+                    //         <option className="option" value="Trending">
+                    //           Trending
+                    //         </option>
+                    //         <option className="option" value="In Stock">
+                    //           In stock
+                    //         </option>
+                    //         <option
+                    //           className="option"
+                    //           value="PRICE HIGH TO LOW"
+                    //         >
+                    //           Price High To Low
+                    //         </option>
+                    //         <option
+                    //           className="option"
+                    //           value="PRICE LOW TO HIGH"
+                    //         >
+                    //           Price Low To High
+                    //         </option>
+                    //       </select>
+                    //     </div>
+                    //   </div>
+                    // </div>
+                    // </div>
                   }
 
                   <div className="smr_mainPortion">
@@ -2490,7 +2489,7 @@ const ProductList = () => {
                                       className="pSkelton"
                                     />
                                   ) : ( */}
-                                    <span>{`Product Found:: ${afterFilterCount}`}</span>
+                                  <span>{`Product Found:: ${afterFilterCount}`}</span>
                                   {/* )} */}
                                 </>
                               )}
@@ -2510,7 +2509,7 @@ const ProductList = () => {
                                       className="pSkelton"
                                     />
                                   ) : ( */}
-                                    <span>{`Total Products: ${afterFilterCount}`}</span>
+                                  <span>{`Total Products: ${afterFilterCount}`}</span>
                                   {/* )} */}
                                 </>
                               )}
@@ -2527,17 +2526,17 @@ const ProductList = () => {
                                         borderBottom: "1px solid #c7c8c9",
                                         borderRadius: 0,
                                         "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                          {
-                                            borderBottomLeftRadius: "0px",
-                                            borderBottomRightRadius: "0px",
-                                          },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
                                         "&.MuiPaper-root.MuiAccordion-root:before":
-                                          {
-                                            background: "none",
-                                          },
+                                        {
+                                          background: "none",
+                                        },
                                       }}
-                                      // expanded={accExpanded}
-                                      // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                     >
                                       <AccordionSummary
                                         expandIcon={
@@ -2606,8 +2605,8 @@ const ProductList = () => {
                                                       ]?.checked === undefined
                                                         ? false
                                                         : filterChecked[
-                                                            `${ele?.id}${opt?.id}`
-                                                          ]?.checked
+                                                          `${ele?.id}${opt?.id}`
+                                                        ]?.checked
                                                     }
                                                     style={{
                                                       color:
@@ -2648,17 +2647,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2727,8 +2726,8 @@ const ProductList = () => {
                                                     ]?.checked === undefined
                                                       ? false
                                                       : filterChecked[
-                                                          `Price${i}${i}`
-                                                        ]?.checked
+                                                        `Price${i}${i}`
+                                                      ]?.checked
                                                   }
                                                   style={{
                                                     color: "#7f7d85",
@@ -2755,22 +2754,18 @@ const ProductList = () => {
                                               className="smr_mui_checkbox_label"
                                               label={
                                                 opt?.Minval == 0
-                                                  ? `Under ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Maxval}`
+                                                  ? `Under ${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                  } ${opt?.Maxval}`
                                                   : opt?.Maxval == 0
-                                                  ? `Over ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
+                                                    ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                    storeInit?.CurrencyCode
                                                     } ${opt?.Minval}`
-                                                  : `${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
+                                                    : `${loginUserDetail?.CurrencyCode ??
+                                                    storeInit?.CurrencyCode
                                                     } ${opt?.Minval} 
-                                                    - ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
+                                                    - ${loginUserDetail?.CurrencyCode ??
+                                                    storeInit?.CurrencyCode
                                                     } ${opt?.Maxval}`
                                               }
                                             />
@@ -2787,17 +2782,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2833,7 +2828,7 @@ const ProductList = () => {
                                       }}
                                     >
                                       {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width:'94%', height: 88 }}>
+                                      <Box sx={{ width: '94%', height: 88 }}>
                                         {RangeFilterView(ele)}
                                       </Box>
                                     </AccordionDetails>
@@ -2846,17 +2841,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2892,7 +2887,7 @@ const ProductList = () => {
                                       }}
                                     >
                                       {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width:"94%", height: 88 }}>
+                                      <Box sx={{ width: "94%", height: 88 }}>
                                         {RangeFilterView1(ele)}
                                       </Box>
                                     </AccordionDetails>
@@ -2905,17 +2900,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2950,7 +2945,7 @@ const ProductList = () => {
                                         overflow: "auto",
                                       }}
                                     >
-                                      <Box className="smr_diamond_filter" sx={{ width:"94%", height: 88 }}>
+                                      <Box className="smr_diamond_filter" sx={{ width: "94%", height: 88 }}>
                                         {RangeFilterView2(ele)}
                                       </Box>
                                     </AccordionDetails>
@@ -3098,6 +3093,14 @@ const ProductList = () => {
                                         In stock
                                       </option>
                                     )}
+                                    {/* {storeInit?.IsStockWebsite == 1 && ( */}
+                                      <option
+                                        className="option"
+                                        value="In memo"
+                                      >
+                                        In memo
+                                      </option>
+                                    {/* )} */}
                                     <option
                                       className="option"
                                       value="PRICE HIGH TO LOW"
@@ -3153,7 +3156,7 @@ const ProductList = () => {
                                         }
                                         checked={
                                           cartArr[productData?.autocode] ??
-                                          productData?.IsInCart === 1
+                                            productData?.IsInCart === 1
                                             ? true
                                             : false
                                         }
@@ -3250,27 +3253,27 @@ const ProductList = () => {
                                       className="smr_ImgandVideoContainer"
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
-                                      true ? (
+                                        true ? (
                                         <video
                                           //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
                                           src={
                                             productData?.VideoCount > 0
                                               ? (storeInit?.DesignImageFol).slice(
-                                                  0,
-                                                  -13
-                                                ) +
-                                                "video/" +
-                                                productData?.designno +
-                                                "_" +
-                                                1 +
-                                                "." +
-                                                productData?.VideoExtension
+                                                0,
+                                                -13
+                                              ) +
+                                              "video/" +
+                                              productData?.designno +
+                                              "_" +
+                                              1 +
+                                              "." +
+                                              productData?.VideoExtension
                                               : ""
                                           }
                                           loop={true}
                                           autoPlay={true}
                                           className="smr_productCard_video"
-                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                        // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                         />
                                       ) : (
                                         <img
@@ -3281,22 +3284,22 @@ const ProductList = () => {
                                           src={
                                             rollOverImgPd[productData?.autocode]
                                               ? rollOverImgPd[
-                                                  productData?.autocode
-                                                ]
+                                              productData?.autocode
+                                              ]
                                               : productData?.images?.length > 0
-                                              ? productData?.images[0]
-                                              : imageNotFound
+                                                ? productData?.images[0]
+                                                : imageNotFound
                                           }
                                           alt=""
-                                          // onClick={() =>
-                                          //   handleMoveToDetail(productData)
-                                          // }
-                                          // onMouseEnter={() => {
-                                          //   handleImgRollover(productData);
-                                          // }}
-                                          // onMouseLeave={() => {
-                                          //   handleLeaveImgRolloverImg(productData);
-                                          // }}
+                                        // onClick={() =>
+                                        //   handleMoveToDetail(productData)
+                                        // }
+                                        // onMouseEnter={() => {
+                                        //   handleImgRollover(productData);
+                                        // }}
+                                        // onMouseLeave={() => {
+                                        //   handleLeaveImgRolloverImg(productData);
+                                        // }}
                                         />
                                       )}
                                     </div>
@@ -3369,7 +3372,7 @@ const ProductList = () => {
                                                   <span className="smr_val">
                                                     {productData?.Dwt}
                                                     {storeInit?.IsDiamondPcs ===
-                                                    1
+                                                      1
                                                       ? `/${productData?.Dpcs}`
                                                       : null}
                                                   </span>
@@ -3407,7 +3410,7 @@ const ProductList = () => {
                                               productData?.IsMrpBase == 1
                                                 ? productData?.MetalPurityid
                                                 : selectedMetalId ??
-                                                    productData?.MetalPurityid
+                                                productData?.MetalPurityid
                                             )[0]?.metaltype
                                           }
                                         </span>
@@ -3446,7 +3449,7 @@ const ProductList = () => {
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
                               Math.ceil(afterFilterCount / storeInit.PageSize) >
-                                1 && (
+                              1 && (
                                 <div
                                   style={{
                                     display: "flex",
