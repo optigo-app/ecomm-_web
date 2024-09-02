@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { useEffect, useRef } from "react";
 import useInstagramPosts from "../../../../hooks/UseInstagram";
+import btnstyle from "../../../../scss/Button.module.scss";
 
 const InstagramSection = () => {
   const instaFrame = `${storImagePath()}/Forevery/frame.png`;
@@ -24,11 +25,11 @@ const InstagramSection = () => {
       });
     };
 
-    updateOpacity(); 
-    swiperInstance.on("slideChange", updateOpacity); 
+    updateOpacity();
+    swiperInstance.on("slideChange", updateOpacity);
 
     return () => {
-      swiperInstance.off("slideChange", updateOpacity); 
+      swiperInstance.off("slideChange", updateOpacity);
     };
   }, []);
 
@@ -76,6 +77,19 @@ const InstagramSection = () => {
           </Swiper>
         </div>
       </div>
+      <div className="btn">
+        <button
+          style={{
+            padding: "7px 15px",
+            outline: "none",
+            fontWeight: "500",
+          }}
+          className={`${btnstyle?.btn_15} forevery-btn ${btnstyle?.btn_for_new}`}
+          href="about-us"
+        >
+          Show More On Instagram
+        </button>
+      </div>
     </div>
   );
 };
@@ -87,10 +101,10 @@ const InstaCard = ({ src }) => {
   return (
     <div className="insta_card">
       <img
-      style={{
-        objectFit  :"cover",
-        width  :"100%"
-      }}
+        style={{
+          objectFit: "cover",
+          width: "100%",
+        }}
         src={src || image}
         alt=""
         onError={(e) => {

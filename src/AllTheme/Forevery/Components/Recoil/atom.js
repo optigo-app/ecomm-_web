@@ -35,6 +35,12 @@ export const for_defaultAddressState = atom({
   default: null,
 });
 
+export const for_nav_height = atom({
+  key: 'for_navbar_height',
+  default: null,
+});
+
+
 export const for_customizationSteps = atom({
   key: "for_customizationSteps",
   default: {

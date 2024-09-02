@@ -50,6 +50,13 @@
       width: auto;
       height: auto;
       margin-top: -2rem;
+      margin-bottom: 2rem;
+      @media screen and (max-width: 870px) {
+        margin-bottom: 1rem;
+      }
+      @media screen and (max-width: 548px) {
+        margin-bottom: -2rem;
+      }
     }
     .for_product_card {
       width: 100%;
