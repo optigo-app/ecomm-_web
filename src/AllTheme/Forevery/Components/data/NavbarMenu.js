@@ -23,6 +23,7 @@ const NavbarMenu = [
   {
     category: "Engagement & Wedding Diamonds",
     link: "lab-created-engagement-rings",
+    disabled  :false ,
     submenu: [
       {
         title: ` Engagement Ring`,
@@ -76,18 +77,22 @@ const NavbarMenu = [
   {
     category: "Diamond",
     link: "diamond",
+    disabled  :false ,
   },
   {
     category: "High End Jewelry",
     link: "p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u",
+    disabled  :false ,
   },
   {
     category: "Fine Jewelry",
     link: "lab-grown-fine-jewelry",
+    disabled  :false ,
   },
   {
     category: "Letter Diamonds",
     link: "letter-diamonds/all",
+    disabled  :true ,
   },
 ];
 

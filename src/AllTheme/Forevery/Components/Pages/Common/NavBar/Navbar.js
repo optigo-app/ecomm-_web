@@ -188,8 +188,6 @@ const Navbar = () => {
 
   const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
 
-  console.log(navbarHeight, "height");
-
   return (
     <div className="for_Navbar" ref={navRef}>
       <Preloader />
@@ -440,32 +438,75 @@ const NavbarLeft = ({
               style={{
                 height: `${NavItemsHeight}px`,
               }}
+              // onMouseOver={() => {
+              //   setActiveMenu({ menu: val, index: i });
+              //   setHoveredIndex(i);
+              //   setTimeout(()=>{
+              //     setshowMenu(true)
+              //   },300)
+              // }}
+              // onClick={() => {
+              //   Navigate(val?.link);
+              //   setshowMenu(false);
               onMouseOver={() => {
-                setActiveMenu({ menu: val, index: i });
-                setHoveredIndex(i);
-                setTimeout(()=>{
-                  setshowMenu(true)
-                },300)
+                if (!val?.disabled) {
+                  setActiveMenu({ menu: val, index: i });
+                  setHoveredIndex(i);
+                  setTimeout(() => {
+                    setshowMenu(true);
+                  }, 300);
+                }
               }}
               onClick={() => {
-                Navigate(val?.link);
-                setshowMenu(false);
+                if (!val?.disabled) {
+                  Navigate(val?.link);
+                  setshowMenu(false);
+                }
               }}
+              // }}
             >
-              <Link to={val?.link} className="for_nav_menu">
-                {val?.category}
-                {hoveredIndex === i ? (
-                  <FaChevronUp
-                    size={13}
-                    className={`chevorn-icon hide-Fo-1 `}
-                  />
-                ) : (
-                  <FaChevronDown
-                    size={13}
-                    className={`chevorn-icon hide-Fo-2 `}
-                  />
-                )}
-              </Link>
+              {val?.disabled ? (
+                <div
+                  style={{
+                    cursor: val?.disabled ? "not-allowed" : "pointer",
+                  }}
+                  className="for_nav_menu"
+                >
+                  {val?.category}
+                  {hoveredIndex === i ? (
+                    <FaChevronUp
+                      size={13}
+                      className={`chevorn-icon hide-Fo-1 `}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      size={13}
+                      className={`chevorn-icon hide-Fo-2 `}
+                    />
+                  )}
+                </div>
+              ) : (
+                <Link
+                  style={{
+                    cursor: val?.disabled ? "not-allowed" : "pointer",
+                  }}
+                  to={val?.link}
+                  className="for_nav_menu"
+                >
+                  {val?.category}
+                  {hoveredIndex === i ? (
+                    <FaChevronUp
+                      size={13}
+                      className={`chevorn-icon hide-Fo-1 `}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      size={13}
+                      className={`chevorn-icon hide-Fo-2 `}
+                    />
+                  )}
+                </Link>
+              )}
             </div>
           );
         })}
@@ -489,7 +530,7 @@ const NavitemsWrapper = ({
   setActiveMenu,
   setHoveredIndex,
   height,
-  setshowMenu
+  setshowMenu,
 }) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
@@ -503,7 +544,9 @@ const NavitemsWrapper = ({
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
-  const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps1);
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(
+    for_customizationSteps1
+  );
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -539,6 +582,7 @@ const NavitemsWrapper = ({
           top: `${height}px`,
         }}
         ref={firstNavRef}
+        onClick={() => setshowMenu(false)}
       >
         <div className="bg-for-hoverlay">
           <div className="nav_bottom_top_head">
@@ -560,7 +604,8 @@ const NavitemsWrapper = ({
           </div>
           <div className="for_Selected_Menu_item_list">
             {SelectedMenu?.index == 0 && (
-              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
+              <FirstNavMenu
+                data={NavbarMenu[SelectedMenu?.index]}
                 setCustomizeStep1={setCustomizeStep1}
               />
             )}
@@ -594,9 +639,11 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
     setShowModal(!showModal);
   };
 
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = () => {
     if (checkSteps) {
@@ -608,12 +655,14 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
 
   const HandleSettingNavigation = () => {
     const addCategory = `Ring/category`;
-    const filterKeyVal = btoa(addCategory)
-    navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+    const filterKeyVal = btoa(addCategory);
+    navigate(
+      `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+    );
     setCustomizeStep1({
       step1: true,
-    })
-    const step1 = [{ "step1": true, "Setting": 'Ring' }];
+    });
+    const step1 = [{ step1: true, Setting: "Ring" }];
     sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
   };
 
@@ -621,8 +670,8 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
     navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     setCustomizeStep({
       step1: true,
-    })
-    const step1 = [{ "step1": true, "shape": "Round" }];
+    });
+    const step1 = [{ step1: true, shape: "Round" }];
     sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
@@ -741,9 +790,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const Navigate = useNavigate();
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = () => {
     if (checkSteps) {
