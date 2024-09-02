@@ -47,12 +47,12 @@
         height: fit-content;
     }
 
-    .smr_albumTitle {
+    .proCat_albumTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
-        margin-top: 50px;
+        margin: 15px 0px 15px 0px;
     }
 
     .smr_albumName {
@@ -120,7 +120,7 @@
     @media screen and (max-width: 650px) {
         margin-inline: 2px !important;
 
-        .smr_albumTitle {
+        .proCat_albumTitle {
             display: none;
         }
 
