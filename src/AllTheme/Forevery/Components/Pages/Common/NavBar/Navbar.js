@@ -465,7 +465,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-              // }}
+            // }}
             >
               {val?.disabled ? (
                 <div
@@ -707,6 +707,65 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
     }
     handleToggle();
   };
+
+  // General encoding function
+  const encodeLink = (link) => btoa(link);
+
+  const convertLink = (link1, link2) => {
+    const [key1, val1] = link1.split('/');
+    const [key2, val2] = link2.split('/');
+    return btoa(`${key1},${key2}/${val1},${val2}`);
+  };
+
+  // Data for styles
+  const styleLinks = {
+    Solitaire: "Solitaire/style",
+    Halo: "Halo/style",
+    Vintage: "Vintage/style",
+    Side_Stone: "Side Stone/style",
+    Designer: "Designer/style",
+  };
+
+  // Generate encoded style array
+  const styleArr = Object.entries(styleLinks).map(([title, link]) => ({
+    title,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/${title.replace(/ /g, '_')}/M=${encodeLink(link)}`,
+  }));
+
+  // Data for categories
+  const categoryLinks = {
+    Women: "Women/gender",
+    Men: "Men/gender",
+  };
+
+  const womenCategories = {
+    Classic_Rings: "Classic Rings/sub_category",
+    Diamond_Rings: "Diamond Rings/sub_category",
+    Eternity_Rings: "Eternity Rings/sub_category",
+    Half_Eternity_Rings: "Half-Eternity Rings/sub_category",
+    Stackable_Rings: "Stackable Rings/sub_category",
+  };
+
+  const menCategories = {
+    Carved_Rings: "Carved Rings/sub_category",
+    Diamond_Rings: "Diamond Rings/sub_category",
+    Classic_Rings: "Classic Rings/sub_category",
+  };
+
+  // Generate encoded category arrays
+  const generateCategoryArr = (baseLink, categories) =>
+    Object.entries(categories).map(([key, subCategory]) => ({
+      title: key.replace(/_/g, ' '),
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/${key}/M=${convertLink(baseLink, subCategory)}`,
+    }));
+
+  const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
+  const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
+
+  console.log('Style Array:', styleArr);
+  console.log('Women Array:', womenArr);
+  console.log('Men Array:', menArr);
+
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -745,11 +804,9 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
             <div className="for_col_2">
               <h3>shop By style</h3>
               <div class="ring-types-col">
-                <span>Solitaire</span>
-                <span>Halo</span>
-                <span>Vintage</span>
-                <span>Side Stone</span>
-                <span>Designer</span>
+                {styleArr?.map((item, index) => (
+                  <span key={index} onClick={() => navigate(item?.link)}>{item?.title}</span>
+                ))}
               </div>
             </div>
             <div className="for_col_3">
@@ -769,27 +826,25 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
           <h3>Wedding Ring</h3>
           <div className="for_ring_section">
             <div className="for_col_1">
-              <h3>
+              <h3 onClick={() => navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(categoryLinks.Women)}`)}>
                 <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
                 Womens
               </h3>
               <div class="ring-types">
-                <span class="ring-type">Classic Rings</span>
-                <span class="ring-type">Diamond Rings</span>
-                <span class="ring-type">Eternity Rings</span>
-                <span class="ring-type">Half-Eternity Rings</span>
-                <span class="ring-type">Stackable Rings</span>
+                {womenArr?.map((item, index) => (
+                  <span key={index} class="ring-type" onClick={() => navigate(item?.link)}>{item?.title}</span>
+                ))}
               </div>
             </div>
             <div className="for_col_2">
-              <h3>
+              <h3 onClick={() => navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(categoryLinks.Men)}`)}>
                 <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
               </h3>
 
               <div class="ring-types">
-                <span class="ring-type">Carved Rings</span>
-                <span class="ring-type">Diamond Rings</span>
-                <span class="ring-type">Classic Rings</span>
+                {menArr?.map((item, index) => (
+                  <span key={index} class="ring-type" onClick={() => navigate(item?.link)}>{item?.title}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -932,11 +987,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Jewlery</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
               >
                 Show More
               </button>
@@ -945,11 +1000,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
               >
                 Show More
               </button>
