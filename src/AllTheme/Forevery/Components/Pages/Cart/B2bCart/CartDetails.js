@@ -42,7 +42,7 @@ const CartDetails = ({
     }
   }, [selectedItem]);
 
-  console.log('selectediTem', selectedItem);
+  console.log('selectediTem', diamondData);
 
   const keyToCheck = "stockno"
   return (

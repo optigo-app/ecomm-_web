@@ -5,6 +5,7 @@ import Services from '../../ReusableComponent/OurServives/OurServices';
 import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/NewsletterSignup';
 import Footer from '../Footer/Footer';
 import btnStyle from "../../../scss/Button.module.scss"
+import AppointmentForm from './AppointmentForm';
 
 export const services = [
     {
@@ -98,6 +99,7 @@ const AppointmentPage = () => {
                         ))}
                     </div>
                 </div>
+                {/* <AppointmentForm/> */}
                 <Services title={"Our Services"} services={services} />
                 <NewsletterSignup />
             </div>
