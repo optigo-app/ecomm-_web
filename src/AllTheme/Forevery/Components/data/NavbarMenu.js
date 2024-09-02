@@ -81,7 +81,7 @@ const NavbarMenu = [
   },
   {
     category: "High End Jewelry",
-    link: "p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u",
+    link: "p/Collection/All",
     disabled: false,
   },
   // {
@@ -146,21 +146,28 @@ const SideItems = [
   },
 ];
 
+const setIkigaiLink = "Ikigai/collection";
+const encodeLink1 = btoa(setIkigaiLink)
+const setHeritageLink = "Heritage/collection";
+const encodeLink2 = btoa(setHeritageLink)
+const setIconLink = "Icon/collection";
+const encodeLink3 = btoa(setIconLink)
+
 const CollectionData = [
   {
     name: "IKIGAI",
     img: `${storImagePath()}/Forevery/collections/ikigai-banner.webp`,
-    link: `/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u`,
+    link: `/p/Ikigai/?M=${encodeLink1}`,
   },
   {
     name: "heritage",
     img: `${storImagePath()}/Forevery/collections/heritage-banner.webp`,
-    link: `/p/Width/B/?M=Qi9jb2xsZWN0aW9u`,
+    link: `/p/Heritage/?M=${encodeLink2}`,
   },
   {
     name: "Icon",
     img: `${storImagePath()}/Forevery/collections/icon-banner.webp`,
-    link: `/p/M_CS/Artifact/?M=QXJ0aWZhY3QvY29sbGVjdGlvbg==`,
+    link: `/p/Icon/?M=${encodeLink3}`,
   },
 ];
 

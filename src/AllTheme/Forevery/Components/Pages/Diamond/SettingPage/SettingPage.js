@@ -42,36 +42,56 @@ const SettingPage = () => {
     console.log('aa1234: ', aa1234);
   }, [])
 
+  const encodeLink = (link) => btoa(link);
+
+  const styleLinks = {
+    Solitaire: "Solitaire/style",
+    Halo: "Halo/style",
+    Vintage: "Vintage/style",
+    Side_Stone: "Side Stone/style",
+    Designer: "Designer/style",
+  };
+
   const categoryArr = [
     {
       id: 1,
       image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/solitaire.svg`,
       title: 'solitaire',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Solitaire/M=${encodeLink(styleLinks?.Solitaire)}`
     },
     {
       id: 2,
       image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/halo.svg`,
       title: 'halo',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Halo/M=${encodeLink(styleLinks?.Halo)}`
     },
     {
       id: 3,
       image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/vintage.svg`,
       title: 'vintage',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Vintage/M=${encodeLink(styleLinks?.Vintage)}`
     },
     {
       id: 4,
       image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/side-stone.svg`,
-      title: 'Side stone',
+      title: 'Side_stone',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Side_Stone/M=${encodeLink(styleLinks?.Side_Stone)}`
     },
     {
       id: 5,
       image: `${storImagePath()}/images/ProductListing/SettingBanner/Ringsvg/designer.svg`,
       title: 'designer',
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/Designer/M=${encodeLink(styleLinks?.Designer)}`
     },
   ]
 
+  const handleClick = (id, link) => {
+    handleCategory(id);
+    navigate(link);
+  };
+
   const [isRing, setIsRing] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(categoryArr?.id)
+  const [selectedCategory, setSelectedCategory] = useState(null)
   const [trend, setTrend] = useState('Recommended');
   const [diamondData, setDiamondData] = useState([])
   const [selectShape, setSelectShape] = useState();
@@ -96,7 +116,6 @@ const SettingPage = () => {
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [Shape, setShape] = useState("");
-  console.log('Shape: ', Shape);
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
@@ -340,6 +359,14 @@ const SettingPage = () => {
   const handleMetalColor = (index) => {
     setSelectMetalColor(selectMetalColor === index ? null : index)
   }
+
+  useEffect(() => {
+    const path = location?.pathname.split('/')?.[4]
+    if (!path.includes('M=')) {
+      setSelectedCategory(path?.toLocaleLowerCase())
+    }
+    console.log('path: ', path);
+  }, [location?.pathname])
 
   const handleCategory = (id) => {
     setSelectedCategory(selectedCategory === id ? null : id);
@@ -587,7 +614,7 @@ const SettingPage = () => {
           </div>
           <div className="for_settingLists_category_lists_div" style={{ display: isRing === 'Ring' ? '' : 'none' }}>
             {categoryArr?.map((item, index) => (
-              <div className={`for_settingLists_category_lists ${selectedCategory === item?.id ? 'selected' : ''}`} key={index} onClick={() => handleCategory(item?.id)}>
+              <div className={`for_settingLists_category_lists ${selectedCategory == item?.title?.toLocaleLowerCase() ? 'selected' : ''}`} key={index} onClick={() => handleClick(item?.id, item?.link)}>
                 <img src={item?.image} alt={item?.title} />
                 <span className='for_settingList_categ_title'>{item?.title}</span>
               </div>
