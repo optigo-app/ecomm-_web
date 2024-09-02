@@ -331,55 +331,93 @@
     }
 
     /* Media Queries for Responsive Design */
-    @media (max-width: 1200px) {
+    @media (max-width: 1400px) {
         .for_WishlistDiv {
-            margin-inline: 200px;
+            margin-inline: 80px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 220px;
+            margin-inline: 100px;
         }
     }
 
     @media (max-width: 992px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 33.333% !important;
+                width: 33.333% !important;
+                flex-basis: 33.333% !important;
+            }
+        }
+
         .for_WishlistDiv {
-            margin-inline: 100px;
+            margin-inline: 10px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 120px;
+            margin-inline: 15px;
+            padding-inline: 10px;
+        }
+
+        .for_WlListCard {
+            max-width: 180px;
+
+            .for_WlListImage {
+                height: 180px;
+            }
         }
     }
 
     @media (max-width: 768px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 33.333% !important;
+                width: 33.333% !important;
+                flex-basis: 33.333% !important;
+            }
+        }
+
         .for_WishlistDiv {
-            margin-inline: 50px;
+            margin-inline: 10px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 60px;
+            margin-inline: 15px;
+            padding-inline: 10px;
         }
 
         .for_WlListCard {
-            max-width: 240px;
+            max-width: 180px;
+
+            .for_WlListImage {
+                height: 180px;
+            }
         }
     }
 
     @media (max-width: 576px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 50% !important;
+                width: 50% !important;
+                flex-basis: 50% !important;
+            }
+        }
+
         .for_WishlistDiv {
-            margin-inline: 20px;
+            margin-inline: 10px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 30px;
-            padding-inline: 15px;
+            margin-inline: 15px;
+            padding-inline: 10px;
         }
 
         .for_WlListCard {
-            max-width: 200px;
+            max-width: 180px;
 
             .for_WlListImage {
-                height: 200px;
+                height: 180px;
             }
         }
     }
