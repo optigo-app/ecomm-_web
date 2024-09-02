@@ -413,13 +413,13 @@ const ProductList = () => {
     const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData)
 
-    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
+    let mtid = loginUserDetail?.MetalId ?? data?.MetalId;
     setSelectedMetalId(mtid);
 
-    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
+    let diaid = loginUserDetail?.cmboDiaQCid ?? data?.cmboDiaQCid;
     setSelectedDiaId(diaid);
 
-    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    let csid = loginUserDetail?.cmboCSQCid ?? data?.cmboCSQCid;
     setSelectedCsId(csid);
   }, []);
 

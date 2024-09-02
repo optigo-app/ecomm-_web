@@ -24,8 +24,8 @@ import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/Newslet
 import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { for_CartCount, for_WishCount, for_customizationSteps, for_customizationSteps1 } from '../../../Recoil/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { for_CartCount, for_WishCount, for_customizationSteps, for_customizationSteps1, for_loginState } from '../../../Recoil/atom';
 import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
@@ -76,7 +76,9 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [singleProd, setSingleProd] = useState();
+  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState();
+  console.log('singleProd1: ', singleProd1);
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
@@ -88,6 +90,7 @@ const ProductDetail = () => {
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [videoArr, SETvideoArr] = useState([]);
   const [setshape, setSetShape] = useState();
+  console.log('setshape: ', setshape);
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData2'))
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
   console.log('steps11: ', steps);
@@ -1049,13 +1052,13 @@ const ProductDetail = () => {
     const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData)
 
-    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
+    let mtid = loginUserDetail?.MetalId ?? data?.MetalId;
     setSelectedMetalId(mtid);
 
-    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
+    let diaid = loginUserDetail?.cmboDiaQCid ?? data?.cmboDiaQCid;
     setSelectedDiaId(diaid);
 
-    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    let csid = loginUserDetail?.cmboCSQCid ?? data?.cmboCSQCid;
     setSelectedCsId(csid);
 
     let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -1833,6 +1836,7 @@ const ProductDetail = () => {
 export default ProductDetail
 
 const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setshape }) => {
+  console.log('setshape: ', setshape);
   const dropdownRefs = useRef({});
   const [open, setOpen] = useState(null);
   const [isSetting, setIsSetting] = useState([]);
@@ -1964,7 +1968,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
 
   return (
     <>
-      {getdiaData?.length > 0 || getCustStepData?.[0]?.step1 === true ? (
+      {getdiaData?.length > 0 || (getCustStepData?.[0]?.step1 === true ?? getCustStepData2?.[1]?.step2 === true) ? (
         <div className="diamond_Step_data_det">
           <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
             <span className="for_title_span" style={StyleCondition} onClick={() => {

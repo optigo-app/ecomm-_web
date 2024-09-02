@@ -287,6 +287,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
   useEffect(() => {
     const handleCompset = () => {
       const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? JSON.parse(sessionStorage.getItem('customizeSteps2'));
+      console.log('Retrieved setShape:', getSetShape);
       setSetShape(getSetShape);
     }
     handleCompset();
@@ -364,6 +365,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
 
         <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
           <span className="for_title_span" style={StyleCondition} onClick={() => {
+            console.log('Current Shape:', setshape);
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
             setswap("diamond");
           }}>
@@ -402,7 +404,6 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
     );
   };
 
-  console.log('jee', getCustStepData?.[0]?.step1 === true ?? getCustStepData2?.[1]?.step2 === true)
 
   return (
     <>
@@ -410,6 +411,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
         <div className="diamond_Step_data">
           <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
             <span className="for_title_span" style={StyleCondition} onClick={() => {
+              console.log('Current Shape:', setshape);
               Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`);
               setswap("diamond");
             }}>

@@ -2,6 +2,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stockno) => {
     console.log('stockno in api: ', stockno);
+    console.log("type2", type2, obj)
 
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
     const UserEmail = sessionStorage.getItem("registerEmail");
@@ -10,6 +11,7 @@ export const CartAndWishListAPI = async (type, obj, visiterId, type2 = "", stock
 
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : loginUserDetail?.userid ?? "";
+
 
     let FinalObj = {
         "ForEvt": `${type}`,
