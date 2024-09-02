@@ -483,13 +483,13 @@ const SettingPage = () => {
     const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData)
 
-    let mtid = loginUserDetail?.MetalId ?? storeInit?.MetalId;
+    let mtid = loginUserDetail?.MetalId ?? data?.MetalId;
     setSelectedMetalId(mtid);
 
-    let diaid = loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid;
+    let diaid = loginUserDetail?.cmboDiaQCid ?? data?.cmboDiaQCid;
     setSelectedDiaId(diaid);
 
-    let csid = loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid;
+    let csid = loginUserDetail?.cmboCSQCid ?? data?.cmboCSQCid;
     setSelectedCsId(csid);
 
     let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -1027,7 +1027,7 @@ const Product_Card = ({
               alt="Product"
             />
           </div>
-          <div className="for_settingList_metaltype_div">
+          {/* <div className="for_settingList_metaltype_div">
             {metalColorType?.map((item) => (
               <div
                 className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
@@ -1037,7 +1037,7 @@ const Product_Card = ({
                 {getGoldType ?? 18}
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
         <div className="for_settingList_card_description" onClick={() => handleMoveToDetail(productData)}>
           <div className="for_settingList_desc_title">

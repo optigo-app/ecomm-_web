@@ -443,9 +443,9 @@ const NavbarLeft = ({
               onMouseOver={() => {
                 setActiveMenu({ menu: val, index: i });
                 setHoveredIndex(i);
-                setTimeout(()=>{
+                setTimeout(() => {
                   setshowMenu(true)
-                },300)
+                }, 300)
               }}
               onClick={() => {
                 Navigate(val?.link);
@@ -777,13 +777,13 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-    // setCustomizeStep({
-    //   step1: true,
-    //   step2: false,
-    //   step3: false,
-    // });
-    // const step1 = [{ "step1": true, "shape": shape }];
-    // sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    setCustomizeStep({
+      step1: true,
+      step2: false,
+      step3: false,
+    });
+    const step1 = [{ "step1": true, "shape": shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveData = (shape) => {
