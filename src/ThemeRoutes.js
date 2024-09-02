@@ -29,11 +29,10 @@ export default function ThemeRoutes() {
   const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
-  
+
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
 
-  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
@@ -60,7 +59,6 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200) {
-            setLoading(false);
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
@@ -113,8 +111,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(2);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(6);
     }
     // .finally(() => setLoading(false));
   }, []);
@@ -184,6 +182,7 @@ export default function ThemeRoutes() {
 
   return (
     <>
+     
       <div>
         <Helmet>
           <title>{title}</title>
@@ -199,6 +198,7 @@ export default function ThemeRoutes() {
       </div>
 
       {/* <Procatalog_MobileApp_App /> */}
+      {themeNo === 9 && <Procatalog_MobileApp_App />}
 
       {themeNo === 1 && <SmilingRock_App />}
 
@@ -216,7 +216,6 @@ export default function ThemeRoutes() {
 
       {themeNo === 8 && <ForEveryRoutes />}
 
-      {themeNo === 9 && <Procatalog_MobileApp_App />}
 
       {themeNo === 10 && <StamFordJewels_App />}
     </>
