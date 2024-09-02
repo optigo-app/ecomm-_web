@@ -30,7 +30,8 @@
 }
 
 .searchbox label {
-    top: -6px;
+    top: -6px !important;
+    // top: 0px !important;
 }
 
 .searchbox>div {

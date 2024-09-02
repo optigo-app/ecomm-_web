@@ -203,29 +203,29 @@ const DiamondFilter = () => {
     }
   }, [location?.pathname]);
 
-  // const getShapeFromURL = () => {
-  //   const getShape = location?.pathname?.split("/")[3];
-  //   const getPath = location.pathname.split('/').slice(1, 3)
-  //   const mergePath = getPath.join('/')
-  //   if (mergePath == 'certified-loose-lab-grown-diamonds/diamond') {
-  //     if (stepsData === null && stepsData2 === null && steps?.[0]?.step1 !== true) {
-  //       if (getShape) {
-  //         setCustomizeStep({
-  //           step1: true,
-  //           step2: false,
-  //           step3: false,
-  //         });
+  const getShapeFromURL = () => {
+    const getShape = location?.pathname?.split("/")[3];
+    const getPath = location.pathname.split('/').slice(1, 3)
+    const mergePath = getPath.join('/')
+    if (mergePath == 'certified-loose-lab-grown-diamonds/diamond') {
+      if (stepsData === null && stepsData2 === null && steps?.[0]?.step1 !== true) {
+        if (getShape) {
+          setCustomizeStep({
+            step1: true,
+            step2: false,
+            step3: false,
+          });
 
-  //         const step1 = [{ "step1": true, "shape": (getShape ?? '') }];
-  //         sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
-  //       }
-  //     }
-  //   }
-  // }
+          const step1 = [{ "step1": true, "shape": (getShape ?? '') }];
+          sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+        }
+      }
+    }
+  }
 
-  // useEffect(() => {
-  //   getShapeFromURL();
-  // }, [location?.pathname]);
+  useEffect(() => {
+    getShapeFromURL();
+  }, [location?.pathname]);
 
   const updateSteps = (shape) => {
     const updatedStep1 = steps?.map(step => {

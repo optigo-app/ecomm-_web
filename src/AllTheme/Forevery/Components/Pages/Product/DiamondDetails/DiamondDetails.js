@@ -1890,6 +1890,7 @@ const Modal = ({
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 sx={{
+                    zIndex : 9999999,
                     '& .MuiDialog-paper': {
                         backgroundColor: 'transparent',
                         border: '1px solid white',
