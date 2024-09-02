@@ -15,7 +15,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
   for_CartCount,
@@ -49,6 +49,7 @@ const Navbar = () => {
   const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
   const [searchText, setSearchText] = useState("");
   const [showMenu, setshowMenu] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
@@ -185,6 +186,10 @@ const Navbar = () => {
       }
     }
   };
+
+  useEffect(() => {
+    setshowMenu(false);
+  }, [location]);
 
   const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
 
@@ -584,7 +589,6 @@ const NavitemsWrapper = ({
           top: `${height}px`,
         }}
         ref={firstNavRef}
-        onClick={() => setshowMenu(false)}
       >
         <div className="bg-for-hoverlay">
           <div className="nav_bottom_top_head">
@@ -610,6 +614,7 @@ const NavitemsWrapper = ({
                 data={NavbarMenu[SelectedMenu?.index]}
                 setCustomizeStep1={setCustomizeStep1}
                 setCustomizeStep={setCustomizeStep}
+                setshowMenu={setshowMenu}
               />
             )}
             {SelectedMenu?.index == 1 && (
@@ -633,7 +638,13 @@ const NavitemsWrapper = ({
     </>
   );
 };
-const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
+const FirstNavMenu = ({
+  data,
+  setCustomizeStep1,
+  setCustomizeStep,
+  close,
+  setshowMenu,
+}) => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -642,6 +653,17 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
   const handleToggle = () => {
     setShowModal(!showModal);
   };
+
+  useEffect(() => {
+    if (showModal) {
+      console.log("Modal is showing");
+      // setTimeout(() => {
+      //   setshowMenu(false);
+      // }, 200);
+    } else {
+      console.log("Modal is closed");
+    }
+  }, [showModal]);
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
@@ -735,7 +757,9 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
                 ) : (
                   <span
                     class="ring-type"
-                    onClick={() => HandleSettingNavigation()}
+                    onClick={() => {
+                      HandleSettingNavigation();
+                    }}
                   >
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
@@ -819,7 +843,6 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
     </>
   );
 };
-
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
   const [shape, setShape] = useState();
@@ -851,7 +874,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       step2: false,
       step3: false,
     });
-    const step1 = [{ "step1": true, "shape": shape }];
+    const step1 = [{ step1: true, shape: shape }];
     sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
@@ -912,7 +935,6 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       <div className="for_third_col">
         <img src={commonImage} alt="" />
       </div>
-
       <Modal
         open={showModal}
         handleClose={handleToggle}
@@ -1134,7 +1156,6 @@ const LatsNavMenu = ({ data }) => {
     </>
   );
 };
-
 const Modal = ({ open, handleClose, handleRemoveData, index }) => {
   return (
     <>
@@ -1144,6 +1165,7 @@ const Modal = ({ open, handleClose, handleRemoveData, index }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         sx={{
+          zIndex: 9999999,
           "& .MuiDialog-root": {
             zIndex: 9999,
           },

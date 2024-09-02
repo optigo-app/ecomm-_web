@@ -81,7 +81,10 @@ const Diamond = () => {
               420: {
                 slidesPerView: 3,
               },
-              320: {
+              416: {
+                slidesPerView: 1,
+              },
+              0: {
                 slidesPerView: 1,
               },
             }}
