@@ -1,14 +1,14 @@
 @import "../../../scss/variable.scss";
 
 // Truncate text with a vertical box layout
-@mixin truncate-text($lines: 2, $height: auto) {
+@mixin truncate-text($lines: 2) {
   display: -webkit-box;
   -webkit-line-clamp: $lines; // Number of lines to show
   -webkit-box-orient: vertical;
   line-clamp: $lines;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: $height;
+  height: auto;
 }
 
 .For_main_diamond {
@@ -2246,7 +2246,6 @@
         font-weight: 500;
         margin-top: 35px;
         margin-bottom: 65px;
-        @include truncate-text(3, 4.5em);
       }
       .diamond-attributes {
         display: grid;
@@ -2286,6 +2285,7 @@
         font-size: 12px;
         line-height: 1.6;
         font-weight: 400;
+        @include truncate-text(5);
       }
       .shop_h_l {
         width: 100%;
