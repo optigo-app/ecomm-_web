@@ -5,8 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import ThemeRoutes from "./ThemeRoutes";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
-import ConnectionManager from "./utils/SoketConnection/ConnectionManager";
 
 function App() {
   return (

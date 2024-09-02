@@ -243,7 +243,7 @@ function Cart(props) {
 
                     <div>
                       <p className="">Shipping</p>
-                      <p className="addinfotext">Free Shipping</p>
+                      <p className="addinfotext">Free Shipping In India</p>
                       <p className="addinfotext">
                         Shipping to{" "}
                         <span style={{ color: "black", fontWeight: "500" }}>

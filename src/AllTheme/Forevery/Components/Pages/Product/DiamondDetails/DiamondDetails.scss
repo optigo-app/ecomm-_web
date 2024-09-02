@@ -62,7 +62,7 @@
 
                         }
 
-                        .for_total_prc{
+                        .for_total_prc {
                             position: absolute;
                             right: 15px;
                             bottom: 0;
@@ -74,10 +74,10 @@
                         }
 
                         .for_pendant_view {
-                            width: 35px;
+                            width: 30px;
                             object-fit: contain;
                             margin-top: -3px;
-                            height: 35px;
+                            height: 30px;
                         }
 
                         .for_dia_step_eye_div {
@@ -263,7 +263,7 @@
                                         height: 65px;
                                         width: 65px;
                                         object-fit: contain;
-                                        mix-blend-mode: multiply;
+                                        // mix-blend-mode: multiply;
                                     }
 
                                     &.active {
@@ -310,7 +310,7 @@
                                     padding: 0 !important;
 
                                     .for_image {
-                                        background-color: rgba(175, 172, 172, 0.164);
+                                        // background-color: rgba(175, 172, 172, 0.164);
                                         height: 80%;
                                         display: flex;
                                         align-items: center;
@@ -321,7 +321,7 @@
                                             min-height: 570px;
                                             object-fit: contain;
                                             object-position: center;
-                                            mix-blend-mode: multiply !important;
+                                            // mix-blend-mode: multiply !important;
                                         }
 
                                         video {

@@ -11,11 +11,13 @@ const OurServices = () => {
     `${storImagePath()}/Forevery/service/engraving.png`,
   ];
   return (
-    <div className="for_OurServices">
+    <div className="for_OurServices ">
       <div className="for_heading">
         <h1>Our services</h1>
       </div>
-      <div class="our-services services-wrap">
+      <div
+        className={`our-services services-wrap  contact-page`}
+      >
         <div class="services ">
           <div class="for_img">
             <img loading="lazy" src={ServicesImage[0]} alt="Free Shipping" />

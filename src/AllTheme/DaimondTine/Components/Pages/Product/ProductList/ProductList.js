@@ -1309,7 +1309,7 @@ const ProductList = () => {
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                     >
                       {" "}
-                      {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                      {`${diaQc.Quality.toUpperCase()}, ${diaQc.color.toLowerCase()}`}
                     </option>
                   ))}
                 </select>
@@ -2060,7 +2060,7 @@ const ProductList = () => {
                         key={diaQc?.QualityId}
                         value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                       >
-                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                        {`${diaQc.Quality.toUpperCase()}, ${diaQc.color.toLowerCase()}`}
                       </option>
                     ))}
                   </select>
@@ -2812,17 +2812,18 @@ const ProductList = () => {
                                         className="prodTitle"
                                         title={`${productData?.TitleLine}`}
                                       >
-                                        {productData?.designno} {" - "} {productData?.TitleLine}
+                                        {/* {productData?.designno} {" - "}  */}
+                                        {productData?.TitleLine}
                                       </p>
                                     </div>
                                   ) : (
                                     <div className="listing-details">
-                                      <p
+                                      {/* <p
                                         className="prodTitle"
                                         title={`${productData?.designno}`}
                                       >
                                         {productData?.designno}
-                                      </p>
+                                      </p> */}
                                     </div>
                                   )}
                                   <div style={{ margin: '0px', fontSize: '15px', display: 'flex',justifyContent:'center',width:'100%',gap:'5px'}}>
