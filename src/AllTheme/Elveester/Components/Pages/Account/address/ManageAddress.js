@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./manageaddress.scss";
-import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogTitle, RadioGroup, TextField, Typography, useMediaQuery } from '@mui/material';
 import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
@@ -35,6 +35,7 @@ const ManageAddress = () => {
     });
 
     const setDefaultAddress = useSetRecoilState(defaultAddressState);
+    const is430px = useMediaQuery('(max-width:430px)');
 
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
@@ -69,7 +70,6 @@ const ManageAddress = () => {
     }
 
     const handleOpen = (item, addressIndex = null, args) => {
-                console.log(item, addressIndex, args);
 
             if(args === 'edit'){
                 setIsEditMode(true);
@@ -363,12 +363,12 @@ const ManageAddress = () => {
                 }} className='savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
                     <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
-                {/* <Button className='smilingAcoountAddNewBtn' sx={{marginLeft: "auto"}} >ADD NEW ADDRESS</Button> */}
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    style={{display:'flex', alignItems:`${is430px ? 'center' : 'flex-start'}`}}
                 >
                     {
                         isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
@@ -446,13 +446,13 @@ const ManageAddress = () => {
                 />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form  onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.firstName}
                                 onChange={(e) => handleInputChange(e, 'firstName')}
@@ -463,7 +463,7 @@ const ManageAddress = () => {
                                 id="lastName"
                                 label="Last Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.lastName}
                                 onChange={(e) => handleInputChange(e, 'lastName')}
@@ -474,7 +474,7 @@ const ManageAddress = () => {
                                 id="address"
                                 label="Address"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.address}
                                 onChange={(e) => handleInputChange(e, 'address')}
@@ -485,7 +485,7 @@ const ManageAddress = () => {
                                 id="country"
                                 label="Country"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.country}
                                 onChange={(e) => handleInputChange(e, 'country')}
@@ -496,7 +496,7 @@ const ManageAddress = () => {
                                 id="state"
                                 label="State"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.state}
                                 onChange={(e) => handleInputChange(e, 'state')}
@@ -507,7 +507,7 @@ const ManageAddress = () => {
                                 id="city"
                                 label="City"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.city}
                                 onChange={(e) => handleInputChange(e, 'city')}
@@ -518,7 +518,7 @@ const ManageAddress = () => {
                                 id="zipCode"
                                 label="ZIP Code"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.zipCode}
                                 onChange={(e) => handleInputChange(e, 'zipCode')}
@@ -529,7 +529,7 @@ const ManageAddress = () => {
                                 id="mobileNo"
                                 label="Mobile No."
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister labgrowRegister_address_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.mobileNo}
                                 onChange={(e) => handleInputChange(e, 'mobileNo')}

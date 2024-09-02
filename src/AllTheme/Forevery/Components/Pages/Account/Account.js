@@ -3,8 +3,8 @@ import './Account.scss'
 import { Box,  Tab, Tabs,  Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import Footer from './../Home/Footer/Footer';
-import { for_loginState } from '../../../Components/Recoil/atom';
-import { useSetRecoilState } from 'recoil';
+import { for_loginState, for_nav_height } from '../../../Components/Recoil/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import YourProfile from './YourProfile/YourProfile';
 import ChangePassword from './changePassword/ChangePassword';
@@ -25,6 +25,7 @@ import Plm from './PLM/Plm';
 import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 import Cookies from 'js-cookie';
 import NewOrderHistoryF from './AccountOrderHistory/NewOrderHistoryF';
+import useNavbar from '../../hooks/UseNavbar';
 
 
 function CustomTabPanel(props) {
@@ -74,7 +75,7 @@ const tabIndicator = {
 }
 
 export default function Account() {
-
+    const nav = useRecoilState(for_nav_height);
     const [value, setValue] = useState(0);
     const [value1, setValue1] = useState(0);
     const naviagation = useNavigate();
@@ -131,7 +132,7 @@ export default function Account() {
         <div className='accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
-                    <div className='sticky-header_web_sm'>
+                    <div className='sticky-header_web_sm' style={{top:nav[0]}}>
                         <p className='SmilingAccountTitle youraccountpagesecSMR'>Your Account</p>
                         <div className='smlingAccountTabWebView  ' >
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
@@ -185,7 +186,7 @@ export default function Account() {
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className={`accountSalesPage`}>
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
                                     sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">

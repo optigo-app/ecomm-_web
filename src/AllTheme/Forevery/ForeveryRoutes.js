@@ -61,6 +61,7 @@ import Test from "./Components/Pages/ReusableComponent/Test";
 import Education from "./Components/Pages/staticpages/Education/Education";
 import PrivacyPage from "./Components/Pages/staticpages/PrivacyPage/PrivacyPage";
 import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/TermsAndCondition";
+import Account from "./Components/Pages/Account/Account"
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -262,6 +263,8 @@ const ForEveryRoutes = () => {
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
+
+        <Route path="/account" element={<Account />} />
 
           {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
           {/* <Route path="/FunFact" element={<FunFact />} /> */}
