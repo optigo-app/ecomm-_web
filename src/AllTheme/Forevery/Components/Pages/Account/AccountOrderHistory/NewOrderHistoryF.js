@@ -266,11 +266,11 @@ const NewOrderHistoryF = () => {
               paddingTop: "10px",
             }}
           >
-            <CircularProgress className="loadingBarManage" />
+            <CircularProgress className="loadingBarManage" style={{zIndex:1000000}} />
           </Box>
         ) : (
           <div>
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "100%" }} >
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
                     return (

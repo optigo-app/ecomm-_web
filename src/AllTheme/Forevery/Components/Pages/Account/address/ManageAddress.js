@@ -5,7 +5,7 @@ import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import ConfirmationDialog from '../../ConfirmationDialog/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
 import { for_defaultAddressState } from '../../../Recoil/atom';
 
@@ -498,7 +498,7 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-            <div>
+            <div >
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
@@ -518,9 +518,10 @@ const ManageAddress = () => {
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    
                 >
                     {
-                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
+                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec ">
                             {
                                 addressData?.map((item, index) => {
                                     return <Box className="AddressSec" key={index}>
