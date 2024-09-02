@@ -84,16 +84,16 @@ const NavbarMenu = [
     link: "p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u",
     disabled: false,
   },
-  {
-    category: "Fine Jewelry",
-    link: "lab-grown-fine-jewelry",
-    disabled: false,
-  },
-  {
-    category: "Letter Diamonds",
-    link: "letter-diamonds/all",
-    disabled: true,
-  },
+  // {
+  //   category: "Fine Jewelry",
+  //   link: "lab-grown-fine-jewelry",
+  //   disabled: false,
+  // },
+  // {
+  //   category: "Letter Diamonds",
+  //   link: "letter-diamonds/all",
+  //   disabled: true,
+  // },
 ];
 
 // Creating an array of diamond objects
@@ -123,10 +123,10 @@ const filterKeyVal1 = btoa(RingCategory);
 const RingsNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal1}`;
 const EaringCategory = `Earring/category`;
 const filterKeyVal2 = btoa(EaringCategory);
-const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal2}`;
+const EaringNavi = `/certified-loose-lab-grown-diamonds/settings/Earring/diamond_shape=Round/M=${filterKeyVal2}`;
 const PendantCategory = `Pendant/category`;
 const filterKeyVal3 = btoa(PendantCategory);
-const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=Round/M=${filterKeyVal3}`;
+const PendantNavi = `/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=Round/M=${filterKeyVal3}`;
 
 const SideItems = [
   {
