@@ -864,9 +864,9 @@ const scrollToTop = () => {
           <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
             <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
-                <TableHead className='user-select-none'>
-                  <TableRow>
-                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
+                <TableHead className='user-select-none' >
+                  <TableRow style={{zIndex:1}}>
+                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f", zIndex:1000}}>
                     <Checkbox
                       checked={allChecked}
                       onChange={handleMasterCheckboxChange}

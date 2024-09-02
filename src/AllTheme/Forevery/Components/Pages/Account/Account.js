@@ -143,7 +143,7 @@ export default function Account() {
                                             {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                             <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                             {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                            {/* {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />} */}
                                             <Tab label="Log Out" onClick={handleLogout} />
                                         </Tabs>
                                         {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
@@ -158,7 +158,7 @@ export default function Account() {
                                             {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                             <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                             {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                            {/* {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />} */}
                                             <Tab label="Log Out" onClick={handleLogout} />
                                         </Tabs>
                                         {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
@@ -231,11 +231,11 @@ export default function Account() {
                                     <ChangePassword />
                                 </div>
                             </CustomTabPanel>
-                            <CustomTabPanel value={value} index={5}>
+                            {/* <CustomTabPanel value={value} index={5}>
                                 <div>
                                     <Plm />
                                 </div>
-                            </CustomTabPanel>
+                            </CustomTabPanel> */}
 
 
                         </Box>
@@ -243,7 +243,7 @@ export default function Account() {
 
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

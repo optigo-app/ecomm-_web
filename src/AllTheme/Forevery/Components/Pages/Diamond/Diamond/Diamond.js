@@ -12,18 +12,21 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import OurServices from "../../Home/Common/OurServices/OurServices";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import { useMediaQuery } from "@mui/material";
 
 const Diamond = () => {
   const Banner = `${storImagePath()}/Forevery/diamond/banner.jpg`;
   const swiperRef = useRef(null);
   const Navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width: 546px)");
+  const check = isMobile ? 1 : 2;
   useEffect(() => {
     const swiperInstance = swiperRef.current.swiper;
     const updateOpacity = () => {
       const slides = swiperInstance.slides;
       slides.forEach((slide, index) => {
         // Check if the slide is the center one
-        const isActive = swiperInstance.activeIndex + 2 === index;
+        const isActive = swiperInstance.activeIndex + check === index;
         slide.style.opacity = isActive ? "1.1" : "0.9";
         slide.style.Scale = isActive ? "1.05" : "0.95";
         slide.style.fontWeight = isActive ? "700" : "500";
@@ -36,7 +39,7 @@ const Diamond = () => {
     return () => {
       swiperInstance.off("slideChange", updateOpacity);
     };
-  }, []);
+  }, [isMobile]);
   return (
     <div className="For_main_diamond">
       <div
@@ -68,6 +71,23 @@ const Diamond = () => {
             freeMode={true}
             ref={swiperRef}
             loop={true}
+            breakpoints={{
+              546: {
+                slidesPerView: 5,
+              },
+              545: {
+                slidesPerView: 3,
+              },
+              420: {
+                slidesPerView: 3,
+              },
+              416: {
+                slidesPerView: 1,
+              },
+              0: {
+                slidesPerView: 1,
+              },
+            }}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,
@@ -121,6 +141,7 @@ const Diamond = () => {
           <button>shop labgrown diamonds</button>
         </div>
       </div>
+      <LabgrownMobile />
       <div
         className="diamond_initial"
         style={{
@@ -145,10 +166,10 @@ const Diamond = () => {
           </p>
           <div class="cta">
             <button
-            style={{
-              backgroundColor  :"transparent",
-              padding : "6px 22px"
-            }}
+              style={{
+                backgroundColor: "transparent",
+                padding: "6px 22px",
+              }}
               className={`${btnstyle?.btn_for_new} forevery-btn ${btnstyle?.btn_15}`}
             >
               shop letter diamonds
@@ -161,7 +182,7 @@ const Diamond = () => {
           <span>Specification of The Hearts and Arrows</span>
           <small></small>
           <p
-          className="para-for-i-q"
+            className="para-for-i-q"
             style={{
               margin: "0 auto",
               textAlign: "center",
@@ -250,3 +271,37 @@ const Diamond = () => {
 };
 
 export default Diamond;
+
+const LabgrownMobile = () => {
+  return (
+    <div className="main-mob-new">
+      <img
+        src={`${storImagePath()}/Forevery/diamond/diamonds-initials-bg.webp`}
+        alt=""
+      />
+      <div class="content ">
+        <h5 class="title_For">personalized jewelry</h5>
+        <h2 class="text-uppercase initials-head position-relative  fw-bold ">
+          specially grown and cut for you
+        </h2>
+        <p class="subtitle_for">
+          Elevate your jewelry collection with Initial Diamonds by Forevery. We
+          transform rough diamonds into the Initial of your choice, crafting
+          personalized pieces with high-quality metal settings. Our aim is
+          simple: when you wear our jewelry, we want you to feel pure joy. This
+          collection emphasizes unique designs and one-of-a-kind diamonds,
+          reflecting our commitment to innovation. Forevery is dedicated to
+          making your dreams a reality. Experience the next level of
+          customization with our letter-shaped diamonds.
+        </p>
+        <div class="cta">
+          <button
+            className={`${btnstyle?.btn_for_new} forevery-btn ${btnstyle?.btn_15}`}
+          >
+            shop letter diamonds
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const getSalesReportData = async(CurrencyRate, FrontEnd_RegNo, customerid, data) => {
+export const getMemoReturnData = async(CurrencyRate, FrontEnd_RegNo, customerid, data) => {
     try {
         const combinedValue = JSON.stringify({
             CurrencyRate: CurrencyRate,
@@ -10,7 +10,7 @@ export const getSalesReportData = async(CurrencyRate, FrontEnd_RegNo, customerid
           const encodedCombinedValue = btoa(combinedValue);
           const encodedCombinedValue2 = (combinedValue);
           const body = {
-            con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data?.userid}\"}`,
+            con: `{\"id\":\"Store\",\"mode\":\"getmemoreturn\",\"appuserid\":\"${data?.userid}\"}`,
             f: "zen (cartcount)",
             p: encodedCombinedValue,
             dp: encodedCombinedValue2,

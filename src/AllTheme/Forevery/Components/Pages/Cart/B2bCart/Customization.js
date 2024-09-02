@@ -9,7 +9,7 @@ import btnStyle from "../../../scss/Button.module.scss"
 const Customization = ({
   ispriceloding,
   selectedItem,
-  diamondCartData,
+  diamondData,
   qtyCount,
   handleIncrement,
   handleDecrement,
@@ -30,7 +30,7 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  // const [diadata, setDiaData] = useState();
+  const [diadata, setDiaData] = useState();
 
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -61,7 +61,11 @@ const Customization = ({
   console.log("kjhsjhkakjhd", selectedItem);
 
 
-  console.log("diamondData", diamondCartData);
+  useEffect(() => {
+    const diamondValue = diamondData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
+    setDiaData(diamondValue)
+  }, [selectedItem])
+
 
   const keyToCheck = "stockno"
   return (
@@ -200,9 +204,9 @@ const Customization = ({
               {selectedItem?.Sol_StockNo != "" &&
                 <div className='for_diaTitleLine'>
                   <span>
-                    {diamondCartData?.carat}{" "}
-                    Carat {diamondCartData?.colorname} {diamondCartData?.clarityname}{" "}
-                    {diamondCartData?.cutname} Cut {diamondCartData?.shapename} Diamond
+                    {diadata?.carat}{" "}
+                    Carat {diadata?.colorname} {diadata?.clarityname}{" "}
+                    {diadata?.cutname} Cut {diadata?.shapename} Diamond
                   </span>
                 </div>
               }
@@ -249,7 +253,7 @@ const Customization = ({
                       {!ispriceloding ? (
                         <span>
                           <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                          {formatter(Number(selectedItem?.Sol_StockNo != "" ? (selectedItem?.FinalCost + diamondCartData?.price) : selectedItem?.FinalCost) )}
+                          {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.FinalCost + diadata?.price) ?? selectedItem?.FinalCost)) : formatter(((selectedItem?.FinalCost)))}
                         </span>
                       ) :
                         <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />

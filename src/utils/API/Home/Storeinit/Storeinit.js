@@ -48,7 +48,7 @@ export const Storeinit = async (param) => {
       "f": "formname (init)",
     };
     response = await axios.post(APIURL, body, { headers: header });
-
+    console.log(response);
   } catch (error) {
     console.error('Error:', error);
   }
