@@ -145,7 +145,7 @@ export default function ChangePassword() {
                     label="Old Password"
                     type={showOldPassword ? 'text' : 'password'}
                     autoComplete="current-password"
-                    className='labgrowRegister'
+                    className='labgrowRegisterCP'
                     style={{ margin: '15px' }}
                     value={oldPassword}
                     onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
@@ -172,7 +172,7 @@ export default function ChangePassword() {
                     label="Password"
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
-                    className='labgrowRegister'
+                    className='labgrowRegisterCP'
                     style={{ margin: '15px' }}
                     value={password}
                     onChange={handlePasswordChange}
@@ -199,7 +199,7 @@ export default function ChangePassword() {
                     label="Confirm Password"
                     type={showConfirmPassword ? 'text' : 'password'}
                     autoComplete="current-password"
-                    className='labgrowRegister'
+                    className='labgrowRegisterCP'
                     style={{ margin: '15px' }}
                     value={confirmPassword}
                     onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
@@ -221,7 +221,7 @@ export default function ChangePassword() {
                     }}
                 />
 
-                <button className='ForgotPassBtn' onClick={handleSubmit}>Change Password</button>
+                <button className='ForgotPassBtn labgrowRegisterCP' onClick={handleSubmit}>Change Password</button>
             </div>
         </div>
 
