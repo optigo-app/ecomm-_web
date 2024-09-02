@@ -694,6 +694,7 @@ const FirstNavMenu = ({
       );
     } else {
       const addCategory = `Ring/category`;
+      
       const filterKeyVal = btoa(addCategory);
       navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
