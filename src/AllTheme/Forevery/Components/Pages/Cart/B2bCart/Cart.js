@@ -164,12 +164,12 @@ const CartPage = () => {
 
   console.log("diamondCartData", diamondCartData);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
-      setSelectedDia(diamondValue)
-    }, 500);
-  }, [selectedItem])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
+  //     setSelectedDia(diamondValue)
+  //   }, 500);
+  // }, [selectedItem])
 
   return (
     <div className='for_MainBGDiv'>
@@ -242,7 +242,7 @@ const CartPage = () => {
                         <CartDetails
                           ispriceloding={ispriceloding}
                           selectedItem={selectedItem}
-                          diamondData={selectedDia}
+                          diamondData={diamondCartData}
                           CartCardImageFunc={CartCardImageFunc}
                           handleIncrement={handleIncrement}
                           handleDecrement={handleDecrement}
