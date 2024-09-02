@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './AppointmentPage.scss';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Services from '../../ReusableComponent/OurServives/OurServices';
@@ -46,6 +46,7 @@ export const services = [
 ];
 
 const AppointmentPage = () => {
+    const [selectedItem, setSelectedItem] = useState({});
     const items = [
         { id: 1, title: 'Engagement Ring', image: '/images/HomePage/Appointment/appointment-jewel-1.png' },
         { id: 2, title: 'Wedding Ring', image: '/images/HomePage/Appointment/appointment-jewel-2.png' },
@@ -55,7 +56,9 @@ const AppointmentPage = () => {
         { id: 6, title: 'Letter Diamonds', image: '/images/HomePage/Appointment/appointment-jewel-6.png' }
     ];
 
-
+    const hanldeBook = (item) => {
+        setSelectedItem(item);
+    }
 
     return (
         <div className="for_appointment-page">
@@ -83,23 +86,27 @@ const AppointmentPage = () => {
                 Book an appointment now to view our exquisite collection and discover the sustainable and ethical beauty of labgrown diamonds.
             </p>
             <div className="for_itemsMainDiv">
-                <div className="for_itemsSubDiv">
-                    <h3>The kind of jewelry you are interested in?</h3>
-                    <div className="for_items-grid">
-                        {items.map(item => (
-                            <div className="for_item-card" key={item.id}>
-                                <div className="for_imageDiv">
-                                    <img src={`${storImagePath()}${item?.image}`} alt={item?.title} />
+                {Object.keys(selectedItem).length === 0 && selectedItem.constructor === Object &&
+                    <div className="for_itemsSubDiv">
+                        <h3>The kind of jewelry you are interested in?</h3>
+                        <div className="for_items-grid">
+                            {items.map(item => (
+                                <div className="for_item-card" key={item.id}>
+                                    <div className="for_imageDiv">
+                                        <img src={`${storImagePath()}${item?.image}`} alt={item?.title} />
+                                    </div>
+                                    <div className="for_item-content">
+                                        <h2>{item?.title}</h2>
+                                        <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`} onClick={() => hanldeBook(item)}>BOOK NOW</button>
+                                    </div>
                                 </div>
-                                <div className="for_item-content">
-                                    <h2>{item?.title}</h2>
-                                    <button className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`}>BOOK NOW</button>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
-                {/* <AppointmentForm/> */}
+                }
+                {Object.keys(selectedItem).length !== 0 && selectedItem.constructor === Object &&
+                    <AppointmentForm selectedItem={selectedItem} />
+                }
                 <Services title={"Our Services"} services={services} />
                 <NewsletterSignup />
             </div>

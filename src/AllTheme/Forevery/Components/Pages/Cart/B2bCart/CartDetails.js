@@ -68,7 +68,7 @@ const CartDetails = ({
       <Customization
         ispriceloding={ispriceloding}
         selectedItem={selectedItem}
-        diamondCartData = {diamondData}
+        diamondData={diamondData}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
         qtyCount={qtyCount}
