@@ -455,6 +455,8 @@ const NavbarLeft = ({
                   setTimeout(() => {
                     setshowMenu(true);
                   }, 300);
+                } else {
+                  setshowMenu(false);
                 }
               }}
               onClick={() => {
@@ -858,7 +860,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
           {SideItems?.map((val, i) => (
-            <span className="ring-type" key={i}>
+            <span
+              className="ring-type"
+              key={i}
+              onClick={() => Navigate(val?.link)}
+            >
               <img src={val?.img} alt="" width={18} height={18} />
               {val?.name}
             </span>
