@@ -62,6 +62,7 @@ import Education from "./Components/Pages/staticpages/Education/Education";
 import PrivacyPage from "./Components/Pages/staticpages/PrivacyPage/PrivacyPage";
 import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/TermsAndCondition";
 import Account from "./Components/Pages/Account/Account"
+import LabCreatedRings from "./Components/Pages/labCreated-rings/LabCreatedRings";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -259,7 +260,7 @@ const ForEveryRoutes = () => {
           />
           <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
           <Route path="/diamond" element={<Diamond />} />
-          <Route path="/diamond-test" element={<Test />} />
+          <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
@@ -271,7 +272,7 @@ const ForEveryRoutes = () => {
           {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
           {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
           
-          
+          // 
           
           {/* <Route path="/account" element={<Account />} /> */}
           {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
