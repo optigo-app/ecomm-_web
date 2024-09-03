@@ -49,6 +49,7 @@ export const for_customizationSteps = atom({
     step3: {},
   }
 })
+
 export const for_customizationSteps1 = atom({
   key: "for_customizationSteps1",
   default: {
@@ -56,4 +57,9 @@ export const for_customizationSteps1 = atom({
     step2: null,
     step3: {},
   }
+})
+
+export const for_Loader = atom({
+  key: 'for_Loader',
+  default: false,
 })

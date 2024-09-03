@@ -649,20 +649,20 @@
               video {
                 width: 306px;
                 height: 246px;
-                object-fit: cover;
+                object-fit: scale-down;
               }
 
               img {
                 width: 306px;
                 height: 246px;
-                object-fit: cover;
+                object-fit: scale-down;
               }
             }
 
             .for_settingList_listing_card_image {
               width: 306px;
               height: 246px;
-              object-fit: cover;
+              object-fit: scale-down;
             }
 
           }
