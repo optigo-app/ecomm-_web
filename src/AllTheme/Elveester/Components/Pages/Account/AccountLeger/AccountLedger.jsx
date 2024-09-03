@@ -659,7 +659,7 @@ const AccountLedger = () => {
                 </div>
                 <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
                     <div className='custom_flex_class'>
-                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc p_1_acc w_100_acc'>
+                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc  w_100_acc'>
                             <div className='w_100_acc'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w_100_acc end_acc'>
                             { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
                             { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }</div>
