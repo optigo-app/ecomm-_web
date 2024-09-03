@@ -42,7 +42,7 @@ const CartDetails = ({
     }
   }, [selectedItem]);
 
-  console.log('selectediTem', selectedItem);
+  console.log('selectediTem', diamondData);
 
   const keyToCheck = "stockno"
   return (
@@ -68,7 +68,7 @@ const CartDetails = ({
       <Customization
         ispriceloding={ispriceloding}
         selectedItem={selectedItem}
-        diamondCartData = {diamondData}
+        diamondData={diamondData}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
         qtyCount={qtyCount}

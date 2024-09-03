@@ -15,7 +15,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
   for_CartCount,
@@ -49,6 +49,7 @@ const Navbar = () => {
   const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
   const [searchText, setSearchText] = useState("");
   const [showMenu, setshowMenu] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
@@ -186,9 +187,11 @@ const Navbar = () => {
     }
   };
 
-  const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
+  useEffect(() => {
+    setshowMenu(false);
+  }, [location]);
 
-  console.log(navbarHeight, "height");
+  const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
 
   return (
     <div className="for_Navbar" ref={navRef}>
@@ -440,32 +443,77 @@ const NavbarLeft = ({
               style={{
                 height: `${NavItemsHeight}px`,
               }}
+              // onMouseOver={() => {
+              //   setActiveMenu({ menu: val, index: i });
+              //   setHoveredIndex(i);
+              //   setTimeout(()=>{
+              //     setshowMenu(true)
+              //   },300)
+              // }}
+              // onClick={() => {
+              //   Navigate(val?.link);
+              //   setshowMenu(false);
               onMouseOver={() => {
-                setActiveMenu({ menu: val, index: i });
-                setHoveredIndex(i);
-                setTimeout(()=>{
-                  setshowMenu(true)
-                },300)
+                if (!val?.disabled) {
+                  setActiveMenu({ menu: val, index: i });
+                  setHoveredIndex(i);
+                  setTimeout(() => {
+                    setshowMenu(true);
+                  }, 300);
+                } else {
+                  setshowMenu(false);
+                }
               }}
               onClick={() => {
-                Navigate(val?.link);
-                setshowMenu(false);
+                if (!val?.disabled) {
+                  Navigate(val?.link);
+                  setshowMenu(false);
+                }
               }}
+            // }}
             >
-              <Link to={val?.link} className="for_nav_menu">
-                {val?.category}
-                {hoveredIndex === i ? (
-                  <FaChevronUp
-                    size={13}
-                    className={`chevorn-icon hide-Fo-1 `}
-                  />
-                ) : (
-                  <FaChevronDown
-                    size={13}
-                    className={`chevorn-icon hide-Fo-2 `}
-                  />
-                )}
-              </Link>
+              {val?.disabled ? (
+                <div
+                  style={{
+                    cursor: val?.disabled ? "not-allowed" : "pointer",
+                  }}
+                  className="for_nav_menu"
+                >
+                  {val?.category}
+                  {hoveredIndex === i ? (
+                    <FaChevronUp
+                      size={13}
+                      className={`chevorn-icon hide-Fo-1 `}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      size={13}
+                      className={`chevorn-icon hide-Fo-2 `}
+                    />
+                  )}
+                </div>
+              ) : (
+                <Link
+                  style={{
+                    cursor: val?.disabled ? "not-allowed" : "pointer",
+                  }}
+                  to={val?.link}
+                  className="for_nav_menu"
+                >
+                  {val?.category}
+                  {hoveredIndex === i ? (
+                    <FaChevronUp
+                      size={13}
+                      className={`chevorn-icon hide-Fo-1 `}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      size={13}
+                      className={`chevorn-icon hide-Fo-2 `}
+                    />
+                  )}
+                </Link>
+              )}
             </div>
           );
         })}
@@ -489,7 +537,7 @@ const NavitemsWrapper = ({
   setActiveMenu,
   setHoveredIndex,
   height,
-  setshowMenu
+  setshowMenu,
 }) => {
   const firstNavRef = useRef(null);
   const NavbarMenuRender = (Menu) => {
@@ -503,7 +551,9 @@ const NavitemsWrapper = ({
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
-  const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps1);
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(
+    for_customizationSteps1
+  );
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -560,9 +610,11 @@ const NavitemsWrapper = ({
           </div>
           <div className="for_Selected_Menu_item_list">
             {SelectedMenu?.index == 0 && (
-              <FirstNavMenu data={NavbarMenu[SelectedMenu?.index]}
+              <FirstNavMenu
+                data={NavbarMenu[SelectedMenu?.index]}
                 setCustomizeStep1={setCustomizeStep1}
                 setCustomizeStep={setCustomizeStep}
+                setshowMenu={setshowMenu}
               />
             )}
             {SelectedMenu?.index == 1 && (
@@ -586,7 +638,13 @@ const NavitemsWrapper = ({
     </>
   );
 };
-const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
+const FirstNavMenu = ({
+  data,
+  setCustomizeStep1,
+  setCustomizeStep,
+  close,
+  setshowMenu,
+}) => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -596,68 +654,152 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
     setShowModal(!showModal);
   };
 
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
+  useEffect(() => {
+    if (showModal) {
+      console.log("Modal is showing");
+      // setTimeout(() => {
+      //   setshowMenu(false);
+      // }, 200);
+    } else {
+      console.log("Modal is closed");
+    }
+  }, [showModal]);
+
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = (index) => {
     if (checkSteps) {
       setShowModal(true);
-      setCheckIndex(index)
+      setCheckIndex(index);
     } else {
       console.log("Alternative action");
     }
   };
 
   const HandleSettingNavigation = () => {
-    if ((steps?.[0] !== undefined && steps?.[0] !== null || steps?.[1] !== undefined && steps?.[1] !== null)) {
-      sessionStorage.removeItem('customizeSteps')
-      sessionStorage.removeItem('custStepData')
+    if (
+      (steps?.[0] !== undefined && steps?.[0] !== null) ||
+      (steps?.[1] !== undefined && steps?.[1] !== null)
+    ) {
+      sessionStorage.removeItem("customizeSteps");
+      sessionStorage.removeItem("custStepData");
       const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory)
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
-    }
-    else {
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
+    } else {
       const addCategory = `Ring/category`;
-      const filterKeyVal = btoa(addCategory)
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      
+      const filterKeyVal = btoa(addCategory);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
       setCustomizeStep1({
         step1: true,
-      })
-      const step1 = [{ "step1": true, "Setting": 'Ring' }];
+      });
+      const step1 = [{ step1: true, Setting: "Ring" }];
       sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
     }
   };
 
   const HandleDiamondNavigation = () => {
-    if ((steps1?.[0] !== undefined && steps1?.[0] !== null || steps1?.[1] !== undefined && steps1?.[1] !== null)) {
-      sessionStorage.removeItem('customizeSteps2')
-      sessionStorage.removeItem('custStepData2')
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+    if (
+      (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+      (steps1?.[1] !== undefined && steps1?.[1] !== null)
+    ) {
+      sessionStorage.removeItem("customizeSteps2");
+      sessionStorage.removeItem("custStepData2");
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     } else {
       navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
       setCustomizeStep({
         step1: true,
-      })
-      const step1 = [{ "step1": true, "shape": "Round" }];
+      });
+      const step1 = [{ step1: true, shape: "Round" }];
       sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
     }
   };
 
   const handleRemoveData = (index) => {
-    sessionStorage.removeItem('customizeSteps');
-    sessionStorage.removeItem('custStepData');
-    sessionStorage.removeItem('customizeSteps2');
-    sessionStorage.removeItem('custStepData2');
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
     if (index === 0) {
       const addCategory = `Ring/category`;
       const filterKeyVal = btoa(addCategory);
-      navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`);
+      navigate(
+        `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+      );
     } else {
-      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)
+      navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
     }
     handleToggle();
   };
+
+  // General encoding function
+  const encodeLink = (link) => btoa(link);
+
+  const convertLink = (link1, link2) => {
+    const [key1, val1] = link1.split('/');
+    const [key2, val2] = link2.split('/');
+    return btoa(`${key1},${key2}/${val1},${val2}`);
+  };
+
+  // Data for styles
+  const styleLinks = {
+    Solitaire: "Solitaire/style",
+    Halo: "Halo/style",
+    Vintage: "Vintage/style",
+    Side_Stone: "Side Stone/style",
+    Designer: "Designer/style",
+  };
+
+  // Generate encoded style array
+  const styleArr = Object.entries(styleLinks).map(([title, link]) => ({
+    title,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/${title.replace(/ /g, '_')}/M=${encodeLink(link)}`,
+  }));
+
+  // Data for categories
+  const categoryLinks = {
+    Women: "Women/gender",
+    Men: "Men/gender",
+  };
+
+  const womenCategories = {
+    Classic_Rings: "Classic Rings/sub_category",
+    Diamond_Rings: "Diamond Rings/sub_category",
+    Eternity_Rings: "Eternity Rings/sub_category",
+    Half_Eternity_Rings: "Half-Eternity Rings/sub_category",
+    Stackable_Rings: "Stackable Rings/sub_category",
+  };
+
+  const menCategories = {
+    Carved_Rings: "Carved Rings/sub_category",
+    Diamond_Rings: "Diamond Rings/sub_category",
+    Classic_Rings: "Classic Rings/sub_category",
+  };
+
+  // Generate encoded category arrays
+  const generateCategoryArr = (baseLink, categories) =>
+    Object.entries(categories).map(([key, subCategory]) => ({
+      title: key.replace(/_/g, ' '),
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/${key}/M=${convertLink(baseLink, subCategory)}`,
+    }));
+
+  const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
+  const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
+
+  console.log('Style Array:', styleArr);
+  console.log('Women Array:', womenArr);
+  console.log('Men Array:', menArr);
+
   return (
     <>
       <div className="For_Nav_first_Menu">
@@ -674,7 +816,9 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
                 ) : (
                   <span
                     class="ring-type"
-                    onClick={() => HandleSettingNavigation()}
+                    onClick={() => {
+                      HandleSettingNavigation();
+                    }}
                   >
                     <GiDiamondRing size={15} /> start with a setting
                   </span>
@@ -696,11 +840,9 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
             <div className="for_col_2">
               <h3>shop By style</h3>
               <div class="ring-types-col">
-                <span>Solitaire</span>
-                <span>Halo</span>
-                <span>Vintage</span>
-                <span>Side Stone</span>
-                <span>Designer</span>
+                {styleArr?.map((item, index) => (
+                  <span key={index} onClick={() => navigate(item?.link)}>{item?.title}</span>
+                ))}
               </div>
             </div>
             <div className="for_col_3">
@@ -720,27 +862,25 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
           <h3>Wedding Ring</h3>
           <div className="for_ring_section">
             <div className="for_col_1">
-              <h3>
+              <h3 onClick={() => navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(categoryLinks.Women)}`)}>
                 <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
                 Womens
               </h3>
               <div class="ring-types">
-                <span class="ring-type">Classic Rings</span>
-                <span class="ring-type">Diamond Rings</span>
-                <span class="ring-type">Eternity Rings</span>
-                <span class="ring-type">Half-Eternity Rings</span>
-                <span class="ring-type">Stackable Rings</span>
+                {womenArr?.map((item, index) => (
+                  <span key={index} class="ring-type" onClick={() => navigate(item?.link)}>{item?.title}</span>
+                ))}
               </div>
             </div>
             <div className="for_col_2">
-              <h3>
+              <h3 onClick={() => navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(categoryLinks.Men)}`)}>
                 <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
               </h3>
 
               <div class="ring-types">
-                <span class="ring-type">Carved Rings</span>
-                <span class="ring-type">Diamond Rings</span>
-                <span class="ring-type">Classic Rings</span>
+                {menArr?.map((item, index) => (
+                  <span key={index} class="ring-type" onClick={() => navigate(item?.link)}>{item?.title}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -749,7 +889,12 @@ const FirstNavMenu = ({ data, setCustomizeStep1, setCustomizeStep }) => {
           <img src={commonImage} alt="" />
         </div>
       </div>
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={checkIndex} />
+      <Modal
+        open={showModal}
+        handleClose={handleToggle}
+        handleRemoveData={handleRemoveData}
+        index={checkIndex}
+      />
     </>
   );
 };
@@ -762,9 +907,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   };
 
   const Navigate = useNavigate();
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const checkSteps = (steps?.[2] !== undefined && steps?.[2] !== null) || (steps1?.[2] !== undefined && steps1?.[2] !== null);
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
 
   const handleCheckSteps = (value) => {
     if (checkSteps) {
@@ -777,20 +924,20 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 
   const HandleDiamondNavigation = (shape) => {
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
-    // setCustomizeStep({
-    //   step1: true,
-    //   step2: false,
-    //   step3: false,
-    // });
-    // const step1 = [{ "step1": true, "shape": shape }];
-    // sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+    setCustomizeStep({
+      step1: true,
+      step2: false,
+      step3: false,
+    });
+    const step1 = [{ step1: true, shape: shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
   };
 
   const handleRemoveData = (shape) => {
-    sessionStorage.removeItem('customizeSteps');
-    sessionStorage.removeItem('custStepData');
-    sessionStorage.removeItem('customizeSteps2');
-    sessionStorage.removeItem('custStepData2');
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
     Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
     handleToggle();
   };
@@ -829,7 +976,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
         <h3>Build Your Jewelry</h3>
         <div className="for_ring_section">
           {SideItems?.map((val, i) => (
-            <span className="ring-type" key={i}>
+            <span
+              className="ring-type"
+              key={i}
+              onClick={() => Navigate(val?.link)}
+            >
               <img src={val?.img} alt="" width={18} height={18} />
               {val?.name}
             </span>
@@ -839,8 +990,12 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       <div className="for_third_col">
         <img src={commonImage} alt="" />
       </div>
-
-      <Modal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={shape} />
+      <Modal
+        open={showModal}
+        handleClose={handleToggle}
+        handleRemoveData={handleRemoveData}
+        index={shape}
+      />
     </div>
   );
 };
@@ -877,11 +1032,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Jewlery</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
               >
                 Show More
               </button>
@@ -890,11 +1045,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
               >
                 Show More
               </button>
@@ -1056,13 +1211,7 @@ const LatsNavMenu = ({ data }) => {
     </>
   );
 };
-
-const Modal = ({
-  open,
-  handleClose,
-  handleRemoveData,
-  index,
-}) => {
+const Modal = ({ open, handleClose, handleRemoveData, index }) => {
   return (
     <>
       <Dialog
@@ -1071,6 +1220,7 @@ const Modal = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         sx={{
+          zIndex: 9999999,
           "& .MuiDialog-root": {
             zIndex: 9999,
           },
@@ -1101,10 +1251,20 @@ const Modal = ({
               it?
             </span>
             <div className="for_modal_buttons_nav_div">
-              <button onClick={() => {
-                handleClose();
-              }}>Yes</button>
-              <button onClick={() => { handleRemoveData(index) }}>No</button>
+              <button
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  handleRemoveData(index);
+                }}
+              >
+                No
+              </button>
             </div>
           </div>
         </DialogContent>

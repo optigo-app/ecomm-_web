@@ -90,8 +90,8 @@ const Elveester_app = () => {
           <Route path="/Confirmation" element={<ConfirmationPage />} />
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/account" element={<Account />} />
           <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/account" element={<Account />} />
         </Route>
         {/* <Route path="/LoginOption" element={<LoginOption />} />
         <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />

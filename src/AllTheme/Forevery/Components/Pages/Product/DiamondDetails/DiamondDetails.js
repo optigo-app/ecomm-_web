@@ -176,7 +176,6 @@ const DiamondDetails = () => {
         if (compSet && !isNaN(totalPrice)) {
             const existingSteps = JSON.parse(sessionStorage.getItem('customizeSteps')) || [];
             const existingSteps1 = JSON.parse(sessionStorage.getItem('customizeSteps2')) || [];
-            console.log('existingSteps1: ', existingSteps1);
 
             if (steps?.[1]?.step2 === true) {
                 const updatedStep1 = existingSteps?.map(step => {
@@ -745,6 +744,18 @@ const DiamondDetails = () => {
         // setCsList(res?.pdResp?.rd4)
     }
 
+    const designImage = (designno, ImageExtension) => {
+        let imgString =
+            storeInit?.DesignImageFol +
+            designno +
+            "_" +
+            1 +
+            "." +
+            ImageExtension;
+        console.log('imgString: ', imgString);
+        return imgString
+    }
+
     return (
         <div className="for_DiamondDet_mainDiv">
             <div className="for_DiamondDet_div">
@@ -810,6 +821,21 @@ const DiamondDetails = () => {
                                     ) : ( */}
                                     {/* <> */}
                                     <div className="for_slider">
+                                        {compSet && (
+                                            <div
+                                                className={`for_box active`}
+                                            >
+                                                <img
+                                                    src={designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))}
+                                                    alt=""
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src =
+                                                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                                    }}
+                                                />
+                                            </div>
+                                        )}
                                         {/* {PdImageArr?.map((val, i) => {
                                                     return (
                                                         <div
@@ -857,21 +883,23 @@ const DiamondDetails = () => {
                                                     );
                                                 })} */}
                                     </div>
-                                    <div
-                                        className="for_video_box_dia"
-                                        style={{ position: "relative" }}
-                                    >
-                                        <video
-                                            src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
-                                            autoPlay
-                                            muted
-                                            loop
-                                            style={{
-                                                width: '65px',
-                                            }}
-                                        />
-                                        {/* <IoIosPlayCircle className="for_play_io_icon_dia" /> */}
-                                    </div>
+                                    {!compSet && (
+                                        <div
+                                            className="for_video_box_dia"
+                                            style={{ position: "relative" }}
+                                        >
+                                            <video
+                                                src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
+                                                autoPlay
+                                                muted
+                                                loop
+                                                style={{
+                                                    width: '65px',
+                                                }}
+                                            />
+                                            {/* <IoIosPlayCircle className="for_play_io_icon_dia" /> */}
+                                        </div>
+                                    )}
                                     <div className="for_main_image">
                                         {/* {PdImageArr?.length > 0 ? ( */}
                                         <>
@@ -881,67 +909,88 @@ const DiamondDetails = () => {
                                                 lazyLoad="progressive"
                                             >
                                                 {/* {PdImageArr?.map((val, i) => {
-                                                                return (
-                                                                    <div key={i} className="for_slider_card">
-                                                                        <div className="for_image">
-                                                                            {val?.type == "img" ? (
-                                                                                <img
-                                                                                    loading="lazy"
-                                                                                    src={
-                                                                                        val?.src ||
-                                                                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                                                                                    }
-                                                                                    alt={""}
-                                                                                    onLoad={() => setIsImageLoad(false)}
-                                                                                    onError={(e) => {
-                                                                                        e.target.onerror = null;
-                                                                                        e.target.src =
-                                                                                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                                                                    }}
-                                                                                />
-                                                                            ) : (
-                                                                                <div
-                                                                                    style={{
-                                                                                        height: "80%",
-                                                                                    }}
-                                                                                >
-                                                                                    <video
-                                                                                        src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
-                                                                                        ref={videoRef}
-                                                                                        loop={true}
-                                                                                        autoPlay={true}
-                                                                                        muted
-                                                                                        style={{
-                                                                                            width: "100%",
-                                                                                            height: "100%",
-                                                                                            objectFit: "scale-down",
-                                                                                        }}
-                                                                                    />
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
+                                                    return (
+                                                        <div key={i} className="for_slider_card">
+                                                            <div className="for_image">
+                                                                {val?.type == "img" ? (
+                                                                    <img
+                                                                        loading="lazy"
+                                                                        src={
+                                                                            val?.src ||
+                                                                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                                                        }
+                                                                        alt={""}
+                                                                        onLoad={() => setIsImageLoad(false)}
+                                                                        onError={(e) => {
+                                                                            e.target.onerror = null;
+                                                                            e.target.src =
+                                                                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                                                        }}
+                                                                    />
+                                                                ) : (
+                                                                    <div
+                                                                        style={{
+                                                                            height: "80%",
+                                                                        }}
+                                                                    >
+                                                                        <video
+                                                                            src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
+                                                                            ref={videoRef}
+                                                                            loop={true}
+                                                                            autoPlay={true}
+                                                                            muted
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "100%",
+                                                                                objectFit: "scale-down",
+                                                                            }}
+                                                                        />
                                                                     </div>
-                                                                );
-                                                            }
-                                                            )} */}
-                                                <div
-                                                    style={{
-                                                        height: "80%",
-                                                    }}
-                                                >
-                                                    <video
-                                                        src='https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'
-                                                        ref={videoRef}
-                                                        loop={true}
-                                                        autoPlay={true}
-                                                        muted
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+                                                )} */}
+                                                {compSet && (
+                                                    <div className="for_slider_card">
+                                                        <div className="for_image">
+                                                            <img
+                                                                loading="lazy"
+                                                                src={
+                                                                    designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))
+                                                                }
+                                                                alt={""}
+                                                                onLoad={() => setIsImageLoad(false)}
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src =
+                                                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                {!compSet && (
+                                                    <div
                                                         style={{
-                                                            width: "100%",
-                                                            height: "100%",
-                                                            objectFit: "scale-down",
+                                                            height: "80%",
                                                         }}
-                                                    />
-                                                </div>
+                                                    >
+                                                        <video
+                                                            src='https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'
+                                                            ref={videoRef}
+                                                            loop={true}
+                                                            autoPlay={true}
+                                                            muted
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "scale-down",
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
                                             </Slider>
                                         </>
                                         {/* ) :
@@ -1543,11 +1592,12 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     );
 });
 
-const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, compSet, customizeStep }) => {
+const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, customizeStep }) => {
     const dropdownRefs = useRef({});
     const [open, setOpen] = useState(null);
     const [isSetting, setIsSetting] = useState([]);
     const [storeInit, setStoreInit] = useState({});
+    const [setshape, setSetShape] = useState();
     const [loginCurrency, setLoginCurrency] = useState();
     const Navigation = useNavigate();
     const location = useLocation();
@@ -1563,6 +1613,14 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
     const getCompleteStep1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
     console.log('getCompleteStep1: ', getCompleteStep1);
     const getCompleteStep2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+
+    useEffect(() => {
+        const handleCompset = () => {
+            const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? JSON.parse(sessionStorage.getItem('customizeSteps2'));
+            setSetShape(getSetShape);
+        }
+        handleCompset();
+    }, [])
 
     useEffect(() => {
         const storeData = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -1601,10 +1659,10 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
     const renderSteps = () => {
         return (
             <>
-                <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
+                <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
                     <span className="for_title_span" style={StyleCondition}
                         onClick={() => {
-                            Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                            Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                             setswap("settings");
                         }}
                     >
@@ -1675,7 +1733,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
 
     return (
         <>
-            {getdiaData?.length > 0 || getCustStepData?.[0]?.step1 === true ? (
+            {getdiaData?.length > 0 || (getCustStepData?.[0]?.step1 === true ?? getCustStepData2?.[1]?.step2 === true) ? (
                 <div className="diamond_Step_data_det">
                     <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
                         <span className="for_title_span" style={StyleCondition} onClick={() => {
@@ -1704,7 +1762,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, setshape, c
                         )}
                     </div>
 
-                    <div className={`step_data ${settingActive === true ? 'active' : ''} d-2`}>
+                    <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
                         <span className="for_title_span" style={StyleCondition}
                             onClick={() => {
                                 Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
@@ -1832,6 +1890,7 @@ const Modal = ({
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 sx={{
+                    zIndex : 9999999,
                     '& .MuiDialog-paper': {
                         backgroundColor: 'transparent',
                         border: '1px solid white',

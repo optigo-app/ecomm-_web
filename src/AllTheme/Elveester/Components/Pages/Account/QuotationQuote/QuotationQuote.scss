@@ -44,16 +44,19 @@
     background-color: rgb(235, 235, 235);
 }
 
-.salesApiSectionQWeb svg {
+.salesApiSectionQWebElvee svg {
     font-size: 20px !important;
     color: #7d7f85;
 }
 
-.salesApiSectionQWeb * {
+.salesApiSectionQWebElvee * {
+    // font-size: 14px !important;
+    // line-height: 120%;
+}
+.fs_elvee_quote{
     font-size: 14px !important;
     line-height: 120%;
 }
-
 .muiSmilingRocksBtn {
     border: 1px solid #7d7f85 !important;
 }
@@ -185,5 +188,10 @@
     }
     .pad_left_q{
         margin-left: 3px !important;
+    }
+}
+@media (max-width:320px){
+    .fs_elvee_quote{
+        font-size: 9px !important;
     }
 }

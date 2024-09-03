@@ -377,7 +377,7 @@ export default function YourProfile() {
 
 
     return (
-        <div className='smr_yourProfile'>
+        <div className='smr_yourProfile '>
             <ToastContainer />
 
             {isLoading && (
@@ -385,7 +385,7 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }} >
                 { addressPresentFlag &&  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
                         <>

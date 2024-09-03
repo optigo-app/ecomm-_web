@@ -257,105 +257,180 @@
                     text-align: center;
                     height: 100%;
                     margin-block: 100px;
-              
-                    .for_title {
-                      color: $titleColor;
-                      font-size: $fontSize6;
-                    }
-              
-                    .for_desc {
-                      color: $titleColor;
-                      font-size: $fontSize4;
-                    }
-              
-                    .for_browseOurCollectionbtn {
-                      background-color: $btn1FontColor;
-                      border: none;
-                      color: #fff;
-                      border: 1px solid $btn1FontColor;
-                      font-size: 15px;
-                      font-weight: 500;
-                      height: 50px;
-                      outline: none;
-                      width: 220px;
-                      transition: 0.3s ease-in-out;
 
-                      &:hover {
-                        background: $btn1hoverFontColor;
-                        color: $btn1FontColor;
+                    .for_title {
+                        color: $titleColor;
+                        font-size: $fontSize6;
                     }
+
+                    .for_desc {
+                        color: $titleColor;
+                        font-size: $fontSize4;
                     }
-                  }
+
+                    .for_browseOurCollectionbtn {
+                        background-color: $btn1FontColor;
+                        border: none;
+                        color: #fff;
+                        border: 1px solid $btn1FontColor;
+                        font-size: 15px;
+                        font-weight: 500;
+                        height: 50px;
+                        outline: none;
+                        width: 220px;
+                        transition: 0.3s ease-in-out;
+
+                        &:hover {
+                            background: $btn1hoverFontColor;
+                            color: $btn1FontColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        .for_noWishlistData {
+            text-align: center;
+            height: 100%;
+            margin-block: 100px;
+
+            .for_title {
+                color: $titleColor;
+                font-size: $fontSize6;
+            }
+
+            .for_desc {
+                color: $titleColor;
+                font-size: $fontSize4;
+            }
+
+            .for_browseOurCollectionbtn {
+                background-color: $btn1FontColor;
+                border: none;
+                color: #fff;
+                border: 1px solid $btn1FontColor;
+                font-size: 15px;
+                font-weight: 500;
+                height: 50px;
+                outline: none;
+                width: 220px;
+                transition: 0.3s ease-in-out;
+
+                &:hover {
+                    background: $btn1hoverFontColor;
+                    color: $btn1FontColor;
+                }
             }
         }
     }
-.for_addwishlistSkelton{
-    height: 420px;
-    margin-bottom: 50px;
-    background: #fdf6f6 !important;
-}
+
+    .for_addwishlistSkelton {
+        height: 420px;
+        margin-bottom: 50px;
+        background: #fdf6f6 !important;
+    }
+
     /* Media Queries for Responsive Design */
-    @media (max-width: 1200px) {
+    @media (max-width: 1400px) {
         .for_WishlistDiv {
-            margin-inline: 200px;
+            margin-inline: 80px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 220px;
+            margin-inline: 100px;
         }
     }
 
     @media (max-width: 992px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 33.333% !important;
+                width: 33.333% !important;
+                flex-basis: 33.333% !important;
+            }
+        }
+
         .for_WishlistDiv {
-            margin-inline: 100px;
+            margin-inline: 10px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 120px;
+            margin-inline: 15px;
+            padding-inline: 10px;
+        }
+
+        .for_WlListCard {
+            max-width: 180px;
+
+            .for_WlListImage {
+                height: 180px;
+            }
         }
     }
 
     @media (max-width: 768px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 33.333% !important;
+                width: 33.333% !important;
+                flex-basis: 33.333% !important;
+            }
+        }
+
         .for_WishlistDiv {
-            margin-inline: 50px;
+            margin-inline: 10px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 60px;
+            margin-inline: 15px;
+            padding-inline: 10px;
         }
 
         .for_WlListCard {
-            max-width: 240px;
+            max-width: 180px;
+
+            .for_WlListImage {
+                height: 180px;
+            }
         }
     }
 
     @media (max-width: 576px) {
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
+                max-width: 50% !important;
+                width: 50% !important;
+                flex-basis: 50% !important;
+            }
+        }
+
         .for_WishlistDiv {
-            margin-inline: 20px;
+            margin-inline: 10px;
         }
 
         .for_WishlistSubDiv {
-            margin-inline: 30px;
-            padding-inline: 15px;
+            margin-inline: 15px;
+            padding-inline: 10px;
         }
 
         .for_WlListCard {
-            max-width: 200px;
+            max-width: 180px;
 
             .for_WlListImage {
-                height: 200px;
+                height: 180px;
             }
         }
     }
 
     @media (max-width: 400px) {
-        .for_wlListGrid{
-            .css-16cooyn-MuiGrid-root{
+        .for_wlListGrid {
+            .css-16cooyn-MuiGrid-root {
                 max-width: 100% !important;
                 width: 100% !important;
                 flex-basis: 100% !important;
             }
         }
+
         .for_WishlistDiv {
             margin-inline: 10px;
         }

@@ -197,7 +197,7 @@ const DiamondFilter = () => {
   useEffect(() => {
     if (location?.pathname) {
       setCheckedItem(location?.pathname?.split("/")[3]);
-      if (steps?.[0]?.step1 == true) {
+      if (steps?.[0]?.step1 == true && steps?.[0]?.shape !== null) {
         updateSteps(checkedItem)
       }
     }
@@ -548,7 +548,7 @@ const DiamondFilter = () => {
         const existingTypeIndex = prev.findIndex(
           (item) => item.type === sliderType
         );
-        
+
         if (existingTypeIndex !== -1) {
           const updatedLabels = [...prev];
           updatedLabels[existingTypeIndex] = {
@@ -567,7 +567,7 @@ const DiamondFilter = () => {
         const existingTypeIndex = prev.findIndex(
           (item) => item.type === sliderType
         );
-        
+
         if (existingTypeIndex !== -1) {
           const updatedLabels = [...prev];
           updatedLabels[existingTypeIndex] = {
@@ -730,8 +730,8 @@ const DiamondFilter = () => {
       console.log("decodedUrl", decodedUrl)
       const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
         }`;
-        // const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
-        // }`;
+      // const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
+      // }`;
       Navigate(newPath);
     }, 600);
   }, [finalArray]);

@@ -211,15 +211,15 @@ export default function Account() {
                                             {e?.id === 1314 && <CustomTabPanel value={value1} index={i} className="salesReport">
                                                 <SalesReport />
                                             </CustomTabPanel>}
+                                            {e?.id === 18129 && <CustomTabPanel value={value1} index={i}>
+                                                <PendingMemo />
+                                            </CustomTabPanel>}
                                             {e?.id === 17020 && <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport">
                                                 <DesignWiseSalesReport />
                                             </CustomTabPanel>}
                                             {e?.id === 1159 && <CustomTabPanel value={value1} index={i}>
                                                 <AccountLedger />
                                             </CustomTabPanel>}
-                                            {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
-                                                <PendingMemo />
-                                            </CustomTabPanel>} */}
                                         </React.Fragment>
                                     })
                                 }
