@@ -568,10 +568,17 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 // Media queries for responsiveness
+@media (max-width: 1745px) {
+  .for_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 170px;
+    }
+  }
+}
 @media (max-width: 1545px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
-      margin-inline: 200px;
+      margin-inline: 140px;
     }
   }
 }
@@ -579,7 +586,7 @@ $borderColor: rgba(232, 232, 232, 1);
 @media (max-width: 1400px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
-      margin-inline: 150px;
+      margin-inline: 120px;
     }
   }
 }
@@ -587,7 +594,7 @@ $borderColor: rgba(232, 232, 232, 1);
 @media (max-width: 1300px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
-      margin-inline: 100px;
+      margin-inline: 90px;
     }
   }
 }
@@ -595,7 +602,7 @@ $borderColor: rgba(232, 232, 232, 1);
 @media (max-width: 1200px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
-      margin-inline: 60px;
+      margin-inline: 40px;
     }
   }
 }

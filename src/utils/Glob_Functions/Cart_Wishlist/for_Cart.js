@@ -147,14 +147,12 @@ const useCart = () => {
             if (response && response.Data) {
                 let resData = response.Data?.rd
                 setDiamondCartData(resData)
-                setIsLoading(false)
-
             } else {
                 console.warn("No data found in the response");
-                setIsLoading(false)
             }
         } catch (error) {
             console.error("Error fetching diamond data:", error);
+        }finally {
             setIsLoading(false);
         }
     };

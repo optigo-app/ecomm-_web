@@ -17,6 +17,21 @@
     width: 100%;
 }
 
+.dt_deatil_proDeatilList{
+    width: 25%;
+    font-weight: 600;
+    font-size: 20px;
+    color: $primaryfontcolor2;
+    text-decoration: underline;
+}
+
+.dt_deatil_proDeatilList1{
+    width: 25%;
+    color: #808080;
+    font-size: 15px;
+}
+
+
 .prodetailbtn:hover {
     background-color: white;
     color: #7d7f85;
