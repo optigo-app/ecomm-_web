@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
 import { formatAmount, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
@@ -23,6 +23,7 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/quotationQuote";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
     return {
@@ -203,6 +204,8 @@ const QuotationQuote = () => {
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
 
+    const isSmallScreen = useMediaQuery('(max-width:500px)');
+
     const handleRequestSort = (event, property) => {
         if(property?.toLowerCase() === 'srno') return null;
         else{
@@ -212,8 +215,6 @@ const QuotationQuote = () => {
             setOrderBy(property);
         }
     };
-
-
 
     const handleClick = (event, id) => {
         const selectedIndex = selected.indexOf(id);
@@ -435,7 +436,7 @@ const QuotationQuote = () => {
 
     return (
         <Box className='smilingSavedAddressMain salesApiSectionQWebElvee fs_elvee_quote' sx={{ padding: "20px", }}>
-            <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
+            { !isSmallScreen && <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
                     <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
                         All
@@ -525,7 +526,99 @@ const QuotationQuote = () => {
                 <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="QuotePadSec pad_left_q fs_elvee_quote">
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
-            </Box>
+            </Box>}
+            {
+                isSmallScreen && <>
+                <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+                    <AccordionDetails>
+                        <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
+                            All
+                        </Button>
+                        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", minWidth:'100%',  maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                            <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote" style={{minWidth:'100%'}} value={searchVal} onChange={eve => {
+                                setSearchVal(eve?.target?.value);
+                                handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                            }} />
+                            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon /></Button>
+                        </Box>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
+                            <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                                {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>Date: </p> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date From"
+                                            value={fromDate}
+                                            format="DD MM YYYY"
+                                            placeholder="DD MM YYYY"
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setFromDate(null)
+                                                } else {
+                                                
+
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setFromDate(newValue)
+                                                    } else {
+
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date From",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            
+                                            }}
+                                            className='quotationFilterDates fs_elvee_quote'
+                                            ref={fromDateRef}
+                                        />
+                                    </LocalizationProvider>
+                            </Box>
+                            <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                                {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>To: </p> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date To"
+                                            value={toDate}
+                                    
+                                            format="DD MM YYYY"
+                                            placeholder="DD MM YYYY"
+                                    
+                                            className='quotationFilterDates w_q fs_elvee_quote'
+                                            ref={toDateRef}
+                                            inputProps={{ readOnly: true }}
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setToDate(null)
+                                                } else {
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setToDate(newValue)
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date To",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                </LocalizationProvider>
+                            </Box>
+                            <Box sx={{ paddingBottom: '4px', display: "flex", alignItems: "center", width:'100%', minWidth:'15%', maxWidth:'15%'}} className="  fs_elvee_quote">
+                                <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                            </Box>
+                        </Box>
+                    </AccordionDetails>
+                </Accordion>
+                </>
+            }
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
                 <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb fs_elvee_quote">
