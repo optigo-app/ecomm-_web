@@ -9,7 +9,6 @@ export const UseLabelGap = (options = [], range = 100) => {
 
   const spacedLabels = options?.map((option, index) => {
     const value = (index * gapSize).toFixed(2);
-    console.log(options, range, value , "uselabelhooks");
     return {
       label: option?.label,
       value: parseFloat(Math.floor(value)),

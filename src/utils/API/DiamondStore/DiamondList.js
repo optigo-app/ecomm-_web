@@ -93,7 +93,7 @@ export const DiamondListData = async (
   const data = JSON.parse(storedData);
   const customerId = data?.id ?? 0;
   const customerEmail = data?.userid ?? "";
-  const { FrontEnd_RegNo } = storeInit;
+  const { FrontEnd_RegNo } = storeInit ?? '';
   let packageId = data?.PackageId ?? 0;
   
   const [priceFrom, priceTo] = finalArray?.Price || [null, null];
@@ -115,7 +115,7 @@ export const DiamondListData = async (
       PageNo: `${page ?? 1}`,
       PageSize: `${storeInit?.PageSize ?? 50}`,
       OrderBy: "order by carat asc",
-      FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+      FrontEnd_RegNo: `${FrontEnd_RegNo ?? ''}`,
       Customerid: `${customerId ?? 0}`,
       PackageId: packageId,
       Shape: `${shape ?? ''}`,

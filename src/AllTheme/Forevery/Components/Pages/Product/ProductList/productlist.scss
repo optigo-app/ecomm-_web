@@ -602,20 +602,20 @@
                 video {
                   width: 314px;
                   height: 246px;
-                  object-fit: cover;
+                  object-fit: scale-down;
                 }
 
                 img {
                   width: 314px;
                   height: 246px;
-                  object-fit: cover;
+                  object-fit: scale-down;
                 }
               }
 
               .for_productList_listing_card_image {
                 width: 314px;
                 height: 246px;
-                object-fit: cover;
+                object-fit: scale-down;
               }
 
             }

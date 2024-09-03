@@ -32,6 +32,12 @@
                         cursor: pointer;
                     }
 
+                    .disabled {
+                        pointer-events: none;
+                        cursor: not-allowed;
+                        opacity: 0.3;
+                    }
+
                     &.finish_set {
                         opacity: 0.5;
                         cursor: not-allowed;
@@ -483,6 +489,12 @@
                             height: 44px;
                             font-size: $fontSize4;
                             font-weight: 600;
+                        }
+
+                        .disabled {
+                            pointer-events: none;
+                            opacity: 0.3;
+                            cursor: not-allowed;
                         }
                     }
 
