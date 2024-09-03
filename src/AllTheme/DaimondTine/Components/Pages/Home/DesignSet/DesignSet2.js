@@ -253,7 +253,7 @@ const DesignSet2 = () => {
                                   />
                                 </div>
                               </div>
-                              <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}{detail?.designno}</div>
+                              <div className="fs1 centerall">{detail?.TitleLine ? `${detail.TitleLine} -` : ''}</div>
                               <div className="fs2 centerall">
                                 <p>
                                   <span

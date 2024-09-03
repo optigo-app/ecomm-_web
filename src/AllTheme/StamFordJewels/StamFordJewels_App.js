@@ -97,7 +97,6 @@ const StamFordJewels_App = () => {
       '/LoginWithEmail',
       '/register'
     ];
-
     if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
       return navigation("/");
     }

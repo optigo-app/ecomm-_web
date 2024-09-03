@@ -8,7 +8,7 @@ export default function ContactUs() {
 
     const [formData, setFormData] = useState({
         fullName: '',
-        companyName: '',
+        // companyName: '',
         emailAddress: '',
         phoneNumber: '',
         subject: '',
@@ -35,9 +35,9 @@ export default function ContactUs() {
         if (!formData.fullName) {
             errors.fullName = 'Please enter your full name';
         }
-        if (!formData.companyName) {
-            errors.companyName = 'Please enter your company name';
-        }
+        // if (!formData.companyName) {
+        //     errors.companyName = 'Please enter your company name';
+        // }
         if (!formData.emailAddress) {
             errors.emailAddress = 'Please enter your email address';
         } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
@@ -56,7 +56,8 @@ export default function ContactUs() {
         if (Object.keys(errors).length === 0) {
             console.log('Form submitted:', formData);
             const combinedValue = JSON.stringify({
-                companyname: `${formData?.companyName}`, subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
+                // companyname: `${formData?.companyName}`,
+                 subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
             });
             const encodedCombinedValue = btoa(combinedValue);
             console.log(encodedCombinedValue);
@@ -72,7 +73,7 @@ export default function ContactUs() {
             }
             setFormData({
                 fullName: '',
-                companyName: '',
+                // companyName: '',
                 emailAddress: '',
                 phoneNumber: '',
                 subject: '',
@@ -147,7 +148,7 @@ export default function ContactUs() {
                                     />
                                     {errors.fullName && <p className='error'>{errors.fullName}</p>}
                                 </div>
-                                <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
+                                {/* <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>COMPANY NAME</p>
                                     <input
                                         type='text'
@@ -157,7 +158,7 @@ export default function ContactUs() {
                                         onChange={handleChange}
                                     />
                                     {errors.companyName && <p className='error'>{errors.companyName}</p>}
-                                </div>
+                                </div> */}
                                 <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>EMAIL ADDRESS</p>
                                     <input
@@ -193,9 +194,9 @@ export default function ContactUs() {
                                 </div>
                                 <div className='dt_ContactMobile_ShowDiv' style={{ marginTop: '25px' }}>
                                     <p className='Fo-contactBox1Title'>MESSAGE</p>
-                                    <input
+                                    <textarea
                                         type='text'
-                                        className='dt_contactBox1InputBox'
+                                        className='dt_contactBox1InputBox_Mes'
                                         name='message'
                                         value={formData.message}
                                         onChange={handleChange}

@@ -133,8 +133,8 @@ const BestSellerSection1 = () => {
                                         />
                                     </div>
                                     <div className="dt_bestSaller_product_info_Web">
-                                        <h3>{data?.designno}{data?.TitleLine != "" && " - " + data?.TitleLine}</h3>
-                                        {storeInit?.IsGrossWeight == 1 &&
+                                        <h3>{data?.TitleLine != "" && data?.TitleLine}</h3>
+                                        {/* {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='smr_btdetailDT'>GWT: </span>
                                                 <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
@@ -168,7 +168,7 @@ const BestSellerSection1 = () => {
                                                     </>
                                                 }
                                             </>
-                                        }
+                                        } */}
                                         <p>
                                             <span
                                                 className="smr_currencyFont"
@@ -182,7 +182,7 @@ const BestSellerSection1 = () => {
 
                                     <div className="dt_bestSaller_product_info_mobile">
                                         <h3>{data?.designno}</h3>
-                                        {(storeInit?.IsGrossWeight == 1 || Number(data?.Nwt) !== 0) &&
+                                        {/* {(storeInit?.IsGrossWeight == 1 || Number(data?.Nwt) !== 0) &&
                                             <div className='dt_bestS_mobile_singleView_main'>
                                                 <div className='dt_bestS_mobile_singleView'>
                                                     {storeInit?.IsGrossWeight == 1 &&
@@ -227,7 +227,7 @@ const BestSellerSection1 = () => {
                                                         </>
                                                     }
                                                 </div>
-                                            </div>}
+                                            </div>} */}
                                         <p>
                                             <span
                                                 className="smr_currencyFont"
