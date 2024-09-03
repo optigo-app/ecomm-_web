@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, useMediaQuery } from '@mui/material';
 import { checkMonth, formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,6 +17,8 @@ import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
 
 const AccountLedger = () => {
+
+    const isSmallScreen = useMediaQuery('(max-width:500px)');
 
     const [resultArray, setResultArray] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState('');
@@ -499,8 +501,8 @@ const AccountLedger = () => {
 
                 
                 {
-                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <div className='flex_col_Al' style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'8px'}}>
-                    {
+                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : 
+                    <div className='flex_col_Al' style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'8px'}}>
                         <div className='fs_al2' style={{display:'flex', justifyContent:'flex-start', alignItems:'center', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px'}}>
                             <div className='mb_acc'>
                                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
@@ -579,16 +581,13 @@ const AccountLedger = () => {
                                 </LocalizationProvider>
                             </Box>
                         </Box>
-                        </Box>
+                                </Box>
                             </div>
                             <div>
              
                                 <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
         
-                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
-                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }}
-                                    onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
-                                    >
+                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
                                     <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} /></Button>
                                 </Box>
                             </div>
@@ -620,8 +619,7 @@ const AccountLedger = () => {
     
                         <div className='mx_1_acc ms_4_acc mb_2_acc'>
                         </div>
-                    </div>
-                    }
+                        </div>
                     </div>
                 }
                 
