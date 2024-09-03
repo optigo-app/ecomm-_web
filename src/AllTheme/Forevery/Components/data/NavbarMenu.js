@@ -472,6 +472,47 @@ const LooseDiamond = [
     name: "Round",
   },
 ];
+
+const ringscollection = [
+  {
+    key: "solitaire",
+    image: `${storImagePath()}/Forevery/ring-col/1.webp`,
+  },
+
+  {
+    key: "halo",
+    image: `${storImagePath()}/Forevery/ring-col/4.webp`,
+  },
+  {
+    key: "vintage",
+    image: `${storImagePath()}/Forevery/ring-col/7.webp`,
+  },
+  {
+    key: "side stone",
+    image: `${storImagePath()}/Forevery/ring-col/10.webp`,
+  },
+  {
+    key: "designer",
+    image: `${storImagePath()}/Forevery/ring-col/13.webp`,
+  },
+];
+
+const metalcollection = [
+  {
+    key: "WHITE GOLD",
+    image: `${storImagePath()}/Forevery/metalcolor/2.png`,
+  },
+
+  {
+    key: "ROSE GOLD",
+    image: `${storImagePath()}/Forevery/metalcolor/3.jpg`,
+  },
+  {
+    key: "YELLOW GOLD",
+    image: `${storImagePath()}/Forevery/metalcolor/4.jpg`,
+  },
+];
+
 export {
   SideItems,
   diamondShapes,
@@ -483,4 +524,6 @@ export {
   StepImages,
   DiamondProductList,
   LooseDiamond,
+  ringscollection,
+  metalcollection
 };
