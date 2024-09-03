@@ -796,49 +796,54 @@ const ProductList = () => {
   }, [productListData])
 
 
-  const handelCustomCombo = (obj) => {
-    let output = FilterValueWithCheckedOnly()
-    if (location?.state?.SearchVal === undefined) {
-      // setIsOnlyProdLoading(true)
-      setIsProdLoading(true)
-      ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setTimeout(() => {
-            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-            setIsProdLoading(false)
-          }, 100);
-          window.scroll({
-            top: 0,
-            behavior: "smooth",
-          })
-        })
-    }
-  }
+  // const handelCustomCombo = (obj) => {
+  //   let output = FilterValueWithCheckedOnly()
+  //   if (location?.state?.SearchVal === undefined) {
+  //     setIsProdLoading(true)
+  //     ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
+  //       .then((res) => {
+  //         if (res) {
+  //           setProductListData(res?.pdList);
+  //           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //         }
+  //         return res;
+  //       })
+  //       .catch((err) => console.log("err", err))
+  //       .finally(() => {
+  //         setTimeout(() => {
+  //           sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+  //           setIsProdLoading(false)
+  //         }, 100);
+  //         window.scroll({
+  //           top: 0,
+  //           behavior: "smooth",
+  //         })
+  //       })
+  //   }
+  // }
 
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+  //   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  //   sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-
-    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
-      if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
-        handelCustomCombo(obj)
-      }
-    }
-
-  }, [selectedMetalId, selectedDiaId, selectedCsId])
+  //   if (
+  //     loginInfo?.MetalId !== selectedMetalId ||
+  //     loginInfo?.cmboDiaQCid !== selectedDiaId ||
+  //     loginInfo?.cmboCSQCid !== selectedCsId
+  //   ) {
+  //     if (
+  //       selectedMetalId !== "" ||
+  //       selectedDiaId !== "" ||
+  //       selectedCsId !== ""
+  //     ) {
+  //       handelCustomCombo(obj);
+  //     }
+  //   }
+  // }, [selectedMetalId, selectedDiaId, selectedCsId, storeInit]);
 
   const compressAndEncode = (inputString) => {
     try {

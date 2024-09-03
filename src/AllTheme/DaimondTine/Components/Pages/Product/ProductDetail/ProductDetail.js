@@ -80,7 +80,11 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
   const imgRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1281,7 +1285,7 @@ const ProductDetail = () => {
               </div>
               <div className="srprodetail2">
                 <div className="srprodetail2-cont">
-                  <p className="smilingProdutDetltTitle">{singleProd?.TitleLine ? `${singleProd?.TitleLine ?? ""} (${singleProd?.designno ?? ""})` : singleProd?.designno}</p>
+                  <p className="smilingProdutDetltTitle">{singleProd?.TitleLine ? `${singleProd?.TitleLine ?? ""}` : ''}</p>
 
                   {storeInit?.IsPriceShow === 1 &&
                     (isPriceloading ? (
@@ -1296,7 +1300,7 @@ const ProductDetail = () => {
                           }}
                         >
                           <span className="mainpriceDeatilPage">
-                            <text>From:</text>&nbsp;
+                            {/* <text>From:</text>&nbsp; */}
                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                             &nbsp;
                             {formatter.format(
@@ -1308,10 +1312,37 @@ const ProductDetail = () => {
                       </div>
                     ))}
 
-                  <p style={{ color: "#7d7f85", fontSize: "14px" }}>
-                    {singleProd?.description}
-                  </p>
-
+                  <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <p
+                      style={{
+                        color: "#7d7f85",
+                        fontSize: "14px",
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        // whiteSpace: 'nowrap',
+                        display: isExpanded ? 'block' : '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: isExpanded ? 'none' : 3,
+                        height: isExpanded ? 'auto' : '4.5em', 
+                        margin: '0px'
+                      }}
+                    >
+                      {singleProd?.description}
+                    </p>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleExpand();
+                      }}
+                      style={{
+                        color: '#007bff',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {isExpanded ? 'Show less' : 'Read more'}
+                    </a>
+                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -1730,8 +1761,8 @@ const ProductDetail = () => {
                       </AccordionDetails>
                     </Accordion>
                   )}
-
-                  {storeInit?.IsPriceShow === 1 &&
+                  <p className="smilingProdutDetltTitle">{singleProd?.designno}</p>
+                  {/* {storeInit?.IsPriceShow === 1 &&
                     (isPriceloading ? (
                       <Skeleton variant="rounded" width={240} height={30} sx={{ marginTop: '5px' }} />
                     ) : (
@@ -1754,7 +1785,7 @@ const ProductDetail = () => {
                           </span>
                         </p>
                       </div>
-                    ))}
+                    ))} */}
 
                   {!prodLoading ? (<div>
                     <div
@@ -1834,10 +1865,7 @@ const ProductDetail = () => {
                 <ul style={{ margin: "0px 0px 3px 0px" }}>
                   <li
                     style={{ fontWeight: 600 }}
-                  >{`Diamond Detail(${diaList?.reduce(
-                    (accumulator, data) => accumulator + data.M,
-                    0
-                  )}  ${diaList
+                  >{`Diamond Detail(${diaList
                     ?.reduce(
                       (accumulator, data) => accumulator + data?.N,
                       0
@@ -1845,18 +1873,18 @@ const ProductDetail = () => {
                     .toFixed(3)}ct)`}</li>
                 </ul>
                 <ul className="smr_mt_detail_title_ul">
-                  <li className="smr_proDeatilList">Shape</li>
-                  <li className="smr_proDeatilList">Quality</li>
-                  <li className="smr_proDeatilList">Color</li>
-                  <li className="smr_proDeatilList">Wt</li>
+                  <li className="dt_deatil_proDeatilList">Shape</li>
+                  <li className="dt_deatil_proDeatilList">Quality</li>
+                  <li className="dt_deatil_proDeatilList">Color</li>
+                  <li className="dt_deatil_proDeatilList">Pcs / Wt</li>
                 </ul>
                 {diaList?.map((data) => (
                   <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList1">{data?.F}</li>
-                    <li className="smr_proDeatilList1">{data?.H}</li>
-                    <li className="smr_proDeatilList1">{data?.J}</li>
-                    <li className="smr_proDeatilList1">
-                      {(data?.N)?.toFixed(3)}
+                    <li className="dt_deatil_proDeatilList1">{data?.F}</li>
+                    <li className="dt_deatil_proDeatilList1">{data?.H}</li>
+                    <li className="dt_deatil_proDeatilList1">{data?.J}</li>
+                    <li className="dt_deatil_proDeatilList1">
+                      {data?.M} / {(data?.N)?.toFixed(3)}
                     </li>
                   </ul>
                 ))}
@@ -1868,10 +1896,7 @@ const ProductDetail = () => {
                 <ul style={{ margin: "10px 0px 3px 0px" }}>
                   <li
                     style={{ fontWeight: 600 }}
-                  >{`ColorStone Detail(${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
-                    (accumulator, data) => accumulator + data.M,
-                    0
-                  )}  ${csList?.filter((ele) => ele?.D !== "MISC")
+                  >{`ColorStone Detail(${csList?.filter((ele) => ele?.D !== "MISC")
                     ?.reduce(
                       (accumulator, data) => accumulator + data?.N,
                       0
@@ -1879,17 +1904,17 @@ const ProductDetail = () => {
                     .toFixed(3)}ct)`}</li>
                 </ul>
                 <ul className="smr_mt_detail_title_ul">
-                  <li className="smr_proDeatilList">Shape</li>
-                  <li className="smr_proDeatilList">Quality</li>
-                  <li className="smr_proDeatilList">Color</li>
-                  <li className="smr_proDeatilList">Wt</li>
+                  <li className="dt_deatil_proDeatilList">Shape</li>
+                  <li className="dt_deatil_proDeatilList">Quality</li>
+                  <li className="dt_deatil_proDeatilList">Color</li>
+                  <li className="dt_deatil_proDeatilList">Wt</li>
                 </ul>
                 {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
                   <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList1">{data?.F}</li>
-                    <li className="smr_proDeatilList1">{data?.H}</li>
-                    <li className="smr_proDeatilList1">{data?.J}</li>
-                    <li className="smr_proDeatilList1">
+                    <li className="dt_deatil_proDeatilList1">{data?.F}</li>
+                    <li className="dt_deatil_proDeatilList1">{data?.H}</li>
+                    <li className="dt_deatil_proDeatilList1">{data?.J}</li>
+                    <li className="dt_deatil_proDeatilList1">
                       {(data?.N)?.toFixed(3)}
                     </li>
                   </ul>
@@ -1902,10 +1927,7 @@ const ProductDetail = () => {
                 <ul style={{ margin: "10px 0px 3px 0px" }}>
                   <li
                     style={{ fontWeight: 600 }}
-                  >{`MISC Detail(${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
-                    (accumulator, data) => accumulator + data.M,
-                    0
-                  )}  ${csList?.filter((ele) => ele?.D === "MISC")
+                  >{`MISC Detail(${csList?.filter((ele) => ele?.D === "MISC")
                     ?.reduce(
                       (accumulator, data) => accumulator + data?.N,
                       0
@@ -1913,17 +1935,17 @@ const ProductDetail = () => {
                     .toFixed(3)}ct)`}</li>
                 </ul>
                 <ul className="smr_mt_detail_title_ul">
-                  <li className="smr_proDeatilList">Shape</li>
-                  <li className="smr_proDeatilList">Quality</li>
-                  <li className="smr_proDeatilList">Color</li>
-                  <li className="smr_proDeatilList">Wt</li>
+                  <li className="dt_deatil_proDeatilList">Shape</li>
+                  <li className="dt_deatil_proDeatilList">Quality</li>
+                  <li className="dt_deatil_proDeatilList">Color</li>
+                  <li className="dt_deatil_proDeatilList">Wt</li>
                 </ul>
                 {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
                   <ul className="smr_mt_detail_title_ul">
-                    <li className="smr_proDeatilList1">{data?.F}</li>
-                    <li className="smr_proDeatilList1">{data?.H}</li>
-                    <li className="smr_proDeatilList1">{data?.J}</li>
-                    <li className="smr_proDeatilList1">
+                    <li className="dt_deatil_proDeatilList1">{data?.F}</li>
+                    <li className="dt_deatil_proDeatilList1">{data?.H}</li>
+                    <li className="dt_deatil_proDeatilList1">{data?.J}</li>
+                    <li className="dt_deatil_proDeatilList1">
                       {(data?.N)?.toFixed(3)}
                     </li>
                   </ul>
