@@ -158,7 +158,7 @@
 
                 .for_wlListGrid {
                     display: flex !important;
-                    justify-content: center !important;
+                    justify-content: start !important;
                     align-items: center !important;
                     opacity: 1;
                     transition: opacity .5s ease;
@@ -331,6 +331,16 @@
     }
 
     /* Media Queries for Responsive Design */
+    @media (max-width: 1450px) {
+        .for_WishlistDiv {
+            margin-inline: 80px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 100px;
+        }
+    }
+
     @media (max-width: 1400px) {
         .for_WishlistDiv {
             margin-inline: 80px;
@@ -370,10 +380,12 @@
 
     @media (max-width: 768px) {
         .for_wlListGrid {
+            padding-left: 10px !important;
+            padding-top: 10px !important;
             .css-16cooyn-MuiGrid-root {
-                max-width: 33.333% !important;
-                width: 33.333% !important;
-                flex-basis: 33.333% !important;
+                max-width: 33.33333333333333% !important;
+                width: 33.33333333333333% !important;
+                flex-basis: 33.33333333333333% !important;
             }
         }
 
@@ -383,7 +395,7 @@
 
         .for_WishlistSubDiv {
             margin-inline: 15px;
-            padding-inline: 10px;
+            padding: 0px 10px 0px 6px;
         }
 
         .for_WlListCard {
@@ -397,6 +409,8 @@
 
     @media (max-width: 576px) {
         .for_wlListGrid {
+            padding-left: 10px !important;
+            padding-top: 10px !important;
             .css-16cooyn-MuiGrid-root {
                 max-width: 50% !important;
                 width: 50% !important;
@@ -410,19 +424,20 @@
 
         .for_WishlistSubDiv {
             margin-inline: 15px;
-            padding-inline: 10px;
+            padding: 0px 10px 0px 6px;
         }
 
         .for_WlListCard {
             max-width: 180px;
 
             .for_WlListImage {
-                height: 180px;
+                height: 100% !important;
+                object-fit: contain;
             }
         }
     }
 
-    @media (max-width: 400px) {
+    @media (max-width: 415px) {
         .for_wlListGrid {
             .css-16cooyn-MuiGrid-root {
                 max-width: 100% !important;
