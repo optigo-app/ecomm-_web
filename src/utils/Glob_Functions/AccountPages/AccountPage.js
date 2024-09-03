@@ -7,7 +7,7 @@ export const accountDetailPages = () => {
         { id: 1314, tabLabel: "Sales Report", tabComp: "SalesReport", compPath: "../sales/salesReport/SalesReport" },
         { id: 17020, tabLabel: "Design Wise Sales Report", tabComp: "DesignWiseSalesReport", compPath: "../sales/DesignWiseSalesReport/DesignWiseSalesReport" },
         { id: 1159, tabLabel: "Account Ledger", tabComp: "AccountLedger", compPath: "./accountLedger/AccountLedger" },
-        // { id: 1314, tabLabel: "Pending Memo", tabComp: "PendingMemo", compPath: "./PendingMemo/PendingMemo" }, //demo id
+        { id: 18129, tabLabel: "Memo", tabComp: "PendingMemo", compPath: "./PendingMemo/PendingMemo" }, //demo id
     ];
 
     let getValArr = [];

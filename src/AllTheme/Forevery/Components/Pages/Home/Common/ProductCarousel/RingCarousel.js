@@ -15,14 +15,15 @@ import Cookies from "js-cookie";
 import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
+import notfound from "../../../../Assets/image-not-found.jpg";
 
-const ProductCarousel = ({showmore = false}) => {
+const RingCarousel = ({ showmore = false }) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(for_loginState);
-  const [TrendingProductlist, setTrendingProductlist] = useState([]);
   const [imageUrl, setImageUrl] = useState();
+  const [ringsCollection, SetringsCollection] = useState([]);
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -42,10 +43,14 @@ const ProductCarousel = ({showmore = false}) => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
-          setTrendingProductlist(response?.Data?.rd);
+          const data = response?.Data?.rd?.find(
+            (val, i) => val?.AlbumName === "Ring"
+          );
+          const parsedata = JSON.parse(data?.Designdetail);
+          SetringsCollection(parsedata);
         }
       })
       .catch((err) => console.log(err));
@@ -85,7 +90,7 @@ const ProductCarousel = ({showmore = false}) => {
     <div className="for_ProductCarousel">
       <div className="heading">
         <span>Our Best Selling</span>
-        <h2>Top Trending Collections</h2>
+        <h2>Diamond Engagement Ring</h2>
       </div>
       <div className="for_carousel">
         <Swiper
@@ -140,7 +145,7 @@ const ProductCarousel = ({showmore = false}) => {
           modules={[Pagination, Autoplay, FreeMode]}
           className="mySwiper"
         >
-          {TrendingProductlist?.map((data, i) => {
+          {ringsCollection?.map((data, i) => {
             return (
               <SwiperSlide>
                 <ProductCard
@@ -178,32 +183,34 @@ const ProductCarousel = ({showmore = false}) => {
           })}
         </Swiper>
       </div>
-    { showmore &&  <div
-        className="show_more_btn"
-        style={{
-          width: "100%",
-          margin: "0  auto",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "transparent",
-          padding : "30px 0"
-        }}
-      >
-        <button
-        style={{
-          padding  :"6px 50px"
-        }}
-          className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+      {showmore && (
+        <div
+          className="show_more_btn"
+          style={{
+            width: "100%",
+            margin: "0  auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
+            padding: "30px 0",
+          }}
         >
-          Show More <FaChevronDown/>
-        </button>
-      </div>}
+          <button
+            style={{
+              padding: "6px 50px",
+            }}
+            className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+          >
+            Show More <FaChevronDown />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ProductCarousel;
+export default RingCarousel;
 
 const ProductCard = ({
   SourceImg,
@@ -221,6 +228,10 @@ const ProductCard = ({
           alt=""
           onClick={onclick}
           style={{ cursor: "pointer" }}
+          loading="lazy"
+          onError={(e) => {
+            e.target.src = notfound;
+          }}
         />
         {/* <div className="addtocart_overlay">
           <HiOutlineShoppingBag size={22} /> <span>Add To Cart</span>

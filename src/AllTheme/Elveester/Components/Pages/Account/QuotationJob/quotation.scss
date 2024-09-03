@@ -1,4 +1,4 @@
-.quotationFilterDates>div>input {
+.quotationFilterDatesElvee>div>input {
     padding: 9.5px 10px;
     max-width: 96px;
     min-width: 96px;
@@ -9,7 +9,7 @@
     max-width: 140px;
 }
 
-.quotationFilterDates label {
+.quotationFilterDatesElvee label {
     top: -6px;
 }
 
@@ -290,7 +290,29 @@
     .QuoteJobtable>div>table>thead>tr {
         border-radius: 0 !important;
     }
+    .smling-AccountTabMain {
+        margin-inline: 1% !important;
+    }
 
 
+    .quotationFilterDatesElvee > .MuiFormControl-root{
+        width: 100% !important;
+    }
+    .quotationFilterDatesElvee > .MuiInputBase-root{
+        width: 100% !important;
+    }
+    .quotationFilterDatesElvee>div>input {
+        padding: 9.5px 10px;
+        // max-width: 96px;
+        // min-width: 96px;
+        width: 100% !important;
+    }
+    
 
+}
+
+@media (max-width:320px), (max-width:400px){
+    .smling-AccountTabMain {
+        margin-inline: 1% !important;
+    }
 }

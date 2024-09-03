@@ -209,6 +209,19 @@
     background-color: white;
 }
 
+.proCat_AddToCart_btn_afterCart{
+    border:1px solid #7d7f85;
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 49px;
+    cursor: pointer;
+    color:white;
+    background-color: #7d7f85;
+}
+
 .smr_addtocart_btn_txt{
     font-family: $primaryFontFamilyMedium;
     font-size: 15px;

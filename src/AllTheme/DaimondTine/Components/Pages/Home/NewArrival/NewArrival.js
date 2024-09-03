@@ -87,9 +87,9 @@ const NewArrival = () => {
                                     />
                                 </div>
                                 <div className='dt_newArrivalMainDeatil'>
-                                    <h3 className='dt_newArrival_DesignNumber_web'>{product?.designno}{product?.TitleLine != "" && " - " + product?.TitleLine}</h3>
+                                    <h3 className='dt_newArrival_DesignNumber_web'>{product?.TitleLine != "" && product?.TitleLine}</h3>
                                     <h3 className='dt_newArrival_DesignNumber_Mobile'>{product?.designno}</h3>
-                                    <div className='dt_newArrivalSetData'>
+                                    {/* <div className='dt_newArrivalSetData'>
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='smr_btdetailDT'>GWT: </span>
@@ -125,7 +125,7 @@ const NewArrival = () => {
                                                 }
                                             </>
                                         }
-                                    </div>
+                                    </div> */}
                                     <p className='dt_newArrivalPdPrice'>
                                         <span
                                             className="smr_currencyFont"

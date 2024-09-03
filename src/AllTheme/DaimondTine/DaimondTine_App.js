@@ -32,6 +32,8 @@ import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 import WhtasIcone from './Components/Pages/Home/ChatMenu/ChatMenu'
 import MaterialCore from './Components/Pages/StaticPages/MaterialCore/MaterialCore'
 import ShipingReturn from './Components/Pages/StaticPages/ShipingReturn/ShipingReturn'
+import Exchange from './Components/Pages/StaticPages/Exchange/Exchange'
+import Location from './Components/Pages/StaticPages/Location/Location'
 
 
 const DaimondTine_App = () => {
@@ -129,6 +131,8 @@ const DaimondTine_App = () => {
         <Route path="/term&condition" element={<TermsAndConditions />} />
         <Route path="/ForgotPass" element={<ForgotPass />} />
         <Route path="/ShipingReturn" element={<ShipingReturn />} />
+        <Route path="/Exchange" element={<Exchange />} />
+        <Route path="/Location" element={<Location />} />
         <Route path="/MaterialCore" element={<MaterialCore />} />
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
