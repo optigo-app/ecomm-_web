@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl, Slide } from '@mui/material';
 import './forMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import diaImage from "../../../Assets/round.png"
 
 const MobileCartDetails = ({
   ispriceloding,
@@ -81,20 +82,50 @@ const MobileCartDetails = ({
     setDiaData(diamondValue)
   }, [selectedItem])
 
+  const [thumbimage, setThumbImage] = useState(imageSrc);
+  const [thumbimage1, setThumbImage1] = useState(diaImage);
+
+  const handleChangeImage = () => {
+    setThumbImage(prev => prev == imageSrc ? imageSrc : diaImage);
+    setThumbImage1(prev => prev == imageSrc ? diaImage : imageSrc);
+  };
+
+  console.log("thumbimage", thumbimage);
 
   const keyToCheck = "stockno"
 
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
   return (
-    <Modal open={open} onClose={handleClose} className="forMo_cart-modal" sx={{ height: '100%', overflow: 'auto', zIndex: '99999999' }}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className="forMo_cart-modal"
+      sx={{ height: '100%', overflow: 'auto', zIndex: '99999999' }}
+      BackdropProps={{
+        timeout: 1000,
+      }}
+    >
       <div className="forMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="forMo_Cart-imageDiv">
           <img
-            src={imageSrc}
+            src={!diadata && selectedItem?.Sol_StockNo != "" ? diaImage : imageSrc}
             alt="Cluster Diamond"
             className='forMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             style={{ border: 'none' }}
           />
+          {/* {diadata && selectedItem?.Sol_StockNo != "" &&
+          <img
+            src={thumbimage1}
+            alt="Cluster Diamond"
+            className='forMo_cartImage'
+            onClick={handleChangeImage}
+            style={{ border: 'none', width:'100px' }}
+          />
+          } */}
         </div>
         {(!selectedItem?.hasOwnProperty(keyToCheck)) ? (
           <>
@@ -320,9 +351,10 @@ const MobileCartDetails = ({
                 }
               </div>
             </div>
+            <div style={{ color: '#7d7f85', position: 'absolute', top: 0, right: 0 }} onClick={handleClose}>
+              <CloseIcon />
+            </div>
           </div>
-
-
         }
 
       </div>
