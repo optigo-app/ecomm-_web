@@ -1,6 +1,10 @@
 @import '../../scss/variable';
 
 $generalColor : lightgray;
+*{
+    margin: 0;
+    padding: 0;
+}
 
 .Submain {
 }
@@ -11,7 +15,6 @@ $generalColor : lightgray;
 
 .for_home_index_Submain {
     background-color: white;
-    // margin-top: 115px;
 }
 
 .authFlowBakcColor {

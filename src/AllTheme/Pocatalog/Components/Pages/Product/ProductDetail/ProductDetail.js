@@ -1757,7 +1757,7 @@ const ProductDetail = () => {
                                 className={
                                   !addToCartFlag
                                     ? "proCat_AddToCart_btn"
-                                    : "smr_AddToCart_btn_afterCart"
+                                    : "proCat_AddToCart_btn_afterCart"
                                 }
                                 onClick={() => handleCart(!addToCartFlag)}
                               >

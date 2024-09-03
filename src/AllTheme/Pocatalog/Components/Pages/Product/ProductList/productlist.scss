@@ -64,6 +64,13 @@
   padding: 0px 0px 0px 17%;
 }
 
+.proCat_mpty_sorting_div_NoData {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0px 10px 0px 0px;
+}
+
 .smr_main_sorting_div_proCat {
   display: flex;
   justify-content: flex-end;
@@ -88,6 +95,21 @@
   align-items: baseline;
   border-bottom: 1px solid $primaryBorderColor;
   width: auto;
+  //   margin-right: 65px;
+  //   margin-top: 10px;
+}
+
+.smr_sorting_custom_NoData {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.NoDatacontainer {
+  display: flex;
+  align-items: baseline;
+  border-bottom: 1px solid $primaryBorderColor;
+  width: fit-content;
   //   margin-right: 65px;
   //   margin-top: 10px;
 }
@@ -367,7 +389,7 @@
   font-family: $primaryFontFamily;
   // font-size: 12px !important;
 
- 
+
 }
 
 .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
@@ -463,6 +485,12 @@
   .smr_main_sorting_div_proCat {
     display: flex !important;
     justify-content: space-between !important;
+  }
+
+  .smr_sorting_custom_NoData {
+    display: flex;
+    width: fit-content !important;
+    justify-content: space-between;
   }
 }
 

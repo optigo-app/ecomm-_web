@@ -1961,6 +1961,110 @@
       }
     }
   }
+  @media screen and (max-width : 590px) {
+    .info_grid_for {
+      width: 96%;
+      margin: 0 auto;
+      height: auto;
+      .heading {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 65px;
+        padding-bottom: 25px;
+        flex-direction: column;
+        .para-for-i-q {
+          width: 100%;
+          padding: 12px 0 !important ;
+          text-align: center;
+          font-size: 12px !important;
+        }
+        span {
+          font-size: 19px;
+          font-weight: 700;
+          text-transform: uppercase;
+          text-align: center;
+        }
+        small {
+          width: 25%;
+          height: 1px;
+          margin-top: 15px;
+          background-color: black;
+          text-align: center;
+        }
+      }
+
+      .p {
+        width: 60%;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 35px;
+        margin-bottom: 65px;
+      }
+      .diamond-attributes {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 0;
+        margin-top: 1rem;
+      }
+
+      .attribute {
+        padding: 0;
+        h2 {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          gap: 5px;
+          .block-no-grid {
+            width: 32px;
+            background-color: #96061c;
+            height: 20px;
+            font-size: 11px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+
+      .attribute h2 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .attribute p {
+        font-size: 12px;
+        line-height: 1.6;
+        font-weight: 400;
+        @include truncate-text(5);
+      }
+      .shop_h_l {
+        width: 100%;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+          width: 100%;
+          font-size: 14px;
+          font-weight: 400;
+          border-radius: 4px;
+          padding: 10px 0 !important;
+          background-color: black;  
+          color: white;
+          outline: none;
+          text-transform: uppercase;
+          border: none;
+        }
+      }
+    }
+  }
   @media screen and (max-width: 376px) {
     .hero-banner {
       background-position: 100%;
@@ -2289,16 +2393,17 @@
       }
       .shop_h_l {
         width: 100%;
-        padding: 35px;
+        padding: 0 !important;
         display: flex;
         align-items: center;
         justify-content: center;
         button {
+          width: 100%;
           font-size: 14px;
           font-weight: 400;
           border-radius: 4px;
-          padding: 10px 50px;
-          background-color: black;
+          padding: 10px 0 !important;
+          background-color: black;  
           color: white;
           outline: none;
           text-transform: uppercase;

@@ -1361,7 +1361,7 @@ const ProductDetail = () => {
                             <Slider
                               {...settings}
                               ref={sliderRef}
-                              lazyLoad="progressive"
+                              lazyLoad="anticipated"
                             >
                               {PdImageArr?.map((val, i) => {
                                 return (
@@ -1372,15 +1372,14 @@ const ProductDetail = () => {
                                           <img
                                             loading="lazy"
                                             src={
-                                              val?.src ||
-                                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                              val?.src 
                                             }
                                             alt={""}
                                             onLoad={() => setIsImageLoad(false)}
                                             onError={(e) => {
                                               e.target.onerror = null;
-                                              e.target.src =
-                                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                                e.target.src = 
+                                                imageNotFound;
                                             }}
                                           />
                                         </>
@@ -1414,7 +1413,7 @@ const ProductDetail = () => {
                         ) :
                           <div className="for_main_image">
                             <img
-                              src={imageNotFound}
+                                                         src={imageNotFound}
                               alt={""}
                               style={{
                                 width: "100%",

@@ -46,87 +46,87 @@
 
 }
 
-@media (min-width: 320px) and (max-width: 576px) {
+// @media (min-width: 320px) and (max-width: 576px) {
 
-    .salesPartTable {
-        display: grid;
-        flex-direction: column;
-        min-width: max-content;
-        width: 100%;
-    }
+//     .salesPartTable {
+//         display: grid;
+//         flex-direction: column;
+//         min-width: max-content;
+//         width: 100%;
+//     }
 
-    div[role="tabpanel"]>div.MuiBox-root:has(.salesApiSection) {
-        padding-left: 0;
-        padding-right: 0;
-    }
+//     div[role="tabpanel"]>div.MuiBox-root:has(.salesApiSection) {
+//         padding-left: 0;
+//         padding-right: 0;
+//     }
 
-    .salesApiTable table thead tr {
-        // display: flex;
-        // flex-direction: column;
-        overflow: auto;
-    }
+//     .salesApiTable table thead tr {
+//         // display: flex;
+//         // flex-direction: column;
+//         overflow: auto;
+//     }
 
-    .salesApiTable>div>table {
-        min-width: 100%;
-        // display: flex;
-        // flex-direction: column;
-        position: static !important;
-        border: unset;
-    }
+//     .salesApiTable>div>table {
+//         min-width: 100%;
+//         // display: flex;
+//         // flex-direction: column;
+//         position: static !important;
+//         border: unset;
+//     }
 
-    .salesApiTable>div>table>thead>tr>th,
-    .salesApiTable>div>table>tbody>tr>td {
-        text-align: start !important;
-        padding: 5px 10px !important;
-    }
+//     .salesApiTable>div>table>thead>tr>th,
+//     .salesApiTable>div>table>tbody>tr>td {
+//         text-align: start !important;
+//         padding: 5px 10px !important;
+//     }
 
-    .salesApiTable>div>table>thead>tr>th svg {
-        position: absolute;
-        right: -30px;
-    }
+//     .salesApiTable>div>table>thead>tr>th svg {
+//         position: absolute;
+//         right: -30px;
+//     }
 
-    .salesApiTable>div>table>tbody>tr {
-        width: 100%;
-        // display: flex;
-        // flex-direction: column;
-    }
+//     .salesApiTable>div>table>tbody>tr {
+//         width: 100%;
+//         // display: flex;
+//         // flex-direction: column;
+//     }
 
-    .salesApiTable>div>table>tbody>tr>td:last-child {
-        // border-bottom: 1px solid #9b978f !important;
-    }
+//     .salesApiTable>div>table>tbody>tr>td:last-child {
+//         // border-bottom: 1px solid #9b978f !important;
+//     }
 
-    .salesApiTable>div>table>tbody>tr>td {
-        min-height: 31.02px;
-    }
+//     .salesApiTable>div>table>tbody>tr>td {
+//         min-height: 31.02px;
+//     }
 
-    .salesApiTable>div>table>tbody>tr:first-child>td:first-child {
-        border-top: 1px solid #9b978f !important;
-    }
+//     .salesApiTable>div>table>tbody>tr:first-child>td:first-child {
+//         border-top: 1px solid #9b978f !important;
+//     }
 
-    .salesApiTable>div>table>thead>tr>th:last-child,
-    .salesApiTable>div>table>thead>tr>th:first-child,
-    .salesApiTable>div>table>thead>tr {
-        border-radius: 0 !important;
-    }
+//     .salesApiTable>div>table>thead>tr>th:last-child,
+//     .salesApiTable>div>table>thead>tr>th:first-child,
+//     .salesApiTable>div>table>thead>tr {
+//         border-radius: 0 !important;
+//     }
 
-    .quotationJobSec {
-        max-height: 450px !important;
-    }
-    .sal_flexcol{
-        display: flex !important;
-        justify-content: center;
-        flex-direction: column;
-        align-items: flex-start !important;
-        width: 100%;
-    }
-    .date_from_sal{
-        width: 80%;
-        padding-right: 0px !important;
-    }
-    .w_20_sale{
-        width: 20%;
-    }
-    .w_60_sale{
-        width: 60%;
-    }
-}
+//     .quotationJobSec {
+//         max-height: 450px !important;
+//     }
+//     .sal_flexcol{
+//         display: flex !important;
+//         justify-content: center;
+//         flex-direction: column;
+//         align-items: flex-start !important;
+//         width: 100%;
+//     }
+//     .date_from_sal{
+//         width: 80%;
+//         padding-right: 0px !important;
+//     }
+//     .w_20_sale{
+//         width: 20%;
+//     }
+//     .w_60_sale{
+//         width: 60%;
+//     }
+// }

@@ -84,9 +84,8 @@ export default function Footer() {
             <div className='daimondFooterMain'>
                 <div className='footerNewslater' style={{ paddingTop: '30px', paddingInline: '20%', marginTop: '50px' }}>
                     <div className='subScriMain'>
-                        <p className='subScriMainTitle'>GET 5% OFF YOUR FIRST ORDER</p>
-                        <p className='subScriMainSubTitle'>and stay in the loop with us</p> b
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>
+                        <p className='subScriMainTitle'>STAY CONNECTED FOR LATEST COLLECTIONS OFFERS</p>
+                        <div style={{ width: '100%', marginTop: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>
                             <input type='text' className='footerInputBox' placeholder='Your email here' value={email} onChange={handleEmailChange} required />
                             <button className='FooterSubBtn' onClick={handleSubmitNewlater}>SUBSCRIBE</button>
                         </div>
@@ -111,7 +110,8 @@ export default function Footer() {
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
                             <p className='FoooterTextLink' onClick={() => { navigation('/ShipingReturn'); window.scroll(0, 0); }}>Shipping & Returns</p>
-                            <p className='FoooterTextLink' onClick={() => { navigation('/ShipingReturn'); window.scroll(0, 0); }}>Exchange & Buyback</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/Exchange'); window.scroll(0, 0); }}>Exchange & Buyback</p>
+                            <p className='FoooterTextLink' onClick={() => { navigation('/Location'); window.scroll(0, 0); }}>Location</p>
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             {/* <p className='FoooterTextLink'>Material & Care</p> */}
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}

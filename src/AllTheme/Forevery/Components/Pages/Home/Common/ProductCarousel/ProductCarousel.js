@@ -13,8 +13,10 @@ import { for_loginState } from "../../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
 import Cookies from "js-cookie";
 import Pako from "pako";
+import btnstyle from "../../../../scss/Button.module.scss";
+import { FaChevronDown } from "react-icons/fa";
 
-const ProductCarousel = () => {
+const ProductCarousel = ({showmore = false}) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -94,36 +96,33 @@ const ProductCarousel = () => {
           breakpoints={{
             320: {
               slidesPerView: 1,
-              freeMode : {
-                enabled : false
-              }
+              freeMode: {
+                enabled: false,
+              },
             },
             360: {
               slidesPerView: 1,
-              freeMode : {
-                enabled : false
-              }
+              freeMode: {
+                enabled: false,
+              },
             },
             510: {
               slidesPerView: 2,
-               freeMode : {
-                enabled : false
-              }
-             
+              freeMode: {
+                enabled: false,
+              },
             },
             574: {
               slidesPerView: 2,
-               freeMode : {
-                enabled : false
-              }
-             
+              freeMode: {
+                enabled: false,
+              },
             },
             768: {
               slidesPerView: 2,
-               freeMode : {
-                enabled : false
-              }
-              
+              freeMode: {
+                enabled: false,
+              },
             },
             1000: {
               slidesPerView: 3,
@@ -138,12 +137,12 @@ const ProductCarousel = () => {
             pauseOnMouseEnter: true,
           }}
           pagination={false}
-          modules={[Pagination, Autoplay ,FreeMode]}
+          modules={[Pagination, Autoplay, FreeMode]}
           className="mySwiper"
         >
           {TrendingProductlist?.map((data, i) => {
             return (
-              <SwiperSlide >
+              <SwiperSlide>
                 <ProductCard
                   title={
                     !data?.TitleLine?.length > 0
@@ -179,6 +178,27 @@ const ProductCarousel = () => {
           })}
         </Swiper>
       </div>
+    { showmore &&  <div
+        className="show_more_btn"
+        style={{
+          width: "100%",
+          margin: "0  auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "transparent",
+          padding : "30px 0"
+        }}
+      >
+        <button
+        style={{
+          padding  :"6px 50px"
+        }}
+          className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
+        >
+          Show More <FaChevronDown/>
+        </button>
+      </div>}
     </div>
   );
 };
@@ -202,14 +222,13 @@ const ProductCard = ({
           onClick={onclick}
           style={{ cursor: "pointer" }}
         />
-        <div className="addtocart_overlay">
+        {/* <div className="addtocart_overlay">
           <HiOutlineShoppingBag size={22} /> <span>Add To Cart</span>
-        </div>
+        </div> */}
       </div>
       <div className="details">
         <span>{title}</span>
-        <div className="diamond_Details"
-        >
+        <div className="diamond_Details">
           {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && (
             <div className="separator_for">
               <span>

@@ -26,7 +26,7 @@ import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(8);
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -182,7 +182,7 @@ export default function ThemeRoutes() {
 
   return (
     <>
-     
+
       <div>
         <Helmet>
           <title>{title}</title>
@@ -215,7 +215,6 @@ export default function ThemeRoutes() {
       {themeNo === 7 && <HouseOfQuadri_App />}
 
       {themeNo === 8 && <ForEveryRoutes />}
-
 
       {themeNo === 10 && <StamFordJewels_App />}
     </>

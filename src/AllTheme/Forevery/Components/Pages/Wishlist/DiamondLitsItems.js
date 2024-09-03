@@ -171,6 +171,7 @@ const DiamondLitsItems = ({
             setImageSrc(noImageFound);
         }
     }, [item]);
+    
 
     return (
         <>
@@ -189,7 +190,7 @@ const DiamondLitsItems = ({
                             image={diaImage}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
-                            onClick={() => handleMoveToDetail(item)}
+                            // onClick={() => handleMoveToDetail(item)}
                         />
                         <CardContent className="for_cardContent">
                             <div className="for_cardText">

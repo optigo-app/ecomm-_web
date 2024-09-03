@@ -288,8 +288,8 @@ const SettingPage = () => {
       return step;
     });
 
-    if (!updatedStep1.some(step => step.step1 !== undefined)) {
-      updatedStep1.push({ "step1": true, "Setting": shape });
+    if (!updatedStep1?.some(step => step?.step1 !== undefined)) {
+      updatedStep1?.push({ "step1": true, "Setting": shape });
     }
     sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
   }
