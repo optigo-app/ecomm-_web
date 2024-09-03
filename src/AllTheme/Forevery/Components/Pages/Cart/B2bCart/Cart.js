@@ -269,6 +269,7 @@ const CartPage = () => {
                         handleClose={handlecloseMobileModal}
                         ispriceloding={ispriceloding}
                         selectedItem={selectedItem}
+                        diamondData={diamondCartData}
                         CartCardImageFunc={CartCardImageFunc}
                         handleIncrement={handleIncrement}
                         handleDecrement={handleDecrement}

@@ -423,10 +423,11 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a href={`tel:${'98997 78849'}`} className="FontFamilySet" style={{ fontSize: "12px", cursor: 'pointer', color: '#acabab', textDecoration: 'none' }}>
+                    <a href={`tel:${'98997 78849'}`} className="FontFamilySet" style={{ fontSize: "12px", color: 'black', cursor: 'pointer', textDecoration: 'none' , fontWeight: 500}}>
                         Call: +91-98997 78849
                     </a>
                 </div>
+                <p style={{ margin: '0px', color: 'black', fontWeight: 500 }}>100% Natural Diamond</p>
                 <div className="dai_login_link">
                     {/* <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} /> */}
 
@@ -439,7 +440,7 @@ const Header = () => {
 
                     {/* <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} /> */}
                     {!islogin &&
-                        <p style={{ margin: '0px', cursor: 'pointer' }} onClick={() => navigation('/LoginOption')}>
+                        <p style={{ margin: '0px 20px', cursor: 'pointer', color: 'black', fontWeight: 500 }} onClick={() => navigation('/LoginOption')}>
                             Login
                         </p>
                     }
@@ -631,7 +632,7 @@ const Header = () => {
                         )
 
                         }
-                        <li
+                        {/* <li
                             className="dt_menu_li"
                             style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer" }}
                             onClick={() => navigation('/faq')}
@@ -639,7 +640,7 @@ const Header = () => {
                             <span className="nav-li-sminingSpan">
                                 FAQS
                             </span>
-                        </li>
+                        </li> */}
                         {IsB2BWebsiteChek == 1 ? (
                             islogin === true ? (
                                 <>
@@ -696,7 +697,7 @@ const Header = () => {
                             param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length == 0)) ? 'block' :
                             (menuItems?.length > 4 && Object?.keys(selectedData?.param1)?.length < 4) ? 'block' : 'flex',
                         width: selectedData?.param1?.some(param1Item =>
-                            param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length != 0)) && 
+                            param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length != 0)) &&
                             (menuItems?.length > 4 && Object?.keys(selectedData?.param1)?.length < 4) ? 'fit-content' : '100%',
                         justifyContent: selectedData?.param1?.some(param1Item =>
                             param1Item?.param2?.some(param2Item => Object?.keys(param2Item?.param2name).length != 0)) && 'center',

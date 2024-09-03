@@ -1273,7 +1273,7 @@ const ProductDetail = () => {
                                   alt={`Image ${index}`}
                                   onError={() => setSelectedThumbImg({ link: imageNotFound, type: 'img' })}
                                   onLoad={() => setIsImageLoad(false)}
-                                  className="smr_prod_img"
+                                  className="proCatApp_prod_img"
                                 />
                               </SwiperSlide>
                             ))}
@@ -1313,12 +1313,12 @@ const ProductDetail = () => {
                               className="mySwiper"
                             >
                               {pdThumbImg?.map((ele, index) => (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index} className="proCatApp_app_prod_thumb_img_main">
                                   <img
                                     src={ele}
                                     alt=""
                                     onLoad={() => setIsImageLoad(false)}
-                                    className="smr_app_prod_thumb_img"
+                                    className="proCatApp_app_prod_thumb_img"
                                     onClick={() => setSelectedThumbImg({ link: ele, type: 'img' })}
                                   />
                                 </SwiperSlide>

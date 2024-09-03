@@ -2213,7 +2213,7 @@ const ProductList = () => {
                         />
                       </div>
 
-                      <Checkbox
+                      {filterData?.length > 0 && <Checkbox
                         sx={{ padding: "0px 9px 0px 9px" }}
                         icon={<FilterAltIcon fontSize="large" />}
                         checkedIcon={
@@ -2225,6 +2225,7 @@ const ProductList = () => {
                         checked={isDrawerOpen}
                         onChange={(e) => setIsDrawerOpen(e.target.value)}
                       />
+                      }
                     </div>
                   ) : null
                     // <div className="smr_prodSorting">
@@ -2449,9 +2450,9 @@ const ProductList = () => {
                   <div className="smr_mainPortion">
                     <div
                       className="smr_filter_portion"
-                      style={{ marginTop: "20px" }}
+                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%' }}
                     >
-                      <div
+                      {filterData?.length > 0 && <div
                         className="proCat_topTitleList"
                         style={{ display: "flex", alignItems: "center" }}
                       >
@@ -2470,6 +2471,7 @@ const ProductList = () => {
                           {decodeURI(extractedPart)}
                         </p>
                       </div>
+                      }
                       {filterData?.length > 0 && (
                         <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
@@ -2972,7 +2974,7 @@ const ProductList = () => {
                         </span>
                       </div>
                     ) : (
-                      <div className="smr_productList">
+                      <div className="smr_productList" style={{ width: filterData?.length <= 0 && '100%', margin: filterData?.length <= 0 && '20px 50px 0px 65px' }}>
                         {isOnlyProdLoading ? (
                           <ProductListSkeleton
                             fromPage={"Prodlist"}
@@ -3000,71 +3002,30 @@ const ProductList = () => {
                                   {extractedPart}
                                 </p>
                               </div>
-                              {/* {storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
-                                <label className="label">Metal:&nbsp;</label>
-                                <select
-                                  className="select"
-                                  value={selectedMetalId}
-                                  onChange={(e) => setSelectedMetalId(e.target.value)}
+                              <div className={filterData?.length <= 0 ? "smr_sorting_custom_NoData" : "smr_sorting_custom"}
+                              >
+                                {filterData?.length <= 0 && <div
+                                  className="proCat_topTitleList"
+                                  style={{ display: "flex", alignItems: "center" }}
                                 >
-                                  {metalTypeCombo?.map((metalele, i) => (
-                                    <option
-                                      className="option"
-                                      key={i}
-                                      value={metalele?.Metalid}
-                                    >
-                                      {metalele?.metaltype.toUpperCase()}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              }
-                              {storeInit?.IsDiamondCustComb === 1 && (
-                                <div className="smr_dia_custom">
-                                  <label className="label">Diamond:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedDiaId}
-                                    onChange={(e) => setSelectedDiaId(e.target.value)}
-                                  >
-                                    {diaQcCombo?.map((diaQc, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
+                                  <div className="proCat_mpty_sorting_div_NoData">
+                                    <IoArrowBack
+                                      style={{
+                                        height: "25px",
+                                        width: "25px",
+                                        cursor: "pointer",
+                                        color: "rgba(143, 140, 139, 0.9019607843)",
+                                      }}
+                                      onClick={() => navigate("/")}
+                                    />
+                                  </div>
+                                  <p className="proCat_NameTopShow">
+                                    {decodeURI(extractedPart)}
+                                  </p>
                                 </div>
-                              )}
+                                }
 
-                              {storeInit?.IsCsCustomization === 1 && (
-                                <div className="smr_cs_custom">
-                                  <label className="label">Color Stone:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedCsId}
-                                    onChange={(e) => setSelectedCsId(e.target.value)}
-                                  >
-                                    {csQcCombo?.map((csCombo, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )} */}
-
-                              <div className="smr_sorting_custom">
-                                <div className="container">
+                                <div className={filterData?.length <= 0 ? 'NoDatacontainer' : "container"}>
                                   <label className="label">
                                     Sort By:&nbsp;
                                   </label>
@@ -3094,12 +3055,12 @@ const ProductList = () => {
                                       </option>
                                     )}
                                     {/* {storeInit?.IsStockWebsite == 1 && ( */}
-                                      <option
-                                        className="option"
-                                        value="In memo"
-                                      >
-                                        In memo
-                                      </option>
+                                    <option
+                                      className="option"
+                                      value="In memo"
+                                    >
+                                      In memo
+                                    </option>
                                     {/* )} */}
                                     <option
                                       className="option"
