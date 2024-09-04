@@ -92,7 +92,7 @@ export default function ContactUs() {
 
 
     return (
-        <div className='contactMain' >
+        <div className='stam_contactMain' >
             <div className='Fo-contactMain'>
                 <div>
                     <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
@@ -213,24 +213,15 @@ export default function ContactUs() {
                                 <div className="address">
                                     {activeTab === 'M1' && (
                                         <div>
-                                            {/* <p>YAMUNA CHOWK, Rio Business Hub, IT 101, Mota Varachha, Surat, Gujarat 394101                                            </p>
-                                            <p>+91 93286 14590</p> */}
-                                            <p>Kayra Creation Limited</p>
-                                            <p>408, 4th floor, Heng Ngai Jewellery Ctr, 4 Hok Yuen St, Hunghom,</p>
-                                            <p>Kowloon-999077, Hong Kong- China</p>
-                                            <p>+852-52482000</p>
-                                            <p>sales@kayracreation.com</p>
+                                            <p></p>
+                                            <p>D-Block G20, ITC( International Trade Centre),
+                                                Majura Gate, Ring Road, </p>
+                                            <p>+919099887762</p>
+                                            <p>hello@optigoapps.com</p>
                                         </div>
-                                        // <div>
-                                        //     <p></p>
-                                        //     <p>D-Block G20, ITC( International Trade Centre),
-                                        //         Majura Gate, Ring Road, </p>
-                                        //     <p>+919099887762</p>
-                                        //     <p>hello@optigoapps.com</p>
-                                        // </div>
                                     )}
 
-                                    <div className="map-container">
+                                    {/* <div className="map-container">
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
                                             width="600"
                                             height="450"
@@ -240,16 +231,12 @@ export default function ContactUs() {
                                             className='mapContact'
                                         >
                                         </iframe>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <Footer />
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     )
