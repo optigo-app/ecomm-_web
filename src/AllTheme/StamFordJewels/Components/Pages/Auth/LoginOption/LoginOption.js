@@ -42,11 +42,6 @@ const LoginOption = () => {
                         textAlign: 'center'
                     }}>By continuing, you agree to our Terms of Use. Read our Privacy Policy.</p>
                 </div>
-                <Footer />
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     )

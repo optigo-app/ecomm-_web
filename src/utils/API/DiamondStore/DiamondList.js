@@ -87,34 +87,35 @@ export const DiamondListData = async (
   stockno,
   finalArray
 ) => {
-
   let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
   const storedData = sessionStorage.getItem("loginUserDetail");
   const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
   const data = JSON.parse(storedData);
   const customerId = data?.id ?? 0;
   const customerEmail = data?.userid ?? "";
-  const { FrontEnd_RegNo } = storeInit;
+  const { FrontEnd_RegNo } = storeInit ?? '';
   let packageId = data?.PackageId ?? 0;
-
+  
   const [priceFrom, priceTo] = finalArray?.Price || [null, null];
   const [caratFrom, caratTo] = finalArray?.Carat || [null, null];
   const [colorFrom, colorTo] = finalArray?.Color || ["", ""];
   const [clarityFrom, clarityTo] = finalArray?.Clarity || ["", ""];
   const [cutFrom, cutTo] = finalArray?.Cut || ["", ""];
-  const polish = finalArray?.polish || [];
-  const symmetry = finalArray?.symmetry || [];
-  const lab = finalArray?.lab || [];
-  const [depthFrom, depthTo] = finalArray?.depth || [null, null];
-  const [tableFrom, tableTo] = finalArray?.table || [null, null];
-  const fluorescence = finalArray?.fluorescence || [];
-
+  const polish = finalArray?.Polish || [];
+  const symmetry = finalArray?.Symmetry || [];
+  const lab = finalArray?.Lab || [];
+  const [depthFrom, depthTo] = finalArray?.Depth || [null, null];
+  const [tableFrom, tableTo] = finalArray?.Table || [null, null];
+  const fluorescence = finalArray?.Fluorescence || [];
+  const Culet = finalArray?.Culet || [];
+  
+  console.log("finalArrayApi", tableFrom, tableTo);
   try {
     const combinedValue = JSON.stringify({
       PageNo: `${page ?? 1}`,
       PageSize: `${storeInit?.PageSize ?? 50}`,
       OrderBy: "order by carat asc",
-      FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+      FrontEnd_RegNo: `${FrontEnd_RegNo ?? ''}`,
       Customerid: `${customerId ?? 0}`,
       PackageId: packageId,
       Shape: `${shape ?? ''}`,
@@ -136,6 +137,7 @@ export const DiamondListData = async (
       ToTable: `${tableTo ?? ""}`,
       FromDepth: `${depthFrom ?? ""}`,
       ToDepth: `${depthTo ?? ""}`,
+      Culet: `${Culet ?? ""}`,
       stockno: `${stockno ?? ""}`
     });
 

@@ -795,11 +795,6 @@ const FirstNavMenu = ({
 
   const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
   const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
-
-  console.log('Style Array:', styleArr);
-  console.log('Women Array:', womenArr);
-  console.log('Men Array:', menArr);
-
   return (
     <>
       <div className="For_Nav_first_Menu">

@@ -24,8 +24,8 @@ import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/Newslet
 import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { for_CartCount, for_WishCount, for_customizationSteps, for_customizationSteps1 } from '../../../Recoil/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { for_CartCount, for_Loader, for_WishCount, for_customizationSteps, for_customizationSteps1 } from '../../../Recoil/atom';
 import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import RelatedProduct from '../ProductDetail/RelatedProduct/RelatedProduct';
@@ -38,6 +38,7 @@ import { toast } from 'react-toastify';
 const DiamondDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const isLoading = useRecoilValue(for_Loader);
     console.log('location: ', location?.pathname.split('/'));
     const sliderRef = useRef(null);
     const videoRef = useRef(null);
@@ -115,15 +116,17 @@ const DiamondDetails = () => {
     const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
     console.log('diamondData: ', diamondData);
-    const [settingData, setSettingData] = useState([]);
+    const [settingData, setSettingData] = useState();
     console.log('settingData: ', settingData);
     const [setshape, setSetShape] = useState();
     console.log('setshape: ', setshape);
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
-    const [addToCardFlag, setAddToCartFlag] = useState(null);
-    const [wishListFlag, setWishListFlag] = useState(null);
+    const [addToCardFlag, setAddToCartFlag] = useState(false);
+    const [wishListFlag, setWishListFlag] = useState(false);
+    const [addwishListFlag, setAddWishListFlag] = useState(false);
+    console.log('addwishListFlag: ', addwishListFlag);
     const [PdImageArr, setPdImageArr] = useState([]);
     const [price, setPrice] = useState();
     console.log('price: ', price);
@@ -300,7 +303,7 @@ const DiamondDetails = () => {
     }, []);
 
     useEffect(() => {
-        const isInCart = (settingData?.step2Data?.IsInCart ?? settingData?.step1Data?.IsInCart) === 0 ? false : true;
+        const isInCart = (settingData?.step2Data?.IsInCart ?? settingData?.step1Data?.IsInCart) == 0 ? false : true;
         setAddToCartFlag(isInCart);
     }, [settingData])
 
@@ -332,6 +335,38 @@ const DiamondDetails = () => {
                     console.log("err", error)
                 }
                 setAddToCartFlag(cartFlag);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+                console.log('existingData: ', existingData);
+
+                if (existingData?.[0]?.step1Data?.id > 0) {
+                    const updatedStep1 = existingData?.map(step => {
+                        if (step.step1Data !== undefined) {
+                            return { "step1Data": settingData };
+                        }
+                        return step;
+                    });
+
+                    if (!updatedStep1?.some(step => step.step1Data !== undefined)) {
+                        updatedStep1?.push({ "step1Data": settingData });
+                    }
+
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedStep1));
+                }
+
+                // if (existingData?.[1]?.step2Data?.id > 0) {
+                //     const updatedStep2 = existingData?.map(step => {
+                //         if (step.step2Data !== undefined) {
+                //             return { "step3": true, "url": existingData?.[2]?.url, "price": totalPrice };
+                //         }
+                //         return step;
+                //     });
+
+                //     if (!updatedStep2?.some(step => step.step3 !== undefined)) {
+                //         updatedStep2?.push({ step3: { url: existingData?.[2]?.url, price: totalPrice } });
+                //     }
+
+                //     sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
+                // }
             }
         }
         else {
@@ -346,9 +381,85 @@ const DiamondDetails = () => {
                     console.log("err", error);
                 }
                 setAddToCartFlag(cartFlag);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+                console.log('existingData: ', existingData);
+
+                if (existingData?.[0]?.step1Data?.id > 0) {
+                    const updatedStep1 = existingData?.map(step => {
+                        if (step.step1Data !== undefined) {
+                            return [{ "step1Data": settingData }];
+                        }
+                        return step;
+                    });
+
+                    if (!updatedStep1?.some(step => step.step1Data !== undefined)) {
+                        updatedStep1?.push([{ "step1Data": settingData }]);
+                    }
+
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedStep1));
+                }
+
+                // if (steps1?.[1]?.step2 === true) {
+                //     const updatedStep2 = existingSteps1?.map(step => {
+                //         if (step.step3 !== undefined) {
+                //             return { "step3": true, "url": existingSteps1?.[2]?.url, "price": totalPrice };
+                //         }
+                //         return step;
+                //     });
+
+                //     // Check if step3 was updated; if not, add it
+                //     if (!updatedStep2?.some(step => step.step3 !== undefined)) {
+                //         updatedStep2?.push({ step3: { url: existingSteps1?.[2]?.url, price: totalPrice } });
+                //     }
+
+                //     sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
+                // }
             }
         }
     }
+
+    const handleWish = async (e, diamond, setting) => {
+        setAddWishListFlag(e.target.checked);
+        const prodObj = {
+            autocode: setting?.step2Data?.autocode ?? setting?.step1Data?.autocode,
+            Metalid: setting?.selectedMetalId,
+            MetalColorId: setting?.step2Data?.MetalColorid ?? setting?.step1Data?.MetalColorid,
+            DiaQCid: setting?.selectedDiaId,
+            CsQCid: setting?.selectedCsId,
+            Size: setting?.step2Data?.DefaultSize ?? setting?.step1Data?.DefaultSize,
+            Unitcost: setting?.step2Data?.UnitCost ?? setting?.step1Data?.UnitCost,
+            markup: setting?.step2Data?.DesignMarkUp ?? setting?.step1Data?.DesignMarkUp,
+            UnitCostWithmarkup: setting?.step2Data?.UnitCostWithMarkUp ?? setting?.step1Data?.UnitCostWithMarkUp,
+            Remark: "",
+            stockno: diamond?.step1Data?.[0]?.stockno ?? diamond?.step2Data?.[0]?.stockno,
+        }
+
+        try {
+            if (e.target.checked == true) {
+                let res = await CartAndWishListAPI("Wish", prodObj, cookie);
+                if (res) {
+                    let cartC = res?.Data?.rd[0]?.Cartlistcount;
+                    let wishC = res?.Data?.rd[0]?.Wishlistcount;
+                    setWishCountVal(wishC);
+                    setCartCountVal(cartC);
+                }
+                setAddWishListFlag(true);
+
+
+            } else {
+                let res1 = await RemoveCartAndWishAPI("Wish", (setting?.step2Data?.autocode ?? setting?.step1Data?.autocode), cookie, "", (diamond?.step1Data?.[0]?.stockno ?? diamond?.step2Data?.[0]?.stockno));
+                if (res1) {
+                    let cartC = res1?.Data?.rd[0]?.Cartlistcount;
+                    let wishC = res1?.Data?.rd[0]?.Wishlistcount;
+                    setWishCountVal(wishC);
+                    setCartCountVal(cartC);
+                }
+                setAddWishListFlag(false);
+            }
+        } catch (error) {
+            console.log("Error:", error);
+        }
+    };
 
     const settings = {
         dots: false,
@@ -1108,18 +1219,18 @@ const DiamondDetails = () => {
                                     </div>
                                     <div className="for_DiamondDet_choose_Dia_div">
                                         {settingSteps?.[1]?.step2 ? (
-                                            <button onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                            <button onClick={() => handleButtonChange('diamond', "", "", "", "")} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                 choose this diamond
                                             </button>
                                         ) : (
                                             <>
                                                 {stepsData?.[1]?.step2Data?.id > 0 ? (
-                                                    <button onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                    <button onClick={() => handleButtonChange('hasData', "", "", stepsData?.[0]?.step1Data?.[0]?.shapename, steps?.[1]?.Setting)} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                         choose this diamond
                                                     </button>
                                                 ) : (
                                                     <>
-                                                        <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                        <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                             choose this diamond
                                                         </button>
                                                         <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
@@ -1162,17 +1273,12 @@ const DiamondDetails = () => {
 
                                                             <div className="for_Complete_set_title_wishlist">
                                                                 <Checkbox
-                                                                    icon={
-                                                                        <GoHeart size={24} color='black' />
-                                                                    }
-                                                                    checkedIcon={
-                                                                        <GoHeartFill size={24} color='black' />
-                                                                    }
-
+                                                                    icon={<GoHeart size={24} color="black" />}
+                                                                    checkedIcon={<GoHeartFill size={24} color="black" />}
                                                                     className='for_wishlist_icon'
                                                                     disableRipple={true}
-                                                                    checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
-                                                                // onChange={(e) => handleButtonChange('wish', e, singleDiaData[0]?.stockno)}
+                                                                    checked={addwishListFlag}
+                                                                    onChange={(e) => handleWish(e, diamondData, settingData)}
                                                                 />
                                                             </div>
 
@@ -1258,12 +1364,12 @@ const DiamondDetails = () => {
 
                                         <div className="for_Complete_set_choose_Dia_div">
                                             {compSet ? (
-                                                <button onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15}`}>
+                                                <button onClick={() => handleCart(!addToCardFlag, diamondData, settingData)} className={`${btnstyle?.btn_for_new} for_Complete_set_ATC ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                     {addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}
                                                 </button>
                                             ) : (
                                                 <>
-                                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} `}>
+                                                    <button onClick={handleClickOpen} className={`${btnstyle?.btn_for_new} for_DiamondDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                                                         choose this diamond
                                                     </button>
                                                     <Modal open={showModal} handleClose={handleClose} handleButtonChange={handleButtonChange} stockno={singleDiaData[0]?.stockno} shape={singleDiaData[0]?.shapename} />
@@ -1510,6 +1616,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
             let encodeObj = compressAndEncode(JSON.stringify(obj));
 
             let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
+            handleOpen(null)
             Navigation(navigateUrl);
         }
         if ((data?.autocode ?? data?.step1Data?.autocode)) {
@@ -1526,6 +1633,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
             console.log("ksjkfjkjdkjfkjsdk--", obj);
             let encodeObj = compressAndEncode(JSON.stringify(obj));
 
+            handleOpen(null)
             Navigation(
                 `/d/${(data?.TitleLine ?? data?.step1Data?.TitleLine).replace(/\s+/g, `_`)}${(data?.TitleLine ?? data?.step1Data?.TitleLine)?.length > 0 ? "_" : ""
                 }${(data?.designno ?? data?.step1Data?.designno)}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
@@ -1595,9 +1703,11 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, customizeStep }) => {
     const dropdownRefs = useRef({});
     const [open, setOpen] = useState(null);
+    const isLoading = useRecoilValue(for_Loader);
     const [isSetting, setIsSetting] = useState([]);
     const [storeInit, setStoreInit] = useState({});
     const [setshape, setSetShape] = useState();
+    const [showModal, setShowModal] = useState(false);
     const [loginCurrency, setLoginCurrency] = useState();
     const Navigation = useNavigate();
     const location = useLocation();
@@ -1613,6 +1723,24 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
     const getCompleteStep1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
     console.log('getCompleteStep1: ', getCompleteStep1);
     const getCompleteStep2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+
+    const handleToggle = () => {
+        setShowModal(!showModal);
+    };
+
+    const handleRemoveData = (index) => {
+        sessionStorage.removeItem("customizeSteps");
+        sessionStorage.removeItem("custStepData");
+        sessionStorage.removeItem("customizeSteps2");
+        sessionStorage.removeItem("custStepData2");
+        if (index === 0) {
+            Navigation(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+        }
+        else {
+            Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+        }
+        handleToggle();
+    };
 
     useEffect(() => {
         const handleCompset = () => {
@@ -1660,9 +1788,12 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
         return (
             <>
                 <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
-                    <span className="for_title_span" style={StyleCondition}
+                    <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
                         onClick={() => {
-                            Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                            if (getCustStepData2?.[2]?.step3 == true) {
+                                setShowModal(true)
+                            }
+
                             setswap("settings");
                         }}
                     >
@@ -1692,7 +1823,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                 </div>
 
                 <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
-                    <span className="for_title_span" style={StyleCondition} onClick={() => {
+                    <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
                         Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
                         setswap("diamond");
                     }}>
@@ -1727,6 +1858,9 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                         <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>
                     )}
                 </div>
+                {showModal && (
+                    <DemountModal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={1} />
+                )}
             </>
         );
     };
@@ -1736,8 +1870,11 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
             {getdiaData?.length > 0 || (getCustStepData?.[0]?.step1 === true ?? getCustStepData2?.[1]?.step2 === true) ? (
                 <div className="diamond_Step_data_det">
                     <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
-                        <span className="for_title_span" style={StyleCondition} onClick={() => {
-                            Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
+                        <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
+                            if (getCustStepData?.[2]?.step3 == true) {
+                                setShowModal(true)
+                            }
+                            // Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
                             setswap("diamond");
                         }}>
                             <img src={StepImages[0]?.img} alt="" /> Diamond
@@ -1763,7 +1900,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                     </div>
 
                     <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
-                        <span className="for_title_span" style={StyleCondition}
+                        <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
                             onClick={() => {
                                 Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                                 setswap("settings");
@@ -1801,6 +1938,9 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                             <span className='for_total_prc'>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter((getCompleteStep1?.[2]?.price || getCompleteStep2?.[2]?.price))}</span>
                         )}
                     </div>
+                    {showModal && (
+                        <DemountModal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={0} />
+                    )}
                 </div>
             ) : (
                 <>
@@ -1890,7 +2030,7 @@ const Modal = ({
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 sx={{
-                    zIndex : 9999999,
+                    zIndex: 9999999,
                     '& .MuiDialog-paper': {
                         backgroundColor: 'transparent',
                         border: '1px solid white',
@@ -1932,3 +2072,66 @@ const Modal = ({
         </>
     )
 }
+
+
+const DemountModal = ({ open, handleClose, handleRemoveData, index }) => {
+    return (
+        <>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                sx={{
+                    zIndex: 9999999,
+                    "& .MuiDialog-root": {
+                        zIndex: 9999,
+                    },
+                    "& .MuiDialog-paper": {
+                        backgroundColor: "transparent",
+                        border: "1px solid white",
+                        zIndex: 9999,
+                    },
+                    "& .MuiDialogContent-root": {
+                        padding: "10px",
+                    },
+                }}
+            >
+                <DialogContent
+                    sx={{
+                        minWidth: 260,
+                        padding: "0px",
+                        position: "relative",
+                        overflow: "hidden",
+                    }}
+                >
+                    <div className="for_modal_cancel_btn_nav_div" onClick={handleClose}>
+                        <RxCross1 className="for_modal_cancel_nav_btn" size={"12px"} />
+                    </div>
+                    <div className="for_modal_inner_nav_div">
+                        <span className="for_modal_nav_title">
+                            You have already selected mount & diamond, would you like to view
+                            it?
+                        </span>
+                        <div className="for_modal_buttons_nav_div">
+                            <button
+                                onClick={() => {
+                                    handleClose();
+                                }}
+                            >
+                                Yes
+                            </button>
+                            <button
+                                onClick={() => {
+                                    handleRemoveData(index);
+                                }}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </>
+    );
+};

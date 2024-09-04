@@ -4,8 +4,8 @@ import { StepImages } from "../../data/NavbarMenu";
 import { formatter, storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import Pako from "pako";
-import { useRecoilState } from "recoil";
-import { for_customizationSteps } from "../../Recoil/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { for_Loader, for_customizationSteps } from "../../Recoil/atom";
 
 const DiamondPage = () => {
   const Navigation = useNavigate();
@@ -182,6 +182,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
       let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
+      handleOpen(null)
       Navigation(navigateUrl);
     }
     if ((data?.autocode ?? data?.step1Data?.autocode)) {
@@ -198,6 +199,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       console.log("ksjkfjkjdkjfkjsdk--", obj);
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
+      handleOpen(null)
       Navigation(
         `/d/${(data?.TitleLine ?? data?.step1Data?.TitleLine).replace(/\s+/g, `_`)}${(data?.TitleLine ?? data?.step1Data?.TitleLine)?.length > 0 ? "_" : ""
         }${(data?.designno ?? data?.step1Data?.designno)}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
@@ -268,6 +270,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => {
   const dropdownRefs = useRef({});
   const [open, setOpen] = useState(null);
+  const isLoading = useRecoilValue(for_Loader);
   const [isSetting, setIsSetting] = useState([]);
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
@@ -332,13 +335,13 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
     return (
       <>
         <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
-          <span className="for_title_span" style={StyleCondition}
+          <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
             onClick={() => {
               Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
               setswap("settings");
             }}
           >
-            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={
+            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={
               (getCustStepData2?.[0]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
               StepImages[1]?.img
             } alt="" /> Settings
@@ -364,7 +367,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
         </div>
 
         <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
-          <span className="for_title_span" style={StyleCondition} onClick={() => {
+          <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
             console.log('Current Shape:', setshape);
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
             setswap("diamond");
@@ -393,7 +396,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
 
         <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
           <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-            <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
               StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
           </span>
           {(getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
@@ -410,7 +413,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
       {getdiaData?.length > 0 || (getCustStepData?.[0]?.step1 === true ?? getCustStepData2?.[1]?.step2 === true) ? (
         <div className="diamond_Step_data">
           <div className={`step_data ${getStepName.includes('diamond') ? 'active' : ''} d-1`}>
-            <span className="for_title_span" style={StyleCondition} onClick={() => {
+            <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
               console.log('Current Shape:', setshape);
               Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`);
               setswap("diamond");
@@ -438,13 +441,13 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
           </div>
 
           <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
-            <span className="for_title_span" style={StyleCondition}
+            <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
               onClick={() => {
                 Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                 setswap("settings");
               }}
             >
-              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
                 StepImages[2]?.img} alt="" /> Settings
             </span>
             {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -469,7 +472,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
 
           <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
             <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-              <img className={getStepName.includes('Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                 StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
             </span>
             {(getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (

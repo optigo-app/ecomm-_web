@@ -841,6 +841,15 @@ const Header = () => {
 
       <div className="stam_Top_header">
         <div className="stam_Top_header_sub">
+          <div className="smiling_Top_header_div2">
+            <a href="/">
+              <img
+                src={compnyLogo}
+                loading="lazy"
+                className="smr_logo_header"
+              />
+            </a>
+          </div>
           <div className="smiling_Top_header_div1">
             <ul className="nav_ul_shop">
               {IsB2BWebsiteChek == 1 ? (
@@ -962,15 +971,6 @@ const Header = () => {
                 onClick={toggleDrawerOverlay}
               />
             </ul>
-          </div>
-          <div className="smiling_Top_header_div2">
-            <a href="/">
-              <img
-                src={compnyLogo}
-                loading="lazy"
-                className="smr_logo_header"
-              />
-            </a>
           </div>
           <div className="smiling_Top_header_div3">
             <ul className="nav_ul_shop">
@@ -1158,10 +1158,19 @@ const Header = () => {
         </div>
 
         <div
-          className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""
+          className={`stam_Top_Header_fixed_main ${isHeaderFixed ? "fixed" : ""
             }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className="stam_Top_header_sub" style={{ width: "100%" }}>
+            <div className="smiling_Top_header_div2">
+              <a href="/">
+                <img
+                  src={compnyLogo}
+                  loading="lazy"
+                  className="smr_logo_header_Fixed"
+                />
+              </a>
+            </div>
             <div className="smiling_Top_header_div1">
               <ul className="nav_ul_shop">
                 {/* {islogin && */}
@@ -1213,35 +1222,7 @@ const Header = () => {
                   </li>
                 )}
 
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
-                >
-                  <a href="/servicePolicy" className="smr_A_linkFixed">
-                    SERVICE POLICY
-                  </a>
-                </li>
 
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
-                >
-                  <a href="/ExpertAdvice" className="smr_A_linkFixed">
-                    EXPERT ADVICE
-                  </a>
-                </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-                >
-                  <a href="/FunFact" className="smr_A_linkFixed">
-                    FUN FACT
-                  </a>
-                </li>
 
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
@@ -1279,6 +1260,36 @@ const Header = () => {
                   </>
                 )}
 
+                <li
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
+                >
+                  <a href="/servicePolicy" className="smr_A_linkFixed">
+                    SERVICE POLICY
+                  </a>
+                </li>
+
+                <li
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
+                >
+                  <a href="/ExpertAdvice" className="smr_A_linkFixed">
+                    EXPERT ADVICE
+                  </a>
+                </li>
+
+                <li
+                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
+                >
+                  <a href="/FunFact" className="smr_A_linkFixed">
+                    FUN FACT
+                  </a>
+                </li>
+
                 <ul className="nav_ul_shop_menu_Mobile">
                   <MenuIcon
                     style={{ fontSize: "35px", color: "#7d7f85" }}
@@ -1289,15 +1300,7 @@ const Header = () => {
                 {/* } */}
               </ul>
             </div>
-            <div className="smiling_Top_header_div2">
-              <a href="/">
-                <img
-                  src={compnyLogo}
-                  loading="lazy"
-                  className="smr_logo_header_Fixed"
-                />
-              </a>
-            </div>
+
             <div className="smiling_Top_header_div3">
               <ul className="nav_ul_shop">
                 <li
@@ -1496,7 +1499,7 @@ const Header = () => {
               backgroundColor: "white",
               gap: "50px",
               justifyContent: "space-between",
-              marginTop: isHeaderFixed && "20px",
+              // marginTop: isHeaderFixed && "20px",
             }}
             className="smr_showDropOptionMainDiv"
             onMouseEnter={handleDropdownOpen}
