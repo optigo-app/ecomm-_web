@@ -531,7 +531,7 @@ const QuotationQuote = () => {
                 isSmallScreen && <>
                 <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-                    <AccordionDetails>
+                    <AccordionDetails style={{padding:'0px'}}>
                         <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
                             All
                         </Button>
@@ -544,7 +544,7 @@ const QuotationQuote = () => {
                                 onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon /></Button>
                         </Box>
                         <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
-                            <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                            <Box style={{ boxSizing:'border-box'}}>
                                 {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>Date: </p> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
@@ -573,12 +573,12 @@ const QuotationQuote = () => {
                                                 }
                                             
                                             }}
-                                            className='quotationFilterDates fs_elvee_quote'
+                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee'
                                             ref={fromDateRef}
                                         />
                                     </LocalizationProvider>
                             </Box>
-                            <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                            <Box style={{ boxSizing:'border-box'}}>
                                 {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>To: </p> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
@@ -588,7 +588,7 @@ const QuotationQuote = () => {
                                             format="DD MM YYYY"
                                             placeholder="DD MM YYYY"
                                     
-                                            className='quotationFilterDates w_q fs_elvee_quote'
+                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee'
                                             ref={toDateRef}
                                             inputProps={{ readOnly: true }}
                                             onChange={(newValue) => {
@@ -611,7 +611,7 @@ const QuotationQuote = () => {
                                         />
                                 </LocalizationProvider>
                             </Box>
-                            <Box sx={{ paddingBottom: '4px', display: "flex", alignItems: "center", width:'100%', minWidth:'15%', maxWidth:'15%'}} className="  fs_elvee_quote">
+                            <Box sx={{ paddingBottom: '4px', display: "flex", alignItems: "center", }} className="  fs_elvee_quote">
                                 <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                             </Box>
                         </Box>
