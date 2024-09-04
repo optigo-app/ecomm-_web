@@ -49,7 +49,7 @@ const Confirmation = () => {
     }
 
     return (
-        <div className='smr_confirMaindiv'>
+        <div className='stam_confirMaindiv'>
             <div className='smr_confirSecondMaindiv'>
                 <div className="thankYouContainer">
                     <div className="thankYouContent">
@@ -71,10 +71,6 @@ const Confirmation = () => {
                         <button className="smr_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>
-                <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );

@@ -1289,9 +1289,9 @@ const ProductDetail = () => {
       <Helmet>
         <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
       </Helmet>
-      <div className="smr_prodDetail_bodyContain">
+      <div className="stam_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
-          <div className="smr_prodDetail_whiteInnerContain">
+          <div className="stam_prodDetail_whiteInnerContain">
             {isDataFound ? (
               <div
                 style={{
@@ -2576,16 +2576,7 @@ const ProductDetail = () => {
                   </div>}
               </>
             )}
-            <Footer />
           </div>
-        </div>
-        <div className="smr_prodDetail_backtotop" onClick={() => {
-          window.scroll({
-            top: 0,
-            behavior: "auto",
-          });
-        }}>
-          BACK TO TOP
         </div>
       </div>
     </>

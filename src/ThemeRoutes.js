@@ -26,7 +26,7 @@ import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(8);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -59,7 +59,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -111,15 +111,15 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(8);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(10);
     }
     // .finally(() => setLoading(false));
   }, []);
 
   const callAllApi = (Data) => {
-    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const storeInitSession = JSON.parse(Data);
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInitSession = JSON?.parse(Data);
     // const { IsB2BWebsite } = storeInit;
     const { IsB2BWebsite } = storeInitSession;
     const visiterID = Cookies.get("visiterId");

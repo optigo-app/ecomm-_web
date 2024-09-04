@@ -19,7 +19,7 @@ const TopSection = () => {
   const handleVideoLoad = () => {
     setLoading(false);
     // Unmute the video once it's loaded
-    setTimeout(() => {}, 0);
+    setTimeout(() => { }, 0);
 
     videoRef.current.controls = false;
   };
@@ -30,14 +30,6 @@ const TopSection = () => {
 
   return (
     <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
-      {localData?.Blockno === 1 && storeInit?.IsPLW == 1 ? (
-        <div>
-          <img
-            src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner2.webp`}
-            style={{ width: "100%" }}
-          />
-        </div>
-      ) : (
         <video
           ref={videoRef}
           width="500"
@@ -50,20 +42,19 @@ const TopSection = () => {
           onPlay={handleVideoPlay}
         >
           <source
-            src={`${storImagePath()}/images/HomePage/TopSection/HomepageMainBannerVideo.mp4`}
+            src={`${storImagePath()}/images/HomePage/TopSection/topVideo.mp4`}
             type="video/mp4"
           />
         </video>
-      )}
 
-      {localData?.Blockno === 3 && (
+      {/* {localData?.Blockno === 3 && (
         <div>
           <img
             src={`${storImagePath()}/images/HomePage/MainBanner/mainTopBanner.jpg`}
             style={{ width: "100%" }}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

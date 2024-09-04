@@ -93,8 +93,8 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="smr_MainWlDiv">
-      <div className="WlMainPageDiv">
+    <div className="stam_MainWishlist_Div">
+      <div className="stam_wishlist_sub">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="smr_Wl-title">My Wishlist</div>
@@ -146,27 +146,6 @@ const Wishlist = () => {
           title="Confirm"
           content="Are you sure you want to remove all Items?"
         />
-
-        <Footer />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBlock: "30px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: 500,
-            color: "white",
-            cursor: "pointer",
-          }}
-          onClick={scrollToTop}
-        >
-          BACK TO TOP
-        </p>
       </div>
     </div>
   );

@@ -2,13 +2,11 @@
 
 $cartUpdateBtncolor: #b1b1b1;
 
-.smr_MainBGDiv {
-  background-color: $backgroundColor;
+.stam_B2B_MainBGDiv {
   font-family: $primaryFontFamily;
 
-  .cartMainPageDiv {
+  .stam_cartMainPageDiv {
     background-color: #fff;
-    margin-inline: 6%;
   }
 
   .smr_cartmainRowDiv {
@@ -781,11 +779,6 @@ $cartUpdateBtncolor: #b1b1b1;
     margin: 0 auto;
   }
 
-  @media(max-width:1200px) {
-    .cartMainPageDiv {
-      margin-inline: 1%;
-    }
-  }
 
   @media (max-width: 768px) {
     .smr_remarkModalBox {

@@ -175,7 +175,7 @@ export default function LoginWithEmailCode() {
     
 
     return (
-        <div className='smr_loginwithemailCode' style={{ backgroundColor: 'white', paddingTop: '10px' }}>
+        <div className='fore_loginwithemailCode' style={{ backgroundColor: 'white', paddingTop: '10px' }}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
