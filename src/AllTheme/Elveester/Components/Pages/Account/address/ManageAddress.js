@@ -452,7 +452,7 @@ const ManageAddress = () => {
                                 id="firstName"
                                 label="First Name"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.firstName}
                                 onChange={(e) => handleInputChange(e, 'firstName')}
@@ -463,7 +463,7 @@ const ManageAddress = () => {
                                 id="lastName"
                                 label="Last Name"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.lastName}
                                 onChange={(e) => handleInputChange(e, 'lastName')}
@@ -474,7 +474,7 @@ const ManageAddress = () => {
                                 id="address"
                                 label="Address"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.address}
                                 onChange={(e) => handleInputChange(e, 'address')}
@@ -485,7 +485,7 @@ const ManageAddress = () => {
                                 id="country"
                                 label="Country"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.country}
                                 onChange={(e) => handleInputChange(e, 'country')}
@@ -496,7 +496,7 @@ const ManageAddress = () => {
                                 id="state"
                                 label="State"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.state}
                                 onChange={(e) => handleInputChange(e, 'state')}
@@ -507,7 +507,7 @@ const ManageAddress = () => {
                                 id="city"
                                 label="City"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.city}
                                 onChange={(e) => handleInputChange(e, 'city')}
@@ -518,7 +518,7 @@ const ManageAddress = () => {
                                 id="zipCode"
                                 label="ZIP Code"
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.zipCode}
                                 onChange={(e) => handleInputChange(e, 'zipCode')}
@@ -529,7 +529,7 @@ const ManageAddress = () => {
                                 id="mobileNo"
                                 label="Mobile No."
                                 variant="outlined"
-                                className="labgrowRegister mt_5_ad_elvee"
+                                className="labgrowRegisterElvee mt_5_ad_elvee"
                                 style={{ margin: '15px' }}
                                 value={formData.mobileNo}
                                 onChange={(e) => handleInputChange(e, 'mobileNo')}
