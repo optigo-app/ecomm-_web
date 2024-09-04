@@ -87,9 +87,16 @@
         height: inherit;
         position: relative;
 
+        .disabled {
+          pointer-events: none;
+          cursor: not-allowed;
+          opacity: 0.3;
+        }
+
         .for_title_span {
           cursor: pointer;
         }
+
 
         &.finish_set {
           opacity: 0.5;

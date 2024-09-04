@@ -86,9 +86,9 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   console.log("stroreeeeeeeeeeee", storeinit);
 
   const data = {
-    PackageId: `${loginInfo?.PackageId ?? storeinit?.PackageId}`,
+    PackageId: `${(loginInfo?.PackageId ?? storeinit?.PackageId) ?? ''}`,
     autocode: '',
-    FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo}`,
+    FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo ?? ''}`,
     Customerid: `${customerId ?? 0}`,
     designno: '',
     Shape: `${Shape ?? ''}`,
@@ -99,10 +99,10 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     FilterKey2: `${MenuParams?.FilterKey2 ?? ""}`,
     FilterVal2: `${MenuParams?.FilterVal2 ?? ""}`,
     SearchKey: `${serachVar ?? ""}`,
-    PageNo: `${page}`,
-    PageSize: `${storeinit?.PageSize}`,
-    Metalid: `${mtid}`,
-    DiaQCid: `${diaQc}`,
+    PageNo: `${page ?? ''}`,
+    PageSize: `${storeinit?.PageSize ?? ''}`,
+    Metalid: `${mtid ?? ''}`,
+    DiaQCid: `${diaQc ?? ''}`,
     CsQCid: `${csQc ?? '0,0'}`,
     Collectionid: `${filterObj?.collection ?? ""}`,
     Categoryid: `${filterObj?.category ?? ""}`,
@@ -118,31 +118,31 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Max_GrossWeight: `${gross?.grossMax ?? ""}`,
     Min_NetWt: `${netWt?.netMin ?? ""}`,
     Max_NetWt: `${netWt?.netMax ?? ""}`,
-    FilPrice: filterObj?.Price,
+    FilPrice: `${filterObj?.Price ?? ''}`,
     // Max_Price: '',
     // Min_Price: '',
-    CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`,
+    CurrencyRate: `${(loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate) ?? ''}`,
     SortBy: `${sortby ?? ""}`,
     Laboursetid: `${storeinit?.IsB2BWebsite == 0 && islogin == false
       ? storeinit?.pricemanagement_laboursetid
       : loginInfo?.pricemanagement_laboursetid
-      }`,
+      ?? ''}`,
     diamondpricelistname: `${storeinit?.IsB2BWebsite == 0 && islogin == false
       ? storeinit?.diamondpricelistname
       : loginInfo?.diamondpricelistname
-      }`,
+      ?? ''}`,
     colorstonepricelistname: `${storeinit?.IsB2BWebsite == 0 && islogin == false
       ? storeinit?.colorstonepricelistname
       : loginInfo?.colorstonepricelistname
-      }`,
+      ?? ''}`,
     SettingPriceUniqueNo: `${storeinit?.IsB2BWebsite == 0 && islogin == false
       ? storeinit?.SettingPriceUniqueNo
       : loginInfo?.SettingPriceUniqueNo
-      }`,
-    IsStockWebsite: `${storeinit?.IsStockWebsite}`,
+      ?? ''}`,
+    IsStockWebsite: `${storeinit?.IsStockWebsite ?? ''}`,
     Size: "",
     IsFromDesDet: "",
-    IsPLW: storeinit?.IsPLW,
+    IsPLW: `${storeinit?.IsPLW ?? ''}`,
     DomainForNo: `${storeinit?.DomainForNo ?? ""}`
   };
 

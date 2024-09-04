@@ -2083,9 +2083,9 @@ const ProductList = () => {
             )}
           </div>
         </Drawer>
-        <div className="smr_bodyContain">
+        <div className="stam_bodyContain">
           <div className="smr_outerContain">
-            <div className="smr_whiteInnerContain">
+            <div className="stam_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
                 <ProductListSkeleton className="pSkelton" />
@@ -3331,22 +3331,12 @@ const ProductList = () => {
                   </div>
                 </>
               )}
-
-              <Footer fromPage={"ProdList"} />
             </div>
           </div>
           {/* <div className="smr_backtotop">
               BACK TO TOP
         </div> */}
         </div>
-      </div>
-      <div className="smr_backtotop" onClick={() => {
-        window.scroll({
-          top: 0,
-          behavior: "auto",
-        });
-      }}>
-        BACK TO TOP
       </div>
     </>
   );

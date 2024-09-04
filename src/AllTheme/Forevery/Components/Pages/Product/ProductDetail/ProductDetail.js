@@ -25,7 +25,7 @@ import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { for_CartCount, for_WishCount, for_customizationSteps, for_customizationSteps1, for_loginState } from '../../../Recoil/atom';
+import { for_CartCount, for_Loader, for_WishCount, for_customizationSteps, for_customizationSteps1, for_loginState } from '../../../Recoil/atom';
 import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
@@ -34,6 +34,7 @@ import { StepImages } from '../../../data/NavbarMenu';
 const ProductDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isLoading = useRecoilValue(for_Loader)
   const sliderRef = useRef(null);
   const videoRef = useRef(null);
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -882,11 +883,11 @@ const ProductDetail = () => {
       }) ?? metalColorCombo;
 
     const prodObj = {
-      autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
-      MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      autocode: singleProd?.autocode ?? 0,
+      Metalid: metal?.Metalid ?? 0,
+      MetalColorId: `${(mcArr?.id ?? singleProd?.MetalColorid) ?? 0}`,
+      DiaQCid: `${`${dia?.QualityId},${dia?.ColorId}` ?? '0,0'}`,
+      CsQCid: `${`${cs?.QualityId},${cs?.ColorId}` ?? '0,0'}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -951,11 +952,11 @@ const ProductDetail = () => {
       }) ?? metalColorCombo;
 
     const prodObj = {
-      autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
-      MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      autocode: singleProd?.autocode ?? 0,
+      Metalid: metal?.Metalid ?? 0,
+      MetalColorId: `${(mcArr?.id ?? singleProd?.MetalColorid) ?? 0}`,
+      DiaQCid: `${`${dia?.QualityId},${dia?.ColorId}` ?? '0,0'}`,
+      CsQCid: `${`${cs?.QualityId},${cs?.ColorId}` ?? '0,0'}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -1701,11 +1702,11 @@ const ProductDetail = () => {
                   {CustPath === 'Engagement_Ring' || CustPath === 'Diamond_Pendants' ? (
                     <>
                       {stepsData?.[1]?.step2Data?.[0]?.id > 0 ? (
-                        <button onClick={() => handleButtonChange("hasData")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} `}>
+                        <button onClick={() => handleButtonChange("hasData")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                           choose this setting
                         </button>
                       ) : (
-                        <button onClick={() => handleButtonChange("")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} `}>
+                        <button onClick={() => handleButtonChange("")} className={`${btnstyle?.btn_for_new} for_productDet_choose_Dia ${btnstyle?.btn_15} ${isLoading ? 'disabled' : ''}`}>
                           choose this setting
                         </button>
                       )}
@@ -1837,6 +1838,7 @@ export default ProductDetail
 const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setshape }) => {
   console.log('setshape: ', setshape);
   const dropdownRefs = useRef({});
+  const isLoading = useRecoilValue(for_Loader);
   const [open, setOpen] = useState(null);
   const [isSetting, setIsSetting] = useState([]);
   const [storeInit, setStoreInit] = useState({});
@@ -1894,9 +1896,9 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
     return (
       <>
         <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
-          <span className="for_title_span" style={StyleCondition}
+          <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
             onClick={() => {
-              Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+              Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
               setswap("settings");
             }}
           >
@@ -1926,7 +1928,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
         </div>
 
         <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
-          <span className="for_title_span" style={StyleCondition} onClick={() => {
+          <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
             setswap("diamond");
           }}>
@@ -1970,7 +1972,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
       {getdiaData?.length > 0 || (getCustStepData?.[0]?.step1 === true ?? getCustStepData2?.[1]?.step2 === true) ? (
         <div className="diamond_Step_data_det">
           <div className={`step_data ${isActive(isDiamondPage) ? 'active' : ''} d-1`}>
-            <span className="for_title_span" style={StyleCondition} onClick={() => {
+            <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition} onClick={() => {
               Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
               setswap("diamond");
             }}>
@@ -1997,7 +1999,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
           </div>
 
           <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
-            <span className="for_title_span" style={StyleCondition}
+            <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
               onClick={() => {
                 Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
                 setswap("settings");
@@ -2205,6 +2207,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
       let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
+      handleOpen(null)
       Navigation(navigateUrl);
     }
     if ((data?.autocode ?? data?.step1Data?.autocode)) {
@@ -2221,6 +2224,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
       console.log("ksjkfjkjdkjfkjsdk--", obj);
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
+      handleOpen(null)
       Navigation(
         `/d/${(data?.TitleLine ?? data?.step1Data?.TitleLine).replace(/\s+/g, `_`)}${(data?.TitleLine ?? data?.step1Data?.TitleLine)?.length > 0 ? "_" : ""
         }${(data?.designno ?? data?.step1Data?.designno)}/${pValue.menuname.split(' ').join('_')}/?p=${encodeObj}`
