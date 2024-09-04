@@ -160,8 +160,8 @@ const CartPage = () => {
   }
 
   return (
-    <div className='smr_MainBGDiv'>
-      <div className='cartMainPageDiv'>
+    <div className='stam_B2B_MainBGDiv'>
+      <div className='stam_cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="smr_cart-title">My Cart</div>
@@ -349,11 +349,6 @@ const CartPage = () => {
           title="Confirm"
           content="Are you sure you want to remove all Items?"
         />
-
-        <Footer />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
       </div>
     </div>
   );

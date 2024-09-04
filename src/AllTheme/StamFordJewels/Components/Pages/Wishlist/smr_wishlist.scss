@@ -39,20 +39,13 @@
     }
 }
 
-.smr_MainWlDiv {
+.stam_MainWishlist_Div {
     background-color: $backgroundColor;
     font-family: $primaryFontFamily;
 }
 
-.WlMainPageDiv {
+.stam_wishlist_sub {
     background-color: #fff;
-    margin-inline: 6%;
-}
-
-@media(max-width:1200px) {
-    .WlMainPageDiv {
-        margin-inline: 1% !important;
-    }
 }
 
 .smr_WlMainPage {
@@ -141,9 +134,8 @@
     }
 }
 
-.smr_WlListData {
+.stam_WlListData {
     padding: 60px 14px 10px 15px;
-    margin-bottom: -8%;
 
     .smr_wlListGrid {
         display: flex !important;
@@ -352,9 +344,8 @@
 
 
 @media (max-width: 768px) {
-    .smr_WlListData {
+    .stam_WlListData {
         padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
     }
 
     .smr_card-ContentData .smr_DesignNoTExt .smr_Wl-Cartbtn {
@@ -363,9 +354,8 @@
 }
 
 @media (max-width: 600px) {
-    .smr_WlListData {
+    .stam_WlListData {
         padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
     }
 
     .WlBtnGroupMainDiv {
@@ -413,9 +403,8 @@
 }
 
 @media (max-width: 320px) {
-    .smr_WlListData {
+    .stam_WlListData {
         padding: 6px;
-        margin-bottom: -8%;
     }
 
     .WlBtnGroupMainDiv {
@@ -498,7 +487,7 @@
     //     height: 30px !important;
     // }
 
-    .smr_WlListData {
+    .stam_WlListData {
         .smr_wlToggleButtonDiv {
             padding-top: 30px;
         }

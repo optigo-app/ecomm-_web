@@ -32,6 +32,9 @@ import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import { stam_companyLogo, stam_loginState } from "./Components/Recoil/atom";
+import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
+import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
+import Footer from "./Components/Pages/Home/Footer/Footer";
 
 const StamFordJewels_App = () => {
   const islogin = useRecoilValue(stam_loginState);
@@ -107,95 +110,71 @@ const StamFordJewels_App = () => {
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      <div>
+      <div style={{minHeight: '700px'}}>
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
-        {/* <Header2 /> */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/LoginOption"
+            element={<LoginOption />}
+          />
+          <Route
+            path="/ContinueWithEmail"
+            element={<ContinueWithEmail />}
+          />
+          <Route
+            path="/ContimueWithMobile"
+            element={<ContimueWithMobile />}
+          />
+          <Route
+            path="/LoginWithEmailCode"
+            element={<LoginWithEmailCode />}
+          />
+          <Route
+            path="/LoginWithMobileCode"
+            element={<LoginWithMobileCode />}
+          />
+          <Route
+            path="/ForgotPass"
+            element={<ForgotPass />}
+          />
+          <Route
+            path="/LoginWithEmail"
+            element={<LoginWithEmail />}
+          />
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/servicePolicy" element={<ServicePolicy />} />
+          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+          <Route path="/FunFact" element={<FunFact />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/d/*" element={<ProductDetail />} />
+            <Route path="/cartPage" element={<Cart />} />
+            <Route path="/myWishList" element={<Wishlist />} />
+            <Route path="/Delivery" element={<Delivery />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/account" element={<Account />} />
+          </Route>
+          <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/LoginOption"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginOption />
-            </div>
-          }
-        />
-        <Route
-          path="/ContinueWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <ContinueWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/ContimueWithMobile"
-          element={
-            <div className="authFlowBakcColor">
-              <ContimueWithMobile />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmailCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmailCode />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithMobileCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithMobileCode />
-            </div>
-          }
-        />
-        <Route
-          path="/ForgotPass"
-          element={
-            <div className="authFlowBakcColor">
-              <ForgotPass />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <div className="authFlowBakcColor">
-              <Register />
-            </div>
-          }
-        />
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/servicePolicy" element={<ServicePolicy />} />
-        <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-        <Route path="/FunFact" element={<FunFact />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
-          <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-        </Route>
-        <Route path="/Lookbook" element={<Lookbook />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+      {
+        (location.pathname != "payment") ||
+          (location.pathname != "Delivery") ||
+          (location.pathname != "Confirmation") ?
+          <Footer />
+          :
+          ''
+      }
+      <StamScrollToTop />
     </>
   );
 };

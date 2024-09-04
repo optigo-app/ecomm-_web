@@ -113,7 +113,7 @@ export default function ContinueWithEmail() {
     };
 
     return (
-        <div className='smr_continuemail'>
+        <div className='stam_continuemail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -175,11 +175,7 @@ export default function ContinueWithEmail() {
                         <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
-                    <Footer />
                 </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
             </div>
         </div>
     );

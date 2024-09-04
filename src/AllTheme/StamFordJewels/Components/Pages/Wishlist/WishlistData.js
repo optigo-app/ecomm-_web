@@ -50,7 +50,7 @@ const WishlistData = ({
 
 
   return (
-    <div className="smr_WlListData">
+    <div className="stam_WlListData">
       <>
         {items?.length != 0 &&
           <div className='smr_wlToggleButtonDiv'>
