@@ -26,7 +26,7 @@ import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState();
+  const [themeNo, setThemeNo] = useState(8);
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -118,8 +118,8 @@ export default function ThemeRoutes() {
   }, []);
 
   const callAllApi = (Data) => {
-    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const storeInitSession = JSON.parse(Data);
+    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const storeInitSession = JSON?.parse(Data);
     // const { IsB2BWebsite } = storeInit;
     const { IsB2BWebsite } = storeInitSession;
     const visiterID = Cookies.get("visiterId");
