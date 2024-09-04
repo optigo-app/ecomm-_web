@@ -10,7 +10,7 @@ export const getMemoReturnData = async(CurrencyRate, FrontEnd_RegNo, customerid,
           const encodedCombinedValue = btoa(combinedValue);
           const encodedCombinedValue2 = (combinedValue);
           const body = {
-            con: `{\"id\":\"Store\",\"mode\":\"getmemoreturn\",\"appuserid\":\"${data?.userid}\"}`,
+            con: `{\"id\":\"Store\",\"mode\":\"getmemoreport\",\"appuserid\":\"${data?.userid}\"}`,
             f: "zen (cartcount)",
             p: encodedCombinedValue,
             dp: encodedCombinedValue2,

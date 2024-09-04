@@ -67,7 +67,7 @@ function Home() {
             <LabgrownDiamondInfo />
             <ShapeSection />
             <DiamondLifeTime />
-            <ProductCarousel />
+            <ProductCarousel  />
             <Bestseller />
             <Banner />
             <OurServices />
