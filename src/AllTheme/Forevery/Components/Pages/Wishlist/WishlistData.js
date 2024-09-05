@@ -23,7 +23,6 @@ const WishlistData = ({
 
   console.log('itemLength', items?.length);
 
-
   return (
     <div className="for_WlListData">
       <>
@@ -63,7 +62,7 @@ const WishlistData = ({
             />
           ))}
         </Grid>
-        {items?.length == 0 || diamondData?.length == 0 &&
+        {(items?.length == 0 && diamondData?.length == 0) &&
           <div className='for_noWishlistData'>
             <p className='for_title'>No Wishlist Found!</p>
             <p className='for_desc'>Please First Add Product in Wishlist</p>
