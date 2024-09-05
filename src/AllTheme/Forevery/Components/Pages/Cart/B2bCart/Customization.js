@@ -30,8 +30,9 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  const [diadata, setDiaData] = useState();
-
+  const [diadata, setDiaData] = useState({});
+  const [loading, setLoading] = useState(false);
+           
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -62,9 +63,18 @@ const Customization = ({
 
 
   useEffect(() => {
-    const diamondValue = diamondData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
-    setDiaData(diamondValue)
-  }, [selectedItem])
+    if (diamondData) {
+      setLoading(true);
+      try {
+        const diamondValue = diamondData.find((dia) => dia?.stockno === selectedItem?.Sol_StockNo);
+        setDiaData(diamondValue);
+      } catch (err) {
+        // setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [selectedItem, diamondData]);
 
 
   const keyToCheck = "stockno"
@@ -252,8 +262,12 @@ const Customization = ({
                     <div className="for_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                          <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                          {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.FinalCost + diadata?.price) ?? selectedItem?.FinalCost)) : formatter(((selectedItem?.FinalCost)))}
+                          {loading == false &&
+                            <>
+                              <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                              {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.FinalCost + diadata?.price) ?? selectedItem?.FinalCost)) : formatter(((selectedItem?.FinalCost)))}
+                            </>
+                          }
                         </span>
                       ) :
                         <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />

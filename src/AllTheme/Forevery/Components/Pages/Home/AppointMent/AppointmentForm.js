@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './AppointmentForm.scss';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
-const AppointmentForm = ({ selectedItem }) => {
+const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
     const [loginDetail, setLoginDetail] = useState(null);
+    const [minDateTime, setMinDateTime] = useState('');
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -19,6 +20,17 @@ const AppointmentForm = ({ selectedItem }) => {
         const islogin = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         setLoginDetail(islogin);
     }, []);
+
+    useEffect(() => {
+        const today = new Date();
+        const threeDaysFromNow = new Date();
+        threeDaysFromNow.setDate(today.getDate() + 3);
+        const formatDate = (date) => {
+            return date.toISOString().slice(0, 16);
+        };
+        setMinDateTime(formatDate(threeDaysFromNow));
+    }, []);
+
 
     useEffect(() => {
         if (loginDetail) {
@@ -67,17 +79,22 @@ const AppointmentForm = ({ selectedItem }) => {
             alert('Coming Soon');
             setIsSubmitting(false);
             setFormData({
-                firstName: '',
-                lastName: '',
-                email: '',
-                phone: '',
+                firstName: loginDetail.firstname ?? '',
+                lastName: loginDetail.lastname ?? '',
+                email: loginDetail.userid ?? '',
+                phone: loginDetail.mobileno ?? '',
                 message: '',
                 dateTime: '',
             });
+            setSelectedItem({});
         } else {
             setErrors(formErrors);
         }
     };
+
+    const handleEdit = () => {
+        setSelectedItem({});
+    }
 
     return (
         <div className="form-container">
@@ -86,7 +103,7 @@ const AppointmentForm = ({ selectedItem }) => {
                 <img src={`${storImagePath()}${selectedItem?.image}`} alt={selectedItem?.title} />
                 <div className="for_product-info">
                     <a>{selectedItem?.title}</a>
-                    <button className="for_edit-btn">Edit</button>
+                    <button className="for_edit-btn" onClick={handleEdit}>Edit</button>
                 </div>
             </div>
             <form onSubmit={handleSubmit}>
@@ -159,6 +176,7 @@ const AppointmentForm = ({ selectedItem }) => {
                                 type="datetime-local"
                                 id="dateTime"
                                 value={formData.dateTime}
+                                min={minDateTime}
                                 onChange={handleChange}
                             />
                             {errors.dateTime && <div className="for_error-message">{errors.dateTime}</div>}

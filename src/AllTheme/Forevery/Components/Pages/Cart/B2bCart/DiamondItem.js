@@ -122,13 +122,15 @@ const DiamondItems = ({
     return (
         <>
             {diamondData?.map((diaData) =>
-                <div className="for_cartMain-item">
+                <div className="for_cartMain-item"
+                    style={{
+                        // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
+                        boxShadow: "none",
+                        border: !multiSelect && !isMobileScreen && selectedItem?.stockno == diaData?.stockno && '1px solid rgba(223, 100, 126, 1)'
+                    }}
+                >
                     <div className="for_cart-item"
-                        style={{
-                            // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
-                            boxShadow: "none",
-                            border: !multiSelect && !isMobileScreen && selectedItem?.id == diaData?.id && '1px solid rgba(223, 100, 126, 1)'
-                        }}
+
                         onClick={() => onSelect(diaData)}
                     >
                         <div className="for_cart-item__image">
