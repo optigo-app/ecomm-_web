@@ -17,6 +17,8 @@ import { RxCross1 } from "react-icons/rx";
 import { Dialog, DialogContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CartAndWishListAPI } from "../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
+import designImage from "../../Assets/ring.png"
+import diamondShapeImage from "../../Assets/diamond.png"
 
 const WishlistItems = ({
     item,
@@ -36,6 +38,7 @@ const WishlistItems = ({
     const setWishCountVal = useSetRecoilState(for_WishCount);
     const setCartCountVal = useSetRecoilState(for_CartCount);
     const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+    const [selectedDia, setSelectedDia] = useState();
     const visiterId = Cookies.get("visiterId");
     const navigate = useNavigate();
 
@@ -81,6 +84,14 @@ const WishlistItems = ({
         }
     }, [item]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            const diamondCartData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
+            setSelectedDia(diamondCartData)
+        }, 500);
+    }, [item])
+
+    console.log("diamondValueData", selectedDia)
     return (
         <>
             <Grid
@@ -89,6 +100,7 @@ const WishlistItems = ({
                 sm={itemsLength <= 2 ? 4 : 4}
                 md={itemsLength <= 2 ? 4 : 4}
                 lg={itemsLength <= 2 ? 3 : 3}
+                xxl={itemsLength <= 2 ? 3 : 2}
                 className="for_wlListGrid"
             >
                 <Card className="for_WlListCard">
@@ -106,6 +118,9 @@ const WishlistItems = ({
                                     variant="body2"
                                     className="for_card-ContentData for_WlTitleline"
                                 >
+                                    {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                        <img src={designImage} alt="designImage" className="for_diamondDShapeImg" />
+                                    }
                                     {item?.designno != "" && item?.designno}
                                     {item?.TitleLine != "" && " - " + item?.TitleLine}
                                 </Typography>
@@ -114,9 +129,9 @@ const WishlistItems = ({
                                     <span className="for_wishDT">
                                         {(item?.Gwt || 0)?.toFixed(3)}
                                     </span>
+                                    <span className="for_pipes"> | </span>
                                     <span className="for_wishDT">NWT : </span>
                                     <span className="for_wishDT">
-                                        <span className="for_pipes"> | </span>
                                         {(item?.Nwt || 0)?.toFixed(3)}
                                     </span>
                                     {(item?.Dwt != "0" || item?.Dpcs != "0") &&
@@ -138,9 +153,7 @@ const WishlistItems = ({
                                                 {(item?.CSpcs || 0)}
                                             </span>
                                         </>
-                                    }
-                                </Typography>
-                                <Typography variant="body2" className="for_card-ContentData">
+                                    }{" "}
                                     {item?.metalcolorname !== "" && (
                                         <span>{item.metalcolorname}</span>
                                     )}
@@ -149,14 +162,36 @@ const WishlistItems = ({
                                     {item?.metaltypename !== "" && (
                                         <span>{item?.metaltypename}</span>
                                     )}
-                                    {" / "}
-                                    <span className="for_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>{" "}
-                                    <span>{formatter(item?.FinalCost)}</span>
                                 </Typography>
+                                {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                    <Typography variant="body2" className="for_card-ContentData for_diamondData">
+                                        {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                            <img src={diamondShapeImage} alt="designImage" className="for_diamondDShapeImg" />
+                                        }
+                                        <span>
+                                            {selectedDia?.carat}{" "}
+                                            Carat {selectedDia?.colorname}, {selectedDia?.clarityname},{" "}
+                                            {selectedDia?.cutname} Cut, {selectedDia?.shapename} Diamond
+                                        </span>
+                                    </Typography>
+                                }
                             </div>
                         </CardContent>
+                        <div className="for_priceDataDiv">
+                            <span className="for_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            </span>{" "}
+                            <span>{formatter(selectedDia && Object.keys(selectedDia).length != 0 ? (selectedDia?.price + item?.FinalCost) : item?.FinalCost)}</span>
+                        </div>
+                        <span className="for_totalcart">
+                            {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                <>
+                                    Total carat weight:{selectedDia?.carat}
+                                </>
+                            }
+
+                        </span>
+
                         <div className="for_Wl-CartbtnDiv">
                             <button
                                 className="for_Wl-Cartbtn"

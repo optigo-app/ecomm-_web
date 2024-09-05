@@ -63,6 +63,7 @@ import PrivacyPage from "./Components/Pages/staticpages/PrivacyPage/PrivacyPage"
 import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/TermsAndCondition";
 import Account from "./Components/Pages/Account/Account"
 import LabCreatedRings from "./Components/Pages/labCreated-rings/LabCreatedRings";
+import JewelryInquiryForm from "../../utils/Inquary/JewelryInquiryForm";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -238,52 +239,31 @@ const ForEveryRoutes = () => {
             />
           </>
           <Route path="/appointment" element={<AppointmentPage />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/d/*" element={<DetailsRoute />} />
-          <Route path="/p/*" element={<ProductList />} />
-          {/* <Route
-          path="/certified-loose-lab-grown-diamonds"
-          element={<DiamondPage />}
-        /> */}
-          <Route
-            path="/certified-loose-lab-grown-diamonds/settings/*"
-            element={<SettingPage />}
-          />
-          <Route
-            path="/certified-loose-lab-grown-diamonds/diamond/*"
-            element={<DiamondFilter />}
-          />
-          <Route
-            path="/certified-loose-lab-grown-diamonds/ring/*"
-            element={<RingPage />}
-          />
-          <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-          <Route path="/diamond" element={<Diamond />} />
-          <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-
-        <Route path="/account" element={<Account />} />
-
-          {/* <Route path="/ExpertAdvice" element={<ExpertAdvice />} /> */}
-          {/* <Route path="/FunFact" element={<FunFact />} /> */}
-          {/* <Route path="/aboutUs" element={<AboutUs />} /> */}
-          {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin}/>}>
-          
-          // 
-          
-          {/* <Route path="/account" element={<Account />} /> */}
-          {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
-          {/* </Route> */}
-          {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
+          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+            <Route path="/certified-loose-lab-grown-diamonds/settings/*" element={<SettingPage />} />
+            <Route path="/certified-loose-lab-grown-diamonds/diamond/*" element={<DiamondFilter />} />
+            <Route path="/certified-loose-lab-grown-diamonds/ring/*" element={<RingPage />} />
+            <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/d/*" element={<DetailsRoute />} />
+            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/diamond" element={<Diamond />} />
+            <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
+            <Route path="/Delivery" element={<Delivery />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/Lookbook" element={<Lookbook />} />
+          </Route>
           <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/education" element={<Education />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
           <Route path="/terms-conditions" element={<TermsAndCondition />} />
+          <Route path="/JewelryInquiryForm" element={<JewelryInquiryForm />} />
+          <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </div>
       <Footer />
