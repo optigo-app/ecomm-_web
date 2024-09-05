@@ -28,15 +28,33 @@
 
     }
 
-    @media screen and (max-width: 500px) {
+}
+@media screen and (max-width: 500px) {
 
-        .smilingEditProfilePopup {
-            width: 95% !important;
-            margin: 5px !important;
-        }
+    .smilingEditProfilePopup_HOQ {
+        width: 88% !important;
+        margin: 0px !important;
+    }
+}
+@media screen and (max-width: 400px) {
+
+    .hoq_SmilingAddEditAddrwess{
+        width: 120px !important;
     }
 }
 
+@media screen and (max-width:320px), (max-width:360px), (max-width:390px), (max-width:430px),(max-width:500px) and (max-height:599px){
+    .smilingEditProfilePopup_HOQ{
+        max-height: 450px;
+        overflow: scroll;
+    }
+}
+@media screen and (max-height:360px){
+    .smilingEditProfilePopup_HOQ{
+        max-height: 300px;
+        overflow: scroll;
+    }
+}
 .hoq_SmilingAddEditAddrwess {
     height: 40px;
     width: 160px;

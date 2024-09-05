@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { Box, Button, CircularProgress } from '@mui/material';
 import { checkMonth, formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,8 +14,12 @@ import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
 import { getAccountLedgerData } from '../../../../../../utils/API/AccountTabs/accountLedger';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, useMediaQuery } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const AccountLedger = () => {
+
+    const isSmallScreen = useMediaQuery('(max-width:500px)');
 
     const [resultArray, setResultArray] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState('');
@@ -498,10 +501,10 @@ const AccountLedger = () => {
             </div>}
 
                 
-                {
-                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <div className='flex_col_Al' style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'8px'}}>
-                    {
-                        <div className='fs_al2' style={{display:'flex', justifyContent:'flex-start', alignItems:'center', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px'}}>
+            {
+                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <>
+                    <div className='flex_col_Al' style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'8px'}}>
+                        { !isSmallScreen && <div className='fs_al2' style={{display:'flex', justifyContent:'flex-start', alignItems:'center', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px'}}>
                             <div className='mb_acc'>
                                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
                             <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
@@ -579,16 +582,13 @@ const AccountLedger = () => {
                                 </LocalizationProvider>
                             </Box>
                         </Box>
-                        </Box>
+                                </Box>
                             </div>
                             <div>
              
                                 <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
         
-                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
-                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }}
-                                    onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
-                                    >
+                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
                                     <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} /></Button>
                                 </Box>
                             </div>
@@ -620,15 +620,125 @@ const AccountLedger = () => {
     
                         <div className='mx_1_acc ms_4_acc mb_2_acc'>
                         </div>
+                        </div>}
                     </div>
-                    }
-                    </div>
+
+                    {
+                            isSmallScreen && <>
+                            <Accordion>
+                                <AccordionSummary  expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+                                <AccordionDetails style={{padding:'0px'}}>
+                                <Box sx={{paddingBottom: "10px", paddingRight: "0px"}}>
+                                    <Button variant="contained" className="muiSmilingRocksBtn" size='small' sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", marginLeft:'10px'}}  
+                                    onClick={() => backToInitial3()}>
+                                        All
+                                    </Button>
+                                </Box>
+                                <div style={{display:'flex', alignItems:'center', marginTop:'10px', marginBottom:'10px'}}>
+                                    <Box>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DatePicker
+                                                label="Date From"
+                                                value={fromDate} 
+                                                ref={fromDateRef}
+
+                                                onChange={(newValue) => {
+                                                    if (newValue === null) {
+                                                    setFromDate(null)
+                                                    } else {
+                                            
+                                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                                setFromDate(newValue)
+                                                            } else {
+                                                                Swal.fire({
+                                                                title: "Error !",
+                                                                text: "Enter Valid Date From",
+                                                                icon: "error",
+                                                                confirmButtonText: "ok"
+                                                                });
+                                                                backToInitial2();
+                                                            }
+                                                    
+                                                    }
+                                                }}
+                                                format="DD MM YYYY"
+                                                placeholder="DD MM YYYY"
+                                                className='quotationFilterDates w_all_acc'
+                                                name="date" 
+                                                id="startdate" 
+                                            />
+                                        </LocalizationProvider>
+                                    </Box>
+                                    <Box>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DatePicker
+                                                label="Date From"
+                                                value={toDate} 
+                                                ref={toDateRef}
+
+                                                onChange={(newValue) => {
+                                                    if (newValue === null) {
+                                                        setToDate(null)
+                                                    } else {
+                                            
+                                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                                setToDate(newValue)
+                                                            } else {
+                                                                Swal.fire({
+                                                                title: "Error !",
+                                                                text: "Enter Valid Date From",
+                                                                icon: "error",
+                                                                confirmButtonText: "ok"
+                                                                });
+                                                                backToInitial2();
+                                                            }
+                                                    
+                                                    }
+                                                }}
+                                                format="DD MM YYYY"
+                                                placeholder="DD MM YYYY"
+                                                className='quotationFilterDates w_all_acc'
+                                                name="date" 
+                                                id="startdate" 
+                                            />
+                                        </LocalizationProvider>
+                                    </Box>
+                                    <Box sx={{ paddingBottom: "0px", paddingRight: "15px"}}>
+                                        <Button variant='contained' size='small' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
+                                            <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
+                                        </Button>
+                                    </Box>
+                                </div>
+                                <Box  className=" center_acc w_all_acc">
+                        
+                            <div className='d_flex_Acc' style={{paddingTop:'8px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                <button className=' btn_acc border_Acc daybtn' 
+                                    style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
+                                    paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
+                                    title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                                    {[30, 60, 90]?.map((days) => (
+                                        <button key={days} 
+                                        className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
+                                        title={`${days} days`} 
+                                        style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                                        onClick={() => handleDays(days)}>{days}</button>
+                                    ))}
+                                <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
+                                onClick={() => handleNextDays()}
+                                >&gt;</button>
+                            </div>
+                                </Box>
+                                </AccordionDetails>
+                            </Accordion>
+                            </>
+                        }
+                    </>
                 }
                 
                 <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_none'>
                     <div className='custom_flex_class'>
                         <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc ps-0 w_all_acc'>
-                            <span className='w_40_acc'>Balance Gold :&nbsp;</span> 
+                            <span className='w_40_acc '>Balance Gold :&nbsp;</span> 
                             <span className='bal_Amt_ac  w_60_acc end_acc'>
                                 {   ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - 
                                     ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  
@@ -661,21 +771,21 @@ const AccountLedger = () => {
                 </div>
                 <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
                     <div className='custom_flex_class'>
-                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc p_1_acc w_100_acc'>
-                            <div className='w_100_acc'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w_100_acc end_acc'>
+                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc  w_100_acc'>
+                            <div className='w_100_acc elvee_Acc_led_fs_label'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w_100_acc end_acc elvee_Acc_Led_inp'>
                             { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
                             { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }</div>
                         </div>
                         <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
-                            <div className='w_100_acc'>Balance Diam. :&nbsp;</div> 
-                            <div className='bal_Amt_ac w_100_acc end_acc'>
+                            <div className='w_100_acc elvee_Acc_led_fs_label'>Balance Diam. :&nbsp;</div> 
+                            <div className='bal_Amt_ac w_100_acc end_acc elvee_Acc_Led_inp'>
                             { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
                             { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
                             </div>
                         </div>
                         <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
-                            <div className='w_100_acc'>Balance Amount :&nbsp;</div> 
-                            <div className='bal_Amt_ac w_100_acc end_acc'>
+                            <div className='w_100_acc elvee_Acc_led_fs_label'>Balance Amount :&nbsp;</div> 
+                            <div className='bal_Amt_ac w_100_acc end_acc elvee_Acc_Led_inp'>
                             <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
                             { ((formatAmount(
                                 (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
@@ -698,21 +808,21 @@ const AccountLedger = () => {
                                 <td className='fw_bold_acc text_center_acc' colSpan={11}>CREDIT</td>
                             </tr>
                             <tr className='w_100_acc border_bottom_acc fw_bold_acc fs_td'>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DATE</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>PARTICULAR</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>VOUCHER</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>METAL</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DIAM.</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>DATE</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee2 '>PARTICULAR</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>VOUCHER</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>METAL</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>DIAM.</td>
 
-                                <td className='border_end_acc p_1_acc text_center_acc '>CURRENCY</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>VERIFIED</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DATE</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>PARTICULAR</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>VOUCHER</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>METAL</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DIAM.</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>CURRENCY</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>VERIFIED</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>DATE</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee2 '>PARTICULAR</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>VOUCHER</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>METAL</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>DIAM.</td>
             
-                                <td className='border_end_acc p_1_acc text_center_acc '>CURRENCY</td>
+                                <td className='border_end_acc p_1_acc text_center_acc min_width_acc_elvee '>CURRENCY</td>
                                 <td className='p_1_acc text_center_acc'>VERIFIED</td>
                             </tr>
                         </thead>
