@@ -1,0 +1,47 @@
+.roop_jewlSet_Main {
+
+
+    .roop_jewl_title {
+        font-size: 40px;
+        text-align: center;
+        margin-top: 70px;
+    }
+
+    .roop_jewls_main_sub {
+        display: flex;
+        flex-wrap: wrap;
+        padding-inline: 250px;
+    }
+
+    .roop_jewls__image_div {
+        position: relative;
+        width: 50%;
+        padding: 20px 20px 20px 0px;
+        
+    }
+
+    .roop_jewls__image_div1 {
+        position: relative;
+        width: 50%;
+        padding: 20px 0px 20px 20px;
+    }
+
+    .roop_jewels_bannerImg_div{
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .roop_jewls_Div_name {
+        color: white;
+        position: absolute;
+        font-size: 30px;
+        bottom: 20%;
+        left: 40px;
+    }
+
+    .roop_jewelImg {
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+    }
+}
