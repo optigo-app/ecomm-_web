@@ -341,7 +341,7 @@ const DiamondFilter = () => {
 
   const getBannerImage = (index) => {
     const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-    return index < 0 || (index >= 2 && (index - 2) % 16 === 0)
+    return index < 0 || (index >= 1 && (index - 1) % 15 === 0)
       ? bannerImage
       : null;
   };
@@ -455,13 +455,27 @@ const DiamondFilter = () => {
       const filterData = await DiamondListData(1, shape, "", parsedData);
       const data1 = filterData?.Data?.rd[0];
       const resData = filterData?.Data?.rd;
-      const Newmap = resData?.map((val) => ({
-        img: IMG,
-        vid: Video,
-        HaveCustomization: true,
-        ...val,
-      }));
-      setDiamondData(Newmap);
+      // const Newmap = resData?.map((val, index) => ({
+      //   img: IMG,
+      //   vid: val?.video_url,
+      //   HaveCustomization: true,
+      //   ...val,
+      //   bannerImage: getBannerImage(index),
+      // }));
+      const dataWithBanners = resData?.flatMap((val, index) => {
+        const bannerImage = getBannerImage(index);
+        return [
+          {
+            img: IMG,
+            vid: val?.video_url,
+            HaveCustomization: true,
+            ...val,
+          },
+          bannerImage ? { img: bannerImage, isBanner: true } : null
+        ].filter(Boolean);
+      });
+      setDiamondData(dataWithBanners);
+      console.log("Newmap",dataWithBanners)
       const count = data1?.icount;
       setDiaCount(count);
       const transformedData = {
@@ -1147,26 +1161,37 @@ const DiamondFilter = () => {
                     return (
                       <div key={i} className="diamond_card">
                         <div className="media_frame">
-                          {bannerImage ? (
+                          {val?.isBanner == true ? (
                             <img
-                              src={bannerImage}
+                              src={val?.img}
                               alt="bannerImage"
                               width={"100%"}
                             />
                           ) : (
                             <>
                               {currentMediaType === "vid" ? (
-                                <video
-                                  src={val?.vid}
-                                  width="100%"
-                                  ref={(el) => (videoRefs.current[i] = el)}
-                                  autoPlay={hoveredCard === i}
-                                  controls={false}
-                                  muted
-                                  onMouseOver={(e) => handleMouseMove(e, i)}
-                                  onMouseLeave={(e) => handleMouseLeave(e, i)}
-                                  onClick={() => HandleDiamondRoute(val)}
-                                />
+                                <>
+                                  {val?.vid?.endsWith('.mp4') ? (
+                                    <video
+                                      src={val?.vid}
+                                      width="100%"
+                                      ref={(el) => (videoRefs.current[i] = el)}
+                                      autoPlay={hoveredCard === i}
+                                      controls={false}
+                                      muted
+                                      onMouseOver={(e) => handleMouseMove(e, i)}
+                                      onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                      onClick={() => HandleDiamondRoute(val)}
+                                    />
+                                  ) :
+                                    <img
+                                      className="dimond-info-img"
+                                      src={val?.image_file_url}
+                                      alt=""
+                                      onClick={() => HandleDiamondRoute(val)}
+                                    />
+                                  }
+                                </>
                               ) : (
                                 <img
                                   className="dimond-info-img"
@@ -1177,7 +1202,7 @@ const DiamondFilter = () => {
                               )}
                             </>
                           )}
-                          {!bannerImage && (
+                          {!val?.isBanner == true && (
                             <>
                               <div className="select_this_diamond_banner">
                                 <span>Select This Diamond</span>
@@ -1185,7 +1210,7 @@ const DiamondFilter = () => {
                             </>
                           )}
                         </div>
-                        {!bannerImage && (
+                        {!val?.isBanner == true && (
                           <>
                             <div className="toggle_btn">
                               <span onClick={() => HandleMedia("img", i)}>
