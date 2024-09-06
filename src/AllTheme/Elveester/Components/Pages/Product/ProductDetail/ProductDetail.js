@@ -558,7 +558,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [location, SizeCombo]);
+  }, [location?.key, location?.pathname]);
 
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
