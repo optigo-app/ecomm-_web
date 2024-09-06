@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
-import { stam_cartB2CDrawer, stam_CartCount, stam_companyLogo, stam_loginState, stam_WishCount } from "../../../Recoil/atom";
+import { stam_cartB2CDrawer, stam_CartCount, stam_CartNo, stam_companyLogo, stam_loginState, stam_WishCount } from "../../../Recoil/atom";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -41,6 +41,7 @@ const Header = () => {
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
   const location = useLocation();
+  const cartTheameNo = useRecoilValue(stam_CartNo);
 
 
   let navigate = useNavigate();
@@ -382,12 +383,19 @@ const Header = () => {
   };
 
   // for cart drawer
-
+  console.log("cartTheameNo", cartTheameNo)
   const toggleCartDrawer = () => {
-    setIsCartOpen((prevState) => !prevState);
-    const isCartDrawerOpen = JSON.parse(sessionStorage.getItem("isCartDrawer"));
-    sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
-    setCartOpenState((prevState) => !prevState);
+    debugger;
+    setTimeout(() => {
+      if (cartTheameNo == 2) {
+        setIsCartOpen((prevState) => !prevState);
+        const isCartDrawerOpen = JSON.parse(sessionStorage.getItem("isCartDrawer"));
+        sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
+        setCartOpenState((prevState) => !prevState);
+      } else {
+        navigate('/cartPage');
+      }
+    }, 500);
   };
 
   const handleContextMenu = (e) => { };

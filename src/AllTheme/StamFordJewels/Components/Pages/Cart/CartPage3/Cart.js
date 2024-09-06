@@ -4,12 +4,13 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './smr_cartPage.scss';
+import './stmpf_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
 import ConfirmationDialog from '../../ConfirmationDialog/ConfirmationDialog';
+import { stam_CartCount, stam_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -18,8 +19,6 @@ import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
-import { stam_CartCount, stam_loginState } from '../../../Recoil/atom';
-
 
 const CartPage = () => {
   const addressData = useAddress();
@@ -73,36 +72,37 @@ const CartPage = () => {
   const [storeInit, setStoreInit] = useState();
   const [defaultAddr, setDefaultAddr] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [countstatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(stam_CartCount)
   const islogin = useRecoilValue(stam_loginState);
   const visiterId = Cookies.get('visiterId');
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
+  const [selectedDia, setSelectedDia] = useState();
 
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
-    if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-      sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let priceData = cartData?.reduce(
+      (total, item) => total + item?.FinalCost,
+      0
+    );
+    sessionStorage.setItem("TotalPriceData", priceData);
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+      navigate(redirectUrl);
+      // navigate('/loginOption')
     } else {
-      handlePay();
+      navigate("/Delivery");
     }
     window.scrollTo(0, 0);
-  }
+  };
 
-  function scrollToTop() {
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  }
+  }, [])
 
-
-  useEffect(() => {
-    const iswishUpdateStatus = sessionStorage.getItem('cartUpdation');
-    setCountStatus(iswishUpdateStatus)
-  }, [handleRemoveItem, handleRemoveAll])
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
@@ -141,91 +141,52 @@ const CartPage = () => {
 
 
 
-  const handlePay = async () => {
-    const visiterId = Cookies.get('visiterId');
-    const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    console.log("paymentResponse", paymentResponse);
-    if (paymentResponse?.Data?.rd[0]?.stat == 1) {
-      let num = paymentResponse.Data?.rd[0]?.orderno
-      sessionStorage.setItem('orderNumber', num);
-      navigate('/Confirmation');
-      GetCountAPI().then((res) => {
-        console.log('responseCount', res);
-        setCartCountVal(res?.cartcount)
-      })
+  // const handlePay = async () => {
+  //   const visiterId = Cookies.get('visiterId');
+  //   const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+  //   console.log("paymentResponse", paymentResponse);
+  //   if (paymentResponse?.Data?.rd[0]?.stat == 1) {
+  //     let num = paymentResponse.Data?.rd[0]?.orderno
+  //     sessionStorage.setItem('orderNumber', num);
+  //     navigate('/Confirmation');
+  //     GetCountAPI().then((res) => {
+  //       console.log('responseCount', res);
+  //       setCartCountVal(res?.cartcount)
+  //     })
 
-    } else {
-      toast.error('Something went wrong!')
-    }
-  }
+  //   } else {
+  //     toast.error('Something went wrong!')
+  //   }
+  // }
+
+
+  console.log("cartData----", cartData)
 
   return (
-    <div className='stam_B2B_MainBGDiv'>
-      <div className='stam_cartMainPageDiv'>
+    <div className='stmpf_MainBGDiv'>
+      {isMobileScreen &&
+        <div className="stmpf_cart-title">Cart</div>
+      }
+      <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          {isMobileScreen &&
-            <div className="smr_cart-title">My Cart</div>
+          {!isloding && cartData.length !== 0 &&
+            <div className='stmpf_cartButton-groups'>
+              <Link
+                className='stmpf_ReomoveAllCartbtn'
+                variant="body2"
+                onClick={handleRemoveAllDialog}
+              >
+                Clear All
+              </Link>
+            </div>
+          }{!isMobileScreen &&
+            <div className="stmpf_cart-title">My Cart</div>
           }
-          <div className='smr_cartmainRowDiv'>
-            {!isloding && cartData?.length != 0 &&
-              <div className='smr_cartButton-groups'>
-                <Link
-                  className='smr_ReomoveAllCartbtn'
-                  variant="body2"
-                  onClick={handleRemoveAllDialog}
-                >
-                  Clear All
-                </Link>
-              </div>
-            }
-            {!isMobileScreen &&
-              <div className="smr_cart-title">My Cart</div>
-            }
-            {!isloding && cartData?.length != 0 &&
-              <div className='smr_placeOrderMainbtnDivs'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
-              </div>
-            }
-          </div>
-
-          {/* {!isloding && cartData.length != 0 &&
-            <>
-              <div className="smr_cartButton-group">
-                <button className="smr_cartBtn smr_cartActivebtn">List View</button>
-                <button className='smr_cartBtn'>Image View</button>
-                <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
-                <div>
-                  <Link
-                    className='smr_ReomoveAllCartbtn'
-                    variant="body2"
-                    onClick={handleRemoveAllDialog}
-                  >
-                    Clear All
-                  </Link>
-                  <Link
-                    className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
-                    variant="body2"
-                    onClick={handleMultiSelectToggle}
-                  >
-                    {multiSelect ? 'Disable MultiSelect' : 'Enable MultiSelect'}
-                  </Link>
-                </div>
-
-                <button className='smr_cartBtn'>Show ProductList</button>
-
-                <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
-                {multiSelect && selectedItems.length != 0 &&
-                  <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
-                }
-                <div className='smr_placeOrderMobileMainbtnDiv'>
-                  <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
-                </div>
-              </div>
-              <div className='smr_placeOrderMainbtnDiv'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
-              </div>
-            </>
-          } */}
+          {!isloding && cartData.length !== 0 &&
+            <div className='stmpf_placeOrderMainbtnDivs'>
+              <button onClick={handlePlaceOrder}>Place Order</button>
+            </div>
+          }
         </div>
         {!isloding ? (
           <>
@@ -246,9 +207,9 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length !== 0 ? (
-              <div className="smr_cartMainPage">
-                <div className="smr_cart-left-sides">
+            {!isloding && cartData.length != 0 ? (
+              <div className="stmpf_cartMainPage">
+                <div className="stmpf_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -268,9 +229,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className="stmpf_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='smr_pc-cartDetail'>
+                    <div className='stmpf_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -295,7 +256,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='smr_mobile-cartDetails'>
+                    <div className='stmpf_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -331,17 +292,16 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noCartlistData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Product in Cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='stmpf_noCartlistData'>
+                <p className='stmpf_title'>No Data Found!</p>
+                <p className='stmpf_desc'>Please First Add Product in Cart</p>
+                <button className='stmpf_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
         ) :
           <CartPageSkeleton />
         }
-
         <ConfirmationDialog
           open={dialogOpen}
           onClose={handleCloseDialog}
@@ -349,6 +309,7 @@ const CartPage = () => {
           title="Confirm"
           content="Are you sure you want to remove all Items?"
         />
+
       </div>
     </div>
   );

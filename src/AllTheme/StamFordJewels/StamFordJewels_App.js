@@ -31,7 +31,7 @@ import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import { stam_companyLogo, stam_loginState } from "./Components/Recoil/atom";
+import { stam_CartNo, stam_companyLogo, stam_loginState } from "./Components/Recoil/atom";
 import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
@@ -41,11 +41,17 @@ const StamFordJewels_App = () => {
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(stam_loginState);
+  const setCartNo = useSetRecoilState(stam_CartNo);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(stam_companyLogo);
+
+
+  useEffect(() => {
+    setCartNo(3);
+  }, []);
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");
@@ -105,12 +111,15 @@ const StamFordJewels_App = () => {
     }
   }
 
+
+ 
+
   return (
     <>
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      <div style={{minHeight: '700px'}}>
+      <div style={{ minHeight: '700px' }}>
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
         <Routes>
