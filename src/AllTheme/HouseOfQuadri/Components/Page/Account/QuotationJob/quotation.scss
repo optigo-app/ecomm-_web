@@ -177,6 +177,15 @@
         padding: 10px 7px;
     } 
 }
+@media (max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px){
+    #demo-multiple-checkbox {
+        padding: 12px 32px 12px 10px !important;
+    }
+    .hoq-AccountMain{
+        margin-inline: 1%;
+    }
+    
+}
 @media (max-width: 576px) {
 
     .quotationJobSec {
