@@ -3,13 +3,13 @@ import Usewishlist from "../../../../../utils/Glob_Functions/Cart_Wishlist/Wishl
 import WishlistItems from "./WishlistItems";
 import Button from "@mui/material/Button";
 import Footer from "../Home/Footer/Footer";
-import "./smr_wishlist.scss";
+import "./stam_wishlist.scss";
 import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { stam_CartCount, stam_WishCount } from "../../Recoil/atom";
-import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
+import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
@@ -97,13 +97,13 @@ const Wishlist = () => {
       <div className="stam_wishlist_sub">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&
-            <div className="smr_Wl-title">My Wishlist</div>
+            <div className="stam_Wl-title">My Wishlist</div>
           }
           {wishlistData?.length != 0 &&
             <>
-              <div className="smr_WlButton-group">
+              <div className="stam_WlButton-group">
                 <Link
-                  className="smr_ReomoveAllWLbtn"
+                  className="stam_ReomoveAllWLbtn"
                   href="#"
                   variant="body2"
                   onClick={handleRemoveAllDialog}
@@ -111,9 +111,9 @@ const Wishlist = () => {
                   CLEAR ALL
                 </Link>
                 {!isMobileScreen &&
-                  <div className="smr_Wl-title">My Wishlist</div>
+                  <div className="stam_Wl-title">My Wishlist</div>
                 }
-                <button className="smr_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
+                <button className="stam_WlAddToCartBtn" onClick={handleAddtoCartAllfun}>ADD TO CART ALL</button>
               </div>
             </>
           }
