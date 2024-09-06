@@ -18,6 +18,7 @@ import { HiOutlineShoppingBag } from 'react-icons/hi2';
 const Menubar = () => {
     const [lodingLogo, setLodingLogo] = useState(true);
     const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+    const [storeinit, setStoreInit] = useState();
     const navigation = useNavigate();
     const [islogin, setislogin] = useRecoilState(el_loginState);
     const [toggle, setToggle] = useState(false);
@@ -29,6 +30,9 @@ const Menubar = () => {
     useEffect(() => {
         const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
+
+        const storeData = JSON.parse(sessionStorage.getItem('storeInit'));
+        setStoreInit(storeData)
 
         if (titleImg) {
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -314,42 +318,44 @@ const Menubar = () => {
                                     </div>
                                     <div className='elv_login_header_menu_lists_div'>
                                         <ul className="el_login_header_menu_main_div1_ul">
-                                            <li
-                                                className="el_Login_header_li go-lookbook"
-                                                style={{
-                                                    marginLeft: "33px",
-                                                    marginBottom: '20px',
-                                                    cursor: "default",
-                                                    textDecoration: "none",
-                                                    position: "relative",
-                                                    color: "inherit"
-                                                }}
-                                                onClick={() => {
-                                                    handleToggle();
-                                                    navigation("Lookbook");
-                                                }}
-                                            >
-                                                <small
+                                            {storeinit?.IsDesignSetInMenu == 1 && (
+                                                <li
+                                                    className="el_Login_header_li go-lookbook"
                                                     style={{
-                                                        backgroundColor: "#9C27B0",
-                                                        position: "absolute",
-                                                        marginTop: "-35px",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        height: "15px",
-                                                        borderRadius: "",
-                                                        padding: "0 5px",
-                                                        fontSize: "10px",
-                                                        borderRadius: " 3px",
-                                                        marginLeft: "-15px",
-                                                        color: 'white'
+                                                        marginLeft: "33px",
+                                                        marginBottom: '20px',
+                                                        cursor: "default",
+                                                        textDecoration: "none",
+                                                        position: "relative",
+                                                        color: "inherit"
+                                                    }}
+                                                    onClick={() => {
+                                                        handleToggle();
+                                                        navigation("Lookbook");
                                                     }}
                                                 >
-                                                    New
-                                                </small>
-                                                LookBook
-                                            </li>
+                                                    <small
+                                                        style={{
+                                                            backgroundColor: "#9C27B0",
+                                                            position: "absolute",
+                                                            marginTop: "-35px",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            height: "15px",
+                                                            borderRadius: "",
+                                                            padding: "0 5px",
+                                                            fontSize: "10px",
+                                                            borderRadius: " 3px",
+                                                            marginLeft: "-15px",
+                                                            color: 'white'
+                                                        }}
+                                                    >
+                                                        New
+                                                    </small>
+                                                    {storeinit?.DesignSetInMenu}
+                                                </li>
+                                            )}
                                             {menuItems.map((item, index) => {
                                                 return (
                                                     <li
