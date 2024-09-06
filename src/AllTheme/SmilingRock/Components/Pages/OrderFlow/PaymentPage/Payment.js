@@ -46,13 +46,8 @@ const Payment = () => {
     
     const handleSaveInternal = () => {
         const trimmedRemark = orderRemark.trim();
-    
-        if (trimmedRemark && trimmedRemark !== "null") {
             handleOrderRemarkFun(trimmedRemark);
-            handleClose();
-        } else {
-            toast.info("Please add a remark first!");
-        }        
+            handleClose();  
     };
 
     console.log('orderreamrk', orderRemark);
@@ -169,7 +164,7 @@ const Payment = () => {
                             variant="body2"
                             onClick={handleOpen}
                         >
-                            {orderRemakdata == "" ? "Add order Remark" : "Update order Remark"}
+                           {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
                     <div className='smr_paymentDetailMainDiv'>

@@ -28,9 +28,9 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           flexDirection: 'column',
           borderRadius: '8px',
         }}
-        className="smr_OrderModalBox"
+        className="stam_OrderModalBox"
       >
-        <Typography id="remark-modal-title" className='smr_addorderRemark' variant="h6" component="h2">
+        <Typography id="remark-modal-title" className='stam_addorderRemark' variant="h6" component="h2">
           Add The Order Remark..
         </Typography>
         <TextField
@@ -42,13 +42,13 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           value={remark}
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
-          className='smr_orderRemarkMoalInput'
+          className='stam_orderRemarkMoalInput'
         />
-        <div className="smr_projectRemarkBtn-group">
-          <Button className="smr_remarksave-btn" onClick={onSave}>
+        <div className="stam_projectRemarkBtn-group">
+          <Button className="stam_remarksave-btn" onClick={onSave}>
             Save
           </Button>
-          <Button className="smr_remarkcancel-btn" onClick={onClose}>
+          <Button className="stam_remarkcancel-btn" onClick={onClose}>
             Cancel
           </Button>
         </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField, useMediaQuery } from '@mui/material';
 import "./quotation.scss";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -18,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {checkMonth, customComparator_Col, formatAmount, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Swal from 'sweetalert2';
 
@@ -863,7 +863,7 @@ const scrollToTop = () => {
       { isSmallScreen && <>
       <Accordion   style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails className='acc_Details_elvee_job' style={{padding:'0px'}}>
       <Box style={{marginBottom:'10px', marginTop:'5px'}}>
         <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
         <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", marginLeft:'10px', marginBottom:'20px', minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
@@ -881,7 +881,7 @@ const scrollToTop = () => {
           </RadioGroup>
         </Box>
         <Box style={{width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-          <Box style={{width:'100%', marginBottom:'2rem', minWidth:'35%', maxWidth:'35%', boxSizing:'border-box'}}>
+          <Box style={{marginBottom:'2rem', boxSizing:'border-box'}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Date From"
@@ -889,7 +889,7 @@ const scrollToTop = () => {
                     ref={fromDateRef}
       
                     format="DD MM YYYY"
-                    className='quotationFilterDatesElvee'
+                    className='quotationFilterDatesElvee pd_right_elvee_job'
                     onChange={(newValue) => {
                       if (newValue === null) {
                         setFromDate(null)
@@ -911,7 +911,7 @@ const scrollToTop = () => {
                   />
                 </LocalizationProvider>
           </Box>
-          <Box style={{width:'100%', marginBottom:'2rem', minWidth:'35%', maxWidth:'35%', boxSizing:'border-box'}}>
+          <Box style={{marginBottom:'2rem', boxSizing:'border-box'}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Date To"
@@ -919,7 +919,7 @@ const scrollToTop = () => {
                     ref={toDateRef}
       
                     format="DD MM YYYY"
-                    className='quotationFilterDatesElvee'
+                    className='quotationFilterDatesElvee pd_right_elvee_job'
                     onChange={(newValue) => {
                       if (newValue === null) {
                         setToDate(null)
@@ -940,7 +940,7 @@ const scrollToTop = () => {
                   />
                 </LocalizationProvider>
           </Box>
-          <Box style={{width:'100%', marginBottom:'2rem', minWidth:'15%', maxWidth:'15%', boxSizing:'border-box'}}>
+          <Box style={{ marginBottom:'2rem',  boxSizing:'border-box'}}>
             <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
           </Box>
         </Box>

@@ -19,7 +19,7 @@ import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
-    const [isPageloding, setIsPageloding] = useState(false);
+    const [isploding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
@@ -72,6 +72,7 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             setIsPageloding(true)
             try {
@@ -85,6 +86,8 @@ const Payment = () => {
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally{
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
@@ -196,7 +199,7 @@ const Payment = () => {
                         </div>
                         <div className='for_paymentDetailRightSideContent'>
                             <h3>Order Summary</h3>
-                            {!isPageloding ? (
+                            {!isploding ? (
                                 <>
                                     <div className='for_paymenttotalpricesummary'>
                                         <p>Subtotal</p>
@@ -228,7 +231,7 @@ const Payment = () => {
                                     </div>
                                 </>
                             ) :
-                                <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={100} animation="wave" />
+                                <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
                             }
                             <div className='for_shippingAddress'>
                                 <h3>Shipping Address</h3>

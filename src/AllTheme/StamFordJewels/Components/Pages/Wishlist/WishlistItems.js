@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./smr_wishlist.scss";
+import "./stam_wishlist.scss";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -73,44 +73,44 @@ const WishlistItems = ({
                     item
                     xs={itemsLength <= 2 ? 6 : 6}
                     sm={itemsLength <= 2 ? 4 : 4}
-                    md={itemsLength <= 2 ? 4 : 4}
-                    lg={itemsLength <= 2 ? 3 : 3}
-                    className="smr_wlListGrid"
+                    md={itemsLength <= 2 ? 4 : 3}
+                    lg={itemsLength <= 2 ? 3 : 2}
+                    className="stam_wlListGrid"
                 >
-                    <Card className="smr_WlListCard">
+                    <Card className="stam_WlListCard">
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
                                 image={imageSrc}
                                 alt={item?.TitleLine}
-                                className="smr_WlListImage"
+                                className="stam_WlListImage"
                                 onClick={() => handleMoveToDetail(item)}
                             />
-                            <CardContent className="smr_cardContent">
+                            <CardContent className="stam_cardContent">
                                 <div className="cardText">
                                     <Typography
                                         variant="body2"
-                                        className="smr_card-ContentData smr_WlTitleline"
+                                        className="stam_card-ContentData stam_WlTitleline"
                                     >
                                         {item?.designno != "" && item?.designno}
                                         {item?.TitleLine != "" && " - " + item?.TitleLine}
                                     </Typography>
-                                    <Typography variant="body2" className="smr_card-ContentData">
-                                        <span className="smr_wishDT">GWT: </span>
-                                        {/* <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
-                                        <span className="smr_wishDT">
+                                    <Typography variant="body2" className="stam_card-ContentData">
+                                        <span className="stam_wishDT">GWT: </span>
+                                        {/* <span className='stam_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                        <span className="stam_wishDT">
                                             {(item?.Gwt || 0).toFixed(3)}
                                         </span>
 
-                                        <span className="smr_pipes"> | </span>
-                                        <span className="smr_wishDT">NWT : </span>
-                                        <span className="smr_wishDT">
+                                        <span className="stam_pipes"> | </span>
+                                        <span className="stam_wishDT">NWT : </span>
+                                        <span className="stam_wishDT">
                                             {(item?.Nwt || 0).toFixed(3)}
                                         </span>
                                         {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                                             <>
-                                            <span className="smr_pipes"> | </span>
-                                                <span className="smr_wishDT">DWT: </span>
+                                            <span className="stam_pipes"> | </span>
+                                                <span className="stam_wishDT">DWT: </span>
                                                 <span>
                                                     {(item?.Dwt || 0).toFixed(3)} /
                                                     {(item?.Dpcs || 0)}
@@ -119,8 +119,8 @@ const WishlistItems = ({
                                         }
                                         {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                                             <>
-                                            <span className="smr_pipes"> | </span>
-                                                <span className="smr_wishDT">CWT: </span>
+                                            <span className="stam_pipes"> | </span>
+                                                <span className="stam_wishDT">CWT: </span>
                                                 <span>
                                                     {(item?.CSwt || 0).toFixed(3)} /
                                                     {(item?.CSpcs || 0)}
@@ -128,7 +128,7 @@ const WishlistItems = ({
                                             </>
                                         }
                                     </Typography>
-                                    <Typography variant="body2" className="smr_card-ContentData">
+                                    <Typography variant="body2" className="stam_card-ContentData">
                                         {item?.metalcolorname !== "" && (
                                             <span>{item.metalcolorname}</span>
                                         )}
@@ -138,20 +138,20 @@ const WishlistItems = ({
                                             <span>{item?.metaltypename}</span>
                                         )}
                                         {" / "}
-                                        {/* <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
-                                        <span className="smr_currencyFont">
+                                        {/* <span className="stam_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                        <span className="stam_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>{" "}
                                         <span>{formatter(item?.FinalCost)}</span>
                                     </Typography>
                                 </div>
                                 {/* <div className='designNoWlList'>
-                            <p className='smr_DesignNoTExt'>{item?.designno}</p>
+                            <p className='stam_DesignNoTExt'>{item?.designno}</p>
                         </div> */}
                             </CardContent>
-                            <div className="smr_Wl-CartbtnDiv">
+                            <div className="stam_Wl-CartbtnDiv">
                                 <button
-                                    className="smr_Wl-Cartbtn"
+                                    className="stam_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
                                     {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
@@ -173,20 +173,20 @@ const WishlistItems = ({
                     sm={itemsLength <= 2 ? 4 : 3}
                     md={itemsLength <= 2 ? 4 : 2}
                     lg={itemsLength <= 2 ? 3 : 2}
-                    className="smr_wlListGrid"
+                    className="stam_wlListGrid"
                 >
-                    <Card className="smr_WlListCard">
+                    <Card className="stam_WlListCard">
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
                                 image={imageSrc }
                                 alt={item?.TitleLine}
-                                className="smr_WlListImage2"
+                                className="stam_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}
                             />
-                            <div className="smr_Wl-CartbtnDiv">
+                            <div className="stam_Wl-CartbtnDiv">
                                 <button
-                                    className="smr_Wl-Cartbtn"
+                                    className="stam_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
                                     {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}

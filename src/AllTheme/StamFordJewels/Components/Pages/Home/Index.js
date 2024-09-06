@@ -44,6 +44,8 @@ function Home() {
     );
   };
 
+
+
   return (
     <>
       <div className="stam_home_index_main">
@@ -51,7 +53,8 @@ function Home() {
           <div className="stam_home_index_Submain">
             <TopSection />
             <TheDifference />
-            <PromotionBaner2 />
+            <TrendingView1 />
+            {/* <PromotionBaner2 /> */}
             {/* {localData?.IsHomeAlbum === 1 && <Album1 />}
             {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
             {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}

@@ -299,7 +299,7 @@ const useCart = () => {
         setHandleUpdate(resStatus)
         // toast.success('Cart Updated Successfully')
 
-        const Price = finalPrice?.UnitCostWithMarkUp * qtyCount;
+        const Price = updatedItems?.UnitCostWithMarkUp * qtyCount;
         const updatedCartData = cartData.map(cart =>
           cart?.id === updatedItems?.id ? { ...cart,
             metaltypename:mtType ?? updatedItems?.metaltypename,
@@ -365,7 +365,7 @@ const useCart = () => {
   // for quantity
   const updateCartAndSelectedItem = (item, quantity, priceQty) => {
     const updatedCartData = cartData.map(cart =>
-      cart.id === item.id ? { ...cart, Quantity: quantity, FinalCost: priceQty } : cart
+      cart.id === item.id ? { ...cart, Quantity: quantity } : cart
     );
     setCartData(updatedCartData);
 
@@ -613,8 +613,6 @@ const useCart = () => {
             });
     });
 };
-
-  
 
   const compressAndEncode = (inputString) => {
     try {

@@ -23,6 +23,7 @@ import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App";
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
+import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 
 export default function ThemeRoutes() {
 
@@ -59,7 +60,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -197,8 +198,6 @@ export default function ThemeRoutes() {
         </Helmet>
       </div>
 
-      {/* <Procatalog_MobileApp_App /> */}
-      {themeNo === 9 && <Procatalog_MobileApp_App />}
 
       {themeNo === 1 && <SmilingRock_App />}
 
@@ -215,8 +214,12 @@ export default function ThemeRoutes() {
       {themeNo === 7 && <HouseOfQuadri_App />}
 
       {themeNo === 8 && <ForEveryRoutes />}
+      {/* <Procatalog_MobileApp_App /> */}
+      {themeNo === 9 && <Procatalog_MobileApp_App />}
 
       {themeNo === 10 && <StamFordJewels_App />}
+
+      {themeNo === 11 && <RoopJewellers_App />}
     </>
   );
 }

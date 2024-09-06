@@ -1,4 +1,3 @@
-
 @import "../../../scss/variable";
 
 .proCat_continuMobile {
@@ -76,7 +75,7 @@
         width: 420px;
         margin: 10px;
     }
-    
+
     @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
             font-size: 25px !important;
@@ -95,20 +94,24 @@
 
     }
 
-    @media screen and (max-width: 700px) {
+    // @media screen and (max-width: 700px) {
+    //     .smr_loginmobileBox {
+    //         width: 90%;
+    //     }
+
+    //     .submitBtnForgot {
+    //         width: 50%;
+    //         height: 50px !important;
+
+    //     }
+
+    // }
+
+    @media screen and (max-width: 550px) {
+
         .smr_loginmobileBox {
-            width: 90%;
+            width: 90% !important;
         }
-
-        .submitBtnForgot {
-            width: 50%;
-            height: 50px !important;
-
-        }
-
-    }
-
-    @media screen and (max-width: 500px) {
 
         .submitBtnForgot {
             width: 90%;
