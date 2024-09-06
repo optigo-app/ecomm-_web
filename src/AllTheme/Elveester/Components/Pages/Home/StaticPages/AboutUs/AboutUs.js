@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './AboutUs.modul.scss'
-import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import CompanyData from '../Home/ComapnayData/CompanyData';
+import CompanyData from '../../ComapnayData/CompanyData';
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const AboutUs = () => {
     const [value, setValue] = useState('1');

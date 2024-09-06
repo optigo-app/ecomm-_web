@@ -35,7 +35,9 @@ const ProductDetail = () => {
   const [loginData, setLoginData] = useState({});
   const [sizeData, setSizeData] = useState();
   const [singleProd, setSingleProd] = useState({});
+  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState({});
+  console.log('singleProd1: ', singleProd1);
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [netWTData, setnetWTData] = useState([])
@@ -63,6 +65,8 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const location = useLocation();
 
+  let cookie = Cookies.get('visiterId')
+
   const Navigate = useNavigate();
 
   const setCartCountVal = useSetRecoilState(el_CartCount)
@@ -71,6 +75,7 @@ const ProductDetail = () => {
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
   const [designSetList, setDesignSetList] = useState();
   const [stockItemArr, setStockItemArr] = useState([]);
+  console.log('stockItemArr: ', stockItemArr);
   const [cartArr, setCartArr] = useState({});
 
   let maxWidth1400px = useMediaQuery('(max-width:1400px)')
@@ -104,7 +109,7 @@ const ProductDetail = () => {
 
   // API Integration
 
-  let cookie = Cookies.get('visiterId')
+
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
   const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
@@ -462,19 +467,20 @@ const ProductDetail = () => {
             ele?.ColorId == decodeobj?.c?.split(",")[1]
         )[0] ?? `${decodeobj?.c?.split(",")[0]},${decodeobj?.c?.split(",")[1]}`;
     }
-    
+
     setloadingdata(true);
     const FetchProductData = async () => {
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
       };
 
       setisPriceLoading(true);
 
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
+          console.log('res: ', res);
           if (res) {
             setSingleProd(res?.pdList[0]);
 
@@ -486,6 +492,9 @@ const ProductDetail = () => {
             if (!res?.pdList[0]) {
               setisPriceLoading(false);
               setIsDataFound(true);
+            }
+            else {
+              setIsDataFound(false)
             }
 
             setDiaList(res?.pdResp?.rd3);
@@ -512,6 +521,7 @@ const ProductDetail = () => {
           return res;
         })
         .then(async (resp) => {
+          console.log('resp: ', resp);
           if (resp) {
             await getSizeData(resp?.pdList[0], cookie)
               .then((res) => {
@@ -534,7 +544,6 @@ const ProductDetail = () => {
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
               await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
-                // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
             }
@@ -549,7 +558,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [location?.key]);
+  }, [location, SizeCombo]);
 
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
@@ -1091,8 +1100,6 @@ const ProductDetail = () => {
     }
   };
 
-
-
   return (
     <div className='elv_ProductDetMain_div'>
       <div className='elv_ProductDet_prod_div'>
@@ -1267,7 +1274,7 @@ const ProductDetail = () => {
                           src={data}
                           autoPlay={true}
                           loop={true}
-                          // className="smr_prod_thumb_img"
+                          // className="elv_prod_thumb_img"
                           style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
                         />
                         <IoIosPlayCircle
@@ -1477,15 +1484,18 @@ const ProductDetail = () => {
                         <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
                         <div className='elv_productDet_metal_style_max1000'>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
-                            <span>Metal Purity : </span> <span className='elv_ProductDet_text_max1000' style={{ textTransform: 'uppercase' }}>{metalType}</span>
+                            <span>Metal Purity : </span> <span className='elv_ProductDet_text_max1000' style={{ textTransform: 'uppercase' }}>{singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : metalType}</span>
                           </div>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
-                            <span>Metal Color : </span> <span className='elv_ProductDet_text_max1000'>{metalColor}</span>
+                            <span>Metal Color : </span> <span className='elv_ProductDet_text_max1000'>{JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                              (ele) => ele?.colorcode == metalColor
+                            )[0]?.metalcolorname}</span>
                           </div>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
-                            {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                            {(storeInit?.IsDiamondCustomization === 1 &&
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? (
                               <>
-                                <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{selectDiaQc}</span>
+                                <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}</span>
                               </>
                             ) : null}
                           </div>
@@ -1577,17 +1587,23 @@ const ProductDetail = () => {
                                       paddingBottom: '8px'
                                     }}>
                                       <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
-                                      <select
-                                        className="elv_metaltype_drp"
-                                        value={selectDiaQc}
-                                        onChange={(e) => handleCustomChange(e, 'dt')}
-                                      >
-                                        {diaQcCombo.map((ele) => (
-                                          <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                            {`${ele?.Quality}#${ele?.color}`}
-                                          </option>
-                                        ))}
-                                      </select>
+                                      {singleProd?.IsMrpBase == 1 ?
+                                        <span className="elv_metaltype_span">
+                                          {singleProd?.DiaQuaCol}
+                                        </span>
+                                        :
+                                        <select
+                                          className="elv_metaltype_drp"
+                                          value={selectDiaQc}
+                                          onChange={(e) => handleCustomChange(e, 'dt')}
+                                        >
+                                          {diaQcCombo.map((ele) => (
+                                            <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                              {`${ele?.Quality}#${ele?.color}`}
+                                            </option>
+                                          ))}
+                                        </select>
+                                      }
                                     </div>
                                   </div>
                                   <hr className='elv_ProductDet_divider_1' />
@@ -1661,7 +1677,7 @@ const ProductDetail = () => {
                                 </div>
                               </>
                             )}
-                            {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                            {storeInit?.IsPriceBreakUp == 1 && (singleProd ?? singleProd1)?.IsMrpBase !== 1 && (
                               <Accordion
                                 elevation={0}
                                 sx={{
@@ -1712,73 +1728,73 @@ const ProductDetail = () => {
                                 >
 
                                   {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Metal</Typography>
                                     <span style={{ display: 'flex' }}>
                                       <Typography>
                                         {
-                                          <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                             {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }
                                       </Typography>
                                       &nbsp;
-                                      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                      <Typography sx={{ fontFamily: "PT Sans, sans-serif" }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Diamond </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Stone </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>MISC </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Labour </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span style={{ fontFamily: "PT Sans, sans-serif" }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1795,16 +1811,16 @@ const ProductDetail = () => {
                                     ) !== 0 ?
 
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                        <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Other </Typography>
 
                                         <span style={{ display: 'flex' }}>
                                           <Typography>{
-                                            <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                            <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                               {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                             </span>
                                           }</Typography>
                                           &nbsp;
-                                          <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                          <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{
                                             formatter((
 
                                               (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1847,12 +1863,25 @@ const ProductDetail = () => {
                       </div>
                       <div className='elv_ProductDet_prod_addtocart'>
                         <div className='elv_ProductDet_cart_div'>
-                          <button className='elv_ProductDet_cart'>Add to cart</button>
+                          <button onClick={() => handleCart(!addToCardFlag)} className='elv_ProductDet_cart'>{addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}</button>
                         </div>
                         <div className='elv_ProductDet_wishlist_div'>
-                          <FavoriteBorderIcon className='elv_ProductDet_wishlist' />
+                          <Checkbox
+                            icon={
+                              <FavoriteBorderIcon />
+                            }
+                            checkedIcon={
+                              <FavoriteIcon />
+                            }
+                            className='elv_ProductDet_wishlist'
+                            disableRipple={true}
+                            checked={wishListFlag ?? singleProd?.IsInWish == 1 ? true : false}
+                            onChange={(e) => handleWishList(e, singleProd)}
+                          />
                         </div>
                       </div>
+                      {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                     </div>
                   </div>
                 </div>
@@ -1866,15 +1895,18 @@ const ProductDetail = () => {
                       <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
                       <div className='elv_productDet_metal_style'>
                         <div>
-                          <span>Metal Purity : </span> <span className='elv_ProductDet_text' style={{ textTransform: 'uppercase' }}>{metalType}</span>
+                          <span>Metal Purity : </span> <span className='elv_ProductDet_text' style={{ textTransform: 'uppercase' }}>{singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : metalType}</span>
                         </div>
                         <div>
-                          <span>Metal Color : </span> <span className='elv_ProductDet_text'>{metalColor}</span>
+                          <span>Metal Color : </span> <span className='elv_ProductDet_text'>{JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                            (ele) => ele?.colorcode == metalColor
+                          )[0]?.metalcolorname}</span>
                         </div>
                         <div>
-                          {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                          {(storeInit?.IsDiamondCustomization === 1 &&
+                            diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? (
                             <>
-                              <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{selectDiaQc}</span>
+                              <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}</span>
                             </>
                           ) : null}
                         </div>
@@ -1966,17 +1998,23 @@ const ProductDetail = () => {
                                     paddingBottom: '8px'
                                   }}>
                                     <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>diamond : </label>
-                                    <select
-                                      className="elv_metaltype_drp"
-                                      value={selectDiaQc}
-                                      onChange={(e) => handleCustomChange(e, 'dt')}
-                                    >
-                                      {diaQcCombo.map((ele) => (
-                                        <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                          {`${ele?.Quality}#${ele?.color}`}
-                                        </option>
-                                      ))}
-                                    </select>
+                                    {singleProd?.IsMrpBase == 1 ?
+                                      <span className="elv_metaltype_span">
+                                        {singleProd?.DiaQuaCol}
+                                      </span>
+                                      :
+                                      <select
+                                        className="elv_metaltype_drp"
+                                        value={selectDiaQc}
+                                        onChange={(e) => handleCustomChange(e, 'dt')}
+                                      >
+                                        {diaQcCombo.map((ele) => (
+                                          <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                            {`${ele?.Quality}#${ele?.color}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    }
                                   </div>
                                 </div>
                                 <hr className='elv_ProductDet_divider_1' />
@@ -2051,7 +2089,7 @@ const ProductDetail = () => {
                               </div>
                             </>
                           )}
-                          {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                          {storeInit?.IsPriceBreakUp == 1 && (singleProd ?? singleProd1)?.IsMrpBase != 1 && (
                             <Accordion
                               elevation={0}
                               sx={{
@@ -2102,73 +2140,73 @@ const ProductDetail = () => {
                               >
 
                                 {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Metal</Typography>
                                   <span style={{ display: 'flex' }}>
                                     <Typography>
                                       {
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }
                                     </Typography>
                                     &nbsp;
-                                    <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                    <Typography sx={{ fontFamily: "PT Sans, sans-serif" }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Diamond </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      <span className="elv_currencyFont" style={{ fontFamily: "PT Sans, sans-serif" }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Stone </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>MISC </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Labour </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      <span sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -2185,16 +2223,16 @@ const ProductDetail = () => {
                                   ) !== 0 ?
 
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                      <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                      <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Other </Typography>
 
                                       <span style={{ display: 'flex' }}>
                                         <Typography>{
-                                          <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
                                             {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }</Typography>
                                         &nbsp;
-                                        <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                        <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{
                                           formatter((
 
                                             (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -2253,6 +2291,8 @@ const ProductDetail = () => {
                         />
                       </div>
                     </div>
+                    {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                   </div>
                 </div>
               </>
@@ -2264,7 +2304,7 @@ const ProductDetail = () => {
 
         <div className='elv_ProductDet_title'>
           {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
-            <p className="smr_details_title"> Product Details</p>
+            <p className="elv_details_title"> Product Details</p>
           )}
         </div>
         {diaList?.length > 0 && (

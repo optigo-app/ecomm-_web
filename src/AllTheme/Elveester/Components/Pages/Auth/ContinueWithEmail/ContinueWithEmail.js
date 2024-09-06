@@ -12,11 +12,19 @@ export default function ContinueWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
+
     const search = location?.search
     const redirectEmailUrl = `/LoginWithEmail/${search}`;
     const redirectSignUpUrl = `/register/${search}`;
+    const cancelRedireactUrl = `/LoginOption/${search}`;
+
+    // const validateEmail = (email) => {
+    //     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     return regex.test(email);
+    // };
 
     const validateEmail = (email) => {
+        // const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
@@ -46,6 +54,7 @@ export default function ContinueWithEmail() {
         }
         setIsLoading(true);
         ContinueWithEmailAPI(trimmedEmail).then((response) => {
+            console.log('response: ', response);
             setIsLoading(false);
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
                 toast.error('You are not a customer, contact to admin')
@@ -62,7 +71,7 @@ export default function ContinueWithEmail() {
 
     return (
         <div className='el_ContinueEmailMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
-            <ToastContainer style={{zIndex: '11111111111'}}/>
+            <ToastContainer style={{ zIndex: '11111111111' }} />
 
             {isLoading && (
                 <div className="loader-overlay">
@@ -108,9 +117,9 @@ export default function ContinueWithEmail() {
                             error={!!emailError}
                             helperText={emailError}
                         />
-                    
+
                         <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

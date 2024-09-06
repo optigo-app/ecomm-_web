@@ -1,0 +1,193 @@
+.elv_contactfrom {
+    width: 100%;
+    height: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 75px 0;
+
+    .elv_details {
+        width: 60%;
+        display: flex;
+
+        h1 {
+            padding: 10px 0;
+        }
+
+        flex-direction: column;
+
+        p,
+        span,
+        address {
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    }
+
+    .elv_contact_from {
+        padding: 20px 12px;
+        width: 46%;
+
+        .elv_layout {
+            height: auto;
+
+            form {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 25px;
+
+                .elv_input {
+                    display: flex;
+                    width: 100%;
+                    gap: 8px;
+
+                    .elv_box_input {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: start;
+
+                        input {
+                            width: 100%;
+                            padding: 8px 8px;
+                        }
+                    }
+                }
+
+                .elv_textarea {
+                    display: flex;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    align-items: start;
+                    flex-direction: column;
+
+                    textarea {
+                        width: 100%;
+                        border-radius: 3px;
+                        height: 150px;
+                        outline: none;
+                        border: none;
+                        border: 1px solid rgb(184, 184, 184);
+                        padding: 10px;
+
+                        &:focus {
+                            outline: 1px solid black;
+                            border: 1px solid black;
+                        }
+                    }
+                }
+
+                .elv_btn_form {
+                    width: 100%;
+                    padding: 20px 0;
+
+                    button {
+                        padding: 10px 45px;
+                        border-radius: 3px;
+                        outline: none;
+                        text-align: center;
+                        border: none;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background-color: #c20000;
+                        font-size: 17px;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .elv_details {
+            width: 80%;
+        }
+
+        .elv_contact_from {
+            width: 50%;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .elv_details {
+            width: 90%;
+            padding-inline: 4%;
+        }
+
+        .elv_contact_from {
+            width: 100%;
+            padding-inline: 4%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .elv_details {
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .elv_contact_from {
+            width: 100%;
+            padding: 0 20px;
+
+            .elv_layout {
+                form {
+                    elv_ .elv_input {
+                        flex-direction: column;
+                    }
+
+                    .elv_textarea {
+                        textarea {
+                            height: 120px;
+                        }
+                    }
+
+                    .elv_btn_form {
+                        button {
+                            padding: 10px 30px;
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        padding: 50px 0;
+
+        .elv_details {
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .elv_contact_from {
+            width: 100%;
+            padding: 0 10px;
+
+            .elv_layout {
+                form {
+                    .input {
+                        gap: 4px;
+                    }
+
+                    .elv_textarea {
+                        textarea {
+                            height: 100px;
+                            padding: 8px;
+                        }
+                    }
+
+                    .elv_btn_form {
+                        button {
+                            padding: 8px 20px;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

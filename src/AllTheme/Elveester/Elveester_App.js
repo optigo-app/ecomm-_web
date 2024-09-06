@@ -19,16 +19,20 @@ import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import PaymentPage from './Components/Pages/OrderFlow/PaymentPage/PaymentPage'
 import ConfirmationPage from './Components/Pages/OrderFlow/ConfirmationPage/ConfirmationPage'
 import Wishlist from './Components/Pages/Wishlist/Wishlist'
-import AboutUs from './Components/Pages/AboutUs/AboutUs'
 import History from './Components/Pages/History/History'
-import Terms from './Components/Pages/Terms/Terms'
-import CustomerCare from './Components/Pages/Customercare/CustomerCare'
-import Customize from './Components/Pages/Customize/Customize'
 import Account from './Components/Pages/Account/Account'
-import Privacy from './Components/Pages/Privacy/Privacy'
 import Lookbook from './Components/Pages/LookBook/Lookbook'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
 import PrivateRoutes from './PrivateRoutes'
+import Customize from './Components/Pages/Home/StaticPages/Customize/Customize'
+import CustomerCare from './Components/Pages/Home/StaticPages/Customercare/CustomerCare'
+import Terms from './Components/Pages/Home/StaticPages/Terms/Terms'
+import AboutUs from './Components/Pages/Home/StaticPages/AboutUs/AboutUs'
+import Privacy from './Components/Pages/Home/StaticPages/Privacy/Privacy'
+import ContactForm from './Components/Pages/Home/StaticPages/Contact/Contact'
+import Career from './Components/Pages/Home/StaticPages/Career/Career'
+import Faqs from './Components/Pages/Home/StaticPages/Faqs/Faqs'
+import New1 from './Components/Pages/Product/ProductDetail/New.1'
 
 const Elveester_app = () => {
 
@@ -89,7 +93,8 @@ const Elveester_app = () => {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/Confirmation" element={<ConfirmationPage />} />
           <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<ProductDetail />} />
+          <Route path="/d/*" element={<New1 />} />
+          {/* <Route path="/d/*" element={<ProductDetail />} /> */}
           <Route path="/Lookbook" element={<Lookbook />} />
           <Route path="/account" element={<Account />} />
         </Route>
@@ -106,6 +111,9 @@ const Elveester_app = () => {
         <Route path="/customerServices" element={<CustomerCare />} />
         <Route path="/customize" element={<Customize />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/contact-us" element={<ContactForm />} />
+        <Route path="/careers" element={<Career />} />
+        <Route path="/faqs" element={<Faqs />} />
       </Routes>
       {showFooter && <Footer />}
     </div>

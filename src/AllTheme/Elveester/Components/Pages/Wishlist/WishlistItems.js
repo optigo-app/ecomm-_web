@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil';
 import './Wishlist.modul.scss';
 import { el_CartCount, el_WishCount } from '../../Recoil/atom';
@@ -24,6 +24,16 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail
 }) => {
+
+    const [imageSrc, setImageSrc] = useState(noImageFound);
+
+    useEffect(() => {
+        if (item?.ImageCount !== 0) {
+            WishCardImageFunc(item).then(setImageSrc);
+        } else {
+            setImageSrc(noImageFound);
+        }
+    }, [item]);
 
     const setWishCountVal = useSetRecoilState(el_WishCount)
     const setCartCountVal = useSetRecoilState(el_CartCount)
@@ -87,12 +97,12 @@ const WishlistItems = ({
                 </div>
             </div>
         </div> */}
-            <Grid item xs={itemsLength <= 2 ? 6 : 6} sm={itemsLength <= 2 ? 4 : 4} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
+            <Grid item xs={12} sm={itemsLength <= 2 ? 6 : 6} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
                 <Card className='elv_WlListCard'>
                     <div className='cardContent'>
                         <CardMedia
                             component="img"
-                            image={item?.ImageCount != 0 ? WishCardImageFunc(item) : noImageFound}
+                            image={imageSrc}
                             alt={item?.TitleLine}
                             className='elv_WlListImage'
                             onClick={() => handleMoveToDetail(item)}

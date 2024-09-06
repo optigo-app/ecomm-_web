@@ -59,6 +59,7 @@ const CartItem = ({
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
   const isMobileScreen = useMediaQuery('(min-width: 320px) and (max-width: 1037px)');
+  const mobileScreen = useMediaQuery('(max-width: 710px)');
 
   useEffect(() => {
     if (item?.ImageCount > 0) {
@@ -156,7 +157,7 @@ const CartItem = ({
     // >
     <>
       <div className='elv_ProductCards'
-        onClick={() => onSelect(item)}
+        // onClick={() => onSelect(item)}
         onMouseDown={handlePress('start')}
         onMouseUp={cancelPress}
         onMouseLeave={cancelPress}
@@ -169,11 +170,14 @@ const CartItem = ({
 
         <div className='elv_cardImage_div' >
           <img className='elv_cardImage_img' src={imageSrc} alt=""
-            onClick={() => handleIsSelected()}
+            onClick={() => {
+              handleIsSelected();
+              onSelect(item)
+            }}
           />
         </div>
         <div className='elv_ProductCard_details'>
-          <div className="elv_Product_details" onClick={() => onSelect(item)}>
+          <div className={`elv_Product_details ${mobileScreen && item?.Remarks !== '' ? 'with-remarks' : ''}`}>
             <div>
               <span className='elv_ProdDesignno'>{item?.designno}</span>
               <div className='elv_ProdWeights_div'>
@@ -220,12 +224,12 @@ const CartItem = ({
               </div>
               <div className='elv_itemsRemark_div'>
 
+                {item?.Remarks !== "" && (
+                  <div className='elv_remarktext'>
+                    <div style={{ fontWeight: 'bold' }}>Remark:</div> <span className='elv_remmark_div'>{truncateText(item?.Remarks || productRemark, 40)}</span>
+                  </div>
+                )}
                 <div className='elv_remarks_remove_div'>
-                  {item?.Remarks !== "" && (
-                    <Typography variant="body2" className='elv_remarktext'>
-                      <span>Remark:</span> <span>{truncateText(item?.Remarks || productRemark, 40)}</span>
-                    </Typography>
-                  )}
                   <span className='elv_remark_modal_title' onClick={handleOpen1}>{item?.Remarks ? 'Edit Remark' : 'Add Remark'}</span>
                   <span className='elv_remove_items' onClick={() => handleRemoveItem(item, index)}>Remove</span>
                 </div>

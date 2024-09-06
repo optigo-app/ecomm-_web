@@ -51,9 +51,11 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
                         <Button type='button' color='primary' onClick={() => handleOpen(address?.id)}>
                             <Typography className='elv_editIcon'>update</Typography>
                         </Button>
-                        <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
-                            <MdDelete className='elv_DeleteIcon' />
-                        </Button>
+                        {!isdefault == 1 && (
+                            <Button type='button' color='secondary' onClick={() => handleDeleteClick(address?.id)}>
+                                <MdDelete className='elv_DeleteIcon' />
+                            </Button>
+                        )}
                     </div>
                 </Card>
             </Grid>
