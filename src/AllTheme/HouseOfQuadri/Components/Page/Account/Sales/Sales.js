@@ -158,7 +158,8 @@ function EnhancedTableHead(props) {
 }
 
 const Sales = () => {
-    const isSmallScreen = useMediaQuery('(max-width:500px)');
+    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
+    const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px)');
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
@@ -392,7 +393,7 @@ const Sales = () => {
 
     return (
         <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
-            { !isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
                 <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
                     <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
@@ -468,10 +469,88 @@ const Sales = () => {
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtn salePageBtnAlign">
+                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="">
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
             </Box>}
+            {
+                 (isTabletScreen && !isSmallScreen) && <Box>
+                    <Box style={{display:'flex', alignItems:'center', paddingBottom:'20px', paddingTop:'8px'}}>
+                        <Box sx={{ paddingRight: "15px" }} className=""> <Button variant="contained" className=" " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
+                        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 0px 0", maxWidth: "max-content" }} className="searchbox ">
+                            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
+                                setSearchVal(eve?.target?.value);
+                                handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                            }} />
+                            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
+                        </Box>
+                        <Box style={{paddingRight:'15px', paddingBottom:'4px'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Date From"
+                                    value={fromDate}
+                                    ref={fromDateRef}
+                                    format="DD MM YYYY"
+                                    placeholder="DD MM YYYY"
+                                    className='quotationFilterDates'
+                                    onChange={(newValue) => {
+                                        if (newValue === null) {
+                                            setFromDate(null)
+                                        } else {
+                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                setFromDate(newValue)
+                                            } else {
+                                                Swal.fire({
+                                                    title: "Error !",
+                                                    text: "Enter Valid Date From",
+                                                    icon: "error",
+                                                    confirmButtonText: "ok"
+                                                });
+                                                resetAllFilters();
+                                            }
+                                        }
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box style={{paddingRight:'15px', paddingBottom:'4px'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Date To"
+                                    value={toDate}
+                                    ref={toDateRef}
+                                    format="DD MM YYYY"
+                                    placeholder="DD MM YYYY"
+                                    className='quotationFilterDates'
+                                    onChange={(newValue) => {
+                                        if (newValue === null) {
+                                            setToDate(null)
+                                        } else {
+                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                setToDate(newValue)
+                                            } else {
+                                                Swal.fire({
+                                                    title: "Error !",
+                                                    text: "Enter Valid Date To",
+                                                    icon: "error",
+                                                    confirmButtonText: "ok"
+                                                });
+                                                resetAllFilters();
+                                            }
+                                        }
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box sx={{ padding: "0 15px 4px 0", display: "flex", alignItems: "center", }} className="">
+                            <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                        </Box>
+                    </Box>
+
+                 </Box>
+
+            }
             {
                 isSmallScreen && <>
                 <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>

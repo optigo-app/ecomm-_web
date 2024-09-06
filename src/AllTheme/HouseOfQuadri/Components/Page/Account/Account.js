@@ -43,7 +43,7 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0">
                     <Typography>{children}</Typography>
                 </Box>
             )}

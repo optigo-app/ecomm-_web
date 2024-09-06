@@ -295,9 +295,12 @@
         background-color: white;
         margin-inline: 1% ;
     }
-    .hoq-AccountTabMain {
-        margin-inline: 1%;
-    }
+
 }
 
 /* 1px solid #e1e1e1 */
+@media screen and (max-width:768px), (max-width:800px),(max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px){
+    .acc_hoq_tab_p_0{
+        padding: 0px !important;
+    }
+}

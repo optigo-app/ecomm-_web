@@ -17,8 +17,7 @@ const Footer = ({ fromPage }) => {
 
 
   useEffect(() => {
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
-    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? ""
+    let companyInfoData;
     if (sessionStorage.getItem("CompanyInfoData")) {
       if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
         // companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
@@ -28,6 +27,7 @@ const Footer = ({ fromPage }) => {
         }
       }
     }
+
   }, [])
 
   return (
