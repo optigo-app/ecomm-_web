@@ -614,8 +614,6 @@ const QuotationQuote = () => {
                         <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                     </Box>
                 </Box>
-
-                
              </Box>
            }
   
