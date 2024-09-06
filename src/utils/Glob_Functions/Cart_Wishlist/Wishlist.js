@@ -28,7 +28,7 @@ const Usewishlist = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
 
-  
+
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -67,10 +67,10 @@ const Usewishlist = () => {
           const solStockNos = diamondData?.map(item => item?.Sol_StockNo);
           const commaSeparatedString = solStockNos?.join(',');
           console.log(commaSeparatedString, "djskjdlk");
-          if(commaSeparatedString != null || commaSeparatedString != undefined){
-              getDiamondData(commaSeparatedString)
+          if (commaSeparatedString != null || commaSeparatedString != undefined) {
+            getDiamondData(commaSeparatedString)
           }
-      }
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -80,20 +80,20 @@ const Usewishlist = () => {
   const getDiamondData = async (commaSeparatedString) => {
     setIsWlLoading(true);
     try {
-        const response = await DiamondListData(1,"", commaSeparatedString);
-        if (response && response.Data) {
-            let resData = response.Data?.rd
-            setDiamondWishData(resData)
-            setIsWlLoading(false)
-        } else {
-            console.warn("No data found in the response");
-            setIsWlLoading(false)
-        }
+      const response = await DiamondListData(1, "", commaSeparatedString);
+      if (response && response.Data) {
+        let resData = response.Data?.rd
+        setDiamondWishData(resData)
+        setIsWlLoading(false)
+      } else {
+        console.warn("No data found in the response");
+        setIsWlLoading(false)
+      }
     } catch (error) {
-        console.error("Error fetching diamond data:", error);
-        setIsWlLoading(false);
+      console.error("Error fetching diamond data:", error);
+      setIsWlLoading(false);
     }
-};
+  };
 
   useEffect(() => {
     getWishlistData();
@@ -102,7 +102,7 @@ const Usewishlist = () => {
   console.log('cartData--', wishlistData);
 
   // remove
-  const handleRemoveItem = async (item,isdiamond) => {
+  const handleRemoveItem = async (item, isdiamond) => {
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
@@ -128,6 +128,7 @@ const Usewishlist = () => {
       let resStatus = response.Data.rd[0];
       if (resStatus?.msg == "success") {
         setWishlistData([]);
+        setDiamondWishData([]);
         return resStatus;
       } else {
         console.log('Failed to remove all products or products not found');
@@ -216,7 +217,7 @@ const Usewishlist = () => {
   //       finalprodListimg = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
   //       const img = new Image();
   //       img.src = finalprodListimg;
-  
+
   //       img.onload = () => {
   //         resolve(finalprodListimg);
   //       };
@@ -233,41 +234,41 @@ const Usewishlist = () => {
 
   const WishCardImageFunc = (pd) => {
     return new Promise((resolve) => {
-        const loadImage = (src) => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = src;
-                img.onload = () => resolve(src);
-                img.onerror = () => reject(src);
-            });
-        };
+      const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => resolve(src);
+          img.onerror = () => reject(src);
+        });
+      };
 
-        const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
-        let primaryImage, secondaryImage;
+      const mtcCode = metalColorCombo?.find(option => option?.metalcolorname === pd?.metalcolorname);
+      let primaryImage, secondaryImage;
 
-        if (pd?.ImageCount > 0) {
-            primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
-            secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-        } else {
-            primaryImage = secondaryImage = imageNotFound;
-        }
+      if (pd?.ImageCount > 0) {
+        primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
+        secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
+      } else {
+        primaryImage = secondaryImage = imageNotFound;
+      }
 
-        loadImage(primaryImage)
+      loadImage(primaryImage)
+        .then((imgSrc) => {
+          resolve(imgSrc);
+        })
+        .catch(() => {
+          loadImage(secondaryImage)
             .then((imgSrc) => {
-                resolve(imgSrc);
+              resolve(imgSrc);
             })
             .catch(() => {
-                loadImage(secondaryImage)
-                    .then((imgSrc) => {
-                        resolve(imgSrc);
-                    })
-                    .catch(() => {
-                        resolve(imageNotFound);
-                    });
+              resolve(imageNotFound);
             });
+        });
     });
-};
-  
+  };
+
 
   const compressAndEncode = (inputString) => {
     try {

@@ -8,7 +8,10 @@
         -webkit-text-fill-color: black !important;
     }
 
-
+    .smilingEditProfilePopup_SMR{
+        overflow: scroll;
+        width: 500px !important;
+    }
 
 
     @media screen and (max-width: 1000px) {
@@ -20,7 +23,6 @@
         }
     }
 
-
     @media screen and (max-width: 700px) {
         .userProfileMain {
             width: 100%;
@@ -30,11 +32,12 @@
 
     @media screen and (max-width: 500px) {
 
-        .smilingEditProfilePopup {
+        .smilingEditProfilePopup_SMR {
             width: 95% !important;
             margin: 5px !important;
         }
     }
+
 }
 
 .smr_SmilingAddEditAddrwess {
@@ -52,4 +55,20 @@
 .smr_SmilingAddEditAddrwess:hover {
     background-color: #fff !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+@media screen and (max-width:500px) and (max-height:600px){
+    .smilingEditProfilePopup_SMR{
+        overflow: scroll;
+        max-height: 430px;
+        width: 85% !important;
+    }
+}
+@media screen and (max-width:320px), (max-width:360px), (max-width:390px), (max-width:430px) and (max-height:600px){
+    .smilingEditProfilePopup_SMR{
+        overflow: scroll;
+        max-height: 430px;
+        width: 85% !important;
+    }
 }

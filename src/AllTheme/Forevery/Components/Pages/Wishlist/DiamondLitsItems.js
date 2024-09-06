@@ -171,7 +171,7 @@ const DiamondLitsItems = ({
             setImageSrc(noImageFound);
         }
     }, [item]);
-    
+
 
     return (
         <>
@@ -181,6 +181,7 @@ const DiamondLitsItems = ({
                 sm={diamondValue?.length <= 2 ? 4 : 4}
                 md={diamondValue?.length <= 2 ? 4 : 4}
                 lg={diamondValue?.length <= 2 ? 3 : 3}
+                xxl={diamondValue?.length <= 2 ? 3 : 2}
                 className="for_wlListGrid"
             >
                 <Card className="for_WlListCard">
@@ -190,9 +191,9 @@ const DiamondLitsItems = ({
                             image={diaImage}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
-                            // onClick={() => handleMoveToDetail(item)}
+                        // onClick={() => handleMoveToDetail(item)}
                         />
-                        <CardContent className="for_cardContent">
+                        <CardContent className="for_cardContent for_diamondImage">
                             <div className="for_cardText">
                                 <Typography
                                     variant="body2"
@@ -207,14 +208,20 @@ const DiamondLitsItems = ({
                                         {item?.cutname} Cut {item?.shapename} Diamond
                                     </span>
                                 </Typography>
-                                <Typography variant="body2" className="for_card-ContentData">
+                                {/* <Typography variant="body2" className="for_card-ContentData">
                                     <span className="for_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>{" "}
                                     <span>{formatter(item?.price)}</span>
-                                </Typography>
+                                </Typography> */}
                             </div>
                         </CardContent>
+                        <div className="for_priceDataDiv">
+                            <span className="for_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            </span>{" "}
+                            <span>{formatter(item?.price)}</span>
+                        </div>
                         <div className="for_Wl-CartbtnDiv" onClick={handleClickOpen}>
                             <button
                                 className="for_Wl-Cartbtn"

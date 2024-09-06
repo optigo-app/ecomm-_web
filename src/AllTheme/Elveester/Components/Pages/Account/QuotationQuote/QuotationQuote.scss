@@ -243,3 +243,12 @@
         margin-inline: 1% !important;
     }
 }
+
+@media (max-width:320px), (max-width:360px){
+    .AcountSales > div > p > div {
+        padding: 0px !important;
+    }
+    .pd_right_elvee .MuiInputBase-root{
+        padding-right: 0px !important;
+    }
+}

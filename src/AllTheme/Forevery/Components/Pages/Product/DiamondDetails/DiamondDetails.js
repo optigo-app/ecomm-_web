@@ -116,7 +116,7 @@ const DiamondDetails = () => {
     const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
     console.log('diamondData: ', diamondData);
-    const [settingData, setSettingData] = useState([]);
+    const [settingData, setSettingData] = useState();
     console.log('settingData: ', settingData);
     const [setshape, setSetShape] = useState();
     console.log('setshape: ', setshape);
@@ -335,6 +335,38 @@ const DiamondDetails = () => {
                     console.log("err", error)
                 }
                 setAddToCartFlag(cartFlag);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+                console.log('existingData: ', existingData);
+
+                if (existingData?.[0]?.step1Data?.id > 0) {
+                    const updatedStep1 = existingData?.map(step => {
+                        if (step.step1Data !== undefined) {
+                            return { "step1Data": settingData };
+                        }
+                        return step;
+                    });
+
+                    if (!updatedStep1?.some(step => step.step1Data !== undefined)) {
+                        updatedStep1?.push({ "step1Data": settingData });
+                    }
+
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedStep1));
+                }
+
+                // if (existingData?.[1]?.step2Data?.id > 0) {
+                //     const updatedStep2 = existingData?.map(step => {
+                //         if (step.step2Data !== undefined) {
+                //             return { "step3": true, "url": existingData?.[2]?.url, "price": totalPrice };
+                //         }
+                //         return step;
+                //     });
+
+                //     if (!updatedStep2?.some(step => step.step3 !== undefined)) {
+                //         updatedStep2?.push({ step3: { url: existingData?.[2]?.url, price: totalPrice } });
+                //     }
+
+                //     sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
+                // }
             }
         }
         else {
@@ -349,6 +381,39 @@ const DiamondDetails = () => {
                     console.log("err", error);
                 }
                 setAddToCartFlag(cartFlag);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+                console.log('existingData: ', existingData);
+
+                if (existingData?.[0]?.step1Data?.id > 0) {
+                    const updatedStep1 = existingData?.map(step => {
+                        if (step.step1Data !== undefined) {
+                            return [{ "step1Data": settingData }];
+                        }
+                        return step;
+                    });
+
+                    if (!updatedStep1?.some(step => step.step1Data !== undefined)) {
+                        updatedStep1?.push([{ "step1Data": settingData }]);
+                    }
+
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedStep1));
+                }
+
+                // if (steps1?.[1]?.step2 === true) {
+                //     const updatedStep2 = existingSteps1?.map(step => {
+                //         if (step.step3 !== undefined) {
+                //             return { "step3": true, "url": existingSteps1?.[2]?.url, "price": totalPrice };
+                //         }
+                //         return step;
+                //     });
+
+                //     // Check if step3 was updated; if not, add it
+                //     if (!updatedStep2?.some(step => step.step3 !== undefined)) {
+                //         updatedStep2?.push({ step3: { url: existingSteps1?.[2]?.url, price: totalPrice } });
+                //     }
+
+                //     sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
+                // }
             }
         }
     }
@@ -379,6 +444,8 @@ const DiamondDetails = () => {
                     setCartCountVal(cartC);
                 }
                 setAddWishListFlag(true);
+
+
             } else {
                 let res1 = await RemoveCartAndWishAPI("Wish", (setting?.step2Data?.autocode ?? setting?.step1Data?.autocode), cookie, "", (diamond?.step1Data?.[0]?.stockno ?? diamond?.step2Data?.[0]?.stockno));
                 if (res1) {

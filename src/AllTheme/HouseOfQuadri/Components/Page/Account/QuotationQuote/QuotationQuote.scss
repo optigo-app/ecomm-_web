@@ -111,7 +111,15 @@
         padding-left: 0;
     }
 }
-
+@media screen and (max-width:500px){
+    .hoq-AccountTabMain {
+        margin-inline: 1% !important;
+    }
+    .hoq-AccountMain {
+        background-color: white;
+        margin-inline: 1%;
+    }
+}
 // @media(max-width: 576px) {
 //     .salesApiTableQWeb table thead tr {
 //         // display: flex;
