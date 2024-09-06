@@ -1,5 +1,3 @@
-
-
 @import "../../../scss/variable";
 
 
@@ -80,7 +78,6 @@
 
 
     @media screen and (max-width: 700px) {
-
         .AuthScreenRegisterMainTitle {
             padding-block: 10px !important;
             padding-bottom: 0px !important;
@@ -88,19 +85,21 @@
 
         }
 
+        .smling-register-main {
+            margin-inline: 2% !important;
+
+        }
+    }
+
+    @media screen and (max-width: 550px) {
         .labgrowRegister {
-            width: 80%;
+            width: 90% !important;
             margin: 10px;
         }
 
         .createBtnRegister {
-            width: 80%;
+            width: 90% !important;
             height: 50px !important;
-        }
-
-        .smling-register-main {
-            margin-inline: 2% !important;
-
         }
 
     }

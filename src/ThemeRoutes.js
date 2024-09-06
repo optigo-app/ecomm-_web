@@ -23,6 +23,7 @@ import HouseOfQuadri_App from "./AllTheme/HouseOfQuadri/HouseOfQuadri_App";
 import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App";
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
+import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 
 export default function ThemeRoutes() {
 
@@ -112,7 +113,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(8);
+      setThemeNo(11);
     }
     // .finally(() => setLoading(false));
   }, []);
@@ -217,6 +218,8 @@ export default function ThemeRoutes() {
       {themeNo === 9 && <Procatalog_MobileApp_App />}
 
       {themeNo === 10 && <StamFordJewels_App />}
+
+      {themeNo === 11 && <RoopJewellers_App />}
     </>
   );
 }
