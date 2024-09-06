@@ -239,7 +239,7 @@ const ForEveryRoutes = () => {
             />
           </>
           <Route path="/appointment" element={<AppointmentPage />} />
-          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+          {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}> */}
             <Route path="/certified-loose-lab-grown-diamonds/settings/*" element={<SettingPage />} />
             <Route path="/certified-loose-lab-grown-diamonds/diamond/*" element={<DiamondFilter />} />
             <Route path="/certified-loose-lab-grown-diamonds/ring/*" element={<RingPage />} />
@@ -255,7 +255,7 @@ const ForEveryRoutes = () => {
             <Route path="/Confirmation" element={<Confirmation />} />
             <Route path="/account" element={<Account />} />
             <Route path="/Lookbook" element={<Lookbook />} />
-          </Route>
+          {/* </Route> */}
           <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
