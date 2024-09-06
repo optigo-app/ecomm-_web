@@ -74,6 +74,7 @@ const Payment = () => {
     useEffect(() => {
         setIsPloding(true);
         const fetchData = async () => {
+            setIsPageloding(true)
             try {
                 const taxData = await fetchEstimateTax();
 
@@ -81,6 +82,7 @@ const Payment = () => {
                 if (taxData) {
                     const data = taxData[0];
                     setTaxAmountData(data);
+                    setIsPageloding(false)
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
@@ -97,6 +99,7 @@ const Payment = () => {
                 const totalPriceNum = parseFloat(totalPriceData);
                 const finalTotalPrice = totalPriceNum;
                 setFinlTotal(finalTotalPrice);
+                setIsPageloding(false)
             }
         };
 
@@ -120,7 +123,10 @@ const Payment = () => {
                 console.log('responseCount', res);
                 setCartCountVal(res?.cartcount)
             })
-
+            sessionStorage.removeItem("customizeSteps");
+            sessionStorage.removeItem("custStepData");
+            sessionStorage.removeItem("customizeSteps2");
+            sessionStorage.removeItem("custStepData2");
         } else {
             toast.error('Something went wrong!')
         }

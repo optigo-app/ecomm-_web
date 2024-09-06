@@ -314,8 +314,7 @@ const Menubar = () => {
                                     </div>
                                     <div className='elv_login_header_menu_lists_div'>
                                         <ul className="el_login_header_menu_main_div1_ul">
-                                            <Link
-                                                to={"/Lookbook"}
+                                            <li
                                                 className="el_Login_header_li go-lookbook"
                                                 style={{
                                                     marginLeft: "33px",
@@ -324,6 +323,10 @@ const Menubar = () => {
                                                     textDecoration: "none",
                                                     position: "relative",
                                                     color: "inherit"
+                                                }}
+                                                onClick={() => {
+                                                    handleToggle();
+                                                    navigation("Lookbook");
                                                 }}
                                             >
                                                 <small
@@ -346,7 +349,7 @@ const Menubar = () => {
                                                     New
                                                 </small>
                                                 LookBook
-                                            </Link>
+                                            </li>
                                             {menuItems.map((item, index) => {
                                                 return (
                                                     <li
@@ -365,6 +368,7 @@ const Menubar = () => {
                                                         <div className='elv_login_header_menu_menunames'>
                                                             <div className='elv_menubar_menu_div'>
                                                                 <span className='elv_login_header_menu_names' onClick={() => {
+                                                                    handleToggle();
                                                                     handelMenu({
                                                                         menuname: item?.menuname,
                                                                         key: item?.param0name,

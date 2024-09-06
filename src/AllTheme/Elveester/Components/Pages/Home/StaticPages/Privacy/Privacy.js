@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Privacy.modul.scss';
-import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Privacy = () => {
     const [htmlContent, setHtmlContent] = useState('')

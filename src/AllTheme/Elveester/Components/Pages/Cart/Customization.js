@@ -76,7 +76,7 @@ const Customization = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="elv_option">
                   <label htmlFor="metal-type">Metal Type:</label>
-                  <select id="metal-type" name={selectedItem?.id}  value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
+                  <select id="metal-type" name={selectedItem?.id} value={selectedItem?.metaltypename} onChange={handleMetalTypeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.metaltypename}>{selectedItem?.metaltypename}</option>
                     ) :
@@ -92,7 +92,7 @@ const Customization = ({
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="elv_option">
                   <label htmlFor="metal-color">Metal Color:</label>
-                  <select id="metal-color" name={selectedItem?.id}  value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
+                  <select id="metal-color" name={selectedItem?.id} value={selectedItem?.metalcolorname} onChange={handleMetalColorChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.metalcolorname}>{selectedItem?.metalcolorname}</option>
                     ) :
@@ -133,7 +133,7 @@ const Customization = ({
                   {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
                     <div className="elv_option">
                       <label htmlFor="diamond">Color Stone:</label>
-                      <select id="diamond" name={selectedItem?.id}  value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
+                      <select id="diamond" name={selectedItem?.id} value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor} onChange={handleColorStoneChange}>
                         {selectedItem?.StockId != 0 ? (
                           <option value={selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</option>
                         ) :
@@ -152,7 +152,7 @@ const Customization = ({
               {sizeCombo?.rd?.length !== 0 &&
                 <div className="elv_option">
                   <label htmlFor="size">Size:</label>
-                  <select id="size" name={selectedItem?.id}  defaultValue={selectedItem?.Size} value={selectedItem?.Size} onChange={handleSizeChange}>
+                  <select id="size" name={selectedItem?.id} defaultValue={selectedItem?.Size} value={selectedItem?.Size} onChange={handleSizeChange}>
                     {selectedItem?.StockId != 0 ? (
                       <option value={selectedItem?.size}>{selectedItem?.size}</option>
                     ) :
@@ -231,34 +231,35 @@ const Customization = ({
               <div className='elv_stock_3'>
                 {selectedItem?.Size != "" &&
                   <div className="elv_option">
-                    <label htmlFor="size">Size:</label>
+                    <label htmlFor="size">Size:&nbsp;</label>
                     <span>{selectedItem?.Size}</span>
                   </div>
                 }
+                <div className="elv_cartQtyPricemainDev_1">
+                  {storeInitData?.IsPriceShow == 1 &&
+                    <div className="elv_product-price_1">
+                      <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <span
+                          className="elv_currencyFont"
+                          dangerouslySetInnerHTML={{
+                            __html: decodeEntities(
+                              loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode
+                            ),
+                          }}
+                        />
+                        {ispriceloding ? (
+                          <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
+                        ) : (
+                          formatter(selectedItem?.FinalCost)
+                        )}
+                      </span>
+                    </div>
+                  }
+                </div>
               </div>
 
             </div>
-            <div className="elv_cartQtyPricemainDev_1">
-              {storeInitData?.IsPriceShow == 1 &&
-                <div className="elv_product-price_1">
-                  <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <span
-                      className="elv_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(
-                          loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode
-                        ),
-                      }}
-                    />
-                    {ispriceloding ? (
-                      <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
-                    ) : (
-                      formatter(selectedItem?.FinalCost)
-                    )}
-                  </span>
-                </div>
-              }
-            </div>
+
           </div>
         </>
       )}
