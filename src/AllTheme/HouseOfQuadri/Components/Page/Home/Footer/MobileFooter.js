@@ -18,43 +18,43 @@ const MobileFooter = () => {
   useEffect(() => {
     let storeInit;
     let companyInfoData;
-    setTimeout(() => {
-      if (sessionStorage.getItem("storeInit")) {
-        storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
-      }
-      if (sessionStorage.getItem("CompanyInfoData")) {
-        companyInfoData =
-          JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-        setCompanuInfoData(companyInfoData);
-        const parsedSocilaMediaUrlData =
-          JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData);
-        }
-      }
-    }, 500);
+    // setTimeout(() => {
+    //   if (sessionStorage?.getItem("storeInit")) {
+    //     storeInit = JSON?.parse(sessionStorage?.getItem("storeInit")) ?? {};
+    //   }
+    //   if (sessionStorage?.getItem("CompanyInfoData")) {
+    //     companyInfoData =
+    //       JSON?.parse(sessionStorage?.getItem("CompanyInfoData")) ?? {};
+    //     setCompanuInfoData(companyInfoData);
+    //     const parsedSocilaMediaUrlData =
+    //       JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+    //     if (parsedSocilaMediaUrlData) {
+    //       setSocialMediaData(parsedSocilaMediaUrlData);
+    //     }
+    //   }
+    // }, 500);
   }, []);
 
   const HandleFormSubmit = async (e) => {
     e.preventDefault();
-    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
-    const newslater = storeInit?.newslatter;
-    if (newslater) {
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-      const newsletterUrl = `${newslater}${email}`;
-      console.log("newsletterUrl: ", newsletterUrl);
-      await fetch(newsletterUrl, requestOptions)
-        .then((response) => {
-          response.text();
-          console.log(response);
-        })
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+    // const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
+    // const newslater = storeInit?.newslatter;
+    // if (newslater) {
+    //   const requestOptions = {
+    //     method: "GET",
+    //     redirect: "follow",
+    //   };
+    //   const newsletterUrl = `${newslater}${email}`;
+    //   console.log("newsletterUrl: ", newsletterUrl);
+    //   await fetch(newsletterUrl, requestOptions)
+    //     .then((response) => {
+    //       response.text();
+    //       console.log(response);
+    //     })
+    //     .then((result) => console.log(result))
+    //     .catch((error) => console.error(error));
     }
-  };
+  // };
   return (
     <>
       <div className="mobile_footer">
