@@ -147,7 +147,7 @@ const ProductList = () => {
   }, [])
 
 
-  console.log("selectedMetalId",selectedMetalId)
+  console.log("selectedMetalId", selectedMetalId)
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -3058,7 +3058,7 @@ const ProductList = () => {
                                       {/* <Button className="smr_wish-icon"> */}
                                       <Checkbox
                                         icon={
-                                          <MdFavoriteBorder 
+                                          <MdFavoriteBorder
                                             sx={{
                                               fontSize: "22px",
                                               color: "#7d7f85",
@@ -3067,7 +3067,7 @@ const ProductList = () => {
                                           />
                                         }
                                         checkedIcon={
-                                          <MdFavorite 
+                                          <MdFavorite
                                             sx={{
                                               fontSize: "22px",
                                               color: "#ffd200",
@@ -3175,7 +3175,7 @@ const ProductList = () => {
                                         >
                                           {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
-                                     
+
                                       </div>
                                       <div className="roop_prod_Allwt">
                                         <div
@@ -3200,7 +3200,7 @@ const ProductList = () => {
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{fontSize:'0.9vw'}}>|</span>
+                                              <span style={{ fontSize: '0.9vw' }}>|</span>
                                               <span className="smr_prod_wt">
                                                 <span className="roop_main_keys">NWT:</span>
                                                 <span className="roop_main_val">
@@ -3214,7 +3214,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
+                                                <span style={{ fontSize: '0.9vw' }}>|</span>
                                                 <span className="smr_prod_wt">
                                                   <span className="roop_main_keys">
                                                     DWT:
@@ -3231,7 +3231,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
+                                                <span style={{ fontSize: '0.9vw' }}>|</span>
                                                 <span className="smr_prod_wt">
                                                   <span className="roop_main_keys">
                                                     CWT:
