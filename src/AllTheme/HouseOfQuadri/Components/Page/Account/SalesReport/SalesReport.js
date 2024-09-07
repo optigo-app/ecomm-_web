@@ -359,6 +359,8 @@ function EnhancedTableHead(props) {
             style={{
               minWidth: headCell.minWidth,
               textAlign: headCell?.align || "left",
+              position:'sticky', top:0, zIndex:1,
+              backgroundColor:'#eaeaeb'
             }}
           >
          {
