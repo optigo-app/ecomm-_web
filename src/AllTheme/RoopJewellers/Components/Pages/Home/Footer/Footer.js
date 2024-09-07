@@ -18,14 +18,15 @@ const Footer = ({ fromPage }) => {
 
   useEffect(() => {
     let companyInfoData;
+
     if (sessionStorage.getItem("CompanyInfoData")) {
-        if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-            if (parsedSocilaMediaUrlData) {
-                setSocialMediaData(parsedSocilaMediaUrlData)
-            }
+      if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+        // companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+        if (parsedSocilaMediaUrlData) {
+          setSocialMediaData(parsedSocilaMediaUrlData)
         }
+      }
     }
 
   }, [])
@@ -59,7 +60,7 @@ const Footer = ({ fromPage }) => {
                     fontSize: '12px',
                     fontWeight: 500,
                     marginInline: '15px'
-                    }}>© 2024, optigoapps</p>
+                  }}>© 2024, optigoapps</p>
                   {/* // }}>© 2024,</p> */}
 
                   <p style={{

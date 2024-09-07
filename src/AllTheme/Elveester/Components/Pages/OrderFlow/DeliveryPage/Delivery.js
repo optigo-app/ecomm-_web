@@ -121,34 +121,26 @@ const Delivery = () => {
                                 </div>
                                 {/* {cartString ? (
                                     <> */}
-                                        <div className="elv_delblock_rows_2" >
-                                            <span className="elv_address_title" onClick={() => handleOpen(null)}>
-                                                <span>Add new Address</span>
-                                            </span>
-                                        </div>
-                                        <div className="elv_delblock_rows_3" >
-                                            <span className="elv_address_count">
-                                                <span>{addressData?.length}&nbsp;</span>
-                                                <span>Address</span>
-                                            </span>
-                                        </div>
-                                        {/* <div className={isTabletResponsive ? 'elv_delblock_rows_4_hide' : "elv_delblock_rows_4"} >
+                                <div className="elv_delblock_rows_2" >
+                                    <span className="elv_address_title" onClick={() => handleOpen(null)}>
+                                        <span>Add new Address</span>
+                                    </span>
+                                </div>
+                                <div className="elv_delblock_rows_3" >
+                                    <span className="elv_address_count">
+                                        <span>{addressData?.length}&nbsp;</span>
+                                        <span>Address</span>
+                                    </span>
+                                </div>
+                                {/* <div className={isTabletResponsive ? 'elv_delblock_rows_4_hide' : "elv_delblock_rows_4"} >
 
                                         </div> */}
-                                        {addressData?.length ? (
-                                            <div className="elv_delblock_rows_5" onClick={() => proceedToOrder(navigate)}>
-                                                <span className="elv_continue_title">
-                                                    continue
-                                                </span>
-                                            </div>
-                                        ) :
-                                            <div className="elv_delblock_rows_5">
-                                                <span className="elv_continue_title">
-                                                    continue
-                                                </span>
-                                            </div>
-                                        }
-                                    {/* </>
+                                <div className="elv_delblock_rows_5" onClick={() => proceedToOrder(navigate)}>
+                                    <span className="elv_continue_title">
+                                        continue
+                                    </span>
+                                </div>
+                                {/* </>
                                 ) : ('')} */}
 
 
@@ -156,45 +148,45 @@ const Delivery = () => {
                         </div>
                         {/* {cartString ? (
                             <> */}
-                                <div className='elv_TitleDetailMainDiv'>
-                                    <p className='elv_deliverydesc'>Order Will be delivered to selected address</p>
-                                </div>
-                                {!isLoading ? (
-                                    <div className='elv_getAddrMainDiv'>
-                                        <Grid container spacing={2}>
-                                            {addressData?.map((data, index) => (
-                                                <React.Fragment key={data.id} >
-                                                    <AddressCard
-                                                        key={data.id}
-                                                        name={data.name}
-                                                        address={data}
-                                                        index={index}
-                                                        handleOpen={handleOpen}
-                                                        handleDeleteClick={handleDeleteClick}
-                                                        handleDefaultSelection={handleDefaultSelection} />
-                                                </React.Fragment>
-                                            ))}
-                                        </Grid>
-                                    </div>
-                                ) :
-                                    <CardSkeleton />
-                                }
-                                <NewAddressModal
-                                    open={open}
-                                    handleClose={handleClose}
-                                    handleCancel={handleCancel}
-                                    formData={formData}
-                                    handleInputChange={handleInputChange}
-                                    handleSubmit={handleSubmit}
-                                    errors={errors}
-                                    isEditMode={isEditMode}
-                                />
-                                <DeleteDialog
-                                    openDelete={openDelete}
-                                    handleDeleteClose={handleDeleteClose}
-                                    handleDelete={() => handleDelete()}
-                                />
-                            {/* </>
+                        <div className='elv_TitleDetailMainDiv'>
+                            <p className='elv_deliverydesc'>Order Will be delivered to selected address</p>
+                        </div>
+                        {!isLoading ? (
+                            <div className='elv_getAddrMainDiv'>
+                                <Grid container spacing={2}>
+                                    {addressData?.map((data, index) => (
+                                        <React.Fragment key={data.id} >
+                                            <AddressCard
+                                                key={data.id}
+                                                name={data.name}
+                                                address={data}
+                                                index={index}
+                                                handleOpen={handleOpen}
+                                                handleDeleteClick={handleDeleteClick}
+                                                handleDefaultSelection={handleDefaultSelection} />
+                                        </React.Fragment>
+                                    ))}
+                                </Grid>
+                            </div>
+                        ) :
+                            <CardSkeleton />
+                        }
+                        <NewAddressModal
+                            open={open}
+                            handleClose={handleClose}
+                            handleCancel={handleCancel}
+                            formData={formData}
+                            handleInputChange={handleInputChange}
+                            handleSubmit={handleSubmit}
+                            errors={errors}
+                            isEditMode={isEditMode}
+                        />
+                        <DeleteDialog
+                            openDelete={openDelete}
+                            handleDeleteClose={handleDeleteClose}
+                            handleDelete={() => handleDelete()}
+                        />
+                        {/* </>
                         ) :
                             <div className='elv_noCartlistData'>
                                 <p className='elv_title'>No Data Found!</p>

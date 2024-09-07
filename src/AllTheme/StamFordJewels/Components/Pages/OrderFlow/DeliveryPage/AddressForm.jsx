@@ -6,7 +6,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
     return (
         <Dialog open={open} onClose={handleClose}>
             <form onSubmit={handleSubmit}>
-                <DialogTitle className='smr_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
+                <DialogTitle className='stam_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
                 <Divider/>
                 <DialogContent>
                     <TextField
@@ -16,7 +16,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.firstName}
                         helperText={errors.firstName}
                         fullWidth
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="Last Name"
@@ -25,7 +25,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.lastName}
                         helperText={errors.lastName}
                         fullWidth
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="Mobile No."
@@ -35,7 +35,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.mobileNo}
                         fullWidth
                         type='number'
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="Address"
@@ -44,7 +44,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.address}
                         helperText={errors.address}
                         fullWidth
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="Country"
@@ -53,7 +53,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.country}
                         helperText={errors.country}
                         fullWidth
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="State"
@@ -62,7 +62,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.state}
                         helperText={errors.state}
                         fullWidth
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="City"
@@ -71,7 +71,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         error={!!errors.city}
                         helperText={errors.city}
                         fullWidth
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                     <TextField
                         label="ZIP Code"
@@ -81,13 +81,13 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         helperText={errors.zipCode}
                         fullWidth
                         type='number'
-                        className='smr_addressTextFields'
+                        className='stam_addressTextFields'
                     />
                 </DialogContent>
                 <DialogActions>
-                    <div className='smr_AddressBtnGroup'>
-                    <button type='submit' className='smr_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
-                    <button type='button' className='smr_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                    <div className='stam_AddressBtnGroup'>
+                    <button type='submit' className='stam_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
+                    <button type='button' className='stam_Cancelbtn' onClick={handleCancel}>Cancel</button>
                     </div>
                 </DialogActions>
             </form>

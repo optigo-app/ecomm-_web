@@ -29,9 +29,13 @@ export default function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+
   const search = location?.search
   const updatedSearch = search.replace('?LoginRedirect=', '');
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
+  const cancelRedireactUrl = `/LoginOption/${search}`;
+  const singupRedirectUrl = `/LoginOption/${search}`;
+
   const setIsLoginState = useSetRecoilState(el_loginState)
 
   const handleKeyDown = (event, nextRef) => {
@@ -186,19 +190,23 @@ export default function Register() {
     if (Object.keys(errors).length === 0 && passwordError.length === 0) {
       const hashedPassword = hashPasswordSHA1(password);
       setIsLoading(true);
+      // RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
+      //   setIsLoading(false);
+      //   if (response.Data.rd[0].stat === 1) {
+      //     sessionStorage.setItem('LoginUser', true)
+      //     sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
+      //     setIsLoginState(true)
+      //     sessionStorage.setItem('registerEmail', email)
+
+      //     if (redirectEmailUrl) {
+      //       navigation(redirectEmailUrl);
+      //     } else {
+      //       navigation('/')
+      //     }
       RegisterAPI(firstName, lastName, email, mobileNo, hashedPassword).then((response) => {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
-          sessionStorage.setItem('LoginUser', true)
-          sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
-          setIsLoginState(true)
-          sessionStorage.setItem('registerEmail', email)
-
-          if (redirectEmailUrl) {
-            navigation(redirectEmailUrl);
-          } else {
-            navigation('/')
-          }
+          navigation(singupRedirectUrl);
 
         } else {
           if (response.Data?.rd[0].ismobileexists === 1) {

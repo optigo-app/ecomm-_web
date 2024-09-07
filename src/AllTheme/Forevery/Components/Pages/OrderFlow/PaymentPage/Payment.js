@@ -120,7 +120,10 @@ const Payment = () => {
                 console.log('responseCount', res);
                 setCartCountVal(res?.cartcount)
             })
-
+            sessionStorage.removeItem("customizeSteps");
+            sessionStorage.removeItem("custStepData");
+            sessionStorage.removeItem("customizeSteps2");
+            sessionStorage.removeItem("custStepData2");
         } else {
             toast.error('Something went wrong!')
         }
