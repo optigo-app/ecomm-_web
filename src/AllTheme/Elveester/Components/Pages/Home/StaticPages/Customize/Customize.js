@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import './Customize.modul.scss'
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const Customize = () => {
     const custArr = [

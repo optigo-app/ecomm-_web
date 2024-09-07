@@ -8,7 +8,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import ConfirmationDialog from '../../ConfirmationDialog/ConfirmationDialog';
 
 const AddressManagement = () => {
     const {
@@ -42,17 +42,17 @@ const AddressManagement = () => {
 
     return (
         <div className='stam_DeliverMainDiv'>
-            <div className='smr_secondMaindivAdd'>
-                <div className='smr_addMainDiv'>
-                    <div className='smr_TitleDetailMainDiv'>
+            <div className='stam_secondMaindivAdd'>
+                <div className='stam_addMainDiv'>
+                    <div className='stam_TitleDetailMainDiv'>
                         <div>
-                        <h1 className='smr_deliveryTitle'>Delivery</h1>
-                        <p className='smr_deliverydesc'>Order Will be delivered to selected address</p>
+                        <h1 className='stam_deliveryTitle'>Delivery</h1>
+                        <p className='stam_deliverydesc'>Order Will be delivered to selected address</p>
                         </div>
-                        <button className='smr_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
+                        <button className='stam_ContinueOrderbtn' onClick={() => proceedToOrder(navigate)}>Continue</button>
                     </div>
                     {!isLoading ? (
-                        <div className='smr_getAddrMainDiv'>
+                        <div className='stam_getAddrMainDiv'>
                             <Grid container spacing={2}>
                                 {addressData?.map((data, index) => (
                                     <React.Fragment key={data.id} >
@@ -93,8 +93,8 @@ const AddressManagement = () => {
                         title="Confirm"
                         content="Are you sure you want to remove this address?"
                     />
-                    <div className='smr_AddressBtnGroup'>
-                        <button className='smr_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
+                    <div className='stam_AddressBtnGroup'>
+                        <button className='stam_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
             </div>

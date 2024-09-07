@@ -64,8 +64,9 @@ const CartPage = () => {
     decodeEntities,
     handleMoveToDetail,
     handelMenu
-
+    
   } = useCart();
+  console.log('cartData: ', cartData);
 
   const navigate = useNavigate();
   const visiterId = Cookies.get('visiterId');
@@ -79,6 +80,7 @@ const CartPage = () => {
   getTotalPrice?.push({
     total: totalPrice
   })
+  console.log('getTotalPrice: ', getTotalPrice);
 
   useEffect(() => {
     sessionStorage.setItem('totalProdPrice', JSON.stringify(getTotalPrice[0]));
@@ -170,7 +172,7 @@ const CartPage = () => {
   const handleOrderRemarkFun = async (remark) => {
     setOrderRemark(remark);
     try {
-      const response = await handleOrderRemark(orderRemark);
+      const response = await handleOrderRemark(remark);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
         // const updatedCartData = cartData.map(cart =>

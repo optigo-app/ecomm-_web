@@ -9,13 +9,14 @@ import { el_CartCount, el_loginState } from '../../../Recoil/atom';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 
 const PaymentPage = () => {
 
     const [selectedAddrData, setSelectedAddrData] = useState();
+    const [isPageloading, setIsPageloding] = useState(false);
     const [totalprice, setTotalPrice] = useState();
     const [totalPriceText, setTotalPriceText] = useState();
     // const [finalTotal, setFinalTotal] = useState();
@@ -52,6 +53,7 @@ const PaymentPage = () => {
 
 
     useEffect(() => {
+        setIsPageloding(true)
         const fetchData = async () => {
             try {
                 const texData = await fetchEstimateTax();
@@ -60,6 +62,9 @@ const PaymentPage = () => {
                 }
             } catch (error) {
                 console.error("Error fetching tax data:", error);
+            }
+            finally {
+                setIsPageloding(false);
             }
 
             const selectedAddressData = JSON.parse(
@@ -260,54 +265,60 @@ const PaymentPage = () => {
                                     </div>
                                     <div className='elv_paymentDetailRightSideContent'>
                                         <h3>Order Summary</h3>
-                                        <div className='elv_payment_div'>
-                                            <div className='elv_paymenttotalpricesummary'>
-                                                <p className='elv_payment_total_title'>Subtotal</p>
-                                                <p>
-                                                    <span
-                                                        className="elv_currencyFont"
-                                                        style={{ paddingRight: '2.5px' }}
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                CurrencyData
-                                                            ),
-                                                        }}
-                                                    />
-                                                    <span className='elv_subtotal_price'> {finalTotal}</span>
-                                                </p>
+                                        {!isPageloading ? (
+                                            <div className='elv_payment_div'>
+                                                <div className='elv_paymenttotalpricesummary'>
+                                                    <p className='elv_payment_total_title'>Subtotal</p>
+                                                    <p>
+                                                        <span
+                                                            className="elv_currencyFont"
+                                                            style={{ paddingRight: '2.5px' }}
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: decodeEntities(
+                                                                    CurrencyData
+                                                                ),
+                                                            }}
+                                                        />
+                                                        <span className='elv_subtotal_price'> {finalTotal}</span>
+                                                    </p>
+                                                </div>
+                                                <div className='elv_paymenttotalpricesummary'>
+                                                    <p className='elv_payment_total_title'>Estimated Tax</p>
+                                                    <p>
+                                                        <span
+                                                            className="elv_currencyFont"
+                                                            style={{ paddingRight: '2.5px' }}
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: decodeEntities(
+                                                                    CurrencyData
+                                                                ),
+                                                            }}
+                                                        />
+                                                        <span className='elv_estimate_tax'> {taxAmmount}</span>
+                                                    </p>
+                                                </div>
+                                                <div className='elv_payment_total_border'></div>
+                                                <div className='elv_paymenttotalpricesummary'>
+                                                    <p className='elv_payment_total_title'>Estimated Total</p>
+                                                    <p>
+                                                        <span
+                                                            className="elv_currencyFont"
+                                                            style={{ paddingRight: '2.5px' }}
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: decodeEntities(
+                                                                    CurrencyData
+                                                                ),
+                                                            }}
+                                                        />
+                                                        <span className='elv_estimate_total'> {(taxAmmount + finalTotal)}</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className='elv_paymenttotalpricesummary'>
-                                                <p className='elv_payment_total_title'>Estimated Tax</p>
-                                                <p>
-                                                    <span
-                                                        className="elv_currencyFont"
-                                                        style={{ paddingRight: '2.5px' }}
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                CurrencyData
-                                                            ),
-                                                        }}
-                                                    />
-                                                    <span className='elv_estimate_tax'> {taxAmmount}</span>
-                                                </p>
-                                            </div>
-                                            <div className='elv_payment_total_border'></div>
-                                            <div className='elv_paymenttotalpricesummary'>
-                                                <p className='elv_payment_total_title'>Estimated Total</p>
-                                                <p>
-                                                    <span
-                                                        className="elv_currencyFont"
-                                                        style={{ paddingRight: '2.5px' }}
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                CurrencyData
-                                                            ),
-                                                        }}
-                                                    />
-                                                    <span className='elv_estimate_total'> {(taxAmmount + finalTotal)}</span>
-                                                </p>
-                                            </div>
-                                        </div>
+                                        ) :
+                                            <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                        }
+
+
                                         <div className='elv_shippingAddress'>
                                             <h3 className='elv_payment_shipp_title'>Shipping Address : </h3>
                                             <p className='elv_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>

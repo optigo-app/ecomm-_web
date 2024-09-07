@@ -71,6 +71,12 @@
     padding-bottom: 35px;
 }
 
+
+@media (max-width:995px){
+    
+}
+
+//working code 5-9-24
 @media(max-width: 768px) {
     .QuotePadSec {
         padding-bottom: 15px !important;
@@ -110,7 +116,16 @@
         padding-right: 0;
         padding-left: 0;
     }
+    .hoq-AccountTabMain {
+        margin-inline: 1%;
+    }
 }
+@media screen and (max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px){
+    .hoq-AccountTabMain {
+        margin-inline: 1%;
+    }
+}
+
 @media screen and (max-width:500px){
     .hoq-AccountTabMain {
         margin-inline: 1% !important;
@@ -120,6 +135,32 @@
         margin-inline: 1%;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // @media(max-width: 576px) {
 //     .salesApiTableQWeb table thead tr {
 //         // display: flex;
@@ -187,3 +228,5 @@
 //         margin-left: 3px !important;
 //     }
 // }
+
+

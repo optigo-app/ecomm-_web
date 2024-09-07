@@ -21,13 +21,14 @@ const Footer = ({ fromPage }) => {
 
     if (sessionStorage.getItem("CompanyInfoData")) {
       if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+        // companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
         const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
         if (parsedSocilaMediaUrlData) {
           setSocialMediaData(parsedSocilaMediaUrlData)
         }
       }
     }
+
   }, [])
 
   return (

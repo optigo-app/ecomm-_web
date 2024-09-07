@@ -28,7 +28,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
           Remove
         </Button>
         <Divider orientation="vertical" flexItem />
-        <Button className='smr_DialogBtn' onClick={onClose} autoFocus fullWidth>
+        <Button className='smr_DialogBtn' onClick={onClose} fullWidth>
           Cancel
         </Button>
       </DialogActions>

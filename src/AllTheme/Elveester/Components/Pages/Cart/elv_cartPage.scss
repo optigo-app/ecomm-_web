@@ -66,11 +66,14 @@
 }
 
 .elv_remarktext {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 12px !important;
     color: black !important;
-    max-width: 130px !important;
-    word-wrap: break-word !important;
     letter-spacing: 0.5px !important;
+    margin-top: 5px;
+    height: auto;
+    max-height: 100px;
+    overflow: auto;
 }
 
 .elv_Productlists_Main_div {
@@ -335,7 +338,11 @@
                 }
 
                 .elv_itemsRemark_div {
-                    display: flex;
+
+                    .elv_remmark_div {
+                        display: flex;
+                        flex-wrap: wrap;
+                    }
 
                     .elv_remarks_remove_div {
                         position: absolute;
@@ -378,7 +385,7 @@
         .elv_Cart-imageDiv {
             border-radius: 12px;
             width: 100%;
-            height: 410px;
+            height: 100%;
             border: 1px solid rgb(225, 225, 225);
             overflow: hidden;
             position: relative;
@@ -584,7 +591,7 @@
         .elv_StockCart-options {
             display: flex;
             flex-direction: column;
-            margin-block: 1rem;
+            margin-block: 0.5rem;
 
             .elv_stock_1 {
                 display: flex;
@@ -616,7 +623,7 @@
 
             .elv_stock_3 {
                 display: flex;
-                justify-content: start;
+                justify-content: space-between;
                 margin-block: 5px;
 
                 .elv_option {
@@ -631,7 +638,7 @@
 
         .elv_cartQtyPricemainDev_1 {
             display: flex;
-            justify-content: center;
+            justify-content: end;
             align-items: center;
 
             .elv_product-price_1 {
@@ -989,6 +996,12 @@
         }
     }
 
+    @media (max-width: 1500px) {
+        .elv_remarktext {
+            height: 100px;
+        }
+    }
+
     @media screen and (max-width: 1230px) {
         .elv_Cart_R-details_1 {
 
@@ -1137,26 +1150,38 @@
 
                     .elv_ProductCard_details {
                         width: 60%;
-                        height: 25rem;
 
-                        .elv_ProdWeights_div {
-                            display: flex;
-                            flex-direction: column;
-                        }
+                        .elv_Product_details {
+                            height: 11rem;
 
-                        .elv_remarks_remove_div {
-                            display: flex;
-                            justify-content: space-between;
-                            gap: 1rem;
+                            &.with-remarks {
+                                margin-top: 1rem;
+                            }
 
-                            .elv_remove_items {
-                                padding-left: 0px;
+                            .elv_ProdWeights_div {
+                                display: flex;
+                                flex-direction: column;
+                            }
+
+                            .elv_remarks_remove_div {
+                                display: flex;
+                                justify-content: space-between;
+                                gap: 1rem;
+
+                                .elv_remove_items {
+                                    padding-left: 0px;
+                                }
                             }
                         }
                     }
                 }
 
             }
+        }
+
+        .elv_remarktext {
+            height: auto;
+            max-height: 120px;
         }
     }
 
@@ -1523,5 +1548,10 @@
 
     }
 
+    @media (max-width: 320px) {
+        .elv_remmark_div {
+            max-width: 11rem;
+        }
+    }
 
 }

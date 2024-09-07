@@ -334,8 +334,7 @@
 
         .elv_ProductDet_cart_div {
             border: 1px solid #d2815f;
-            height: 30%;
-            min-height: 49px;
+            height: 100%;
             width: 75%;
             cursor: pointer;
 
@@ -361,8 +360,7 @@
 
         .elv_ProductDet_wishlist_div {
             border: 1px solid #d2815f;
-            height: 30%;
-            min-height: 49px;
+            height: 100%;
             width: 20%;
             cursor: pointer;
 
@@ -482,9 +480,10 @@
         }
 
         .elv_ProductDet_wishlist_div {
-
+            height: 100%;
             .elv_ProductDet_wishlist {
-                height: 36px;
+                height: 100%;
+                align-content: center;
             }
         }
 

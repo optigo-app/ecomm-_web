@@ -2,26 +2,26 @@
 
 .stam_DeliverMainDiv {
 
-  .smr_secondMaindivAdd {
+  .stam_secondMaindivAdd {
     margin-inline: 6%;
     background-color: #fff;
   }
 
-  .smr_addMainDiv {
+  .stam_addMainDiv {
     margin-inline: 10%;
-    padding-top: 8%;
+    padding-top: 4%;
   }
 
-  .smr_getAddrMainDiv {
+  .stam_getAddrMainDiv {
     margin-bottom: 40px;
   }
 
-  .smr_TitleDetailMainDiv {
+  .stam_TitleDetailMainDiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .smr_ContinueOrderbtn {
+    .stam_ContinueOrderbtn {
       height: 40px;
       width: 150px;
       font-family: $homePageFontFamily !important;
@@ -40,7 +40,7 @@
     }
   }
 
-  .smr_addressTextFields {
+  .stam_addressTextFields {
     margin-bottom: 18px !important;
     font-family: $homePageFontFamily !important;
     color: $titleColor !important;
@@ -50,23 +50,23 @@
     }
   }
 
-  .smr_deliveryTitle {
+  .stam_deliveryTitle {
     color: $titleColor;
     font-family: $homePageFontFamily;
   }
 
-  .smr_deliverydesc {
+  .stam_deliverydesc {
     color: $titleColor;
     font-family: $homePageFontFamily;
   }
 
-  .smr_AddrCard {
+  .stam_AddrCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     padding: 20px 20px 0px 20px !important;
     border-radius: 0px !important;
   }
 
-  .smr_ActiveAddrCard {
+  .stam_ActiveAddrCard {
     padding: 20px 20px 0px 20px !important;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
     background: #f5f4f4 !important;
@@ -75,7 +75,7 @@
   }
 
 
-  .smr_defualt_addrSelected {
+  .stam_defualt_addrSelected {
     padding: 3px 10px;
     font-family: $homePageFontFamily !important;
     font-size: $fontSize3;
@@ -90,24 +90,24 @@
     transition: background-color 0.3s, color 0.3s;
   }
 
-  .smr_defualt_addrSelectedHide {
+  .stam_defualt_addrSelectedHide {
     display: none !important;
   }
 
-  .smr_addrTypoTitle {
+  .stam_addrTypoTitle {
     color: $titleColor;
     font-family: $homePageFontFamily !important;
     text-transform: capitalize;
   }
 
-  .smr_addrTypo {
+  .stam_addrTypo {
     color: $titleColor;
     font-family: $homePageFontFamily !important;
     text-transform: capitalize;
   }
 
-  .smr_AddressBtnGroup {
-    .smr_AddNewAddrbtn {
+  .stam_AddressBtnGroup {
+    .stam_AddNewAddrbtn {
       margin-right: 20px;
       height: 40px;
       width: 150px;
@@ -127,13 +127,13 @@
     }
   }
 
-  .smr_dialogTitle {
+  .stam_dialogTitle {
     color: $titleColor;
     font-weight: 500 !important;
     text-align: center;
   }
 
-  .smr_AddNewAddrModalbtn {
+  .stam_AddNewAddrModalbtn {
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -152,7 +152,7 @@
     }
   }
 
-  .smr_Cancelbtn {
+  .stam_Cancelbtn {
     margin-right: 20px;
     height: 40px;
     width: 150px;
@@ -171,18 +171,18 @@
     }
   }
 
-  .smr_editDeleteBtngroup {
+  .stam_editDeleteBtngroup {
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin-bottom: 10px;
 
-    .smr_editIcon {
+    .stam_editIcon {
       font-size: 20px;
       color: $titleColor;
     }
 
-    .smr_DeleteIcon {
+    .stam_DeleteIcon {
       font-size: 20px;
       color: $titleColor
     }

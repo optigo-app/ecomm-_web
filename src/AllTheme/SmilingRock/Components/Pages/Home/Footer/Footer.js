@@ -8,19 +8,19 @@ const Footer = ({ fromPage }) => {
   const [companyInfoData, setCompanuInfoData] = useState();
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
-  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+  let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
 
   useEffect(() => {
-    let localD = JSON.parse(sessionStorage.getItem('storeInit'));
+    let localD = JSON?.parse(sessionStorage?.getItem('storeInit'));
     setLocalData(localD);
   }, [])
 
 
   useEffect(() => {
     let companyInfoData;
-    if (sessionStorage.getItem("CompanyInfoData")) {
+    if (sessionStorage?.getItem("CompanyInfoData")) {
       if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+        companyInfoData = JSON?.parse(sessionStorage?.getItem("CompanyInfoData")) ?? "";
         const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
         if (parsedSocilaMediaUrlData) {
           setSocialMediaData(parsedSocilaMediaUrlData)

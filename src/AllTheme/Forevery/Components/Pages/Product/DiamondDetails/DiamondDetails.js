@@ -123,9 +123,9 @@ const DiamondDetails = () => {
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
-    const [addToCardFlag, setAddToCartFlag] = useState(false);
+    const [addToCardFlag, setAddToCartFlag] = useState(null);
     const [wishListFlag, setWishListFlag] = useState(false);
-    const [addwishListFlag, setAddWishListFlag] = useState(false);
+    const [addwishListFlag, setAddWishListFlag] = useState(null);
     console.log('addwishListFlag: ', addwishListFlag);
     const [PdImageArr, setPdImageArr] = useState([]);
     const [price, setPrice] = useState();
@@ -335,38 +335,46 @@ const DiamondDetails = () => {
                     console.log("err", error)
                 }
                 setAddToCartFlag(cartFlag);
-                const existingData = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
-                console.log('existingData: ', existingData);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+                const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
 
-                if (existingData?.[0]?.step1Data?.id > 0) {
-                    const updatedStep1 = existingData?.map(step => {
-                        if (step.step1Data !== undefined) {
-                            return { "step1Data": settingData };
+                if (existingData1?.[0]?.step1Data != undefined) {
+                    const newIsInCartValue = 1;
+
+                    const updatedData = existingData1.map(step => {
+                        if (step.step1Data != undefined) {
+                            return {
+                                ...step,
+                                step1Data: {
+                                    ...step.step1Data,
+                                    IsInCart: newIsInCartValue
+                                }
+                            };
                         }
                         return step;
                     });
 
-                    if (!updatedStep1?.some(step => step.step1Data !== undefined)) {
-                        updatedStep1?.push({ "step1Data": settingData });
-                    }
-
-                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedStep1));
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
                 }
 
-                // if (existingData?.[1]?.step2Data?.id > 0) {
-                //     const updatedStep2 = existingData?.map(step => {
-                //         if (step.step2Data !== undefined) {
-                //             return { "step3": true, "url": existingData?.[2]?.url, "price": totalPrice };
-                //         }
-                //         return step;
-                //     });
+                if (existingData?.[1]?.step2Data != undefined) {
+                    const newIsInCartValue = 1;
 
-                //     if (!updatedStep2?.some(step => step.step3 !== undefined)) {
-                //         updatedStep2?.push({ step3: { url: existingData?.[2]?.url, price: totalPrice } });
-                //     }
+                    const updatedData = existingData.map(step => {
+                        if (step.step2Data != undefined) {
+                            return {
+                                ...step,
+                                step2Data: {
+                                    ...step.step2Data,
+                                    IsInCart: newIsInCartValue
+                                }
+                            };
+                        }
+                        return step;
+                    });
 
-                //     sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
-                // }
+                    sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+                }
             }
         }
         else {
@@ -381,39 +389,46 @@ const DiamondDetails = () => {
                     console.log("err", error);
                 }
                 setAddToCartFlag(cartFlag);
-                const existingData = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
-                console.log('existingData: ', existingData);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+                const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
 
-                if (existingData?.[0]?.step1Data?.id > 0) {
-                    const updatedStep1 = existingData?.map(step => {
-                        if (step.step1Data !== undefined) {
-                            return [{ "step1Data": settingData }];
+                if (existingData1?.[0]?.step1Data != undefined) {
+                    const newIsInCartValue = 0;
+
+                    const updatedData = existingData1.map(step => {
+                        if (step.step1Data != undefined) {
+                            return {
+                                ...step,
+                                step1Data: {
+                                    ...step.step1Data,
+                                    IsInCart: newIsInCartValue
+                                }
+                            };
                         }
                         return step;
                     });
 
-                    if (!updatedStep1?.some(step => step.step1Data !== undefined)) {
-                        updatedStep1?.push([{ "step1Data": settingData }]);
-                    }
-
-                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedStep1));
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
                 }
 
-                // if (steps1?.[1]?.step2 === true) {
-                //     const updatedStep2 = existingSteps1?.map(step => {
-                //         if (step.step3 !== undefined) {
-                //             return { "step3": true, "url": existingSteps1?.[2]?.url, "price": totalPrice };
-                //         }
-                //         return step;
-                //     });
+                if (existingData?.[1]?.step2Data != undefined) {
+                    const newIsInCartValue = 0;
 
-                //     // Check if step3 was updated; if not, add it
-                //     if (!updatedStep2?.some(step => step.step3 !== undefined)) {
-                //         updatedStep2?.push({ step3: { url: existingSteps1?.[2]?.url, price: totalPrice } });
-                //     }
+                    const updatedData = existingData.map(step => {
+                        if (step.step2Data != undefined) {
+                            return {
+                                ...step,
+                                step2Data: {
+                                    ...step.step2Data,
+                                    IsInCart: newIsInCartValue
+                                }
+                            };
+                        }
+                        return step;
+                    });
 
-                //     sessionStorage.setItem('customizeSteps2', JSON.stringify(updatedStep2));
-                // }
+                    sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+                }
             }
         }
     }
@@ -444,6 +459,46 @@ const DiamondDetails = () => {
                     setCartCountVal(cartC);
                 }
                 setAddWishListFlag(true);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+                const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+                if (existingData1?.[0]?.step1Data != undefined) {
+                    const newIsInWishValue = 1;
+
+                    const updatedData = existingData1.map(step => {
+                        if (step.step1Data != undefined) {
+                            return {
+                                ...step,
+                                step1Data: {
+                                    ...step.step1Data,
+                                    IsInWish: newIsInWishValue
+                                }
+                            };
+                        }
+                        return step;
+                    });
+
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+                }
+
+                if (existingData?.[1]?.step2Data != undefined) {
+                    const newIsInWishValue = 1;
+
+                    const updatedData = existingData.map(step => {
+                        if (step.step2Data != undefined) {
+                            return {
+                                ...step,
+                                step2Data: {
+                                    ...step.step2Data,
+                                    IsInWish: newIsInWishValue
+                                }
+                            };
+                        }
+                        return step;
+                    });
+
+                    sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+                }
 
 
             } else {
@@ -455,6 +510,46 @@ const DiamondDetails = () => {
                     setCartCountVal(cartC);
                 }
                 setAddWishListFlag(false);
+                const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+                const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+                if (existingData1?.[0]?.step1Data != undefined) {
+                    const newIsInWishValue = 0;
+
+                    const updatedData = existingData1.map(step => {
+                        if (step.step1Data != undefined) {
+                            return {
+                                ...step,
+                                step1Data: {
+                                    ...step.step1Data,
+                                    IsInWish: newIsInWishValue
+                                }
+                            };
+                        }
+                        return step;
+                    });
+
+                    sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+                }
+
+                if (existingData?.[1]?.step2Data != undefined) {
+                    const newIsInWishValue = 0;
+
+                    const updatedData = existingData.map(step => {
+                        if (step.step2Data != undefined) {
+                            return {
+                                ...step,
+                                step2Data: {
+                                    ...step.step2Data,
+                                    IsInWish: newIsInWishValue
+                                }
+                            };
+                        }
+                        return step;
+                    });
+
+                    sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+                }
             }
         } catch (error) {
             console.log("Error:", error);
@@ -1277,7 +1372,7 @@ const DiamondDetails = () => {
                                                                     checkedIcon={<GoHeartFill size={24} color="black" />}
                                                                     className='for_wishlist_icon'
                                                                     disableRipple={true}
-                                                                    checked={addwishListFlag}
+                                                                    checked={addwishListFlag ?? (settingData?.step1Data?.IsInWish ?? settingData?.step2Data?.IsInWish) == 1 ? true : false}
                                                                     onChange={(e) => handleWish(e, diamondData, settingData)}
                                                                 />
                                                             </div>

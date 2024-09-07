@@ -29,6 +29,7 @@ const Header = () => {
   const [islogin, setislogin] = useRecoilState(el_loginState);
   const [cartCount, setCartCount] = useRecoilState(el_CartCount);
   const [wishCount, setWishCount] = useRecoilState(el_WishCount);
+  const [storeinit, setStoreInit] = useState();
   const [burgerMenu, setBurgerMenu] = useState(false);
   const [burgerMenu1, setBurgerMenu1] = useState(false);
   const [mobilenav, setMobilenav] = useState(false);
@@ -57,6 +58,8 @@ const Header = () => {
   useEffect(() => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
+    const storeData = JSON.parse(sessionStorage.getItem('storeInit'));
+    setStoreInit(storeData);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
     console.log(storeInit?.companylogo);
@@ -604,38 +607,40 @@ const Header = () => {
                         </li>
                       );
                     })}
-                    <Link
-                      to={"/Lookbook"}
-                      className="el_Login_header_li go-lookbook"
-                      style={{
-                        marginLeft: " 20px",
-                        cursor: "default",
-                        textDecoration: "none",
-                        position: "relative",
-                        color: "inherit"
-                      }}
-                    >
-                      <small
+                    {storeinit?.IsDesignSetInMenu == 1 && (
+                      <Link
+                        to={"/Lookbook"}
+                        className="el_Login_header_li go-lookbook"
                         style={{
-                          backgroundColor: "#9C27B0",
-                          position: "absolute",
-                          marginTop: "-35px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          height: "15px",
-                          borderRadius: "",
-                          padding: "0 5px",
-                          fontSize: "10px",
-                          borderRadius: " 3px",
-                          marginLeft: "-15px",
-                          color: 'white'
+                          marginLeft: " 20px",
+                          cursor: "default",
+                          textDecoration: "none",
+                          position: "relative",
+                          color: "inherit"
                         }}
                       >
-                        New
-                      </small>
-                      LookBook
-                    </Link>
+                        <small
+                          style={{
+                            backgroundColor: "#9C27B0",
+                            position: "absolute",
+                            marginTop: "-35px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "15px",
+                            borderRadius: "",
+                            padding: "0 5px",
+                            fontSize: "10px",
+                            borderRadius: " 3px",
+                            marginLeft: "-15px",
+                            color: 'white'
+                          }}
+                        >
+                          New
+                        </small>
+                        {storeinit?.DesignSetInMenu}
+                      </Link>
+                    )}
                   </ul>
                 </div>
               </>
