@@ -19,7 +19,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const AccountLedger = () => {
 
-    const isSmallScreen = useMediaQuery('(max-width:500px)');
+    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px),(max-width:699px)');
+    const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px)');
+  
 
     const [resultArray, setResultArray] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState('');
@@ -498,13 +500,12 @@ const AccountLedger = () => {
                 Account Detail for &nbsp; <b className='fs_Al_mq'>{userName}</b>
                 &nbsp; Period of &nbsp;<b className='fs_Al_mq'>{moment(showStartDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showStartDate).format('DD MMM YYYY')}</b>&nbsp; to 
                 &nbsp;<b className='fs_Al_mq'>{moment(showEndDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showEndDate).format('DD MMM YYYY')}</b>&nbsp;
-            </div>}
-
-                
+            </div>
+            }
             {
                     (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <>
                     <div className='flex_col_Al' style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'8px'}}>
-                        { !isSmallScreen && <div className='fs_al2' style={{display:'flex', justifyContent:'flex-start', alignItems:'center', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px'}}>
+                        { (!isSmallScreen && !isTabletScreen) && <div className='fs_al2' style={{display:'flex', justifyContent:'flex-start', alignItems:'center', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px'}}>
                             <div className='mb_acc'>
                                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
                             <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
@@ -622,9 +623,130 @@ const AccountLedger = () => {
                         </div>
                         </div>}
                     </div>
-
                     {
-                            isSmallScreen && <>
+                        (!isSmallScreen && isTabletScreen) && <>
+                        <div className='fs_al2' style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px', paddingBottom:'20px'}}>
+                            <div className='mb_acc'>
+                                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
+                            <Box sx={{ display: "flex", alignItems: "center", paddingRight: "5px", paddingBottom: "0px" }} className=" date_margin_acc">
+                            {/* <p className=' w_30_acc pad_right_Acc' style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>Date : </p> */}
+                            <Box className="w_70_acc">
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date From"
+                                        value={fromDate} 
+                                        ref={fromDateRef}
+
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                              setFromDate(null)
+                                            } else {
+                                      
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setFromDate(newValue)
+                                                      } else {
+                                                        Swal.fire({
+                                                          title: "Error !",
+                                                          text: "Enter Valid Date From",
+                                                          icon: "error",
+                                                          confirmButtonText: "ok"
+                                                        });
+                                                        backToInitial2();
+                                                      }
+                                             
+                                            }
+                                          }}
+                                        format="DD MM YYYY"
+                                        placeholder="DD MM YYYY"
+                                        className='quotationFilterDates w_all_acc'
+                                        name="date" 
+                                        id="startdate" 
+                                    />
+                                </LocalizationProvider>
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "0px", paddingRight: "5px" }} className=" date_margin_acc">
+                            {/* <p className=' w_30_acc pad_right_Acc' style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px'  }}>To : </p> */}
+                            <Box className="w_70_acc">
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date To"
+                                        value={toDate} 
+                                        ref={toDateRef}
+
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                              setToDate(null)
+                                            } else {
+                                              if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                setToDate(newValue)
+                                                setShowEndDate(newValue)
+                                              } 
+                                              else {
+                                                Swal.fire({
+                                                  title: "Error !",
+                                                  text: "Enter Valid Date To",
+                                                  icon: "error",
+                                                  confirmButtonText: "ok"
+                                                });
+
+                                                backToInitial2();
+                                            }
+                                            }
+                                          }}
+                                        format="DD MM YYYY"
+                                        placeholder="DD MM YYYY"
+                                        className='quotationFilterDates w_all_acc'
+                                        name="date" 
+                                        id="enddate"
+                                    />
+                                </LocalizationProvider>
+                            </Box>
+                            <Box sx={{ paddingBottom: "0px",paddingLeft:'5px', paddingRight: "5px"}}>
+                                    <Button variant='contained' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
+                                        <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
+                                    </Button>
+                                </Box>
+                        </Box>
+                                </Box>
+                            </div>
+                            <div>
+             
+                                
+                            </div>
+                        <Box sx={{paddingBottom: "0px", paddingRight: "5px"}}>
+                            <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }}  
+                            onClick={() => backToInitial3()}>
+                                All
+                            </Button>
+                        </Box>
+                        <Box sx={{paddingBottom: "0px", paddingRight: "5px"}} className="pad_r_acc center_acc w_all_acc">
+                       
+                        <div className='d_flex_Acc' style={{paddingTop:'8px'}}>
+                            <button className=' btn_acc border_Acc daybtn' 
+                                style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0px', padding:'8px', 
+                                paddingTop:'0px', paddingBottom:'0px', marginBottom:'0px' }} 
+                                title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                                {[30, 60, 90]?.map((days) => (
+                                    <button key={days} 
+                                    className={` btn_acc  p_2_acc py_0_acc daybtn  btnHover`} 
+                                    title={`${days} days`} 
+                                    style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`, marginLeft:'2px'}}
+                                     onClick={() => handleDays(days)}>{days}</button>
+                                ))}
+                            <button className='  btn_acc border_Acc p_2_acc py_0_acc daybtn ' title='next' style={{marginLeft:'2px'}}
+                            onClick={() => handleNextDays()} 
+                            >&gt;</button>
+                        </div>
+                        </Box>
+    
+                        {/* <div className='mx_1_acc ms_4_acc mb_2_acc'>
+                        </div> */}
+                        </div>
+                        </>
+                    }
+                    {
+                        isSmallScreen && <>
                             <Accordion>
                                 <AccordionSummary  expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
                                 <AccordionDetails style={{padding:'0px'}}>
@@ -730,12 +852,12 @@ const AccountLedger = () => {
                                 </Box>
                                 </AccordionDetails>
                             </Accordion>
-                            </>
-                        }
+                        </>
+                    }
                     </>
                 }
                 
-                <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_none'>
+                { (!isSmallScreen && !isTabletScreen) && <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_none'>
                     <div className='custom_flex_class'>
                         <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc ps-0 w_all_acc'>
                             <span className='w_40_acc '>Balance Gold :&nbsp;</span> 
@@ -768,7 +890,41 @@ const AccountLedger = () => {
 
                             {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span></div>
                     </div>
-                </div>
+                </div>}
+                { (!isSmallScreen && isTabletScreen) && <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_none'>
+                    <div className='custom_flex_class' style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
+                        <div className=' px_2_al d_flex_Acc align_items_center mb_2_acc ps-0 w_all_acc'>
+                            <span className='w_40_acc ' style={{display:'flex', alignItems:'center'}}>Balance Gold :&nbsp;</span> 
+                            <span className='bal_Amt_ac  w_60_acc end_acc' style={{fontSize:'14px'}}>
+                                {   ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - 
+                                    ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  
+                                    (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)))
+                                }
+                                { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }
+                            </span>
+                            </div>
+                        <div className=' px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
+                            <span className='w_40_acc' style={{display:'flex', alignItems:'center'}}>Balance Diam. :&nbsp;</span> 
+                                <span className='bal_Amt_ac w_60_acc end_acc' style={{fontSize:'14px'}}>
+                                    { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
+                                     : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
+                                    { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
+                                </span>
+                        </div>
+                        <div className=' px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
+                            <span className='w_40_acc' style={{display:'flex', alignItems:'center'}}>Balance Amount :&nbsp;</span> 
+                            <span className='bal_Amt_ac w_60_acc end_acc' style={{fontSize:'14px'}}>
+                            <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
+                            { ((formatAmount(
+                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                              ) === 'NaN' ? '0.00' : (formatAmount(
+                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                              ))
+                            }&nbsp;
+
+                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span></div>
+                    </div>
+                </div>}
                 <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
                     <div className='custom_flex_class'>
                         <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc  w_100_acc'>

@@ -35,10 +35,7 @@ const CustomSortIcon = ({ order }) => {
 const QuotationJob = () => {
 
   const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px)');
-
-  const [showFilter, setShowFilter] = useState(false);
-  const [printJobError, setPrintJobError] = useState('');
+  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1070px)');
 
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
@@ -46,20 +43,13 @@ const QuotationJob = () => {
   const [toDate, setToDate] = useState(null);
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [filterData2, setFilterData2] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [orderBy, setOrderBy] = useState('');
   const [order, setOrder] = useState('');
   const [statusList, setStatusList] = useState([]);
-  const [categoryList, setCategoryList] = useState([
-   
-  ]);
-  const [metalColorList, setmetalColorList] = useState([
-
-  ]);
-  const [metalPurityList, setMetalPurityList] = useState([
-    
-  ]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [metalColorList, setmetalColorList] = useState([]);
+  const [metalPurityList, setMetalPurityList] = useState([]);
   const [statuse, setStatus] = useState(statusList[0]?.value || "");
   const [category, setCategory] = useState(categoryList[0]?.value || "");
   const [MetalColor, setMetalColor] = useState(metalColorList[0]?.value || "");
@@ -862,7 +852,7 @@ const scrollToTop = () => {
       </Box>}
       {
        (!isSmallScreen && isTabletScreen) && <Box>
-        <Box style={{display:'flex', alignItems:'center', paddingBottom:'20px'}}>
+        <Box style={{display:'flex', alignItems:'center', paddingBottom:'15px'}}>
             <Button variant="contained" sx={{  background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
             <Box sx={{ padding: "0 20px" }}>
               <RadioGroup
@@ -887,7 +877,7 @@ const scrollToTop = () => {
                 onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon />
               </Button>
             </Box>
-            <Box sx={{ padding: "0 0px 0px 0", marginLeft:'10px'}} >
+            <Box sx={{ padding: "0 0px 0px 20px", marginLeft:'10px'}} >
               <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
             </Box>
         </Box>
@@ -955,8 +945,8 @@ const scrollToTop = () => {
               <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
             </Box>
         </Box>
-        <Box style={{display:'flex', alignItems:'baseline', paddingBottom:'25px'}}>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', paddingBottom:'25px'}}>
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
         <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
           
               <Select
@@ -967,7 +957,7 @@ const scrollToTop = () => {
                 onChange={handleStatus} // Assuming handleStatus function receives selected values
                 MenuProps={MenuProps}
                 input={<OutlinedInput  />}
-                style={{minHeight:'2.9375em'}}
+                style={{minHeight:'2.9375em', width:'100%'}}
                 className='statusSelect'
                 size='small'
                 label='ALL'
@@ -993,9 +983,9 @@ const scrollToTop = () => {
             </Select>
     
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" onChange={handleCategory} >
+          <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" style={{width:'100%'}} onChange={handleCategory} >
             {
               categoryList?.map((e, i) => {
                 return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
@@ -1003,7 +993,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1011,6 +1001,7 @@ const scrollToTop = () => {
             value={MetalColor}
             label="Status"
             className='MetalColorList'
+            style={{width:'100%'}}
             onChange={handleMetalColor}
           >
             {
@@ -1020,7 +1011,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1028,6 +1019,7 @@ const scrollToTop = () => {
             value={metalPurity}
             label="Status"
             className='MetalPurityList'
+            style={{width:'100%'}}
             onChange={handleMetalPurity}
           >
             {
