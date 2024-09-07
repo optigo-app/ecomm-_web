@@ -119,6 +119,11 @@ const DiamondItems = ({
     );
     console.log("jksjdksakjd", diamondData)
 
+    const handleError = (event) => {
+        event.target.src = noImageFound;
+      };
+
+
     return (
         <>
             {diamondData?.map((diaData) =>
@@ -134,7 +139,11 @@ const DiamondItems = ({
                         onClick={() => onSelect(diaData)}
                     >
                         <div className="for_cart-item__image">
-                            <img src={diaImage} alt='Product-image' />
+                            <img 
+                            src={diaData?.image_file_url} 
+                            alt='Product-image' 
+                            onError={handleError}
+                            />
                         </div>
                         <div className="for_cart-item__details">
                             <div className="for_weightsContainer">

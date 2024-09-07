@@ -116,6 +116,9 @@ const CartItem = ({
 
   console.log("diamondData", diamondData)
 
+  const handleError = (event) => {
+    event.target.src = noImageFound;
+  };
 
 
   return (
@@ -175,9 +178,12 @@ const CartItem = ({
                 </>
               }
             </div>
-            {item?.Size != "" &&
-              <p className='for_ringSize'>Ring Size: {item?.Size}</p>
-            }
+            <div style={{ display: 'flex' }}>
+              <p className='for_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
+              {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
+                <p className='for_ringSize'>Size: {item?.Size}</p>
+              }
+            </div>
             {/* <span className="for_change-size">CHANGE SIZE</span> */}
           </div>
           {storeInitData?.IsPriceShow == 1 &&
@@ -215,7 +221,10 @@ const CartItem = ({
             // }}
             >
               <div className="for_cart-item__image">
-                <img src={diaImage} alt='Product-image' />
+                <img src={diamondData?.image_file_url}  
+                alt='Product-image' 
+                onError={handleError}
+                />
               </div>
               <div className="for_cart-item__details">
                 <div className="for_weightsContainer">

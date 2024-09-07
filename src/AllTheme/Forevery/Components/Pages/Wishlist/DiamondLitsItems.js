@@ -172,6 +172,9 @@ const DiamondLitsItems = ({
         }
     }, [item]);
 
+    const handleError = (event) => {
+        event.target.src = noImageFound;
+      };
 
     return (
         <>
@@ -188,10 +191,10 @@ const DiamondLitsItems = ({
                     <div className="for_cardContentMainDiv">
                         <CardMedia
                             component="img"
-                            image={diaImage}
+                            image={item?.image_file_url}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
-                        // onClick={() => handleMoveToDetail(item)}
+                        onError={handleError}
                         />
                         <CardContent className="for_cardContent for_diamondImage">
                             <div className="for_cardText">
@@ -222,6 +225,13 @@ const DiamondLitsItems = ({
                             </span>{" "}
                             <span>{formatter(item?.price)}</span>
                         </div>
+                        <span className="for_totalcart">
+                            {/* {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                <>
+                                    Total carat weight:{" "}{selectedDia?.carat}
+                                </>
+                            } */}
+                        </span>
                         <div className="for_Wl-CartbtnDiv" onClick={handleClickOpen}>
                             <button
                                 className="for_Wl-Cartbtn"

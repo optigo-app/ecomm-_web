@@ -99,18 +99,28 @@ export const useAddress = () => {
 
         switch (field) {
             case 'firstName':
-                if (!value) error = 'First name is required';
-                else if (value.length <= 1 && /^[A-Za-z0-9]+$/.test(value)) error = 'First name must contain at least two characters.'
+                if (!value) {
+                    error = 'First name is required';
+                } else if (value.length < 2) {
+                    error = 'First name must contain at least two characters.';
+                } else if (/^\d+$/.test(value)) {
+                    error = 'First name cannot be numeric only.';
+                }
                 break;
             case 'lastName':
-                if (!value) error = 'Last name is required';
-                else if (value.length <= 1 && /^[A-Za-z0-9]+$/.test(value)) error = 'Last name must contain at least two characters.'
+                if (!value) {
+                    error = 'Last name is required';
+                } else if (value.length < 2) {
+                    error = 'Last name must contain at least two characters.';
+                } else if (/^\d+$/.test(value)) {
+                    error = 'Last name cannot be numeric only.';
+                }
                 break;
-                case 'mobileNo':
-                    if (!value) error = 'Mobile number is required';
-                    else if (!numbersOnlyRegex.test(value)) error = 'Mobile number must contain only digits';
-                    else if (value.length !== 10) error = 'Mobile number must be exactly 10 digits';
-                    break;
+            case 'mobileNo':
+                if (!value) error = 'Mobile number is required';
+                else if (!numbersOnlyRegex.test(value)) error = 'Mobile number must contain only digits';
+                else if (value.length !== 10) error = 'Mobile number must be exactly 10 digits';
+                break;
             case 'address':
                 if (!value) error = 'Address is required';
                 break;
@@ -166,17 +176,17 @@ export const useAddress = () => {
         if (!formData.address) formErrors.address = 'Address is required'
         if (!formData.country) {
             formErrors.country = 'Country is required';
-        } else if(!lettersOnlyRegex.test(formData.country)){
+        } else if (!lettersOnlyRegex.test(formData.country)) {
             formErrors.country = 'Country should only contain letters';
         }
         if (!formData.state) {
             formErrors.state = 'State is required';
-        } else if(!lettersOnlyRegex.test(formData.state)){
+        } else if (!lettersOnlyRegex.test(formData.state)) {
             formErrors.state = 'State should only contain letters';
         }
         if (!formData.city) {
             formErrors.city = 'City is required';
-        } else if(!lettersOnlyRegex.test(formData.city)){
+        } else if (!lettersOnlyRegex.test(formData.city)) {
             formErrors.city = 'City should only contain letters';
         }
         if (!formData.zipCode) {

@@ -358,7 +358,7 @@ const useCart = () => {
                         diamondcolor: diaColor ?? updatedItems?.diamondcolor,
                         colorstonecolor: csColor ?? updatedItems?.colorstonecolor,
                         colorstonequality: csQua ?? updatedItems?.colorstonequality,
-                        FinalCost: Price ?? updatedItems?.FinalCost,
+                        FinalCost: updatedItems?.FinalCost ?? updatedItems?.FinalCost,
                         UnitCostWithMarkUp: finalPrice?.UnitCostWithMarkUp ?? updatedItems?.UnitCostWithMarkUp,
                         Quantity: qtyCount,
                         Size: sizeId
