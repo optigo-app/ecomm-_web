@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
+import {proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
@@ -28,6 +28,7 @@ const Payment = () => {
 
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
+    const [orderRemakdata, setOrderRemarkData] = useState();
     const islogin = useRecoilValue(proCat_loginState)
 
     const handleOpen = () => setOpen(true);
@@ -37,10 +38,18 @@ const Payment = () => {
         setOrderRemark(e.target.value);
     };
 
+    // const handleSaveInternal = () => {
+    //     handleOrderRemarkFun(orderRemark);
+    //     handleClose();
+    // };
+
+    
     const handleSaveInternal = () => {
-        handleOrderRemarkFun(orderRemark);
-        handleClose();
+        const trimmedRemark = orderRemark.trim();
+            handleOrderRemarkFun(trimmedRemark);
+            handleClose();  
     };
+
     console.log('orderreamrk', orderRemark);
 
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -50,7 +59,7 @@ const Payment = () => {
         const orderRemakdata = sessionStorage.getItem("orderRemark");
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-        setOrderRemark(orderRemakdata);
+        setOrderRemarkData(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
         } else {
@@ -114,15 +123,16 @@ const Payment = () => {
     const handleOrderRemarkChange = () => {
 
     }
-    const handleOrderRemarkFun = async () => {
+    const handleOrderRemarkFun = async (trimmedRemark) => {
         try {
-            const response = await handleOrderRemark(orderRemark);
+            const response = await handleOrderRemark(trimmedRemark);
             let resStatus = response?.Data?.rd[0]
             if (resStatus?.stat == 1) {
                 // const updatedCartData = cartData.map(cart =>
                 //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
                 // );
-                sessionStorage.setItem('orderRemark', orderRemark)
+                setOrderRemarkData(resStatus?.orderremarks)
+                sessionStorage.setItem('orderRemark', trimmedRemark)
             }
         } catch (error) {
             console.error("Error:", error);
@@ -154,7 +164,7 @@ const Payment = () => {
                             variant="body2"
                             onClick={handleOpen}
                         >
-                            {orderRemark == "" ? "Add order Remark" : "Update order Remark"}
+                           {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
                     <div className='proCat_paymentDetailMainDiv'>
@@ -168,9 +178,9 @@ const Payment = () => {
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
                                 <p className='proCat_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
-                                    Order Remark : {orderRemark}
+                                    Order Remark : {orderRemakdata}
                                 </p>
-
+        
                             </div>
                         </div>
                         <div className='proCat_paymentDetailRightSideContent'>

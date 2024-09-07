@@ -27,7 +27,7 @@ import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(3)
+  const [themeNo, setThemeNo] = useState(6)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -113,7 +113,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(3);
+      setThemeNo(6);
     }
     // .finally(() => setLoading(false));
   }, []);

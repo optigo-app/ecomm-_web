@@ -1,7 +1,7 @@
 @import '../../../scss/variable.scss';
 
 .proCat_DeliverMainDiv {
-  background-color: #c0bbb1;
+  background-color: #f1e9dd;
 }
 
 .proCat_secondMaindivAdd {
@@ -18,7 +18,7 @@
   margin-bottom: 40px;
 }
 
-.proCat_TitleDetailMainDiv{
+.proCat_TitleDetailMainDiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -47,7 +47,7 @@
   font-family: $homePageFontFamily !important;
   color: $titleColor !important;
 
-  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
     border-radius: 0px !important;
   }
 }
@@ -92,7 +92,7 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.proCat_defualt_addrSelectedHide{
+.proCat_defualt_addrSelectedHide {
   display: none !important;
 }
 
@@ -109,8 +109,11 @@
 }
 
 .proCat_AddressBtnGroup {
+  display: flex;
+  justify-content: end;
+  gap: 15px;
+
   .proCat_AddNewAddrbtn {
-    margin-right: 20px;
     height: 40px;
     width: 150px;
     font-family: $homePageFontFamily !important;
@@ -129,32 +132,32 @@
   }
 }
 
-.proCat_dialogTitle{
+.proCat_dialogTitle {
   color: $titleColor;
   font-weight: 500 !important;
   text-align: center;
 }
 
-.proCat_AddNewAddrModalbtn{
-    margin-right: 20px;
-    height: 40px;
-    width: 150px;
-    font-family: $homePageFontFamily !important;
-    font-size: $fontSize3;
+.proCat_AddNewAddrModalbtn {
+  margin-right: 20px;
+  height: 40px;
+  width: 150px;
+  font-family: $homePageFontFamily !important;
+  font-size: $fontSize3;
+  color: $btn1hoverFontColor;
+  background-color: $btn1ActivebgColor;
+  border: 1px solid $btn1FontColor;
+  border-radius: 0px !important;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
-    border: 1px solid $btn1FontColor;
-    border-radius: 0px !important;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      color: $btn1hoverFontColor;
-      background-color: $btn1ActivebgColor;
-    }
+  }
 }
-.proCat_Cancelbtn{
-  margin-right: 20px;
+
+.proCat_Cancelbtn {
   height: 40px;
   width: 150px;
   font-family: $homePageFontFamily !important;
@@ -172,17 +175,36 @@
   }
 }
 
-.proCat_editDeleteBtngroup{
+.proCat_editDeleteBtngroup {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
-  .proCat_editIcon{
+
+  .proCat_editIcon {
     font-size: 20px;
     color: $titleColor;
   }
-  .proCat_DeleteIcon{
+
+  .proCat_DeleteIcon {
     font-size: 20px;
     color: $titleColor
+  }
+}
+
+@media(max-width:500px) {
+  .proCat_secondMaindivAdd {
+    margin-inline: 1%;
+  }
+}
+
+@media(max-width:415px) {
+  .proCat_AddressBtnGroup {
+
+    .proCat_AddNewAddrModalbtn,
+    .proCat_Cancelbtn {
+      height: 30px;
+      width: 120px;
+    }
   }
 }
