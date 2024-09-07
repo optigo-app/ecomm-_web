@@ -99,7 +99,7 @@ export default function LoginWithMobileCode() {
     };
 
     return (
-        <div className='smr_loginmobileCodeMain'>
+        <div className='mala_loginmobileCodeMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />

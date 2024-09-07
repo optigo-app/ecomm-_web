@@ -165,7 +165,7 @@ export default function LoginWithEmailCode() {
     };
 
     return (
-        <div className='smr_loginwithemailCode'>
+        <div className='mala_loginwithemailCode'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">

@@ -117,14 +117,14 @@ export default function ForgotPass() {
 
 
     return (
-        <div className='stam_forgotMain'>
+        <div className='mala_forgotMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
             <div style={{ backgroundColor: '#c0bbb1' }}>
-                <div className='smr_forgotSubDiv'>
+                <div className='mala_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
                         padding: '60px',
@@ -154,7 +154,7 @@ export default function ForgotPass() {
                             label="Password"
                             type={showPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='smr_forgotBox'
+                            className='mala_forgotBox'
                             style={{ margin: '15px' }}
                             value={password}
                             onChange={handlePasswordChange}
@@ -186,7 +186,7 @@ export default function ForgotPass() {
                             label="Confirm Password"
                             type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='smr_forgotBox'
+                            className='mala_forgotBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}

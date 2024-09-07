@@ -18,15 +18,15 @@ const Footer = ({ fromPage }) => {
 
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
-    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? ""
+    let companyInfoData;
     if (sessionStorage.getItem("CompanyInfoData")) {
-      if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData)
+        if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+            if (parsedSocilaMediaUrlData) {
+                setSocialMediaData(parsedSocilaMediaUrlData)
+            }
         }
-      }
     }
   }, [])
 
@@ -77,7 +77,7 @@ const Footer = ({ fromPage }) => {
           }
 
           {localData?.Footerno === 2 &&
-            <div className='smr_Footer2_main'>
+            <div className='mala_Footer2_main'>
               <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
 
                 <div className='footerMoreOption'>

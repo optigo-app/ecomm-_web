@@ -1,11 +1,11 @@
 @import '../../../scss/variable';
 
-.smr_mainBestSeler1Div {
-    .smr_bestseler1TitleDiv {
+.mala_mainBestSeler1Div {
+    .mala_bestseler1TitleDiv {
         text-align: center;
         padding-block: 3%;
 
-        .smr_bestseler1Title {
+        .mala_bestseler1Title {
             font-size: $fontSize6;
             color: $homePageFontColor;
             font-family: $homePageFontFamily;
@@ -18,7 +18,7 @@
         justify-content: space-between;
         padding: 0px 10px;
 
-        .smr_leftSideBestSeler {
+        .mala_leftSideBestSeler {
             width: 50%;
             display: flex;
             flex-wrap: wrap;
@@ -28,7 +28,7 @@
                 width: calc(50% - 10px);
                 box-sizing: border-box;
 
-                .smr_btimageDiv {
+                .mala_btimageDiv {
                     padding: 50px;
                     background-color: #f1f1f1;
 
@@ -69,14 +69,14 @@
                         letter-spacing: .5px;
                     }
 
-                    .smr_btpipe {
+                    .mala_btpipe {
                         margin: 0px 3px;
                     }
                 }
             }
         }
 
-        .smr_rightSideBestSeler {
+        .mala_rightSideBestSeler {
             width: 50%;
             position: relative;
 
@@ -87,7 +87,7 @@
                 object-fit: cover;
             }
 
-            .smr_lookbookImageRightDT {
+            .mala_lookbookImageRightDT {
                 position: absolute;
                 top: 50%;
                 left: 40%;
@@ -125,7 +125,7 @@
         }
 
         @media (max-width: 1200px) {
-            .smr_leftSideBestSeler {
+            .mala_leftSideBestSeler {
                 width: 100%;
 
                 .product-card {
@@ -133,14 +133,14 @@
                 }
             }
 
-            .smr_rightSideBestSeler {
+            .mala_rightSideBestSeler {
                 width: 100%;
                 margin-top: 20px;
             }
         }
 
         @media (max-width: 768px) {
-            .smr_leftSideBestSeler {
+            .mala_leftSideBestSeler {
                 width: 100%;
 
                 .product-card {
@@ -148,11 +148,11 @@
                 }
             }
 
-            .smr_rightSideBestSeler {
+            .mala_rightSideBestSeler {
                 width: 100%;
                 margin-top: 20px;
 
-                .smr_lookbookImageRightDT {
+                .mala_lookbookImageRightDT {
                     font-size: $fontSize5;
 
                     h2 {
@@ -173,14 +173,14 @@
         }
 
         @media (max-width: 576px) {
-            .smr_mainBestSeler1Div {
+            .mala_mainBestSeler1Div {
                 .product-grid {
                     padding: 0px 10px !important;
                 }
             }
 
-            .smr_leftSideBestSeler,
-            .smr_rightSideBestSeler {
+            .mala_leftSideBestSeler,
+            .mala_rightSideBestSeler {
                 width: 100%;
                 margin-top: 10px;
 
@@ -188,11 +188,11 @@
                     width: calc(50% - 10px) !important;
                 }
 
-                .smr_btimageDiv {
+                .mala_btimageDiv {
                     padding: 10px !important;
                 }
 
-                .smr_lookbookImageRightDT {
+                .mala_lookbookImageRightDT {
                     font-size: $fontSize4;
 
                     h2 {
@@ -213,12 +213,12 @@
         }
 
         @media (max-width: 400px) {
-            .smr_leftSideBestSeler {
+            .mala_leftSideBestSeler {
                 .product-card {
                     width: 100%;
                 }
 
-                .smr_btimageDiv {
+                .mala_btimageDiv {
                     padding: 10px !important;
                 }
 
@@ -239,8 +239,8 @@
                 }
             }
 
-            .smr_rightSideBestSeler {
-                .smr_lookbookImageRightDT {
+            .mala_rightSideBestSeler {
+                .mala_lookbookImageRightDT {
                     font-size: $fontSize4;
 
                     h2 {

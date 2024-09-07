@@ -19,7 +19,7 @@ const CartList = ({
 }) => {
   console.log('itemgsgdhas-', selectedItem);
   return (
-    <div className="smr2_MainCartList">
+    <div className="mala_MainCartList">
       <Grid container spacing={2}>
         {items.map(item => (
           <CartItem

@@ -3,11 +3,11 @@
 $cartUpdateBtncolor: #b1b1b1;
 
 
-.smr_remarkModalBox h2 {
+.mala_remarkModalBox h2 {
     color: $titleColor !important;
 }
 
-.smr_remarkModalBox .smr_projectRemarkBtn-group {
+.mala_remarkModalBox .mala_projectRemarkBtn-group {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -20,7 +20,7 @@ $cartUpdateBtncolor: #b1b1b1;
         cursor: pointer;
     }
 
-    .smr_remarksave-btn {
+    .mala_remarksave-btn {
         background-color: $cartUpdateBtncolor;
         color: $btn1hoverFontColor;
 
@@ -29,7 +29,7 @@ $cartUpdateBtncolor: #b1b1b1;
         }
     }
 
-    .smr_remarkcancel-btn {
+    .mala_remarkcancel-btn {
         background-color: $btn1bgColor;
         color: $btn1FontColor;
         border: 1px solid $titleColor;
@@ -42,7 +42,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 
 @media(max-width:445px) {
-    .smr_remarkModalBox {
+    .mala_remarkModalBox {
         padding: 20px 8px 20px 8px !important;
         width: 300px;
 
@@ -51,15 +51,15 @@ $cartUpdateBtncolor: #b1b1b1;
             font-size: $fontSize2 !important;
         }
 
-        .smr_projectRemarkBtn-group {
+        .mala_projectRemarkBtn-group {
 
-            .smr_remarksave-btn,
-            .smr_remarkcancel-btn {
+            .mala_remarksave-btn,
+            .mala_remarkcancel-btn {
                 font-size: $fontSize0 !important;
                 padding: 5px 10px !important;
             }
         }
-        .smr_RemarkMoalInput textarea{
+        .mala_RemarkMoalInput textarea{
             font-size: $fontSize1 !important;
           }
     }

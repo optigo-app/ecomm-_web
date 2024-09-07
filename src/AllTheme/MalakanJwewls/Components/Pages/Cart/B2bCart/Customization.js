@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './smr_cartPage.scss';
+import './mala_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -60,11 +60,11 @@ const Customization = ({
   return (
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-        <div className="smr_CartCusto_R-details">
-          <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+        <div className="mala_CartCusto_R-details">
+          <p className='mala_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
-            <div className="smr_Cart-options">
+            <div className="mala_Cart-options">
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
@@ -158,38 +158,38 @@ const Customization = ({
               }
             </div>
           }
-          <div className='smr_cartQtyPricemainDev'>
+          <div className='mala_cartQtyPricemainDev'>
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
                     {/* <span
-                      className="smr_currencyFont"
+                      className="mala_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
                     /> */}
-                    <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="mala_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
-                  <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='mala_CartSkelton' variant="text" width="80%" animation="wave" />
                 }
               </div>
             }
           </div>
-          <div className='smr_UpdateCartBtn'>
-            <button className="smr_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
+          <div className='mala_UpdateCartBtn'>
+            <button className="mala_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
-        <div className="smr_CartCusto_R-details">
-          <p className='smr_cart-Titleline'>{selectedItem?.TitleLine}</p>
+        <div className="mala_CartCusto_R-details">
+          <p className='mala_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
-          <div className="smr_StockCart-options">
+          <div className="mala_StockCart-options">
             {selectedItem?.metaltypename != "" &&
               <div className="option">
                 <label htmlFor="metal-type">Metal Type:</label>
@@ -221,29 +221,29 @@ const Customization = ({
               </div>
             }
           </div>
-          <div className="smr_stockPriceQtyDiv">
+          <div className="mala_stockPriceQtyDiv">
             <div className="option">
               <label htmlFor="qty">Qty:</label>
               <span>{selectedItem?.Quantity}</span>
             </div>
             <div className=''>
               {storeInitData?.IsPriceShow == 1 &&
-                <div className="smr_Stockproduct-price">
+                <div className="mala_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
                       {/* <span
-                        className="smr_currencyFont"
+                        className="mala_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
                       /> */}
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      <span className="mala_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :
-                    <Skeleton className='smr_CartSkelton' variant="text" width="80%" animation="wave" />
+                    <Skeleton className='mala_CartSkelton' variant="text" width="80%" animation="wave" />
                   }
                 </div>
               }

@@ -93,7 +93,7 @@ export default function ContimueWithMobile() {
     };
 
     return (
-        <div className='stam_continuMobile'>
+        <div className='mala_continuMobile'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -128,7 +128,7 @@ export default function ContimueWithMobile() {
                             id="outlined-basic"
                             label="Enter Mobile No"
                             variant="outlined"
-                            className='smr_loginmobileBox'
+                            className='mala_loginmobileBox'
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     handleSubmit();
