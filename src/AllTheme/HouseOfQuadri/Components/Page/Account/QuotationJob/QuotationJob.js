@@ -1210,7 +1210,6 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        
       </Box>
       </AccordionDetails>
       </Accordion>
