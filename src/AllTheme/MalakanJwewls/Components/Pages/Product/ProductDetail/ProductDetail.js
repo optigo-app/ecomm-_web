@@ -1290,7 +1290,7 @@ const ProductDetail = () => {
         <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
       </Helmet>
       <div className="stam_prodDetail_bodyContain">
-        <div className="smr_prodDetail_outerContain">
+        <div className="mala_prodDetail_outerContain">
           <div className="stam_prodDetail_whiteInnerContain">
             {isDataFound ? (
               <div
@@ -1300,15 +1300,15 @@ const ProductDetail = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="smr_prodd_datanotfound"
+                className="mala_prodd_datanotfound"
               >
                 Data not Found!!
               </div>
             ) : (
               <>
-                <div className="smr_prod_detail_main">
-                  <div className="smr_prod_image_shortInfo">
-                    <div className="smr_prod_image_Sec">
+                <div className="mala_prod_detail_main">
+                  <div className="mala_prod_image_shortInfo">
+                    <div className="mala_prod_image_Sec">
                       {/* {isImageload && ( */}
                       {isImageload && (
                         <Skeleton
@@ -1323,7 +1323,7 @@ const ProductDetail = () => {
                       )}
 
                       <div
-                        className="smr_main_prod_img"
+                        className="mala_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
                         {(selectedThumbImg?.type == "img") ? (
@@ -1334,10 +1334,10 @@ const ProductDetail = () => {
                             onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
-                            className="smr_prod_img"
+                            className="mala_prod_img"
                           />
                         ) : (
-                          <div className="smr_prod_video">
+                          <div className="mala_prod_video">
                             <video
                               src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
@@ -1353,14 +1353,14 @@ const ProductDetail = () => {
                           </div>
                         )}
 
-                        <div className="smr_main_thumb_prod_img">
+                        <div className="mala_main_thumb_prod_img">
                           {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
                             pdThumbImg?.map((ele, i) => (
                               <img
                                 src={ele}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
-                                className="smr_prod_thumb_img"
+                                className="mala_prod_thumb_img"
                                 onClick={() => {
                                   setSelectedThumbImg({
                                     link: ele,
@@ -1388,7 +1388,7 @@ const ProductDetail = () => {
                                 src={data}
                                 autoPlay={true}
                                 loop={true}
-                                className="smr_prod_thumb_img"
+                                className="mala_prod_thumb_img"
                                 style={{ height: "70px", objectFit: "cover" }}
                               />
                               <IoIosPlayCircle
@@ -1407,7 +1407,7 @@ const ProductDetail = () => {
                                 src={visionArround}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
-                                className="smr_prod_thumb_img"
+                                className="mala_prod_thumb_img"
                                 id="vision360"
                                 onClick={() => {
                                   setSelectedThumbImg({
@@ -1421,13 +1421,13 @@ const ProductDetail = () => {
                             ) : 
                             null
                           }
-                          {/* <div className="smr_thumb_prod_img">
+                          {/* <div className="mala_thumb_prod_img">
                       
                       </div> */}
                         </div>
                       </div>
                     </div>
-                    <div className="smr_prod_shortInfo">
+                    <div className="mala_prod_shortInfo">
                      { prodLoading ? 
                      <Skeleton 
                         variant="rounded"
@@ -1436,40 +1436,40 @@ const ProductDetail = () => {
                         sx={{marginInline:"16%",marginTop:"3%"}}
                         className="pSkelton"
                       />
-                     :<div className="smr_prod_shortInfo_inner">
-                        <p className="smr_prod_titleLine">
+                     :<div className="mala_prod_shortInfo_inner">
+                        <p className="mala_prod_titleLine">
                           {singleProd?.TitleLine}
                         </p>
 
-                        <div className="smr_prod_summury_info">
-                          <div className="smr_prod_summury_info_inner">
-                            <span className="smr_single_prod_designno">
+                        <div className="mala_prod_summury_info">
+                          <div className="mala_prod_summury_info_inner">
+                            <span className="mala_single_prod_designno">
                               {singleProd?.designno}
                             </span>
-                            { (singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
+                            { (singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="mala_prod_short_key">
                               Metal Purity :{" "}
-                              <span className="smr_prod_short_val">
+                              <span className="mala_prod_short_val">
                                 {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
                               </span>
                             </span> : null}
-                            <span className="smr_prod_short_key">
+                            <span className="mala_prod_short_key">
                               Metal Color :{" "}
-                              <span className="smr_prod_short_val">
+                              <span className="mala_prod_short_val">
                                 {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
                                     (ele) => ele?.colorcode == selectMtColor
                                           )[0]?.metalcolorname}
                               </span>
                             </span>
                             {(storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="mala_prod_short_key">
                               Diamond Quality Color :{" "}
-                              <span className="smr_prod_short_val">
+                              <span className="mala_prod_short_val">
                                 {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
                               </span>
                             </span> : null}
-                            <span className="smr_prod_short_key">
+                            <span className="mala_prod_short_key">
                               Net Wt :{" "}
-                              <span className="smr_prod_short_val">
+                              <span className="mala_prod_short_val">
                                 {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
@@ -1478,9 +1478,9 @@ const ProductDetail = () => {
 
                         {storeInit?.IsProductWebCustomization == 1 &&
                         (
-                            <div className="smr_single_prod_customize">
+                            <div className="mala_single_prod_customize">
                               { metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 
-                              && (<div className="smr_single_prod_customize_metal">
+                              && (<div className="mala_single_prod_customize_metal">
                                 <label className="menuItemTimeEleveDeatil">
                                   METAL TYPE:
                                 </label>
@@ -1516,7 +1516,7 @@ const ProductDetail = () => {
                                 )}
                               </div>)}
                               {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="mala_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     METAL COLOR:
                                   </label>
@@ -1551,7 +1551,7 @@ const ProductDetail = () => {
                               )}
                               {(storeInit?.IsDiamondCustomization === 1 &&
                                 diaQcCombo?.length > 0 && diaList?.length ) ? (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="mala_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     DIAMOND :
                                   </label>
@@ -1583,7 +1583,7 @@ const ProductDetail = () => {
                               ) : null}
                               {(storeInit?.IsCsCustomization === 1 &&
                                 selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="mala_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     COLOR STONE :
                                   </label>
@@ -1618,7 +1618,7 @@ const ProductDetail = () => {
                               }
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                               {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
-                                <div className="smr_single_prod_customize_outer">
+                                <div className="mala_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     SIZE:
                                   </label>
@@ -1723,73 +1723,73 @@ const ProductDetail = () => {
 
 
                               {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
                                 <span style={{ display: 'flex' }}>
                                   <Typography>
                                     {
-                                      <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }
                                   </Typography>
                                   &nbsp;
-                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
@@ -1806,16 +1806,16 @@ const ProductDetail = () => {
                                 ) !== 0 ?
 
                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                    <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                      <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
                                         formatter.format((
 
                                           (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1838,11 +1838,11 @@ const ProductDetail = () => {
                         )}
 
                         {storeInit?.IsPriceShow === 1 &&
-                          (<div className="smr_price_portion">
+                          (<div className="mala_price_portion">
                             {isPriceloading ? (
                               ""
                             ) : (
-                              <span className="smr_currencyFont">
+                              <span className="mala_currencyFont">
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                             )}
@@ -1877,13 +1877,13 @@ const ProductDetail = () => {
                               <button
                                 className={
                                   !addToCartFlag
-                                    ? "smr_AddToCart_btn"
-                                    : "smr_AddToCart_btn_afterCart"
+                                    ? "mala_AddToCart_btn"
+                                    : "mala_AddToCart_btn_afterCart"
                                 }
                                 onClick={() => handleCart(!addToCartFlag)}
                               >
                                 <span
-                                  className="smr_addtocart_btn_txt"
+                                  className="mala_addtocart_btn_txt"
                                   style={{ color: !addToCartFlag ? "" : "white" }}
                                 >
                                   {!addToCartFlag
@@ -1924,12 +1924,12 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                <div className="smr_material_details_portion">
+                <div className="mala_material_details_portion">
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
-                    <p className="smr_details_title"> Product Details</p>
+                    <p className="mala_details_title"> Product Details</p>
                   )}
                   {diaList?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
@@ -1943,18 +1943,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}ct)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      <ul className="mala_mt_detail_title_ul">
+                        <li className="mala_proDeatilList">Shape</li>
+                        <li className="mala_proDeatilList">Clarity</li>
+                        <li className="mala_proDeatilList">Color</li>
+                        <li className="mala_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
                       {diaList?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="mala_mt_detail_title_ul">
+                          <li className="mala_proDeatilList1">{data?.F}</li>
+                          <li className="mala_proDeatilList1">{data?.H}</li>
+                          <li className="mala_proDeatilList1">{data?.J}</li>
+                          <li className="mala_proDeatilList1">
                             {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
@@ -1963,7 +1963,7 @@ const ProductDetail = () => {
                   )}
                   {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
                   {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
@@ -1977,18 +1977,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}ct)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      <ul className="mala_mt_detail_title_ul">
+                        <li className="mala_proDeatilList">Shape</li>
+                        <li className="mala_proDeatilList">Clarity</li>
+                        <li className="mala_proDeatilList">Color</li>
+                        <li className="mala_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="mala_mt_detail_title_ul">
+                          <li className="mala_proDeatilList1">{data?.F}</li>
+                          <li className="mala_proDeatilList1">{data?.H}</li>
+                          <li className="mala_proDeatilList1">{data?.J}</li>
+                          <li className="mala_proDeatilList1">
                             {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
@@ -1997,7 +1997,7 @@ const ProductDetail = () => {
                   )}
 
                   {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                    <div className="smr_material_details_portion_inner">
+                    <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
@@ -2011,18 +2011,18 @@ const ProductDetail = () => {
                           )
                           .toFixed(3)}gm)`}</li>
                       </ul>
-                      <ul className="smr_mt_detail_title_ul">
-                        <li className="smr_proDeatilList">Shape</li>
-                        <li className="smr_proDeatilList">Clarity</li>
-                        <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      <ul className="mala_mt_detail_title_ul">
+                        <li className="mala_proDeatilList">Shape</li>
+                        <li className="mala_proDeatilList">Clarity</li>
+                        <li className="mala_proDeatilList">Color</li>
+                        <li className="mala_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
+                        <ul className="mala_mt_detail_title_ul">
+                          <li className="mala_proDeatilList1">{data?.F}</li>
+                          <li className="mala_proDeatilList1">{data?.H}</li>
+                          <li className="mala_proDeatilList1">{data?.J}</li>
+                          <li className="mala_proDeatilList1">
                             {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
@@ -2032,12 +2032,12 @@ const ProductDetail = () => {
                 </div>
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
-                  <div className="smr_stockItem_div">
-                    <p className="smr_details_title"> Stock Items </p>
-                    <div className="smr_stockitem_container">
-                      {/* <div className="smr_stock_item_card">
+                  <div className="mala_stockItem_div">
+                    <p className="mala_details_title"> Stock Items </p>
+                    <div className="mala_stockitem_container">
+                      {/* <div className="mala_stock_item_card">
                   {stockItemArr?.map((ele) => (
-                    <div className="smr_stockItemCard">
+                    <div className="mala_stockItemCard">
                       <div className="cart_and_wishlist_icon">
                         <Checkbox
                           icon={
@@ -2066,7 +2066,7 @@ const ProductDetail = () => {
 
                       </div>
                       <img
-                        className="smr_productCard_Image"
+                        className="mala_productCard_Image"
                         src={
                           storeInit?.DesignImageFol +
                           ele?.designno +
@@ -2077,11 +2077,11 @@ const ProductDetail = () => {
                         }
                         alt={""}
                       />
-                      <div className="smr_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
-                      <span className="smr_prod_designno">
+                      <div className="mala_stockutem_shortinfo" style={{display:'flex',flexDirection:'column',gap:'5px',paddingBottom:'5px'}}>
+                      <span className="mala_prod_designno">
                         {ele?.designno}
                       </span>
-                      <div className="smr_prod_Allwt">
+                      <div className="mala_prod_Allwt">
                         <div
                           style={{
                             display: "flex",
@@ -2091,18 +2091,18 @@ const ProductDetail = () => {
                             gap: "3px",
                           }}
                         >
-                          <span className="smr_prod_wt">
-                            <span className="smr_d_keys">NWT:</span>
-                            <span className="smr_d_val">{ele?.NetWt}</span>
+                          <span className="mala_prod_wt">
+                            <span className="mala_d_keys">NWT:</span>
+                            <span className="mala_d_val">{ele?.NetWt}</span>
                           </span>
 
                           {storeInit?.IsGrossWeight == 1 &&
                             Number(ele?.GrossWt) !== 0 && (
                               <>
                                 <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">GWT:</span>
-                                  <span className="smr_d_val">
+                                <span className="mala_prod_wt">
+                                  <span className="mala_d_keys">GWT:</span>
+                                  <span className="mala_d_val">
                                     {ele?.GrossWt}
                                   </span>
                                 </span>
@@ -2112,9 +2112,9 @@ const ProductDetail = () => {
                             Number(ele?.DiaWt) !== 0 && (
                               <>
                                 <span>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">DWT:</span>
-                                  <span className="smr_d_val">
+                                <span className="mala_prod_wt">
+                                  <span className="mala_d_keys">DWT:</span>
+                                  <span className="mala_d_val">
                                     {ele?.DiaWt}
                                     {storeInit?.IsDiamondPcs === 1
                                       ? `/${ele?.DiaPcs}`
@@ -2128,9 +2128,9 @@ const ProductDetail = () => {
                             Number(ele?.CsWt) !== 0 && (
                               <>
                                 <span >|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_d_keys">CWT:</span>
-                                  <span className="smr_d_val">
+                                <span className="mala_prod_wt">
+                                  <span className="mala_d_keys">CWT:</span>
+                                  <span className="mala_d_val">
                                     {ele?.CsWt}
                                     {storeInit?.IsStonePcs === 1
                                       ? `/${ele?.CsPcs}`
@@ -2142,12 +2142,12 @@ const ProductDetail = () => {
                         </div>
                       </div>
 
-                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt">
+                      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="mala_stockItem_price_type_mt">
                           <span>
                             {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity} 
                             {" "}/{" "}
                             <span
-                                className="smr_currencyFont"
+                                className="mala_currencyFont"
                                 dangerouslySetInnerHTML={{
                                   __html: decodeEntities(
                                     storeInit?.Currencysymbol
@@ -2184,27 +2184,27 @@ const ProductDetail = () => {
                         {stockItemArr?.map((ele, i) => (
                           <tr className="Smr_stockItem_table_tr">
                             <td className="Smr_stockItem_table_td">
-                              <span className="smr_prod_designno">
+                              <span className="mala_prod_designno">
                                 {ele?.SrNo}
                               </span>
                             </td>
                             <td className="Smr_stockItem_table_td">
-                              <span className="smr_prod_designno">
+                              <span className="mala_prod_designno">
                                 {ele?.designno}
                               </span>
                             </td>
                             <td className="Smr_stockItem_table_td">
-                              <span className="smr_prod_designno">
+                              <span className="mala_prod_designno">
                                 {ele?.StockBarcode}
                               </span>
                             </td>
                             {/* <td className="Smr_stockItem_table_td">
-                        <span className="smr_prod_designno">
+                        <span className="mala_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
                             <td className="Smr_stockItem_table_td">
-                              <div className="smr_prod_Allwt">
+                              <div className="mala_prod_Allwt">
                                 <div
                                   style={{
                                     display: "flex",
@@ -2217,11 +2217,11 @@ const ProductDetail = () => {
                                   {storeInit?.IsGrossWeight == 1 &&
                                     Number(ele?.GrossWt) !== 0 && (
                                       <>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">
+                                        <span className="mala_prod_wt">
+                                          <span className="mala_d_keys">
                                             GWT:
                                           </span>
-                                          <span className="smr_d_val">
+                                          <span className="mala_d_val">
                                             {(ele?.GrossWt)?.toFixed(3)}
                                           </span>
                                         </span>
@@ -2231,9 +2231,9 @@ const ProductDetail = () => {
                                   {Number(ele?.NetWt) !== 0 && (
                                     <>
                                       <span>|</span>
-                                      <span className="smr_prod_wt">
-                                        <span className="smr_d_keys">NWT:</span>
-                                        <span className="smr_d_val">
+                                      <span className="mala_prod_wt">
+                                        <span className="mala_d_keys">NWT:</span>
+                                        <span className="mala_d_val">
                                           {(ele?.NetWt)?.toFixed(3)}
                                         </span>
                                       </span>
@@ -2244,9 +2244,9 @@ const ProductDetail = () => {
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
-                                  <span className="smr_prod_wt">
-                                    <span className="smr_d_keys">GWT:</span>
-                                    <span className="smr_d_val">
+                                  <span className="mala_prod_wt">
+                                    <span className="mala_d_keys">GWT:</span>
+                                    <span className="mala_d_val">
                                       {ele?.GrossWt}
                                     </span>
                                   </span>
@@ -2256,11 +2256,11 @@ const ProductDetail = () => {
                                     Number(ele?.DiaWt) !== 0 && (
                                       <>
                                         <span>|</span>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">
+                                        <span className="mala_prod_wt">
+                                          <span className="mala_d_keys">
                                             DWT:
                                           </span>
-                                          <span className="smr_d_val">
+                                          <span className="mala_d_val">
                                             {(ele?.DiaWt)?.toFixed(3)}
                                             {storeInit?.IsDiamondPcs === 1
                                               ? `/${ele?.DiaPcs}`
@@ -2274,11 +2274,11 @@ const ProductDetail = () => {
                                     Number(ele?.CsWt) !== 0 && (
                                       <>
                                         <span>|</span>
-                                        <span className="smr_prod_wt">
-                                          <span className="smr_d_keys">
+                                        <span className="mala_prod_wt">
+                                          <span className="mala_d_keys">
                                             CWT:
                                           </span>
-                                          <span className="smr_d_val">
+                                          <span className="mala_d_val">
                                             {(ele?.CsWt)?.toFixed(3)}
                                             {storeInit?.IsStonePcs === 1
                                               ? `/${ele?.CsPcs}`
@@ -2291,7 +2291,7 @@ const ProductDetail = () => {
                               </div>
                             </td>
                             <td className="Smr_stockItem_table_td">
-                              {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="smr_stockItem_price_type_mt"> */}
+                              {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="mala_stockItem_price_type_mt"> */}
                               <span>
                                 {ele?.MetalColorName}-{ele?.metaltypename}
                                 {ele?.metalPurity}
@@ -2301,7 +2301,7 @@ const ProductDetail = () => {
                             </td>
                             <td className="Smr_stockItem_table_td">
                               <span>
-                                <span className="smr_currencyFont">
+                                <span className="mala_currencyFont">
                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
                                 &nbsp;
@@ -2359,13 +2359,13 @@ const ProductDetail = () => {
 
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
                   SimilarBrandArr?.length > 0 && (
-                    <div className="smr_stockItem_div">
-                      <p className="smr_details_title"> Similar Designs</p>
-                      <div className="smr_stockitem_container">
-                        <div className="smr_stock_item_card">
+                    <div className="mala_stockItem_div">
+                      <p className="mala_details_title"> Similar Designs</p>
+                      <div className="mala_stockitem_container">
+                        <div className="mala_stock_item_card">
                           {SimilarBrandArr?.map((ele) => (
                             <div
-                              className="smr_stockItemCard"
+                              className="mala_stockItemCard"
                               onClick={() =>
                                 // setTimeout(() => 
                                 handleMoveToDetail(ele)
@@ -2373,7 +2373,7 @@ const ProductDetail = () => {
                               }
                             >
                               <img
-                                className="smr_productCard_Image"
+                                className="mala_productCard_Image"
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.DesignImageFol +
@@ -2387,7 +2387,7 @@ const ProductDetail = () => {
                                 alt={""}
                               />
                               <div
-                                className="smr_stockutem_shortinfo"
+                                className="mala_stockutem_shortinfo"
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -2396,7 +2396,7 @@ const ProductDetail = () => {
                                 }}
                               >
                                 <span
-                                  className="smr_prod_designno"
+                                  className="mala_prod_designno"
                                   style={{ fontSize: "14px" }}
                                 >
                                   {ele?.designno}
@@ -2410,10 +2410,10 @@ const ProductDetail = () => {
                                     width: "100%",
                                     fontSize: "16px",
                                   }}
-                                  className="smr_stockItem_price_type_mt"
+                                  className="mala_stockItem_price_type_mt"
                                 >
                                   <spam>
-                                    <span className="smr_currencyFont">
+                                    <span className="mala_currencyFont">
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                     &nbsp;
@@ -2433,7 +2433,7 @@ const ProductDetail = () => {
                   )}
 
                 {storeInit?.IsProductDetailDesignSet === 1 &&
-                  <div className="smr_DesignSet_main">
+                  <div className="mala_DesignSet_main">
                     {designSetList?.length > 0 && <div
                       style={{
                         display: "flex",
@@ -2453,7 +2453,7 @@ const ProductDetail = () => {
                       </p>
                     </div>}
 
-                    <div className="smr_Swiper_designSet" >
+                    <div className="mala_Swiper_designSet" >
                       <Swiper
                         modules={[Navigation, Pagination, Scrollbar]}
                         // spaceBetween={50}
@@ -2465,7 +2465,7 @@ const ProductDetail = () => {
                         {designSetList?.map((designSetList) => (
                           <SwiperSlide>
                             <div className="compeletethelook_cont">
-                              <div className="smr_ctlImg_containe">
+                              <div className="mala_ctlImg_containe">
                                 <img
                                   // src={
                                   //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
@@ -2546,7 +2546,7 @@ const ProductDetail = () => {
                                             {ele?.designno} - {ele?.CategoryName}
                                             <br />
                                             {
-                                              <span className="smr_currencyFont">
+                                              <span className="mala_currencyFont">
                                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                               </span>
                                             }

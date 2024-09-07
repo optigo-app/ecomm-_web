@@ -1,7 +1,54 @@
 @import '../../../scss/variable';
 
 
-.smr_BottomBannerMain {
+.mala_BottomBannerMain {
+
+    .mala_shop_div1 {
+        display: flex;
+        padding: 50px 350px 0px 350px;
+    }
+
+    .mala_shop_div2 {
+        display: flex;
+        padding: 0px 350px 50px 350px;
+    }
+
+    .mala_shop_div2_1 {
+        width: 50%;
+        margin: 20px;
+        overflow: hidden;
+    }
+
+    .mala_shop_div2_2 {
+        margin: 20px;
+        width: 50%;
+        overflow: hidden;
+    }
+
+    .mala_shop_div1_1 {
+        width: 50%;
+        overflow: hidden;
+        margin: 20px;
+    }
+
+    .mala_shop_div1_2 {
+        overflow: hidden;
+        width: 50%;
+        margin: 20px;
+    }
+
+    .mala_promo_secton2_img {
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+    }
+
+    .mala_promo_secton2_img:hover {
+        scale: 1.2;
+        rotate: 2deg;
+        transition: 2750ms ease-in-out all;
+    }
+
     .shopifyMain {
         display: flex;
         margin-inline: 0px;
@@ -42,8 +89,8 @@
 
 
     @media screen and (max-width: 1200px) {
-        .smr_shopifyImg {
-            min-height: auto!important;
+        .mala_shopifyImg {
+            min-height: auto !important;
         }
     }
 

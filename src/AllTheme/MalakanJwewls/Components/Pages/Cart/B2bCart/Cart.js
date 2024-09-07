@@ -4,7 +4,7 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './smr_cartPage.scss';
+import './mala_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
@@ -160,17 +160,17 @@ const CartPage = () => {
   }
 
   return (
-    <div className='stam_B2B_MainBGDiv'>
-      <div className='stam_cartMainPageDiv'>
+    <div className='mala_B2B_MainBGDiv'>
+      <div className='mala_cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
-            <div className="smr_cart-title">My Cart</div>
+            <div className="mala_cart-title">My Cart</div>
           }
-          <div className='smr_cartmainRowDiv'>
+          <div className='mala_cartmainRowDiv'>
             {!isloding && cartData?.length != 0 &&
-              <div className='smr_cartButton-groups'>
+              <div className='mala_cartButton-groups'>
                 <Link
-                  className='smr_ReomoveAllCartbtn'
+                  className='mala_ReomoveAllCartbtn'
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
@@ -179,31 +179,31 @@ const CartPage = () => {
               </div>
             }
             {!isMobileScreen &&
-              <div className="smr_cart-title">My Cart</div>
+              <div className="mala_cart-title">My Cart</div>
             }
             {!isloding && cartData?.length != 0 &&
-              <div className='smr_placeOrderMainbtnDivs'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='mala_placeOrderMainbtnDivs'>
+                <button className="mala_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             }
           </div>
 
           {/* {!isloding && cartData.length != 0 &&
             <>
-              <div className="smr_cartButton-group">
-                <button className="smr_cartBtn smr_cartActivebtn">List View</button>
-                <button className='smr_cartBtn'>Image View</button>
-                <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
+              <div className="mala_cartButton-group">
+                <button className="mala_cartBtn mala_cartActivebtn">List View</button>
+                <button className='mala_cartBtn'>Image View</button>
+                <button className='mala_cartBtn' onClick={handleRemoveAll}>Clear All</button>
                 <div>
                   <Link
-                    className='smr_ReomoveAllCartbtn'
+                    className='mala_ReomoveAllCartbtn'
                     variant="body2"
                     onClick={handleRemoveAllDialog}
                   >
                     Clear All
                   </Link>
                   <Link
-                    className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
+                    className='mala_ReomoveAllCartbtn mala_SelectAllCartbtn'
                     variant="body2"
                     onClick={handleMultiSelectToggle}
                   >
@@ -211,18 +211,18 @@ const CartPage = () => {
                   </Link>
                 </div>
 
-                <button className='smr_cartBtn'>Show ProductList</button>
+                <button className='mala_cartBtn'>Show ProductList</button>
 
-                <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+                <button className='mala_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
                 {multiSelect && selectedItems.length != 0 &&
-                  <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+                  <button className='mala_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
                 }
-                <div className='smr_placeOrderMobileMainbtnDiv'>
-                  <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='mala_placeOrderMobileMainbtnDiv'>
+                  <button className="mala_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              <div className='smr_placeOrderMainbtnDiv'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='mala_placeOrderMainbtnDiv'>
+                <button className="mala_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             </>
           } */}
@@ -247,8 +247,8 @@ const CartPage = () => {
               }
             </div>
             {cartData.length !== 0 ? (
-              <div className="smr_cartMainPage">
-                <div className="smr_cart-left-sides">
+              <div className="mala_cartMainPage">
+                <div className="mala_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -268,9 +268,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className="mala_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='smr_pc-cartDetail'>
+                    <div className='mala_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -295,7 +295,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='smr_mobile-cartDetails'>
+                    <div className='mala_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -331,10 +331,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noCartlistData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Product in Cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='mala_noCartlistData'>
+                <p className='mala_title'>No Data Found!</p>
+                <p className='mala_desc'>Please First Add Product in Cart</p>
+                <button className='mala_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>

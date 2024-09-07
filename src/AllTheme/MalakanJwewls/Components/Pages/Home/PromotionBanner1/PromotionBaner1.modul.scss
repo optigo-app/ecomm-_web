@@ -1,6 +1,6 @@
-.stam_Banner_main {
+.mala_Banner_main {
 
-    .stam_BannerMAinTitleMAin {
+    .mala_BannerMAinTitleMAin {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -8,91 +8,91 @@
         margin-top: 20px;
     }
 
-    .stam_banner_Title {
-        position: absolute;
+    .mala_banner_Title {
         font-family: math;
         font-size: 7rem;
         color: #f1dfdf;
-        bottom: -57px;
-        left: 16%;
         font-style: italic;
         text-transform: lowercase;
         letter-spacing: 10px;
     }
 
-    .stam_BannerMAinTitle1 {
+    .mala_Banner_main_div_subMain {
+        display: flex;
+    }
+
+    .mala_BannerMAinTitle1 {
         font-size: 18px;
         margin: 0px;
     }
 
-    .stam_BannerMAinTitle2 {
+    .mala_BannerMAinTitle2 {
         font-size: 30px;
         margin: 0px;
     }
 
-    .stam_BannerMAinTitle3 {
+    .mala_BannerMAinTitle3 {
         font-size: 16px;
         margin: 0px;
     }
 
-    .stam_Banner_main_div {
-        display: flex;
+    .mala_Banner_main_div {
+        // display: flex;
         margin-bottom: 50px;
     }
 
-    .stam_Banner_Iamge1 {
+    .mala_Banner_Iamge1 {
         width: 100%;
         padding: 60px 18% 12% 18%;
     }
 
-    .stam_Banner_Iamge2 {
+    .mala_Banner_Iamge2 {
         width: 100%;
         padding: 60px 18% 10% 18%;
     }
 
-    .stam_Banner_Iamge3 {
+    .mala_Banner_Iamge3 {
         width: 100%;
         padding: 60px 18% 12% 18%;
     }
 
-    .stam_Banner_Iamge4 {
+    .mala_Banner_Iamge4 {
         width: 100%;
         padding: 60px 18% 12% 18%;
     }
 
 
-    .stam_Banner_main_div_main1 {
-        width: 100%;
+    .mala_Banner_main_div_main1 {
+        width: 50%;
         position: relative;
     }
 
-    .stam_Banner_main_div_main2 {
-        position: relative;
-        width: 100%;
+    .mala_Banner_main_div_main2 {
+        width: 50%;
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
     }
 
-    .stam_Banner_main_div_main3 {
+    .mala_Banner_main_div_main3 {
         position: relative;
         width: 100%;
         margin-top: 240px;
     }
 
-    .stam_Banner_main_div_main4 {
+    .mala_Banner_main_div_main4 {
         position: relative;
         width: 100%;
     }
 
     .products__desc {
         text-align: left;
-        width: 363px;
-        min-height: 328px;
-        position: absolute;
-        left: 60px;
-        top: 34%;
+        width: 70%;
         background: rgba(255, 255, 255, .8);
         box-sizing: border-box;
         z-index: 1;
-        padding: 20px;
+        padding: 80px;
+        height: fit-content;
     }
 
     .FestiveMainImage {
@@ -113,6 +113,44 @@
         background: #ffffff59;
     }
 
+    .mala_promo_secton2_img {
+        max-width: 400px;
+    }
+
+    .mala_promo_section2 {
+        background-color: #F6C2B5;
+        display: flex;
+    }
+
+    .mala_promo_section2_div1 {
+        width: 50%;
+        padding: 100px 0px 100px 410px;
+    }
+
+    .mala_promo_section2_div2 {
+        width: 50%;
+        display: flex;
+        align-items: center;
+    }
+
+    .mala_promo_section2_div1_p1 {
+        font-size: 40px;
+    }
+
+    .mala_promo_section2_div1_p2 {
+        font-size: 30px;
+    }
+
+    .mala_promo_section2_div1_btn {
+        height: 35px;
+        width: 150px;
+        color: white;
+        font-weight: 500;
+        background-color: black;
+
+    }
+
+
     .DiscoverBtn {
         margin-top: 30px;
         height: 60px;
@@ -130,7 +168,7 @@
     }
 
     @media screen and (max-width: 1550px) {
-        .stam_banner_Title {
+        .mala_banner_Title {
             display: none !important;
         }
     }
@@ -141,31 +179,31 @@
             position: static !important;
         }
 
-        .stam_Banner_main_div_main1 {
+        .mala_Banner_main_div_main1 {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .stam_Banner_main_div_main2 {
+        .mala_Banner_main_div_main2 {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .stam_Banner_main_div_main3 {
+        .mala_Banner_main_div_main3 {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .stam_Banner_main_div_main4 {
+        .mala_Banner_main_div_main4 {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .stam_Banner_main_div {
+        .mala_Banner_main_div {
             display: flex;
             flex-direction: column !important;
         }
@@ -174,15 +212,14 @@
             width: 95% !important;
         }
 
-        .stam_Banner_Iamge1,
-        .stam_Banner_Iamge2,
-        .stam_Banner_Iamge3,
-        .stam_Banner_Iamge4
-         {
+        .mala_Banner_Iamge1,
+        .mala_Banner_Iamge2,
+        .mala_Banner_Iamge3,
+        .mala_Banner_Iamge4 {
             padding: 10px !important;
         }
 
-        .smr_promotion1 {
+        .mala_promotion1 {
             min-height: auto !important;
         }
 

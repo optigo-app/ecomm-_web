@@ -640,10 +640,10 @@ const ProductDetail = () => {
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
               setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
               setProdLoading(false)
             }
 

@@ -29,7 +29,7 @@ const StamScrollToTop = () => {
   }, []);
 
   return (
-    <div className="stam_scroll-to-top">
+    <div className="mala_scroll-to-top">
       {isVisible && (
         <div onClick={scrollToTop} className="scroll-icon">
           <FaAngleUp style={{height: '20px' , width: '20px'}}/>

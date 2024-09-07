@@ -2,30 +2,30 @@
 
 .stam_paymentMainDiv {
 
-    .smr_paymentSecondMainDiv {
+    .mala_paymentSecondMainDiv {
         margin-inline: 6%;
         background-color: #fff;
     }
 
     @media (max-width: 1200px) {
-        .smr_paymentSecondMainDiv {
+        .mala_paymentSecondMainDiv {
             margin-inline: 1% !important;
         }
     }
 
 
-    .smr_PaymentContainer {
+    .mala_PaymentContainer {
         margin-inline: 4%;
         padding-top: 4%;
     }
 
-    .smr_paymentBackbtnDiv {
+    .mala_paymentBackbtnDiv {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 30px;
 
-        .smr_paymentBackbtn {
+        .mala_paymentBackbtn {
             width: 32px;
             height: 32px;
             color: $titleColor;
@@ -33,66 +33,66 @@
         }
     }
 
-    .smr_paymentDetailMainDiv {
+    .mala_paymentDetailMainDiv {
         display: flex;
         justify-content: space-around;
         font-family: $primaryFontFamily;
         color: $titleColor;
     }
 
-    .smr_paymenttotalpricesummary {
+    .mala_paymenttotalpricesummary {
         display: flex;
         justify-content: space-between;
     }
 
-    .smr_paymenttotalpricesummary p {
+    .mala_paymenttotalpricesummary p {
         padding: 0;
         margin-bottom: 5px;
         font-size: $fontSize2;
     }
 
-    .smr_paymenttotalpricesummary p span {
+    .mala_paymenttotalpricesummary p span {
         font-weight: bold !important;
     }
 
-    .smr_paymentUserName {
+    .mala_paymentUserName {
         font-weight: 600;
     }
 
-    .smr_paymentDetailLeftSideContent {
+    .mala_paymentDetailLeftSideContent {
         h2 {
             font-size: $fontSize6;
         }
     }
 
-    .smr_order-summary {
+    .mala_order-summary {
         font-family: $primaryFontFamily;
         color: $titleColor;
     }
 
-    .smr_summary-item {
+    .mala_summary-item {
         display: flex;
         justify-content: start;
         margin-bottom: 10px;
     }
 
-    .smr_summary-item .smr_label {
+    .mala_summary-item .mala_label {
         min-width: 180px;
         text-align: left;
         font-size: $fontSize2;
     }
 
-    .smr_summary-item .smr_value {
+    .mala_summary-item .mala_value {
         text-align: left;
         white-space: nowrap;
         font-size: $fontSize2;
         font-weight: bold !important;
     }
 
-    .smr_paymentButtonDiv {
+    .mala_paymentButtonDiv {
         text-align: center;
 
-        .smr_payOnAccountBtn {
+        .mala_payOnAccountBtn {
             margin-right: 20px;
             height: 40px;
             width: 180px;
@@ -112,36 +112,36 @@
         }
     }
 
-    .smr_backtoTopBtn {
+    .mala_backtoTopBtn {
         font-family: $homePageFontFamily;
     }
 
-    .smr_addorderRemarkbtn {
+    .mala_addorderRemarkbtn {
         color: $titleColor !important;
         font-size: $fontSize2 !important;
         text-transform: capitalize !important;
     }
 
-    .smr_addorderRemark {
+    .mala_addorderRemark {
         color: $titleColor !important;
     }
 
     @media (max-width: 600px) {
-        .smr_paymentDetailMainDiv {
+        .mala_paymentDetailMainDiv {
             display: block;
         }
 
-        .smr_paymentDetailLeftSideContent {
+        .mala_paymentDetailLeftSideContent {
             h2 {
                 font-size: $fontSize5 !important;
             }
         }
 
-        .smr_paymenttotalpricesummary p {
+        .mala_paymenttotalpricesummary p {
             margin: 3px !important;
         }
 
-        .smr_billingAddress {
+        .mala_billingAddress {
             h3 {
                 font-size: $fontSize4 !important;
             }
@@ -151,13 +151,13 @@
             }
         }
 
-        .smr_paymentButtonDiv {
-            .smr_payOnAccountBtn {
+        .mala_paymentButtonDiv {
+            .mala_payOnAccountBtn {
                 width: 100%;
             }
         }
 
-        .smr_shippingAddress {
+        .mala_shippingAddress {
             margin-top: 10px;
             margin-bottom: 40px !important;
             border-top: 1px solid #cccdce;
@@ -172,8 +172,8 @@
             }
         }
 
-        .smr_paymentBackbtnDiv {
-            .smr_paymentBackbtn {
+        .mala_paymentBackbtnDiv {
+            .mala_paymentBackbtn {
                 width: 22px !important;
                 height: 22px !important;
             }
@@ -201,12 +201,12 @@
         }
     }
 
-    .smr_billingAddress p {
+    .mala_billingAddress p {
         margin-bottom: 5px;
         font-size: $fontSize2;
     }
 
-    .smr_shippingAddress p {
+    .mala_shippingAddress p {
         margin-bottom: 0px;
     }
 }

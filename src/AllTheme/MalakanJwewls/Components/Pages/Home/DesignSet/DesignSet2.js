@@ -126,12 +126,12 @@ const DesignSet2 = () => {
   };
   return (
     <>
-      <div className="smr_DesignSet2MainDiv">
+      <div className="mala_DesignSet2MainDiv">
         {designSetList?.length !== 0 && (
           <>
-            <div className='smr_DesignSetTitleDiv'>
-              <p className='smr_desognSetTitle'>Complete Your Look
-                <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
+            <div className='mala_DesignSetTitleDiv'>
+              <p className='mala_desognSetTitle'>Complete Your Look
+                <Link href="/Lookbook" className='mala_designSetViewmoreBtn'>
                   View more
                 </Link>
               </p>
@@ -177,7 +177,7 @@ const DesignSet2 = () => {
                     <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                   </div>
                 )}
-                {/* <p className="smr_lb3designList_title">{slide?.designsetno}</p> */}
+                {/* <p className="mala_lb3designList_title">{slide?.designsetno}</p> */}
                 <div className="subimgpart">
                   <div className="card">
                     <Swiper
@@ -192,7 +192,7 @@ const DesignSet2 = () => {
                           {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
                             <SwiperSlide key={`detail-${detail?.id}`}>
                               <div className="centerall">
-                                <div className="smr_ds2ImageDiv">
+                                <div className="mala_ds2ImageDiv">
                                   <img
                                     loading="lazy"
                                     src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
@@ -212,7 +212,7 @@ const DesignSet2 = () => {
                               <div className="fs2 centerall">
                                 <p>
                                   <span
-                                    className="smr_currencyFont"
+                                    className="mala_currencyFont"
                                     dangerouslySetInnerHTML={{
                                       __html: decodeEntities(
                                         islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode

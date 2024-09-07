@@ -122,7 +122,7 @@ const BestSellerSection = () => {
                                 {chunkedData.map((chunk, index) => (
                                         <div className='linkRingLove'>
                                               {chunk?.map((data, dataIndex) => (
-                                            <div className='smr_bestselerDiv'>
+                                            <div className='mala_bestselerDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                     <img src={hoveredItem === data.SrNo  ?
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -136,14 +136,14 @@ const BestSellerSection = () => {
                                                     <p className='ring1Desc'>{data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
                                                         {/* <span
-                                                            className="smr_currencyFont"
+                                                            className="mala_currencyFont"
                                                             dangerouslySetInnerHTML={{
                                                                 __html: decodeEntities(
                                                                     storeInit?.Currencysymbol
                                                                 ),
                                                             }}
                                                         />  */}
-                                                        <span className="smr_currencyFont">
+                                                        <span className="mala_currencyFont">
                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                         </span> &nbsp;
                                                         {formatter(data?.UnitCostWithMarkUp)}</p>
@@ -154,7 +154,7 @@ const BestSellerSection = () => {
                                     ))
                                 }
                             </Slider>
-                    <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
+                    <p className='mala_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
         </div>
         <div className='linkingLoveImage'>
             <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
@@ -272,7 +272,7 @@ export default BestSellerSection;
 //                                 </div>
 //                                 <div className='linkLoveRing1Desc'>
 //                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                     <p className='mala_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
 //                                 </div>
 //                             </div>
 //                             <div>
@@ -281,7 +281,7 @@ export default BestSellerSection;
 //                                 </div>
 //                                 <div className='linkLoveRing1Desc'>
 //                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                     <p className='mala_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
 
 //                                 </div>
 //                             </div>
@@ -295,7 +295,7 @@ export default BestSellerSection;
 //                                 </div>
 //                                 <div className='linkLoveRing1Desc'>
 //                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                     <p className='mala_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
 
 //                                 </div>
 //                             </div>
@@ -305,7 +305,7 @@ export default BestSellerSection;
 //                                 </div>
 //                                 <div className='linkLoveRing1Desc'>
 //                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                     <p className='mala_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
 
 //                                 </div>
 //                             </div>
@@ -319,7 +319,7 @@ export default BestSellerSection;
 //                                 </div>
 //                                 <div className='linkLoveRing1Desc'>
 //                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                     <p className='mala_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
 
 //                                 </div>
 //                             </div>
@@ -329,7 +329,7 @@ export default BestSellerSection;
 //                                 </div>
 //                                 <div className='linkLoveRing1Desc'>
 //                                     <p className='ring1Desc'>Lab Grown Diamond 1.97ctw Chain Linking Bracelet BL-01993WHT</p>
-//                                     <p className='smr_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
+//                                     <p className='mala_bestSellerPrice'>$ {bestSellerData[0]?.UnitCost}</p>
 //                                 </div>
 //                             </div>
 

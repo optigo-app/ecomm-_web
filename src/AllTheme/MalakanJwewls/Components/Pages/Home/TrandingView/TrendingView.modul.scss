@@ -1,12 +1,12 @@
 @import '../../../scss/variable';
 
 
-.smr_trendingViewTopMain {
+.mala_trendingViewTopMain {
 
     position: relative;
     padding-top: 3%;
 
-    .smr_trendingtile {
+    .mala_trendingtile {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
@@ -15,7 +15,7 @@
         margin-top: 60px;
     }
 
-    .smr_TrendingViewAll {
+    .mala_TrendingViewAll {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize1;
@@ -26,16 +26,16 @@
         font-weight: 600;
     }
 
-    .smr_trendingViewMain {
+    .mala_trendingViewMain {
         height: 250px !important;
         width: 500px !important;
     }
 
-    .smr_trendingImageDiv {
+    .mala_trendingImageDiv {
         height: 90% !important;
     }
 
-    .smr_TrendingViewImage {
+    .mala_TrendingViewImage {
         width: 100%;
         height: 80%;
         object-fit: contain;
@@ -86,20 +86,20 @@
     }
 
 
-    .smr_trendingViewTopMain_div {
+    .mala_trendingViewTopMain_div {
         display: flex;
         margin-top: 0px;
         margin-inline: 0px;
     }
 
-    .smr_trendingViewTopMain_Imgdiv {
+    .mala_trendingViewTopMain_Imgdiv {
         width: 30%;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    .smr_trendingViewTopMain_Sliderdiv {
+    .mala_trendingViewTopMain_Sliderdiv {
         width: 70%;
     }
 
@@ -117,7 +117,7 @@
         height: 450px;
     }
 
-    .smr_TrendingMainDiv {
+    .mala_TrendingMainDiv {
         max-width: 250px;
     }
 
@@ -184,7 +184,7 @@
         }
 
 
-        .smr_trendingViewTopMain_Imgdiv {
+        .mala_trendingViewTopMain_Imgdiv {
             display: flex;
         }
 
@@ -192,7 +192,7 @@
             height: auto !important;
         }
 
-        .smr_trendingViewTopMain_div {
+        .mala_trendingViewTopMain_div {
             margin-inline: 10px !important;
         }
 
@@ -235,11 +235,11 @@
             height: 500px !important;
         }
 
-        .smr_trendingViewTopMain_Imgdiv {
+        .mala_trendingViewTopMain_Imgdiv {
             width: 100%;
         }
 
-        .smr_trendingViewTopMain_div {
+        .mala_trendingViewTopMain_div {
             display: flex;
             margin-top: 10px;
             margin-inline: 10px !important;
@@ -247,7 +247,7 @@
             margin-inline: 10px;
         }
 
-        .smr_trendingViewTopMain_Sliderdiv {
+        .mala_trendingViewTopMain_Sliderdiv {
             width: 100%;
         }
     }

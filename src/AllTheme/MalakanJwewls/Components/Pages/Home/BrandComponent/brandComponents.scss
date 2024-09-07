@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
 }
-.smr_brandsCompoents{
+.mala_brandsCompoents{
     color: $titleColor !important;
     text-align: center;
     font-size: $fontSize5 !important;
@@ -28,7 +28,7 @@
     font-family: $homePageFontFamily;
 }
 
-.smr_affilitionImg1{
+.mala_affilitionImg1{
     max-width: 180px;
     object-fit: contain;
 }
@@ -39,7 +39,7 @@
 
 
 @media (min-width: 320px) and (max-width: 768px) {
-    .smr_brandsCompoents{
+    .mala_brandsCompoents{
         margin-bottom: 20px !important;
     }
     
@@ -47,7 +47,7 @@
 
 
 // @media (max-width: 445px) {
-//     .smr_brandsComponentClass{
+//     .mala_brandsComponentClass{
 //         width: 100%;
 //         display: flex  !important;
 //         justify-content: start;
@@ -64,18 +64,18 @@
 //         display: block ;
 //         text-align: center;
 //     }
-//     .smr_affilitionImg{
+//     .mala_affilitionImg{
 //         width: 80px ;
 //         margin-right: 10px ;
 //     }
 
-//     .smr_affilitionImg1{
+//     .mala_affilitionImg1{
 //         width: 80px;
 //         margin-right: 20px ;
 //     }
 
 
-//     .smr_brandsCompoents{
+//     .mala_brandsCompoents{
 //         font-size: $fontSize5;
 //         padding-block: 40px;
 //     }

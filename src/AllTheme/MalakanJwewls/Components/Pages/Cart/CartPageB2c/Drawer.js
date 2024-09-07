@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import './smr_cartPageB2c.scss';
+import './mala_cartPageB2c.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from '@mui/icons-material/Close';
 import noImageFound from "../../../Assets/image-not-found.jpg";
@@ -79,29 +79,29 @@ const Cart = ({
   }
 
   return (
-    <div className="smr_B2cCart">
+    <div className="mala_B2cCart">
       <Drawer
         anchor="right"
         open={isOpen}
         onClose={closeDrawer}
         PaperProps={{
-          className: "smr_B2ccartPaperDrawer",
+          className: "mala_B2ccartPaperDrawer",
           style: {
             width: '40%',
           },
         }}
-        className='smr_B2ccartDrawer'
+        className='mala_B2ccartDrawer'
       >
-        <div className="smr_B2C-container">
-          <div className='smr_b2cCartPageButonGp'>
-            <div className='smr_b2ccartCloseIcon' onClick={closeDrawer}>
+        <div className="mala_B2C-container">
+          <div className='mala_b2cCartPageButonGp'>
+            <div className='mala_b2ccartCloseIcon' onClick={closeDrawer}>
               <CloseIcon />
             </div>
-            <div className='smr_cartB2cMainTitleBtn' >
+            <div className='mala_cartB2cMainTitleBtn' >
               <p>Your Cart</p>
             </div>
           </div>
-          <div className='smr_b2cCartTb'>
+          <div className='mala_b2cCartTb'>
             {items?.length !== 0 ? (
               items?.map((item, index) => (
                 <CartTableData
@@ -118,10 +118,10 @@ const Cart = ({
                 />
               ))
             ) : (
-              <div className='smr_noB2CcartData'>
-                <p className='smr_title'>No Product Found!</p>
-                <p className='smr_desc'>Please First Add Product in cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handleBrowse}>Browse our collection</button>
+              <div className='mala_noB2CcartData'>
+                <p className='mala_title'>No Product Found!</p>
+                <p className='mala_desc'>Please First Add Product in cart</p>
+                <button className='mala_browseOurCollectionbtn' onClick={handleBrowse}>Browse our collection</button>
               </div>
             )}
 
@@ -130,12 +130,12 @@ const Cart = ({
 
           </div>
           {items?.length != 0 &&
-            <div className='smr_B2cCheckoutBtnDiv'>
-              <button className='smr_B2cCheckoutBtn' onClick={handlePlaceOrder}>
+            <div className='mala_B2cCheckoutBtnDiv'>
+              <button className='mala_B2cCheckoutBtn' onClick={handlePlaceOrder}>
                 {storeInitData?.IsPriceShow == 1 &&
                   <span>
                     {/* <span
-                      className="smr_currencyFont"
+                      className="mala_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol

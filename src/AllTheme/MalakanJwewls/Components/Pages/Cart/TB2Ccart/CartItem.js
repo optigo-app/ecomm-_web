@@ -89,8 +89,8 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 3}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='smr2_B2CcartListCardGrid'>
-      <Card className='smr2_B2CcartListCard'
+      className='mala_B2CcartListCardGrid'>
+      <Card className='mala_B2CcartListCard'
         sx={{
           boxShadow: selectedItem?.id == item?.id && 'none',
           border: selectedItem?.id == item?.id && '1px solid #af8238',
@@ -99,46 +99,46 @@ const CartItem = ({
         }}
         onClick={() => onSelect(item)}
       >
-        <Box className="smr2_mui_B2CCartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box className="mala_mui_B2CCartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={CartCardImageFunc(item)}
             alt={item?.TitleLine}
-            className='smr2_B2CcartListImage'
+            className='mala_B2CcartListImage'
           />
           <div>
-            <CardContent className='smr2_B2CcartcontentData'>
-              <Typography variant="body2" className='smr2_B2CDesignNoTExt'>
+            <CardContent className='mala_B2CcartcontentData'>
+              <Typography variant="body2" className='mala_B2CDesignNoTExt'>
                 {item?.designno}
               </Typography>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div style={{ marginBottom: '10px' }}>
-                  <Typography variant="body2" className='smr2_B2Ccard-ContentData'>
+                  <Typography variant="body2" className='mala_B2Ccard-ContentData'>
                     NWT: {item?.MetalWeight}
                   </Typography>
-                  <Typography variant="body2" className='smr2_B2Ccard-ContentData'>
+                  <Typography variant="body2" className='mala_B2Ccard-ContentData'>
                     CWT: {item?.totalCSWt} / {item?.totalcolorstonepcs}
                   </Typography>
                 </div>
                 <div style={{ marginBottom: '10px' }}>
-                  <Typography variant="body2" className='smr2_B2Ccard-ContentData'>
+                  <Typography variant="body2" className='mala_B2Ccard-ContentData'>
                     GWT: {item?.totalGrossweight}
                   </Typography>
-                  <Typography variant="body2" className='smr2_B2Ccard-ContentData'>
+                  <Typography variant="body2" className='mala_B2Ccard-ContentData'>
                     DWT: {item?.totalDiaWt} / {item?.totaldiamondpcs}
                   </Typography>
                 </div>
               </div>
-              <Box className="smr2_B2CcartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right: '5px' }}>
+              <Box className="mala_B2CcartbtngroupReRm" sx={{ position: 'absolute', bottom: '5px', right: '5px' }}>
                 {item?.Remarks !== "" &&
-                  <Typography variant="body2" className='smr2_B2Ccard-ContentData'>
+                  <Typography variant="body2" className='mala_B2Ccard-ContentData'>
                     Remark: {item?.Remarks || productRemark}
                   </Typography>
                 }
-                <Link className='smr2_B2CItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+                <Link className='mala_B2CItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                   {item?.Remarks ? "Update Remark" : "Add Remark"}
                 </Link>
-                <Link className='smr2_B2CReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
+                <Link className='mala_B2CReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item)} >
                   Remove
                 </Link>
               </Box>

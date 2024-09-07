@@ -6,7 +6,7 @@ const TheDifference = () => {
     
     return (
         <div style={{ paddingBlock: '3%' }} className='stam_smilingPAgeMain'>
-            <p className='stam_smilingTitle'>The Sonasons Difference</p>
+            <p className='stam_smilingTitle'>The Malakan Difference</p>
             <div className='smilingRock'>
                 <div className='smilingRockBox'>
                     <div className='smilingRockBoxSub1'>
