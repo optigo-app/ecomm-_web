@@ -1,12 +1,12 @@
 @import '../../../scss/variable';
 
 .smr_mainTrending1Div {
-    .smr_trending1TitleDiv {
+    .smr1_trending1TitleDiv {
         text-align: center;
         padding-block: 3%;
 
         .smr_trending1Title {
-            font-size: $fontSize6;
+            font-size: 28px;
             color: $homePageFontColor;
             font-family: $homePageFontFamily;
         }

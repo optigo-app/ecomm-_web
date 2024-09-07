@@ -1,12 +1,12 @@
 @import '../../../scss/variable';
 
 .smr_newwArr1MainDiv {
-    .smr_NewArr1Title {
+    .smrN_NewArr1Title {
         text-align: center;
         color: $titleColor;
         font-family: $homePageFontFamily;
-        font-size: $fontSize5;
-        padding-block: 3%;
+        font-size: 28px;
+        padding-block: 2%;
     }
 
     .smr_NewArrival1product-list {
@@ -72,7 +72,7 @@
 
     @media (max-width: 768px) {
         .smr_newwArr1MainDiv {
-            .smr_NewArr1Title {
+            .smrN_NewArr1Title {
                 padding-block: 6%;
             }
         }
