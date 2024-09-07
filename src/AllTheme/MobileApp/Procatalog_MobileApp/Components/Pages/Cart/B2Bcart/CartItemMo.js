@@ -152,7 +152,7 @@ const CartItem = ({
                       }}
                     /> */}
                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                    {formatter(item?.UnitCostWithMarkUp)}
+                    {formatter(item?.FinalCost)}
                   </span>
                 }
                 <p className='smrMo_QuanittyP'>Qty: <span>{item?.Quantity}</span></p>
@@ -163,7 +163,7 @@ const CartItem = ({
             <div className="smrMO_inStockbadgeDiv">
               <span className="smrMO_inStockbadgeSpan">In Stock</span>
             </div>
-          }
+          } 
         </Box>
         <Box className="smrMo_cartbtngroupReRm">
 

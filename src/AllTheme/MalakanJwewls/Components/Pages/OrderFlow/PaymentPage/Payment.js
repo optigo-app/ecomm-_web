@@ -160,88 +160,88 @@ const Payment = () => {
 
     return (
         <div className='stam_paymentMainDiv'>
-            <div className='smr_paymentSecondMainDiv'>
-                <div className='smr_PaymentContainer'>
-                    <div className='smr_paymentBackbtnDiv'>
-                        <IoMdArrowRoundBack className='smr_paymentBackbtn' onClick={handleBackNavigate} />
+            <div className='mala_paymentSecondMainDiv'>
+                <div className='mala_PaymentContainer'>
+                    <div className='mala_paymentBackbtnDiv'>
+                        <IoMdArrowRoundBack className='mala_paymentBackbtn' onClick={handleBackNavigate} />
                         <Link
-                            className="smr_addorderRemarkbtn"
+                            className="mala_addorderRemarkbtn"
                             variant="body2"
                             onClick={handleOpen}
                         >
                             {orderRemakdata == "" ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
-                    <div className='smr_paymentDetailMainDiv'>
-                        <div className='smr_paymentDetailLeftSideContent'>
+                    <div className='mala_paymentDetailMainDiv'>
+                        <div className='mala_paymentDetailLeftSideContent'>
                             <h2>Payment Card Method</h2>
-                            <div className='smr_billingAddress'>
+                            <div className='mala_billingAddress'>
                                 <h3>Billing Address</h3>
                                 <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>Address : {selectedAddrData?.street}</p>
                                 <p>City : {selectedAddrData?.city}</p>
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
-                                <p className='smr_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
+                                <p className='mala_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
                                     Order Remark : {orderRemakdata}
                                 </p>
         
                             </div>
                         </div>
-                        <div className='smr_paymentDetailRightSideContent'>
+                        <div className='mala_paymentDetailRightSideContent'>
                             <h3>Order Summary</h3>
-                            {/* <div className='smr_paymenttotalpricesummary'>
+                            {/* <div className='mala_paymenttotalpricesummary'>
                                 <p>Subtotal</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
+                                <p className='mala_PriceTotalTx'>
+                                    <span className="mala_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
 
                                     <span>{formatter(finalTotal)}</span>
                                 </p>
                             </div>
-                            <div className='smr_paymenttotalpricesummary'>
+                            <div className='mala_paymenttotalpricesummary'>
                                 <p>Estimated Tax</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
+                                <p className='mala_PriceTotalTx'>
+                                    <span className="mala_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
                                     <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
                                 </p>
                             </div>
-                            <div className='smr_paymenttotalpricesummary'>
+                            <div className='mala_paymenttotalpricesummary'>
                                 <p>Estimated Total</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
+                                <p className='mala_PriceTotalTx'>
+                                    <span className="mala_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>&nbsp;
                                     <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
                                 </p>
                             </div> */}
 
-                            <div class="smr_order-summary">
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Subtotal</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
+                            <div class="mala_order-summary">
+                                <div class="mala_summary-item">
+                                    <div class="mala_label">Subtotal</div>
+                                    <div class="mala_value">
+                                        <span className="mala_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>&nbsp;
                                         <span>{formatter(finalTotal)}</span>
                                     </div>
                                 </div>
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Estimated Tax</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
+                                <div class="mala_summary-item">
+                                    <div class="mala_label">Estimated Tax</div>
+                                    <div class="mala_value">
+                                        <span className="mala_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>&nbsp;
                                         <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
                                     </div>
                                 </div>
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Estimated Total</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
+                                <div class="mala_summary-item">
+                                    <div class="mala_label">Estimated Total</div>
+                                    <div class="mala_value">
+                                        <span className="mala_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>&nbsp;
                                         <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
@@ -249,9 +249,9 @@ const Payment = () => {
                                 </div>
                             </div>
 
-                            <div className='smr_shippingAddress'>
+                            <div className='mala_shippingAddress'>
                                 <h3>Shipping Address</h3>
-                                <p className='smr_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p className='mala_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>{selectedAddrData?.street}</p>
                                 <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
                                 <p>{selectedAddrData?.state}</p>
@@ -259,8 +259,8 @@ const Payment = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='smr_paymentButtonDiv'>
-                        <button className='smr_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                    <div className='mala_paymentButtonDiv'>
+                        <button className='mala_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                             {isloding && <span className="loader"></span>}
                         </button>

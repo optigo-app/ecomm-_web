@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useCart from '../../../../../../utils/Glob_Functions/Cart_Wishlist/Cart';
 import CartList from './CartList';
-import './smr2_cartb2c.scss';
+import './mala_cartb2c.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Link } from '@mui/material';
@@ -106,22 +106,22 @@ const CartPage = () => {
 
   console.log('selected--', selectedItem);
   return (
-    <div className='smr2_MainB2cBGDiv'>
+    <div className='mala_MainB2cBGDiv'>
       <div className='cartMainb2cPageDiv'>
         <div className="cartB2cBtnGroupMainDiv">
-          <div className="smr2_B2ccart-title">My Cart</div>
+          <div className="mala_B2ccart-title">My Cart</div>
           {!isloding && cartData.length != 0 &&
             <>
-              <div className="smr2_B2ccartButton-group">
-                <Link className='smr2_B2cReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
+              <div className="mala_B2ccartButton-group">
+                <Link className='mala_B2cReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
                   Clear All
                 </Link>
-                <div className='smr2_b2cplaceOrderMobileMainbtnDiv'>
-                  <button className="smr2_B2cplace-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='mala_b2cplaceOrderMobileMainbtnDiv'>
+                  <button className="mala_B2cplace-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              {/* <div className='smr2_B2cplaceOrderMainbtnDiv'>
-                <button className="smr2_B2cplace-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              {/* <div className='mala_B2cplaceOrderMainbtnDiv'>
+                <button className="mala_B2cplace-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div> */}
             </>
           }
@@ -129,8 +129,8 @@ const CartPage = () => {
         {!isloding ? (
           <>
             {cartData.length !== 0 ? (
-              <div className="smr2_B2ccartMainPages">
-                <div className="smr2_B2CcartSide">
+              <div className="mala_B2ccartMainPages">
+                <div className="mala_B2CcartSide">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -149,10 +149,10 @@ const CartPage = () => {
                 </div>
               </div>
             ) :
-              <div className='smr2_noWishlistData'>
-                <p className='smr2_title'>No Item Found!</p>
-                <p className='smr2_desc'>Please First Add To Cart Data</p>
-                <button className='smr2_browseOurCollectionbtn'>Browse our collection</button>
+              <div className='mala_noWishlistData'>
+                <p className='mala_title'>No Item Found!</p>
+                <p className='mala_desc'>Please First Add To Cart Data</p>
+                <button className='mala_browseOurCollectionbtn'>Browse our collection</button>
               </div>
             }
           </>

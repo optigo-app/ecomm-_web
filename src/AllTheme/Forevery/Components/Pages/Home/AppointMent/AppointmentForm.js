@@ -96,6 +96,13 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
         setSelectedItem({});
     }
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 250,
+            behavior: "smooth"
+        })
+    }, [])
+
     return (
         <div className="form-container">
             <h2>Share details</h2>

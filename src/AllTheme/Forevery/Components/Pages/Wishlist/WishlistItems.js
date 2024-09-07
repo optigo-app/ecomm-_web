@@ -186,7 +186,7 @@ const WishlistItems = ({
                         <span className="for_totalcart">
                             {selectedDia && Object.keys(selectedDia).length != 0 &&
                                 <>
-                                    Total carat weight:{selectedDia?.carat}
+                                    Total carat weight:{" "}{selectedDia?.carat}
                                 </>
                             }
 

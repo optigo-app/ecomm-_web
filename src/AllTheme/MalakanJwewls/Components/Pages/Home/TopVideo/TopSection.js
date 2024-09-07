@@ -29,7 +29,7 @@ const TopSection = () => {
   };
 
   return (
-    <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
+    <div className="mala_topVideoMain" style={{ minHeight: "850px" }}>
         {/* <video
           ref={videoRef}
           width="500"

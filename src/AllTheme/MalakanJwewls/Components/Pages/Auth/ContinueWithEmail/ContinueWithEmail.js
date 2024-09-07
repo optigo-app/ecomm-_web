@@ -117,7 +117,7 @@ export default function ContinueWithEmail() {
     };
 
     return (
-        <div className='stam_continuemail'>
+        <div className='mala_continuemail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -153,7 +153,7 @@ export default function ContinueWithEmail() {
                             id="outlined-basic"
                             label="Email"
                             variant="outlined"
-                            className='smr_continuEmailBox'
+                            className='mala_continuEmailBox'
                             style={{ margin: '15px' }}
                             value={email}
                             onKeyDown={(event) => {

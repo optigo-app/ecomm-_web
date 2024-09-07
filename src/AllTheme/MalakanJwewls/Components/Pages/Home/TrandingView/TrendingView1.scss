@@ -1,11 +1,11 @@
 @import '../../../scss/variable';
 
 .stam_mainTrending1Div {
-    .smr_trending1TitleDiv {
+    .mala_trending1TitleDiv {
         text-align: center;
         padding-block: 10px;
 
-        .smr_trending1Title {
+        .mala_trending1Title {
             font-size: $fontSize6;
             color: $homePageFontColor;
             font-family: $homePageFontFamily;
@@ -19,7 +19,7 @@
         padding: 0px 10px;
         margin-bottom: 70px;
 
-        .smr_leftSideBestTR {
+        .mala_leftSideBestTR {
             width: 50%;
             position: relative;
 
@@ -30,7 +30,7 @@
                 object-fit: cover;
             }
 
-            .smr_lookbookImageRightDT {
+            .mala_lookbookImageRightDT {
                 position: absolute;
                 top: 50%;
                 left: 40%;
@@ -67,7 +67,7 @@
             }
         }
 
-        .smr_rightSideTR {
+        .mala_rightSideTR {
             width: 50%;
             display: flex;
             flex-wrap: wrap;
@@ -119,7 +119,7 @@
                         letter-spacing: .5px;
                     }
 
-                    .smr_btpipe {
+                    .mala_btpipe {
                         margin: 0px 3px;
                     }
                 }
@@ -130,12 +130,12 @@
             flex-direction: column;
             align-items: center;
 
-            .smr_leftSideBestTR,
-            .smr_rightSideTR {
+            .mala_leftSideBestTR,
+            .mala_rightSideTR {
                 width: 100%;
             }
 
-            .smr_lookbookImageRightDT {
+            .mala_lookbookImageRightDT {
                 left: 50%;
                 transform: translate(-50%, -70%);
             }
@@ -143,8 +143,8 @@
 
         @media (max-width: 992px) {
 
-            .smr_leftSideBestTR,
-            .smr_rightSideTR {
+            .mala_leftSideBestTR,
+            .mala_rightSideTR {
                 width: 100%;
             }
 
@@ -155,7 +155,7 @@
         }
 
         @media (max-width: 768px) {
-            .smr_lookbookImageRightDT {
+            .mala_lookbookImageRightDT {
                 left: 50%;
                 transform: translate(-50%, -50%);
 
@@ -190,8 +190,8 @@
                 }
             }
 
-            .smr_leftSideBestTR,
-            .smr_rightSideTR {
+            .mala_leftSideBestTR,
+            .mala_rightSideTR {
                 width: 100%;
                 margin-top: 10px;
                 justify-content: center;

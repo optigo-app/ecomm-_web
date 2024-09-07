@@ -1,12 +1,12 @@
 @import "../../../scss/variable.scss";
 
-.stam_loginEmail {
+.mala_loginEmail {
 
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
 
-    .smr_loginEmailD {
+    .mala_loginEmailD {
         background-color: white;
         margin-inline: 6%;
     }
@@ -46,7 +46,7 @@
         border: 1px solid #7d7f85;
     }
 
-    .smr_loginPasswordBox {
+    .mala_loginPasswordBox {
         width: 420px;
         margin: 10px;
     }
@@ -62,7 +62,7 @@
 
     @media screen and (max-width: 700px) {
 
-        .smr_loginPasswordBox {
+        .mala_loginPasswordBox {
             width: 90%;
         }
 

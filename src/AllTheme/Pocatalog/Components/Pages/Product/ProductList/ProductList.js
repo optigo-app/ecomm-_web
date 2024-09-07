@@ -3085,7 +3085,7 @@ const ProductList = () => {
                               {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className="smr_productCard">
+                                  <div className={filterData?.length <= 0 ?"smr_productCard_noFil" : "smr_productCard"}>
                                     <div className="cart_and_wishlist_icon">
                                       {/* <Button className="smr_cart-icon"> */}
                                       <Checkbox

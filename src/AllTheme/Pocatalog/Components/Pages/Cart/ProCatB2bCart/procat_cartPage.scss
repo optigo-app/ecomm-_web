@@ -10,6 +10,7 @@ $cartUpdateBtncolor: #b1b1b1;
     background-color: #fff;
     margin-inline: 6%;
   }
+
   .proCat_cartmainRowDiv {
     display: flex;
     justify-content: space-between;
@@ -136,7 +137,8 @@ $cartUpdateBtncolor: #b1b1b1;
   .proCat_noCartlistData {
     text-align: center;
     height: 100%;
-    margin-bottom: 327px;
+    // margin-bottom: 327px;
+    margin-block: 160px;
 
     .proCat_title {
       color: $titleColor;
@@ -174,6 +176,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
       .proCat_RightCartList {
         width: 100%;
+
         .proCat_cartListCardGrid {
           padding-left: 15px !important;
           padding-top: 15px !important;
@@ -190,7 +193,7 @@ $cartUpdateBtncolor: #b1b1b1;
       margin-top: 6px;
       position: sticky;
       height: 80vh;
-      top:  70px;
+      top: 70px;
       margin-bottom: 190px;
     }
 
@@ -243,6 +246,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 390px;
       position: relative;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
       .proCat_card-ContentsData {
         padding: 2px 0px 2px 0px !important;
         font-size: $fontSize0 !important;
@@ -359,8 +363,9 @@ $cartUpdateBtncolor: #b1b1b1;
         padding: 10px;
         border-radius: 0px;
         // width: 48%;
-        max-width: 550px;
-        width: 200px;
+        // max-width: 550px;
+        // width: 200px;
+        width: 48.5%;
 
         label {
           display: block;
@@ -371,12 +376,30 @@ $cartUpdateBtncolor: #b1b1b1;
           font-family: $primaryFontFamily !important;
 
         }
+
         span {
           display: block;
           color: $titleColor;
           font-size: $fontSize2;
           font-family: $primaryFontFamily !important;
 
+        }
+      }
+
+      @media(max-width: 1560px){
+        .option{
+          width: 48%;
+          label, span{
+            font-size: $fontSize1;
+          }
+        }
+      }
+        @media(max-width: 1490px){
+        .option{
+          width: 47%;
+          label, span{
+            font-size: $fontSize0;
+          }
         }
       }
     }
@@ -1095,7 +1118,8 @@ $cartUpdateBtncolor: #b1b1b1;
                   .proCat_ItemRemarkbtn {
                     margin-right: 0px;
                   }
-                  .proCat_ReomoveCartbtn{
+
+                  .proCat_ReomoveCartbtn {
                     margin-right: 12px;
                   }
                 }

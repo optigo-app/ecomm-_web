@@ -21,6 +21,11 @@
         justify-content: center;
     }
 
+    .mala_Top_header_sub{
+        position: relative;
+        z-index: 111;
+    }
+
     .mala_Top_header_logo_div {
         display: flex;
         justify-content: center;
@@ -29,7 +34,7 @@
         height: 120px;
     }
 
-    .smr_logo_header {
+    .mala_logo_header {
         object-fit: contain;
         max-width: 500px;
     }
@@ -133,7 +138,7 @@
         transition: width 0.3s ease-out;
     }
 
-    .smr_logo_header_Fixed {
+    .mala_logo_header_Fixed {
         object-fit: contain;
         max-width: 500px;
     }
@@ -163,7 +168,7 @@
         color: white;
     }
 
-    .smr_A_linkFixed {
+    .mala_A_linkFixed {
         text-decoration: none;
         color: white;
     }
@@ -208,7 +213,7 @@
         text-decoration: underline;
     }
 
-    .smr_menuSubTitle {
+    .mala_menuSubTitle {
         font-size: 13px;
         text-decoration: none;
         color: #9b978f;
@@ -226,7 +231,7 @@
 
     }
 
-    .smr_underline_button {
+    .mala_underline_button {
         background-color: transparent;
         border: none;
         outline: none;
@@ -238,7 +243,7 @@
         font-size: 13px;
     }
 
-    .smr_listMain {
+    .mala_listMain {
         display: flex;
         flex-flow: column wrap;
         height: 350px;
@@ -261,7 +266,7 @@
 
 
     //search box styling......
-    .smr_smlingSearchoverlay {
+    .mala_smlingSearchoverlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -272,7 +277,7 @@
         z-index: 999;
     }
 
-    .smr_smlingTopSerachOver {
+    .mala_smlingTopSerachOver {
         height: 70px;
         background-color: white;
         width: 100%;
@@ -282,7 +287,7 @@
         align-items: center;
     }
 
-    .smr_serachinputBoxOverly {
+    .mala_serachinputBoxOverly {
         width: 95%;
         height: 50px;
         border: none;
@@ -291,7 +296,7 @@
 
 
 
-    .smr_smlingTopSerachOver-Fixed {
+    .mala_smlingTopSerachOver-Fixed {
         height: 60px;
         background-color: white;
         width: 100%;
@@ -300,7 +305,7 @@
         align-items: center;
     }
 
-    .smr_smlingSearchoverlayNew {
+    .mala_smlingSearchoverlayNew {
         position: relative;
         transform: translateY(-200px);
         top: 0;
@@ -312,7 +317,7 @@
         z-index: 999;
     }
 
-    .smr_smlingSearchoverlayNew.fixed {
+    .mala_smlingSearchoverlayNew.fixed {
         position: fixed;
         top: 0;
         left: 0;
@@ -336,12 +341,12 @@
         display: none !important;
     }
 
-    .smr_showDropOptionMainDiv {
+    .mala_showDropOptionMainDiv {
         overflow: auto;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .smr_showDropOptionMainDiv::-webkit-scrollbar {
+    .mala_showDropOptionMainDiv::-webkit-scrollbar {
         // display: none!important;
         height: 10px !important;
     }
@@ -357,7 +362,7 @@
 
     }
 
-    .smr_mobile_viewAllBtn {
+    .mala_mobile_viewAllBtn {
         border: none;
         background-color: transparent;
         color: white;
@@ -365,7 +370,7 @@
         font-size: 15px;
     }
 
-    .smr_mobile_subMenu {
+    .mala_mobile_subMenu {
         margin: 0px 0px 0px 15px;
         padding-block: 5px;
         color: #f6f6f6;
@@ -394,13 +399,13 @@
 
 
     @media screen and (max-width:1650px) {
-        .smr_headerOptionSingleDiv {
+        .mala_headerOptionSingleDiv {
             min-width: 250px !important;
         }
     }
 
     @media screen and (max-width:1500px) {
-        .smr_headerOptionSingleDiv {
+        .mala_headerOptionSingleDiv {
             min-width: 200px !important;
         }
 
@@ -442,18 +447,18 @@
     @media screen and (max-width:1200px) {
 
 
-        .smr_mobileHeader_top_div1 {
+        .mala_mobileHeader_top_div1 {
             width: 33.33%;
         }
 
-        .smr_mobileHeader_top_div2 {
+        .mala_mobileHeader_top_div2 {
             width: 33.33%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .smr_mobileHeader_top_div3 {
+        .mala_mobileHeader_top_div3 {
             width: 33.33%;
             display: flex;
             align-items: center;
@@ -487,27 +492,27 @@
             margin: 0px !important;
         }
 
-        .smr_menuStaicMobile {
+        .mala_menuStaicMobile {
             margin: 0px;
             color: white;
             padding: 5px 0px 5px 15px;
         }
 
-        .smr_menuStaicMobilePage {
+        .mala_menuStaicMobilePage {
             margin: 0px;
             border-bottom: 1px solid white;
             color: white;
             padding: 5px 0px 5px 20px;
         }
 
-        .smr_menuStaicMobilePageLink {
+        .mala_menuStaicMobilePageLink {
             margin: 0px;
             color: white;
             font-weight: 500;
             padding: 5px 0px 5px 20px;
         }
 
-        .smr_ListMenuSiderMobile {
+        .mala_ListMenuSiderMobile {
             margin-top: 0px !important;
         }
 
@@ -519,7 +524,7 @@
 
 
     @media screen and (max-width: 600px) {
-        .smr_mobileHideIcone {
+        .mala_mobileHideIcone {
             display: none !important;
         }
     }
