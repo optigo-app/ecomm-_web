@@ -100,7 +100,7 @@ const NewArrival = () => {
         <>
             {newArrivalData?.length != 0 &&
                 <div className='smr_newwArr1MainDiv'>
-                    <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
+                    <Typography variant='h4' className='smrN_NewArr1Title'>NEW ARRIVAL
                         <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                             View more
                         </Link>

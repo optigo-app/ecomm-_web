@@ -24,10 +24,11 @@ import ForEveryRoutes from "./AllTheme/Forevery/ForeveryRoutes";
 import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/Procatalog_MobileApp_App";
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
+import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(6)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -64,7 +65,9 @@ export default function ThemeRoutes() {
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
-            callAllApi(response?.data?.Data);
+            if (response?.data?.Data) {
+              callAllApi(response?.data?.Data);
+            }
 
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             const existingVisitorId = Cookies.get("visiterId");
@@ -113,7 +116,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(6);
+      setThemeNo(12);
     }
     // .finally(() => setLoading(false));
   }, []);
@@ -121,7 +124,6 @@ export default function ThemeRoutes() {
   const callAllApi = (Data) => {
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInitSession = JSON?.parse(Data);
-    // const { IsB2BWebsite } = storeInit;
     const { IsB2BWebsite } = storeInitSession;
     const visiterID = Cookies.get("visiterId");
     let finalID;
@@ -214,12 +216,15 @@ export default function ThemeRoutes() {
       {themeNo === 7 && <HouseOfQuadri_App />}
 
       {themeNo === 8 && <ForEveryRoutes />}
-      {/* <Procatalog_MobileApp_App /> */}
+
       {themeNo === 9 && <Procatalog_MobileApp_App />}
 
       {themeNo === 10 && <StamFordJewels_App />}
 
       {themeNo === 11 && <RoopJewellers_App />}
+
+      {themeNo === 12 && <MalakanJewels_App />}
+
     </>
   );
 }

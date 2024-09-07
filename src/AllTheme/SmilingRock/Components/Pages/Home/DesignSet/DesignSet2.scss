@@ -13,6 +13,15 @@
         position: relative;
     }
 
+    .smr1_desognSetTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: 28px;
+        text-align: center;
+        margin: 0px;
+        margin-block: 2%;
+    }
+
     .card {
         width: 230px;
         height: 348px;
