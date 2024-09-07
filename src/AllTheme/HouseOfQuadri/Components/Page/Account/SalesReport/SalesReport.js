@@ -430,7 +430,7 @@ const SalesReport = () => {
   const toDateRef = useRef(null);
 
   const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px)');
+  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1415px)');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -767,7 +767,7 @@ const SalesReport = () => {
         }}
       >
         <Box
-          className="salesReporttableWeb"
+          className="salesReporttableWeb full_width_SP_table"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
           <table style={{minWidth:'710px'}}>
@@ -1011,16 +1011,16 @@ const SalesReport = () => {
       {
         (!isSmallScreen && isTabletScreen) && <Box>
           <Box style={{display:'flex', alignItems:'center'}}>
-            <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "15px", }} >
+            <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "5px", }} >
               <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
                 All
               </Button>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", }} className="searchbox" >
+            <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "5px", }} className="searchbox" >
               <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
               <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
             </Box>
-            <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Date From"
@@ -1049,7 +1049,7 @@ const SalesReport = () => {
             />
           </LocalizationProvider>
             </Box>
-            <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Date To"
@@ -1081,7 +1081,7 @@ const SalesReport = () => {
                 />
               </LocalizationProvider>
             </Box>
-            <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
               <Button
                 variant="contained"
                 className="muiSmilingRocksBtn"
@@ -1103,6 +1103,56 @@ const SalesReport = () => {
               >
                 <SearchIcon sx={{ color: "#fff !important" }} />
               </Button>
+            </Box>
+            <Box style={{position:'relative'}}>
+              <div style={{position:'absolute', top:'-15px'}}>
+                  <Typography>Gross Wt : </Typography>
+              </div>
+              <div style={{display:'flex', alignItems:'center'}}>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ maxWidth: "150px" }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ maxWidth: "150px" }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <Button
+                    variant="contained"
+                    className="muiSmilingRocksBtn"
+                    sx={{
+                      padding: "7px 10px",
+                      minWidth: "max-content",
+                      background: "#7d7f85",
+                    }}
+                    onClick={(eve) =>
+                      handleSearch(
+                        eve,
+                        searchVal,
+                        fromDate,
+                        toDate,
+                        grossWtInput?.from,
+                        grossWtInput?.to
+                      )
+                    }
+                  >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </div>
             </Box>
           </Box>
         </Box>
