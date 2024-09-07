@@ -22,7 +22,6 @@ export const accountDetailPages = () => {
 
 export const accountValidation = () => {
     let getVal = JSON?.parse(sessionStorage.getItem("storeInit"))?.["IsMyaccount"];
-console.log(getVal);
     let getVals = [1163, 1164, 1157, 1314, 17020, 1159, 18129];
     let pageIsOn = false;
     getVals?.forEach((e, i) => {
