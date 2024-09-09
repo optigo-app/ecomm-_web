@@ -295,34 +295,33 @@ const ProductDetail = () => {
         let diaArr
         let csArr
 
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
 
-
-
-        setSelectMtType(metalArr?.metaltype);
+        setSelectMtType(metalArr?.metaltype)
 
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
 
@@ -544,6 +543,7 @@ const ProductDetail = () => {
     let navVal = location?.search.split("?p=")[1];
 
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let decodeobj = decodeAndDecompress(navVal);
     let alName = ''
@@ -568,7 +568,7 @@ const ProductDetail = () => {
       metalArr =
         mtTypeLocal?.filter(
           (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+        )[0]?.Metalid 
     }
 
     if (diaQcLocal) {
@@ -577,7 +577,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? "0,0";
+        )[0] 
     }
 
     if (csQcLocal) {
@@ -586,15 +586,21 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? "0,0"
+        )[0] 
     }
 
     const FetchProductData = async() =>{
 
-      let obj={
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+      // let obj={
+      //   mt: metalArr,
+      //   diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+      //   csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+      // }
+
+      let obj = {
+        mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+        csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       }
 
       setProdLoading(true)
@@ -634,6 +640,8 @@ const ProductDetail = () => {
               ? prod?.DefaultSize
               : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
                 ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+            
+                console.log("initialsize",initialsize);
 
             setSizeData(initialsize)
 
@@ -1186,9 +1194,9 @@ const ProductDetail = () => {
     }
 
     let obj = {
-      mt: metalArr,
-      diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-      csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+      mt: metalArr ?? 0,
+      diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
+      csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
     }
 
     let prod = {
