@@ -181,7 +181,8 @@
                             flex-direction: column;
                             justify-content: space-between;
                             height: 100%;
-                            padding: 10px;
+                            padding-bottom: 10px;
+
 
                             .for_WlListImage {
                                 height: 260px;
@@ -190,6 +191,7 @@
                             }
 
                             .for_diamondImage {
+
                                 .for_cardText {
                                     p {
                                         text-transform: uppercase !important;
@@ -205,17 +207,17 @@
                             }
 
                             .for_cardContent {
+                                padding: 10px;
                                 flex: 1;
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: space-between;
-                                padding: 0px;
                                 height: 40px;
 
                                 .for_cardText {
                                     margin-top: 10px;
-                                    height: 90px;
-                                    max-height: 120px;
+                                    height: 115px;
+                                    max-height: 150px;
 
                                     .for_card-ContentData {
                                         font-size: $fontSize1;

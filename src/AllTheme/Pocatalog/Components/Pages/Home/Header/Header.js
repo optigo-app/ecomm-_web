@@ -542,10 +542,11 @@ const Header = () => {
               <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }} onClick={() => { setDrawerShowOverlay(false); navigation('/Lookbook') }}>Lookbook</p>
             </div>
 
-            <div>
-              <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
-            </div>
-
+            {islogin == true &&
+              <div>
+                <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); navigation('/account') }}>Account</p>
+              </div>
+            }
             <div>
               <p className='smr_menuStaicMobilePageLink' onClick={() => { setDrawerShowOverlay(false); handleLogout(); }}>Log Out</p>
             </div>
@@ -608,23 +609,14 @@ const Header = () => {
                 ABOUT US
               </li> */}
               {
-                IsB2BWebsiteChek == 0 ?
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/account")}
-                  >
-                    ACCOUNT
-                  </li>
-                  :
-                  islogin &&
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/account")}
-                  >
-                    ACCOUNT
-                  </li>
+                islogin == true &&
+                <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigation("/account")}
+                >
+                  ACCOUNT
+                </li>
 
               }
               {islogin ? (
@@ -783,25 +775,15 @@ const Header = () => {
 
 
                 {
-                  IsB2BWebsiteChek == 0 ?
-                    <li
-                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                      style={{ cursor: "pointer" }}
-                      // onClick={() => navigation("/LoginOption")}
-                      onClick={() => navigation("/account")}
-                    >
-                      ACCOUNT
-                    </li>
-                    :
-                    islogin &&
-                    <li
-                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                      style={{ cursor: "pointer" }}
-                      // onClick={() => navigation("/LoginOption")}
-                      onClick={() => navigation("/account")}
-                    >
-                      ACCOUNT
-                    </li>
+                  islogin &&
+                  <li
+                    className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                    style={{ cursor: "pointer" }}
+                    // onClick={() => navigation("/LoginOption")}
+                    onClick={() => navigation("/account")}
+                  >
+                    ACCOUNT
+                  </li>
                 }
 
 

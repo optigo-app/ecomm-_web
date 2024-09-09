@@ -35,10 +35,7 @@ const CustomSortIcon = ({ order }) => {
 const QuotationJob = () => {
 
   const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px)');
-
-  const [showFilter, setShowFilter] = useState(false);
-  const [printJobError, setPrintJobError] = useState('');
+  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1070px)');
 
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
@@ -46,20 +43,13 @@ const QuotationJob = () => {
   const [toDate, setToDate] = useState(null);
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [filterData2, setFilterData2] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [orderBy, setOrderBy] = useState('');
   const [order, setOrder] = useState('');
   const [statusList, setStatusList] = useState([]);
-  const [categoryList, setCategoryList] = useState([
-   
-  ]);
-  const [metalColorList, setmetalColorList] = useState([
-
-  ]);
-  const [metalPurityList, setMetalPurityList] = useState([
-    
-  ]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [metalColorList, setmetalColorList] = useState([]);
+  const [metalPurityList, setMetalPurityList] = useState([]);
   const [statuse, setStatus] = useState(statusList[0]?.value || "");
   const [category, setCategory] = useState(categoryList[0]?.value || "");
   const [MetalColor, setMetalColor] = useState(metalColorList[0]?.value || "");
@@ -862,7 +852,7 @@ const scrollToTop = () => {
       </Box>}
       {
        (!isSmallScreen && isTabletScreen) && <Box>
-        <Box style={{display:'flex', alignItems:'center', paddingBottom:'20px'}}>
+        <Box style={{display:'flex', alignItems:'center', paddingBottom:'15px'}}>
             <Button variant="contained" sx={{  background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
             <Box sx={{ padding: "0 20px" }}>
               <RadioGroup
@@ -887,7 +877,7 @@ const scrollToTop = () => {
                 onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon />
               </Button>
             </Box>
-            <Box sx={{ padding: "0 0px 0px 0", marginLeft:'10px'}} >
+            <Box sx={{ padding: "0 0px 0px 20px", marginLeft:'10px'}} >
               <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
             </Box>
         </Box>
@@ -955,8 +945,8 @@ const scrollToTop = () => {
               <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
             </Box>
         </Box>
-        <Box style={{display:'flex', alignItems:'baseline', paddingBottom:'25px'}}>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', paddingBottom:'25px'}}>
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
         <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
           
               <Select
@@ -967,7 +957,7 @@ const scrollToTop = () => {
                 onChange={handleStatus} // Assuming handleStatus function receives selected values
                 MenuProps={MenuProps}
                 input={<OutlinedInput  />}
-                style={{minHeight:'2.9375em'}}
+                style={{minHeight:'2.9375em', width:'100%'}}
                 className='statusSelect'
                 size='small'
                 label='ALL'
@@ -993,9 +983,9 @@ const scrollToTop = () => {
             </Select>
     
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" onChange={handleCategory} >
+          <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" style={{width:'100%'}} onChange={handleCategory} >
             {
               categoryList?.map((e, i) => {
                 return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
@@ -1003,7 +993,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1011,6 +1001,7 @@ const scrollToTop = () => {
             value={MetalColor}
             label="Status"
             className='MetalColorList'
+            style={{width:'100%'}}
             onChange={handleMetalColor}
           >
             {
@@ -1020,7 +1011,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1028,6 +1019,7 @@ const scrollToTop = () => {
             value={metalPurity}
             label="Status"
             className='MetalPurityList'
+            style={{width:'100%'}}
             onChange={handleMetalPurity}
           >
             {
@@ -1041,8 +1033,8 @@ const scrollToTop = () => {
        </Box>
       }
       { isSmallScreen && <>
-      <Accordion   style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+      <Accordion   style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className='accordion_Account_Head'>
+        <AccordionSummary style={{paddingLeft:'5px', paddingRight:'5px'}} expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
         <AccordionDetails className='acc_Details_elvee_job' style={{padding:'0px'}}>
       <Box style={{marginBottom:'10px', marginTop:'5px'}}>
         <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
@@ -1056,9 +1048,20 @@ const scrollToTop = () => {
             onChange={handleOrderProms}
             sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
           >
-            <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 35px 0", marginRight: "0" }} />
-            <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 35px 0", marginRight: "0" }} />
+            <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 20px 0", marginRight: "0" }} />
+            <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 20px 0", marginRight: "0" }} />
           </RadioGroup>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px", minWidth:'100%', width:'100%', maxWidth: "max-content" }} className="searchbox ">
+          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
+            setSearchVal(eve?.target?.value);
+            setPage(0);
+            // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+          }} />
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+            // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
         </Box>
         <Box style={{width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
           <Box style={{marginBottom:'2rem', boxSizing:'border-box'}}>
@@ -1161,7 +1164,7 @@ const scrollToTop = () => {
             </Select>
     
         </Box>
-        <Box sx={{ position: "relative", padding: "0 0px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+        <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' style={{width:'100%'}} value={category} label="Status" onChange={handleCategory} >
             {
@@ -1171,7 +1174,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative", padding: "0 0px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+        <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1189,7 +1192,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative", padding: "0 0px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+        <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="" >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1207,17 +1210,6 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px", minWidth:'100%', width:'100%', maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSec">
-          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
-            setSearchVal(eve?.target?.value);
-            setPage(0);
-            // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
-            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
-          }} />
-          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
-            // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
-            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
-        </Box>
       </Box>
       </AccordionDetails>
       </Accordion>
@@ -1231,11 +1223,12 @@ const scrollToTop = () => {
             <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead className='user-select-none'>
-                  <TableRow>
+                  <TableRow style={{zIndex:1}}>
                   <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
                     <Checkbox
                       checked={allChecked}
                       onChange={handleMasterCheckboxChange}
+                      style={{zIndex:10}}
                     />
                   </TableCell>  
                     {columns?.slice(1)?.map((column) => (

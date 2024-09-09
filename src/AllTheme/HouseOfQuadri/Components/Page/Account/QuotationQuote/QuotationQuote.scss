@@ -139,7 +139,11 @@
 
 
 
-
+.sticky_quote_top{
+    position: sticky !important;
+    top: -1px !important;
+    z-index: 1;
+}
 
 
 

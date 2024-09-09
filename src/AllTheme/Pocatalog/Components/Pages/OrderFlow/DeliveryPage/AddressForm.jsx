@@ -83,13 +83,11 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         type='number'
                         className='proCat_addressTextFields'
                     />
-                </DialogContent>
-                <DialogActions>
                     <div className='proCat_AddressBtnGroup'>
                     <button type='submit' className='proCat_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
                     <button type='button' className='proCat_Cancelbtn' onClick={handleCancel}>Cancel</button>
                     </div>
-                </DialogActions>
+                </DialogContent>
             </form>
         </Dialog>
     );

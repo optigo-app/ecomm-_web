@@ -18,90 +18,68 @@ const Footer = ({ fromPage }) => {
 
   useEffect(() => {
     let companyInfoData;
+    const storedData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
+    setCompanuInfoData(storedData);
     if (sessionStorage.getItem("CompanyInfoData")) {
-        if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-            companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-            const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-            if (parsedSocilaMediaUrlData) {
-                setSocialMediaData(parsedSocilaMediaUrlData)
-            }
+      if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
+        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+        if (parsedSocilaMediaUrlData) {
+          setSocialMediaData(parsedSocilaMediaUrlData)
         }
+      }
     }
   }, [])
 
 
-
   return (
     <div>
-
-      {localData?.Footerno === 1 &&
-        <div className='ProCat_Footer1_main'>
-          <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
-            <div className='footerMoreOption'>
-              <div className='proCat_AddresMain' style={{ marginLeft: '100px' }}>
-                <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
-                <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
-                  <IoLocationOutline style={{ width: '22px', height: '22px' }} />
-                  <span style={{ color: '#7d7f85', fontSize: '14px', width: '80%' }}>
-                    D-Block G20, ITC( International Trade Centre),
-                    Majura Gate, Ring Road,
-                    {/* {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode} */}
-                  </span>
-                </p>
-                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
-                  <IoMdCall />
-                  <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                    {/* <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
+      <div className='ProCat_Footer1_main'>
+        <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
+          <div className='footerMoreOption'>
+            <div className='proCat_AddresMain' style={{ marginLeft: '100px' }}>
+              <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
+              <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
+                <IoLocationOutline style={{ width: '22px', height: '22px' }} />
+                <span style={{ color: '#7d7f85', width: '80%' }}>
+                  {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
+                </span>
+              </p>
+              <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
+                <IoMdCall />
+                <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
+                  {/* <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                       {companyInfoData?.FrontEndContactno1}
                     </a> */}
-                    +91 9099887762
-                  </span>
-                </p>
-                <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                  <IoMdMail />
-                  <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                    {/* <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+                  {companyInfoData?.FrontEndContactno1}
+                </span>
+              </p>
+              <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                <IoMdMail />
+                <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
+                  {/* <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                       {companyInfoData?.FrontEndEmail1}
                     </a> */}
-                    hello@optigoapps.com
-                  </span>
-                </p>
-              </div>
-              <div className='proCat_SoicialMain' style={{ marginLeft: '100px', width: '40%' }}>
-                {socialMediaData?.length != 0 && <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>}
-                <div className='footerIconMain'>
-                  {socialMediaData?.map((social, index) => (
-                    <div className='footerSocialIcon'>
-                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                        <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
-                          onError={(e) => { e.target.style.display = 'none'; }} />
-                      </a>
-                    </div>
-                  ))}
-                </div>
+                  {companyInfoData?.FrontEndEmail1}
+                </span>
+              </p>
+            </div>
+            <div className='proCat_SoicialMain' style={{ marginLeft: '100px', width: '40%' }}>
+              {socialMediaData?.length != 0 && <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>}
+              <div className='footerIconMain'>
+                {socialMediaData?.map((social, index) => (
+                  <div className='footerSocialIcon'>
+                    <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                      <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
+                        onError={(e) => { e.target.style.display = 'none'; }} />
+                    </a>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
-      }
-
-      {localData?.Footerno === 2 &&
-        <div className='proCat_Footer2_main'>
-          <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
-
-            <div className='footerIconMain'>
-              {socialMediaData?.map((social, index) => (
-                <div className='footerSocialIcon'>
-                  <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                    <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
-                      onError={(e) => { e.target.style.display = 'none'; }} />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      }
+      </div>
     </div>
   )
 }
