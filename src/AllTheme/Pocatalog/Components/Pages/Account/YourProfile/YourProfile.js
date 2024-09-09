@@ -71,7 +71,7 @@ export default function YourProfile() {
     //             } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
     //                 setErrors(prevErrors => ({
     //                     ...prevErrors,
-    //                     mobileno: 'MobileNo Already Exists',
+    //                     mobileno: 'Mobile Number Already Exists',
     //                 }));
     //             } else {
     //                 toast.error('Error in saving profile.');
@@ -110,7 +110,7 @@ export default function YourProfile() {
                 } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
                     setErrors(prevErrors => ({
                         ...prevErrors,
-                        mobileno: 'MobileNo Already Exists',
+                        mobileno: 'Mobile Number Already Exists',
                     }));
                 } else {
                     toast.error('Error in saving profile.');
@@ -202,7 +202,9 @@ export default function YourProfile() {
                                     label="Address"
                                     variant="outlined"
                                     className='labgrowRegister'
-                                    style={{ margin: '15px' }}
+                                    multiline
+                                    rows={2} // Number of visible rows
+                                    style={{ margin: '15px', color:'black' }}
                                     value={userData?.street || ''}
                                     disabled
                                     onChange={handleInputChange}
@@ -272,6 +274,8 @@ export default function YourProfile() {
                                     variant="outlined"
                                     style={{ margin: '15px' }}
                                     value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
+                                    multiline
+                                    rows={2} // Number of visible rows
                                     onChange={handleInputChange}
                                     error={!!errors.street}
                                     helperText={errors.street}
