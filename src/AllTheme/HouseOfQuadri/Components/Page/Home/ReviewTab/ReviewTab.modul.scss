@@ -16,10 +16,11 @@
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    font-family: $fontCrimsonTextMedium;
+    font-family: $fontTenorSans;
     h1 {
       font-size: 22px;
       letter-spacing: 0.2px;
+      font-weight: 500 !important;
     }
   }
   .review_Slider {
@@ -79,6 +80,7 @@
         background-color: #fafafa;
         border-radius: 12px;
         padding: 10px 20px;
+        font-family: $fontDmSans ;
         .description {
           padding: 0 0 10px 0;
           p {
@@ -88,6 +90,7 @@
             color: gray;
             font-size: $fontSize2;
             cursor: pointer;
+            font-family: $fontTenorSans;
             &:hover {
               text-decoration: underline;
             }

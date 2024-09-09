@@ -3,10 +3,17 @@ import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const TheDifference = () => {
-    
+
     return (
-        <div style={{ paddingBlock: '3%' }} className='stam_smilingPAgeMain'>
-            <p className='stam_smilingTitle'>The Malakan Difference</p>
+        <div style={{ paddingTop: '7px' }} className='mala_smilingPAgeMain'>
+            <div className='mala_smilingPAgeMain_one'>
+                <img className="simple_card_gif " src={`${storImagePath()}/images/HomePage/gif1.gif`} alt="" />
+            </div>
+            <div className='mala_smilingPAgeMain_two'>
+                <img className="simple_card_gif" src='https://malakan.com/wp-content/uploads/2024/04/Hompage-Ring-New-Large.gif' alt="" />
+            </div>
+
+            {/* <p className='stam_smilingTitle'>The Malakan Difference</p>
             <div className='smilingRock'>
                 <div className='smilingRockBox'>
                     <div className='smilingRockBoxSub1'>
@@ -49,7 +56,7 @@ const TheDifference = () => {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

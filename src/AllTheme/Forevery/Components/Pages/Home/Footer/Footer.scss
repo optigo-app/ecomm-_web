@@ -112,6 +112,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
+    font-family: $primaryFontFamily;
 
     li {
       position: relative;
@@ -120,9 +121,10 @@
       a {
         text-decoration: none;
         color: #000;
+        font-weight: 420;
 
         &:hover {
-          color: #007bff;
+          color: #000;
         }
       }
 

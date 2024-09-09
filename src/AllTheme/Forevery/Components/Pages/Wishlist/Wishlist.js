@@ -9,13 +9,13 @@ import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { for_CartCount, for_WishCount, for_loginState } from "../../Recoil/atom";
-import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa6";
 import NewsletterSignup from "../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
+import ConfirmationDialog from "../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 
 const Wishlist = () => {
   const {

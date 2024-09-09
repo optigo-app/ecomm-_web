@@ -37,4 +37,5 @@ export const FeaturedBrandList = [
     link: "https://www.zara.com/",
     path: `${storImagePath()}/images/HomePage/featuredbard/1 (6).webp`,
   },
+  
 ];

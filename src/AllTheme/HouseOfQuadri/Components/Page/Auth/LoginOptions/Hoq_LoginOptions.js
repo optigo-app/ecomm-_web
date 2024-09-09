@@ -71,15 +71,15 @@ const LoginOption = () => {
               fontSize: "14px",
               color: "#7d7f85",
               textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            <Link
-              to={"/terms-conditions"}
-              style={{
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
+            <Link to={"/register"}>
+              Don’t have an account? <span>Register</span>
+            </Link>
+            <br />
+            <Link to={"/terms-conditions"}>
               By continuing, you agree to our Terms of Use. Read our Privacy
               Policy.
             </Link>

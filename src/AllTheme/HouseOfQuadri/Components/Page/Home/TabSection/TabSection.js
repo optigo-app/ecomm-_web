@@ -48,6 +48,7 @@ import { Hoq_loginState } from "../../../Recoil/atom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Pako from "pako";
+import noimage from '../../../Assets/noImageFound.jpg';
 
 const TabSection = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
@@ -153,6 +154,10 @@ const TabSection = () => {
                   src={ImageGenrate(val)}
                   alt={val?.id}
                   style={{ mixBlendMode: "multiply", objectFit: "contain" }}
+                  onError={(e)=>{
+                    e.target.src = noimage ;
+                    e.target.alt = 'Fallback image';
+                  }}
                 />
                 {/* <div className="overlay_img">
                   <img src={val?.BackerImg} alt={val?.id} />
@@ -169,7 +174,7 @@ const TabSection = () => {
             </div>
           );
         })}
-        <div className="TabCard_main mobile-only">
+        {/* <div className="TabCard_main mobile-only">
           <div className="box">
             <span
               onClick={() =>
@@ -179,7 +184,7 @@ const TabSection = () => {
               View All
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

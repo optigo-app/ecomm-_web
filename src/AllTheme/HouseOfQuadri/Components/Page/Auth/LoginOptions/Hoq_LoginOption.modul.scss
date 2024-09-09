@@ -6,8 +6,21 @@
     background-color: white;
     padding: 15px;
     .hoq_agree {
-      &:hover {
-        text-decoration: underline;
+      a{
+        color: #686a68 !important;
+        text-decoration:  none;
+        &:nth-child(2):hover{
+          text-decoration: none;
+        }
+        &:nth-child(1){
+          text-decoration: none;
+          span{
+            font-weight: 500;
+            text-decoration: underline;
+            color:#c20000 ;
+          }
+        }
+       
       }
     }
   }

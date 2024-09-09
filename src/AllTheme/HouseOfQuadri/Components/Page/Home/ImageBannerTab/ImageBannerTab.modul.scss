@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: $fontCrimsonTextMedium;
+  font-family: $fontDmSans;
   .banner {
     width: 80%;
     height: 100%;
@@ -83,7 +83,7 @@
   }
   .MOBILE_BANNER {
     display: flex;
-    margin-top: -3rem;
+    margin-top: 3rem;
     width: 100%;
     height: auto;
     display: grid;
@@ -92,7 +92,7 @@
     place-items: center;
     .banner {
       width: 100%;
-      height: 70vh;
+      height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -100,6 +100,7 @@
         width: 80%;
         height: 80%;
         object-fit: cover;
+        margin-bottom: 1rem;
       }
     }
     p {
@@ -118,7 +119,7 @@
       font-weight: 200;
       letter-spacing: 2.1px;
       text-transform: uppercase;
-      font-family: $fontCrimsonTextMedium;
+      font-family: $fontTenorSans;
       font-size: 12px;
       margin: 15px 0;
       color: white;
@@ -161,14 +162,13 @@
     height: auto;
     .banner {
       width: 100%;
-      height: 35vh;
       display: flex;
       align-items: center;
       justify-content: center;
       img {
-        width: 80%;
-        height: 80%;
-        object-fit: contain;
+        width: 94%;
+        height: 94%;
+        object-fit: cover;
       }
     }
   }
@@ -181,21 +181,20 @@
     height: auto;
     .banner {
       width: 100%;
-      height: 35vh;
       display: flex;
       align-items: center;
       justify-content: center;
       img {
-        width: 80%;
-        height: 80%;
+        width: 94%;
+        height: 94%;
         object-fit: cover;
       }
     }
     p {
-      padding: 0 45px;
+      padding: 0 22px;
       font-weight: 400;
       color: rgba(0, 0, 0, 0.911);
-      font-size: 16px;
+      font-size: 13px;
     }
   }
 }

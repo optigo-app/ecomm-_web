@@ -610,6 +610,11 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
+                                  sx={{
+                                    '& .MuiFormControlLabel-label': {
+                                      fontFamily: "Tenor Sans, sans-serif !important",
+                                    }
+                                  }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -725,6 +730,9 @@ const Lookbook = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 gap: "5px",
+                                  '& .MuiFormControlLabel-label': {
+                                    fontFamily: "Tenor Sans, sans-serif !important",
+                                  }
                               }}
                               control={
                                 <Checkbox
@@ -881,6 +889,11 @@ const Lookbook = () => {
                         key={opt?.id}
                       >
                         <FormControlLabel
+                         sx={{
+                          '& .MuiFormControlLabel-label': {
+                            fontFamily: "Tenor Sans, sans-serif !important",
+                          }
+                        }}
                           control={
                             <Checkbox
                               name={`${ele?.id}${opt?.id}`}
@@ -1304,7 +1317,7 @@ const Lookbook = () => {
                 </ToggleButton>
                 <ToggleButton value={3} aria-label="right aligned">
                   {/* <TfiLayoutGrid3 /> */}
-                  |||
+                  ||| 
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
