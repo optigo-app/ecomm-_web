@@ -17,7 +17,7 @@
         padding: 6% 0px 6% 0px;
     }
 
-    .smling-forgot-main-Color{
+    .smling-forgot-main-Color {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -25,13 +25,13 @@
     }
 
     .labGrowForgot {
-        width: 430px;
+        width: 28rem;
         margin: 10px;
     }
 
     .submitBtnForgot {
         height: 40px;
-        width: 430px;
+        width: 28rem;
         border: 1px solid black;
         margin-top: 10px;
         font-size: 14px;
@@ -134,12 +134,12 @@
 
     @media screen and (max-width: 700px) {
         .labGrowForgot {
-            width: 90%;
+            width: 95%;
         }
 
 
         .submitBtnForgot {
-            width: 90% !important;
+            width: 95% !important;
             height: 50px !important;
 
         }
@@ -156,7 +156,7 @@
     @media screen and (max-width: 500px) {
 
         .submitBtnForgot {
-            width: 90%;
+            width: 95%;
             height: 40px !important;
         }
 

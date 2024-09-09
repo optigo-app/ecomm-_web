@@ -2,7 +2,7 @@
 
 .hoq_Stockitems {
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -160,6 +160,7 @@
   @media screen and (max-width: 768px) {
     width: 100%;
     display: unset !important;
+    padding: 0 18px;
     .hoq_stockItem_table {
       display: block;
       width: 100%;

@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import {noimage} from '../../../Constants/noimage'
 
 const CategoryTab = () => {
   const [albumData, setAlbumData] = useState();
@@ -62,10 +63,14 @@ const CategoryTab = () => {
             />
           );
         })}
-        <CategoryCard
+        {/* <CategoryCard
               src={'http://zen/R50B3/UFS/BYJQD1FKE0ON69L2IRW4/AlbumImages/QWxidW1fMjc=/Necklace_27072024171233537.png'}
               name={"Zero 11"}
-            />
+            />  <CategoryCard
+            src={'http://zen/R50B3/UFS/BYJQD1FKE0ON69L2IRW4/AlbumImages/QWxidW1fMjc=/Necklace_27072024171233537.png'}
+            name={"Zero 11"}
+          />  */}
+          
       </div>
       {showShapeSection && <ShapeSection />}
     </div>
@@ -97,7 +102,7 @@ const CategoryCard = ({ src, onClick, name }) => {
          onError={(e) => {
           e.target.onerror = null;
           e.target.src =
-            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+          noimage;
         }}
          />
       </div>

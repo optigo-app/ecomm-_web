@@ -106,11 +106,11 @@ const Footer = () => {
     {
       title: "Quick Links",
       items: [
-        { name: "Engagement Rings", path: "/engagement-rings", disabled: true },
-        { name: "Wedding Rings", path: "/wedding-rings", disabled: true },
-        { name: "Fine Jewelry", path: "/fine-jewelry", disabled: true },
-        // { name: 'Certified Loose Diamonds', path: '/loose-diamonds' },
-        // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' }
+        { name: "Engagement Rings", path: "/lab-created-engagement-rings", disabled: false },
+        { name: "Wedding Rings", path: "/lab-grown-wedding-rings", disabled: false },
+        { name: "Fine Jewelry", path: "/lab-grown-fine-jewelry", disabled: false },
+        { name: 'Certified Loose Diamonds', path: '/certified-loose-lab-grown-diamonds/diamond' ,disabled: false },
+        // { name: 'Letter Diamonds Jewelry', path: '/letter-diamonds' ,disabled: false }
       ],
     },
     {
@@ -238,17 +238,18 @@ const Footer = () => {
         ))}
       </div>
       <ul className="companyCopyRight">
-        <li>© 2024 FOREVERY</li>
+        <li style={{
+          fontWeight  :"420"
+        }}>© 2024 FOREVERY</li>
         <li>
           <a
-            href="/terms-of-use"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate(e, "/terms-of-use");
-            }}
+            href="/terms-conditions"
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   handleNavigate(e, "/terms-conditions");
+            // }}
           >
-            TERMS OF USE
-          </a>
+            TERMS OF CONDITIONS</a>
         </li>
         <li>
           <a
@@ -263,33 +264,33 @@ const Footer = () => {
         </li>
         <li>
           <a
-            href="/cookies-policy"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate(e, "/cookies-policy");
-            }}
+            href="/#"
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   handleNavigate(e, "/cookies-policy");
+            // }}
           >
             COOKIES POLICY
           </a>
         </li>
         <li>
           <a
-            href="/return-refund-policy"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate(e, "/return-refund-policy");
-            }}
+            href="/#"
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   handleNavigate(e, "/return-refund-policy");
+            // }}
           >
             RETURN AND REFUND POLICY
           </a>
         </li>
         <li>
           <a
-            href="/change-cookie-preferences"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate(e, "/change-cookie-preferences");
-            }}
+            href="/#"
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   handleNavigate(e, "/change-cookie-preferences");
+            // }}
           >
             CHANGE COOKIE PREFERENCES
           </a>

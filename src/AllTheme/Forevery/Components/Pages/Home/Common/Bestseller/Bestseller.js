@@ -36,7 +36,7 @@ const Bestseller = () => {
       <div className="for_heading">
         <button
           className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-          onClick={() => Navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}
+          // onClick={() => Navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}
         >
           SHOP'S BESTSELLERS{" "}
           <FaChevronDown size={20} style={{ marginTop: "-3px" }} />
@@ -69,13 +69,19 @@ const Bestseller = () => {
             handcrafted ring settings made to endure a lifetime.
           </p>
           <div className="for_col_btn">
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}>
+            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+            onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Ring/M=UmluZy9jYXRlZ29yeQ==`)}
+            >
               Customize Ring
             </button>
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}>
+            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+            onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Earring/M=RWFycmluZy9jYXRlZ29yeQ==`)}
+            >
               Customize Earring
             </button>
-            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}>
+            <button className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
+            onClick={()=>Navigation(`/certified-loose-lab-grown-diamonds/settings/Pendant/M=UGVuZGFudC9jYXRlZ29yeQ==`)}
+            >
               Customize Pendant
             </button>
           </div>

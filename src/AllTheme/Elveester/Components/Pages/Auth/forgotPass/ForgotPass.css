@@ -1,15 +1,14 @@
-
-.smling-forgot-main{
+.smling-forgot-main {
     margin-inline: 6%;
     background-color: white;
 }
 
 .labGrowForgot {
-    width: 420px;
+    width: 28rem;
     margin: 10px;
 }
 
-.cancleForgot{
+.cancleForgot {
     color: #7d7f85;
     font-size: 12px;
     margin-top: 25px;
@@ -31,13 +30,14 @@
     background-color: #000;
     transition: width 0.3s ease;
 }
+
 .cancleForgot:hover::before {
-    width: 100%; 
+    width: 100%;
 }
 
 .submitBtnForgot {
     height: 40px;
-    width: 430px;
+    width: 28rem;
     border: 1px solid black;
     margin-top: 10px;
     font-size: 14px;
@@ -66,10 +66,11 @@
 
 @media screen and (max-width: 700px) {
     .labGrowForgot {
+        width: 95%;
+    }
+
+    .submitBtnForgot {
         width: 90%;
     }
-    .submitBtnForgot{
-        width: 80%;
-    }
-   
+
 }

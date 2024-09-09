@@ -8,6 +8,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import { useEffect, useRef } from "react";
 import useInstagramPosts from "../../../../hooks/UseInstagram";
 import btnstyle from "../../../../scss/Button.module.scss";
+import { FaChevronDown } from "react-icons/fa";
 
 const InstagramSection = () => {
   const instaFrame = `${storImagePath()}/Forevery/frame.png`;
@@ -77,18 +78,26 @@ const InstagramSection = () => {
           </Swiper>
         </div>
       </div>
-      <div className="btn">
-        <button
+      <div
+        className="btn"
+        style={{
+          outline: "none",
+          border: "none",
+        }}
+      >
+        <a
           style={{
             padding: "7px 15px",
             outline: "none",
-            fontWeight: "500",
+            fontWeight: "600",
+            textDecoration: "none",
           }}
           className={`${btnstyle?.btn_15} forevery-btn ${btnstyle?.btn_for_new}`}
-          href="about-us"
+          href="https://www.instagram.com/foreverydiamonds/"
+          target="_blank"
         >
-          Show More On Instagram
-        </button>
+          Show More On Instagram <FaChevronDown />
+        </a>
       </div>
     </div>
   );

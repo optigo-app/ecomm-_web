@@ -30,7 +30,7 @@ const OurServices = () => {
           <a
             aria-label="know more Free Shipping"
             class="for_link"
-            href="/free-shipping"
+            href="#"
           >
             know more
           </a>
@@ -51,7 +51,7 @@ const OurServices = () => {
           <a
             aria-label="know more Free 30 Day Returns"
             class="for_link"
-            href="/hassle-free-returns"
+            href="#"
           >
             know more
           </a>
@@ -72,13 +72,13 @@ const OurServices = () => {
           <a
             aria-label="know more Free Lifetime Warranty"
             class="for_link"
-            href="/lifetime-warranty"
+            href="#"
           >
             know more
           </a>
         </div>
         <div class="services ">
-          <div class="for_img" href="/free-resizing">
+          <div class="for_img" href="#">
             <img
               loading="lazy"
               src={ServicesImage[3]}
@@ -93,13 +93,13 @@ const OurServices = () => {
           <a
             aria-label="know more 60-Days Free Resizing"
             class="for_link"
-            href="/free-resizing"
+            href="#"
           >
             know more
           </a>
         </div>
         <div class="services ">
-          <div class="for_img" href="/free-engraving">
+          <div class="for_img" href="#">
             <img loading="lazy" src={ServicesImage[4]} alt="Free Engraving" />
           </div>
           <h4 class="serv-heading ">Free Engraving</h4>
@@ -110,7 +110,7 @@ const OurServices = () => {
           <a
             aria-label="Know more Free Engraving"
             class="for_link"
-            href="/free-engraving"
+            href="#"
           >
             Know more
           </a>

@@ -4,7 +4,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
 .for_MainBGDiv {
   font-family: $primaryFontFamily;
-  margin-top: 140px;
+  margin-top: 0px;
 
   .for_cart-title {
     display: flex;
@@ -788,12 +788,26 @@ $borderColor: rgba(232, 232, 232, 1);
                 flex-direction: column;
 
                 .for_cart-item__details {
+                  padding: 0;
+                  text-align: center;
+
                   h3 {
                     font-size: $fontSize2;
                   }
 
                   p {
                     font-size: $fontSize1;
+                  }
+
+                  .for_weightsContainer {
+                    justify-content: center;
+                    align-items: center;
+                  }
+
+                  .for_sizeDiv {
+                    justify-content: center;
+
+                    .for_ringSize {}
                   }
                 }
 
@@ -881,6 +895,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .for_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
+
                   }
 
                   p {
@@ -1023,7 +1038,43 @@ $borderColor: rgba(232, 232, 232, 1);
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 400px) {
+  .for_MainBGDiv {
+    .cartMainPageDiv {
+      .for_cart-left-sides {
+        .for_RightCartList {
+          .for_cartListMapDiv {
+            .for_cartMain-item {
+              width: 48.5%;
+              position: relative;
+              margin-bottom: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 345px) {
+  .for_MainBGDiv {
+    .cartMainPageDiv {
+      .for_cart-left-sides {
+        .for_RightCartList {
+          .for_cartListMapDiv {
+            .for_cartMain-item {
+              width: 48.5%;
+              position: relative;
+              margin-bottom: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 10px;

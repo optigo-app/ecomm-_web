@@ -3,7 +3,6 @@ import './GaleryView.modul.scss'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
 import { Pagination } from 'swiper/modules';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
@@ -49,6 +48,7 @@ export default function GaleryView() {
       <Swiper
         slidesPerView={1}
         spaceBetween={10}
+        pagination={{ clickable: true }}
         loop={true}
         breakpoints={{
           640: {
@@ -72,8 +72,8 @@ export default function GaleryView() {
         className="mySwiper"
       >
         {sliderData.map((slide, index) => (
-          <SwiperSlide key={index} style={{ marginRight: '0px' , padding: '20px'}}>
-            <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '28px' }} />
+          <SwiperSlide key={index} style={{ marginRight: '0px', padding: '20px' }}>
+            <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%' }} />
           </SwiperSlide>
         ))}
       </Swiper>

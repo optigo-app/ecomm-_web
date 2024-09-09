@@ -8,9 +8,9 @@ import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
 import { smrMA_defaultAddressState } from '../../../Recoil/atom';
-import ConfirmationDialog from '../../../../../../SmilingRock/Components/Pages/ConfirmationDialog.js/ConfirmationDialog';
 import MobViewHeader from '../MobViewHeader/MobViewHeader';
 import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import ConfirmationDialog from '../../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const ManageAddressMAPP = () => {
