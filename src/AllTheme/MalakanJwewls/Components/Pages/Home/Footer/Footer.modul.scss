@@ -1,23 +1,35 @@
 @import "../../../scss/variable";
 
-.stam_Footer1_main {
+.mala_Footer1_main {
+
+  background-color: #F8F5F3;
+
   .footerBottomMain {
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #e1e1e1;
     padding: 10px 20px;
-    margin-top: 2%;
   }
 
   .footerIconMain {
     display: flex;
-    width: 33.33%;
+    width: 30%;
+    margin-top: 70px;
   }
 
-  .footerMoreOption {
+  .mala_FooterLogo_div1 {
+    width: 40%;
     display: flex;
-    width: 33.33%;
     justify-content: center;
+    align-items: center;
+  }
+
+  .mala_FooterLogo_div2 {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    justify-content: center;
+    margin-top: 70px;
   }
 
   .footerSocialIcon {
@@ -58,9 +70,17 @@
     margin-inline: 15px;
     letter-spacing: 1px;
     position: relative;
+    width: fit-content;
     text-decoration: none;
     transition: color 0.3s;
     cursor: pointer;
+  }
+
+  .mala_footer_bottom_line{
+    text-align: center;
+    padding-bottom: 70px;
+    color: #7d7f85;
+    margin: 0px;
   }
 
   .footerMoreOptionData::before {
@@ -83,7 +103,7 @@
       width: 25% !important;
     }
 
-    .footerMoreOption {
+    .mala_FooterLogo_div2 {
       width: 50% !important;
     }
 
@@ -91,6 +111,7 @@
       width: 25% !important;
     }
   }
+
   @media screen and (max-width: 1024px) {
     .footerBottomMain {
       display: flex;
@@ -98,7 +119,7 @@
       align-items: center;
     }
 
-    .footerMoreOption {
+    .mala_FooterLogo_div2 {
       width: 100% !important;
     }
 
@@ -108,7 +129,7 @@
       width: 100%;
     }
 
-    .footerMoreOption {
+    .mala_FooterLogo_div2 {
       margin-top: 25px;
       width: 100%;
     }
@@ -134,7 +155,7 @@
   }
 
   @media screen and (max-width: 600px) {
-    .footerMoreOption {
+    .mala_FooterLogo_div2 {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -162,7 +183,7 @@
     justify-content: flex-end;
   }
 
-  .footerMoreOption {
+  .mala_FooterLogo_div2 {
     display: flex;
     width: 50%;
   }
@@ -238,7 +259,7 @@
       width: 100%;
     }
 
-    .footerMoreOption {
+    .mala_FooterLogo_div2 {
       margin-top: 25px;
       width: 100%;
     }
@@ -260,7 +281,7 @@
   }
 
   @media screen and (max-width: 600px) {
-    .footerMoreOption {
+    .mala_FooterLogo_div2 {
       display: flex;
       flex-direction: column;
       align-items: center;

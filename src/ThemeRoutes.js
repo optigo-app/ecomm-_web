@@ -60,57 +60,60 @@ export default function ThemeRoutes() {
     if (!SessionData) {
       Storeinit()
         .then((response) => {
-          if (response.status === 200) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+          if (response.status === 200 && response?.data?.Data) {
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
+            const existingVisitorId = Cookies.get("visiterId");
+            if (!existingVisitorId) {
+              Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
+            } else {
+              try {
+                const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
+                const expirationDate = visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
+                if (expirationDate && expirationDate <= new Date()) {
+                  Cookies.remove("visiterId", { path: "/" });
+                }
+              } catch (e) {
+                console.error("Error parsing visiterId cookie:", e);
+              }
+            }
+
+            if (response?.data?.Data?.rd[0]?.Themeno === 1) {
+              setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
+
+            if (response?.data?.Data?.rd[0]?.Themeno === 2) {
+              dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
+
+            if (response?.data?.Data?.rd[0]?.Themeno === 3) {
+              el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
+
+            if (response?.data?.Data?.rd[0]?.Themeno === 4) {
+              smrMA_setCompanyTitleLogo(
+                response?.data?.Data?.rd[0]?.companylogo
+              );
+            }
+
             if (response?.data?.Data) {
               callAllApi(response?.data?.Data);
             }
 
-            let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-            const existingVisitorId = Cookies.get("visiterId");
-            if (islogin == false) {
-              if (!existingVisitorId) {
-                Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
-              } else {
-                const expirationDate =
-                  Cookies.getJSON("visiterId")?.expires &&
-                  new Date(Cookies.getJSON("visiterId").expires);
-                if (expirationDate && expirationDate <= new Date()) {
-                  Cookies.remove("visiterId", { path: "/" });
-                }
-              }
+            let title = response?.data?.Data?.rd[0]?.companyname;
+            let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            setTitle(title);
+            setFavIcon(favIcon);
+            window.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: "smooth",
+            });
 
-              if (response?.data?.Data?.rd[0]?.Themeno === 1) {
-                setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-              }
-
-              if (response?.data?.Data?.rd[0]?.Themeno === 2) {
-                dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-              }
-
-              if (response?.data?.Data?.rd[0]?.Themeno === 3) {
-                el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-              }
-
-              if (response?.data?.Data?.rd[0]?.Themeno === 4) {
-                smrMA_setCompanyTitleLogo(
-                  response?.data?.Data?.rd[0]?.companylogo
-                );
-              }
-
-              let title = response?.data?.Data?.rd[0]?.companyname;
-              let favIcon = response?.data?.Data?.rd[0]?.favicon;
-              setTitle(title);
-              setFavIcon(favIcon);
-              window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-              });
-            }
+          
           }
         })
         .catch((err) => console.log(err));
@@ -123,8 +126,7 @@ export default function ThemeRoutes() {
 
   const callAllApi = (Data) => {
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
-    const storeInitSession = JSON?.parse(Data);
-    const { IsB2BWebsite } = storeInitSession;
+    const { IsB2BWebsite } = Data;
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
