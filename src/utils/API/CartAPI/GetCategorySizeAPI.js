@@ -16,6 +16,7 @@ export const getSizeData = async (item, visiterId) => {
         autocode: `${item?.autocode}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${customerId}`,
+        DomainForNo: `${storeInit?.DomainForNo ?? ""}`
       });
       const encodedCombinedValue = btoa(combinedValue);
       const body = {
