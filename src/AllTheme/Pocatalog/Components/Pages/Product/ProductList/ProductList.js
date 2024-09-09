@@ -3085,7 +3085,7 @@ const ProductList = () => {
                               {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className={filterData?.length <= 0 ?"smr_productCard_noFil" : "smr_productCard"}>
+                                  <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "smr_productCard"}>
                                     <div className="cart_and_wishlist_icon">
                                       {/* <Button className="smr_cart-icon"> */}
                                       <Checkbox
@@ -3375,33 +3375,23 @@ const ProductList = () => {
                                             )[0]?.metaltype
                                           }
                                         </span>
-                                        <span>/</span>
-                                        <span className="smr_price">
-                                          {/*  <span
-                                        className="smr_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                          __html: decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          ),
-                                        }}
-                                      /> */}
-                                          <span className="smr_currencyFont">
-                                            {loginUserDetail?.CurrencyCode ??
-                                              storeInit?.CurrencyCode}
-                                          </span>
-                                          <span className="smr_pricePort">
-                                            {/* {productData?.ismrpbase === 1
-                                              ? productData?.mrpbaseprice
-                                              : PriceWithMarkupFunction(
-                                                productData?.markup,
-                                                productData?.price,
-                                                storeInit?.CurrencyRate
-                                              )?.toFixed(2)} */}
-                                            {formatter.format(
-                                              productData?.UnitCostWithMarkUp
-                                            )}
-                                          </span>
-                                        </span>
+                                        {
+                                          storeInit?.IsPriceShow == 1 &&
+                                          <>
+                                            <span>/</span>
+                                            <span className="smr_price">
+                                              <span className="smr_currencyFont">
+                                                {loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode}
+                                              </span>
+                                              <span className="smr_pricePort">
+                                                {formatter.format(
+                                                  productData?.UnitCostWithMarkUp
+                                                )}
+                                              </span>
+                                            </span>
+                                          </>
+                                        }
                                       </div>
                                     </div>
                                   </div>
