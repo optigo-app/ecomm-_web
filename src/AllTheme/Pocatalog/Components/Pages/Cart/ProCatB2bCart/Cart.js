@@ -81,25 +81,42 @@ const CartPage = () => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
+  // const handlePlaceOrder = () => {
+  //   const priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0);
+  //   sessionStorage.setItem('TotalPriceData', priceData);
+
+  //   if (islogin) {
+  //     if (storeInit?.IsPLW === 0) {
+  //       navigate("/Delivery");
+  //     } else {
+  //       handlePay();
+  //     }
+  //   } else {
+  //     // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
+  //     // navigate(redirectUrl);
+  //     navigate('/loginOption')
+  //   }
+
+  //   window.scrollTo(0, 0);
+  // };
+
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
-    const priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0);
-    sessionStorage.setItem('TotalPriceData', priceData);
-  
-    if (islogin) {
-      if (storeInit?.IsPLW === 0) {
-        navigate("/Delivery");
-      } else {
-        handlePay();
-      }
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let priceData = cartData?.reduce(
+      (total, item) => total + item?.FinalCost,
+      0
+    );
+    sessionStorage.setItem("TotalPriceData", priceData);
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+      navigate(redirectUrl);
+      // navigate('/loginOption')
     } else {
-      // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
-      // navigate(redirectUrl);
-      navigate('/loginOption')
+      navigate("/Delivery");
     }
-  
     window.scrollTo(0, 0);
   };
-  
+
 
   function scrollToTop() {
     window.scrollTo({
