@@ -1,8 +1,10 @@
 @import '../../../scss/variable';
 
 
-.stam_smilingPAgeMain {
+.mala_smilingPAgeMain {
 
+    display: flex;
+    
     .smilingRock {
         display: flex;
         justify-content: center;
@@ -19,6 +21,13 @@
         margin: 15px;
         margin-inline: 30px;
         cursor: pointer;
+    }
+
+    .mala_smilingPAgeMain_one{
+        width: 50%;
+    }
+    .mala_smilingPAgeMain_two{
+        width: 50%;
     }
 
     .stam_smilingTitle {
@@ -94,9 +103,8 @@
     }
 
 
-    .simple-card__img {
-        margin-bottom: 10px;
-        max-height: 45px;
+    .simple_card_gif {
+       width: 100%;
     }
 
     .smilingRockMobileDffres {

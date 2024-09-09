@@ -853,8 +853,34 @@ const Header = () => {
           </div>
           <div className="mala_Top_header_menu_main">
             <div className="mala_Top_header_menu_main">
+              {/* <ul className="nav_ul_shop">
+                <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
+                >
+                  <a href="/ExpertAdvice" className="stam_A_link">
+                    EXPERT ADVICE
+                  </a>
+                </li>
+                <li
+                  className="nav_li_smining nav_li_smining_Mobile"
+                  style={{ cursor: "pointer" }}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
+                >
+                  <a href="/FunFact" className="stam_A_link">
+                    FUN FACT
+                  </a>
+                </li>
+              </ul> */}
+              <ul className="nav_ul_shop_menu_Mobile">
+                <MenuIcon
+                  style={{ fontSize: "35px", color: "white" }}
+                  className="muIconeMobileHeader"
+                  onClick={toggleDrawerOverlay}
+                />
+              </ul>
               <ul className="nav_ul_shop">
-
                 <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
@@ -924,20 +950,10 @@ const Header = () => {
                 <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
+                  onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
                 >
-                  <a href="/ExpertAdvice" className="stam_A_link">
-                    EXPERT ADVICE
-                  </a>
-                </li>
-
-                <li
-                  className="nav_li_smining nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-                >
-                  <a href="/FunFact" className="stam_A_link">
-                    FUN FACT
+                  <a href="/aboutUs" className="stam_A_link">
+                    ABOUT US
                   </a>
                 </li>
 
@@ -976,68 +992,19 @@ const Header = () => {
                     }
                   </>
                 )}
-              </ul>
-              <ul className="nav_ul_shop_menu_Mobile">
-                <MenuIcon
-                  style={{ fontSize: "35px", color: "white" }}
-                  className="muIconeMobileHeader"
-                  onClick={toggleDrawerOverlay}
-                />
-              </ul>
-              <ul className="nav_ul_shop">
-                <li
+
+                {islogin && <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
+                  onClick={() => navigation("/account")}
                 >
-                  <a href="/aboutUs" className="stam_A_link">
-                    ABOUT US
-                  </a>
+                  {/* <a href="/account" className="stam_A_link"> */}
+                  ACCOUNT
+                  {/* </a> */}
                 </li>
-                {IsB2BWebsiteChek == 0 ? (
-                  storeinit?.IsPLW ? (
-                    ""
-                  ) : (
-                    <>
-                      {
-                        islogin && <li
-                          className="nav_li_smining nav_li_smining_Mobile"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => navigation("/account")}
-                        >
-                          {/* <a href="/account" className="stam_A_link"> */}
-                          ACCOUNT
-                          {/* </a> */}
-                        </li>
-                      }
-                    </>
-                  )
-                ) : islogin && storeinit?.IsPLW ? (
-                  ""
-                ) : (
-                  <>
-                    {
-                      (islogin === true) && <li
-                        className="nav_li_smining nav_li_smining_Mobile"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => navigation("/account")}
-                      >
-                        {/* <a href="/account" className="stam_A_link"> */}
-                        ACCOUNT
-                        {/* </a> */}
-                      </li>
-                    }
-                  </>
-                )}
-                {islogin ? (
-                  <li
-                    className="nav_li_smining nav_li_smining_Mobile"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleLogout}
-                  >
-                    LOG OUT
-                  </li>
-                ) : (
+                }
+
+                {!islogin && (
                   <li
                     className="nav_li_smining"
                     style={{ cursor: "pointer" }}

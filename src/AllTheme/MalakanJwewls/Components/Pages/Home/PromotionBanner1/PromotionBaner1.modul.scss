@@ -17,6 +17,58 @@
         letter-spacing: 10px;
     }
 
+    .mala_promo2_main2_1 {
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 70px;
+    }
+
+    .mala_promo_bottomMain {
+        background-color: #17372F;
+    }
+
+    .mala_promo2_main2_2 {
+        width: 50%;
+        padding: 70px 400px 0px 0px;
+    }
+
+    .mala_promo2_main2 {
+        display: flex;
+    }
+
+    .mala_promo_bottomMainP{
+        font-size: 24px;
+        color: white;
+        text-align: center;
+        width: 40%;
+    }
+
+    .mala_promo_bottomMainBtn{
+        height: 40px;
+        width: 140px;
+        font-weight: 500;
+        background-color: #F6C2B5;
+        font-size: 16px;
+    }
+
+    .mala_promo_bottomMainBtn:hover{
+        font-weight: 500;
+        background-color: transparent;
+        border:1px solid #F6C2B5;
+        color: #F6C2B5;
+        transition: 250ms all ease-in-out;
+        font-size: 16px;
+    }
+
+    .mala_promo_bottomMainSub{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 100px;
+    }
+
     .mala_Banner_main_div_subMain {
         display: flex;
     }

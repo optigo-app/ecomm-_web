@@ -11,6 +11,8 @@ export const Storeinit = async (param) => {
     || window.location.hostname === 'fgstorepro.mapp'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
+    || window.location.hostname === 'malakan.web'
+    || window.location.hostname === 'rpjewel.web'
 
     || window.location.hostname === 'hdstore.web'
     || window.location.hostname === 'hdstore.mapp'
