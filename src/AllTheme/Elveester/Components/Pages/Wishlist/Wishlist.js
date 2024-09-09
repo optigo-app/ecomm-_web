@@ -222,8 +222,8 @@ const Wishlist = () => {
                     Are You Sure to Clear All these items?
                   </Typography>
                   <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
-                    <Button className="elv_del_button no-button" onClick={handleCloseDialog}>No</Button>
                     <Button className="elv_del_button yes-button" onClick={handleConfirmRemoveAll}>Yes</Button>
+                    <Button className="elv_del_button no-button" onClick={handleCloseDialog}>No</Button>
                   </div>
                 </Box>
               </Modal>

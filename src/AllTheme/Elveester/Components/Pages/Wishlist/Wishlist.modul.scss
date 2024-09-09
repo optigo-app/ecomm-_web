@@ -201,6 +201,7 @@
     align-items: center;
     margin-top: 2rem;
     gap: 1rem;
+    margin-bottom: 1rem;
 
     .elv_wishlist_clearAll_btn {
         background-color: transparent;
@@ -272,10 +273,9 @@
 
     .elv_WlListImage {
         width: 100%;
-        max-height: 400px;
-        object-fit: contain;
+        height: 400px;
+        object-fit: cover;
         cursor: pointer;
-        // height: 300px;
     }
 
     .cardText {
@@ -643,7 +643,7 @@
 
 @media (max-width: 768px) {
     .elv_WlListData {
-        padding: 10px 10px 100px 10px;
+        padding: 10px 2px 100px 2px;
         margin-bottom: -8%;
     }
 
@@ -654,7 +654,7 @@
 
 @media (max-width: 600px) {
     .elv_WlListData {
-        padding: 10px 10px 100px 10px;
+        padding: 10px 2px 100px 2px;
         margin-bottom: -8%;
     }
 

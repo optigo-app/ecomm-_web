@@ -33,10 +33,12 @@
 
         .elv_history_journey_div {
             display: flex;
-            flex-wrap: nowrap; /* Default behavior */
+            flex-wrap: nowrap;
+            /* Default behavior */
 
             .elv_history_journey_1 {
                 flex: 1 50%;
+
                 .elv_history_journey_design {
                     width: 100%;
                     display: flex;
@@ -44,6 +46,7 @@
 
                     .elv_history_jour_1 {
                         width: 50%;
+
                         .elv_history_desc_1 {
                             display: flex;
                             justify-content: center;
@@ -52,6 +55,7 @@
                             padding-right: 1.5rem;
                             visibility: hidden;
                         }
+
                         .elv_history_desc_1_active {
                             display: flex;
                             justify-content: center;
@@ -76,6 +80,7 @@
 
                     .elv_history_jour_2 {
                         width: 50%;
+
                         .elv_history_desc_2 {
                             display: flex;
                             justify-content: center;
@@ -84,6 +89,7 @@
                             visibility: hidden;
                             padding-left: 1.5rem;
                         }
+
                         .elv_history_desc_2_active {
                             display: flex;
                             justify-content: center;
@@ -110,10 +116,10 @@
 
             .elv_history_journey_2 {
                 flex: 1 50%;
+
                 .elv_history_jor_img {
                     border-radius: 8px;
                     max-height: 680px;
-                    min-height: 680px;
                     object-fit: contain;
                     width: 100%;
                 }
@@ -124,17 +130,20 @@
 
 @media screen and (max-width: 1000px) {
     .elv_history_journey_div {
-        flex-direction: column; /* Stack the children vertically */
-        flex-wrap: wrap; /* Allow wrapping if needed */
+        flex-direction: column;
+        /* Stack the children vertically */
+        flex-wrap: wrap;
+        /* Allow wrapping if needed */
         width: 100%;
     }
 
     .elv_history_jour_1,
     .elv_history_jour_2 {
-        width: 100%; /* Take full width */
+        width: 100%;
+        /* Take full width */
     }
 
-    .elv_history_jor_img{
+    .elv_history_jor_img {
         margin-top: 5rem;
     }
 }
@@ -142,7 +151,8 @@
 @media screen and (max-width: 450px) {
 
 
-    .elv_history_jor_img{
-        margin-top: 0;
+    .elv_history_jor_img {
+        margin-top:  4rem;
+        margin-bottom: 1rem;
     }
 }

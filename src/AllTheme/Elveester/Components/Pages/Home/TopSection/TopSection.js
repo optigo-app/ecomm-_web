@@ -52,7 +52,7 @@ const TopSection = () => {
                 </>
             ) :
                 <>
-                    <img loading="lazy" src={`${storImagePath()}/images/HomePage/MainBanner/HomepageMainBannerVideo.png`} style={{ width: '100%' }} />
+                    <img loading="lazy" src={`${storImagePath()}/images/HomePage/MainBanner/HomepageMainBannerVideo.png`} className='elv_top_section_img' />
                     <CountdownTimer />
                 </>
             }

@@ -18,14 +18,14 @@ export default function LoginWithEmail() {
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
     const location = useLocation();
-    const [islogin , setIsLoginState] = useRecoilState(el_loginState)
+    const [islogin, setIsLoginState] = useRecoilState(el_loginState)
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
 
 
-   
+
     useEffect(() => {
         const storedEmail = location.state?.email;;
         if (storedEmail) setEmail(storedEmail);
@@ -67,10 +67,10 @@ export default function LoginWithEmail() {
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-               
-                if(redirectEmailUrl){
+
+                if (redirectEmailUrl) {
                     window.location.href = `${redirectEmailUrl}`;
-                }else{
+                } else {
                     window.location.href = '/'
                 }
 
@@ -125,6 +125,7 @@ export default function LoginWithEmail() {
                         <p style={{
                             textAlign: 'center',
                             paddingBlock: '60px',
+                            marginBlock: '10px',
                             fontSize: '25px',
                             fontFamily: 'PT Sans, sans-serif'
                         }}
@@ -132,7 +133,7 @@ export default function LoginWithEmail() {
                         >Login With Password</p>
                         <p style={{
                             textAlign: 'center',
-                            marginTop: '-80px',
+                            marginTop: '-60px',
                             fontSize: '15px',
                             color: '#7d7f85',
                             fontFamily: 'PT Sans, sans-serif'
@@ -178,9 +179,9 @@ export default function LoginWithEmail() {
                             <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
 
                             <button type='submit' className='submitBtnForgot' onClick={handleNavigation}>Login With a Code instead on email</button>
-                            <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
+                            <p style={{ textAlign: 'center', marginTop: '1rem' }}>Go passwordless! we'll send you an email.</p>
 
-                            <p style={{ color: 'blue', cursor: 'pointer' ,marginBottom: '40px' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                            <p style={{ color: 'blue', cursor: 'pointer', marginBottom: '40px' }} onClick={handleForgotPassword}>Forgot Password ?</p>
                         </div>
                     </div>
                 </div>
