@@ -87,7 +87,9 @@
     height: 730px;
     width: 570px;
 }
-
+.labgrowRegister_Procat{
+    width: 430px;
+}
 @media(max-width: 1024px){
     .AddressSec{
         width: 49%;
@@ -122,7 +124,7 @@
         gap: 0;
     }
 }
-@media(max-width: 320px), (max-width: 360px), (max-width: 430px){
+@media(max-width: 320px), (max-width: 360px), (max-width: 430px),(max-width:500px){
     .AddressSec{
         width: 100%;
         min-width: 100%;
@@ -135,5 +137,11 @@
         height: 80vh !important;
         width: 100% !important;
         padding: 10px;
+    }
+    // .labgrowRegister_Procat{
+    //     width: 100% !important;
+    // }
+    .labgrowRegister_Procat{
+        width: 75vw !important;
     }
 }
