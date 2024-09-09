@@ -1822,7 +1822,7 @@ const Lookbook = () => {
                                     <img
                                       src={ProdCardImageFunc(slide)}
                                       alt=""
-                                      className="smr_lb3ctl_img"
+                                      className="smr_lb3ctl_img_new"
                                     />
                                   ) : (
                                     <div
@@ -1835,7 +1835,7 @@ const Lookbook = () => {
                                         justifyContent: "center",
                                         cursor: "pointer",
                                       }}
-                                      className="smr_lb3ctl_img"
+                                      className="smr_lb3ctl_img_new"
                                     >
                                       {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                     </div>
@@ -2112,7 +2112,7 @@ const Lookbook = () => {
                                       justifyContent: "center",
                                       cursor: "pointer",
                                     }}
-                                    className="smr_lb3ctl_img"
+                                    className="smr_lb3ctl_img_new"
                                   >
                                     {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
