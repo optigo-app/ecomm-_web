@@ -63,6 +63,7 @@ import PrivacyPage from "./Components/Pages/staticpages/PrivacyPage/PrivacyPage"
 import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/TermsAndCondition";
 import Account from "./Components/Pages/Account/Account"
 import LabCreatedRings from "./Components/Pages/labCreated-rings/LabCreatedRings";
+import LabGrownWeddingRing from "./Components/Pages/lab-grown-wedding-rings/LabGrownWeddingRing";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -166,7 +167,8 @@ const ForEveryRoutes = () => {
       <div
         className="body"
         style={{
-          marginTop: `${navHeight + 5}px`,
+          marginTop: `${navHeight}px`,
+          overflow  :"hidden"
         }}
       >
         <Routes>
@@ -259,6 +261,7 @@ const ForEveryRoutes = () => {
             element={<RingPage />}
           />
           <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
+          <Route path="/lab-grown-wedding-rings" element={<LabGrownWeddingRing />} />
           <Route path="/diamond" element={<Diamond />} />
           <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
           <Route path="/Delivery" element={<Delivery />} />

@@ -15,7 +15,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
   for_CartCount,
@@ -33,6 +33,13 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 import Preloader from "../../../../../../dum/Load";
 import { RxCross1 } from "react-icons/rx";
 import UseNavbar from "../../../hooks/UseNavbar";
+import MobileNav from "./MobileNavbar";
+import { RiMenu2Line } from "react-icons/ri";
+
+const styleHref = {
+  textDecoration: "none",
+  color: "inherit",
+};
 
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
@@ -50,14 +57,14 @@ const Navbar = () => {
   const [searchText, setSearchText] = useState("");
   const [showMenu, setshowMenu] = useState(true);
   const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const ToggleNav = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
-
-  // useEffect(()=>{
-  //         setshowMenu(true)
-  // },[])
 
   const handleLogout = () => {
     Navigate("/");
@@ -197,6 +204,7 @@ const Navbar = () => {
     <div className="for_Navbar" ref={navRef}>
       <Preloader />
       <nav className="for_nav">
+        <MobileNav isMobileMenu={true} open={open} onClose={ToggleNav} />
         <NavbarLeft
           Navigate={Navigate}
           ActiveMenu={ActiveMenu}
@@ -206,6 +214,8 @@ const Navbar = () => {
           height={navbarHeight}
           showMenu={showMenu}
           setshowMenu={setshowMenu}
+          onOpen={ToggleNav}
+          onLoad={handleLogoLoad}
         />
         <NavbarCenter Navigate={Navigate} onLoad={handleLogoLoad} />
         <NavbarRight
@@ -251,6 +261,7 @@ const NavbarRight = ({
     }
   }, [ShowSearchBar]);
   return (
+    <>
     <div className="right">
       <span
         className="for_item_menu"
@@ -398,7 +409,83 @@ const NavbarRight = ({
           </div>
         </>
       )}
+     
     </div>
+     <div className="for_max_1100_menu">
+     <span
+       className="for_item_menu"
+       onClick={() => {
+         Navigate("/appointment");
+         window.scrollTo({ top: 0, behavior: "smooth" });
+       }}
+     >
+       <img
+         src={`${storImagePath()}/Forevery/appointment.png`}
+         alt=""
+         className="calemder-logo"
+         style={{ objectFit: "contain", marginRight: "5px" }}
+       />
+     </span>
+     <span
+       className="for_item_menu"
+       onClick={() => {
+         Navigate("/wishlist");
+         window.scrollTo({ top: 0, behavior: "smooth" });
+       }}
+     >
+       <Badge
+         style={{ size: "1px" }}
+         sx={{
+           "& .MuiBadge-badge": {
+             fontSize: "9.4px",
+             borderRadius: "100%",
+             marginRight: "6px",
+             marginTop: "3px",
+             bgcolor: "#DC637D",
+             width: 6,
+             height: 14,
+             display: "flex",
+             alignItems: "center",
+             justifyContent: "center",
+           },
+         }}
+         badgeContent={wishCountNum}
+         color="primary"
+       >
+         <FaRegHeart  className="fa-for-heart" style={{ marginRight: "5px" }} />
+       </Badge>
+     </span>
+     <span
+       className="for_item_menu"
+       onClick={() => {
+         Navigate("/cart");
+         window.scrollTo({ top: 0, behavior: "smooth" });
+       }}
+     >
+       <Badge
+         style={{ size: "1px" }}
+         sx={{
+           "& .MuiBadge-badge": {
+             fontSize: "9.4px",
+             borderRadius: "100%",
+             marginRight: "6px",
+             marginTop: "3px",
+             bgcolor: "#DC637D",
+             width: 6,
+             height: 14,
+             display: "flex",
+             alignItems: "center",
+             justifyContent: "center",
+           },
+         }}
+         badgeContent={cartCountNum}
+         color="primary"
+       >
+         <HiOutlineShoppingBag  className="fa-for-shop" style={{ marginRight: "5px" }} />
+       </Badge>
+     </span>
+   </div>
+    </>
   );
 };
 const NavbarCenter = ({ Navigate, onLoad }) => {
@@ -421,7 +508,28 @@ const NavbarCenter = ({ Navigate, onLoad }) => {
     </div>
   );
 };
+const MobileLogo = ({ Navigate, onLoad }) => {
+  return (
+    <div className="mobile-logo">
+      <div
+        className="logo_mask"
+        onClick={() => {
+          Navigate("/");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <img
+          src={`${storImagePath()}/Forevery/logo.webp`}
+          alt=""
+          style={{ cursor: "pointer" }}
+          onLoad={onLoad}
+        />
+      </div>
+    </div>
+  );
+};
 const NavbarLeft = ({
+  onOpen,
   setActiveMenu,
   ActiveMenu,
   setHoveredIndex,
@@ -429,12 +537,17 @@ const NavbarLeft = ({
   height,
   showMenu,
   setshowMenu,
+  onLoad,
 }) => {
   const Navigate = useNavigate();
   const NavItemsHeight = height - 25;
   return (
     <>
       <div className="left">
+        <div className="hamburger_menu">
+          <RiMenu2Line size={40} onClick={onOpen} className="menu-ham" />
+          <MobileLogo onLoad={onLoad} Navigate={Navigate} />
+        </div>
         {NavbarMenu?.map((val, i) => {
           return (
             <div
@@ -470,7 +583,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-            // }}
+              // }}
             >
               {val?.disabled ? (
                 <div
@@ -519,13 +632,15 @@ const NavbarLeft = ({
         })}
         <>
           {showMenu && (
-            <NavitemsWrapper
+           <div className="wrapper_menu_">
+             <NavitemsWrapper
               SelectedMenu={ActiveMenu}
               setActiveMenu={setActiveMenu}
               setHoveredIndex={setHoveredIndex}
               height={height}
               setshowMenu={setshowMenu}
             />
+           </div>
           )}
         </>
       </div>
@@ -540,6 +655,7 @@ const NavitemsWrapper = ({
   setshowMenu,
 }) => {
   const firstNavRef = useRef(null);
+  const Navigate = useNavigate();
   const NavbarMenuRender = (Menu) => {
     if (SelectedMenu?.index === Menu?.length - 1) {
       return Menu;
@@ -602,6 +718,7 @@ const NavitemsWrapper = ({
                   }}
                   className="active_menu_for"
                   key={i}
+                  onClick={() => Navigate(val?.link)}
                 >
                   {val?.category}
                 </div>
@@ -694,7 +811,7 @@ const FirstNavMenu = ({
       );
     } else {
       const addCategory = `Ring/category`;
-      
+
       const filterKeyVal = btoa(addCategory);
       navigate(
         `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
@@ -746,8 +863,8 @@ const FirstNavMenu = ({
   const encodeLink = (link) => btoa(link);
 
   const convertLink = (link1, link2) => {
-    const [key1, val1] = link1.split('/');
-    const [key2, val2] = link2.split('/');
+    const [key1, val1] = link1.split("/");
+    const [key2, val2] = link2.split("/");
     return btoa(`${key1},${key2}/${val1},${val2}`);
   };
 
@@ -763,7 +880,10 @@ const FirstNavMenu = ({
   // Generate encoded style array
   const styleArr = Object.entries(styleLinks).map(([title, link]) => ({
     title,
-    link: `/certified-loose-lab-grown-diamonds/settings/Ring/${title.replace(/ /g, '_')}/M=${encodeLink(link)}`,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/${title.replace(
+      / /g,
+      "_"
+    )}/M=${encodeLink(link)}`,
   }));
 
   // Data for categories
@@ -789,22 +909,29 @@ const FirstNavMenu = ({
   // Generate encoded category arrays
   const generateCategoryArr = (baseLink, categories) =>
     Object.entries(categories).map(([key, subCategory]) => ({
-      title: key.replace(/_/g, ' '),
-      link: `/certified-loose-lab-grown-diamonds/settings/Ring/${key}/M=${convertLink(baseLink, subCategory)}`,
+      title: key.replace(/_/g, " "),
+      link: `/certified-loose-lab-grown-diamonds/settings/Ring/${key}/M=${convertLink(
+        baseLink,
+        subCategory
+      )}`,
     }));
 
   const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
   const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
 
-  console.log('Style Array:', styleArr);
-  console.log('Women Array:', womenArr);
-  console.log('Men Array:', menArr);
+  console.log("Style Array:", styleArr);
+  console.log("Women Array:", womenArr);
+  console.log("Men Array:", menArr);
 
   return (
     <>
       <div className="For_Nav_first_Menu">
         <div className="for_first_col">
-          <h3>Engagement Ring</h3>
+          <h3>
+            <a href="lab-created-engagement-rings" style={styleHref}>
+              Engagement Ring
+            </a>
+          </h3>
           <div className="for_ring_section">
             <div className="for_col_1">
               <h3>create your own diamond ring</h3>
@@ -841,7 +968,9 @@ const FirstNavMenu = ({
               <h3>shop By style</h3>
               <div class="ring-types-col">
                 {styleArr?.map((item, index) => (
-                  <span key={index} onClick={() => navigate(item?.link)}>{item?.title}</span>
+                  <span key={index} onClick={() => navigate(item?.link)}>
+                    {item?.title}
+                  </span>
                 ))}
               </div>
             </div>
@@ -859,27 +988,60 @@ const FirstNavMenu = ({
           </div>
         </div>
         <div className="for_second_col">
-          <h3>Wedding Ring</h3>
+          <h3>
+            {" "}
+            <a href="lab-grown-wedding-rings" style={styleHref}>
+              Wedding Ring
+            </a>
+          </h3>
           <div className="for_ring_section">
             <div className="for_col_1">
-              <h3 onClick={() => navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(categoryLinks.Women)}`)}>
+              <h3
+                onClick={() =>
+                  navigate(
+                    `/certified-loose-lab-grown-diamonds/settings/Ring/Women/M=${encodeLink(
+                      categoryLinks.Women
+                    )}`
+                  )
+                }
+              >
                 <img src={`${storImagePath()}/Forevery/women.png`} alt="" />{" "}
                 Womens
               </h3>
               <div class="ring-types">
                 {womenArr?.map((item, index) => (
-                  <span key={index} class="ring-type" onClick={() => navigate(item?.link)}>{item?.title}</span>
+                  <span
+                    key={index}
+                    class="ring-type"
+                    onClick={() => navigate(item?.link)}
+                  >
+                    {item?.title}
+                  </span>
                 ))}
               </div>
             </div>
             <div className="for_col_2">
-              <h3 onClick={() => navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(categoryLinks.Men)}`)}>
+              <h3
+                onClick={() =>
+                  navigate(
+                    `/certified-loose-lab-grown-diamonds/settings/Ring/Men/M=${encodeLink(
+                      categoryLinks.Men
+                    )}`
+                  )
+                }
+              >
                 <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
               </h3>
 
               <div class="ring-types">
                 {menArr?.map((item, index) => (
-                  <span key={index} class="ring-type" onClick={() => navigate(item?.link)}>{item?.title}</span>
+                  <span
+                    key={index}
+                    class="ring-type"
+                    onClick={() => navigate(item?.link)}
+                  >
+                    {item?.title}
+                  </span>
                 ))}
               </div>
             </div>
@@ -945,7 +1107,11 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
   return (
     <div className="Second_Nav_first_Menu">
       <div className="for_first_col">
-        <h3>Lab Grown Diamonds</h3>
+        <h3>
+          <a href="/diamond" style={styleHref}>
+            Lab Grown Diamonds
+          </a>{" "}
+        </h3>
         <div className="for_ring_section">
           <div className="for_col_2">
             <h3>Shop By Style</h3>
@@ -1045,11 +1211,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-              // onClick={() =>
-              //   Navigate(
-              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-              //   )
-              // }
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
               >
                 Show More
               </button>

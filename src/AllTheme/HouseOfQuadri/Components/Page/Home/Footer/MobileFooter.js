@@ -15,26 +15,42 @@ const MobileFooter = () => {
   const [companyInfoData, setCompanuInfoData] = useState();
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [selectedFooteVal, setSelectedVal] = useState(0);
+
   useEffect(() => {
     let storeInit;
     let companyInfoData;
+
     setTimeout(() => {
-      if (sessionStorage.getItem("storeInit")) {
-        storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
-      }
-      if (sessionStorage.getItem("CompanyInfoData")) {
-        companyInfoData =
-          JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-        setCompanuInfoData(companyInfoData);
-        const parsedSocilaMediaUrlData =
-          JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData);
+      try {
+        const storeInitData = sessionStorage?.getItem("storeInit");
+        if (storeInitData) {
+          storeInit = JSON.parse(storeInitData);
         }
+      } catch (error) {
+        console.error("Error parsing storeInit:", error);
+      }
+
+      try {
+        const companyInfoDataStr = sessionStorage?.getItem("CompanyInfoData");
+        if (companyInfoDataStr) {
+          companyInfoData = JSON.parse(companyInfoDataStr);
+          setCompanuInfoData(companyInfoData);
+
+          const socialLinkStr = companyInfoData?.SocialLinkObj;
+          if (socialLinkStr) {
+            try {
+              const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
+              setSocialMediaData(parsedSocialMediaUrlData);
+            } catch (error) {
+              console.error("Error parsing social media data:", error);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error parsing CompanyInfoData:", error);
       }
     }, 500);
   }, []);
-
   const HandleFormSubmit = async (e) => {
     e.preventDefault();
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
