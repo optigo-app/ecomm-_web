@@ -9,7 +9,6 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -19,6 +18,7 @@ import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
 import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const CartPage = () => {

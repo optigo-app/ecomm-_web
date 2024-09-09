@@ -91,7 +91,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         // type='number'
                         className='dt_addressTextFields'
                     />
-                    <div className='dt_AddressBtnGroup'>
+                    <div className='dt_AddressMBtnGroup'>
                         <button type='button' className='dt_Cancelbtn' onClick={handleCancel}>Cancel</button>
                         <button type='submit' className='dt_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
                     </div>

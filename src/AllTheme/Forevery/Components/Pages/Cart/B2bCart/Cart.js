@@ -9,7 +9,6 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog/ConfirmationDialog';
 import { for_CartCount, for_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
@@ -21,6 +20,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import Cookies from "js-cookie";
 import NewsletterSignup from '../../ReusableComponent/SubscribeNewsLater/NewsletterSignup';
 import btnStyle from "../../../scss/Button.module.scss"
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const CartPage = () => {
   const addressData = useAddress();

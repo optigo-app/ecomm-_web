@@ -56,7 +56,7 @@ export default function ThemeRoutes() {
       dt_setCompanyTitleLogo(logo?.companylogo);
       el_setCompanyTitleLogo(logo?.companylogo);
     }
-
+   
     if (!SessionData) {
       Storeinit()
         .then((response) => {
@@ -116,7 +116,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(6);
     }
     // .finally(() => setLoading(false));
   }, []);

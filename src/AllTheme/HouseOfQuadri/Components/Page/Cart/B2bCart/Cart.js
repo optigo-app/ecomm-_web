@@ -386,7 +386,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CartPageSkeleton from "./CartSkelton";
-import ConfirmationDialog from "../../ConfirmationDialog.js/ConfirmationDialog";
 import {
   CartCount,
   Hoq_CartCount,
@@ -401,6 +400,7 @@ import { handlePaymentAPI } from "../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from "react-toastify";
 import { useAddress } from "../../../../../../utils/Glob_Functions/OrderFlow/useAddress";
 import Cookies from "js-cookie";
+import ConfirmationDialog from "../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 
 const CartPage = () => {
   const addressData = useAddress();
