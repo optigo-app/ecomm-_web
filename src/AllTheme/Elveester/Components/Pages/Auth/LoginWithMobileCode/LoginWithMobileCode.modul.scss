@@ -6,27 +6,28 @@
     }
 
     .labgrowRegister {
-        width: 430px;
+        width: 28rem;
         margin: 10px;
     }
 
 
-    
 
-    .el_LoginWithCodeMobielMain{
+
+    .el_LoginWithCodeMobielMain {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 6% 0px 6% 0px;
     }
-    .el_LoginWithCodeMobielMainSubDiv {    
+
+    .el_LoginWithCodeMobielMainSubDiv {
         background-color: white;
         width: 30%;
     }
 
     .submitBtnForgot {
         height: 40px;
-        width: 430px;
+        width: 28rem;
         border: 1px solid black;
         margin-top: 10px;
         font-size: 14px;
@@ -73,7 +74,7 @@
 
     @media screen and (max-width: 700px) {
         .labgrowRegister {
-            width: 90%;
+            width: 95%;
             margin: 10px;
         }
     }

@@ -5,13 +5,17 @@ import {
   PiBagSimpleThin,
   PiHandbagSimpleLight,
 } from "react-icons/pi";
+import { HiMenuAlt1 } from "react-icons/hi";
+import { RiMenu2Line } from "react-icons/ri";
+
+import { GoSearch } from "react-icons/go";
 import { MainLogo } from "../../../Assets/Image";
 import { navbarMenu } from "../../../Constants/NavbarItems";
-import { IoIosCall } from "react-icons/io";
+import { IoIosCall, IoIosLogOut } from "react-icons/io";
 import React, { useEffect, useRef, useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { IoChevronDown, IoClose } from "react-icons/io5";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link,   useLocation, useNavigate } from "react-router-dom";
 import CartDrawer from "../../Cart/DrawerCart/CartDrawer";
 import { IoSearchOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
@@ -30,6 +34,7 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
 import DummyNav from "./DummyNav";
 import TemporaryDrawer from "./MobileNavbar";
+import { HiOutlineUserCircle } from "react-icons/hi2";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -50,18 +55,21 @@ const Navbar = () => {
   const [cartCountNum, setCartCountNum] = useRecoilState(Hoq_CartCount);
   const [wishCountNum, setWishCountNum] = useRecoilState(Hoq_WishCount);
   const [searchText, setSearchText] = useState("");
-
+  const location = useLocation()
   const [titleImg, setCompanyTitleLogo] = useRecoilState(Hoq_companyLogo);
   const is320px = useMediaQuery("(max-width:320px)");
 
-  const debounce = (func, wait) => {
-    let timeout;
-    return function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
+    const debounce = (func, wait) => {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
     };
-  };
 
+    useEffect(()=>{
+      setisMobileMenu(false)
+    },[location])
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
@@ -243,7 +251,7 @@ const Navbar = () => {
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
     ]
-      .filter(Boolean)
+      // .filter(Boolean)
       .join(",");
 
     const otherparamUrl = Object.entries({
@@ -337,7 +345,7 @@ const Navbar = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
@@ -364,7 +372,7 @@ const Navbar = () => {
       ${!isNavbarSticky ? "isScrollTop" : ""}
       `}
       >
-        <div className="nav_top_head">
+        {/* <div className="nav_top_head">
           <span className="contact_icon">
             <a href="/contacts">
               <IoIosCall color="red" size={19} />
@@ -386,8 +394,8 @@ const Navbar = () => {
            </ul>
           </span>
           <span className="contact_icon"></span>
-        </div>
-        <nav className="navbar">
+        </div> */}
+        {/* <nav className="navbar">
           <NavbarleftSlide
             isMobileMenu={isMobileMenu}
             setisMobileMenu={setisMobileMenu}
@@ -466,7 +474,371 @@ const Navbar = () => {
               </Badge>
             </div>
           )}
-        </nav>
+        </nav> */}
+        <div className="new_bar">
+        {showSearchBar && (
+                  <SearchBar
+                    size={28}
+                    color="grey"
+                    closeSearch={() => setshowSearchBar(!showSearchBar)}
+                    showSearchBar={showSearchBar}
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    searchDataFucn={searchDataFucn}
+                  />
+                )}
+          <div className="first_bar_sec_hoq">
+            <div className="nav_left2">
+              <div className="navbar_search_hoq_m">
+                <Tooltip title="Search">
+                  <button
+                    style={{
+                      border: "none",
+                      outline: "none",
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    <CiSearch
+                      size={28}
+                      color="grey"
+                      className="search_icon icons desktop-search"
+                      onClick={() => setshowSearchBar(!showSearchBar)}
+                    />
+                  </button>
+                </Tooltip>
+              </div>
+              <div className="hamburger_hoq_m">
+                <Tooltip title="Search">
+                  <HiMenuAlt1
+                    className="search_icon_hoq"
+                    onClick={() => setisMobileMenu(!isMobileMenu)}
+                    color="#9c9c9cea"
+                  />
+                </Tooltip>
+              </div>
+            </div>
+            <div className="logo">
+              <Link to={"/"}>
+                <img
+                  src={titleImg}
+                  alt=""
+                  onClick={() =>
+                    window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
+                  }
+                />
+              </Link>
+            </div>
+            <div className="nav_right2">
+              <div className="desk_hoq_a1">
+                {islogin && (
+                  <>
+                    <span
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={HandleAccountRoute}
+                    >
+                      Hey ,
+                      <span
+                        style={{
+                          color: "#C20000",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {LoggedUserDetails?.firstname}
+                      </span>
+                    </span>
+                  </>
+                )}
+                {islogin && (
+                  <>
+                    <Link to={"/wishlist"} className="wishlist_hoq_hide">
+                      <Tooltip title="Wishlist">
+                        <Badge
+                          style={{ size: "2px" }}
+                          sx={{
+                            "& .MuiBadge-badge": {
+                              fontSize: "10px",
+                              padding: "7px",
+                              borderRadius: "4px",
+                              marginRight: "7px",
+                              marginTop: "-2px",
+                              bgcolor: "#C20000",
+                              width: 0,
+                              height: 0,
+                            },
+                          }}
+                          badgeContent={wishCountNum}
+                          color="primary"
+                        >
+                          <CiHeart
+                            color="grey"
+                            className="wishlist_icon icons"
+                            size={28}
+                          />
+                        </Badge>
+                      </Tooltip>
+                    </Link>
+
+                    {/* <Tooltip title="Search">
+                    <CiSearch
+                    size={28}
+                      className="search_icon icons mobile-search"
+                      // onClick={open}
+                    />
+                  </Tooltip> */}
+                    <Link
+                      to={"/cart"}
+                      style={{
+                        marginRight: "5px",
+                      }}
+                    >
+                      <Badge
+                        style={{ size: "2px" }}
+                        sx={{
+                          "& .MuiBadge-badge": {
+                            fontSize: "10px",
+                            padding: "7px",
+                            borderRadius: "4px",
+                            marginRight: "7px",
+                            marginTop: "-2px",
+                            bgcolor: "#C20000",
+                            width: 0,
+                            height: 0,
+                          },
+                        }}
+                        badgeContent={cartCountNum}
+                        color="primary"
+                      >
+                        <Tooltip title="Cart">
+                          <PiBagSimpleThin
+                            size={27}
+                            color="grey"
+                            // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                          />
+                        </Tooltip>
+                      </Badge>
+                    </Link>
+                  </>
+                )}
+                {showDrawer && (
+                  <CartDrawer
+                    width={showDrawer}
+                    close={() => setshowDrawer(!showDrawer)}
+                  />
+                )}
+                {islogin ? (
+                  <Tooltip title="Logout" className="tooltip-logout">
+                    <button
+                      onClick={handleLogout}
+                      className="logout_btn_hoq icons"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <IoIosLogOut color="grey" size={27} />
+                    </button>
+                  </Tooltip>
+                ) : (
+                  <Link to={"/LoginOption"}>
+                    <small style={{ fontSize: "1rem", fontWeight: "500" }}>
+                      <HiOutlineUserCircle color="grey" size={36} />
+                    </small>
+                  </Link>
+                )}
+              </div>
+              {islogin ? (
+                <>
+                  <div className="mob_hoq_a1">
+                    <Tooltip title="Search">
+                      <button
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          backgroundColor: "transparent",
+                        }}
+                      >
+                        <CiSearch
+                          size={28}
+                          color="grey"
+                          className="search_icon icons desktop-search"
+                          onClick={() => setshowSearchBar(!showSearchBar)}
+                        />
+                      </button>
+                    </Tooltip>
+                    <Link
+                      to={"/cart"}
+                      style={{
+                        marginRight: "5px",
+                      }}
+                    >
+                      <Badge
+                        style={{ size: "2px" }}
+                        sx={{
+                          "& .MuiBadge-badge": {
+                            fontSize: "10px",
+                            padding: "7px",
+                            borderRadius: "4px",
+                            marginRight: "7px",
+                            marginTop: "-2px",
+                            bgcolor: "#C20000",
+                            width: 0,
+                            height: 0,
+                          },
+                        }}
+                        badgeContent={cartCountNum}
+                        color="primary"
+                      >
+                        <Tooltip title="Cart">
+                          <PiBagSimpleThin
+                            size={27}
+                            color="grey"
+                            // onClick={() => setshowDrawer(!showDrawer)}   b2c drawer
+                          />
+                        </Tooltip>
+                      </Badge>
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link to={"/LoginOption"} className="hoq_login_a1">
+                    <small style={{ fontSize: "1rem", fontWeight: "500" }}>
+                      <HiOutlineUserCircle color="grey" size={36} />
+                    </small>
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+          {islogin && (
+            <div className="menu_bar_Sec_hoq">
+              <div className="navbar_menus">
+                <div className="mobile-close">
+                  <IoClose
+                    size={32}
+                    onClick={() => setisMobileMenu(!isMobileMenu)}
+                  />
+                  <Link>
+                    <CiHeart className="wishlist_icon_mobile icons" />
+                  </Link>
+                </div>
+                {islogin && (
+                  <>
+                    <ul className="lg_navbar_item">
+                      {menuItems?.map((menuItem, i) => {
+                        const { menuname, param1 } = menuItem;
+
+                        return (
+                          <React.Fragment key={i}>
+                            <li>
+                              <span
+                                onClick={() => {
+                                  handleMenu({
+                                    menuname: menuname,
+                                    key: menuItem?.param0name,
+                                    value: menuItem?.param0dataname,
+                                  });
+                                  window.scrollTo({
+                                    behavior: "smooth",
+                                    top: 0,
+                                    left: 0,
+                                  });
+                                }}
+                              >
+                                {menuname}
+                              </span>
+                              {param1 && (
+                                <IoChevronDown className="chevron-downn-mobile" />
+                              )}
+                              {param1 &&
+                                param1?.length > 0 &&
+                                param1[0].param1name !== "" && (
+                                  <ul className="submenu">
+                                    {param1[0].param1name === ""
+                                      ? "no"
+                                      : param1?.map(
+                                          (
+                                            { param1dataname, param1name },
+                                            j
+                                          ) => (
+                                            <li>
+                                              <span
+                                                onClick={() => {
+                                                  handleMenu(
+                                                    {
+                                                      menuname: menuname,
+                                                      key: menuItem?.param0name,
+                                                      value:
+                                                        menuItem?.param0dataname,
+                                                    },
+                                                    {
+                                                      key: param1name,
+                                                      value: param1dataname,
+                                                    }
+                                                  );
+                                                  window.scrollTo({
+                                                    behavior: "smooth",
+                                                    top: 0,
+                                                    left: 0,
+                                                  });
+                                                }}
+                                              >
+                                                {param1dataname}
+                                              </span>
+                                              {/* {param2 && (
+                                <ul className="sub_submenu">
+                                  {param2?.map(
+                                    ({ param2dataname, param2name }, j) => (
+                                      <li>
+                                        <span
+                                          onClick={() =>
+                                            handleMenu(
+                                              {
+                                                menuname: menuname,
+                                                key: menuItem?.param0name,
+                                                value: menuItem?.param0dataname,
+                                              },
+                                              {
+                                                key: param1name,
+                                                value: param1dataname,
+                                              },
+                                              {
+                                                key: param2name,
+                                                value: param2dataname,
+                                              }
+                                            )
+                                          }
+                                        >
+                                          {param2dataname}
+                                        </span>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              )} */}
+                                            </li>
+                                          )
+                                        )}
+                                  </ul>
+                                )}
+                            </li>
+                          </React.Fragment>
+                        );
+                      })}
+                    </ul>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+          {isMobileMenu && (
+            <TemporaryDrawer
+              menuItems={menuItems}
+              handleMenu={handleMenu}
+              setisMobileMenu={setisMobileMenu}
+              isMobileMenu={isMobileMenu}
+            />
+          )}
+        </div>
         <div className="nav_bottom_head">
           <span>
             <Link to={"/lookbook"}>Explore Our Artful Jewellery Lookbook</Link>
@@ -632,7 +1004,9 @@ const NavbarRightSide = ({
           </Tooltip>
         ) : (
           <Link to={"/LoginOption"}>
-            <small style={{ fontSize: "1rem", fontWeight: "500" }}>Login</small>
+            <small style={{ fontSize: "1rem", fontWeight: "500" }}>
+              <HiOutlineUserCircle size={32} />
+            </small>
           </Link>
         )}
       </div>
@@ -731,8 +1105,8 @@ const NavbarCenter = ({
         <div
           className="logo"
           style={{
-            marginTop: islogin ? "10px" : "30px",
-            marginBottom: islogin ? "" : "-15px",
+            //   marginTop: islogin ? "10px" : "30px",
+            marginBottom: islogin ? "" : "-10px",
           }}
         >
           <Link to={"/"}>
@@ -885,8 +1259,8 @@ const SearchBar = ({
   }, [showSearchBar]);
   return (
     <>
-      <div className="SearchBar">
-        <IoSearchOutline size={24} />{" "}
+      <div className="SearchBar-hoq">
+        <IoSearchOutline size={28} color="grey" />
         <input
           type="text"
           ref={searchInputRef}
@@ -896,8 +1270,8 @@ const SearchBar = ({
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={searchDataFucn}
         />
-        <button onClick={closeSearch}>
-          <TfiClose size={18} />
+        <button className="cls_btn_search" onClick={closeSearch}>
+          <TfiClose size={20} color="grey"/>
         </button>
       </div>
       <div className="bg_search_overlay"></div>

@@ -23,13 +23,13 @@
     }
   }
   .horizontal_list {
-    width: 100%;
+    width: 80%;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 0 45px;
+    padding: 0 40px;
     gap: 2rem;
     .brand_card {
       width: 150px;
@@ -47,6 +47,7 @@
   @media screen and (max-width: 768px) {
     .horizontal_list {
       gap: 1em;
+      width: 100%;
       .brand_card {
         height: 150px;
         width: 100px;
@@ -57,6 +58,7 @@
   @media screen and (max-width: 420px) {
     .horizontal_list {
       gap: 1em;
+      width: 100%;
       .brand_card {
         height: 120px;
         width: 100px;

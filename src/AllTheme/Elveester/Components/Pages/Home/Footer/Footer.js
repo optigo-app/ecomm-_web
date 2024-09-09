@@ -13,6 +13,7 @@ const Footer = () => {
     const [companyInfoData, setCompanuInfoData] = useState();
     console.log('companyInfoData: ', companyInfoData);
     const [socialMediaData, setSocialMediaData] = useState([]);
+    console.log('socialMediaData: ', socialMediaData);
     const [email, setEmail] = useState();
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
@@ -32,6 +33,7 @@ const Footer = () => {
                 let parsedSocialMediaUrlData = [];
                 try {
                     parsedSocialMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) || [];
+                    setSocialMediaData(parsedSocialMediaUrlData);
                 } catch (error) {
                     console.error("Failed to parse SocialLinkObj:", error);
                 }

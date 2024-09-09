@@ -304,3 +304,19 @@
         padding: 0px !important;
     }
 }
+
+.accordion_Account_Head{
+    box-shadow: none !important;
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 8px !important;
+}
+
+.p0_acc_mob{
+    padding: 0px 15px !important;
+}
+
+@media screen and (max-width:320px), (max-width:360px){
+    .p0_acc_mob{
+        padding: 0px 3px !important;
+    }   
+}

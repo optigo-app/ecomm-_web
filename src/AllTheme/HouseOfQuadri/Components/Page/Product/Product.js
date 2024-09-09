@@ -16,7 +16,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { FaWhatsapp } from "react-icons/fa";
-
+import {noimage} from '../../Constants/noimage'
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -1134,6 +1134,7 @@ const ProductPage = () => {
                   sx={{
                     padding: "0",
                     marginTop: "-16rem",
+                    marginLeft : "-8px",
                     height: "100vh",
                     backgroundColor: "#f0ededb4 !important;",
                   }}
@@ -1164,7 +1165,7 @@ const ProductPage = () => {
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src =
-                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                              noimage;
                           }}
                         />
                       ) : (
@@ -1205,14 +1206,14 @@ const ProductPage = () => {
                                     loading="lazy"
                                     src={
                                       val?.src ||
-                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                      noimage
                                     }
                                     alt={""}
                                     onLoad={() => setIsImageLoad(false)}
                                     onError={(e) => {
                                       e.target.onerror = null;
                                       e.target.src =
-                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                        noimage;
                                     }}
                                   />
                                 ) : (
@@ -1243,7 +1244,7 @@ const ProductPage = () => {
                         <div className="main_image">
                           <img
                             src={
-                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                              noimage
                             }
                             alt={""}
                             style={{
@@ -1256,7 +1257,7 @@ const ProductPage = () => {
                             onError={(e) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                noimage;
                             }}
                           />
                         </div>
@@ -1267,7 +1268,13 @@ const ProductPage = () => {
                   <>
                     <div className="slider_card">
                       <div className="image">
-                        <img src={PdImageArr[0]?.src} alt="ddwd" />
+                        <img src={PdImageArr[0]?.src ? PdImageArr[0]?.src : 'a.jpg'} alt="ddwd" 
+                         onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src =
+                            noimage;
+                        }}
+                        />
                       </div>
                     </div>
                   </>
@@ -2272,7 +2279,7 @@ const ProductPage = () => {
           handleMoveToDetail={handleMoveToDetail}
           imageNotFound={imageNotFound}
           loginInfo={loginInfo}
-          storeInit={storeInit}
+          storeInit={storeInit} 
         />
       )}
 

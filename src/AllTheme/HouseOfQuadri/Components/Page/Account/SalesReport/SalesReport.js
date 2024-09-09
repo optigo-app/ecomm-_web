@@ -359,6 +359,8 @@ function EnhancedTableHead(props) {
             style={{
               minWidth: headCell.minWidth,
               textAlign: headCell?.align || "left",
+              position:'sticky', top:0, zIndex:1,
+              backgroundColor:'#eaeaeb'
             }}
           >
          {
@@ -1159,9 +1161,9 @@ const SalesReport = () => {
       }
       {
         isSmallScreen && <>
-        <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-          <AccordionDetails style={{margin:'0px', padding:'0px'}}>
+        <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
+          <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
             <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
               All
             </Button>
@@ -1169,15 +1171,15 @@ const SalesReport = () => {
               <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
               <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
             </Box>
-            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'1rem', justifyContent:'space-between'}}>
-              <Box>
+            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'7px', justifyContent:'space-between'}}>
+              <Box style={{width:'45%'}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Date From"
                   value={fromDate}
                   ref={fromDateRef}
                   format="DD MM YYYY"
-                  className="quotationFilterDates"
+                  className="quotationFilterDates w100_dwsr"
                   onChange={(newValue) => {
                     if (newValue === null) {
                       setFromDate(null)
@@ -1198,14 +1200,14 @@ const SalesReport = () => {
                 />
               </LocalizationProvider>
               </Box>
-              <Box>
+              <Box style={{width:'45%'}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Date To"
                   value={toDate}
                   ref={toDateRef}
                   format="DD MM YYYY"
-                  className="quotationFilterDates"
+                  className="quotationFilterDates w100_dwsr"
                   onChange={(newValue) => {
                     if (newValue === null) {
                       setToDate(null);
@@ -1239,8 +1241,8 @@ const SalesReport = () => {
             <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}>
               <Typography>Gross Wt : </Typography>
             </Box>
-            <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between'}}>
-              <Box sx={{   minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box' }}>
+            <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'10px'}}>
+              <Box sx={{ width:'45%', boxSizing:'border-box' }}>
                 <TextField
                   placeholder="From"
                   name="from"
@@ -1250,7 +1252,7 @@ const SalesReport = () => {
                   onChange={(eve) => handleChangegrossWt(eve)}
                 />
               </Box>
-              <Box sx={{   minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box' }}>
+              <Box sx={{ width:'45%', boxSizing:'border-box' }}>
                 <TextField
                   placeholder="To"
                   name="to"
@@ -1260,7 +1262,7 @@ const SalesReport = () => {
                   onChange={(eve) => handleChangegrossWt(eve)}
                 />
               </Box>
-              <Box sx={{   minWidth:'15%', maxWidth:'15%', width:'100%', boxSizing:'border-box' }}>
+              <Box sx={{ boxSizing:'border-box' }}>
                 <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
                   <SearchIcon sx={{ color: "#fff !important" }} />
                 </Button>

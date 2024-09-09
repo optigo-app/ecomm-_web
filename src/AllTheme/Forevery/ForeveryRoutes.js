@@ -64,6 +64,7 @@ import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/
 import Account from "./Components/Pages/Account/Account"
 import LabCreatedRings from "./Components/Pages/labCreated-rings/LabCreatedRings";
 import JewelryInquiryForm from "../../utils/Inquary/JewelryInquiryForm";
+import LabGrownWeddingRing from "./Components/Pages/lab-grown-wedding-rings/LabGrownWeddingRing";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -167,7 +168,8 @@ const ForEveryRoutes = () => {
       <div
         className="body"
         style={{
-          marginTop: `${navHeight + 5}px`,
+          marginTop: `${navHeight}px`,
+          overflow  :"hidden"
         }}
       >
         <Routes>

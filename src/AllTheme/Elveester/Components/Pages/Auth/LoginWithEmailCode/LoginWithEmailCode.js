@@ -17,7 +17,7 @@ export default function LoginWithEmailCode() {
     const [resendTimer, setResendTimer] = useState(120);
 
     const location = useLocation();
-    const [islogin , setIsLoginState] = useRecoilState(el_loginState)
+    const [islogin, setIsLoginState] = useRecoilState(el_loginState)
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
@@ -84,7 +84,7 @@ export default function LoginWithEmailCode() {
             return;
         }
 
-       
+
         setIsLoading(true);
         LoginWithEmailAPI(email, mobileNo, 'otp_email_login').then((response) => {
             setIsLoading(false);
@@ -93,9 +93,9 @@ export default function LoginWithEmailCode() {
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
 
-                if(redirectEmailUrl){
+                if (redirectEmailUrl) {
                     navigation(redirectEmailUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
             } else {
@@ -126,12 +126,11 @@ export default function LoginWithEmailCode() {
                 </div>
             )}
             <div>
-
-                <div className='el_LoginEmailCodeMain'>
-                    <div className='el_LoginCodeSubDiv'>
+                <div className='el_LoginEmailMainDiv'>
+                    <div className='el_LoginSubDivMain'>
                         <p style={{
                             textAlign: 'center',
-                            paddingBlock: '50px',
+                            paddingBlock: '60px',
                             fontSize: '25px',
                             fontFamily: 'PT Sans, sans-serif'
                         }}
@@ -139,10 +138,10 @@ export default function LoginWithEmailCode() {
                         >Login With Code</p>
                         <p style={{
                             textAlign: 'center',
-                            marginTop: '-70px',
+                            marginTop: '-60px',
                             fontSize: '15px',
                             color: '#7d7f85',
-                            fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                            fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenSubTitle'
                         >Last step! To secure your account, enter the code we just sent to {email}.</p>

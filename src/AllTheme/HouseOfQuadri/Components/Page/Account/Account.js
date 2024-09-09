@@ -143,7 +143,7 @@ export default function Account() {
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                        {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
@@ -158,7 +158,7 @@ export default function Account() {
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                        {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>

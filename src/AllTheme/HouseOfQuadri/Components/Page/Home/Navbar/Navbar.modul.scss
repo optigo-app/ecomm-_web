@@ -71,7 +71,7 @@
     }
   }
   .nav_bottom_head {
-    padding: 8px 0;
+    padding: 7px 0;
     text-align: center;
     background-color: #e8e8e8;
     font-size: $fontSize2;
@@ -86,8 +86,325 @@
       }
     }
   }
+  .new_bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.027) 0px 3px 5px;
+    position: relative;
+    .SearchBar-hoq{
+      position: absolute;
+      width: 100% ;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      top: 0;
+      z-index:10000;
+      bottom: 0;
+      justify-content: center;
+      gap: 15px;
+      font-family: $fontDmSans;
+      @media screen and (max-width  :800px) {
+      gap: 12px;
+        padding: 0 5px;
+      }
+      @media screen and (max-width  :800px) {
+      gap: 8px;
+        padding: 0 15px;
+      }
+      input{
+        width: 85%;
+        border: none;
+        padding: 25px 0;
+        outline: none;
+      }
+      .cls_btn_search{
+        border: none;
+        background-color: transparent;
+        outline: none;
+      }
+    }
+    .first_bar_sec_hoq {
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100px;
+      overflow: hidden;
+      margin-bottom: 4px;
+      .nav_left2 {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .navbar_search_hoq_m{
+          position: relative;
+        
+        }
+        @media screen and (max-width  :1100px) {
+          .navbar_search_hoq_m{
+            display: none;
+          }
+        }
+        .hamburger_hoq_m{
+          display: none;
+          .search_icon_hoq{
+            stroke: currentcolor;
+            fill: currentcolor;
+            stroke-width: 0;
+            color: grey;
+            height: 2.5em;
+            width: 2.5em;
+            cursor: default;
+          }
+          @media screen and (max-width  :1100px) {
+            .navbar_search_hoq_m{
+              display: none;
+            }
+            display: block;
+          }
+        }
+      }
+      .nav_right2 {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a {
+          margin-left: 4px;
+        }
+        .hoq_login_a1{
+          display: none;
+        }
+        @media screen and (max-width : 1100px) {
+          .desk_hoq_a1{
+            display: none;
+          }
+          .hoq_login_a1{
+            display: block;
+          }
+        }
+        .mob_hoq_a1{
+          display: none;
+          @media screen and (max-width : 1100px) {
+            display: flex;
+          }
+        }
+      }
+      .logo {
+        flex: 0.4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a {
+          text-decoration: none;
+          img {
+            max-width: 1000px;
+          }
+        }
+      }
+      .nav_right {
+        font-family: $fontDmSans;
+        text-transform: capitalize;
+        color: grey;
+        display: flex;
+        gap: 15px;
+        span {
+          font-weight: 400;
+          font-size: 16px;
+        }
+      }
+
+      @media screen and (max-width : 1400px) {
+        .nav_left2 {
+          justify-content: flex-start;
+          margin-left:  8rem;
+        }
+        .nav_right2 {
+          justify-content: flex-end;
+          margin-right: 8rem ;
+        }
+      }
+      @media screen and (max-width : 1200px) {
+        .nav_left2 {
+          justify-content: flex-start;
+          margin-left:  7rem;
+        }
+        .nav_right2 {
+          justify-content: flex-end;
+          margin-right: 7rem ;
+        }
+      }
+      @media screen and (max-width : 1144px) {
+        .nav_left2 {
+          justify-content: flex-start;
+          margin-left:  3rem;
+        }
+        .nav_right2 {
+          justify-content: flex-end;
+          margin-right: 3rem ;
+        }
+      }
+      @media screen and (max-width : 957px) {
+        .nav_left2 {
+          justify-content: flex-start;
+          margin-left:  1.6rem;
+        }
+        .nav_right2 {
+          justify-content: flex-end;
+          margin-right: 1.6rem ;
+        }
+      }
+      @media screen and (max-width : 790px) {
+        .nav_left2 {
+          justify-content: flex-start;
+          margin-left:  1rem;
+        }
+        .nav_right2 {
+          justify-content: flex-end;
+          margin-right: 1rem ;
+        }
+      }
+      @media screen and (max-width : 520px) {
+        .nav_left2 {
+          justify-content: flex-start;
+          margin-left:  0.1rem;
+        }
+        .nav_right2 {
+          justify-content: flex-end;
+          margin-right: 0.1rem ;
+        }
+      }
+    }
+    .menu_bar_Sec_hoq {
+      margin-bottom: 10px;
+      z-index: 8888;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .navbar_menus {
+        font-family: $fontDmSans;
+        color: #525252;
+        font-weight: 500;
+        .mobile-close {
+          display: none;
+        }
+        ul {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-left: 0;
+          gap: 2rem;
+          list-style: none;
+          margin-bottom: 0;
+          margin-top: 0;
+          .wishlist_icon_mobile {
+            display: none;
+          }
+          li {
+            font-size: $fontSize2-5;
+            letter-spacing: 1.5px;
+            font-family: $fontDmSans;
+            position: relative;
+            cursor: pointer;
+
+            a {
+              text-decoration: none;
+              color: inherit;
+            }
+            .chevron-downn-mobile {
+              display: none;
+            }
+
+            .submenu {
+              position: absolute;
+              display: none;
+              flex-direction: column;
+              align-items: start;
+              background-color: #ffffff;
+              padding: 15px 15px;
+              gap: 12px;
+              width: auto;
+              left: -15px;
+              top: 1.5rem;
+              box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+              color: black;
+
+              li {
+                font-size: $fontSize2;
+                letter-spacing: 0.3px;
+                display: inline-block;
+                white-space: nowrap;
+                color: #1f1f1f;
+                font-family: $fontDmSans;
+                font-weight: 500;
+                cursor: pointer;
+                width: 100%;
+                &:hover {
+                  color: #1f1e1ee0;
+                  font-weight: 700;
+                }
+                &::after {
+                  position: absolute;
+                  content: "";
+                  width: 0%;
+                }
+                &:hover::after {
+                  width: 0;
+                }
+              }
+
+              .sub_submenu {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                align-items: start;
+                margin-left: 8px;
+                gap: 5px;
+                li {
+                  font-size: 12px;
+                  letter-spacing: 1.5px;
+                  margin: 0;
+                  padding: 0;
+                  span {
+                    color: #525252;
+                    margin: 0;
+                    padding: 0;
+                  }
+                }
+              }
+            }
+            &::after {
+              position: absolute;
+              content: "";
+              width: 0%;
+              height: 2px;
+              background-color: black;
+              bottom: -5px;
+              left: 0;
+              transition: 0.3s ease-in-out;
+            }
+            &:hover::after {
+              width: 100%;
+            }
+            &:hover .submenu {
+              display: flex;
+            }
+          }
+        }
+      }
+      @media screen and (max-width : 1100px) {
+        margin-bottom: 0px;
+       .navbar_menus{
+        display: none;
+       }
+      }
+    }
+  }
   .navbar {
-    height: 130px;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -97,6 +414,7 @@
     z-index: 99999;
     position: relative;
     gap: 10px;
+
     .nav_left {
       height: inherit;
       flex: 1;
@@ -146,7 +464,7 @@
       display: flex;
       align-items: center;
       flex: 1;
-      justify-content: space-between;
+      justify-content: center;
       flex-direction: column;
       height: inherit;
       .logo {
@@ -161,7 +479,7 @@
         font-family: $fontDmSans;
         color: #525252;
         font-weight: 500;
-        margin-top: 10px;
+        // margin-top: 10px;
         .mobile-close {
           display: none;
         }
@@ -171,7 +489,7 @@
           justify-content: center;
           gap: 2rem;
           list-style: none;
-          padding: 10px 0;
+          // padding: 10px 0;
           .wishlist_icon_mobile {
             display: none;
           }
@@ -314,7 +632,7 @@
     color: inherit;
   }
 
-  @media screen and (max-width : 2560px) {
+  @media screen and (max-width: 2560px) {
     .navbar {
       .nav_left {
         .SearchBar {
@@ -323,7 +641,7 @@
       }
     }
   }
-  @media screen and (max-width : 1875px) {
+  @media screen and (max-width: 1875px) {
     .navbar {
       .nav_left {
         .SearchBar {
@@ -332,7 +650,7 @@
       }
     }
   }
-  @media screen and (max-width : 1700px) {
+  @media screen and (max-width: 1700px) {
     .navbar {
       .nav_left {
         .SearchBar {
@@ -342,7 +660,7 @@
     }
   }
 
-  @media screen and (max-width : 1506px) {
+  @media screen and (max-width: 1506px) {
     .navbar {
       .nav_left {
         .SearchBar {
@@ -442,13 +760,13 @@
         gap: 5px;
       }
     }
-      .navbar {
-        .nav_left {
-          flex: 0.3;
-          .SearchBar {
-            padding-inline: 6rem;
-          }
+    .navbar {
+      .nav_left {
+        flex: 0.3;
+        .SearchBar {
+          padding-inline: 6rem;
         }
+      }
     }
   }
   @media screen and (max-width: 1250px) {
@@ -480,6 +798,7 @@
       align-items: center;
       justify-content: space-between;
       height: 100px;
+      padding: 0 10px;
       .desktop-search {
         display: none;
       }

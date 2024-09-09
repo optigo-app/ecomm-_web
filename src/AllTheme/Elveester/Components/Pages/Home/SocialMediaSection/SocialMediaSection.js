@@ -46,7 +46,7 @@ export default function SocialMediaSection() {
             spaceBetween: 0,
           },
           1024: {
-            slidesPerView: 5,
+            slidesPerView: 4,
             spaceBetween: 0,
           },
           1240: {

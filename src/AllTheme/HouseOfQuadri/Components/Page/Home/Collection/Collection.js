@@ -10,6 +10,8 @@ import { useRecoilValue } from "recoil";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
 import Pako from "pako";
+import noimage from '../../../Assets/noImageFound.jpg';
+
 const Collection = () => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
@@ -73,7 +75,7 @@ const Collection = () => {
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
       finalprodListimg =
-        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+       noimage;
     }
     return finalprodListimg;
   };
@@ -119,6 +121,10 @@ const Collection = () => {
                 src={ ProdCardImageFunc(val)}
                 alt={val?.title}
                 loading="lazy"
+                onError={(e)=>{
+                  e.target.src = noimage ;
+                  e.target.alt = 'Fallback image';
+                }}
               />
               <div className="details">
                 <h3>{val?.designsetno}</h3>

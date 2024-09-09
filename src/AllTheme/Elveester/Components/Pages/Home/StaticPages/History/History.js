@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import './History.modul.scss';
 
 const History = () => {

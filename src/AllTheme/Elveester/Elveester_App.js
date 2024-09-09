@@ -19,7 +19,6 @@ import Delivery from './Components/Pages/OrderFlow/DeliveryPage/Delivery'
 import PaymentPage from './Components/Pages/OrderFlow/PaymentPage/PaymentPage'
 import ConfirmationPage from './Components/Pages/OrderFlow/ConfirmationPage/ConfirmationPage'
 import Wishlist from './Components/Pages/Wishlist/Wishlist'
-import History from './Components/Pages/History/History'
 import Account from './Components/Pages/Account/Account'
 import Lookbook from './Components/Pages/LookBook/Lookbook'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
@@ -33,6 +32,7 @@ import ContactForm from './Components/Pages/Home/StaticPages/Contact/Contact'
 import Career from './Components/Pages/Home/StaticPages/Career/Career'
 import Faqs from './Components/Pages/Home/StaticPages/Faqs/Faqs'
 import New1 from './Components/Pages/Product/ProductDetail/New.1'
+import History from './Components/Pages/Home/StaticPages/History/History'
 
 const Elveester_app = () => {
 
@@ -93,7 +93,7 @@ const Elveester_app = () => {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/Confirmation" element={<ConfirmationPage />} />
           <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<New1 />} />
+          <Route path="/d/*" element={<ProductDetail />} />
           {/* <Route path="/d/*" element={<ProductDetail />} /> */}
           <Route path="/Lookbook" element={<Lookbook />} />
           <Route path="/account" element={<Account />} />

@@ -1332,6 +1332,9 @@ const DynamicCollection = () => {
           }}
           className="hoq_filterDrawer"
           style={{ zIndex: "99999999" }}
+          sx={{
+            fontFamily  :""
+          }}
         >
           <div
             style={{
@@ -1508,7 +1511,10 @@ const DynamicCollection = () => {
                     border: "1px solid #e1e1e1",
                     borderRadius: "8px",
                     minWidth: "270px",
-                    fontFamily: "Tenor Sans , sans-serif",
+                    fontFamily: "Tenor Sans , sans-serif ",
+                    'option'  :{
+                    fontFamily: "sans-serif ",
+                    }
                   }}
                   className="select"
                   value={sortBySelect}
@@ -1611,7 +1617,7 @@ const DynamicCollection = () => {
                             sx={{
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
-                              fontFamily: "Tenor Sans , sans-serif",
+                              fontFamily: "Tenor Sans , sans-serif ",
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
                                 {
                                   borderBottomLeftRadius: "0px",
@@ -1662,11 +1668,16 @@ const DynamicCollection = () => {
                                     alignItems: "center",
                                     justifyContent: "space-between",
                                     gap: "12px",
-                                    fontFamily: "Tenor Sans , sans-serif",
+                                    fontFamily: "Tenor Sans , sans-serif !important",
                                   }}
                                   key={opt?.id}
                                 >
                                   <FormControlLabel
+                                  sx={{
+                                    '& .MuiFormControlLabel-label': {
+                                      fontFamily: "Tenor Sans, sans-serif !important",
+                                    }
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1678,11 +1689,14 @@ const DynamicCollection = () => {
                                                 `${ele?.id}${opt?.id}`
                                               ]?.checked
                                         }
+                                        sx={{
+                                    fontFamily  :"Tenor Sans , sans-serif !important" ,
+                                        }}
                                         style={{
                                           color: "#7f7d85",
                                           padding: 0,
                                           width: "10px",
-                                          fontFamily: "Tenor Sans , sans-serif",
+                                          fontFamily: "Tenor Sans , sans-serif  !important",
                                         }}
                                         onClick={(e) =>
                                           handleCheckboxChange(
@@ -1691,6 +1705,7 @@ const DynamicCollection = () => {
                                             opt?.Name
                                           )
                                         }
+                                        
                                         size="small"
                                       />
                                     }

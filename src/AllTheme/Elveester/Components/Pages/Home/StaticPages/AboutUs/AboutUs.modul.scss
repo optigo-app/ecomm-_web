@@ -51,11 +51,18 @@
     font-size: 18px;
     line-height: 22px;
     padding: 5px 2rem;
+    text-align: justify;
 }
 
 .elv_aboutus_desc {
     max-height: 30rem;
     min-height: fit-content;
+}
+
+@media (max-width: 550px) {
+    .elv_aboutus_details_rightside {
+        padding-right: 13px;
+    }
 }
 
 @media screen and (max-width: 1000px) {
@@ -64,18 +71,20 @@
         color: #4c4a4a;
         font-size: 14px;
         line-height: 15px;
-        padding: 5px 1rem;
+        padding: 5px 0rem;
+        text-align: justify;
     }
 
-    .elv_aboutus_details{
+    .elv_aboutus_details {
         display: flex;
         flex-wrap: wrap;
     }
 
-    .elv_aboutus_details_leftside{
+    .elv_aboutus_details_leftside {
         flex: 1 100%;
     }
-    .elv_aboutus_details_rightside{
+
+    .elv_aboutus_details_rightside {
         flex: 1 100%;
     }
 }

@@ -155,8 +155,9 @@ function EnhancedTableHead(props) {
                             align={headCell.align}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
+                            sx={{ position: 'sticky', top: '-1px', backgroundColor: '#fff', zIndex: 1 }}
+                            className="sticky_quote_top"
                         >
-                            
                             {
                                 ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ?
                                 `${headCell?.id}`
@@ -619,9 +620,9 @@ const QuotationQuote = () => {
   
             {
                 isSmallScreen && <>
-                <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-                    <AccordionDetails style={{padding:'0px'}}>
+                <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className='accordion_Account_Head'>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
+                    <AccordionDetails style={{padding:'0px'}} className='p0_acc_mob'>
                         <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
                             All
                         </Button>
@@ -633,8 +634,8 @@ const QuotationQuote = () => {
                             <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
                                 onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon /></Button>
                         </Box>
-                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
-                            <Box style={{ boxSizing:'border-box'}}>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', paddingBottom:'10px'}}>
+                            <Box style={{ boxSizing:'border-box', width:'45%'}}>
                                 {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>Date: </p> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
@@ -663,12 +664,12 @@ const QuotationQuote = () => {
                                                 }
                                             
                                             }}
-                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee'
+                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee w100_dwsr'
                                             ref={fromDateRef}
                                         />
                                     </LocalizationProvider>
                             </Box>
-                            <Box style={{ boxSizing:'border-box'}}>
+                            <Box style={{ boxSizing:'border-box', width:'45%'}}>
                                 {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>To: </p> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
@@ -678,7 +679,7 @@ const QuotationQuote = () => {
                                             format="DD MM YYYY"
                                             placeholder="DD MM YYYY"
                                     
-                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee'
+                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee w100_dwsr'
                                             ref={toDateRef}
                                             inputProps={{ readOnly: true }}
                                             onChange={(newValue) => {
@@ -701,8 +702,8 @@ const QuotationQuote = () => {
                                         />
                                 </LocalizationProvider>
                             </Box>
-                            <Box sx={{ paddingBottom: '4px', display: "flex", alignItems: "center", }} className="  fs_elvee_quote">
-                                <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                            <Box sx={{ paddingBottom: '0px', display: "flex", alignItems: "center", }} className="  fs_elvee_quote">
+                                <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "9px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                             </Box>
                         </Box>
                     </AccordionDetails>
@@ -724,6 +725,7 @@ const QuotationQuote = () => {
                                 orderBy={orderBy}
                                 onRequestSort={handleRequestSort}
                                 rowCount={filterData.length}
+                                stickyHeader
                             />
                             <TableBody>
                                 {visibleRows.map((row, index) => {
