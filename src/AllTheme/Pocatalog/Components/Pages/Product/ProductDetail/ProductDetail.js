@@ -139,31 +139,49 @@ const ProductDetail = () => {
   }, [singleProd]);
 
   const handleCart = (cartflag) => {
+
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
     let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
+      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] 
+      // ??
+      // metalTypeCombo[0];
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
+      )
+      // ?? 
+      // diaQcCombo[0];
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      )
+      // ?? 
+      // csQcCombo[0];
+      
+    // let mcArr = metalColorCombo?.filter(
+    //   (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+    // )[0];
+
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      (ele) => {
+        if (selectMtColor) {
+          return ele?.colorcode == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.Metalid ? metal?.Metalid : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: dia?.length ? `${dia[0]?.QualityId},${dia[0]?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
+      CsQCid: cs?.length ? `${cs?.QualityId},${cs?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid),
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
