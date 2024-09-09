@@ -17,7 +17,7 @@ const ShoptheCollections = () => {
       </div>
       <div className="for_collections">
         {CollectionArray?.map((val, i) => {
-          return <Card img={val?.img} title={val?.titel} />;
+          return <Card img={val?.img} title={val?.titel} link={val?.link}/>;
         })}
       </div>
     </div>
@@ -26,13 +26,13 @@ const ShoptheCollections = () => {
 
 export default ShoptheCollections;
 
-const Card = ({ title = "", img = "" }) => {
+const Card = ({ title = "", img = "" ,link}) => {
   const Navigate = useNavigate();
   return (
     <div
       className="for_card"
       onClick={() =>
-        Navigate("/p/M_F_D_CS/Rebellious/?M=UmViZWxsaW91cy9jb2xsZWN0aW9u")
+        Navigate(link)
       }
       style={{
         cursor: "pointer",
