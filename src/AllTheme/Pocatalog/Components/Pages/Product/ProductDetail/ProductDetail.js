@@ -589,9 +589,9 @@ const ProductDetail = () => {
         )[0] ?? "0,0"
     }
 
-    const FetchProductData = async() =>{
+    const FetchProductData = async () => {
 
-      let obj={
+      let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
         csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
@@ -601,7 +601,7 @@ const ProductDetail = () => {
 
       setisPriceLoading(true)
 
-      await SingleProdListAPI(decodeobj, sizeData, obj, cookie , alName)
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie, alName)
         .then(async (res) => {
           if (res) {
 
@@ -1270,8 +1270,8 @@ const ProductDetail = () => {
                       >
                         {(selectedThumbImg?.type == "img") ? (
                           <img
-                          src={selectedThumbImg?.link}
-                          // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            src={selectedThumbImg?.link}
+                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                             onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
@@ -1281,7 +1281,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="smr_prod_video">
                             <video
-                             src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1542,7 +1542,8 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                        {storeInit?.IsPriceShow == 1 && (
+                          storeInit?.IsPriceBreakUp == 1 &&
                           <Accordion
                             elevation={0}
                             sx={{
@@ -1584,29 +1585,9 @@ const ProductDetail = () => {
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: "4px",
-                                // minHeight: "fit-content",
-                                // maxHeight: "300px",
-                                // overflow: "auto",
                                 padding: '0 0 16px 0',
-
                               }}
                             >
-
-                              {/* <table>
-                                <tr>
-                                  <td><Typography>{(singleProd?.Metal_Cost).toFixed(3)}</Typography></td>
-                                  <td><Typography>Metal Amount</Typography></td>
-                                </tr>
-                                <tr>
-                                  <td><Typography>{(singleProd?.Diamond_Cost).toFixed(3)}</Typography></td>
-                                  <td><Typography>Diamond Amount</Typography></td>
-                                </tr>
-                                <tr>
-                                  <td><Typography>{(singleProd?.ColorStone_Cost).toFixed(3)}</Typography></td>
-                                  <td><Typography>Stone Amount</Typography></td>
-                                </tr>
-                              </table> */}
-
                               {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
                                 <span style={{ display: 'flex' }}>
@@ -1715,41 +1696,39 @@ const ProductDetail = () => {
 
                             </AccordionDetails>
                           </Accordion>
-                        )}
 
-                        {
-                          <div className="smr_price_portion">
-                            {isPriceloading ? (
-                              ""
-                            ) : (
-                              <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                            )}
-                            &nbsp;
-                            {/* {PriceWithMarkupFunction(
-                        mtrd?.AB,
-                        finalprice,
-                        storeInit?.CurrencyRate
-                      )?.toFixed(2)} */}
-                            {isPriceloading ? (
-                              <Skeleton
-                                variant="rounded"
-                                width={140}
-                                height={30}
-                              />
-                            ) :
-                              formatter.format
-                              (
-                                singleProd1?.UnitCostWithMarkUp ??
-                                singleProd?.UnitCostWithMarkUp
-                              )
-                            }
-                            {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
-                          </div>
+                        )
                         }
 
-                        {prodLoading ?null:
+                        {
+                          storeInit?.IsPriceShow == 1 && (
+                            <div className="smr_price_portion">
+                              {isPriceloading ? (
+                                ""
+                              ) : (
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                              )}
+                              &nbsp;
+                              {isPriceloading ? (
+                                <Skeleton
+                                  variant="rounded"
+                                  width={140}
+                                  height={30}
+                                />
+                              ) :
+                                formatter.format
+                                  (
+                                    singleProd1?.UnitCostWithMarkUp ??
+                                    singleProd?.UnitCostWithMarkUp
+                                  )
+                              }
+                            </div>
+                          )
+                        }
+
+                        {prodLoading ? null :
                           <div>
 
                             <div className="Smr_CartAndWish_portion">
@@ -2422,7 +2401,7 @@ const ProductDetail = () => {
             <Footer />
           </div>
         </div>
-        <div className="smr_prodDetail_backtotop" style={{backgroundColor:'#f1e9dd',color:'black'}} onClick={() => {
+        <div className="smr_prodDetail_backtotop" style={{ backgroundColor: '#f1e9dd', color: 'black' }} onClick={() => {
           window.scroll({
             top: 0,
             behavior: "auto",
