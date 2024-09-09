@@ -149,7 +149,7 @@ const Album = () => {
           <div>
             <p style={{ fontWeight: 500, textDecoration: 'underline', textAlign: 'center' }}>{openAlbumName}</p>
           </div>
-          <div style={{ display: "flex", flexWrap: 'wrap' }}>
+          <div style={{ display: "flex", flexWrap: 'wrap' , overflow: 'scroll' }}>
             {designSubData?.map((data, index) => {
               const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
               const imgSrc = imageStatus[imageUrlI] ? imageUrlI : imageNotFound;
@@ -157,13 +157,13 @@ const Album = () => {
               return (
                 <div
                   key={index}
-                  className="smr_AlbumImageMainPopup"
+                  className="proCat_AlbumImageMainPopup"
                   onClick={() => handleNavigateSub(data)}
                 >
                   <div style={{ position: "relative" }}>
                     <img
                       src={imgSrc}
-                      className="smr_AlbumImageMainPopup_img"
+                      className="proCat_AlbumImageMainPopup_img"
                       alt={data?.AlbumName}
                     />
                     {islogin || data?.AlbumSecurityId === 0 ? (
@@ -182,7 +182,7 @@ const Album = () => {
                       </svg>
                     )}
                   </div>
-                  <p className="smr_albumName">{data?.AlbumName}</p>
+                  <p className="proCat_albumName">{data?.AlbumName}</p>
                 </div>
               );
             })}
@@ -224,7 +224,7 @@ const Album = () => {
                 )}
               </div>
               <div style={{ marginTop: '3px' }}>
-                <p className="smr_albumName">{data?.AlbumName}</p>
+                <p className="proCat_albumName">{data?.AlbumName}</p>
               </div>
             </div>
           );
@@ -319,7 +319,7 @@ export default Album;
 //                 </svg>
 //               }
 //             </div>
-//             <p className="smr_albumName">{data?.AlbumName}</p>
+//             <p className="proCat_albumName">{data?.AlbumName}</p>
 //           </div>
 //         ))}
 //       </div>

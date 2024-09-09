@@ -168,13 +168,13 @@ const TrendingView1 = () => {
         <>
             {trandingViewData?.length != 0 &&
                 <div className='smr_mainTrending1Div'>
-                    <div className='smr_trending1TitleDiv'>
-                        <span className='smr_trending1Title'>Trending</span>
+                    <div className='smr1_trending1TitleDiv'>
+                        <span className='smr_trending1Title'>TRENDING</span>
                     </div>
                     <div className="smr_trendingProduct-grid">
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.webp`} alt="modalimages" />
+                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.png`} alt="modalimages" />
 
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>

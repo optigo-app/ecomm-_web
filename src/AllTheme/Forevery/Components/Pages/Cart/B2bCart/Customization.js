@@ -30,7 +30,8 @@ const Customization = ({
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
-  const [diadata, setDiaData] = useState();
+  const [diadata, setDiaData] = useState({});
+  const [loading, setLoading] = useState(false);
 
 
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -58,13 +59,36 @@ const Customization = ({
     }
   }
 
+  function combineDiamondInfo(quality, color) {
+    if (!quality || !color) return '';
+
+    const qualityParts = quality?.split(',');
+    const colorParts = color?.split(',');
+
+    const combinedParts = qualityParts?.map((q, index) => {
+      const c = colorParts[index] || '';
+      return `${q?.toUpperCase()}-${c?.toUpperCase()}`;
+    });
+
+    return combinedParts.join(', ');
+  }
+
   console.log("kjhsjhkakjhd", selectedItem);
 
 
   useEffect(() => {
-    const diamondValue = diamondData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);
-    setDiaData(diamondValue)
-  }, [selectedItem])
+    if (diamondData) {
+      setLoading(true);
+      try {
+        const diamondValue = diamondData.find((dia) => dia?.stockno === selectedItem?.Sol_StockNo);
+        setDiaData(diamondValue);
+      } catch (err) {
+        // setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [selectedItem, diamondData]);
 
 
   const keyToCheck = "stockno"
@@ -223,16 +247,18 @@ const Customization = ({
                     <span>{selectedItem?.metalcolorname}</span>
                   </div>
                 }
-                {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+                {(selectedItem?.Dwt !== "0" || selectedItem?.Dpcs !== "0") && (
                   <div className="option">
                     <label htmlFor="diamond">Diamond:</label>
-                    <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
+                    <span>
+                      {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                    </span>
                   </div>
-                }
+                )}
                 {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
                   <div className="option">
                     <label htmlFor="diamond">Color Stone:</label>
-                    <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
+                    <span>{combineDiamondInfo(selectedItem?.colorstonequality, selectedItem?.colorstonecolor)}</span>
                   </div>
                 }
                 {selectedItem?.Size != "" &&
@@ -252,8 +278,12 @@ const Customization = ({
                     <div className="for_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
-                          <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                          {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.FinalCost + diadata?.price) ?? selectedItem?.FinalCost)) : formatter(((selectedItem?.FinalCost)))}
+                          {loading == false &&
+                            <>
+                              <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                              {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.FinalCost + diadata?.price) ?? selectedItem?.FinalCost)) : formatter(((selectedItem?.FinalCost)))}
+                            </>
+                          }
                         </span>
                       ) :
                         <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />

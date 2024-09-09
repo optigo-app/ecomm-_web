@@ -39,14 +39,15 @@
         font-weight: bold;
         margin-right: 100px;
         color: #000;
+        text-decoration: underline;
       }
 
       .for_edit-btn {
         background-color: #df647e;
         color: white;
         border: none;
-        border-radius: 4px;
-        padding: 5px 30px;
+        border-radius: 0px;
+        padding: 1px 40px;
         cursor: pointer;
 
         &:hover {

@@ -241,6 +241,22 @@
                 outline: none;
             }
         }
+        .elv_metaltype_drp_size {
+            width: 100%;
+            background-color: #f4f4f4 !important;
+            border: none;
+            color: #424242;
+            font-size: 13px;
+            height: 30px;
+            outline: none;
+            font-family: 'PT Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2.2px;
+
+            &:focus {
+                outline: none;
+            }
+        }
 
         .elv_ProductDet_divider_1 {
             margin: 8px 0px 8px 0px;
@@ -334,8 +350,7 @@
 
         .elv_ProductDet_cart_div {
             border: 1px solid #d2815f;
-            height: 30%;
-            min-height: 49px;
+            height: 100%;
             width: 75%;
             cursor: pointer;
 
@@ -361,8 +376,7 @@
 
         .elv_ProductDet_wishlist_div {
             border: 1px solid #d2815f;
-            height: 30%;
-            min-height: 49px;
+            height: 100%;
             width: 20%;
             cursor: pointer;
 
@@ -482,9 +496,10 @@
         }
 
         .elv_ProductDet_wishlist_div {
-
+            height: 100%;
             .elv_ProductDet_wishlist {
-                height: 36px;
+                height: 100%;
+                align-content: center;
             }
         }
 

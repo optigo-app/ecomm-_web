@@ -55,7 +55,23 @@ const Customization = ({
     }
   }
 
+  function combineDiamondInfo(quality, color) {
+    if (!quality || !color) return '';
+
+    const qualityParts = quality?.split(',');
+    const colorParts = color?.split(',');
+
+    const combinedParts = qualityParts?.map((q, index) => {
+      const c = colorParts[index] || '';
+      return `${q?.toUpperCase()}-${c?.toUpperCase()}`;
+    });
+
+    return combinedParts.join(', ');
+  }
+
   console.log("selectedItem", selectedItem);
+
+
 
   return (
     <>
@@ -202,16 +218,20 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-            {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+            {(selectedItem?.Dwt !== "0" || selectedItem?.Dpcs !== "0") && (
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
-                <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
+                <span>
+                  {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                </span>
               </div>
-            }
+            )}
             {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Color Stone:</label>
-                <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
+                <span>
+                {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                </span>
               </div>
             }
             {selectedItem?.Size != "" &&

@@ -104,12 +104,12 @@
     border-bottom: 1px solid black;
 }
 
-.smlingAccountTabWebView button.Mui-selected{
+.smlingAccountTabWebView_SMR button.Mui-selected{
     color: #3b3c3d;
     /* text-decoration: underline; */
 }
 
-.smlingAccountTabWebView span.MuiTabs-indicator{
+.smlingAccountTabWebView_SMR span.MuiTabs-indicator{
     background-color: #3b3c3d;
 }
 
@@ -181,10 +181,10 @@
 
 @media screen and (max-width: 1049px) {
 
-    .smlingAccountTabWebView{
-        // display: none;
-        display: unset;
-    }
+    // .smlingAccountTabWebView_SMR{
+    //     // display: none;
+    //     display: unset;
+    // }
 
     .smilingAccountLogoutMobile{
         position: relative;
@@ -220,14 +220,23 @@
     //     display: none !important;
     // }
 }
-@media (min-width:1024px){
-    .smlingAccountTabMobileView{
-        display: none;
+
+@media (max-width:786px),(max-width:1080px){
+    .SmilingAccountTitle{
+        padding-top: 0px !important;
     }
-    .smlingAccountTabWebView{
-        // display: none;
-        display: unset !important;
+    .yourAccount_SMR .MuiButtonBase-root{
+        // padding: 0px !important;
+        min-height: auto !important;
+        align-items: flex-start;
     }
+}
+@media (max-width:1026px){
+    
+    // .smlingAccountTabWebView_SMR{
+    //     // display: none;
+    //     display: unset !important;
+    // }
     // .d_none_acc_smr{
     //     display: none !important;
     // }
@@ -235,18 +244,15 @@
     .SmilingAccountTitle{
         padding-top: 0px !important;
     }
-}
-@media (max-width:786px),(max-width:1080px){
-    .SmilingAccountTitle{
-        padding-top: 0px !important;
+    .smlingAccountTabWebView_SMR {
+        display: none !important;
     }
-    .yourAccount .MuiButtonBase-root{
+    .yourAccount_SMR .MuiButtonBase-root{
         padding: 0px !important;
         min-height: auto !important;
         align-items: flex-start;
     }
 }
-
 @media(max-width: 768px){
     .YourAccountPageTabs div[aria-orientation="vertical"] > .MuiTab-textColorPrimary {
         padding: 2px 15px !important;
@@ -301,3 +307,4 @@
 }
 
 /* 1px solid #e1e1e1 */
+

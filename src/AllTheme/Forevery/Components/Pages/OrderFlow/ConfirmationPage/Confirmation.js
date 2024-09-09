@@ -45,12 +45,12 @@ const Confirmation = () => {
     return (
         <div className='for_confirMaindiv'>
             <div className='for_confirSecondMaindiv'>
-                <div className="thankYouContainer">
-                    <div className="thankYouContent">
-                        <div className="thankYouMessage">
+                <div className="for_thankYouContainer">
+                    <div className="for_thankYouContent">
+                        <div className="for_thankYouMessage">
                             <img src={ThankYouImage} className='for_orderCnfThankyouImage' />
                         </div>
-                        <div className="orderNumber">
+                        <div className="for_orderNumber">
                             <p>Your Order number is <span>{orderNo}</span></p>
                         </div>
                         {storeInit?.IsPLW != 0 &&

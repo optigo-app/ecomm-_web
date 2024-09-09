@@ -158,7 +158,7 @@
 
                 .for_wlListGrid {
                     display: flex !important;
-                    justify-content: center !important;
+                    justify-content: start !important;
                     align-items: center !important;
                     opacity: 1;
                     transition: opacity .5s ease;
@@ -170,7 +170,7 @@
                         position: relative;
                         border-radius: 0px !important;
                         width: 100%;
-                        max-width: 320px;
+                        // max-width: 320px;
                         height: 100%;
                         display: flex;
                         flex-direction: column;
@@ -181,7 +181,8 @@
                             flex-direction: column;
                             justify-content: space-between;
                             height: 100%;
-                            padding: 10px;
+                            padding-bottom: 10px;
+
 
                             .for_WlListImage {
                                 height: 260px;
@@ -189,24 +190,53 @@
                                 cursor: pointer;
                             }
 
+                            .for_diamondImage {
+
+                                .for_cardText {
+                                    p {
+                                        text-transform: uppercase !important;
+                                        letter-spacing: .8px !important;
+                                        margin-bottom: 5px !important;
+
+                                        span {
+                                            text-transform: uppercase !important;
+                                            letter-spacing: .8px !important;
+                                        }
+                                    }
+                                }
+                            }
+
                             .for_cardContent {
+                                padding: 10px;
                                 flex: 1;
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: space-between;
-                                padding: 0px;
                                 height: 40px;
 
                                 .for_cardText {
                                     margin-top: 10px;
-                                    height: 80px;
-                                    max-height: 100px;
+                                    height: 115px;
+                                    max-height: 150px;
 
                                     .for_card-ContentData {
                                         font-size: $fontSize1;
                                         color: $primaryfontcolor2;
                                         font-family: $primaryFontFamily !important;
                                         letter-spacing: .6px;
+
+                                        .for_diamondDShapeImg {
+                                            width: 100%;
+                                            max-width: 25px;
+                                            margin: 0;
+                                            padding-right: 5px;
+                                            filter: invert(1);
+                                        }
+                                    }
+
+                                    .for_diamondData {
+                                        margin-top: 5px;
+                                        padding-bottom: 10px;
                                     }
                                 }
                             }
@@ -234,6 +264,25 @@
                                     color: $btn1FontColor;
                                 }
                             }
+                        }
+
+                        .for_priceDataDiv {
+                            text-align: center;
+
+                            span {
+                                font-size: $fontSize3;
+                                font-weight: 700;
+                                color: #000;
+                            }
+                        }
+
+                        .for_totalcart {
+                            text-align: center;
+                            margin-bottom: -7px;
+                            font-size: 14px;
+                            letter-spacing: .8px;
+                            margin-top: 10px;
+                            height: 20px;
                         }
 
                         .for_closeWlIconDiv {
@@ -331,6 +380,16 @@
     }
 
     /* Media Queries for Responsive Design */
+    @media (max-width: 1450px) {
+        .for_WishlistDiv {
+            margin-inline: 80px;
+        }
+
+        .for_WishlistSubDiv {
+            margin-inline: 100px;
+        }
+    }
+
     @media (max-width: 1400px) {
         .for_WishlistDiv {
             margin-inline: 80px;
@@ -360,7 +419,7 @@
         }
 
         .for_WlListCard {
-            max-width: 180px;
+            // max-width: 180px;
 
             .for_WlListImage {
                 height: 180px;
@@ -370,10 +429,13 @@
 
     @media (max-width: 768px) {
         .for_wlListGrid {
+            padding-left: 10px !important;
+            padding-top: 10px !important;
+
             .css-16cooyn-MuiGrid-root {
-                max-width: 33.333% !important;
-                width: 33.333% !important;
-                flex-basis: 33.333% !important;
+                max-width: 33.33333333333333% !important;
+                width: 33.33333333333333% !important;
+                flex-basis: 33.33333333333333% !important;
             }
         }
 
@@ -383,20 +445,23 @@
 
         .for_WishlistSubDiv {
             margin-inline: 15px;
-            padding-inline: 10px;
+            padding: 0px 10px 0px 6px;
         }
 
-        .for_WlListCard {
-            max-width: 180px;
-
-            .for_WlListImage {
-                height: 180px;
+        .for_cardContentMainDiv {
+            .for_cardContent {
+                .for_cardText {
+                    height: 110px !important;
+                }
             }
         }
     }
 
     @media (max-width: 576px) {
         .for_wlListGrid {
+            padding-left: 10px !important;
+            padding-top: 10px !important;
+
             .css-16cooyn-MuiGrid-root {
                 max-width: 50% !important;
                 width: 50% !important;
@@ -410,19 +475,20 @@
 
         .for_WishlistSubDiv {
             margin-inline: 15px;
-            padding-inline: 10px;
+            padding: 0px 10px 0px 6px;
         }
 
         .for_WlListCard {
-            max-width: 180px;
+            // max-width: 180px;
 
             .for_WlListImage {
-                height: 180px;
+                height: 100% !important;
+                object-fit: contain;
             }
         }
     }
 
-    @media (max-width: 400px) {
+    @media (max-width: 415px) {
         .for_wlListGrid {
             .css-16cooyn-MuiGrid-root {
                 max-width: 100% !important;
@@ -441,11 +507,24 @@
         }
 
         .for_WlListCard {
-            max-width: 180px;
+            // max-width: 180px;
 
             .for_WlListImage {
                 height: 180px;
             }
+        }
+
+        .for_cardContentMainDiv {
+            .for_cardContent {
+                .for_cardText {
+                    height: 100% !important;
+                    max-height: 100% !important;
+                }
+            }
+        }
+
+        .for_totalcart {
+            display: none;
         }
     }
 }

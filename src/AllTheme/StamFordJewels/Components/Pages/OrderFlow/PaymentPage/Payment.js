@@ -13,9 +13,11 @@ import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { stam_CartCount, stam_loginState } from '../../../Recoil/atom';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
+    const [isploding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
@@ -43,16 +45,11 @@ const Payment = () => {
     //     handleClose();
     // };
 
-    
+
     const handleSaveInternal = () => {
-        const trimmedRemark = orderRemark.trim();
-    
-        if (trimmedRemark && trimmedRemark !== "null") {
+        const trimmedRemark = orderRemark?.trim();
             handleOrderRemarkFun(trimmedRemark);
             handleClose();
-        } else {
-            toast.info("Please add a remark first!");
-        }        
     };
 
     console.log('orderreamrk', orderRemark);
@@ -77,6 +74,7 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             try {
                 const texData = await fetchEstimateTax();
@@ -85,6 +83,8 @@ const Payment = () => {
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally {
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
@@ -133,9 +133,6 @@ const Payment = () => {
             const response = await handleOrderRemark(trimmedRemark);
             let resStatus = response?.Data?.rd[0]
             if (resStatus?.stat == 1) {
-                // const updatedCartData = cartData.map(cart =>
-                //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
-                // );
                 setOrderRemarkData(resStatus?.orderremarks)
                 sessionStorage.setItem('orderRemark', trimmedRemark)
             }
@@ -159,99 +156,73 @@ const Payment = () => {
     }
 
     return (
-        <div className='smr_paymentMainDiv'>
-            <div className='smr_paymentSecondMainDiv'>
-                <div className='smr_PaymentContainer'>
-                    <div className='smr_paymentBackbtnDiv'>
-                        <IoMdArrowRoundBack className='smr_paymentBackbtn' onClick={handleBackNavigate} />
+        <div className='stam_paymentMainDiv'>
+            <div className='stam_paymentSecondMainDiv'>
+                <div className='stam_PaymentContainer'>
+                    <div className='stam_paymentBackbtnDiv'>
+                        <IoMdArrowRoundBack className='stam_paymentBackbtn' onClick={handleBackNavigate} />
                         <Link
-                            className="smr_addorderRemarkbtn"
+                            className="stam_addorderRemarkbtn"
                             variant="body2"
                             onClick={handleOpen}
                         >
-                            {orderRemakdata == "" ? "Add order Remark" : "Update order Remark"}
+                          {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
-                    <div className='smr_paymentDetailMainDiv'>
-                        <div className='smr_paymentDetailLeftSideContent'>
+                    <div className='stam_paymentDetailMainDiv'>
+                        <div className='stam_paymentDetailLeftSideContent'>
                             <h2>Payment Card Method</h2>
-                            <div className='smr_billingAddress'>
+                            <div className='stam_billingAddress'>
                                 <h3>Billing Address</h3>
                                 <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>Address : {selectedAddrData?.street}</p>
                                 <p>City : {selectedAddrData?.city}</p>
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
-                                <p className='smr_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
+                                <p className='stam_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
                                     Order Remark : {orderRemakdata}
                                 </p>
-        
+
                             </div>
                         </div>
-                        <div className='smr_paymentDetailRightSideContent'>
+                        <div className='stam_paymentDetailRightSideContent'>
                             <h3>Order Summary</h3>
-                            {/* <div className='smr_paymenttotalpricesummary'>
-                                <p>Subtotal</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-
-                                    <span>{formatter(finalTotal)}</span>
-                                </p>
-                            </div>
-                            <div className='smr_paymenttotalpricesummary'>
-                                <p>Estimated Tax</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
-                            <div className='smr_paymenttotalpricesummary'>
-                                <p>Estimated Total</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                </p>
-                            </div> */}
-
-                            <div class="smr_order-summary">
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Subtotal</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(finalTotal)}</span>
+                            {!isploding ? (
+                                <div class="stam_order-summary">
+                                    <div class="stam_summary-item">
+                                        <div class="stam_label">Subtotal</div>
+                                        <div class="stam_value">
+                                            <span className="stam_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(finalTotal)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="stam_summary-item">
+                                        <div class="stam_label">Estimated Tax</div>
+                                        <div class="stam_value">
+                                            <span className="stam_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                        </div>
+                                    </div>
+                                    <div class="stam_summary-item">
+                                        <div class="stam_label">Estimated Total</div>
+                                        <div class="stam_value">
+                                            <span className="stam_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Estimated Tax</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Estimated Total</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className='smr_shippingAddress'>
+                            ) :
+                                <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                            }
+                            <div className='stam_shippingAddress'>
                                 <h3>Shipping Address</h3>
-                                <p className='smr_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p className='stam_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>{selectedAddrData?.street}</p>
                                 <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
                                 <p>{selectedAddrData?.state}</p>
@@ -259,8 +230,8 @@ const Payment = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='smr_paymentButtonDiv'>
-                        <button className='smr_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                    <div className='stam_paymentButtonDiv'>
+                        <button className='stam_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                             {isloding && <span className="loader"></span>}
                         </button>
@@ -273,10 +244,6 @@ const Payment = () => {
                     onRemarkChange={handleRemarkChangeInternal}
                     onSave={handleSaveInternal}
                 />
-                <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p className='smr_backtoTopBtn' style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     )

@@ -13,6 +13,7 @@ const Footer = () => {
     const [companyInfoData, setCompanuInfoData] = useState();
     console.log('companyInfoData: ', companyInfoData);
     const [socialMediaData, setSocialMediaData] = useState([]);
+    console.log('socialMediaData: ', socialMediaData);
     const [email, setEmail] = useState();
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
@@ -29,13 +30,14 @@ const Footer = () => {
             if (sessionStorage.getItem("CompanyInfoData")) {
                 companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
                 setCompanuInfoData(companyInfoData)
-                const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-                if (parsedSocilaMediaUrlData) {
-                    setSocialMediaData(parsedSocilaMediaUrlData)
+                let parsedSocialMediaUrlData = [];
+                try {
+                    parsedSocialMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) || [];
+                    setSocialMediaData(parsedSocialMediaUrlData);
+                } catch (error) {
+                    console.error("Failed to parse SocialLinkObj:", error);
                 }
             }
-
-
         }, 500)
 
     }, [])
@@ -73,30 +75,30 @@ const Footer = () => {
         <div className='el_footer_main'>
             <div className='ElveFooterMain'>
                 {/* {isLogin[0] === false && ( */}
-                    <div className='ElveFooter1'>
-                        <p className='elveBox1Title'>Sign up for our updates</p>
-                        <p style={{ margin: '0px', maxWidth: '350px', fontSize: '15px' }}>Sign up for our updates
-                            Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
-                        <div className='ElveFooter1Input' style={{ marginTop: '20px', display: 'flex' }}>
-                            <input type="email" placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
-                            <button className='elevBox1Btn' onClick={handleSubmitNewlater}>SIGN UP</button>
-                        </div>
-                        <div className='footerIconMain'>
-                            {socialMediaData?.map((social, index) => (
-                                <Link key={index} className='footerSocialIcon' to={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                                    <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
-                                        onError={(e) => { e.target.style.display = 'none'; }} />
-                                </Link>
-                            ))}
-                        </div>
+                <div className='ElveFooter1'>
+                    <p className='elveBox1Title'>Sign up for our updates</p>
+                    <p style={{ margin: '0px', maxWidth: '350px', fontSize: '15px' }}>Sign up for our updates
+                        Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
+                    <div className='ElveFooter1Input' style={{ marginTop: '20px', display: 'flex' }}>
+                        <input type="email" placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
+                        <button className='elevBox1Btn' onClick={handleSubmitNewlater}>SIGN UP</button>
                     </div>
+                    <div className='footerIconMain'>
+                        {socialMediaData?.map((social, index) => (
+                            <Link key={index} className='footerSocialIcon' to={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                                <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
+                                    onError={(e) => { e.target.style.display = 'none'; }} />
+                            </Link>
+                        ))}
+                    </div>
+                </div>
                 {/* )} */}
                 <div className={'ElveFooter2'}>
                     <p className='ElevFooterBoxTitle'>Our Company</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/aboutUs')}>About Us</p>
-                    <p className='ElveFooterDesc'>Careers</p>
+                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/careers')}>Careers</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/history')}>History</p>
-                    <p className='ElveFooterDesc'>Contact Us</p>
+                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/contact-us')}>Contact Us</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/term&condition')}>Terms and Conditions</p>
                 </div>
                 <div className={'ElveFooter3'}>
@@ -104,7 +106,7 @@ const Footer = () => {
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/customerServices')}>Customer Services</p>
                     <p className='ElveFooterDesc'>Book an Appoinment</p>
                     <p className='ElveFooterDesc' onClick={() => handleNavigte('/customize')}>Customize</p>
-                    <p className='ElveFooterDesc'>FAQ</p>
+                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/faqs')}>FAQ</p>
                     {/* <p className='ElveFooterDesc' onClick={() => handleNavigte('/Lookbook')}>Lookbook</p> */}
                 </div>
                 <div className={'ElveFooter4'}>
@@ -115,14 +117,14 @@ const Footer = () => {
                     {
                         selectedFooteVal === 0 ?
                             <div>
-                                <p className='footerOfficeDesc' style={{ display: 'flex', alignItems:'center', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
-                                    <IoLocationOutline style={{ width: '50px', height: 'fit-content' }} />
+                                <p className='footerOfficeDesc' style={{ display: 'flex', alignItems: 'center', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
+                                    <IoLocationOutline style={{ width: '30px', height: 'fit-content' }} />
                                     <span>
                                         {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
                                     </span>
                                 </p>
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdCall style={{ width: '37px', height: 'fit-content', marginLeft: '8px' }} />
+                                    <IoMdCall style={{ width: '18px', height: 'fit-content', marginLeft: '6px' }} />
                                     <span style={{ marginLeft: '5px' }}>
                                         <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                                             {companyInfoData?.FrontEndContactno1}
@@ -130,7 +132,7 @@ const Footer = () => {
                                     </span>
                                 </p>
                                 <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdMail style={{ width: '37px', height: 'fit-content',marginLeft: '10px' }} />
+                                    <IoMdMail style={{ width: '18px', height: 'fit-content', marginLeft: '8px' }} />
                                     <span style={{ marginLeft: '5px' }}>
                                         <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                                             {companyInfoData?.FrontEndEmail1}

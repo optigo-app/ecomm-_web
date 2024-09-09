@@ -1,8 +1,7 @@
 @import '../../../scss/variable';
 
 
-.smr_AlbumImageMainPopup {
-    height: 270px;
+.proCat_AlbumImageMainPopup {
     width: 19%;
     padding: 5px;
     margin: 5px;
@@ -17,9 +16,8 @@
     top: 40%;
 }
 
-.smr_AlbumImageMainPopup_img {
+.proCat_AlbumImageMainPopup_img {
     width: 100%;
-    max-height: 300px;
     object-fit: contain;
 }
 
@@ -32,6 +30,14 @@
     border-radius: 50%;
     height: 50px;
     object-fit: contain;
+}
+
+
+.proCat_albumName {
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    margin: 0px;
+    text-align: center;
 }
 
 .proCat_alubmMainDiv {
@@ -55,12 +61,6 @@
         margin: 15px 0px 15px 0px;
     }
 
-    .smr_albumName {
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
-        margin: 0px;
-        text-align: center;
-    }
 
     .smr_AlbumImageMain_img {
         width: 100%;

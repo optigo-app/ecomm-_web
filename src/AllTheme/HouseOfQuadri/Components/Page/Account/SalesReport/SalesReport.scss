@@ -238,9 +238,9 @@
         // flex-direction: column;
     }
 
-    .salesReportTableSecWeb>div>table>tbody>tr>td:last-child {
-        // border-bottom: 1px solid #9b978f !important;
-    }
+    // .salesReportTableSecWeb>div>table>tbody>tr>td:last-child {
+    //     // border-bottom: 1px solid #9b978f !important;
+    // }
 
     .salesReportTableSecWeb>div>table>tbody>tr>td {
         min-height: 31.02px;
@@ -256,4 +256,12 @@
         border-radius: 0 !important;
     }
 
+}
+
+@media screen and (max-width:880px){
+    .full_width_SP_table{
+        width: 100% !important;
+        display: flex;
+        justify-content: center;
+    }
 }

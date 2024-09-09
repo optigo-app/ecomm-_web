@@ -1,0 +1,131 @@
+@import '../../../scss/variable';
+
+
+.mala_BottomBannerMain {
+
+    .mala_shop_div1 {
+        display: flex;
+        padding: 50px 350px 0px 350px;
+    }
+
+    .mala_shop_div2 {
+        display: flex;
+        padding: 0px 350px 50px 350px;
+    }
+
+    .mala_shop_div2_1 {
+        width: 50%;
+        margin: 20px;
+        overflow: hidden;
+    }
+
+    .mala_shop_div2_2 {
+        margin: 20px;
+        width: 50%;
+        overflow: hidden;
+    }
+
+    .mala_shop_div1_1 {
+        width: 50%;
+        overflow: hidden;
+        margin: 20px;
+    }
+
+    .mala_shop_div1_2 {
+        overflow: hidden;
+        width: 50%;
+        margin: 20px;
+    }
+
+    .mala_promo_secton2_img {
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+    }
+
+    .mala_promo_secton2_img:hover {
+        scale: 1.2;
+        rotate: 2deg;
+        transition: 2750ms ease-in-out all;
+    }
+
+    .shopifyMain {
+        display: flex;
+        margin-inline: 0px;
+        margin-block: 60px;
+    }
+
+    .shopifyDesc {
+        border: 0.5px solid #e1e1e1;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .shopifyMainImage {
+        /* border: 1px solid; */
+        width: 50%;
+    }
+
+    .shopifyTitle {
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize5;
+        text-align: center;
+        margin: 0px;
+    }
+
+    .shopifyDescription {
+        width: 70%;
+        text-align: center;
+        color: $homePageFontColor;
+        font-family: $homePageFontFamily;
+        font-size: $fontSize2;
+        margin: 5px;
+    }
+
+
+
+    @media screen and (max-width: 1200px) {
+        .mala_shopifyImg {
+            min-height: auto !important;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .shopifyMain {
+            display: flex;
+            flex-direction: column;
+            margin-inline: 10px;
+            margin-block: 60px;
+
+        }
+
+        .shopifyDesc {
+            width: 100%;
+            order: 2;
+        }
+
+        .shopifyMainImage {
+            width: 100%;
+            order: 1;
+        }
+
+        .shopifyDescription {
+            color: #7d7f85 !important;
+            width: 95% !important;
+        }
+
+        .shopifyTitle {
+            font-size: 20px !important;
+            margin: 0px;
+        }
+
+        .shopifyDescription {
+            font-size: 12px !important;
+        }
+
+    }
+}

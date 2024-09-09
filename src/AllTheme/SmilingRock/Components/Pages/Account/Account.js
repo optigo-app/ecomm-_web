@@ -133,7 +133,7 @@ export default function Account() {
                 <div className='Smiling-AccountMain'>
                     <div className='sticky-header_web_sm'>
                         <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
-                        <div className='smlingAccountTabWebView yourAccount d_none_acc_smr' >
+                        <div className='smlingAccountTabWebView_SMR yourAccount_SMR d_none_acc_smr' >
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} />
@@ -148,7 +148,7 @@ export default function Account() {
                                         {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                     </Box>
                         </div>
-                        <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount'>
+                        <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount_SMR'>
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                         <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />

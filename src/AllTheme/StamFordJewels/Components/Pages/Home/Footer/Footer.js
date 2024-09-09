@@ -21,21 +21,21 @@ const Footer = ({ fromPage }) => {
     const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? ""
     if (sessionStorage.getItem("CompanyInfoData")) {
       if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-          companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-          const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-          if (parsedSocilaMediaUrlData) {
-              setSocialMediaData(parsedSocilaMediaUrlData)
-          }
+        // companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+        if (parsedSocilaMediaUrlData) {
+          setSocialMediaData(parsedSocilaMediaUrlData)
+        }
       }
-  }
-}, [])
+    }
+  }, [])
 
   return (
     <div>
       {storeinit?.IsPLW == 0 &&
         <div>
           {localData?.Footerno === 1 &&
-            <div className='smr_Footer1_main'>
+            <div className='stam_Footer1_main'>
               <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
                 <div className='footerIconMain'>
                   {socialMediaData?.map((social, index) => (
@@ -59,8 +59,8 @@ const Footer = ({ fromPage }) => {
                     fontSize: '12px',
                     fontWeight: 500,
                     marginInline: '15px'
-                    // }}>© 2024, optigoapps</p>
-                }}>© 2024, KayraCreation</p>
+                    }}>© 2024, optigoapps</p>
+                  {/* // }}>© 2024,</p> */}
 
                   <p style={{
                     color: '#7d7f85',
@@ -99,7 +99,7 @@ const Footer = ({ fromPage }) => {
                     </div>
                   ))}
                 </div>
-              
+
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <img src='https://smilingrocks.com/cdn/shop/t/157/assets/passport.svg?v=152807140915720846441675380017' style={{ height: '80px', cursor: 'pointer', paddingBlock: '10px' }} />

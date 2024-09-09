@@ -95,6 +95,7 @@ const SettingPage = () => {
   const [trend, setTrend] = useState('Recommended');
   const [diamondData, setDiamondData] = useState([])
   const [selectShape, setSelectShape] = useState();
+  console.log('selectShape: ', selectShape);
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
   const [storeInit, setStoreInit] = useState({})
   const [open, setOpen] = useState(null);
@@ -118,7 +119,9 @@ const SettingPage = () => {
   const [Shape, setShape] = useState("");
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  console.log('steps: ', steps);
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
+  console.log('steps1: ', steps1);
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
   const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
 
@@ -159,16 +162,16 @@ const SettingPage = () => {
   ]
 
   const diaShapeData = [
-    { id: 1, img: `${storImagePath()}/images/ProductListing/Diamond/images/r.png`, title: 'round' },
-    { id: 2, img: `${storImagePath()}/images/ProductListing/Diamond/images/p.png`, title: 'princess' },
-    { id: 3, img: `${storImagePath()}/images/ProductListing/Diamond/images/c.png`, title: 'cushion' },
-    { id: 4, img: `${storImagePath()}/images/ProductListing/Diamond/images/e.png`, title: 'emerald' },
-    { id: 5, img: `${storImagePath()}/images/ProductListing/Diamond/images/o.png`, title: 'oval' },
-    { id: 6, img: `${storImagePath()}/images/ProductListing/Diamond/images/rad.png`, title: 'radiant' },
-    { id: 7, img: `${storImagePath()}/images/ProductListing/Diamond/images/as.png`, title: 'asscher' },
-    { id: 8, img: `${storImagePath()}/images/ProductListing/Diamond/images/m.png`, title: 'marquise' },
-    { id: 9, img: `${storImagePath()}/images/ProductListing/Diamond/images/hea.png`, title: 'heart' },
-    { id: 10, img: `${storImagePath()}/images/ProductListing/Diamond/images/p.png`, title: 'pear' },
+    { id: 1, img: `${storImagePath()}/images/ProductListing/Diamond/images/r.png`, title: 'Round' },
+    { id: 2, img: `${storImagePath()}/images/ProductListing/Diamond/images/p.png`, title: 'Princess' },
+    { id: 3, img: `${storImagePath()}/images/ProductListing/Diamond/images/c.png`, title: 'Cushion' },
+    { id: 4, img: `${storImagePath()}/images/ProductListing/Diamond/images/e.png`, title: 'Emerald' },
+    { id: 5, img: `${storImagePath()}/images/ProductListing/Diamond/images/o.png`, title: 'Qval' },
+    { id: 6, img: `${storImagePath()}/images/ProductListing/Diamond/images/rad.png`, title: 'Radiant' },
+    { id: 7, img: `${storImagePath()}/images/ProductListing/Diamond/images/as.png`, title: 'Asscher' },
+    { id: 8, img: `${storImagePath()}/images/ProductListing/Diamond/images/m.png`, title: 'Marquise' },
+    { id: 9, img: `${storImagePath()}/images/ProductListing/Diamond/images/hea.png`, title: 'Heart' },
+    { id: 10, img: `${storImagePath()}/images/ProductListing/Diamond/images/p.png`, title: 'Pear' },
     { id: 11, img: `${storImagePath()}/images/ProductListing/Diamond/Svgs/1.svg`, title: 'Baguette' },
     { id: 12, img: `${storImagePath()}/images/ProductListing/Diamond/Svgs/2.svg`, title: 'Trillion' },
     { id: 13, img: `${storImagePath()}/images/ProductListing/Diamond/Svgs/3.svg`, title: 'Kite' },
@@ -288,8 +291,8 @@ const SettingPage = () => {
       return step;
     });
 
-    if (!updatedStep1.some(step => step.step1 !== undefined)) {
-      updatedStep1.push({ "step1": true, "Setting": shape });
+    if (!updatedStep1?.some(step => step?.step1 !== undefined)) {
+      updatedStep1?.push({ "step1": true, "Setting": shape });
     }
     sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
   }
@@ -297,14 +300,13 @@ const SettingPage = () => {
 
   useEffect(() => {
     // Check if the current values differ from the previous values
-    const hasChanges =
-      selectedMetalId !== previousSelections.selectedMetalId ||
-      selectedDiaId !== previousSelections.selectedDiaId ||
-      selectedCsId !== previousSelections.selectedCsId;
+    const hasChanges = selectedMetalId !== previousSelections.selectedMetalId
+      || selectedDiaId !== previousSelections.selectedDiaId
+      || selectedCsId !== previousSelections.selectedCsId || selectShape
 
     if (hasChanges) {
       // Call filterData function
-      filterData(selectedMetalId, selectedDiaId, selectedCsId);
+      filterData(selectedMetalId, selectedDiaId, selectedCsId, selectShape);
 
       // Update the previousSelections with current state values
       setPreviousSelections({
@@ -313,15 +315,16 @@ const SettingPage = () => {
         selectedCsId
       });
     }
-  }, [selectedMetalId, selectedDiaId, selectedCsId]);
+  }, [selectedMetalId, selectedDiaId, selectedCsId, selectShape]);
 
 
-  const filterData = (selectedMetalId, selectedDiaId, selectedCsId) => {
+  const filterData = (selectedMetalId, selectedDiaId, selectedCsId, shape) => {
+    console.log('filterData shape: ', shape);
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     // if (location?.key === locationKey) {
     setIsOnlySettLoading(true);
-    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, Shape)
+    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, shape)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -352,8 +355,8 @@ const SettingPage = () => {
     };
   }, []);
 
-  const handleShape = (id) => {
-    setSelectShape(selectShape === id ? null : id);
+  const handleShape = (title) => {
+    setSelectShape(selectShape === title ? null : title);
   }
 
   const handleMetalColor = (index) => {
@@ -460,8 +463,8 @@ const SettingPage = () => {
   };
 
   const dropdownsData = [
-    { index: 1, title: "All metal", data: metalType, type: 'metal' },
-    { index: 2, title: "Diamond shape", data: diaShapeData, type: 'diashape' },
+    { index: 1, title: "All metal", data: metalType, type: 'metal', "diaStep": steps, "setStep": steps1 },
+    { index: 2, title: "Diamond shape", data: diaShapeData, type: 'diashape', "diaStep": steps, "settStep": steps1 },
   ];
 
   const rangeData = [
@@ -624,7 +627,7 @@ const SettingPage = () => {
             <div className="for_productList_setting_filter_mainDiv">
               <div className="for_setting_filter_lists">
 
-                {dropdownsData.map(({ index, title, data, type }) => {
+                {dropdownsData.map(({ index, title, data, type, diaStep, settStep }) => {
                   return (
                     type === 'metal' ? (
                       <CollectionDropdown
@@ -642,20 +645,24 @@ const SettingPage = () => {
                         selectedMetalId={selectedMetalId}
                       />
                     ) : (
-                      <CollectionDiamondShape
-                        key={index}
-                        handleOpen={handleOpen}
-                        open={open === index}
-                        type={type}
-                        handleButton={(value) => handleButton(index, value)}
-                        check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
-                        title={title}
-                        index={index}
-                        data={data}
-                        ref={el => dropdownRefs.current[index] = el}
-                        handleShape={handleShape}
-                        selectShape={selectShape}
-                      />
+                      <>
+                        {(settStep?.[0]?.step1 == true && diaStep?.[0]?.step1 != true) && (
+                          <CollectionDiamondShape
+                            key={index}
+                            handleOpen={handleOpen}
+                            open={open === index}
+                            type={type}
+                            handleButton={(value) => handleButton(index, value)}
+                            check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                            title={title}
+                            index={index}
+                            data={data}
+                            ref={el => dropdownRefs.current[index] = el}
+                            handleShape={handleShape}
+                            selectShape={selectShape}
+                          />
+                        )}
+                      </>
                     )
                   )
                 })}
@@ -895,12 +902,12 @@ const CollectionDiamondShape = forwardRef(({
 
           return (
             <div
-              className={selectShape === i?.id ? 'for_setting_filter_options_diaShape_seelcted' : `for_setting_filter_options_diaShape`}
+              className={selectShape === i?.title ? 'for_setting_filter_options_diaShape_seelcted' : `for_setting_filter_options_diaShape`}
               onClick={(e) => {
                 e.stopPropagation();
                 if (type === 'diashape') {
                   handleButton(i?.title);
-                  handleShape(i?.id);
+                  handleShape(i?.title);
                 }
               }}
               key={i?.title}

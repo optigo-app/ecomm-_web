@@ -29,7 +29,7 @@
             margin-block: 1.3rem;
         }
 
-      
+
 
         .elv_wishlist_main_grid {
             display: flex;
@@ -116,6 +116,17 @@
         text-overflow: ellipsis;
     }
 
+    @media (max-width: 425px) {
+        .elv_wishlist_card_prod_title {
+            color: #1f1919;
+            font-family: 'PT Sans', sans-serif;
+            font-size: 14px;
+            visibility: hidden;
+            display: inline-block;
+            letter-spacing: 0.35px;
+        }
+    }
+
     .elv_wishlist_card_prod_title_hidden {
         color: #1f1919;
         font-family: 'PT Sans', sans-serif;
@@ -190,6 +201,7 @@
     align-items: center;
     margin-top: 2rem;
     gap: 1rem;
+    margin-bottom: 1rem;
 
     .elv_wishlist_clearAll_btn {
         background-color: transparent;
@@ -261,10 +273,9 @@
 
     .elv_WlListImage {
         width: 100%;
-        max-height: 400px;
-        object-fit: contain;
+        height: 400px;
+        object-fit: cover;
         cursor: pointer;
-        // height: 300px;
     }
 
     .cardText {
@@ -277,7 +288,8 @@
 
 .elv_MainWlDiv {
     background-color: $backgroundColor;
-    font-family: 'PT Sans', sans-serif;;
+    font-family: 'PT Sans', sans-serif;
+    ;
 }
 
 .elv_WlMainPageDiv {
@@ -475,6 +487,7 @@
     font-size: 30px;
     font-family: "Segoe UI", "Noto Sans", sans-serif;
 }
+
 .elv_Productlists_details {
     font-size: 20px;
     font-weight: 500;
@@ -504,12 +517,12 @@
 }
 
 .elv_wishlist_card_weights_1,
-        .elv_wishlist_card_weights_2 {
-            display: flex;
-            flex-direction: column;
-            font-size: 13px;
-            font-weight: 600;
-        }
+.elv_wishlist_card_weights_2 {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    font-weight: 600;
+}
 
 @media (max-width: 1750px) {
     .WlBtnGroupMainDiv {
@@ -630,7 +643,7 @@
 
 @media (max-width: 768px) {
     .elv_WlListData {
-        padding: 10px 10px 100px 10px;
+        padding: 10px 2px 100px 2px;
         margin-bottom: -8%;
     }
 
@@ -641,7 +654,7 @@
 
 @media (max-width: 600px) {
     .elv_WlListData {
-        padding: 10px 10px 100px 10px;
+        padding: 10px 2px 100px 2px;
         margin-bottom: -8%;
     }
 
@@ -713,7 +726,7 @@
 }
 
 @media (max-width: 425px) {
-    .elv_Productlists_details_1{
+    .elv_Productlists_details_1 {
         font-size: 20px;
     }
 }

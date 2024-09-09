@@ -24,19 +24,19 @@ const WishlistData = ({
 
   // const handleChange = (event, newAlignment) => {
   //   setAlignment(newAlignment);
-  //   const element = document.querySelector('.smr_wlListGrid');
+  //   const element = document.querySelector('.stam_wlListGrid');
   //   element.classList.add('fade-out');
 
   //   setTimeout(() => {
   //     element.classList.remove('fade-out');
-  //     element.classList.remove('smr_wlListGrid');
+  //     element.classList.remove('stam_wlListGrid');
   //     void element.offsetWidth;
-  //     element.classList.add('smr_wlListGrid');
+  //     element.classList.add('stam_wlListGrid');
   //   }, 800);
   // };
 
   const handleChange = (event, newAlignment) => {
-    const element = document.querySelector('.smr_wlListGrid');
+    const element = document.querySelector('.stam_wlListGrid');
     element.classList.add('fade-out');
 
     setTimeout(() => {
@@ -50,17 +50,17 @@ const WishlistData = ({
 
 
   return (
-    <div className="smr_WlListData">
+    <div className="stam_WlListData">
       <>
         {items?.length != 0 &&
-          <div className='smr_wlToggleButtonDiv'>
+          <div className='stam_wlToggleButtonDiv'>
             <ToggleButtonGroup
               size="medium"
               value={alignment}
               exclusive
               onChange={handleChange}
               aria-label="Platform"
-              className='smr_toggleWishButtonDiv'
+              className='stam_toggleWishButtonDiv'
               sx={{
                 height: "35px",
                 borderRadius: '0px',
@@ -82,7 +82,7 @@ const WishlistData = ({
             </ToggleButtonGroup>
           </div>
         }
-        <Grid container spacing={2} className='smr_wlListGrid'>
+        <Grid container spacing={2} className='stam_wlListGrid'>
           {items.map(item => (
             <WishlistItems
               key={item.id}
@@ -102,10 +102,10 @@ const WishlistData = ({
           ))}
         </Grid>
         {items.length == 0 &&
-          <div className='smr_noWishlistData'>
-            <p className='smr_title'>No Wishlist Found!</p>
-            <p className='smr_desc'>Please First Add Product in Wishlist</p>
-            <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+          <div className='stam_noWishlistData'>
+            <p className='stam_title'>No Wishlist Found!</p>
+            <p className='stam_desc'>Please First Add Product in Wishlist</p>
+            <button className='stam_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
           </div>
         }
       </>

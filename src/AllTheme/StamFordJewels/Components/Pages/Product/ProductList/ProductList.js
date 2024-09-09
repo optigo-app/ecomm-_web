@@ -2083,9 +2083,9 @@ const ProductList = () => {
             )}
           </div>
         </Drawer>
-        <div className="smr_bodyContain">
+        <div className="stam_bodyContain">
           <div className="smr_outerContain">
-            <div className="smr_whiteInnerContain">
+            <div className="stam_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
                 <ProductListSkeleton className="pSkelton" />
@@ -3019,7 +3019,7 @@ const ProductList = () => {
                               {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className="smr_productCard">
+                                  <div className="stam_productCard">
                                     <div className="cart_and_wishlist_icon">
                                       {/* <Button className="smr_cart-icon"> */}
                                       <Checkbox
@@ -3331,22 +3331,12 @@ const ProductList = () => {
                   </div>
                 </>
               )}
-
-              <Footer fromPage={"ProdList"} />
             </div>
           </div>
           {/* <div className="smr_backtotop">
               BACK TO TOP
         </div> */}
         </div>
-      </div>
-      <div className="smr_backtotop" onClick={() => {
-        window.scroll({
-          top: 0,
-          behavior: "auto",
-        });
-      }}>
-        BACK TO TOP
       </div>
     </>
   );

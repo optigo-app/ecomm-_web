@@ -78,6 +78,7 @@ $borderColor: rgba(232, 232, 232, 1);
             border: 1px solid $borderColor;
             margin-bottom: 1rem;
             position: relative;
+            padding: 10px 0px;
 
             .for_cart-item {
               display: flex;
@@ -112,9 +113,9 @@ $borderColor: rgba(232, 232, 232, 1);
                 }
 
                 .for_ringSize {
-                  font-size: $fontSize1;
+                  font-size: $fontSize2;
                   margin: 0;
-                  font-weight: 600;
+                  margin-top: 5px;
                 }
 
                 .for_change-size {
@@ -490,7 +491,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   label {
                     color: $primaryfontcolor2;
                     font-weight: bold;
-                    
+
                   }
 
                   span {
@@ -575,6 +576,7 @@ $borderColor: rgba(232, 232, 232, 1);
     }
   }
 }
+
 @media (max-width: 1545px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
@@ -611,6 +613,14 @@ $borderColor: rgba(232, 232, 232, 1);
   .for_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 20px;
+
+      .cartBtnGroupMainDiv {
+        .for_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize4;
+          }
+        }
+      }
     }
   }
 }
@@ -620,8 +630,69 @@ $borderColor: rgba(232, 232, 232, 1);
     .cartMainPageDiv {
       margin-inline: 50px;
 
+      .cartBtnGroupMainDiv {
+        .for_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize3;
+          }
+        }
+      }
+
       .for_cart-left-sides {
         width: 100% !important;
+
+        .for_RightCartList {
+          .for_cartMain-item {
+
+            .for_cart-item,
+            .for_Diacart-item {
+              .for_cart-item__details {
+                h3 {
+                  font-size: $fontSize3;
+                }
+
+                p {
+                  font-size: $fontSize1;
+                }
+
+                .for_weightsContainer {
+                  .for_weightPair {
+                    font-size: $fontSize1;
+                  }
+
+                  span {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_diamondSKUNO {
+                  font-size: $fontSize3;
+                }
+              }
+
+              .for_cart-item__price {
+                p {
+                  font-size: $fontSize3;
+                }
+              }
+
+              .for_cart-item__total-price {
+                p {
+                  font-size: $fontSize3;
+                }
+              }
+            }
+
+            .for_cartDiaTPrice {
+              right: 90px !important;
+              top: 40% !important;
+
+              .for_cart-item__total-price p {
+                font-size: $fontSize3;
+              }
+            }
+          }
+        }
       }
 
       .for_cart-right-side {
@@ -635,6 +706,14 @@ $borderColor: rgba(232, 232, 232, 1);
   .for_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 20px;
+
+      .cartBtnGroupMainDiv {
+        .for_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize3;
+          }
+        }
+      }
 
       .for_cart-left-sides {
         width: 100% !important;
@@ -671,42 +750,88 @@ $borderColor: rgba(232, 232, 232, 1);
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 650px) {
   .for_MainBGDiv {
     .cartMainPageDiv {
-      margin-inline: 20px;
+      margin-inline: 10px;
+
+      .cartBtnGroupMainDiv {
+        .for_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize2;
+          }
+        }
+      }
 
       .for_cart-left-sides {
         width: 100% !important;
 
         .for_RightCartList {
-          .for_cart-item {
-            position: relative;
+          .for_tablelable {
+            display: none !important;
+          }
 
-            .for_weightPair {
-              font-size: $fontSize1 !important;
-              margin-bottom: 5px;
-            }
+          .for_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
 
-            .for_cart-item__details {
-              h3 {
-                font-size: $fontSize1;
+            .for_cartMain-item {
+              width: 49%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
               }
 
-              p {
-                font-size: $fontSize0;
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
               }
-            }
 
-            .for_cart-item__price {
-              p {
-                font-size: $fontSize1;
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
               }
-            }
 
-            .for_cart-item__total-price {
-              p {
-                font-size: $fontSize1;
+              .for_cartDiaTPrice {
+                position: unset;
               }
             }
           }
@@ -716,52 +841,266 @@ $borderColor: rgba(232, 232, 232, 1);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 525px) {
   .for_MainBGDiv {
-    .for_cart-title {
-      font-size: $fontSize5;
-      height: 40px;
-    }
+    .cartMainPageDiv {
+      margin-inline: 10px;
 
-    .for_tablelable {
-      display: none !important;
-    }
+      .cartBtnGroupMainDiv {
+        .for_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize2;
+          }
+        }
+      }
 
-    .for_placeOrderMainbtnDivs {
-      button {
-        padding: 5px 10px !important;
-        font-size: $fontSize2 !important;
+      .for_cart-left-sides {
+        width: 100% !important;
+
+        .for_RightCartList {
+          .for_tablelable {
+            display: none !important;
+          }
+
+          .for_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .for_cartMain-item {
+              width: 48.8%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
       }
     }
+  }
+}
 
-    .for_cart-item {
-      flex-direction: column;
-      text-align: center;
-    }
+@media (max-width: 435px) {
+  .for_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 10px;
 
-    .for_cart-item__details {
-      padding-left: 0;
-    }
+      .cartBtnGroupMainDiv {
+        .for_placeOrderMainbtnDivs {
+          button {
+            font-size: $fontSize2;
+          }
+        }
+      }
 
-    .for_cart-item__image,
-    .for_cart-item__details,
-    .for_cart-item__price {
-      width: 100%;
-    }
+      .for_cart-left-sides {
+        width: 100% !important;
 
-    .for_cart-item__remove {
-      position: absolute;
-      top: 0;
-      right: 0;
+        .for_RightCartList {
+          .for_tablelable {
+            display: none !important;
+          }
 
-      .for_remove-button {
-        border-radius: 0 !important;
+          .for_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .for_cartMain-item {
+              width: 48.6%;
+              position: relative;
+              margin-bottom: 0px;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
       }
     }
+  }
+}
 
-    .for_cart-item__price,
-    .for_cart-item__total-price {
-      text-align: center;
+@media (max-width: 425px) {
+  .for_MainBGDiv {
+    .cartMainPageDiv {
+      margin-inline: 10px;
+
+      .for_cart-left-sides {
+        width: 100% !important;
+
+        .for_RightCartList {
+          .for_tablelable {
+            display: none !important;
+          }
+
+          .for_cartListMapDiv {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 10px;
+
+            .for_cartMain-item {
+              width: 100%;
+              position: relative;
+
+              .for_cart-item,
+              .for_Diacart-item {
+                display: flex;
+                flex-direction: column;
+
+                .for_cart-item__details {
+                  h3 {
+                    font-size: $fontSize2;
+                  }
+
+                  p {
+                    font-size: $fontSize1;
+                  }
+                }
+
+                .for_cart-item__price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__total-price {
+                  p {
+                    font-size: $fontSize2;
+                  }
+                }
+
+                .for_cart-item__remove {
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                }
+              }
+
+              .for_Diacart-item__remove {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+              }
+
+              .for_Diacart-item {
+                .for_cart-item__image {
+                  img {
+                    width: 50px;
+                  }
+                }
+              }
+
+              .for_cartDiaTPrice {
+                position: unset;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

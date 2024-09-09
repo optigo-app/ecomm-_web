@@ -83,16 +83,23 @@ const CartPage = () => {
   const isMobileScreen = useMediaQuery('(max-width:768px)');
   const [selectedDia, setSelectedDia] = useState();
 
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
-    if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-      sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let priceData = cartData?.reduce(
+      (total, item) => total + item?.FinalCost,
+      0
+    );
+    sessionStorage.setItem("TotalPriceData", priceData);
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+      navigate(redirectUrl);
+      // navigate('/loginOption')
     } else {
-      handlePay();
+      navigate("/Delivery");
     }
     window.scrollTo(0, 0);
-  }
+  };
+
 
   function scrollToTop() {
     window.scrollTo({
@@ -100,6 +107,13 @@ const CartPage = () => {
       behavior: 'smooth'
     });
   }
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [])
 
 
   useEffect(() => {

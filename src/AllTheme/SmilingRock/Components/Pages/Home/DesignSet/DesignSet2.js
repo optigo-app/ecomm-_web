@@ -130,9 +130,9 @@ const DesignSet2 = () => {
         {designSetList?.length !== 0 && (
           <>
             <div className='smr_DesignSetTitleDiv'>
-              <p className='smr_desognSetTitle'>Complete Your Look
+              <p className='smr1_desognSetTitle'>COMPLETE YOUR LOOK
                 <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
-                  View more
+                  VIEW MORE
                 </Link>
               </p>
             </div>
@@ -157,7 +157,7 @@ const DesignSet2 = () => {
                   <img
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                    src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.webp`}
+                    src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.png`}
                     alt=""
                     className="imgBG"
                   />

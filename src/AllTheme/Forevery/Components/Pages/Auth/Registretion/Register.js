@@ -252,7 +252,7 @@ export default function Register() {
   },[])
 
   return (
-    <div className='smr_registerMain'>
+    <div className='fore_registerMain'>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className='loadingBarManage' />

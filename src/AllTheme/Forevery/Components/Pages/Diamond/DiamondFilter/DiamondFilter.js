@@ -43,7 +43,7 @@ import { SvgImg } from "../../../data/Dummy";
 import DiamondPage from "..";
 import debounce from "lodash.debounce";
 import { UseLabelGap } from "../../../hooks/UseLabelGap";
-import { for_customizationSteps } from "../../../Recoil/atom";
+import { for_Loader, for_customizationSteps } from "../../../Recoil/atom";
 import { useRecoilState } from "recoil";
 
 const ACTIONS = {
@@ -84,7 +84,7 @@ const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
-  const [isloding, setIsLoading] = useState(false);
+  const [isloding, setIsLoading] = useRecoilState(for_Loader);
   const [diamondData, setDiamondData] = useState();
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
@@ -143,9 +143,9 @@ const DiamondFilter = () => {
 
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
   const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
-  console.log('stepsData: ', stepsData, stepsData2);
 
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
@@ -205,10 +205,10 @@ const DiamondFilter = () => {
 
   const getShapeFromURL = () => {
     const getShape = location?.pathname?.split("/")[3];
-    const getPath = location.pathname.split('/').slice(1, 3)
+    const getPath = location?.pathname?.split('/')?.slice(1, 3)
     const mergePath = getPath.join('/')
     if (mergePath == 'certified-loose-lab-grown-diamonds/diamond') {
-      if (stepsData === null && stepsData2 === null && steps?.[0]?.step1 !== true) {
+      if (stepsData === null && stepsData2 === null && (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)) {
         if (getShape) {
           setCustomizeStep({
             step1: true,
@@ -218,6 +218,21 @@ const DiamondFilter = () => {
 
           const step1 = [{ "step1": true, "shape": (getShape ?? '') }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+        }
+      }
+      else if (stepsData != null && (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)) {
+        if (getShape) {
+          const updatedStep1 = steps?.map(step => {
+            if (step.step1 !== undefined) {
+              return { "step1": true, "shape": getShape };
+            }
+            return step;
+          });
+
+          if (!updatedStep1?.some(step => step.step1 !== undefined)) {
+            updatedStep1?.push({ "step1": true, "shape": getShape });
+          }
+          sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
         }
       }
     }
@@ -235,10 +250,10 @@ const DiamondFilter = () => {
       return step;
     });
 
-    if (!updatedStep1.some(step => step.step1 !== undefined)) {
-      updatedStep1.push({ "step1": true, "shape": shape });
+    if (!updatedStep1?.some(step => step.step1 !== undefined)) {
+      updatedStep1?.push({ "step1": true, "shape": shape });
     }
-    sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+    sessionStorage?.setItem("customizeSteps", JSON?.stringify(updatedStep1));
   }
 
   const handleOpen = (title) => {
@@ -326,7 +341,7 @@ const DiamondFilter = () => {
 
   const getBannerImage = (index) => {
     const bannerImage = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
-    return index < 0 || (index >= 2 && (index - 2) % 16 === 0)
+    return index < 0 || (index >= 1 && (index - 1) % 15 === 0)
       ? bannerImage
       : null;
   };
@@ -440,13 +455,27 @@ const DiamondFilter = () => {
       const filterData = await DiamondListData(1, shape, "", parsedData);
       const data1 = filterData?.Data?.rd[0];
       const resData = filterData?.Data?.rd;
-      const Newmap = resData?.map((val) => ({
-        img: IMG,
-        vid: Video,
-        HaveCustomization: true,
-        ...val,
-      }));
-      setDiamondData(Newmap);
+      // const Newmap = resData?.map((val, index) => ({
+      //   img: IMG,
+      //   vid: val?.video_url,
+      //   HaveCustomization: true,
+      //   ...val,
+      //   bannerImage: getBannerImage(index),
+      // }));
+      const dataWithBanners = resData?.flatMap((val, index) => {
+        const bannerImage = getBannerImage(index);
+        return [
+          {
+            img: IMG,
+            vid: val?.video_url,
+            HaveCustomization: true,
+            ...val,
+          },
+          bannerImage ? { img: bannerImage, isBanner: true } : null
+        ].filter(Boolean);
+      });
+      setDiamondData(dataWithBanners);
+      console.log("Newmap",dataWithBanners)
       const count = data1?.icount;
       setDiaCount(count);
       const transformedData = {
@@ -694,13 +723,13 @@ const DiamondFilter = () => {
       Color: sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
       Clarity: sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
-      Polish: filtersData?.Polish,
-      Symmetry: filtersData?.Symmetry,
-      Lab: filtersData?.Lab,
-      Depth: filtersData?.Depth,
-      Table: filtersData?.Table,
-      Fluorescence: filtersData?.Fluorescence,
-      Culet: filtersData?.Culet,
+      Polish: filtersData1?.Polish,
+      Symmetry: filtersData1?.Symmetry,
+      Lab: filtersData1?.Lab,
+      Depth: filtersData1?.depth,
+      Table: filtersData1?.table,
+      Fluorescence: filtersData1?.Fluorescence,
+      Culet: filtersData1?.Culet,
     };
 
     setTimeout(() => {
@@ -711,30 +740,35 @@ const DiamondFilter = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      const extractedValue = location?.pathname.split("f=")[1] ?? "";
+      const decodedUrlData = decodeAndDecompress(extractedValue);
+      const parsedData = parseUrlSegment(decodedUrlData);
       const pathname = location?.pathname.split("/");
-      const sliderParams = Object.entries(finalArray)
-        .filter(
-          ([key, value]) =>
-            value &&
-            value.length > 0 &&
-            value.every((v) => v !== null && v !== undefined && v !== "")
-        )
+
+      // Determine which data to use
+      const dataToUse = Object.keys(finalArray).some(key => Array.isArray(finalArray[key]) && finalArray[key].length > 0)
+        ? finalArray
+        : parsedData ?? {};
+
+      const sliderParams = Object.entries(dataToUse)
+        .filter(([key, value]) => value && (Array.isArray(value) ? value.length > 0 : typeof value === 'string' && value.length > 0))
+        .filter(([key, value]) => Array.isArray(value) ? value.every(v => v !== null && v !== undefined && v !== "") : true)
         .map(([key, value]) =>
           Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
         )
         .join("/");
+
       const shape = location?.pathname?.split("/")[3];
       const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""}`;
-      let encodeUrl = compressAndEncode(urlToEncode);
+      const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-      console.log("decodedUrl", decodedUrl)
-      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
-        }`;
-      // const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/${sliderParams}` : ""
-      // }`;
+
+      console.log("decodedUrl", decodedUrl);
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""}`;
       Navigate(newPath);
     }, 600);
   }, [finalArray]);
+
 
   function parseUrlSegment(segment) {
     const parts = segment?.split('/')?.slice(1);
@@ -777,6 +811,7 @@ const DiamondFilter = () => {
   console.log("sliderstate", sliderState, sliderLabels);
   console.log("finalArray", finalArray, filtersData);
   console.log("filtersData", filtersData)
+  console.log("filtersData1", filtersData1)
   console.log("sliderstate1", sliderState1);
 
   console.log("gh", "slider label", finalArray);
@@ -802,10 +837,18 @@ const DiamondFilter = () => {
                   className="input-checked-box"
                   id={val?.name}
                   checked={checkedItem === val?.name}
-                  onChange={() => handleCheckboxChange(val?.name)}
+                  onChange={() => {
+                    if (steps1?.[0]?.step1 == true && stepsData2?.[0]?.step1Data?.id > 0) {
+                      return;
+                    }
+                    else {
+                      handleCheckboxChange(val?.name)
+                    }
+                  }
+                  }
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : ""
+                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : `${steps1?.[0]?.step1 == true && stepsData2?.[0]?.step1Data?.id > 0 ? 'blue-unchecked' : ''}`
                     }`}
                   id={val?.name}
                 >
@@ -849,7 +892,14 @@ const DiamondFilter = () => {
                     className="input-checked-box"
                     id={val?.name}
                     checked={checkedItem === val?.name}
-                    onChange={() => handleCheckboxChange(val?.name)}
+                    onChange={() => {
+                      if (steps1?.[0]?.step1 == true && stepsData2?.[0]?.step1Data?.id > 0) {
+                        return;
+                      }
+                      else {
+                        handleCheckboxChange(val?.name)
+                      }
+                    }}
                   />
                 </label>
               ))}
@@ -1111,26 +1161,37 @@ const DiamondFilter = () => {
                     return (
                       <div key={i} className="diamond_card">
                         <div className="media_frame">
-                          {bannerImage ? (
+                          {val?.isBanner == true ? (
                             <img
-                              src={bannerImage}
+                              src={val?.img}
                               alt="bannerImage"
                               width={"100%"}
                             />
                           ) : (
                             <>
                               {currentMediaType === "vid" ? (
-                                <video
-                                  src={val?.vid}
-                                  width="100%"
-                                  ref={(el) => (videoRefs.current[i] = el)}
-                                  autoPlay={hoveredCard === i}
-                                  controls={false}
-                                  muted
-                                  onMouseOver={(e) => handleMouseMove(e, i)}
-                                  onMouseLeave={(e) => handleMouseLeave(e, i)}
-                                  onClick={() => HandleDiamondRoute(val)}
-                                />
+                                <>
+                                  {val?.vid?.endsWith('.mp4') ? (
+                                    <video
+                                      src={val?.vid}
+                                      width="100%"
+                                      ref={(el) => (videoRefs.current[i] = el)}
+                                      autoPlay={hoveredCard === i}
+                                      controls={false}
+                                      muted
+                                      onMouseOver={(e) => handleMouseMove(e, i)}
+                                      onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                      onClick={() => HandleDiamondRoute(val)}
+                                    />
+                                  ) :
+                                    <img
+                                      className="dimond-info-img"
+                                      src={val?.image_file_url}
+                                      alt=""
+                                      onClick={() => HandleDiamondRoute(val)}
+                                    />
+                                  }
+                                </>
                               ) : (
                                 <img
                                   className="dimond-info-img"
@@ -1141,7 +1202,7 @@ const DiamondFilter = () => {
                               )}
                             </>
                           )}
-                          {!bannerImage && (
+                          {!val?.isBanner == true && (
                             <>
                               <div className="select_this_diamond_banner">
                                 <span>Select This Diamond</span>
@@ -1149,7 +1210,7 @@ const DiamondFilter = () => {
                             </>
                           )}
                         </div>
-                        {!bannerImage && (
+                        {!val?.isBanner == true && (
                           <>
                             <div className="toggle_btn">
                               <span onClick={() => HandleMedia("img", i)}>

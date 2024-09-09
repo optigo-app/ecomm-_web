@@ -9,7 +9,7 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import ConfirmationDialog from '../../ConfirmationDialog/ConfirmationDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -160,8 +160,8 @@ const CartPage = () => {
   }
 
   return (
-    <div className='smr_MainBGDiv'>
-      <div className='cartMainPageDiv'>
+    <div className='stam_B2B_MainBGDiv'>
+      <div className='stam_cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="smr_cart-title">My Cart</div>
@@ -349,11 +349,6 @@ const CartPage = () => {
           title="Confirm"
           content="Are you sure you want to remove all Items?"
         />
-
-        <Footer />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
       </div>
     </div>
   );

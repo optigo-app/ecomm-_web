@@ -49,12 +49,12 @@ const Wishlist = () => {
 
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
-    // const returnValue = await handleRemoveAll();
-    // if (returnValue?.msg == "success") {
-    //   GetCountAPI(visiterId).then((res) => {
-    //     setWishCountVal(res?.wishcount);
-    //   });                               
-    // }
+    const returnValue = await handleRemoveAll();
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setWishCountVal(res?.wishcount);
+      });                               
+    }
   };
 
   const handleCloseDialog = () => {
@@ -103,15 +103,15 @@ const Wishlist = () => {
             <span>My Wishlist</span>
           </div>
         </div>
-        {wishlistData?.length != 0 &&
-          <div className="for_wishlistRemoveBtndiv" onClick={handleConfirmRemoveAll}>
+        {(wishlistData?.length != 0 || diamondWishData?.length != 0) &&
+          <div className="for_wishlistRemoveBtndiv">
             <button onClick={handleRemoveAllDialog}>Remove All</button>
             <button onClick={handleAddtoCartAllfun}>Add to Cart All</button>
           </div>
         }
-        {!isWLLoading && (
+        {/* {!isWLLoading && (
           <>
-            {wishlistData?.length == 0 && (
+            {(wishlistData?.length == 0 ||  diamondWishData?.length == 0) && (
               <div className='for_noWishlistData'>
                 <p className='for_title'>No Wishlist Found!</p>
                 <p className='for_desc'>Please First Add Product in Wishlist</p>
@@ -119,7 +119,7 @@ const Wishlist = () => {
               </div>
             )}
           </>
-        )}
+        )} */}
         {!isWLLoading ? (
           <div className="for_wishlistCardDiv">
             <WishlistData

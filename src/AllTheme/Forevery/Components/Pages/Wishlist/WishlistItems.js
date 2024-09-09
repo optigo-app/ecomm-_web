@@ -17,6 +17,8 @@ import { RxCross1 } from "react-icons/rx";
 import { Dialog, DialogContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CartAndWishListAPI } from "../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
+import designImage from "../../Assets/ring.png"
+import diamondShapeImage from "../../Assets/diamond.png"
 
 const WishlistItems = ({
     item,
@@ -36,6 +38,7 @@ const WishlistItems = ({
     const setWishCountVal = useSetRecoilState(for_WishCount);
     const setCartCountVal = useSetRecoilState(for_CartCount);
     const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
+    const [selectedDia, setSelectedDia] = useState();
     const visiterId = Cookies.get("visiterId");
     const navigate = useNavigate();
 
@@ -81,76 +84,14 @@ const WishlistItems = ({
         }
     }, [item]);
 
-    const handleButtonChange = async (value, e, item, stockno, shape) => {
+    useEffect(() => {
+        setTimeout(() => {
+            const diamondCartData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
+            setSelectedDia(diamondCartData)
+        }, 500);
+    }, [item])
 
-        if (value == 'cart') {
-            await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
-                console.log(res?.Data?.rd[0])
-                if (res) {
-                    if (res?.Data?.rd[0]?.msg === 'success') {
-                        let cartC = res?.Data?.rd[0]?.Cartlistcount
-                        let wishC = res?.Data?.rd[0]?.Wishlistcount
-                        setWishCountVal(wishC)
-                        setCartCountVal(cartC);
-                    }
-
-                }
-            }).catch((err) => console.log("addtocartwishErr", err))
-        }
-
-        if (value == 'ring') {
-            const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=UmluZy9jYXRlZ29yeQ==`);
-            setCustomizeStep({
-                step1: true,
-                step2: true,
-                step3: false,
-            })
-            // Replace or add the step2 entry in the step1 data
-            const updatedStep1 = step1?.map(step => {
-                if (step.step2 !== undefined) {
-                    // Replace existing step2 data
-                    return { "step2": true, "Setting": 'Ring' };
-                }
-                return step;
-            });
-
-            // If no existing step2, add new entry
-            if (!updatedStep1.some(step => step.step2 !== undefined)) {
-                updatedStep1.push({ "step2": true, "Setting": 'Ring' });
-            }
-            const step1Data = [{ "step1Data": [{ ...item }] }]
-            sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
-            sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
-        }
-
-        if (value == 'pendant') {
-            const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
-            navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=UGVuZGFudC9jYXRlZ29yeQ==`);
-            setCustomizeStep({
-                step1: true,
-                step2: true,
-                step3: false,
-            })
-            // Replace or add the step2 entry in the step1 data
-            const updatedStep1 = step1?.map(step => {
-                if (step.step2 !== undefined) {
-                    // Replace existing step2 data
-                    return { "step2": true, "Setting": 'Pendant' };
-                }
-                return step;
-            });
-
-            // If no existing step2, add new entry
-            if (!updatedStep1.some(step => step.step2 !== undefined)) {
-                updatedStep1.push({ "step2": true, "Setting": 'Pendant' });
-            }
-            const step1Data = [{ "step1Data": [{ ...item }] }]
-            sessionStorage.setItem('custStepData', JSON.stringify(step1Data));
-            sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
-        }
-    }
-
+    console.log("diamondValueData", selectedDia)
     return (
         <>
             <Grid
@@ -159,6 +100,7 @@ const WishlistItems = ({
                 sm={itemsLength <= 2 ? 4 : 4}
                 md={itemsLength <= 2 ? 4 : 4}
                 lg={itemsLength <= 2 ? 3 : 3}
+                xxl={itemsLength <= 2 ? 3 : 2}
                 className="for_wlListGrid"
             >
                 <Card className="for_WlListCard">
@@ -176,6 +118,9 @@ const WishlistItems = ({
                                     variant="body2"
                                     className="for_card-ContentData for_WlTitleline"
                                 >
+                                    {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                        <img src={designImage} alt="designImage" className="for_diamondDShapeImg" />
+                                    }
                                     {item?.designno != "" && item?.designno}
                                     {item?.TitleLine != "" && " - " + item?.TitleLine}
                                 </Typography>
@@ -184,9 +129,9 @@ const WishlistItems = ({
                                     <span className="for_wishDT">
                                         {(item?.Gwt || 0)?.toFixed(3)}
                                     </span>
+                                    <span className="for_pipes"> | </span>
                                     <span className="for_wishDT">NWT : </span>
                                     <span className="for_wishDT">
-                                        <span className="for_pipes"> | </span>
                                         {(item?.Nwt || 0)?.toFixed(3)}
                                     </span>
                                     {(item?.Dwt != "0" || item?.Dpcs != "0") &&
@@ -208,9 +153,7 @@ const WishlistItems = ({
                                                 {(item?.CSpcs || 0)}
                                             </span>
                                         </>
-                                    }
-                                </Typography>
-                                <Typography variant="body2" className="for_card-ContentData">
+                                    }{" "}
                                     {item?.metalcolorname !== "" && (
                                         <span>{item.metalcolorname}</span>
                                     )}
@@ -219,14 +162,36 @@ const WishlistItems = ({
                                     {item?.metaltypename !== "" && (
                                         <span>{item?.metaltypename}</span>
                                     )}
-                                    {" / "}
-                                    <span className="for_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>{" "}
-                                    <span>{formatter(item?.FinalCost)}</span>
                                 </Typography>
+                                {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                    <Typography variant="body2" className="for_card-ContentData for_diamondData">
+                                        {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                            <img src={diamondShapeImage} alt="designImage" className="for_diamondDShapeImg" />
+                                        }
+                                        <span>
+                                            {selectedDia?.carat}{" "}
+                                            Carat {selectedDia?.colorname}, {selectedDia?.clarityname},{" "}
+                                            {selectedDia?.cutname} Cut, {selectedDia?.shapename} Diamond
+                                        </span>
+                                    </Typography>
+                                }
                             </div>
                         </CardContent>
+                        <div className="for_priceDataDiv">
+                            <span className="for_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            </span>{" "}
+                            <span>{formatter(selectedDia && Object.keys(selectedDia).length != 0 ? (selectedDia?.price + item?.FinalCost) : item?.FinalCost)}</span>
+                        </div>
+                        <span className="for_totalcart">
+                            {selectedDia && Object.keys(selectedDia).length != 0 &&
+                                <>
+                                    Total carat weight:{" "}{selectedDia?.carat}
+                                </>
+                            }
+
+                        </span>
+
                         <div className="for_Wl-CartbtnDiv">
                             <button
                                 className="for_Wl-Cartbtn"
@@ -251,60 +216,3 @@ const WishlistItems = ({
 export default WishlistItems;
 
 
-const Modal = ({
-    open,
-    handleClose,
-    stockno,
-    handleButtonChange,
-    shape,
-    item,
-}) => {
-    return (
-        <>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-                sx={{
-                    '& .MuiDialog-paper': {
-                        backgroundColor: 'transparent',
-                        border: '1px solid white',
-                    },
-                    '& .MuiDialogContent-root': {
-                        padding: '10px',
-                    },
-                }}
-            >
-                <DialogContent
-                    sx={{
-                        minWidth: 260,
-                        padding: '0px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                    }}
-                >
-                    <div className="for_modal_cancel_btn_div" onClick={handleClose}>
-                        <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
-                    </div>
-                    <div className="for_modal_inner_div">
-                        <span className='for_modal_title'>
-                            What would you like to do?
-                        </span>
-                        <div className="for_modal_buttons_div">
-                            <button onClick={() => {
-                                handleButtonChange('ring', "", item, "", shape);
-                                handleClose();
-                            }}>Add your diamond to a ring</button>
-                            <button onClick={() => { handleButtonChange('pendant', "", item, "", shape); handleClose(); }}>add your diamond to a pendant</button>
-                            <button onClick={() => {
-                                handleButtonChange('cart', "", "", stockno, "");
-                                handleClose();
-                            }}>add your diamond to cart</button>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
-        </>
-    )
-}

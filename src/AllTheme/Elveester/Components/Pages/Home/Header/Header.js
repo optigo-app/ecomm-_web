@@ -29,6 +29,7 @@ const Header = () => {
   const [islogin, setislogin] = useRecoilState(el_loginState);
   const [cartCount, setCartCount] = useRecoilState(el_CartCount);
   const [wishCount, setWishCount] = useRecoilState(el_WishCount);
+  const [storeinit, setStoreInit] = useState();
   const [burgerMenu, setBurgerMenu] = useState(false);
   const [burgerMenu1, setBurgerMenu1] = useState(false);
   const [mobilenav, setMobilenav] = useState(false);
@@ -39,6 +40,7 @@ const Header = () => {
   const inputRef = useRef(null);
 
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
+  const isDesktopResp = useMediaQuery('(max-width:1650px)');
 
   useEffect(() => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -57,6 +59,8 @@ const Header = () => {
   useEffect(() => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
+    const storeData = JSON.parse(sessionStorage.getItem('storeInit'));
+    setStoreInit(storeData);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
     console.log(storeInit?.companylogo);
@@ -255,61 +259,72 @@ const Header = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
-  const handelMenu = (param, param1, param2) => {
-    let finalData = {
-      menuname: param?.menuname ?? "",
-      FilterKey: param?.key ?? "",
-      FilterVal: param?.value ?? "",
-      FilterKey1: param1?.key ?? "",
-      FilterVal1: param1?.value ?? "",
-      FilterKey2: param2?.key ?? "",
-      FilterVal2: param2?.value ?? "",
-    };
-    sessionStorage.setItem("menuparams", JSON.stringify(finalData));
+  const handelMenu = (param, param1, param2, event) => {
+    console.log("kkk", event)
+    if (
+      event?.ctrlKey ||     // Ctrl key
+      event?.shiftKey ||    // Shift key
+      event?.metaKey ||     // Meta key (Command key on macOS)
+      (event?.button && event?.button === 1) // Middle mouse button
+    ) {
+      // Let the default behavior of the <a> tag handle the new tab opening
+      return;
+    } else {
+      event?.preventDefault();
+      let finalData = {
+        menuname: param?.menuname ?? "",
+        FilterKey: param?.key ?? "",
+        FilterVal: param?.value ?? "",
+        FilterKey1: param1?.key ?? "",
+        FilterVal1: param1?.value ?? "",
+        FilterKey2: param2?.key ?? "",
+        FilterVal2: param2?.value ?? "",
+      };
+      sessionStorage.setItem("menuparams", JSON.stringify(finalData));
 
-    const queryParameters1 = [
-      finalData?.FilterKey && `${finalData.FilterVal}`,
-      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ]
-      .filter(Boolean)
-      .join("/");
+      const queryParameters1 = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        .filter(Boolean)
+        .join("/");
 
-    const queryParameters = [
-      finalData?.FilterKey && `${finalData.FilterVal}`,
-      finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-      finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ]
-      .filter(Boolean)
-      .join(",");
+      const queryParameters = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        // .filter(Boolean)
+        .join(",");
 
-    const otherparamUrl = Object.entries({
-      b: finalData?.FilterKey,
-      g: finalData?.FilterKey1,
-      c: finalData?.FilterKey2,
-    })
-      .filter(([key, value]) => value !== undefined)
-      .map(([key, value]) => value)
-      .filter(Boolean)
-      .join(",");
+      const otherparamUrl = Object.entries({
+        b: finalData?.FilterKey,
+        g: finalData?.FilterKey1,
+        c: finalData?.FilterKey2,
+      })
+        .filter(([key, value]) => value !== undefined)
+        .map(([key, value]) => value)
+        .filter(Boolean)
+        .join(",");
 
-    const paginationParam = [
-      `page=${finalData.page ?? 1}`,
-      `size=${finalData.size ?? 50}`,
-    ].join("&");
+      const paginationParam = [
+        `page=${finalData.page ?? 1}`,
+        `size=${finalData.size ?? 50}`,
+      ].join("&");
 
-    console.log("otherparamsUrl--", otherparamUrl);
+      // console.log("otherparamsUrl--", otherparamUrl);
 
-    let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-    // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-    // const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
-    const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
-      menuEncoded
-    )}`;
+      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+      // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+      const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+        menuEncoded
+      )}`;
 
-    // let d = new Date();
-    // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-    navigate(url);
+      // let d = new Date();
+      // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+      navigate(url);
+    }
   };
 
   const getMenuApi = async () => {
@@ -496,7 +511,7 @@ const Header = () => {
                     </li>
                   </div >
                   <div className="el_whioutL_headerDiv2">
-                    <a href="/">
+                    <a href='/'>
                       {titleImg && (
                         <img
                           src={titleImg}
@@ -525,7 +540,7 @@ const Header = () => {
                       <li
                         className="el_whioutL_li"
                         style={{ cursor: "pointer" }}
-                      // onClick={() => navigation("/contact")}
+                        onClick={() => navigation("/contact-us")}
                       >
                         Contact
                       </li>
@@ -591,51 +606,52 @@ const Header = () => {
                           onMouseLeave={() => {
                             handleMouseLeave();
                           }}
-                          onClick={() => {
-                            handelMenu({
-                              menuname: item?.menuname,
-                              key: item?.param0name,
-                              value: item?.param0dataname,
-                            });
-                            handleMouseLeave(index);
+                          onClick={(e) => {
+                            handelMenu({ "menuname": item?.menuname, "key": item?.param0name, "value": item?.param0dataname }, {}, {}, e)
                           }}
                         >
-                          {item.menuname}
+                          <a href={`/p/${item?.menuname}/?M=${btoa(
+                            `${item?.param0dataname}/${item?.param0name}`
+                          )}`} style={{ color: 'black', textDecoration: 'none' }}>
+                            {item.menuname}
+                          </a>
                         </li>
                       );
                     })}
-                    <Link
-                      to={"/Lookbook"}
-                      className="el_Login_header_li go-lookbook"
-                      style={{
-                        marginLeft: " 20px",
-                        cursor: "default",
-                        textDecoration: "none",
-                        position: "relative",
-                        color: "inherit"
-                      }}
-                    >
-                      <small
+                    {storeinit?.IsDesignSetInMenu == 1 && (
+                      <Link
+                        to={"/Lookbook"}
+                        className="el_Login_header_li go-lookbook"
                         style={{
-                          backgroundColor: "#9C27B0",
-                          position: "absolute",
-                          marginTop: "-35px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          height: "15px",
-                          borderRadius: "",
-                          padding: "0 5px",
-                          fontSize: "10px",
-                          borderRadius: " 3px",
-                          marginLeft: "-15px",
-                          color: 'white'
+                          marginLeft: " 20px",
+                          cursor: "default",
+                          textDecoration: "none",
+                          position: "relative",
+                          color: "inherit"
                         }}
                       >
-                        New
-                      </small>
-                      LookBook
-                    </Link>
+                        <small
+                          style={{
+                            backgroundColor: "#9C27B0",
+                            position: "absolute",
+                            marginTop: "-35px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "15px",
+                            borderRadius: "",
+                            padding: "0 5px",
+                            fontSize: "10px",
+                            borderRadius: " 3px",
+                            marginLeft: "-15px",
+                            color: 'white'
+                          }}
+                        >
+                          New
+                        </small>
+                        {storeinit?.DesignSetInMenu}
+                      </Link>
+                    )}
                   </ul>
                 </div>
               </>
@@ -651,7 +667,7 @@ const Header = () => {
                 href="/"
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                 }}
               >
@@ -958,6 +974,8 @@ const Header = () => {
                 display: "flex",
                 gap: "60px",
                 textTransform: "uppercase",
+                maxWidth: '70rem',
+                overflowX: 'auto',
               }}
             >
               {selectedData?.param1?.map((param1Item, param1Index) => {
@@ -977,20 +995,21 @@ const Header = () => {
                         fontWeight: 500,
                         cursor: "pointer",
                       }}
+
+                      onClick={(e) =>
+                        handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname }, {}, e
+                        )
+                      }
                     >
-                      {" "}
-                      <span
-                        onClick={() =>
-                          navigation(
-                            `/p/${selectedData?.param0dataname}/${param1Item.param1dataname
-                            }/?M=${btoa(
-                              `${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`
-                            )}`
-                          )
-                        }
+                      <a
+                        href={`/p/${selectedData?.param0dataname}/${param1Item.param1dataname
+                          }/?M=${btoa(
+                            `${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`
+                          )}`}
+                        style={{ color: 'black', textDecoration: 'none' }}
                       >
                         {param1Item?.param1dataname}
-                      </span>
+                      </a>
                     </span>
                     <div
                       style={{
@@ -1006,7 +1025,7 @@ const Header = () => {
                           <p
                             className="level2menuData"
                             key={param2Index}
-                            onClick={() =>
+                            onClick={(e) =>
                               handelMenu(
                                 {
                                   menuname: selectedData?.menuname,
@@ -1020,7 +1039,8 @@ const Header = () => {
                                 {
                                   key: param2Item?.param2name,
                                   value: param2Item?.param2dataname,
-                                }
+                                },
+                                e
                               )
                             }
                             style={{
@@ -1034,18 +1054,15 @@ const Header = () => {
                               paddingRight: "15px",
                             }}
                           >
-                            <span
-                              onClick={() =>
-                                navigation(
-                                  `/p/${selectedData?.param0dataname}/${param1Item.param1dataname
-                                  }/${param2Item.param2dataname}/?M=${btoa(
-                                    `${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`
-                                  )}`
-                                )
-                              }
+                            <a
+                              href={`/p/${selectedData?.param0dataname}/${param1Item.param1dataname
+                                }/${param2Item.param2dataname}/?M=${btoa(
+                                  `${selectedData?.param0dataname},${param1Item.param1dataname},${param2Item.param2dataname}/${selectedData?.param0name},${param1Item.param1name},${param2Item.param2name}`
+                                )}`}
+                              style={{ color: 'black', textDecoration: 'none' }}
                             >
                               {param2Item?.param2dataname}
-                            </span>
+                            </a>
                           </p>
                         );
                       })}

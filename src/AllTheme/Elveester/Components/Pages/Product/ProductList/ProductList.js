@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import MuiAccordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
-import Drawer from "@mui/material/Drawer";
+import { Drawer, useMediaQuery, useTheme } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import noImageFound from '../../../Assets/image-not-found.jpg'
@@ -34,7 +34,6 @@ import {
   FormControlLabel,
   Input,
   Slider,
-  useMediaQuery,
 } from "@mui/material";
 import Cookies from "js-cookie";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
@@ -62,6 +61,17 @@ const ProductList = () => {
 
   let maxwidth700px = useMediaQuery("(max-width:700px)");
   let maxwidth1000px = useMediaQuery("(max-width:1000px)");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  let drawerWidth;
+
+  if (isSmallScreen) {
+    drawerWidth = '15rem';
+  }
+  else {
+    drawerWidth = '20rem';
+  }
 
   // Designing States
   const [showFilter, setShowFilter] = useState(false);
@@ -69,7 +79,7 @@ const ProductList = () => {
   const [carat, setCarat] = useState("");
   const [clarity, setClarity] = useState("VS#GH");
   const [filter, setFilter] = useState();
-  const [openDrawer, setOpenDrawer] = useState();
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openGridModal, setOpenGridModal] = useState(false);
   const [gridToggle, setGridToggle] = useState(false);
@@ -94,14 +104,17 @@ const ProductList = () => {
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isHover, setIsHover] = useState(false);
   const [filterData, setFilterData] = useState([]);
+  console.log('filterData: ', filterData);
   const [currPage, setCurrPage] = useState(1);
   const [rollOverImgPd, setRolloverImgPd] = useState({})
   const [filterPriceSlider, setFilterPriceSlider] = useState([]);
   const [filterGrossSlider, setFilterGrossSlider] = useState([]);
   const [filterNetWtSlider, setFilterNetWTSlider] = useState([]);
   const [sliderValue, setSliderValue] = useState([]);
+  console.log('sliderValue: ', sliderValue);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
+  console.log('sliderValue2: ', sliderValue2);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterDiamondSlider, setFilterDiamondSlider] = useState([]);
   const [loginInfo, setLoginInfo] = useState();
@@ -293,6 +306,7 @@ const ProductList = () => {
       setFilter(true);
     } else {
       setFilter(false);
+      setOpenDrawer(false)
     }
 
     if (width <= 1400 && width >= 701) {
@@ -429,14 +443,14 @@ const ProductList = () => {
 
     let metalTypeDrpdown = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetaltype(metalTypeDrpdown);
-    setCarat(metalTypeDrpdown[1]?.Metalid);
+    setCarat(metalTypeDrpdown?.[1]?.Metalid);
 
     let diamondTypeDrpdown = JSON.parse(
       sessionStorage.getItem("diamondQualityColorCombo")
     );
     setDiamondType(diamondTypeDrpdown);
     setClarity(
-      diamondTypeDrpdown[0]?.Quality + "#" + diamondTypeDrpdown[0]?.color
+      diamondTypeDrpdown?.[0]?.Quality + "#" + diamondTypeDrpdown?.[0]?.color
     );
 
     let CsQcCombo = JSON.parse(
@@ -483,6 +497,7 @@ const ProductList = () => {
 
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie);
         const res1 = await FilterListAPI(productlisttype, cookie);
+        console.log('res1: ', res1);
 
         if (res) {
           setProductListData(res?.pdList);
@@ -498,6 +513,7 @@ const ProductList = () => {
           let grossFilter = JSON.parse(
             res1?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0];
+          console.log('grossFilter: ', grossFilter);
           let netFilter = JSON.parse(
             res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options
           )[0];
@@ -540,6 +556,7 @@ const ProductList = () => {
   };
 
   const handelPageChange = (event, value) => {
+    console.log('value: ', value);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
@@ -656,7 +673,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value;
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortby)
+    await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -938,6 +955,7 @@ const ProductList = () => {
   };
 
   const RangeFilterView = (ele) => {
+    console.log("diamond daat", JSON?.parse(ele?.options)?.[0]?.Max)
     return (
       <>
         <div>
@@ -949,20 +967,20 @@ const ProductList = () => {
               valueLabelDisplay="auto"
               step={0.001}
               aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
-              sx={{ marginTop: "25px" }}
+              min={JSON?.parse(ele?.options)?.[0]?.Min}
+              max={JSON?.parse(ele?.options)?.[0]?.Max}
+              sx={{ marginTop: "5px" }}
             />
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", width: '100%', gap: "10px", alignItems: 'center', justifyContent: 'space-around' }}>
             <Input
               value={sliderValue[0]}
               margin="none"
               onChange={handleInputChange(0)}
               inputProps={{
                 step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
+                min: JSON?.parse(ele?.options)?.[0]?.Min,
+                max: JSON?.parse(ele?.options)?.[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider"
               }}
@@ -973,8 +991,8 @@ const ProductList = () => {
               onChange={handleInputChange(1)}
               inputProps={{
                 step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
+                min: JSON?.parse(ele?.options)?.[0]?.Min,
+                max: JSON?.parse(ele?.options)?.[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider"
               }}
@@ -986,7 +1004,6 @@ const ProductList = () => {
   }
 
   const RangeFilterView1 = (ele) => {
-    // console.log("netwt",ele)
     return (
       <>
         <div>
@@ -997,21 +1014,21 @@ const ProductList = () => {
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
+              min={JSON?.parse(ele?.options)?.[0]?.Min}
+              max={JSON?.parse(ele?.options)?.[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{ marginTop: "5px" }}
             />
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", width: '100%', gap: "10px", alignItems: 'center', justifyContent: 'space-around' }}>
             <Input
               value={sliderValue1[0]}
               margin="dense"
               onChange={handleInputChange1(0)}
               inputProps={{
                 step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
+                min: JSON?.parse(ele?.options)?.[0]?.Min,
+                max: JSON?.parse(ele?.options)?.[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider"
               }}
@@ -1022,8 +1039,8 @@ const ProductList = () => {
               onChange={handleInputChange1(1)}
               inputProps={{
                 step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
+                min: JSON?.parse(ele?.options)?.[0]?.Min,
+                max: JSON?.parse(ele?.options)?.[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider"
               }}
@@ -1044,21 +1061,21 @@ const ProductList = () => {
               onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={JSON?.parse(ele?.options)[0]?.Min}
-              max={JSON?.parse(ele?.options)[0]?.Max}
+              min={JSON?.parse(ele?.options)?.[0]?.Min}
+              max={JSON?.parse(ele?.options)?.[0]?.Max}
               step={0.001}
-              sx={{ marginTop: "25px" }}
+              sx={{ marginTop: "5px" }}
             />
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", width: '100%', gap: "10px", alignItems: 'center', justifyContent: 'space-around' }}>
             <Input
               value={sliderValue2[0]}
               margin="dense"
               onChange={handleInputChange2(0)}
               inputProps={{
                 step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
+                min: JSON?.parse(ele?.options)?.[0]?.Min,
+                max: JSON?.parse(ele?.options)?.[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider"
               }}
@@ -1069,8 +1086,8 @@ const ProductList = () => {
               onChange={handleInputChange2(1)}
               inputProps={{
                 step: 0.001,
-                min: JSON?.parse(ele?.options)[0]?.Min,
-                max: JSON?.parse(ele?.options)[0]?.Max,
+                min: JSON?.parse(ele?.options)?.[0]?.Min,
+                max: JSON?.parse(ele?.options)?.[0]?.Max,
                 type: "number",
                 "aria-labelledby": "range-slider"
               }}
@@ -1209,6 +1226,18 @@ const ProductList = () => {
     });
   }, [])
 
+  const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginInline: '20px',
+    fontSize: '16px',
+    fontFamily: '"TT Commons", sans-serif',
+    color: 'rgb(127, 125, 133)',
+    paddingBlock: '5px',
+    flexDirection: 'row-reverse',
+  }));
+
   return (
     <>
       <div className="elv_Productlists_Main_div">
@@ -1233,7 +1262,7 @@ const ProductList = () => {
                   </span>
                   <span className="elv_Productlists_details_2">&nbsp;{afterFilterCount}</span>
                   <span className="elv_Productlists_details_3">
-                    &nbsp;Design
+                    &nbsp;{afterFilterCount?.length == 1 ? "Design" : "Designs"}
                   </span>
                 </div>
                 <div role="presentation">
@@ -1305,7 +1334,7 @@ const ProductList = () => {
                             })
                           }
                         >
-                          {` > ${BreadCumsObj()?.FilterVal1}`}
+                          {` > ${BreadCumsObj()?.FilterVal1 || BreadCumsObj()?.FilterVal}`}
                         </span>
                       )}
 
@@ -1408,6 +1437,7 @@ const ProductList = () => {
                       >
                         <option value="Recommended">Recommended</option>
                         <option value="New">New</option>
+                        <option value="Trending">Trending</option>
                         {storeInit?.IsStockWebsite === 1 && (
                           <option value="In Stock">In Stock</option>
                         )}
@@ -1757,56 +1787,380 @@ const ProductList = () => {
                 <div className="elv_filtered_data">
                   <div className="elv_filtered_data_div">
                     <div className={showFilter === false && filter === false ? "elv_filtered_data_category " : "elv_filtered_data_category_other"}>
-                      <div className="elv_filtered_category_div ">
-                        <div className="elv_filtered_data_div_filter">
-                          <div className="elv_filtered_data_text">
-                            Filter
+                      {openDrawer ? (
+                        <Drawer
+                          open={openDrawer}
+                          onClose={toggleDrawer(false)}
+                          PaperProps={{
+                            sx: {
+                              width: drawerWidth,
+                            },
+                          }}
+                        >
+                          <div className="elv_filtered_category_div ">
+                            {filterData?.map((item, index) => {
+                              return (
+                                <>
+                                  {!item?.id?.includes("Range") &&
+                                    !item?.id?.includes("Price") && (
+                                      <Accordion
+                                        key={index}
+                                        className="accordian"
+                                      >
+                                        <AccordionSummary
+                                          expandIcon={<ExpandMoreIcon />}
+                                          aria-controls="panel1-content"
+                                          id="panel1-header"
+                                          className="elv_category_names"
+                                        >
+                                          {item?.Name}
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                          {(
+                                            JSON.parse(item?.options) ?? []
+                                          ).map((opt) => {
+                                            return (
+                                              <>
+                                                <CustomFormControlLabel
+                                                  key={opt?.id}
+                                                  label={opt.Name}
+                                                  control={
+                                                    <Checkbox
+                                                      name={`${item?.id}${opt?.id}`}
+                                                      checked={
+                                                        filterChecked[
+                                                          `${item?.id}${opt?.id}`
+                                                        ]?.checked === undefined
+                                                          ? false
+                                                          : filterChecked[
+                                                            `${item?.id}${opt?.id}`
+                                                          ]?.checked
+                                                      }
+                                                      style={{
+                                                        color: "#7f7d85",
+                                                        padding: 0,
+                                                        width: "10px",
+                                                      }}
+                                                      onClick={(e) => {
+                                                        handleCheckboxChange(
+                                                          e,
+                                                          item?.id,
+                                                          opt?.Name
+                                                        );
+                                                        setIsOnlyProdLoading(
+                                                          true
+                                                        );
+                                                        // setOpenDrawer(false);
+                                                      }}
+                                                      size="small"
+                                                    />
+                                                  }
+                                                />
+                                              </>
+                                            );
+                                          })}
+                                        </AccordionDetails>
+                                      </Accordion>
+                                    )}
+                                  {item?.id?.includes("Price") && (
+                                    <Accordion className="accordian">
+                                      <AccordionSummary
+                                        expandIcon={
+                                          <ExpandMoreIcon
+                                            sx={{ width: "20px" }}
+                                          />
+                                        }
+                                        aria-controls="panel1-content"
+                                        id="panel1-header"
+                                      >
+                                        <span className="elv_category_names">
+                                          {item.Name}
+                                        </span>
+                                      </AccordionSummary>
+                                      <AccordionDetails
+                                        sx={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          gap: "4px",
+                                          minHeight: "fit-content",
+                                          maxHeight: "300px",
+                                          overflow: "auto",
+                                        }}
+                                      >
+                                        {(JSON.parse(item?.options) ?? []).map(
+                                          (opt, i) => (
+                                            <div
+                                              key={i}
+                                            >
+                                              <CustomFormControlLabel
+                                                control={
+                                                  <Checkbox
+                                                    name={`Price${i}${i}`}
+                                                    checked={
+                                                      filterChecked[
+                                                        `Price${i}${i}`
+                                                      ]?.checked === undefined
+                                                        ? false
+                                                        : filterChecked[
+                                                          `Price${i}${i}`
+                                                        ]?.checked
+                                                    }
+                                                    style={{
+                                                      color: "#7f7d85",
+                                                      padding: 0,
+                                                      width: "10px",
+                                                    }}
+                                                    onClick={(e) => {
+                                                      {
+                                                        handleCheckboxChange(
+                                                          e,
+                                                          item?.id,
+                                                          opt
+                                                        );
+                                                        setIsOnlyProdLoading(
+                                                          true
+                                                        );
+                                                        // setOpenDrawer(false);
+                                                      }
+                                                    }}
+                                                    size="small"
+                                                  />
+                                                }
+                                                className="elv_subCategory_name_price"
+                                                label={
+                                                  opt?.Minval == 0
+                                                    ? `Under ${decodeEntities(
+                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                    )} ${formatter(opt?.Maxval)}`
+                                                    : opt?.Maxval == 0
+                                                      ? `Over ${decodeEntities(
+                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                      )} ${formatter(opt?.Minval)}`
+                                                      : `${decodeEntities(
+                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                      )} ${formatter(opt?.Minval)
+                                                      } - ${decodeEntities(
+                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                      )} ${formatter(opt?.Maxval)}`
+                                                }
+                                              />
+                                            </div>
+                                          )
+                                        )}
+                                      </AccordionDetails>
+                                    </Accordion>
+                                  )}
+                                  {item?.Name?.includes("Diamond") && (
+                                    <Accordion elevation={0} >
+                                      <AccordionSummary
+                                        expandIcon={
+                                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        }
+                                      >
+                                        <span className="elv_category_names">
+                                          {item.Name}
+                                        </span>
+                                      </AccordionSummary>
+                                      <AccordionDetails
+                                        sx={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          gap: "4px",
+                                          minHeight: "fit-content",
+                                          maxHeight: "300px",
+                                          overflow: "auto",
+                                        }}
+                                      >
+                                        <Box sx={{ width: '100%', height: 88, paddingInline: '5px' }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                          {RangeFilterView(item)}
+                                        </Box>
+                                      </AccordionDetails>
+                                    </Accordion>
+                                  )}
+                                  {item?.Name?.includes("Gross") && (
+                                    <Accordion elevation={0} >
+                                      <AccordionSummary
+                                        expandIcon={
+                                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        }
+                                      >
+                                        <span className="elv_category_names">
+                                          {item.Name}
+                                        </span>
+                                      </AccordionSummary>
+                                      <AccordionDetails
+                                        sx={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          gap: "4px",
+                                          minHeight: "fit-content",
+                                          maxHeight: "300px",
+                                          overflow: "auto",
+                                        }}
+                                      >
+                                        <Box sx={{ width: '100%', height: 88, paddingInline: '5px' }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                          {RangeFilterView2(item)}
+                                        </Box>
+                                      </AccordionDetails>
+                                    </Accordion>
+                                  )}
+                                  {item?.Name?.includes("NetWt") && (
+                                    <Accordion elevation={0} >
+                                      <AccordionSummary
+                                        expandIcon={
+                                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        }
+                                      >
+                                        <span className="elv_category_names">
+                                          {item.Name}
+                                        </span>
+                                      </AccordionSummary>
+                                      <AccordionDetails
+                                        sx={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          gap: "4px",
+                                          minHeight: "fit-content",
+                                          maxHeight: "300px",
+                                          overflow: "auto",
+                                        }}
+                                      >
+                                        <Box sx={{ width: '100%', height: 88, paddingInline: '5px' }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                          {RangeFilterView1(item)}
+                                        </Box>
+                                      </AccordionDetails>
+                                    </Accordion>
+                                  )}
+                                </>
+                              );
+                            })}
                           </div>
-                          <div className="elv_filter_data_clearAll" onClick={() => handelFilterClearAll()}>
-                            {Object.values(filterChecked).filter(
-                              (ele) => ele.checked
-                            )?.length > 0
-                              ? "Clear All"
-                              : <span>{`Total Products: ${afterFilterCount || 0}`}</span>}
+                        </Drawer>
+                      ) : (
+                        <div className="elv_filtered_category_div ">
+                          <div className="elv_filtered_data_div_filter">
+                            <div className="elv_filtered_data_text">
+                              Filter
+                            </div>
+                            <div className="elv_filter_data_clearAll" onClick={() => handelFilterClearAll()}>
+                              {Object.values(filterChecked).filter(
+                                (ele) => ele.checked
+                              )?.length > 0
+                                ? "Clear All"
+                                : <span>{`Total Products: ${afterFilterCount || 0}`}</span>}
+                            </div>
                           </div>
-                        </div>
-                        {filterData?.map((item, index) => {
-                          return (
-                            <>
-                              {!item?.id?.includes("Range") &&
-                                !item?.id?.includes("Price") && (
-                                  <Accordion
-                                    key={index}
-                                    className="accordian"
-                                  >
+                          {filterData?.map((item, index) => {
+                            return (
+                              <>
+                                {!item?.id?.includes("Range") &&
+                                  !item?.id?.includes("Price") && (
+                                    <Accordion
+                                      key={index}
+                                      className="accordian"
+                                    >
+                                      <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1-content"
+                                        id="panel1-header"
+                                        className="elv_category_names"
+                                      >
+                                        {item?.Name}
+                                      </AccordionSummary>
+                                      <AccordionDetails>
+                                        {(
+                                          JSON.parse(item?.options) ?? []
+                                        ).map((opt) => {
+                                          return (
+                                            <>
+                                              <FormControlLabel
+                                                className="elv_subCategory_name_allfilter"
+                                                key={opt?.id}
+                                                label={opt.Name}
+                                                control={
+                                                  <Checkbox
+                                                    name={`${item?.id}${opt?.id}`}
+                                                    checked={
+                                                      filterChecked[
+                                                        `${item?.id}${opt?.id}`
+                                                      ]?.checked === undefined
+                                                        ? false
+                                                        : filterChecked[
+                                                          `${item?.id}${opt?.id}`
+                                                        ]?.checked
+                                                    }
+                                                    style={{
+                                                      color: "#7f7d85",
+                                                      padding: 0,
+                                                      width: "10px",
+                                                    }}
+                                                    onClick={(e) => {
+                                                      handleCheckboxChange(
+                                                        e,
+                                                        item?.id,
+                                                        opt?.Name
+                                                      );
+                                                      setIsOnlyProdLoading(
+                                                        true
+                                                      );
+                                                    }}
+                                                    size="small"
+                                                  />
+                                                }
+                                              />
+                                            </>
+                                          );
+                                        })}
+                                      </AccordionDetails>
+                                    </Accordion>
+                                  )}
+                                {item?.id?.includes("Price") && (
+                                  <Accordion className="accordian">
                                     <AccordionSummary
-                                      expandIcon={<ExpandMoreIcon />}
+                                      expandIcon={
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
+                                      }
                                       aria-controls="panel1-content"
                                       id="panel1-header"
-                                      className="elv_category_names"
                                     >
-                                      {item?.Name}
+                                      <span className="elv_category_names">
+                                        {item.Name}
+                                      </span>
                                     </AccordionSummary>
-                                    <AccordionDetails>
-                                      {(
-                                        JSON.parse(item?.options) ?? []
-                                      ).map((opt) => {
-                                        return (
-                                          <>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      {(JSON.parse(item?.options) ?? []).map(
+                                        (opt, i) => (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                              gap: "12px",
+                                            }}
+                                            key={i}
+                                          >
                                             <FormControlLabel
-                                              className="elv_subCategory_name_allfilter"
-                                              key={opt?.id}
-                                              label={opt.Name}
                                               control={
                                                 <Checkbox
-                                                  name={`${item?.id}${opt?.id}`}
+                                                  name={`Price${i}${i}`}
                                                   checked={
                                                     filterChecked[
-                                                      `${item?.id}${opt?.id}`
+                                                      `Price${i}${i}`
                                                     ]?.checked === undefined
                                                       ? false
                                                       : filterChecked[
-                                                        `${item?.id}${opt?.id}`
+                                                        `Price${i}${i}`
                                                       ]?.checked
                                                   }
                                                   style={{
@@ -1815,470 +2169,137 @@ const ProductList = () => {
                                                     width: "10px",
                                                   }}
                                                   onClick={(e) => {
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      item?.id,
-                                                      opt?.Name
-                                                    );
-                                                    setIsOnlyProdLoading(
-                                                      true
-                                                    );
+                                                    {
+                                                      handleCheckboxChange(
+                                                        e,
+                                                        item?.id,
+                                                        opt
+                                                      );
+                                                      setIsOnlyProdLoading(
+                                                        true
+                                                      );
+                                                    }
                                                   }}
                                                   size="small"
                                                 />
                                               }
+                                              className="elv_subCategory_name_price"
+                                              label={
+                                                opt?.Minval == 0
+                                                  ? `Under ${decodeEntities(
+                                                    loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                  )} ${formatter(opt?.Maxval)}`
+                                                  : opt?.Maxval == 0
+                                                    ? `Over ${decodeEntities(
+                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                    )} ${formatter(opt?.Minval)}`
+                                                    : `${decodeEntities(
+                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                    )} ${formatter(opt?.Minval)
+                                                    } - ${decodeEntities(
+                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                    )} ${formatter(opt?.Maxval)}`
+                                              }
                                             />
-                                          </>
-                                        );
-                                      })}
+                                          </div>
+                                        )
+                                      )}
                                     </AccordionDetails>
                                   </Accordion>
                                 )}
-                              {item?.id?.includes("Price") && (
-                                <Accordion className="accordian">
-                                  <AccordionSummary
-                                    expandIcon={
-                                      <ExpandMoreIcon
-                                        sx={{ width: "20px" }}
-                                      />
-                                    }
-                                    aria-controls="panel1-content"
-                                    id="panel1-header"
-                                  >
-                                    <span className="elv_category_names">
-                                      {item.Name}
-                                    </span>
-                                  </AccordionSummary>
-                                  <AccordionDetails
-                                    sx={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "4px",
-                                      minHeight: "fit-content",
-                                      maxHeight: "300px",
-                                      overflow: "auto",
-                                    }}
-                                  >
-                                    {(JSON.parse(item?.options) ?? []).map(
-                                      (opt, i) => (
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            gap: "12px",
-                                          }}
-                                          key={i}
-                                        >
-                                          <FormControlLabel
-                                            control={
-                                              <Checkbox
-                                                name={`Price${i}${i}`}
-                                                checked={
-                                                  filterChecked[
-                                                    `Price${i}${i}`
-                                                  ]?.checked === undefined
-                                                    ? false
-                                                    : filterChecked[
-                                                      `Price${i}${i}`
-                                                    ]?.checked
-                                                }
-                                                style={{
-                                                  color: "#7f7d85",
-                                                  padding: 0,
-                                                  width: "10px",
-                                                }}
-                                                onClick={(e) => {
-                                                  {
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      item?.id,
-                                                      opt
-                                                    );
-                                                    setIsOnlyProdLoading(
-                                                      true
-                                                    );
-                                                  }
-                                                }}
-                                                size="small"
-                                              />
-                                            }
-                                            className="elv_subCategory_name_price"
-                                            label={
-                                              opt?.Minval == 0
-                                                ? `Under ${decodeEntities(
-                                                  loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                )} ${formatter(opt?.Maxval)}`
-                                                : opt?.Maxval == 0
-                                                  ? `Over ${decodeEntities(
-                                                    loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${formatter(opt?.Minval)}`
-                                                  : `${decodeEntities(
-                                                    loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${formatter(opt?.Minval)
-                                                  } - ${decodeEntities(
-                                                    loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${formatter(opt?.Maxval)}`
-                                            }
-                                          />
-                                        </div>
-                                      )
-                                    )}
-                                  </AccordionDetails>
-                                </Accordion>
-                              )}
-                              {item?.Name?.includes("Diamond") && (
-                                <Accordion elevation={0} >
-                                  <AccordionSummary
-                                    expandIcon={
-                                      <ExpandMoreIcon sx={{ width: "20px" }} />
-                                    }
-                                  >
-                                    <span className="elv_category_names">
-                                      {item.Name}
-                                    </span>
-                                  </AccordionSummary>
-                                  <AccordionDetails
-                                    sx={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "4px",
-                                      minHeight: "fit-content",
-                                      maxHeight: "300px",
-                                      overflow: "auto",
-                                    }}
-                                  >
-                                    <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
-                                      {RangeFilterView(item)}
-                                    </Box>
-                                  </AccordionDetails>
-                                </Accordion>
-                              )}
-                              {item?.Name?.includes("Gross") && (
-                                <Accordion elevation={0} >
-                                  <AccordionSummary
-                                    expandIcon={
-                                      <ExpandMoreIcon sx={{ width: "20px" }} />
-                                    }
-                                  >
-                                    <span className="elv_category_names">
-                                      {item.Name}
-                                    </span>
-                                  </AccordionSummary>
-                                  <AccordionDetails
-                                    sx={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "4px",
-                                      minHeight: "fit-content",
-                                      maxHeight: "300px",
-                                      overflow: "auto",
-                                    }}
-                                  >
-                                    <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
-                                      {RangeFilterView2(item)}
-                                    </Box>
-                                  </AccordionDetails>
-                                </Accordion>
-                              )}
-                              {item?.Name?.includes("NetWt") && (
-                                <Accordion elevation={0} >
-                                  <AccordionSummary
-                                    expandIcon={
-                                      <ExpandMoreIcon sx={{ width: "20px" }} />
-                                    }
-                                  >
-                                    <span className="elv_category_names">
-                                      {item.Name}
-                                    </span>
-                                  </AccordionSummary>
-                                  <AccordionDetails
-                                    sx={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "4px",
-                                      minHeight: "fit-content",
-                                      maxHeight: "300px",
-                                      overflow: "auto",
-                                    }}
-                                  >
-                                    <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
-                                      {RangeFilterView1(item)}
-                                    </Box>
-                                  </AccordionDetails>
-                                </Accordion>
-                              )}
-                            </>
-                          );
-                        })}
-                      </div>
+                                {item?.Name?.includes("Diamond") && (
+                                  <Accordion elevation={0} >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                    >
+                                      <span className="elv_category_names">
+                                        {item.Name}
+                                      </span>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                        {RangeFilterView(item)}
+                                      </Box>
+                                    </AccordionDetails>
+                                  </Accordion>
+                                )}
+                                {item?.Name?.includes("Gross") && (
+                                  <Accordion elevation={0} >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                    >
+                                      <span className="elv_category_names">
+                                        {item.Name}
+                                      </span>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                        {RangeFilterView2(item)}
+                                      </Box>
+                                    </AccordionDetails>
+                                  </Accordion>
+                                )}
+                                {item?.Name?.includes("NetWt") && (
+                                  <Accordion elevation={0} >
+                                    <AccordionSummary
+                                      expandIcon={
+                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                      }
+                                    >
+                                      <span className="elv_category_names">
+                                        {item.Name}
+                                      </span>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "4px",
+                                        minHeight: "fit-content",
+                                        maxHeight: "300px",
+                                        overflow: "auto",
+                                      }}
+                                    >
+                                      <Box sx={{ width: 203, height: 88 }} onChange={((e) => setIsOnlyProdLoading(true))}>
+                                        {RangeFilterView1(item)}
+                                      </Box>
+                                    </AccordionDetails>
+                                  </Accordion>
+                                )}
+                              </>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                     {isOnlyProdLoading ? (
                       <ProductFilterSkeleton />
                     ) : (
                       <>
-                        {/* {showFilter === true ? (
-                          <div className={showFilter ? 'elv_filtered_data_category_other' : 'elv_filtered_data_by_grid'}>
-                            <div className="elv_filtered_data_grid_div">
-                              {activeIconsBtns
-                                .filter((_, index) => visibleIndices.includes(index))
-                                .map((iconConfig, index) => {
-                                  const isActive = iconConfig.name === activeIcon;
-                                  return (
-                                    isActive && (
-                                      <React.Fragment key={index}>
-                                        {productListData.map((item, productIndex) => (
-                                          <Product_Card
-                                            key={productIndex}
-                                            class1={iconConfig.class1}
-                                            class2={iconConfig.class2}
-                                            productData={item}
-                                            calcVal={iconConfig.calcWidth}
-                                            handleCartandWish={handleCartandWish}
-                                            cartArr={cartArr}
-                                            wishArr={wishArr}
-                                            loginCurrency={loginCurrency}
-                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
-                                            handleMoveToDetail={handleMoveToDetail}
-                                            formatter={formatter}
-                                          />
-                                        ))}
-                                      </React.Fragment>
-                                    )
-                                  );
-                                })}
-                              {storeInit?.IsProductListPagination === 1 &&
-                                Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      marginTop: "5%",
-                                      width: '100%',
-                                    }}
-                                  >
-                                    <Pagination
-                                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                      size={maxwidth464px ? "small" : "large"}
-                                      shape="circular"
-                                      onChange={handelPageChange}
-                                      page={currPage}
-                                      showFirstButton
-                                      showLastButton
-                                    />
-                                  </div>
-                                )}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className='elv_filtered_data_by_grid'>
-                            <div className="elv_filtered_data_grid_div">
-                              {activeIconsBtns
-                                .filter((_, index) => visibleIndices.includes(index))
-                                .map((iconConfig, index) => {
-                                  const isActive = iconConfig.name === activeIcon;
-                                  return (
-                                    isActive && (
-                                      <React.Fragment key={index}>
-                                        {productListData.map((item, productIndex) => (
-                                          <Product_Card
-                                            key={productIndex}
-                                            class1={iconConfig.class1}
-                                            class2={iconConfig.class2}
-                                            productData={item}
-                                            calcVal={iconConfig.calcWidth}
-                                            handleCartandWish={handleCartandWish}
-                                            cartArr={cartArr}
-                                            wishArr={wishArr}
-                                            loginCurrency={loginCurrency}
-                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
-                                            handleMoveToDetail={handleMoveToDetail}
-                                            formatter={formatter}
-                                          />
-                                        ))}
-                                      </React.Fragment>
-                                    )
-                                  );
-                                })}
-                              {storeInit?.IsProductListPagination === 1 &&
-                                Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      marginTop: "5%",
-                                      width: '100%',
-                                    }}
-                                  >
-                                    <Pagination
-                                      count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                      size={maxwidth464px ? "small" : "large"}
-                                      shape="circular"
-                                      onChange={handelPageChange}
-                                      page={currPage}
-                                      showFirstButton
-                                      showLastButton
-                                    />
-                                  </div>
-                                )}
-                            </div>
-                          </div>
-
-                        )}  */}
-                        {/* {showFilter === true ? (
-                          <>
-                            <div className="elv_filtered_data_by_grid_other">
-                              <div className="elv_filtered_data_grid_div">
-                                {activeIconsBtns.map((iconConfig, index) => {
-                                  const isActive = iconConfig.name === activeIcon;
-                                  return (
-                                    isActive && (
-                                      <React.Fragment key={index}>
-                                        {productListData.map((item, productIndex) => (
-                                          <Product_Card
-                                            key={productIndex}
-                                            class1={iconConfig.class1}
-                                            class2={iconConfig.class2}
-                                            productData={item}
-                                            calcVal={iconConfig.calcWidth}
-                                            handleCartandWish={handleCartandWish}
-                                            cartArr={cartArr}
-                                            wishArr={wishArr}
-                                            loginCurrency={loginCurrency}
-                                            imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                                            videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                                            RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
-                                            handleMoveToDetail={handleMoveToDetail}
-                                            formatter={formatter}
-                                          />
-                                        ))}
-                                      </React.Fragment>
-                                    )
-                                  );
-                                })}
-                                {storeInit?.IsProductListPagination == 1 &&
-                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        marginTop: "5%",
-                                        width: '100%'
-                                      }}
-                                    >
-                                      <Pagination
-                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                        size={maxwidth464px ? "small" : "large"}
-                                        shape="circular"
-                                        onChange={handelPageChange}
-                                        page={currPage}
-                                        showFirstButton
-                                        showLastButton
-                                      />
-                                    </div>
-                                  )}
-                              </div>
-                            </div>
-                          </>
-                        ) : (
-
-                          <>
-                            <div className="elv_filtered_data_by_grid">
-                              <div className="elv_filtered_data_grid_div">
-                                {openGridModal ? (
-                                  <>
-                                    {activeIconsBtns.map((iconConfig, index) => {
-                                      const isActive = iconConfig.name === activeIcon;
-                                      return (
-                                        isActive && (
-                                          <React.Fragment key={index}>
-                                            {productListData.map((item, productIndex) => (
-                                              <Product_Card
-                                                key={productIndex}
-                                                class1={iconConfig.class1}
-                                                class2={iconConfig.class2}
-                                                productData={item}
-                                                calcVal={iconConfig.calcWidth}
-                                                handleCartandWish={handleCartandWish}
-                                                cartArr={cartArr}
-                                                wishArr={wishArr}
-                                                loginCurrency={loginCurrency}
-                                                imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                                                videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                                                RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
-                                                handleMoveToDetail={handleMoveToDetail}
-                                                formatter={formatter}
-                                              />
-                                            ))}
-                                          </React.Fragment>
-                                        )
-                                      );
-                                    })}
-                                  </>
-                                ) :
-                                  <>
-                                    {activeIconsBtns.map((iconConfig, index) => {
-                                      const isActive = iconConfig.name === activeIcon;
-                                      return (
-                                        isActive && (
-                                          <React.Fragment key={index}>
-                                            {productListData.map((item, productIndex) => (
-                                              <Product_Card
-                                                key={productIndex}
-                                                class1={iconConfig.class1}
-                                                class2={iconConfig.class2}
-                                                productData={item}
-                                                calcVal={iconConfig.calcWidth}
-                                                handleCartandWish={handleCartandWish}
-                                                cartArr={cartArr}
-                                                wishArr={wishArr}
-                                                loginCurrency={loginCurrency}
-                                                imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                                                videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
-                                                RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
-                                                handleMoveToDetail={handleMoveToDetail}
-                                                formatter={formatter}
-                                              />
-                                            ))}
-                                          </React.Fragment>
-                                        )
-                                      );
-                                    })}
-                                  </>
-                                }
-
-                                {storeInit?.IsProductListPagination == 1 &&
-                                  Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        marginTop: "5%",
-                                        width: '100%'
-                                      }}
-                                    >
-                                      <Pagination
-                                        count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                                        size={maxwidth464px ? "small" : "large"}
-                                        shape="circular"
-                                        onChange={handelPageChange}
-                                        page={currPage}
-                                        showFirstButton
-                                        showLastButton
-
-                                      />
-                                    </div>
-                                  )}
-                              </div>
-                            </div>
-                          </>
-                        )} */}
                         {productListData.length < 1 ? (
-                          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', fontSize: '25px', marginTop: '5rem' }}>
+                          <div style={{ display: 'flex', justifyContent: 'center', width: '80%', fontSize: '25px', marginTop: '5rem' }}>
                             Products not found
                           </div>
                         ) : (
@@ -2315,14 +2336,10 @@ const ProductList = () => {
                                 {storeInit?.IsProductListPagination == 1 &&
                                   Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
                                     <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        marginTop: "5%",
-                                        width: '100%'
-                                      }}
+                                      className="pagination-container"
                                     >
                                       <Pagination
+                                        className="pagination_div"
                                         count={Math.ceil(afterFilterCount / storeInit.PageSize)}
                                         size={maxwidth464px ? "small" : "large"}
                                         shape="circular"
@@ -2440,6 +2457,7 @@ const Product_Card = ({
               />
             </div>
           </div>
+
           <div
             style={{
               display: "flex",
@@ -2457,6 +2475,12 @@ const Product_Card = ({
               onMouseOut={() => setIsHover(false)}
               onMouseLeave={() => setIsHover(false)}
             >
+              <div className="elvWeb_app_product_label">
+                {productData?.IsInReadyStock == 1 && <span className="elvWeb_app_instock">In Stock</span>}
+                {productData?.IsBestSeller == 1 && <span className="elvWeb_app_bestSeller">Best Seller</span>}
+                {productData?.IsTrending == 1 && <span className="elvWeb_app_intrending">Trending</span>}
+                {productData?.IsNewArrival == 1 && <span className="elvWeb_app_newarrival">New</span>}
+              </div>
               {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
                 <>
                   {videoUrl !== undefined ? (
@@ -2497,40 +2521,50 @@ const Product_Card = ({
           </div>
           <div className="elv_filtered_prod_details">
             <div className="elv_filtered_prod_weights">
-              <div
-                style={{ display: "flex" }}
-              >
-                <span className="elv_prod_weight_span_1">
-                  NWT&nbsp;:{" "}
-                </span>
-                <span className="elv_prod_weight_span_2">
-                  &nbsp;
-                  {productData?.Nwt.toFixed(3)}
-                </span>
-              </div>
-              <div
-                style={{ display: "flex" }}
-              >
-                <span className="elv_prod_weight_span_1">
-                  DWT&nbsp;:{" "}
-                </span>
-                <span className="elv_prod_weight_span_2">
-                  &nbsp;
-                  {productData?.Dwt.toFixed(3)}/
-                  {productData?.Dpcs}
-                </span>
-              </div>
-              <div
-                style={{ display: "flex" }}
-              >
-                <span className="elv_prod_weight_span_1">
-                  GWT&nbsp;:{" "}
-                </span>
-                <span className="elv_prod_weight_span_2">
-                  &nbsp;
-                  {productData?.Gwt.toFixed(3)}
-                </span>
-              </div>
+              {Number(productData?.Nwt) !== 0 && (
+                <div
+                  style={{ display: "flex" }}
+                >
+                  <span className="elv_prod_weight_span_1">
+                    NWT&nbsp;:{" "}
+                  </span>
+                  <span className="elv_prod_weight_span_2">
+                    &nbsp;
+                    {productData?.Nwt.toFixed(3)}
+                  </span>
+                </div>
+              )}
+              {storeInit?.IsDiamondWeight == 1 &&
+                Number(productData?.Dwt) !== 0 && (
+                  <div
+                    style={{ display: "flex" }}
+                  >
+                    <span className="elv_prod_weight_span_1">
+                      DWT&nbsp;:{" "}
+                    </span>
+                    <span className="elv_prod_weight_span_2">
+                      &nbsp;
+                      {(productData?.Dwt)?.toFixed(3)}
+                      {storeInit?.IsDiamondPcs === 1
+                        ? `/${productData?.Dpcs}`
+                        : null}
+                    </span>
+                  </div>
+                )}
+              {storeInit?.IsGrossWeight == 1 &&
+                Number(productData?.Gwt) !== 0 && (
+                  <div
+                    style={{ display: "flex" }}
+                  >
+                    <span className="elv_prod_weight_span_1">
+                      GWT&nbsp;:{" "}
+                    </span>
+                    <span className="elv_prod_weight_span_2">
+                      &nbsp;
+                      {(productData?.Gwt)?.toFixed(3)}
+                    </span>
+                  </div>
+                )}
             </div>
             <div className="elv_filtered_prod_price">
               <span className="elv_prod_weight_span_1_design">

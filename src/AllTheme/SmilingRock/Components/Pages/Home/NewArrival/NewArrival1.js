@@ -97,83 +97,86 @@ const NewArrival = () => {
     console.log('newArrivalData', newArrivalData);
 
     return (
-        <div className='smr_newwArr1MainDiv'>
-            <Typography variant='h4' className='smr_NewArr1Title'>NEW ARRIVAL
-                <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
-                    View more
-                </Link>
-            </Typography>
-            {newArrivalData &&
-                <Grid container spacing={1} className='smr_NewArrival1product-list'>
-                    {newArrivalData?.slice(0, 4)?.map((product, index) => (
-                        <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
-                            <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
-                                <div className='smr_newArr1Image'>
-                                    <CardMedia
-                                        component="img"
-                                        className='smr_newArrImage'
-                                        // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
-                                        image={product?.ImageCount >= 1 ?
-                                            `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
-                                            : noImageFound}
-                                        alt={product?.TitleLine}
-                                    />
-                                </div>
-                                <CardContent className='smr_newarrproduct-info'>
-                                    <Typography variant='h6' className='smr_newArrTitle'>{product?.TitleLine != "" && product?.TitleLine + " - "}{product?.designno}</Typography>
-                                    <Typography variant='body2'>
-                                        {storeInit?.IsGrossWeight == 1 &&
-                                            <>
-                                                <span className='smr_lb3detailDT'>GWT: </span>
-                                                <span className='smr_lb3detailDT'>{(product?.Gwt || 0)?.toFixed(3)}</span>
-                                            </>
-                                        }
-                                        {storeInit?.IsGrossWeight == 1 &&
-                                            <>
-                                                <span className='smr_lb3pipe'> | </span>
-                                                <span className='smr_lb3detailDT'>NWT : </span>
-                                                <span className='smr_lb3detailDT'>{(product?.Nwt || 0)?.toFixed(3)}</span>
-                                            </>
-                                        }
-                                        {storeInit?.IsGrossWeight == 1 &&
-                                            <>
-                                                {(product?.Dwt != "0" || product?.Dpcs != "0") &&
-                                                    <>
-                                                        <span className='smr_lb3pipe'> | </span>
-                                                        <span className='smr_lb3detailDT'>DWT: </span>
-                                                        <span className='smr_lb3detailDT'>{(product?.Dwt || 0)?.toFixed(3)} / {(product?.Dpcs || 0)}</span>
-                                                    </>
-                                                }
-                                            </>
-                                        }
-                                        {storeInit?.IsGrossWeight == 1 &&
-                                            <>
-                                                {(product?.CSwt != "0" || product?.CSpcs != "0") &&
-                                                    <>
-                                                        <span className='smr_lb3pipe'> | </span>
-                                                        <span className='smr_lb3detailDT'>CWT: </span>
-                                                        <span className='smr_lb3detailDT'>{(product?.CSwt || 0)?.toFixed(3)} / {(product?.CSpcs || 0)}</span>
-                                                    </>
-                                                }
-                                            </>
-                                        }
-                                    </Typography>
-                                    <p className='smr_newArrPrice'>
-                                        <span
-                                            className="smr_currencyFont"
-                                            dangerouslySetInnerHTML={{
-                                                __html: decodeEntities(
-                                                    islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
-                                                ),
-                                            }}
-                                        /> {formatter(product?.UnitCostWithMarkUp)}</p>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
+        <>
+            {newArrivalData?.length != 0 &&
+                <div className='smr_newwArr1MainDiv'>
+                    <Typography variant='h4' className='smrN_NewArr1Title'>NEW ARRIVAL
+                        <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                            View more
+                        </Link>
+                    </Typography>
+                    <Grid container spacing={1} className='smr_NewArrival1product-list'>
+                        {newArrivalData?.slice(0, 4)?.map((product, index) => (
+                            <Grid item xs={6} sm={4} md={3} lg={3} key={index}>
+                                <Card className='smr_NewArrproduct-card' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                                    <div className='smr_newArr1Image'>
+                                        <CardMedia
+                                            component="img"
+                                            className='smr_newArrImage'
+                                            // image="https://www.bringitonline.in/uploads/2/2/4/5/22456530/female-diamond-necklace-jewellery-photoshoot-jewellery-photography-jewellery-photographers-jewellery-model-shoot-jewellery-product-shoot-bringitonline_orig.jpeg"
+                                            image={product?.ImageCount >= 1 ?
+                                                `${imageUrl}${newArrivalData && product?.designno}_1.${newArrivalData && product?.ImageExtension}`
+                                                : noImageFound}
+                                            alt={product?.TitleLine}
+                                        />
+                                    </div>
+                                    <CardContent className='smr_newarrproduct-info'>
+                                        <Typography variant='h6' className='smr_newArrTitle'>{product?.TitleLine != "" && product?.TitleLine + " - "}{product?.designno}</Typography>
+                                        <Typography variant='body2'>
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                    <span className='smr_lb3detailDT'>GWT: </span>
+                                                    <span className='smr_lb3detailDT'>{(product?.Gwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                            }
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                    <span className='smr_lb3pipe'> | </span>
+                                                    <span className='smr_lb3detailDT'>NWT : </span>
+                                                    <span className='smr_lb3detailDT'>{(product?.Nwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                            }
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                    {(product?.Dwt != "0" || product?.Dpcs != "0") &&
+                                                        <>
+                                                            <span className='smr_lb3pipe'> | </span>
+                                                            <span className='smr_lb3detailDT'>DWT: </span>
+                                                            <span className='smr_lb3detailDT'>{(product?.Dwt || 0)?.toFixed(3)} / {(product?.Dpcs || 0)}</span>
+                                                        </>
+                                                    }
+                                                </>
+                                            }
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                    {(product?.CSwt != "0" || product?.CSpcs != "0") &&
+                                                        <>
+                                                            <span className='smr_lb3pipe'> | </span>
+                                                            <span className='smr_lb3detailDT'>CWT: </span>
+                                                            <span className='smr_lb3detailDT'>{(product?.CSwt || 0)?.toFixed(3)} / {(product?.CSpcs || 0)}</span>
+                                                        </>
+                                                    }
+                                                </>
+                                            }
+                                        </Typography>
+                                        <p className='smr_newArrPrice'>
+                                            <span
+                                                className="smr_currencyFont"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: decodeEntities(
+                                                        islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode
+                                                    ),
+                                                }}
+                                            /> {formatter(product?.UnitCostWithMarkUp)}</p>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </div>
             }
-        </div>
+        </>
+
     );
 }
 

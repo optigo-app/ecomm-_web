@@ -34,3 +34,8 @@ export const stam_defaultAddressState = atom({
   key: 'defaultAddressState',
   default: null,
 });
+
+export const stam_CartNo = atom({
+  key: 'cartNo',
+  default: 0,
+});

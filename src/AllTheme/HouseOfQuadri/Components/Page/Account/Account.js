@@ -43,7 +43,7 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0">
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -133,7 +133,7 @@ export default function Account() {
                 <div className='hoq-AccountMain'>
                     <div className='sticky_header_web_sm_hoq'>
                         <p className='hoqAccountTitle youraccountpagesec'>Your Account</p>
-                        <div className='hoqAccountTabWebView'>
+                        <div className='hoqAccountTabWebView hoq_main_head_none'>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} />
@@ -143,12 +143,12 @@ export default function Account() {
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                        {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
                         </div>
-                        <div className='hoqAccountTabMobileView YourAccountPageTabs'>
+                        <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount'>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                     <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
@@ -158,7 +158,7 @@ export default function Account() {
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                        {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>

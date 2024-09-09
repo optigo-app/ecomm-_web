@@ -18,6 +18,7 @@ import { HiOutlineShoppingBag } from 'react-icons/hi2';
 const Menubar = () => {
     const [lodingLogo, setLodingLogo] = useState(true);
     const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+    const [storeinit, setStoreInit] = useState();
     const navigation = useNavigate();
     const [islogin, setislogin] = useRecoilState(el_loginState);
     const [toggle, setToggle] = useState(false);
@@ -29,6 +30,9 @@ const Menubar = () => {
     useEffect(() => {
         const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
+
+        const storeData = JSON.parse(sessionStorage.getItem('storeInit'));
+        setStoreInit(storeData)
 
         if (titleImg) {
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -259,7 +263,7 @@ const Menubar = () => {
                                             <CloseIcon onClick={handleToggle} className='elv_login_header_menu_close_btn' />
                                         </div>
                                         <div className="el_login_header_menu_main_div1">
-                                            <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingLeft: '25px' }}>
                                                 {titleImg && <img src={titleImg} alt="Title" className="el_login_header_menu_main_div1_logo" />}
                                             </a>
                                         </div>
@@ -314,39 +318,44 @@ const Menubar = () => {
                                     </div>
                                     <div className='elv_login_header_menu_lists_div'>
                                         <ul className="el_login_header_menu_main_div1_ul">
-                                            <Link
-                                                to={"/Lookbook"}
-                                                className="el_Login_header_li go-lookbook"
-                                                style={{
-                                                    marginLeft: "33px",
-                                                    marginBottom: '20px',
-                                                    cursor: "default",
-                                                    textDecoration: "none",
-                                                    position: "relative",
-                                                    color: "inherit"
-                                                }}
-                                            >
-                                                <small
+                                            {storeinit?.IsDesignSetInMenu == 1 && (
+                                                <li
+                                                    className="el_Login_header_li go-lookbook"
                                                     style={{
-                                                        backgroundColor: "#9C27B0",
-                                                        position: "absolute",
-                                                        marginTop: "-35px",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        height: "15px",
-                                                        borderRadius: "",
-                                                        padding: "0 5px",
-                                                        fontSize: "10px",
-                                                        borderRadius: " 3px",
-                                                        marginLeft: "-15px",
-                                                        color: 'white'
+                                                        marginLeft: "33px",
+                                                        marginBottom: '20px',
+                                                        cursor: "default",
+                                                        textDecoration: "none",
+                                                        position: "relative",
+                                                        color: "inherit"
+                                                    }}
+                                                    onClick={() => {
+                                                        handleToggle();
+                                                        navigation("Lookbook");
                                                     }}
                                                 >
-                                                    New
-                                                </small>
-                                                LookBook
-                                            </Link>
+                                                    <small
+                                                        style={{
+                                                            backgroundColor: "#9C27B0",
+                                                            position: "absolute",
+                                                            marginTop: "-35px",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            height: "15px",
+                                                            borderRadius: "",
+                                                            padding: "0 5px",
+                                                            fontSize: "10px",
+                                                            borderRadius: " 3px",
+                                                            marginLeft: "-15px",
+                                                            color: 'white'
+                                                        }}
+                                                    >
+                                                        New
+                                                    </small>
+                                                    {storeinit?.DesignSetInMenu}
+                                                </li>
+                                            )}
                                             {menuItems.map((item, index) => {
                                                 return (
                                                     <li
@@ -365,6 +374,7 @@ const Menubar = () => {
                                                         <div className='elv_login_header_menu_menunames'>
                                                             <div className='elv_menubar_menu_div'>
                                                                 <span className='elv_login_header_menu_names' onClick={() => {
+                                                                    handleToggle();
                                                                     handelMenu({
                                                                         menuname: item?.menuname,
                                                                         key: item?.param0name,
@@ -392,7 +402,8 @@ const Menubar = () => {
                                                                     <hr className='elv_login_header_menu_hr' />
                                                                     {(item?.menuid === selectedData?.menuid) && isOpen && (
                                                                         <>
-                                                                            <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}>
+                                                                            {/* <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}> */}
+                                                                            <div style={{ padding: '5px', marginRight: '8px', marginTop: '5px' }}>
                                                                                 <div style={{ width: '95%', textTransform: 'uppercase' }}>
                                                                                     {selectedData?.param1?.map((param1Item, param1Index) => (
                                                                                         <div key={param1Index}>
