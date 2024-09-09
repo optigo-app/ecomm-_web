@@ -1262,7 +1262,7 @@ const ProductList = () => {
                   </span>
                   <span className="elv_Productlists_details_2">&nbsp;{afterFilterCount}</span>
                   <span className="elv_Productlists_details_3">
-                    &nbsp;Design
+                    &nbsp;{afterFilterCount?.length == 1 ? "Design" : "Designs"}
                   </span>
                 </div>
                 <div role="presentation">
@@ -2299,7 +2299,7 @@ const ProductList = () => {
                     ) : (
                       <>
                         {productListData.length < 1 ? (
-                          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', fontSize: '25px', marginTop: '5rem' }}>
+                          <div style={{ display: 'flex', justifyContent: 'center', width: '80%', fontSize: '25px', marginTop: '5rem' }}>
                             Products not found
                           </div>
                         ) : (
@@ -2336,14 +2336,10 @@ const ProductList = () => {
                                 {storeInit?.IsProductListPagination == 1 &&
                                   Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
                                     <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        marginTop: "5%",
-                                        width: '100%'
-                                      }}
+                                      className="pagination-container"
                                     >
                                       <Pagination
+                                        className="pagination_div"
                                         count={Math.ceil(afterFilterCount / storeInit.PageSize)}
                                         size={maxwidth464px ? "small" : "large"}
                                         shape="circular"
@@ -2525,40 +2521,50 @@ const Product_Card = ({
           </div>
           <div className="elv_filtered_prod_details">
             <div className="elv_filtered_prod_weights">
-              <div
-                style={{ display: "flex" }}
-              >
-                <span className="elv_prod_weight_span_1">
-                  NWT&nbsp;:{" "}
-                </span>
-                <span className="elv_prod_weight_span_2">
-                  &nbsp;
-                  {productData?.Nwt.toFixed(3)}
-                </span>
-              </div>
-              <div
-                style={{ display: "flex" }}
-              >
-                <span className="elv_prod_weight_span_1">
-                  DWT&nbsp;:{" "}
-                </span>
-                <span className="elv_prod_weight_span_2">
-                  &nbsp;
-                  {productData?.Dwt.toFixed(3)}/
-                  {productData?.Dpcs}
-                </span>
-              </div>
-              <div
-                style={{ display: "flex" }}
-              >
-                <span className="elv_prod_weight_span_1">
-                  GWT&nbsp;:{" "}
-                </span>
-                <span className="elv_prod_weight_span_2">
-                  &nbsp;
-                  {productData?.Gwt.toFixed(3)}
-                </span>
-              </div>
+              {Number(productData?.Nwt) !== 0 && (
+                <div
+                  style={{ display: "flex" }}
+                >
+                  <span className="elv_prod_weight_span_1">
+                    NWT&nbsp;:{" "}
+                  </span>
+                  <span className="elv_prod_weight_span_2">
+                    &nbsp;
+                    {productData?.Nwt.toFixed(3)}
+                  </span>
+                </div>
+              )}
+              {storeInit?.IsDiamondWeight == 1 &&
+                Number(productData?.Dwt) !== 0 && (
+                  <div
+                    style={{ display: "flex" }}
+                  >
+                    <span className="elv_prod_weight_span_1">
+                      DWT&nbsp;:{" "}
+                    </span>
+                    <span className="elv_prod_weight_span_2">
+                      &nbsp;
+                      {(productData?.Dwt)?.toFixed(3)}
+                      {storeInit?.IsDiamondPcs === 1
+                        ? `/${productData?.Dpcs}`
+                        : null}
+                    </span>
+                  </div>
+                )}
+              {storeInit?.IsGrossWeight == 1 &&
+                Number(productData?.Gwt) !== 0 && (
+                  <div
+                    style={{ display: "flex" }}
+                  >
+                    <span className="elv_prod_weight_span_1">
+                      GWT&nbsp;:{" "}
+                    </span>
+                    <span className="elv_prod_weight_span_2">
+                      &nbsp;
+                      {(productData?.Gwt)?.toFixed(3)}
+                    </span>
+                  </div>
+                )}
             </div>
             <div className="elv_filtered_prod_price">
               <span className="elv_prod_weight_span_1_design">

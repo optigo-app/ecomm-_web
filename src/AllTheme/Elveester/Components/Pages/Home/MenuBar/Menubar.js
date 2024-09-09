@@ -263,7 +263,7 @@ const Menubar = () => {
                                             <CloseIcon onClick={handleToggle} className='elv_login_header_menu_close_btn' />
                                         </div>
                                         <div className="el_login_header_menu_main_div1">
-                                            <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingLeft: '25px' }}>
                                                 {titleImg && <img src={titleImg} alt="Title" className="el_login_header_menu_main_div1_logo" />}
                                             </a>
                                         </div>
@@ -402,7 +402,8 @@ const Menubar = () => {
                                                                     <hr className='elv_login_header_menu_hr' />
                                                                     {(item?.menuid === selectedData?.menuid) && isOpen && (
                                                                         <>
-                                                                            <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}>
+                                                                            {/* <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}> */}
+                                                                            <div style={{ padding: '5px', marginRight: '8px', marginTop: '5px' }}>
                                                                                 <div style={{ width: '95%', textTransform: 'uppercase' }}>
                                                                                     {selectedData?.param1?.map((param1Item, param1Index) => (
                                                                                         <div key={param1Index}>

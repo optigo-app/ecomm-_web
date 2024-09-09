@@ -265,7 +265,7 @@ const Header = () => {
         finalData?.FilterKey1 && `${finalData.FilterVal1}`,
         finalData?.FilterKey2 && `${finalData.FilterVal2}`,
       ]
-        .filter(Boolean)
+        // .filter(Boolean)
         .join(",");
 
       const otherparamUrl = Object.entries({

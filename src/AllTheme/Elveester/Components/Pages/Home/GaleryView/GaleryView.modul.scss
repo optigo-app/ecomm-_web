@@ -1,14 +1,17 @@
-.el_mainGalleryConatinerID{
+.el_mainGalleryConatinerID {
+  margin-bottom: 1.3rem;
 
-.mainSocialMediaConatiner{
+  .mainSocialMediaConatiner {
     margin-top: 20px;
   }
-  .galeryComponents{
+
+  .galeryComponents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
     font-size: 22px;
   }
-  .socialmediaptag{
+
+  .socialmediaptag {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
     font-size: 22px;
@@ -16,21 +19,38 @@
     line-height: 2px;
     margin: 50px 0px 15px 0px !important;
   }
-  .galeryComponents{
+
+  .galeryComponents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
     font-size: 22px;
     text-transform: capitalize;
     line-height: 2px;
-    margin: 40px 0px 25px 0px !important;
+    margin: 65px 0px 35px 0px !important
   }
 
 
-  @media (min-width: 445px) and (max-width: 768px) {
+  @media (min-width: 445px) and (max-width: 768px) {}
 
+  @media (max-width: 445px) {}
+}
+
+.mySwiper {
+  .swiper-pagination {
+    bottom: 5px;
   }
 
-  @media (max-width: 445px) {
-    
+  .swiper-pagination-bullet {
+    background: #CCCCCC;
+    opacity: 0.7;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    transition: opacity 0.3s;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #007bff;
+    opacity: 1;
   }
 }

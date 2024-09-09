@@ -115,7 +115,7 @@ export default function ContimueWithMobile() {
                             <button className='submitBtnForgot' onClick={handleSubmit}>
                                 SUBMIT
                             </button>
-                            <Button style={{ marginTop: '10px', color: 'gray',marginBottom:'50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
                         </div>
                     </div>
                 </div>

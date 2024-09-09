@@ -64,7 +64,7 @@ const CartPage = () => {
     decodeEntities,
     handleMoveToDetail,
     handelMenu
-    
+
   } = useCart();
   console.log('cartData: ', cartData);
 
@@ -323,8 +323,8 @@ const CartPage = () => {
                           Are You Sure to Delete All these items?
                         </Typography>
                         <div style={{ display: 'flex', justifyContent: 'end', marginTop: '1rem' }}>
-                          <Button className="elv_del_button no-button" onClick={handleClose}>No</Button>
                           <Button className="elv_del_button yes-button" onClick={handleCloseRemove}>Yes</Button>
+                          <Button className="elv_del_button no-button" onClick={handleClose}>No</Button>
                         </div>
                       </Box>
                     </Modal>
