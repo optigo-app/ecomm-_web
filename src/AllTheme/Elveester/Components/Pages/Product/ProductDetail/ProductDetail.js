@@ -1008,8 +1008,8 @@ const ProductDetail = () => {
   const SizeSorting = (SizeArr) => {
 
     let SizeSorted = SizeArr?.sort((a, b) => {
-      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
-      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameA = parseInt(a?.sizename?.slice(0, -2), 10);
+      const nameB = parseInt(b?.sizename?.slice(0, -2), 10);
 
       return nameA - nameB;
     })
@@ -1625,17 +1625,23 @@ const ProductDetail = () => {
                                       paddingBottom: '8px'
                                     }}>
                                       <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
-                                      <select
-                                        className="elv_metaltype_drp"
-                                        value={selectCsQC}
-                                        onChange={(e) => handleCustomChange(e, 'cs')}
-                                      >
-                                        {csQcCombo.map((ele) => (
-                                          <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                            {`${ele?.Quality}#${ele?.color}`}
-                                          </option>
-                                        ))}
-                                      </select>
+                                      {singleProd?.IsMrpBase == 1 ?
+                                        <span className="elv_metaltype_span">
+                                          {singleProd?.CsQuaCol}
+                                        </span>
+                                        :
+                                        <select
+                                          className="elv_metaltype_drp"
+                                          value={selectCsQC}
+                                          onChange={(e) => handleCustomChange(e, 'cs')}
+                                        >
+                                          {csQcCombo.map((ele) => (
+                                            <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                              {`${ele?.Quality}#${ele?.color}`}
+                                            </option>
+                                          ))}
+                                        </select>
+                                      }
                                     </div>
                                     <hr className='elv_ProductDet_divider_1' />
                                   </div>
@@ -1662,7 +1668,7 @@ const ProductDetail = () => {
                                         </span>
                                         :
                                         <select
-                                          className="elv_metaltype_drp"
+                                          className="elv_metaltype_drp_size"
                                           value={sizeData}
                                           onChange={(e) => handleCustomChange(e, 'size')}
                                         >
@@ -2036,17 +2042,23 @@ const ProductDetail = () => {
                                     paddingBottom: '8px'
                                   }}>
                                     <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>color stone : </label>
-                                    <select
-                                      className="elv_metaltype_drp"
-                                      value={selectCsQC}
-                                      onChange={(e) => handleCustomChange(e, 'cs')}
-                                    >
-                                      {csQcCombo.map((ele) => (
-                                        <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                          {`${ele?.Quality}#${ele?.color}`}
-                                        </option>
-                                      ))}
-                                    </select>
+                                    {singleProd?.IsMrpBase == 1 ?
+                                      <span className="elv_metaltype_span">
+                                        {singleProd?.CsQuaCol}
+                                      </span>
+                                      :
+                                      <select
+                                        className="elv_metaltype_drp"
+                                        value={selectCsQC}
+                                        onChange={(e) => handleCustomChange(e, 'cs')}
+                                      >
+                                        {csQcCombo.map((ele) => (
+                                          <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                            {`${ele?.Quality}#${ele?.color}`}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    }
                                   </div>
                                   <hr className='elv_ProductDet_divider_1' />
                                 </div>
@@ -2073,7 +2085,7 @@ const ProductDetail = () => {
                                       </span>
                                       :
                                       <select
-                                        className="elv_metaltype_drp"
+                                        className="elv_metaltype_drp_size"
                                         value={sizeData}
                                         onChange={(e) => handleCustomChange(e, 'size')}
                                       >
@@ -2419,7 +2431,7 @@ const TableComponents = ({ list, details }) => {
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
-                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}/{(val?.N).toFixed(3)}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
               </tr>
             ))}
           </tbody>

@@ -36,6 +36,7 @@
             color: #424141;
             font-size: 18px;
             line-height: 20px;
+            text-align: justify;
         }
 
         .elv_customize_details_div {
@@ -76,6 +77,7 @@
                         color: #424141;
                         font-size: 17px;
                         line-height: 28px;
+                        text-align: justify;
                     }
                 }
             }
@@ -88,6 +90,11 @@
 }
 
 @media (max-width: 768px) {
+
+    .elv_customize_title_para{
+        padding-inline: 2%;
+    }
+
     .elv_customize_det {
         display: flex;
         flex-direction: column !important;
@@ -97,8 +104,11 @@
             max-height: 300px;
             object-fit: cover;
         }
+    }
 
+    .elv_customize_details_div {
         .elv_customize_det_desc {
+            margin-left: 0% !important;
 
             .elv_customize_det_span {
                 text-align: center;
