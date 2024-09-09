@@ -105,12 +105,12 @@
     border-bottom: 1px solid black;
 }
 
-.smlingAccountTabWebView button.Mui-selected{
+.smlingAccountTabWebView_Procat button.Mui-selected{
     color: #3b3c3d;
     /* text-decoration: underline; */
 }
 
-.smlingAccountTabWebView span.MuiTabs-indicator{
+.smlingAccountTabWebView_Procat span.MuiTabs-indicator{
     background-color: #3b3c3d;
 }
 
@@ -132,6 +132,13 @@
     padding: 10px 0;
 }
 
+.smlingAccountTabWebView_Procat{
+    display: block;
+}
+.smlingAccountTabMobileView_Procat{
+    display: none;
+}
+
 @media screen and (max-width: 1441px) {
 
     .Smiling-AccountMain {
@@ -150,14 +157,14 @@
     }
 }
 @media screen and (min-width: 1050px) {
-    .smlingAccountTabMobileView{
+    .smlingAccountTabMobileView_Procat{
         display: none;
     }
 }
 
 @media screen and (max-width: 1049px) {
 
-    .smlingAccountTabWebView{
+    .smlingAccountTabWebView_Procat{
         display: none;
     }
 
@@ -182,6 +189,15 @@
     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
         display: flex;
         align-items: start!important;
+    }
+}
+
+@media screen and (max-width:1024px), (max-width:1080px){
+    .smlingAccountTabWebView_Procat{
+        display: none;
+    }
+    .smlingAccountTabMobileView_Procat{
+        display: block;
     }
 }
 
