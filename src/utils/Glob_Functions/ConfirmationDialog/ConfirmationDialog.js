@@ -1,5 +1,5 @@
 import React from 'react';
-import "./smr_confirmation.scss"
+import "./for_confirmation.scss"
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,20 +15,21 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      className='DRM'
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogTitle id="alert-dialog-title" className='alert-TitleCl'>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        <DialogContentText id="alert-dialog-description" className='alert-titleContent'>
           {content}
         </DialogContentText>
       </DialogContent>
-      <Divider/>
+      <Divider />
       <DialogActions>
-      <Button className='smr_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
+        <Button className='for_DialogBtn' onClick={onConfirm} autoFocus fullWidth>
           Remove
         </Button>
-        <Divider  orientation="vertical" flexItem/>
-        <Button  className='smr_DialogBtn' onClick={onClose}  fullWidth>
+        <Divider orientation="vertical" flexItem />
+        <Button className='for_DialogBtn' onClick={onClose} autoFocus fullWidth>
           Cancel
         </Button>
       </DialogActions>

@@ -8,10 +8,10 @@ import { Button, Grid, Snackbar, useMediaQuery } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
-import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { smrMA_CartCount } from '../../../Recoil/atom';
 import Cookies from "js-cookie";
 import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
+import ConfirmationDialog from '../../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const CartItem = ({
   item,
