@@ -133,6 +133,7 @@ function EnhancedTableHead(props) {
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ position: 'sticky', top: 0, backgroundColor: '#fff', zIndex: 1 }}
                     >
                         {
                             ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ? `${headCell?.label}` 
@@ -549,7 +550,6 @@ const Sales = () => {
                     </Box>
 
                  </Box>
-
             }
             {
                 isSmallScreen && <>
@@ -651,7 +651,7 @@ const Sales = () => {
                             sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
-
+                            stickyHeader // Enable sticky header in Material UI Table
                         >
                             <EnhancedTableHead
                                 numSelected={selected.length}
@@ -659,6 +659,7 @@ const Sales = () => {
                                 orderBy={orderBy}
                                 onRequestSort={handleRequestSort}
                                 rowCount={filterData.length}
+                                stickyHeader
                             />
                             <TableBody>
                                 {visibleRows.map((row, index) => {

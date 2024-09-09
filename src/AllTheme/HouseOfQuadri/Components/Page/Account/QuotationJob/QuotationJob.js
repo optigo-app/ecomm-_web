@@ -1033,8 +1033,8 @@ const scrollToTop = () => {
        </Box>
       }
       { isSmallScreen && <>
-      <Accordion   style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+      <Accordion   style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className='accordion_Account_Head'>
+        <AccordionSummary style={{paddingLeft:'5px', paddingRight:'5px'}} expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
         <AccordionDetails className='acc_Details_elvee_job' style={{padding:'0px'}}>
       <Box style={{marginBottom:'10px', marginTop:'5px'}}>
         <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
@@ -1048,9 +1048,20 @@ const scrollToTop = () => {
             onChange={handleOrderProms}
             sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
           >
-            <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 35px 0", marginRight: "0" }} />
-            <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 35px 0", marginRight: "0" }} />
+            <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 20px 0", marginRight: "0" }} />
+            <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 20px 0", marginRight: "0" }} />
           </RadioGroup>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px", minWidth:'100%', width:'100%', maxWidth: "max-content" }} className="searchbox ">
+          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
+            setSearchVal(eve?.target?.value);
+            setPage(0);
+            // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+          }} />
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+            // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
         </Box>
         <Box style={{width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
           <Box style={{marginBottom:'2rem', boxSizing:'border-box'}}>
@@ -1153,7 +1164,7 @@ const scrollToTop = () => {
             </Select>
     
         </Box>
-        <Box sx={{ position: "relative", padding: "0 0px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+        <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' style={{width:'100%'}} value={category} label="Status" onChange={handleCategory} >
             {
@@ -1163,7 +1174,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative", padding: "0 0px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+        <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1181,7 +1192,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative", padding: "0 0px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+        <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="" >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1199,17 +1210,6 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px", minWidth:'100%', width:'100%', maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSec">
-          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
-            setSearchVal(eve?.target?.value);
-            setPage(0);
-            // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
-            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
-          }} />
-          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
-            // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
-            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
-        </Box>
       </Box>
       </AccordionDetails>
       </Accordion>
@@ -1223,11 +1223,12 @@ const scrollToTop = () => {
             <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
               <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                 <TableHead className='user-select-none'>
-                  <TableRow>
+                  <TableRow style={{zIndex:1}}>
                   <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
                     <Checkbox
                       checked={allChecked}
                       onChange={handleMasterCheckboxChange}
+                      style={{zIndex:10}}
                     />
                   </TableCell>  
                     {columns?.slice(1)?.map((column) => (

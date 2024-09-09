@@ -155,8 +155,9 @@ function EnhancedTableHead(props) {
                             align={headCell.align}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
+                            sx={{ position: 'sticky', top: '-1px', backgroundColor: '#fff', zIndex: 1 }}
+                            className="sticky_quote_top"
                         >
-                            
                             {
                                 ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ?
                                 `${headCell?.id}`
@@ -724,6 +725,7 @@ const QuotationQuote = () => {
                                 orderBy={orderBy}
                                 onRequestSort={handleRequestSort}
                                 rowCount={filterData.length}
+                                stickyHeader
                             />
                             <TableBody>
                                 {visibleRows.map((row, index) => {
