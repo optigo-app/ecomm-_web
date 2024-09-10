@@ -29,7 +29,6 @@ import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 export default function ThemeRoutes() {
 
   const [themeNo, setThemeNo] = useState(7)
-
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -61,9 +60,8 @@ export default function ThemeRoutes() {
     if (!SessionData) {
       Storeinit()
         .then((response) => {
-          if (response.status === 200 && response?.data?.Data) {
+          if (response.status === 200) {
             // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));

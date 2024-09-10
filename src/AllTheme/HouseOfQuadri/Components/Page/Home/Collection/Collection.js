@@ -49,7 +49,6 @@ const Collection = () => {
     .then((response) => {
       if (response?.Data?.rd) {
         setDesignSetList(response?.Data?.rd);
-        console.log("sss", response?.Data?.rd);
       }
     })
     .catch((err) => console.log(err));
@@ -104,7 +103,6 @@ const Collection = () => {
       </div>
       <div className="collection_cards desktop-collection">
         {designSetList?.slice(0, 4)?.map((val, i) => {
-          console.log(val);
           return (
             <div
               className="c_card"
