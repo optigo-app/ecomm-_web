@@ -1011,7 +1011,7 @@ const ProductList = () => {
               onClick={() => handleSortby('Recommended')}
             />
           </label>
-
+          {/* 
           <label className="sortItemLabelProduct">
             New
             <input
@@ -1021,7 +1021,7 @@ const ProductList = () => {
               value="New"
               onClick={() => handleSortby('New')}
             />
-          </label>
+          </label> */}
 
           <label className="sortItemLabelProduct">
             In stock
@@ -1033,7 +1033,7 @@ const ProductList = () => {
               onClick={() => handleSortby('In Stock')}
             />
           </label>
-
+          {/* 
           <label className="sortItemLabelProduct">
             Trending
             <input
@@ -1043,7 +1043,7 @@ const ProductList = () => {
               value="Trending"
               onClick={() => handleSortby('Trending')}
             />
-          </label>
+          </label> */}
 
           <label className="sortItemLabelProduct">
             Price High to Low
@@ -1391,7 +1391,7 @@ const ProductList = () => {
         <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end', padding: '8px 8px 0px 0px', marginTop: '12px' }} >
           <CloseIcon onClick={() => { setIsDrawerOpen(false) }} />
         </div>
-        
+
         {/* <div style={{ marginLeft: '15px', marginBottom: '20px', display: 'flex', gap: '5px', flexDirection: 'column' }}>
           <Typography sx={{ color: '#7f7d85', fontSize: '16px', fontFamily: 'TT Commons Medium', marginTop: '12px' }}>
             Customization
@@ -2429,10 +2429,11 @@ const ProductList = () => {
       </Drawer>
 
       <div style={styles.container}>
-        <div style={styles.tab} onClick={() => setIsDrawerOpen(true)}>
+        {filterData?.length != 0 && <div style={styles.tab} onClick={() => setIsDrawerOpen(true)}>
           <FaFilter style={activeTab === "/" ? styles.activeIcon : styles.icon} />
           <span style={activeTab === "/" ? styles.activeText : styles.text}>Filter</span>
-        </div>
+        </div>}
+
         <div style={styles.tab} onClick={() => setIsSortByDrawerOpen(true)}>
           <BsFilterLeft style={activeTab === "/shortBy" ? styles.activeIcon : styles.icon} />
           <span style={activeTab === "/shortBy" ? styles.activeText : styles.text}>Sort By</span>

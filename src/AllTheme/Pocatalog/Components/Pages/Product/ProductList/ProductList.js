@@ -2193,7 +2193,7 @@ const ProductList = () => {
         </Drawer>
         <div className="proCat_bodyContain">
           <div className="smr_outerContain">
-            <div className="smr_whiteInnerContain">
+            <div className="proCat_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
                 <ProductListSkeleton className="pSkelton" />
@@ -3266,24 +3266,21 @@ const ProductList = () => {
                                         />
                                       )}
                                     </div>
-                                    <div className="smr_prod_card_info">
+                                    <div className="proCat_prod_card_info">
                                       <div className="smr_prod_Title">
-                                        <span
-                                          className={
-                                            productData?.TitleLine?.length > 30
-                                              ? "smr1_prod_title_with_width"
-                                              : "smr1_prod_title_with_no_width"
-                                          }
-                                        >
+                                        <p
+                                          className="proCat1_prod_title_with_no_width">
                                           {productData?.designno}{" "}
-                                          {productData?.TitleLine?.length > 0 &&
-                                            " - " + productData?.TitleLine}
-                                        </span>
+                                          <span className="proCat_produtList_mobileTitle">
+                                            {productData?.TitleLine?.length > 0 &&
+                                              " - " + productData?.TitleLine}
+                                          </span>
+                                        </p>
                                         {/* <span className="smr_prod_designno">
                                           {productData?.designno}
                                         </span> */}
                                       </div>
-                                      <div className="smr_prod_Allwt">
+                                      <div className="proCat_prod_Allwt">
                                         <div
                                           style={{
                                             display: "flex",
