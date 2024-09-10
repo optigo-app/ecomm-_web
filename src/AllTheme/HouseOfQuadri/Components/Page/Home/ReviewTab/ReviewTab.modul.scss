@@ -85,6 +85,13 @@
           padding: 0 0 10px 0;
           p {
             margin-bottom: 0;
+            font-size: 15px;
+            @media screen and (max-width : 900px) {
+            font-size: 14px;
+            }
+            @media screen and (max-width : 600px) {
+              font-size: 14.2px;
+              }
           }
           small {
             color: gray;

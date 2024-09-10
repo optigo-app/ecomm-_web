@@ -330,7 +330,6 @@ const MobileCartDetails = ({
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log("CSQtyColorData", CSQtyColorData);
   }, []);
 
   const SizeSorting = (SizeArr) => {

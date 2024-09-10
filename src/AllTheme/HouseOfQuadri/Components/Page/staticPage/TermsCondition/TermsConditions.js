@@ -10,7 +10,6 @@ export default function TermsConditionPage() {
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
-        console.log(html);
       })
       .catch((error) => {
         console.error("Error fetching the HTML file:", error);

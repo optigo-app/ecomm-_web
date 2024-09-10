@@ -29,7 +29,6 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail,
 }) => {
-  console.log("selectediTem", selectedItem);
 
   const [imageSrc, setImageSrc] = useState(noImageFound);
   useEffect(() => {

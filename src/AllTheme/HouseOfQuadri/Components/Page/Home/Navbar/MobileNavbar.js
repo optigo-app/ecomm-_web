@@ -41,7 +41,6 @@ export default function TemporaryDrawer({
   const fetchData = () => {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
-    console.log(value);
   };
 
   React.useEffect(() => {

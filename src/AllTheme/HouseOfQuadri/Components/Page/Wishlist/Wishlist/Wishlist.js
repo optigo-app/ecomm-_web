@@ -90,7 +90,6 @@ const Wishlist = () => {
     });
   }
 
-  console.log("cartdataCount--", wishlistData);
 
   return (
     <div className="hoq_MainWlDiv">

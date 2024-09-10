@@ -62,7 +62,6 @@ const WishlistItems = ({
     }
   }, [item]);
 
-  console.log(item);
   return (
     <Grid
       sx={{
