@@ -172,7 +172,7 @@ export default function Account() {
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
                         </div>
-                        <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount'>    
+                        <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount' style={{paddingTop:'10px'}}>     
                             <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} 
                                 TabIndicatorProps={{
                                     style: {
