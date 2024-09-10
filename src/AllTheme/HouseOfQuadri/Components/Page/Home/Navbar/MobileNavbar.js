@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MdClose } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { CiHeart, CiUser } from "react-icons/ci";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import {
@@ -41,7 +41,6 @@ export default function TemporaryDrawer({
   const fetchData = () => {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
-    console.log(value);
   };
 
   React.useEffect(() => {
@@ -63,6 +62,7 @@ export default function TemporaryDrawer({
         }
       });
   }, []);
+
 
   const handleLogout = () => {
     setislogin(false);
@@ -377,7 +377,7 @@ export default function TemporaryDrawer({
               }}
               to={"/Register"}
             >
-              <FaUserPlus size={24} /> SignUp
+              <FaUserPlus size={24} /> Register
             </Link>
           </li>
           <Divider />
@@ -388,7 +388,6 @@ export default function TemporaryDrawer({
 
   return (
     <div>
-      <Button onClick={toggleDrawer()}>Open drawer</Button>
       <Drawer
         sx={{
           zIndex: 9999999,

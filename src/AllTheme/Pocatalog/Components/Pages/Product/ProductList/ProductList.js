@@ -2193,7 +2193,7 @@ const ProductList = () => {
         </Drawer>
         <div className="proCat_bodyContain">
           <div className="smr_outerContain">
-            <div className="smr_whiteInnerContain">
+            <div className="proCat_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
                 <ProductListSkeleton className="pSkelton" />
@@ -3085,7 +3085,7 @@ const ProductList = () => {
                               {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className={filterData?.length <= 0 ?"smr_productCard_noFil" : "smr_productCard"}>
+                                  <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "smr_productCard"}>
                                     <div className="cart_and_wishlist_icon">
                                       {/* <Button className="smr_cart-icon"> */}
                                       <Checkbox
@@ -3172,7 +3172,9 @@ const ProductList = () => {
                                           In memo
                                         </span>
                                       ) : (
-                                        ""
+                                        <span className="proCat_app_Make_to_order">
+                                          Make To Order
+                                        </span>
                                       )}
 
                                       {/* {productData?.StatusId == 1 && (
@@ -3264,24 +3266,21 @@ const ProductList = () => {
                                         />
                                       )}
                                     </div>
-                                    <div className="smr_prod_card_info">
+                                    <div className="proCat_prod_card_info">
                                       <div className="smr_prod_Title">
-                                        <span
-                                          className={
-                                            productData?.TitleLine?.length > 30
-                                              ? "smr1_prod_title_with_width"
-                                              : "smr1_prod_title_with_no_width"
-                                          }
-                                        >
+                                        <p
+                                          className="proCat1_prod_title_with_no_width">
                                           {productData?.designno}{" "}
-                                          {productData?.TitleLine?.length > 0 &&
-                                            " - " + productData?.TitleLine}
-                                        </span>
+                                          <span className="proCat_produtList_mobileTitle">
+                                            {productData?.TitleLine?.length > 0 &&
+                                              " - " + productData?.TitleLine}
+                                          </span>
+                                        </p>
                                         {/* <span className="smr_prod_designno">
                                           {productData?.designno}
                                         </span> */}
                                       </div>
-                                      <div className="smr_prod_Allwt">
+                                      <div className="proCat_prod_Allwt">
                                         <div
                                           style={{
                                             display: "flex",
@@ -3375,33 +3374,23 @@ const ProductList = () => {
                                             )[0]?.metaltype
                                           }
                                         </span>
-                                        <span>/</span>
-                                        <span className="smr_price">
-                                          {/*  <span
-                                        className="smr_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                          __html: decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          ),
-                                        }}
-                                      /> */}
-                                          <span className="smr_currencyFont">
-                                            {loginUserDetail?.CurrencyCode ??
-                                              storeInit?.CurrencyCode}
-                                          </span>
-                                          <span className="smr_pricePort">
-                                            {/* {productData?.ismrpbase === 1
-                                              ? productData?.mrpbaseprice
-                                              : PriceWithMarkupFunction(
-                                                productData?.markup,
-                                                productData?.price,
-                                                storeInit?.CurrencyRate
-                                              )?.toFixed(2)} */}
-                                            {formatter.format(
-                                              productData?.UnitCostWithMarkUp
-                                            )}
-                                          </span>
-                                        </span>
+                                        {
+                                          storeInit?.IsPriceShow == 1 &&
+                                          <>
+                                            <span>/</span>
+                                            <span className="smr_price">
+                                              <span className="smr_currencyFont">
+                                                {loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode}
+                                              </span>
+                                              <span className="smr_pricePort">
+                                                {formatter.format(
+                                                  productData?.UnitCostWithMarkUp
+                                                )}
+                                              </span>
+                                            </span>
+                                          </>
+                                        }
                                       </div>
                                     </div>
                                   </div>

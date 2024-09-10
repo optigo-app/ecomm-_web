@@ -7,7 +7,6 @@ import './smrMo_cartPage.scss';
 import { useNavigate } from 'react-router-dom';
 import { Link, Snackbar, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkeltonMo';
-import ConfirmationDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetailsMo"
@@ -71,7 +70,6 @@ const CartPage = () => {
     setSnackbarOpen(false);
   };
 
-  console.log('selected--', selectedItem);
   return (
     <div className='smrMo_MainBGDiv'>
       <div className='smrMo_cartMainPageDiv'>

@@ -8,10 +8,10 @@ import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Hoq_CartCount, Hoq_WishCount } from "../../../Recoil/atom";
-import ConfirmationDialog from "../../ConfirmationDialog.js/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import ConfirmationDialog from "../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 
 const Wishlist = () => {
   const {
@@ -90,7 +90,6 @@ const Wishlist = () => {
     });
   }
 
-  console.log("cartdataCount--", wishlistData);
 
   return (
     <div className="hoq_MainWlDiv">

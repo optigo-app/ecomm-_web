@@ -8,7 +8,7 @@ import { useAddress } from '../../../../../../../utils/Glob_Functions/OrderFlow/
 import { Grid, Button, Snackbar } from '@mui/material';
 import SkeletonLoader from './AddressSkelton';
 import { IoArrowBack } from 'react-icons/io5';
-import ConfirmationMoDialog from '../../ConfirmationMoDialog/ConfirmationMoDialog';
+import ConfirmationMoDialog from '../../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const AddressManagement = () => {
     const {

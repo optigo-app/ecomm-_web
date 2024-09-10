@@ -9,7 +9,6 @@ import Footer from '../../Home/Footer/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
@@ -19,6 +18,7 @@ import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const CartPage = () => {
@@ -81,25 +81,42 @@ const CartPage = () => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
+  // const handlePlaceOrder = () => {
+  //   const priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0);
+  //   sessionStorage.setItem('TotalPriceData', priceData);
+
+  //   if (islogin) {
+  //     if (storeInit?.IsPLW === 0) {
+  //       navigate("/Delivery");
+  //     } else {
+  //       handlePay();
+  //     }
+  //   } else {
+  //     // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
+  //     // navigate(redirectUrl);
+  //     navigate('/loginOption')
+  //   }
+
+  //   window.scrollTo(0, 0);
+  // };
+
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
-    const priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0);
-    sessionStorage.setItem('TotalPriceData', priceData);
-  
-    if (islogin) {
-      if (storeInit?.IsPLW === 0) {
-        navigate("/Delivery");
-      } else {
-        handlePay();
-      }
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let priceData = cartData?.reduce(
+      (total, item) => total + item?.FinalCost,
+      0
+    );
+    sessionStorage.setItem("TotalPriceData", priceData);
+    if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+      navigate(redirectUrl);
+      // navigate('/loginOption')
     } else {
-      // const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
-      // navigate(redirectUrl);
-      navigate('/loginOption')
+      navigate("/Delivery");
     }
-  
     window.scrollTo(0, 0);
   };
-  
+
 
   function scrollToTop() {
     window.scrollTo({
@@ -154,13 +171,13 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get('visiterId');
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    console.log("paymentResponse", paymentResponse);
+    
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
       navigate('/Confirmation');
       GetCountAPI().then((res) => {
-        console.log('responseCount', res);
+        
         setCartCountVal(res?.cartcount)
       })
 
@@ -256,7 +273,7 @@ const CartPage = () => {
                 />
               }
             </div>
-            {cartData.length !== 0 ? (
+            {cartData.length != 0 ? (
               <div className="proCat_cartMainPage">
                 <div className="proCat_cart-left-sides">
                   <CartList

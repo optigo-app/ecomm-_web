@@ -1,6 +1,5 @@
 import "./ReadyToShip.modul.scss";
-import { ReadyToShipImage } from "../../../Constants/ReadyToShopImg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Hoq_loginState } from "../../../Recoil/atom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
@@ -13,7 +12,6 @@ const ReadyToShip = () => {
   const [storeInit, setStoreInit] = useState({});
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const islogin = useRecoilValue(Hoq_loginState);
-  const [hoveredItem, setHoveredItem] = useState(null);
   const navigation = useNavigate();
 
   useEffect(() => {
@@ -39,7 +37,6 @@ const ReadyToShip = () => {
     .then((response) => {
       if (response?.Data?.rd) {
         setBestSellerData(response?.Data?.rd);
-        console.log(response?.Data?.rd);
       }
     })
     .catch((err) => console.log(err));
@@ -60,7 +57,6 @@ const ReadyToShip = () => {
   };
 
   const handleNavigation = (designNo, autoCode, titleLine) => {
-    console.log("aaaaaaaaaaa", designNo, autoCode, titleLine);
     let obj = {
       a: autoCode,
       b: designNo,
@@ -103,7 +99,7 @@ const ReadyToShip = () => {
             <CARD
               imgurl={ImageUrl(data?.designno, data?.ImageExtension)}
               data={data}
-              i={i}
+              i={i} 
               rollUpImage={RollUpImageUrl2(
                 data?.designno,
                 data?.ImageExtension,
@@ -125,13 +121,13 @@ const ReadyToShip = () => {
             />
           );
         })}
-        <div className="TabCard_main t-mobile-only">
+        {/* <div className="TabCard_main t-mobile-only">
           <div className="box">
             <span onClick={()=>navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}>
               View All 
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -150,7 +146,6 @@ const CARD = ({
   onClick,
   ImageCount,
 }) => {
-  console.log(ImageCount);
   const formatter = new Intl.NumberFormat("en-IN");
   return (
     <div

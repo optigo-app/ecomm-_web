@@ -1017,21 +1017,21 @@ const DesignWiseSalesReport = () => {
             </Box></>}
             { isSmallScreen &&
             <>
-             <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-                <AccordionDetails style={{margin:'0px', padding:'0px'}}>
+             <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'20px', marginTop:'20px'}} className='accordion_Account_Head'>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
+                <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
                 <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
                     <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
                 </Box>
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}}>
-                    <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}} className='w100dwsr'>
+                    <Box style={{ width:'40%', boxSizing:'border-box'}}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Date From"
                                     value={fromDate}
                                     ref={fromDateRef}
                                     format="DD MM YYYY"
-                                    className='quotationFilterDates'
+                                    className='quotationFilterDates w100_dwsr'
                                     onChange={(newValue) => {
                                         if (newValue === null) {
                                             setFromDate(null)
@@ -1052,14 +1052,14 @@ const DesignWiseSalesReport = () => {
                                 />
                         </LocalizationProvider>
                     </Box>
-                    <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                    <Box style={{ width:'40%', boxSizing:'border-box'}}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Date To"
                                     value={toDate}
                                     ref={toDateRef}
                                     format="DD MM YYYY"
-                                    className='quotationFilterDates'
+                                    className='quotationFilterDates w100_dwsr'
                                     onChange={(newValue) => {
                                         if (newValue === null) {
                                             setToDate(null)
@@ -1080,9 +1080,9 @@ const DesignWiseSalesReport = () => {
                                 />
                             </LocalizationProvider>
                     </Box>
-                    <Box  className="searchDesignWiseSalesReport">
+                    <Box  className="searchDesignWiseSalesReport" >
                         <Button variant='contained' size='small' className='muiSmilingRocksBtn'
-                            sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85" }}
+                            sx={{ padding: "7px 7px", background: "#7d7f85" }}
                             onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
                             <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                     </Box>

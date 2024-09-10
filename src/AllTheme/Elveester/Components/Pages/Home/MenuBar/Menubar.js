@@ -65,7 +65,7 @@ const Menubar = () => {
             try {
                 const visiterID = Cookies.get('visiterId');
                 const res = await GetCountAPI(visiterID);
-                console.log('responseCount', res);
+                
                 setCartCount(res?.cartcount);
                 setWishCount(res?.wishcount);
             } catch (error) {

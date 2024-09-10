@@ -22,7 +22,6 @@ const Customization = ({
   decodeEntities,
   onUpdateCart
 }) => {
-  console.log('selectedItem: ', selectedItem);
 
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);

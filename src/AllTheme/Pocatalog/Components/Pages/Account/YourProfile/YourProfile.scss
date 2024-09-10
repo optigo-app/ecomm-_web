@@ -10,7 +10,30 @@
         }
     
     
-    
+        .smilingDeleveryformSaveBtn{
+            background: #f6efe6;
+            border: none;
+            border-radius: 5px;
+            color: rgba(31, 25, 25, .7);
+            font-family: PT Sans, sans-serif !important;
+            font-weight: 600;
+            margin-inline: 5px;
+            opacity: .8;
+            padding: 6px 10px;
+            width: 100px;
+        }
+        .smilingDeleveryformCansleBtn{
+            background: #f6efe6;
+            border: none;
+            border-radius: 5px;
+            color: rgba(31, 25, 25, .7);
+            font-family: PT Sans, sans-serif !important;
+            font-weight: 600;
+            margin-inline: 5px;
+            opacity: .8;
+            padding: 6px 10px;
+            width: 100px;
+        }
     
         @media screen and (max-width: 1000px) {
             .mobileEditProfileDiv {

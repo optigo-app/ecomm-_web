@@ -81,7 +81,7 @@ const DiamondItems = ({
 
     const handleIsSelected = () => {
         let isselected = selectedItem?.id == diaData?.id
-        console.log('isselectedItems', isselected);
+        
         setIsSelectedItems()
     }
 

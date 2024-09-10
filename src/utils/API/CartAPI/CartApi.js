@@ -21,7 +21,7 @@ export const fetchCartDetails = async (visiterId) => {
             PageSize: "1000",
             CurrRate: "1",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-            Customerid: `${customerId}`,
+            Customerid: `${customerId ?? ""}`,
             PackageId: packageId,
             Laboursetid:laboursetid,
             diamondpricelistname:diamondpricelistname,
@@ -30,11 +30,12 @@ export const fetchCartDetails = async (visiterId) => {
             IsWishList:0,
             IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${data?.CurrencyRate ?? storeInit?.CurrencyRate}`,
+            DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
-            con: `{\"id\":\"\",\"mode\":\"GetCart_Details\",\"appuserid\":\"${customerEmail}\"}`,
+            con: `{\"id\":\"\",\"mode\":\"GetCart_Details\",\"appuserid\":\"${customerEmail ?? ""}\"}`,
             f: "Header (getCartData)",
             p: encodedCombinedValue,
             dp: combinedValue

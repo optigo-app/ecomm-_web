@@ -7,7 +7,7 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
         const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"))
         const UserEmail = sessionStorage.getItem("registerEmail")
 
-        console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
+        // console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
         
         const combinedValue = JSON.stringify({
             ForEvt: "Cart",
@@ -25,10 +25,10 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "Unitcost": `${updatedItems?.FinalCost ?? 0}`,
                     "markup": `${updatedItems?.SizeMarkUp ?? 0}`,
                     "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`
-                }]
+                }],
+            DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
         const encodedCombinedValue = btoa(combinedValue);
-        console.log('combinedValue',combinedValue);
         const body = {
             con: `{\"id\":\"\",\"mode\":\"CartCustomize\",\"appuserid\":\"${UserEmail ?? ""}\"}`,
             f: "header (handleUpdateCart)",
@@ -36,8 +36,6 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
             dp: combinedValue,
         };
 
-
-        console.log("updatecartBody", body);
         const response = await CommonAPI(body);
         return response;
     } catch (error) {

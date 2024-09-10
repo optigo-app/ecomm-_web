@@ -66,7 +66,6 @@ export const useAddress = () => {
         }
         setOpen(true);
     };
-    console.log('editAddressId', editAddressId);
     const handleClose = () => {
         setOpen(false);
         setErrors({});

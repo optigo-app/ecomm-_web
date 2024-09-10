@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LabCreatedRings.scss";
 import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import btnstyle from "../../scss/Button.module.scss";
@@ -9,14 +9,20 @@ import RingCarousel from "../Home/Common/ProductCarousel/RingCarousel";
 import NewsLetter from "../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 
 const LabCreatedRings = () => {
+  useEffect(() => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  }, []);
   return (
     <div className="for_LabCreatedRings">
       <Banner />
-      <CategoryGrid />
+      <CategoryGrid data={ringscollection} />
       <DesignyourOwn />
       <ShapeSection />
       <Metalcolor />
-      <RingCarousel showmore={true} />
+      <RingCarousel showmore={true}  />
       <BannerNew />
       <NewsLetter />
     </div>
@@ -58,7 +64,7 @@ const Banner = () => {
     </>
   );
 };
-export const CategoryGrid = ({ title = "Find Your Forever Ring" }) => {
+export const CategoryGrid = ({ title = "Find Your Forever Ring", data }) => {
   return (
     <>
       <div className="lab-CategoryGrid">
@@ -66,7 +72,7 @@ export const CategoryGrid = ({ title = "Find Your Forever Ring" }) => {
           <h1>{title}</h1>
         </div>
         <div className="grid_container">
-          {ringscollection?.map((val, i) => {
+          {data?.map((val, i) => {
             return (
               <div key={i} className="card-grid">
                 <Link href="#">

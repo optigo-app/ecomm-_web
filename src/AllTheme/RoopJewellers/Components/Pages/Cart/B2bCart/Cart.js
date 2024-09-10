@@ -4,12 +4,11 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './smr_cartPage.scss';
+import './rJ_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -19,6 +18,7 @@ import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
 import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const CartPage = () => {
@@ -144,13 +144,11 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get('visiterId');
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    console.log("paymentResponse", paymentResponse);
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
       navigate('/Confirmation');
       GetCountAPI().then((res) => {
-        console.log('responseCount', res);
         setCartCountVal(res?.cartcount)
       })
 
@@ -160,17 +158,17 @@ const CartPage = () => {
   }
 
   return (
-    <div className='stam_B2B_MainBGDiv'>
-      <div className='stam_cartMainPageDiv'>
+    <div className='rJ_B2B_MainBGDiv'>
+      <div className='rJ_cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
-            <div className="smr_cart-title">My Cart</div>
+            <div className="rJ_cart-title">My Cart</div>
           }
-          <div className='smr_cartmainRowDiv'>
+          <div className='rJ_cartmainRowDiv'>
             {!isloding && cartData?.length != 0 &&
-              <div className='smr_cartButton-groups'>
+              <div className='rJ_cartButton-groups'>
                 <Link
-                  className='smr_ReomoveAllCartbtn'
+                  className='rJ_ReomoveAllCartbtn'
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
@@ -179,31 +177,31 @@ const CartPage = () => {
               </div>
             }
             {!isMobileScreen &&
-              <div className="smr_cart-title">My Cart</div>
+              <div className="rJ_cart-title">My Cart</div>
             }
             {!isloding && cartData?.length != 0 &&
-              <div className='smr_placeOrderMainbtnDivs'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='rJ_placeOrderMainbtnDivs'>
+                <button className="rJ_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             }
           </div>
 
           {/* {!isloding && cartData.length != 0 &&
             <>
-              <div className="smr_cartButton-group">
-                <button className="smr_cartBtn smr_cartActivebtn">List View</button>
-                <button className='smr_cartBtn'>Image View</button>
-                <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
+              <div className="rJ_cartButton-group">
+                <button className="rJ_cartBtn rJ_cartActivebtn">List View</button>
+                <button className='rJ_cartBtn'>Image View</button>
+                <button className='rJ_cartBtn' onClick={handleRemoveAll}>Clear All</button>
                 <div>
                   <Link
-                    className='smr_ReomoveAllCartbtn'
+                    className='rJ_ReomoveAllCartbtn'
                     variant="body2"
                     onClick={handleRemoveAllDialog}
                   >
                     Clear All
                   </Link>
                   <Link
-                    className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
+                    className='rJ_ReomoveAllCartbtn rJ_SelectAllCartbtn'
                     variant="body2"
                     onClick={handleMultiSelectToggle}
                   >
@@ -211,18 +209,18 @@ const CartPage = () => {
                   </Link>
                 </div>
 
-                <button className='smr_cartBtn'>Show ProductList</button>
+                <button className='rJ_cartBtn'>Show ProductList</button>
 
-                <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+                <button className='rJ_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
                 {multiSelect && selectedItems.length != 0 &&
-                  <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+                  <button className='rJ_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
                 }
-                <div className='smr_placeOrderMobileMainbtnDiv'>
-                  <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='rJ_placeOrderMobileMainbtnDiv'>
+                  <button className="rJ_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              <div className='smr_placeOrderMainbtnDiv'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='rJ_placeOrderMainbtnDiv'>
+                <button className="rJ_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             </>
           } */}
@@ -247,8 +245,8 @@ const CartPage = () => {
               }
             </div>
             {cartData.length !== 0 ? (
-              <div className="smr_cartMainPage">
-                <div className="smr_cart-left-sides">
+              <div className="rJ_cartMainPage">
+                <div className="rJ_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -268,9 +266,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className="rJ_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='smr_pc-cartDetail'>
+                    <div className='rJ_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -295,7 +293,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='smr_mobile-cartDetails'>
+                    <div className='rJ_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -331,10 +329,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noCartlistData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Product in Cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='rJ_noCartlistData'>
+                <p className='rJ_title'>No Data Found!</p>
+                <p className='rJ_desc'>Please First Add Product in Cart</p>
+                <button className='rJ_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>

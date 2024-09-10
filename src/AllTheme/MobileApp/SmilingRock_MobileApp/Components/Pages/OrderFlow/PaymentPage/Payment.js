@@ -14,6 +14,7 @@ import { fetchEstimateTax } from '../../../../../../../utils/API/OrderFlow/GetTa
 import Cookies from "js-cookie";
 import { useAddress } from '../../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import OrderSummarySkeleton from './PaymentSkelton';
+import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Payment = () => {
     const {
@@ -90,7 +91,7 @@ const Payment = () => {
             }
 
             // const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-            // console.log('selectedAddressData', selectedAddressData);
+            //
             const defaultAddress = addressData?.find(item => item?.isdefault === 1);
             setSelectedAddrData(defaultAddress);
 
@@ -112,7 +113,7 @@ const Payment = () => {
 
     // useEffect(() => {
     //     const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-    //     console.log('selectedAddressData', selectedAddressData);
+    //    
     //     setSelectedAddrData(selectedAddressData)
 
     //     const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -131,7 +132,7 @@ const Payment = () => {
         setIsloding(true);
         if (selectedAddrData?.id != undefined || selectedAddrData?.id != null) {
             const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-            console.log("paymentResponse", paymentResponse);
+            
             if (paymentResponse?.Data?.rd[0]?.stat == 1) {
                 let num = paymentResponse.Data?.rd[0]?.orderno
                 sessionStorage.setItem('orderNumber', num);
@@ -139,7 +140,7 @@ const Payment = () => {
                 setIsloding(false);
 
                 GetCountAPI().then((res) => {
-                    console.log('responseCount', res);
+                    
                     setCountData(res)
                     setCartCountVal(res?.cartcount)
                 })
@@ -307,38 +308,32 @@ const Payment = () => {
                                         </div>
                                     </div>
                                     <div className='smilingPaySub1Box2'>
+                                    {storeInitData?.IsPriceShow == 1 &&
                                         <div className='orderSubmmuryMain'>
                                             <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Order Summary</p>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
                                                 <p className='orderSubTitle'>Subtotal</p>
                                                 <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
-                                                    {/* <span
-                                                        className="currencyFont"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                CurrencyData
-                                                            ),
-                                                        }}
-                                                    /> */}
                                                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                    {finalTotal}
+                                                     {formatter(finalTotal)}
                                                 </p>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
                                                 <p className='orderSubTitle'>Estimated Tax</p>
                                                 <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont"/>
                                                 <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                {taxAmmount}
+                                                {formatter(Number((taxAmmount)?.toFixed(3)))}
                                                 </p>
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                                                 <p className='orderSubTitle'>Estimated Total</p>
                                                 <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
                                                 <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                {taxAmmount + finalTotal}
+                                                {formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}
                                                 </p>
                                             </div>
                                         </div>
+}
                                         <div className='deliveryShiipingMain'>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Shipping Address :</p>

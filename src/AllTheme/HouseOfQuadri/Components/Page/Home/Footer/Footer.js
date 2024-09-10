@@ -15,22 +15,39 @@ const Footer = () => {
   useEffect(() => {
     let storeInit;
     let companyInfoData;
+  
     setTimeout(() => {
-      if (sessionStorage.getItem("storeInit")) {
-        storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
-      }
-      if (sessionStorage.getItem("CompanyInfoData")) {
-        companyInfoData =
-          JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-        setCompanuInfoData(companyInfoData);
-        const parsedSocilaMediaUrlData =
-          JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData);
+      try {
+        const storeInitData = sessionStorage?.getItem("storeInit");
+        if (storeInitData) {
+          storeInit = JSON.parse(storeInitData);
         }
+      } catch (error) {
+        console.error("Error parsing storeInit:", error);
+      }
+  
+      try {
+        const companyInfoDataStr = sessionStorage?.getItem("CompanyInfoData");
+        if (companyInfoDataStr) {
+          companyInfoData = JSON.parse(companyInfoDataStr);
+          setCompanuInfoData(companyInfoData);
+  
+          const socialLinkStr = companyInfoData?.SocialLinkObj;
+          if (socialLinkStr) {
+            try {
+              const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
+              setSocialMediaData(parsedSocialMediaUrlData);
+            } catch (error) {
+              console.error("Error parsing social media data:", error);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error parsing CompanyInfoData:", error);
       }
     }, 500);
   }, []);
+  
 
   const HandleFormSubmit = async (e) => {
     e.preventDefault();
@@ -42,13 +59,11 @@ const Footer = () => {
         redirect: "follow",
       };
       const newsletterUrl = `${newslater}${email}`;
-      console.log("newsletterUrl: ", newsletterUrl);
       await fetch(newsletterUrl, requestOptions)
         .then((response) => {
           response.text();
-          console.log(response);
         })
-        .then((result) => console.log(result))
+        .then((result) =>result)
         .catch((error) => console.error(error));
     }
   };
@@ -74,7 +89,7 @@ const Footer = () => {
 
 const About = () => {
   return (
-    <div className="footer-section">
+    <div className="footer-section about-hoq">
       <h4>ABOUT</h4>
       <ul>
         {/* <li>

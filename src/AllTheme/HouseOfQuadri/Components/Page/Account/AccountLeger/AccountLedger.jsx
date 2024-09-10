@@ -495,7 +495,7 @@ const AccountLedger = () => {
     <>
     <div>
         <div>
-            <div className='border_Acc'>
+            <div className='border_Acc acc_led_hoq_p10' >
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p_2_acc ps_4_acc border_bottom_acc fs_Al_mq' style={{letterSpacing:'1px'}}>
                 Account Detail for &nbsp; <b className='fs_Al_mq'>{userName}</b>
                 &nbsp; Period of &nbsp;<b className='fs_Al_mq'>{moment(showStartDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showStartDate).format('DD MMM YYYY')}</b>&nbsp; to 
@@ -747,8 +747,8 @@ const AccountLedger = () => {
                     }
                     {
                         isSmallScreen && <>
-                            <Accordion>
-                                <AccordionSummary  expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+                            <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'0px', marginTop:'20px'}}  className='accordion_Account_Head'>
+                                <AccordionSummary  expandIcon={<ExpandMoreIcon />} >Filters</AccordionSummary>
                                 <AccordionDetails style={{padding:'0px'}}>
                                 <Box sx={{paddingBottom: "10px", paddingRight: "0px"}}>
                                     <Button variant="contained" className="muiSmilingRocksBtn" size='small' sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", marginLeft:'10px'}}  
@@ -757,13 +757,12 @@ const AccountLedger = () => {
                                     </Button>
                                 </Box>
                                 <div style={{display:'flex', alignItems:'center', marginTop:'10px', marginBottom:'10px'}}>
-                                    <Box>
+                                    <Box style={{width:'45%'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 label="Date From"
                                                 value={fromDate} 
                                                 ref={fromDateRef}
-
                                                 onChange={(newValue) => {
                                                     if (newValue === null) {
                                                     setFromDate(null)
@@ -785,19 +784,19 @@ const AccountLedger = () => {
                                                 }}
                                                 format="DD MM YYYY"
                                                 placeholder="DD MM YYYY"
-                                                className='quotationFilterDates w_all_acc'
+                                                className='quotationFilterDates w_all_acc w100_dwsr'
                                                 name="date" 
                                                 id="startdate" 
                                             />
                                         </LocalizationProvider>
                                     </Box>
-                                    <Box>
+                                    <Box style={{width:'45%'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 label="Date From"
                                                 value={toDate} 
                                                 ref={toDateRef}
-
+                                                style={{width:'100%'}}
                                                 onChange={(newValue) => {
                                                     if (newValue === null) {
                                                         setToDate(null)
@@ -819,13 +818,13 @@ const AccountLedger = () => {
                                                 }}
                                                 format="DD MM YYYY"
                                                 placeholder="DD MM YYYY"
-                                                className='quotationFilterDates w_all_acc'
+                                                className='quotationFilterDates w_all_acc w100_dwsr'
                                                 name="date" 
                                                 id="startdate" 
                                             />
                                         </LocalizationProvider>
                                     </Box>
-                                    <Box sx={{ paddingBottom: "0px", paddingRight: "15px"}}>
+                                    <Box sx={{ paddingBottom: "0px"}}>
                                         <Button variant='contained' size='small' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
                                             <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
                                         </Button>
@@ -949,7 +948,6 @@ const AccountLedger = () => {
                                 (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
                               ))
                             }&nbsp;
-
                             {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }
                         </div>
                         </div>

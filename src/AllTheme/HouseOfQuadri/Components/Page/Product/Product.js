@@ -16,7 +16,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { FaWhatsapp } from "react-icons/fa";
-
+import {noimage} from '../../Constants/noimage'
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -366,7 +366,6 @@ const ProductPage = () => {
           if (resp) {
             await getSizeData(resp?.pdList[0], cookie)
               .then((res) => {
-                console.log("Sizeres", res);
                 setSizeCombo(res?.Data);
               })
               .catch((err) => console.log("SizeErr", err));
@@ -390,7 +389,6 @@ const ProductPage = () => {
 
             await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
               .then((res) => {
-                console.log("designsetList", res?.Data?.rd[0]);
                 setDesignSetList(res?.Data?.rd);
               })
               .catch((err) => console.log("designsetErr", err));
@@ -434,7 +432,6 @@ const ProductPage = () => {
       }
     })[0];
 
-    console.log("selectMtColor", selectMtColor);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -505,7 +502,6 @@ const ProductPage = () => {
         );
       }
     })[0];
-    console.log("ekekekekeb", cs);
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -608,7 +604,6 @@ const ProductPage = () => {
         // if(metalArr || diaArr || csArr || InitialSize){
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
-        console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     }, 500);
   }, [singleProd]);
@@ -700,7 +695,6 @@ const ProductPage = () => {
       IsColImg = await checkImageAvailability(colImg);
     }
 
-    console.log("colImg", IsColImg);
 
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -721,7 +715,6 @@ const ProductPage = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -872,7 +865,6 @@ const ProductPage = () => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    console.log(e.target.value, "metal color rrrrrr");
 
     if (mtColorLocal?.length) {
       mcArr = mtColorLocal?.filter(
@@ -972,7 +964,6 @@ const ProductPage = () => {
         setPdImageArr([...imageMap, ...videoArr]);
       }
     }
-    console.log(pdImgList);
 
     // if (pdvideoList?.length > 0) {
     //   setPdVideoArr(pdvideoList);
@@ -1088,7 +1079,6 @@ const ProductPage = () => {
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
-  console.log(PdImageArr?.length > 1);
 
   return (
     <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
@@ -1134,6 +1124,7 @@ const ProductPage = () => {
                   sx={{
                     padding: "0",
                     marginTop: "-16rem",
+                    marginLeft : "-8px",
                     height: "100vh",
                     backgroundColor: "#f0ededb4 !important;",
                   }}
@@ -1164,7 +1155,7 @@ const ProductPage = () => {
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src =
-                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                              noimage;
                           }}
                         />
                       ) : (
@@ -1205,14 +1196,14 @@ const ProductPage = () => {
                                     loading="lazy"
                                     src={
                                       val?.src ||
-                                      "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                                      noimage
                                     }
                                     alt={""}
                                     onLoad={() => setIsImageLoad(false)}
                                     onError={(e) => {
                                       e.target.onerror = null;
                                       e.target.src =
-                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                        noimage;
                                     }}
                                   />
                                 ) : (
@@ -1243,7 +1234,7 @@ const ProductPage = () => {
                         <div className="main_image">
                           <img
                             src={
-                              "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                              noimage
                             }
                             alt={""}
                             style={{
@@ -1256,7 +1247,7 @@ const ProductPage = () => {
                             onError={(e) => {
                               e.target.onerror = null;
                               e.target.src =
-                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                noimage;
                             }}
                           />
                         </div>
@@ -1267,7 +1258,13 @@ const ProductPage = () => {
                   <>
                     <div className="slider_card">
                       <div className="image">
-                        <img src={PdImageArr[0]?.src} alt="ddwd" />
+                        <img src={PdImageArr[0]?.src ? PdImageArr[0]?.src : 'a.jpg'} alt="ddwd" 
+                         onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src =
+                            noimage;
+                        }}
+                        />
                       </div>
                     </div>
                   </>
@@ -2272,7 +2269,7 @@ const ProductPage = () => {
           handleMoveToDetail={handleMoveToDetail}
           imageNotFound={imageNotFound}
           loginInfo={loginInfo}
-          storeInit={storeInit}
+          storeInit={storeInit} 
         />
       )}
 
@@ -2351,7 +2348,7 @@ const WhatsAppButton = () => {
   const HandleWhatsApp = () => {
     const msg1 = "Hello, Talk to a Jewellery expert now!";
     const phoneNumber = 9099889962;
-    const whatsappUrl = `https://web.whatsapp.com/send?phone=9099889962&text=${msg1}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=9099889962&text=Hello,%20Talk%20to%20a%20Jewellery%20expert%20now!`;
     window.location.href = whatsappUrl;
   };
   return (

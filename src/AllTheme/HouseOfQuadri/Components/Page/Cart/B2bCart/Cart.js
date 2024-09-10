@@ -150,7 +150,7 @@
 //   const handlePay = async () => {
 //     const visiterId = Cookies.get("visiterId");
 //     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-//     console.log("paymentResponse", paymentResponse);
+//     
 //     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
 //       let num = paymentResponse.Data?.rd[0]?.orderno;
 //       sessionStorage.setItem("orderNumber", num);
@@ -386,7 +386,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import CartPageSkeleton from "./CartSkelton";
-import ConfirmationDialog from "../../ConfirmationDialog.js/ConfirmationDialog";
 import {
   CartCount,
   Hoq_CartCount,
@@ -401,6 +400,7 @@ import { handlePaymentAPI } from "../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from "react-toastify";
 import { useAddress } from "../../../../../../utils/Glob_Functions/OrderFlow/useAddress";
 import Cookies from "js-cookie";
+import ConfirmationDialog from "../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 
 const CartPage = () => {
   const addressData = useAddress();
@@ -526,7 +526,7 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get("visiterId");
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    console.log("paymentResponse", paymentResponse);
+    
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno;
       sessionStorage.setItem("orderNumber", num);

@@ -11,17 +11,17 @@
   flex-direction: column;
   margin-bottom: 3rem;
   .header {
-    // margin-top: 1rem;
     display: flex;
     align-items: center;
-    height: 200px;
+    height: 150px !important;
     width: 100%;
     justify-content: center;
     flex-direction: column;
     font-family: $fontTenorSans;
+    margin-bottom: 1.4rem;
     h1 {
       font-size: 22px;
-      font-weight: 500;
+      font-weight: 500 !important;
     }
     button {
       padding: 6px 25px;

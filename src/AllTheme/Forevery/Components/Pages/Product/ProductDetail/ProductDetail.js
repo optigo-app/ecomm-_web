@@ -1254,7 +1254,7 @@ const ProductDetail = () => {
             <div className="for_ProductDet_left_prodImages">
               <div className="for_slider_container">
                 <div className="for_images_slider">
-                  {loadingdata ? (
+                  {(loadingdata && !PdImageArr) ? (
                     <>
                       <div className="for_slider">
                         {Array.from({ length: 3 })?.map((val, i) => {
@@ -1356,14 +1356,14 @@ const ProductDetail = () => {
                           {singleProd?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
                           {singleProd?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
                         </div>
-                        {PdImageArr?.length > 0 ? (
+                        { PdImageArr?.length > 0 ? (
                           <>
                             <Slider
                               {...settings}
                               ref={sliderRef}
                               lazyLoad="anticipated"
                             >
-                              {PdImageArr?.map((val, i) => {
+                              {PdImageArr && PdImageArr?.map((val, i) => {
                                 return (
                                   <div key={i} className="for_slider_card">
                                     <div className="for_image">
@@ -1376,11 +1376,11 @@ const ProductDetail = () => {
                                             }
                                             alt={""}
                                             onLoad={() => setIsImageLoad(false)}
-                                            onError={(e) => {
-                                              e.target.onerror = null;
-                                                e.target.src = 
-                                                imageNotFound;
-                                            }}
+                                            // onError={(e) => {
+                                            //   e.target.onerror = null;
+                                            //     e.target.src = 
+                                            //     imageNotFound;
+                                            // }}
                                           />
                                         </>
                                       ) : (
@@ -1411,19 +1411,19 @@ const ProductDetail = () => {
                             </Slider>
                           </>
                         ) :
-                          <div className="for_main_image">
-                            <img
-                                                         src={imageNotFound}
-                              alt={""}
-                              style={{
-                                width: "100%",
-                                height: "90%",
-                                objectFit: "contain",
-                                border: "1px solid #312f2f21",
-                                marginTop: "45px",
-                              }}
-                            />
-                          </div>
+                         (PdImageArr &&  <div className="for_main_image">
+                          <img
+                            src={imageNotFound}
+                            alt={""}
+                            style={{
+                              width: "100%",
+                              height: "90%",
+                              objectFit: "contain",
+                              border: "1px solid #312f2f21",
+                              marginTop: "45px",
+                            }}
+                          />
+                        </div>)
                         }
                       </div>
                     </>

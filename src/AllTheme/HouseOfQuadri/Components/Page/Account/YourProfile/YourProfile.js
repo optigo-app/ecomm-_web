@@ -169,8 +169,13 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
                                     value={userData?.street || ''}
                                     disabled
+                                    multiline
+                                    rows={2}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -239,6 +244,8 @@ export default function YourProfile() {
                                      id="street"
                                      label="Address"
                                      variant="outlined"
+                                     multiline
+                                     rows={2}
                                      style={{ margin: '15px' }}
                                      value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
                                      onChange={handleInputChange}

@@ -81,7 +81,7 @@ const NavbarMenu = [
   },
   {
     category: "High End Jewelry",
-    link: "p/Collection/All",
+    link: "/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=",
     disabled: false,
   },
   // {
@@ -147,11 +147,11 @@ const SideItems = [
 ];
 
 const setIkigaiLink = "Ikigai/collection";
-const encodeLink1 = btoa(setIkigaiLink)
+const encodeLink1 = btoa(setIkigaiLink);
 const setHeritageLink = "Heritage/collection";
-const encodeLink2 = btoa(setHeritageLink)
+const encodeLink2 = btoa(setHeritageLink);
 const setIconLink = "Icon/collection";
-const encodeLink3 = btoa(setIconLink)
+const encodeLink3 = btoa(setIconLink);
 
 const CollectionData = [
   {
@@ -175,18 +175,22 @@ const CollectionArray = [
   {
     titel: "Engagement Ring",
     img: `${storImagePath()}/Forevery/home/collection/76.webp`,
+    link: "lab-created-engagement-rings",
   },
   {
     titel: "Wedding Ring",
     img: `${storImagePath()}/Forevery/home/collection/77.webp`,
+    link: "lab-grown-wedding-rings",
   },
   {
     titel: "Diamond Earrings",
     img: `${storImagePath()}/Forevery/home/collection/78.webp`,
+    link: EaringNavi,
   },
   {
     titel: "Fine Jewelry",
     img: `${storImagePath()}/Forevery/home/collection/79.webp`,
+    link: "lab-grown-fine-jewelry",
   },
 ];
 const shapes = [
@@ -504,6 +508,30 @@ const ringscollection = [
   },
 ];
 
+const StylesCollections = [
+  {
+    key: "Classic Rings",
+    image: `${storImagePath()}/Forevery/ring-col/2/1.webp`,
+  },
+
+  {
+    key: "Eternity Rings",
+    image: `${storImagePath()}/Forevery/ring-col/2/2.webp`,
+  },
+  {
+    key: "Half-Eternity Rings",
+    image: `${storImagePath()}/Forevery/ring-col/2/3.webp`,
+  },
+  {
+    key: " Diamond Rings",
+    image: `${storImagePath()}/Forevery/ring-col/2/4.webp`,
+  },
+  {
+    key: "Stackable Rings",
+    image: `${storImagePath()}/Forevery/ring-col/2/6.png`,
+  },
+];
+
 const metalcollection = [
   {
     key: "WHITE GOLD",
@@ -519,6 +547,35 @@ const metalcollection = [
     image: `${storImagePath()}/Forevery/metalcolor/4.jpg`,
   },
 ];
+const weddingRingsCollection = [
+  {
+    id: "womens-wedding-rings",
+    title: "Women's Wedding Rings",
+    description:
+      "Discover Timeless Women's Wedding Rings of Unmatched Quality & Style. Browse our collection today and find the perfect ring to celebrate your 'Forever' Love.",
+    link: "/womens-wedding-rings",
+    img: `${storImagePath()}/Forevery/ring-col/108.webp`,
+    btnText: "Shop womens rings",
+  },
+  {
+    id: "mens-wedding-rings",
+    title: "Men's Wedding Rings",
+    description:
+      "Browse our selection today and make your wedding day unforgettable with the perfect ring for Him.",
+    link: "/mens-wedding-rings",
+    img: `${storImagePath()}/Forevery/ring-col/109.webp`,
+    btnText: "Shop men`s rings",
+  },
+  {
+    id: "wedding-bands",
+    title: "Wedding Bands",
+    description:
+      "Commemorate your love with a ring that reflects your special connection and represents your love story for a lifetime.",
+    link: "/wedding-bands",
+    img: `${storImagePath()}/Forevery/ring-col/175.webp`,
+    btnText: "Shop wedding rings",
+  },
+];
 
 export {
   SideItems,
@@ -532,5 +589,7 @@ export {
   DiamondProductList,
   LooseDiamond,
   ringscollection,
-  metalcollection
+  metalcollection,
+  StylesCollections,
+  weddingRingsCollection,
 };

@@ -9,7 +9,7 @@ import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { CartCount, WishCount } from "../../Recoil/atom";
-import ConfirmationDialog from "../ConfirmationDialog.js/ConfirmationDialog";
+import ConfirmationDialog from "../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
@@ -89,8 +89,6 @@ const Wishlist = () => {
       behavior: "smooth",
     });
   }
-
-  console.log("cartdataCount--", wishlistData);
 
   return (
     <div className="smr_MainWlDiv">

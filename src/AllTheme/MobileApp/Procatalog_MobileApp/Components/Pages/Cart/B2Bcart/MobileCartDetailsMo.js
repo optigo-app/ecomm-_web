@@ -57,7 +57,6 @@ const MobileCartDetails = ({
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
 
@@ -91,7 +90,7 @@ const MobileCartDetails = ({
           />
         </div>
         <div className="smrMo_Cart_R-details">
-          <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <p className='smrMo_cart-Titleline'>{selectedItem?.designno}{selectedItem?.TitleLine ? `-${selectedItem.TitleLine}` : ''}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
             <div className="smrmo_Cart-options">

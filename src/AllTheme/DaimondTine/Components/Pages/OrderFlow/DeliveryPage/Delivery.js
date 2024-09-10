@@ -8,7 +8,7 @@ import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/use
 import { Grid } from '@mui/material';
 import Footer from "../../Home/Footer/Footer"
 import SkeletonLoader from './AddressSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 import { ToastContainer } from 'react-toastify';
 
 const AddressManagement = () => {

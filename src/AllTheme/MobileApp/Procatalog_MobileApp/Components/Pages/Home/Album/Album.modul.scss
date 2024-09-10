@@ -1,11 +1,10 @@
 @import '../../../scss/variable';
 
 
-.smr_AlbumImageMainPopup {
-    height: 270px;
-    width: 19%;
+.proCatApp_AlbumImageMainPopup {
+    width: 50%;
     padding: 5px;
-    margin: 5px;
+    margin: 0px;
     cursor: pointer;
     box-shadow: rgba(125, 125, 125, 0.2) 0px 0px 5px;
 }
@@ -17,9 +16,8 @@
     top: 40%;
 }
 
-.smr_AlbumImageMainPopup_img {
+.proCatApp_AlbumImageMainPopup_img {
     width: 100%;
-    max-height: 300px;
     object-fit: contain;
 }
 
@@ -59,6 +57,7 @@
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         margin: 0px;
+        word-break: break-word;
         text-align: center;
     }
 
@@ -147,7 +146,7 @@
         }
     }
 
-    
+
     @media screen and (max-width: 408px) {
         .smr_AlbumImageMain {
             width: 48% !important;

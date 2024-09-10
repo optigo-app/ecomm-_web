@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: 3rem;
   .header {
     display: flex;
     align-items: center;
@@ -17,25 +18,30 @@
     font-family: $fontTenorSans;
     color: black;
     h1 {
-      font-weight: 500;
-      font-size: 20px;
+      font-weight: 500 !important;
+      font-size: 22px;
       letter-spacing: 0.2px;
     }
   }
   .social_row {
-    width: 100%;
-    height: auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(15%, 1fr));
+    gap: 1rem;
     justify-content: center;
-    flex-wrap: wrap;
-    padding: 10px 0;
-    border-radius: 2px;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 0 auto;
+    transition: 0.3s ease-in-out;
+    width: 75%;
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(2, minmax(40%, 1fr));
+      width: 90%;
+    }
+    @media screen and (max-width: 420px) {
+      gap: 0.6rem;
+      padding: 0 4px;
+      width: 98%;
+    }
     .social_card {
       position: relative;
-      width: 320px;
-      height: 320px;
       &:hover {
         .icon_overlayer {
           display: flex;
@@ -65,44 +71,44 @@
       }
     }
   }
-  @media screen and (max-width: 1200px) {
-    .social_row {
-      gap: 0.5rem;
-      width: 100%;
-      .social_card {
-        max-width: 220px;
-        min-width: 220px;
-      }
-    }
-  }
-  @media screen and (max-width: 940px) {
-    .social_row {
-      gap: 0.5rem;
-      .social_card {
-        max-width: 190px;
-        min-width: 190px;
-      }
-    }
-  }
-  @media screen and (max-width: 768px) {
-    .social_row {
-      gap: 0.5rem;
-      .social_card {
-        max-width: 150px;
-        min-width: 150px;
-        height: 160px;
-      }
-    }
-  }
-  @media screen and (max-width: 430px) {
-    .social_row {
-      gap: 0.5rem;
-      padding: 0 8px;
-      .social_card {
-        max-width: 130px;
-        min-width: 130px;
-        height: 150px;
-      }
-    }
-  }
+  // @media screen and (max-width: 1200px) {
+  //   .social_row {
+  //     gap: 0.5rem;
+  //     width: 100%;
+  //     .social_card {
+  //       max-width: 220px;
+  //       min-width: 220px;
+  //     }
+  //   }
+  // }
+  // @media screen and (max-width: 940px) {
+  //   .social_row {
+  //     gap: 0.5rem;
+  //     .social_card {
+  //       max-width: 190px;
+  //       min-width: 190px;
+  //     }
+  //   }
+  // }
+  // @media screen and (max-width: 768px) {
+  //   .social_row {
+  //     gap: 0.5rem;
+  //     .social_card {
+  //       max-width: 150px;
+  //       min-width: 150px;
+  //       height: 160px;
+  //     }
+  //   }
+  // }
+  // @media screen and (max-width: 430px) {
+  //   .social_row {
+  //     gap: 0.5rem;
+  //     padding: 0 8px;
+  //     .social_card {
+  //       max-width: 130px;
+  //       min-width: 130px;
+  //       height: 150px;
+  //     }
+  //   }
+  // }
 }
