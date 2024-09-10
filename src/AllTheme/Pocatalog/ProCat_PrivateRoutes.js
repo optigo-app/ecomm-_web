@@ -11,12 +11,11 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         const timeout = setTimeout(() => {
             setIsLoading(false);
             window.scrollTo(0, 0);
-        }, 100);
+        }, 500);
 
         return () => clearTimeout(timeout);
     }, [isLoginStatus]);
 
-    console.log('isLoginStatus', isLoginStatus)
 
     if (isLoading) {
         return <div></div>;

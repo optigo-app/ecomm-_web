@@ -91,7 +91,6 @@ const CartPage = () => {
     setTimeout(() => {
       if (countstatus) {
         GetCountAPI(visiterId, islogin).then((res) => {
-          console.log('responseCount', res);
           setCartCountVal(res?.cartcount);
         })
       }
@@ -102,9 +101,6 @@ const CartPage = () => {
     setDialogOpen(false);
   };
 
-
-
-  console.log('selected--', selectedItem);
   return (
     <div className='smr2_MainB2cBGDiv'>
       <div className='cartMainb2cPageDiv'>

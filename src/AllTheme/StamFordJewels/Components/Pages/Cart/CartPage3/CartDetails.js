@@ -41,8 +41,6 @@ const CartDetails = ({
     }
   }, [selectedItem]);
 
-  console.log('selectediTem', diamondData);
-
   const keyToCheck = "stockno"
   return (
     <div className="stmpf_cart-container">

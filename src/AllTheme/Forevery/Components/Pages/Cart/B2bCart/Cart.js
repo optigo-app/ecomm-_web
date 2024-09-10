@@ -161,13 +161,13 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get('visiterId');
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    console.log("paymentResponse", paymentResponse);
+    
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
       navigate('/Confirmation');
       GetCountAPI().then((res) => {
-        console.log('responseCount', res);
+        
         setCartCountVal(res?.cartcount)
       })
 

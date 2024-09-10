@@ -126,7 +126,6 @@ const useCart = () => {
                 if (diamondData?.length != 0) {
                     const solStockNos = diamondData?.map(item => item?.Sol_StockNo);
                     const commaSeparatedString = solStockNos?.join(',');
-                    console.log(commaSeparatedString, "djskjdlk");
                     if (commaSeparatedString != null || commaSeparatedString != undefined) {
                         getDiamondData(commaSeparatedString)
                     }
@@ -156,9 +155,6 @@ const useCart = () => {
             setIsLoading(false);
         }
     };
-
-    console.log("jskjdkjska", diamondCartData);
-
 
     useEffect(() => {
         getCartData();
@@ -247,9 +243,6 @@ const useCart = () => {
             }
         }, 10);
 
-        console.log("jksajkdkask", diaFilter);
-
-
         try {
             const response = await removeFromCartList(item, param, visiterId, isdiamond);
             let resStatus = response.Data.rd[0];
@@ -262,8 +255,6 @@ const useCart = () => {
             console.error("Error:", error);
         }
     };
-
-    console.log("diamond", diamondCartData)
 
     const handleRemoveAll = async () => {
         let param = "Cart"
@@ -293,7 +284,6 @@ const useCart = () => {
         try {
             const response = await getSizeData(item, visiterId);
             if (response) {
-                console.log('categoryData', response);
                 setSizeCombo(response?.Data)
                 setSizeId(item?.Size)
 
@@ -336,7 +326,6 @@ const useCart = () => {
 
     // update cart
     const handleUpdateCart = async (updatedItems) => {
-        console.log('updatedItems', updatedItems);
         setSelectedItems([]);
         setMultiSelect(false);
         setOpenModal(false);
@@ -432,7 +421,7 @@ const useCart = () => {
 
         try {
             const response = await updateQuantity(item.id, newQuantity, visiterId);
-            console.log("Quantity updated successfully:", response);
+            // console.log("Quantity updated successfully:", response);
         } catch (error) {
             console.error("Failed to update quantity:", error);
         }
@@ -448,15 +437,12 @@ const useCart = () => {
 
             try {
                 const response = await updateQuantity(item.id, newQuantity, visiterId);
-                console.log("Quantity updated successfully:", response);
+                // console.log("Quantity updated successfully:", response);
             } catch (error) {
                 console.error("Failed to update quantity:", error);
             }
         }
     };
-
-    console.log('selectedItem', selectedItem);
-
 
     // for dropdown changes
     const handleMetalTypeChange = async (event) => {
@@ -473,7 +459,6 @@ const useCart = () => {
         const selectedMetal = metalTypeCombo?.find(option => option.metaltype === selectedTypeName);
         if (selectedMetal) {
             const selectedMetalId = selectedMetal?.Metalid;
-            console.log('SelectedMetalid:', selectedMetalId);
             setMetalID(selectedMetalId);
             handlePrice(selectedID, sizeId, diaIDData, colorStoneID, selectedMetalId);
         }
@@ -484,7 +469,6 @@ const useCart = () => {
         const selectedID = event.target.name;
         setMtColor(selectedTypeName)
         setSelectedItem(prevItem => ({ ...prevItem, metalcolorname: selectedTypeName }));
-        console.log('eventKey--', selectedTypeName);
 
         // const updatedMTCData = cartData?.map(cart =>
         //   cart.id == selectedID ? { ...cart, metalcolorname: selectedTypeName } : cart
@@ -494,7 +478,6 @@ const useCart = () => {
         const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
         if (selectedMetal) {
             const selectedMetalId = selectedMetal.id;
-            console.log('SelectedMetalid:', selectedMetalId);
             setMetalCOLORID(selectedMetalId);
         }
     };
@@ -525,7 +508,6 @@ const useCart = () => {
             const selectedDiaQId = selectedDia.QualityId;
             const selectedDiaCId = selectedDia.ColorId;
             const diaId = `${selectedDiaQId},${selectedDiaCId}`;
-            console.log('Selected Metalid:', diaId);
             setdiaID(diaId);
             handlePrice(selectedID, sizeId, diaId, colorStoneID, metalID);
         }
@@ -536,7 +518,6 @@ const useCart = () => {
         const selectedID = event.target.name;
         setSelectedItem(prevItem => ({ ...prevItem, Size: sizedata }));
         setSizeId(sizedata);
-        console.log("sizeIdkdnk", sizedata);
 
         // const updatedSizeData = cartData?.map(cart =>
         //   cart.id == selectedID ? { ...cart, Size: sizedata } : cart
@@ -545,8 +526,6 @@ const useCart = () => {
 
         const sizeChangeData = sizeCombo?.rd?.filter(size => size.sizename === sizedata);
         setSizeChangeData(sizeChangeData);
-        console.log("sizeChangeData", sizeChangeData);
-
         handlePrice(selectedID, sizedata, diaIDData, colorStoneID, metalID);
     };
 
@@ -577,12 +556,9 @@ const useCart = () => {
             const selectedCSQId = selectedCS.QualityId;
             const selectedCSCId = selectedCS.ColorId;
             const csQid = `${selectedCSQId},${selectedCSCId}`;
-            console.log('Selected_CSid:', selectedCSQId, selectedCSCId);
             setColorStoneID(csQid);
             handlePrice(selectedID, sizeId, diaIDData, csQid, metalID);
         }
-
-        console.log('kdjhkjhdhjas--', selectedCS);
     };
 
     // for price api
@@ -612,7 +588,6 @@ const useCart = () => {
                 //   } : cart
                 // ));
 
-                console.log('priceRes--', finalPrice);
             }
         } catch (error) {
             console.error("Failed to update quantity:", error);
@@ -699,7 +674,6 @@ const useCart = () => {
                 c: colorStoneID,
                 f: {}
             }
-            console.log('hdjhsjj777--', obj);
             compressAndEncode(JSON?.stringify(obj))
             let encodeObj = compressAndEncode(JSON?.stringify(obj))
 
@@ -711,7 +685,6 @@ const useCart = () => {
     const handelMenu = () => {
         let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
         if (menudata) {
-            console.log('otherparamsUrl--', menudata);
             const queryParameters1 = [
                 menudata?.FilterKey && `${menudata?.FilterVal}`,
                 menudata?.FilterKey1 && `${menudata?.FilterVal1}`,
@@ -749,7 +722,6 @@ const useCart = () => {
         }
     }
 
-    console.log("cartData", cartData);
 
     return {
         isloding,

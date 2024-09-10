@@ -52,8 +52,6 @@ function Cart(props) {
   const isOpen = useRecoilValue(mala_cartB2CDrawer)
   const setCartOpenState = useSetRecoilState(mala_cartB2CDrawer);
 
-  console.log('khdkjhaskd', props);
-
   const handleCloseDrawer = () => {
     setCartOpenState(false)
     // navigate(-1)

@@ -34,3 +34,8 @@ export const roop_defaultAddressState = atom({
   key: 'defaultAddressState',
   default: null,
 });
+
+export const roop_CartNo = atom({
+  key: 'cartNo',
+  default: 0,
+});

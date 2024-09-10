@@ -64,7 +64,7 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
+    
     setIsSelectedItems()
   }
 
@@ -73,7 +73,7 @@ const CartItem = ({
     setTimeout(() => {
       if (countstatus) {
         GetCountAPI(visiterId, islogin).then((res) => {
-          console.log('responseCount', res);
+          
           setCartCountVal(res?.cartcount);
         })
       }

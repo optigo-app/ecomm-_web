@@ -48,7 +48,7 @@ const ExampleComponent = ({
     //     setTimeout(() => {
     //         if (countstatus) {
     //             GetCountAPI(visiterId).then((res) => {
-    //                 console.log('responseCount', res);
+    //                 
     //                 setCartCountVal(res?.cartcount);
     //             })
     //         }

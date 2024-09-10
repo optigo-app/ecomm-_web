@@ -44,7 +44,6 @@ const Customization = ({
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
 
@@ -68,10 +67,6 @@ const Customization = ({
 
     return combinedParts.join(', ');
   }
-
-  console.log("selectedItem", selectedItem);
-
-
 
   return (
     <>
