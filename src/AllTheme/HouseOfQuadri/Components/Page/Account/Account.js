@@ -179,180 +179,47 @@ export default function Account() {
             >
               Your Account
             </p>
-            <div className="hoqAccountTabWebView hoq_main_head_none">
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  borderBottom: 1,
-                  borderColor: "divider",
-                }}
-              >
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-                >
+            <div className="hoqAccountTabWebView hoq_main_head_none" style={{paddingTop:'1%'}}>
+              <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
                   {" "}
                   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                   <Tab label="Your Profile" {...a11yProps(0)} />
                   <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                  <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                  {accountValidation() && (
-                    <Tab label="ACCOUNT" {...a11yProps(3)} />
-                  )}
-                  <Tab
-                    label="CHANGE PASSWORD"
-                    {...a11yProps(accountValidation() ? 4 : 3)}
-                  />
-                  {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                  {loginUSerDeatil?.IsPLWOn && (
-                    <Tab label="PLM" {...a11yProps(1)} />
-                  )}
+                  <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
+                  <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} /> {/* <Tab label="PLM" {...a11yProps(5)} /> */} {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )}
                   {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                 </Tabs>
                 {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
               </Box>
             </div>
-            <div
-              className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount "
-              style={{ display: "none" }}
-            >
+            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount " style={{ display: "none" }} >
               <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                <Tabs
-                  value={value}
-                  orientation="vertical"
-                  onChange={handleChange}
-                  sx={{ width: "100%" }}
-                >
+                <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: "100%" }} >
                   {" "}
                   {/*  indicatorColor="#7d7f85" */}
-                  <Tab
-                    label="Your Profile"
-                    {...a11yProps(0)}
-                    sx={{
-                      textAlign: "start",
-                      width: "90%",
-                      borderColor: "divider",
-                    }}
-                  />
+                  <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: "start", width: "90%", borderColor: "divider", }} />
                   <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                  <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                  {accountValidation() && (
-                    <Tab label="ACCOUNT" {...a11yProps(3)} />
-                  )}
-                  <Tab
-                    label="CHANGE PASSWORD"
-                    {...a11yProps(accountValidation() ? 4 : 3)}
-                  />
+                  <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
+                  <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                   {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                  {loginUSerDeatil?.IsPLWOn && (
-                    <Tab label="PLM" {...a11yProps(1)} />
-                  )}
-                  {/* <Tab label="Log Out" onClick={handleLogout} /> */}
+                  {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )} {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                 </Tabs>
                 {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
               </Box>
             </div>
-            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount">
-              <Tabs
-                value={value}
-                orientation="horizontal"
-                variant="scrollable"
-                onChange={handleChange}
-                TabIndicatorProps={{
-                  style: {
-                    backgroundColor: "black",
+            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount" style={{paddingTop:'1%'}}>
+              <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
                     marginTop: "5px", // This changes the underline color to black
                   },
                 }}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <Tab
-                  icon={<AccountBoxIcon titleAccess="Your Profile" />}
-                  {...a11yProps(0)}
-                  style={{
-                    minWidth: "16.66%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "2px",
-                    height: "30px",
-                  }}
-                />
-                <Tab
-                  icon={<ListAltIcon titleAccess="Order History" />}
-                  {...a11yProps(1)}
-                  style={{
-                    minWidth: "16.66%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "2px",
-                    height: "30px",
-                  }}
-                />
-                <Tab
-                  icon={<HomeIcon titleAccess="Manage Address" />}
-                  {...a11yProps(2)}
-                  style={{
-                    minWidth: "16.66%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "2px",
-                    height: "30px",
-                  }}
-                />
-                {accountValidation() && (
-                  <Tab
-                    icon={<SummarizeIcon titleAccess="Accounts" />}
-                    {...a11yProps(3)}
-                    style={{
-                      minWidth: "16.66%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "2px",
-                      height: "30px",
-                    }}
-                  />
-                )}
-                <Tab
-                  icon={
-                    <LockResetIcon
-                      titleAccess="Change Password"
-                      {...a11yProps(accountValidation() ? 4 : 3)}
-                    />
-                  }
-                  style={{
-                    minWidth: "16.66%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "2px",
-                    height: "30px",
-                  }}
-                />
-                {loginUSerDeatil?.IsPLWOn && (
-                  <Tab
-                    icon={<ShieldIcon titleAccess="PLM" />}
-                    {...a11yProps(1)}
-                    style={{
-                      minWidth: "16.66%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "2px",
-                      height: "30px",
-                    }}
-                  />
-                )}
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
+                <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                <Tab icon={<HomeIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                {accountValidation() && ( <Tab icon={<SummarizeIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
+                <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                {loginUSerDeatil?.IsPLWOn && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
               </Tabs>
             </div>
           </div>
