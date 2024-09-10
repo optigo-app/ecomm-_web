@@ -35,4 +35,7 @@ export const Hoq_defaultAddressState =atom({
   key : "Hoq_defaultAddressState",
   default : null
 })
-
+export const lookBookDrawer = atom({
+  key: 'hoq_lookBookDrawer',
+  default: false,
+});

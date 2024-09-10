@@ -43,7 +43,7 @@ const CartDetails = ({
     }
   }, [selectedItem]);
 
-  console.log('selectediTem', selectedItem);
+  
   return (
     <div className="mala_cart-container">
       <div className="mala_Cart-imageDiv">

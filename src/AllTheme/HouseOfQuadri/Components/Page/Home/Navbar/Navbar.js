@@ -79,7 +79,6 @@ const Navbar = () => {
     setislogin(value);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
-    console.log(storeInit?.companylogo);
     window.scroll({ behavior: "smooth", top: 0 });
   }, []);
 
@@ -104,7 +103,6 @@ const Navbar = () => {
     }
   };
 
-  console.log(isScrolled);
   // const handleScroll = debounce(() => {
   //   const currentScrollY = window.scrollY;
 
@@ -125,7 +123,6 @@ const Navbar = () => {
   const fetchData = () => {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
-    console.log(value);
   };
 
   const handleLogout = () => {
@@ -269,7 +266,6 @@ const Navbar = () => {
       `size=${finalData.size ?? 50}`,
     ].join("&");
 
-    console.log("otherparamsUrl--", otherparamUrl);
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
@@ -350,8 +346,6 @@ const Navbar = () => {
     let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
 
-    console.log("callll");
-    console.log(LoggedUserDetails);
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;

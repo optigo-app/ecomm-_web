@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
+import { proCat_CartCount, proCat_loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
@@ -43,11 +43,11 @@ const Payment = () => {
     //     handleClose();
     // };
 
-    
+
     const handleSaveInternal = () => {
         const trimmedRemark = orderRemark.trim();
-            handleOrderRemarkFun(trimmedRemark);
-            handleClose();  
+        handleOrderRemarkFun(trimmedRemark);
+        handleClose();
     };
 
     console.log('orderreamrk', orderRemark);
@@ -83,7 +83,7 @@ const Payment = () => {
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-            console.log('selectedAddressData', selectedAddressData);
+
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -102,7 +102,7 @@ const Payment = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-        console.log("paymentResponse", paymentResponse);
+
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
@@ -111,7 +111,7 @@ const Payment = () => {
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
-                console.log('responseCount', res);
+
                 setCartCountVal(res?.cartcount)
             })
 
@@ -164,7 +164,7 @@ const Payment = () => {
                             variant="body2"
                             onClick={handleOpen}
                         >
-                           {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
+                            {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
                     <div className='proCat_paymentDetailMainDiv'>
@@ -180,70 +180,44 @@ const Payment = () => {
                                 <p className='proCat_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
                                     Order Remark : {orderRemakdata}
                                 </p>
-        
+
                             </div>
                         </div>
                         <div className='proCat_paymentDetailRightSideContent'>
-                            <h3>Order Summary</h3>
-                            {/* <div className='proCat_paymenttotalpricesummary'>
-                                <p>Subtotal</p>
-                                <p className='proCat_PriceTotalTx'>
-                                    <span className="proCat_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-
-                                    <span>{formatter(finalTotal)}</span>
-                                </p>
-                            </div>
-                            <div className='proCat_paymenttotalpricesummary'>
-                                <p>Estimated Tax</p>
-                                <p className='proCat_PriceTotalTx'>
-                                    <span className="proCat_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
-                            <div className='proCat_paymenttotalpricesummary'>
-                                <p>Estimated Total</p>
-                                <p className='proCat_PriceTotalTx'>
-                                    <span className="proCat_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                </p>
-                            </div> */}
-
-                            <div class="proCat_order-summary">
-                                <div class="proCat_summary-item">
-                                    <div class="proCat_label">Subtotal</div>
-                                    <div class="proCat_value">
-                                        <span className="proCat_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(finalTotal)}</span>
+                            {storeInit?.IsPriceShow == 1 &&
+                                <>
+                                    <h3>Order Summary</h3>
+                                    <div class="proCat_order-summary">
+                                        <div class="proCat_summary-item">
+                                            <div class="proCat_label">Subtotal</div>
+                                            <div class="proCat_value">
+                                                <span className="proCat_currencyFont">
+                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>&nbsp;
+                                                <span>{formatter(finalTotal)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="proCat_summary-item">
+                                            <div class="proCat_label">Estimated Tax</div>
+                                            <div class="proCat_value">
+                                                <span className="proCat_currencyFont">
+                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>&nbsp;
+                                                <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                            </div>
+                                        </div>
+                                        <div class="proCat_summary-item">
+                                            <div class="proCat_label">Estimated Total</div>
+                                            <div class="proCat_value">
+                                                <span className="proCat_currencyFont">
+                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>&nbsp;
+                                                <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="proCat_summary-item">
-                                    <div class="proCat_label">Estimated Tax</div>
-                                    <div class="proCat_value">
-                                        <span className="proCat_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                                <div class="proCat_summary-item">
-                                    <div class="proCat_label">Estimated Total</div>
-                                    <div class="proCat_value">
-                                        <span className="proCat_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                            </div>
-
+                                </>
+                            }
                             <div className='proCat_shippingAddress'>
                                 <h3>Shipping Address</h3>
                                 <p className='proCat_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>

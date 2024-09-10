@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './procat_cartPage.scss';
+import './rJ_cartPage.scss';
 
 const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, }) => {
 
   return (
-    <div className="procat_cart-quantity">
+    <div className="rJ_cart-quantity">
       <button className="bttn bttn-left" onClick={() => handleDecrement(selectedItem)}>
         <span>-</span> 
       </button>
@@ -12,7 +12,6 @@ const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecre
         type="number"
         className="input"
         id="input"
-        defaultValue={selectedItem?.Quantity}
         value={selectedItem?.Quantity}
         readOnly
       />

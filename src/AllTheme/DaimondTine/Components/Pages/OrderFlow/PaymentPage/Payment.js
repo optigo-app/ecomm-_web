@@ -40,11 +40,11 @@ const Payment = () => {
 
     const handleSaveInternal = () => {
         const trimmedRemark = orderRemark.trim();
-            handleOrderRemarkFun(trimmedRemark);
-            handleClose();   
+        handleOrderRemarkFun(trimmedRemark);
+        handleClose();
     };
-    
-    
+
+
 
     console.log('orderreamrk', orderRemark);
 
@@ -72,7 +72,6 @@ const Payment = () => {
             try {
                 const taxData = await fetchEstimateTax();
 
-                console.log("taxData",taxData[0]?.TaxAmount)
                 if (taxData) {
                     const data = taxData[0];
                     setTaxAmountData(data);
@@ -82,7 +81,6 @@ const Payment = () => {
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-            console.log('selectedAddressData', selectedAddressData);
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -101,7 +99,7 @@ const Payment = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-        console.log("paymentResponse", paymentResponse);
+
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
@@ -110,7 +108,7 @@ const Payment = () => {
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
-                console.log('responseCount', res);
+
                 setCartCountVal(res?.cartcount)
             })
 
@@ -169,11 +167,13 @@ const Payment = () => {
                             </div>
                         </div>
                         <div className='dt_paymentDetailRightSideContent'>
-                            <h3>Order Summary</h3>
-                            <div className='dt_paymenttotalpricesummary'>
-                                <p>Subtotal</p>
-                                <p>
-                                    {/* <span
+                            {storeInit?.IsPriceShow == 1 &&
+                                <>
+                                    <h3>Order Summary</h3>
+                                    <div className='dt_paymenttotalpricesummary'>
+                                        <p>Subtotal</p>
+                                        <p>
+                                            {/* <span
                                         className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -182,17 +182,17 @@ const Payment = () => {
                                         }}
                                     /> */}
 
-                                    <span className="dt_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
+                                            <span className="dt_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
 
-                                    <span>{formatter(taxAmmountData?.TotalAmount)}</span>
-                                </p>
-                            </div>
-                            <div className='dt_paymenttotalpricesummary'>
-                                <p>Estimated Tax</p>
-                                <p>
-                                    {/* <span
+                                            <span>{formatter(taxAmmountData?.TotalAmount)}</span>
+                                        </p>
+                                    </div>
+                                    <div className='dt_paymenttotalpricesummary'>
+                                        <p>Estimated Tax</p>
+                                        <p>
+                                            {/* <span
                                         className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -201,16 +201,16 @@ const Payment = () => {
                                         }}
                                     />
                                     <span>{totalpriceText}</span> */}
-                                    <span className="dt_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
-                            <div className='dt_paymenttotalpricesummary'>
-                                <p>Estimated Total</p>
-                                <p>
-                                    {/* <span
+                                            <span className="dt_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
+                                        </p>
+                                    </div>
+                                    <div className='dt_paymenttotalpricesummary'>
+                                        <p>Estimated Total</p>
+                                        <p>
+                                            {/* <span
                                         className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -218,12 +218,14 @@ const Payment = () => {
                                             ),
                                         }}
                                     /> */}
-                                    <span className="dt_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
+                                            <span className="dt_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>&nbsp;
+                                            <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
+                                        </p>
+                                    </div>
+                                </>
+                            }
                             <div className='dt_shippingAddress'>
                                 <h3>Shipping Address</h3>
                                 <p className='dt_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>

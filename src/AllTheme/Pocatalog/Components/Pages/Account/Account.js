@@ -251,13 +251,10 @@ export default function Account() {
     )
 }
 
-// import React from 'react'
-
-
-// const Account = () => {
-//   return (
-//     <div>Account</div>
-//   )
-// }
-
-// export default Account
+//account mobile view icons
+// import AccountBoxIcon from '@mui/icons-material/AccountBox'; - Your Profile
+// import ListAltIcon from '@mui/icons-material/ListAlt'; - Order History
+// import HomeIcon from '@mui/icons-material/Home'; - Manage Address
+// import LockResetIcon from '@mui/icons-material/LockReset'; - change password
+// import SummarizeIcon from '@mui/icons-material/Summarize'; -  Accounts
+// import ShieldIcon from '@mui/icons-material/Shield'; - PLW
