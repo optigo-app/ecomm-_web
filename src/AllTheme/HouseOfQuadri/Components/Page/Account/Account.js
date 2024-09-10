@@ -51,7 +51,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0">
+        <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0" style={{marginTop:'10px !important'}}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -302,60 +302,13 @@ export default function Account() {
                       })}
                     </Tabs>
                   </Box>
-                  {accountInner?.map((e, i) => {
-                    return (
-                      <React.Fragment key={i}>
-                        {e?.id === 1163 && (
-                          <CustomTabPanel
-                            value={value1}
-                            index={i}
-                            className="AcountSales"
-                          >
-                            <QuotationQuote />
-                          </CustomTabPanel>
-                        )}
-                        {e?.id === 1164 && (
-                          <CustomTabPanel
-                            value={value1}
-                            index={i}
-                            className="quotationFilters"
-                          >
-                            <QuotationJob />
-                          </CustomTabPanel>
-                        )}
-                        {e?.id === 1157 && (
-                          <CustomTabPanel
-                            value={value1}
-                            index={i}
-                            className="salesPage"
-                          >
-                            <Sales />
-                          </CustomTabPanel>
-                        )}
-                        {e?.id === 1314 && (
-                          <CustomTabPanel
-                            value={value1}
-                            index={i}
-                            className="salesReport"
-                          >
-                            <SalesReport />
-                          </CustomTabPanel>
-                        )}
-                        {e?.id === 17020 && (
-                          <CustomTabPanel
-                            value={value1}
-                            index={i}
-                            className="DesignWiseSalesReport"
-                          >
-                            <DesignWiseSalesReport />
-                          </CustomTabPanel>
-                        )}
-                        {e?.id === 1159 && (
-                          <CustomTabPanel value={value1} index={i}>
-                            <AccountLedger />
-                          </CustomTabPanel>
-                        )}
-                        {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                  {accountInner?.map((e, i) => { return ( <React.Fragment key={i}> 
+                        {e?.id === 1163 && ( <CustomTabPanel value={value1} index={i} className="AcountSales" > <QuotationQuote /> </CustomTabPanel> )} 
+                        {e?.id === 1164 && ( <CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel> )}
+                        {e?.id === 1157 && ( <CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel> )}
+                        {e?.id === 1314 && ( <CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel> )}
+                        {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
+                        {e?.id === 1159 && ( <CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel> )} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
                                                 <PendingMemo />
                                             </CustomTabPanel>} */}
                       </React.Fragment>
