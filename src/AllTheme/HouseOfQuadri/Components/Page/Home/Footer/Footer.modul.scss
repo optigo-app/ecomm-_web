@@ -3,10 +3,11 @@
 .hoq_main_footer {
   .footer {
     background-color: #efe1cd;
-    padding: 60px;
-    font-family: $fontCrimsonTextRegular;
+    padding-top: 60px;
+    font-family: $fontDmSans;
     height: auto;
     color: black;
+    
     .footer-content {
       display: flex;
       flex-wrap: wrap;
@@ -24,13 +25,15 @@
           margin-bottom: 30px;
           font-stretch: 100%;
           color: black;
-          font-weight: 300;
+          font-weight: 600;
           letter-spacing: 2.5px;
         }
 
         p {
           line-height: 1.6;
           margin-bottom: 14px;
+          font-weight: 400;
+          color: rgb(58, 58, 58);
         }
 
         .social-links {
@@ -53,8 +56,9 @@
             letter-spacing: 1px;
 
             a {
-              color: black;
+              color: rgb(58, 58, 58);
               text-decoration: none;
+              font-weight: 400;
               transition: color 0.3s;
             }
           }
@@ -76,6 +80,8 @@
           border: none;
           font-weight: 500;
           color: black;
+          outline: none;
+
         }
 
         button {
@@ -92,15 +98,16 @@
     }
 
     .footer-bottom {
+      margin-top: 2rem;
       text-align: center;
-      padding-top: 20px;
+      padding-top: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1rem;
       p {
-        font-size: $fontSize1;
+        font-size: 15px;
         color: #020202;
         letter-spacing: 0.3px;
         font-weight: 500;
@@ -152,6 +159,7 @@
     }
   }
   .mobile_footer {
+    font-family: $fontDmSans;
     display: none;
     // AccordionStyles.scss
 
@@ -163,6 +171,7 @@
     }
     .mobile_footer {
       display: flex;
+    font-family: $fontDmSans;
       align-items: end;
       justify-content: start;
       flex-direction: column;
@@ -183,12 +192,12 @@
         .accordian {
           width: 100%;
           background-color: transparent;
-          font-family: $fontCrimsonTextRegular;
           box-shadow: none;
           border: none;
           .summary {
             .title {
               text-transform: uppercase;
+              font-weight: 600 !important;
             }
           }
           .details {
@@ -234,7 +243,7 @@
               font-size: 14.5px;
             }
             .subscribe-form {
-              width: 55%;
+              width: 90% !important;
               margin: 0 auto;
               display: flex;
               justify-content: space-between;
