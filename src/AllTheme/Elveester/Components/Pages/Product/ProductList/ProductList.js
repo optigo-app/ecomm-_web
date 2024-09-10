@@ -1226,6 +1226,26 @@ const ProductList = () => {
     });
   }, [])
 
+
+  const CustomLabel = ({ text }) => (
+    <Typography
+      sx={{
+        fontFamily: "PT Sans, sans-serif",
+        fontSize: {
+          xs: '14px !important',  // Mobile screens
+          sm: '14px !important',  // Tablets
+          md: '14px !important',  // Desktop screens
+          lg: '13.6px !important',  // Large desktops
+          xl: '15px !important'   // Extra large screens
+        }
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
+
+
   const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
@@ -1414,9 +1434,9 @@ const ProductList = () => {
                     }`}
                 >
                   <div className={maxwidth1000px || openGridModal ? "elv_filter_row2_inner_div_hide" : "elv_filter_row2_inner_div"}>
-                    <div className="elv_filter_row2_label">
+                    {/* <div className="elv_filter_row2_label">
                       <label className={maxwidth1000px || openGridModal ? 'elv_filter_sort_by_hide' : ''}>Sort by : </label>
-                    </div>
+                    </div> */}
                     <div
                       style={{
                         m: 1,
@@ -1451,7 +1471,7 @@ const ProductList = () => {
                     </div>
                   </div>
                 </div>
-                {filter ? (
+                {openGridModal ? (
                   <>
                     <div className={`elv_filteration_rows_3_combo`}>
                       <span
@@ -1555,11 +1575,11 @@ const ProductList = () => {
                     {storeInit?.IsMetalCustomization === 1 && (
                       <div className={`elv_filteration_rows_3`}>
                         <div className="elv_filter_row3_inner_div">
-                          <div className="elv_filter_row3_label">
+                          {/* <div className="elv_filter_row3_label">
                             <label>
                               Metal :
                             </label>
-                          </div>
+                          </div> */}
                           <div
                             style={{
                               m: 1,
@@ -1593,9 +1613,9 @@ const ProductList = () => {
                     {storeInit?.IsDiamondCustomization === 1 && (
                       <div className="elv_filteration_rows_4">
                         <div className="elv_filter_row4_inner_div">
-                          <div className="elv_filter_row4_label">
+                          {/* <div className="elv_filter_row4_label">
                             <label>Diamond :</label>
-                          </div>
+                          </div> */}
                           <div
                             style={{
                               m: 1,
@@ -1786,10 +1806,10 @@ const ProductList = () => {
               <>
                 <div className="elv_filtered_data">
                   <div className="elv_filtered_data_div">
-                    <div className={showFilter === false && filter === false ? "elv_filtered_data_category " : "elv_filtered_data_category_other"}>
+                    <div className={(showFilter === false && filter === false) && filterData?.length > 0 ? "elv_filtered_data_category" : "elv_filtered_data_category_other"}>
                       {openDrawer ? (
                         <Drawer
-                          open={openDrawer}
+                          open={filterData?.length > 0 ? openDrawer : ''}
                           onClose={toggleDrawer(false)}
                           PaperProps={{
                             sx: {
@@ -1823,7 +1843,7 @@ const ProductList = () => {
                                               <>
                                                 <CustomFormControlLabel
                                                   key={opt?.id}
-                                                  label={opt.Name}
+                                                  label={<CustomLabel text={opt.Name} />}
                                                   control={
                                                     <Checkbox
                                                       name={`${item?.id}${opt?.id}`}
@@ -1928,20 +1948,23 @@ const ProductList = () => {
                                                 }
                                                 className="elv_subCategory_name_price"
                                                 label={
-                                                  opt?.Minval == 0
-                                                    ? `Under ${decodeEntities(
-                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                    )} ${formatter(opt?.Maxval)}`
-                                                    : opt?.Maxval == 0
-                                                      ? `Over ${decodeEntities(
-                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                      )} ${formatter(opt?.Minval)}`
-                                                      : `${decodeEntities(
-                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                      )} ${formatter(opt?.Minval)
-                                                      } - ${decodeEntities(
+                                                  <CustomLabel text={
+                                                    opt?.Minval == 0
+                                                      ? `Under ${decodeEntities(
                                                         loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
                                                       )} ${formatter(opt?.Maxval)}`
+                                                      : opt?.Maxval == 0
+                                                        ? `Over ${decodeEntities(
+                                                          loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                        )} ${formatter(opt?.Minval)}`
+                                                        : `${decodeEntities(
+                                                          loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                        )} ${formatter(opt?.Minval)
+                                                        } - ${decodeEntities(
+                                                          loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                        )} ${formatter(opt?.Maxval)}`
+                                                  } />
+
                                                 }
                                               />
                                             </div>
@@ -1958,7 +1981,7 @@ const ProductList = () => {
                                         }
                                       >
                                         <span className="elv_category_names">
-                                          {item.Name}
+                                          {item?.Name}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -1985,7 +2008,7 @@ const ProductList = () => {
                                         }
                                       >
                                         <span className="elv_category_names">
-                                          {item.Name}
+                                          {item?.Name}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2012,7 +2035,7 @@ const ProductList = () => {
                                         }
                                       >
                                         <span className="elv_category_names">
-                                          {item.Name}
+                                          {item?.Name}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2076,7 +2099,7 @@ const ProductList = () => {
                                               <FormControlLabel
                                                 className="elv_subCategory_name_allfilter"
                                                 key={opt?.id}
-                                                label={opt.Name}
+                                                label={<CustomLabel text={opt.Name} />}
                                                 control={
                                                   <Checkbox
                                                     name={`${item?.id}${opt?.id}`}
@@ -2185,20 +2208,22 @@ const ProductList = () => {
                                               }
                                               className="elv_subCategory_name_price"
                                               label={
-                                                opt?.Minval == 0
-                                                  ? `Under ${decodeEntities(
-                                                    loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                  )} ${formatter(opt?.Maxval)}`
-                                                  : opt?.Maxval == 0
-                                                    ? `Over ${decodeEntities(
-                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                    )} ${formatter(opt?.Minval)}`
-                                                    : `${decodeEntities(
-                                                      loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
-                                                    )} ${formatter(opt?.Minval)
-                                                    } - ${decodeEntities(
+                                                <CustomLabel text={
+                                                  opt?.Minval == 0
+                                                    ? `Under ${decodeEntities(
                                                       loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
                                                     )} ${formatter(opt?.Maxval)}`
+                                                    : opt?.Maxval == 0
+                                                      ? `Over ${decodeEntities(
+                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                      )} ${formatter(opt?.Minval)}`
+                                                      : `${decodeEntities(
+                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                      )} ${formatter(opt?.Minval)
+                                                      } - ${decodeEntities(
+                                                        loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode
+                                                      )} ${formatter(opt?.Maxval)}`
+                                                } />
                                               }
                                             />
                                           </div>

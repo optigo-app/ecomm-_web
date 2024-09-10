@@ -7,13 +7,13 @@
     top: 0;
     z-index: 11;
     background-color: white;
-    height: 80px; //chnages    80px
+    height: auto; //chnages    80px
 
     .el_withoutL_Header_Main {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 80px;
+        height: auto;
         z-index: 1;
     }
 
@@ -53,6 +53,8 @@
         list-style: none;
         width: 100%;
         padding: 0px;
+        align-items: center;
+        margin: 0;
     }
 
     .el_withoutL_ul_Main_side {
@@ -67,7 +69,7 @@
     .el_whioutL_headerDiv1 {
         width: 44%;
         display: flex;
-        align-items: end;
+        align-items: center;
         justify-content: flex-end;
     }
 
@@ -76,6 +78,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-inline: 4%;
     }
 
     .el_whioutL_headerDiv2_side {
@@ -89,7 +92,7 @@
         width: 44%;
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
     }
 
     .el_whioutL_headerDiv3_side {
@@ -102,11 +105,13 @@
     .el_without_headerLogo {
         max-width: 1000px;
         margin-top: 0.5rem;
+        object-fit: contain;
     }
 
     .el_without_headerLogo_side {
-        max-width: 150px;
+        max-width: 1000px;
         margin-top: 20px;
+        object-fit: contain;
     }
 
     .el_whioutL_headerDiv3_sub1 {
@@ -139,8 +144,7 @@
         list-style: none;
         margin: 0px;
         padding: 0px;
-        max-width: 80rem;
-        overflow-x: auto;
+        font-size: 14px;
     }
 
     .el_login_header_main_div2 {
@@ -158,6 +162,7 @@
 
     .el_login_header_main_div1 {
         display: flex;
+        max-width: 80%;
     }
 
     .elv_search_area {
@@ -224,14 +229,19 @@
     }
 
     .elv_search_area_respo {
-        border: 1px solid #ededed;
+        border: transparent;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 0.7rem;
         padding: 8px;
         border-radius: 10px;
-        background-color: #ffffff;
+        background-color: transparent;
+
+        &.open {
+            border-bottom: 1px solid black;
+            background-color: #ffffff;
+        }
 
         .elv_search_inp {
             border: none;
@@ -271,8 +281,10 @@
 
     .elv_search_area_respo.open .elv_search_design,
     .elv_search_area_respo.open .elv_search_btn_respo {
+        // border: 1px solid #ededed;
         opacity: 1;
         transform: translateX(0); // Move to visible position
+        background-color: #ffffff;
     }
 
 
@@ -358,7 +370,7 @@
         align-items: center;
         cursor: pointer;
         text-transform: uppercase;
-        margin-inline: 20px;
+        margin-inline: 12px;
     }
 
     .go-lookbook {
@@ -403,9 +415,23 @@
         }
     }
 
+    @media (min-width: 1400px) and (max-width: 1500px) {
+        .elv_search_inp {
+            width: 8rem;
+        }
+    }
+
     @media screen and (max-width: 1400px) {
         .el_login_header_main_div2_li_respo {
             position: relative;
+        }
+
+        .el_login_header_main_div1_logo {
+            padding-left: 2rem;
+        }
+
+        .el_whioutL_headerDiv2 {
+            margin-inline: 8%;
         }
 
         .elv_search_area_respo {
@@ -495,7 +521,7 @@
 
     @media screen and (max-width: 425px) {
         .el_login_header_main_div1_logo {
-            max-width: 1000px;
+            width: 11rem;
         }
 
         .el_login_header_main_div2_li {

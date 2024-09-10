@@ -280,14 +280,14 @@
     .elv_add-remark {
         display: flex;
         flex-direction: column;
-        height: 730px;
+        height: 100%;
         overflow-y: auto;
 
         .elv_add-title-span {
             text-align: center;
             font-size: 23.2px;
             font-weight: bold;
-            padding: 13px 21px;
+            padding: 13px 21px 35px 21px;
             text-decoration: underline;
         }
 
@@ -384,7 +384,27 @@
     }
 }
 
+@media (max-width: 1240px) {
+    .elv_delivery_lists_header {
+        margin-inline: 4% !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .elv_delivery_lists_header {
+        margin-inline: 2% !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
+    .elv_delivery_lists_header {
+        margin-inline: 2% !important;
+    }
+
+    .elv_address_form {
+        width: 90% !important;
+    }
+
     .elv_delivery_Main_div {
         .elv_delblock_rows_1 {
 
@@ -418,10 +438,18 @@
 }
 
 @media screen and (max-width: 425px) {
+    .elv_add_remarksave-btn {
+        width: 50% !important;
+    }
+
+    .elv_add_remarkcancel-btn {
+        width: 50% !important;
+    }
+
     .elv_delivery_Main_div {
         .elv_delblock_rows_1 {
             .elv_back_title {
-                font-size: 14px;
+                font-size: 12px;
             }
 
         }
@@ -434,6 +462,8 @@
         }
 
         .elv_delblock_rows_3 {
+            display: none;
+
             .elv_address_count {
                 font-size: 12px;
             }
@@ -442,7 +472,7 @@
 
         .elv_delblock_rows_5 {
             .elv_continue_title {
-                font-size: 11px;
+                font-size: 12px;
             }
         }
     }
@@ -450,6 +480,7 @@
 }
 
 @media screen and (max-width: 375px) {
+
     .elv_delivery_Main_div {
         .elv_delivery_details_1 {
             font-size: 25px;
@@ -457,8 +488,6 @@
 
         .elv_delblock_rows_1 {
             flex: 1 0%;
-
-
         }
 
         .elv_delblock_rows_2 {
