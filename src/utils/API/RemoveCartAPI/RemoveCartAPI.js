@@ -10,8 +10,6 @@ export const removeFromCartList = async (data, param, visiterId, isdiamond) => {
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : loginUserDetail?.userid ?? "";
     let combinedValue;
     
-    console.log('IdData-',data);
-
     if (data == 'IsDeleteAll') {
       combinedValue = JSON.stringify({
         ForEvt: param,
@@ -49,8 +47,6 @@ export const removeFromCartList = async (data, param, visiterId, isdiamond) => {
       p: encodedCombinedValue,
       dp: combinedValue
     };
-
-    console.log('encodedCombinedValue',encodedCombinedValue);
 
     const response = await CommonAPI(body);
     return response;

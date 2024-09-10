@@ -48,7 +48,7 @@ const ExampleComponent = ({
     //     setTimeout(() => {
     //         if (countstatus) {
     //             GetCountAPI(visiterId).then((res) => {
-    //                 console.log('responseCount', res);
+    //                 
     //                 setCartCountVal(res?.cartcount);
     //             })
     //         }
@@ -65,31 +65,31 @@ const ExampleComponent = ({
     };
 
     return (
-        <table className="smr_B2C-table smr_B2C-table-xs">
+        <table className="rJ_B2C-table rJ_B2C-table-xs">
             <tbody>
-                <tr key={cartData.id} className="smr_B2C-cartData-row">
-                    <td className='smr_b2cCartImagetd'>
+                <tr key={cartData.id} className="rJ_B2C-cartData-row">
+                    <td className='rJ_b2cCartImagetd'>
                         <img
-                            className='smr_b2ccartImage'
+                            className='rJ_b2ccartImage'
                             src={imageSrc}
                             alt={`cartData images`}
                         />
                     </td>
-                    <td className='smr_b2ccartContentTd'>
-                        <p className='smr_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>
-                        {/* <p className='smr_b2ccartContentMtDT'>{cartData?.metalcolorname} | {cartData?.MetalWeight} | {cartData?.totalGrossweight} | {cartData?.totalDiaWt} / {cartData?.totaldiamondpcs} | {cartData?.totalCSWt}  / {cartData?.totalcolorstonepcs}</p> */}
-                        <p className='smr_b2ccartContentMtDT'>
-                            <span className='smr_b2ccartContentcartData'>{cartData?.metalcolorname}</span>
+                    <td className='rJ_b2ccartContentTd'>
+                        <p className='rJ_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>
+                        {/* <p className='rJ_b2ccartContentMtDT'>{cartData?.metalcolorname} | {cartData?.MetalWeight} | {cartData?.totalGrossweight} | {cartData?.totalDiaWt} / {cartData?.totaldiamondpcs} | {cartData?.totalCSWt}  / {cartData?.totalcolorstonepcs}</p> */}
+                        <p className='rJ_b2ccartContentMtDT'>
+                            <span className='rJ_b2ccartContentcartData'>{cartData?.metalcolorname}</span>
                             <span> | </span>
                             {storeInitData?.IsGrossWeight == 1 &&
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Nwt || 0)?.toFixed(3)}</span>
+                                    <span className='rJ_b2ccartContentcartData'>{(cartData?.Nwt || 0)?.toFixed(3)}</span>
                                 </>
                             }
                             <span> | </span>
                             {Number(cartData?.Nwt) !== 0 && (
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
+                                    <span className='rJ_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
                                 </>
                             )}
                             <span> | </span>
@@ -97,7 +97,7 @@ const ExampleComponent = ({
                                 <>
                                     {(cartData?.Dwt != "0" || cartData?.Dpcs != "0") &&
 
-                                        <span className='smr_b2ccartContentcartData'>{(cartData?.Dwt || 0)?.toFixed(3)} / {(cartData?.Dpcs || 0)}</span>
+                                        <span className='rJ_b2ccartContentcartData'>{(cartData?.Dwt || 0)?.toFixed(3)} / {(cartData?.Dpcs || 0)}</span>
                                     }
                                 </>
                             }
@@ -105,13 +105,13 @@ const ExampleComponent = ({
                             {storeInitData?.IsStoneWeight == 1 &&
                                 <>
                                     {(cartData?.CSwt != "0" || cartData?.CSpcs != "0") &&
-                                        <span className='smr_b2ccartContentcartData'>{(cartData?.CSwt || 0)?.toFixed(3)} / {(cartData?.CSpcs || 0)}</span>
+                                        <span className='rJ_b2ccartContentcartData'>{(cartData?.CSwt || 0)?.toFixed(3)} / {(cartData?.CSpcs || 0)}</span>
                                     }
                                 </>
                             }
                         </p>
 
-                        <div className='smr_b2cCartQTRm'>
+                        <div className='rJ_b2cCartQTRm'>
 
                             <QuantitySelector
                                 cartData={cartData}
@@ -119,19 +119,19 @@ const ExampleComponent = ({
                                 handleIncrement={handleIncrement}
                                 handleDecrement={handleDecrement}
                             />
-                            <p className='smr_b2cCartRmBtn' onClick={() => handleRemovecartData(cartData)}>Remove</p>
+                            <p className='rJ_b2cCartRmBtn' onClick={() => handleRemovecartData(cartData)}>Remove</p>
                         </div>
-                        <td className="smr_B2cCartshippingDayMobile" title="Shipping Info">Ships in {dayOfMonth} days</td>
-                        <td className="smr_B2cCartPriceDayMobile" title="Price">
+                        <td className="rJ_B2cCartshippingDayMobile" title="Shipping Info">Ships in {dayOfMonth} days</td>
+                        <td className="rJ_B2cCartPriceDayMobile" title="Price">
                             {storeInitData?.IsPriceShow == 1 &&
                                 <span>
                                     <span
-                                        className="smr_currencyFont"
+                                        className="rJ_currencyFont"
                                     >
                                         {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                                     </span>
                                     {/* <span
-                                    className="smr_currencyFont"
+                                    className="rJ_currencyFont"
                                     dangerouslySetInnerHTML={{
                                         __html: decodeEntities(
                                             CurrencyData?.Currencysymbol
@@ -143,12 +143,12 @@ const ExampleComponent = ({
                             }
                         </td>
                     </td>
-                    <td className="smr_B2C-text-right smr_B2cCartshippingDay" title="Shipping Info">Ships in {dayOfMonth} days</td>
-                    <td className="smr_B2C-text-right smr_B2cCartPrice" title="Total">
+                    <td className="rJ_B2C-text-right rJ_B2cCartshippingDay" title="Shipping Info">Ships in {dayOfMonth} days</td>
+                    <td className="rJ_B2C-text-right rJ_B2cCartPrice" title="Total">
                         {storeInitData?.IsPriceShow == 1 &&
                             <span>
                                 {/* <span
-                                    className="smr_currencyFont"
+                                    className="rJ_currencyFont"
                                     dangerouslySetInnerHTML={{
                                         __html: decodeEntities(
                                             CurrencyData?.Currencysymbol
@@ -156,7 +156,7 @@ const ExampleComponent = ({
                                     }}
                                 /> */}
                                 <span
-                                    className="smr_currencyFont"
+                                    className="rJ_currencyFont"
                                 >
                                     {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
                                 </span>

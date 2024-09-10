@@ -1,11 +1,12 @@
-import React from 'react';
-import './procat_cartPage.scss';
+import React, { useEffect, useState } from 'react';
+import './rJ_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const CartDetails = ({
   ispriceloding,
   selectedItem,
+  diamondData,
   CartCardImageFunc,
   qtyCount,
   handleIncrement,
@@ -29,19 +30,28 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail
 }) => {
+  const [imageSrc, setImageSrc] = useState(noImageFound);
+  useEffect(() => {
+    if (selectedItem?.ImageCount > 0) {
+      CartCardImageFunc(selectedItem).then((src) => {
+        setImageSrc(src);
+      });
+    } else {
+      setImageSrc(noImageFound);
+    }
+  }, [selectedItem]);
 
-
-  console.log('selectediTem', selectedItem);
+  const keyToCheck = "stockno"
   return (
-    <div className="procat_cart-container">
-      <div className="procat_Cart-imageDiv">
-        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='procat_cartImage' /> */}
-        <img 
-        src={selectedItem?.ImageCount != 0 ? CartCardImageFunc(selectedItem) : noImageFound} 
-        alt="image" 
-        className='procat_cartImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
-        />
+    <div className="rJ_cart-container">
+      <div className="rJ_Cart-imageDiv">
+        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='rJ_cartImage' /> */}
+          <img
+            src={imageSrc}
+            alt="image"
+            className='rJ_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
       </div>
       <Customization
         ispriceloding={ispriceloding}

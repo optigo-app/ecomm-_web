@@ -14,6 +14,7 @@ import { fetchEstimateTax } from '../../../../../../../utils/API/OrderFlow/GetTa
 import Cookies from "js-cookie";
 import { useAddress } from '../../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import OrderSummarySkeleton from './PaymentSkelton';
+import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Payment = () => {
     const {
@@ -43,22 +44,22 @@ const Payment = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    
-  useEffect(() => {
-    localStorage.removeItem('navigateUrl');
-    const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
-    setStoreInitData(storeinitData)
-  }, [])
+
+    useEffect(() => {
+        localStorage.removeItem('navigateUrl');
+        const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
+        setStoreInitData(storeinitData)
+    }, [])
 
     const handleRemarkChangeInternal = (e) => {
         setOrderRemark(e.target.value);
     };
 
     const handleSaveInternal = () => {
-        handleOrderRemarkFun(orderRemark);
-        handleClose();
+        const trimmedRemark = orderRemark?.trim();
+            handleOrderRemarkFun(trimmedRemark);
+            handleClose();
     };
-    console.log('orderreamrk', orderRemark);
 
     useEffect(() => {
         const orderRemakdata = sessionStorage.getItem("orderRemark");
@@ -79,27 +80,23 @@ const Payment = () => {
 
     useEffect(() => {
         setIsOrderloding(true);
-        let texData;
         const fetchData = async () => {
             try {
-                texData = await fetchEstimateTax();
+                const texData = await fetchEstimateTax();
                 if (texData) {
                     setTaxAmount(texData[0]?.TaxAmount);
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
-            }
-
-            // const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-            // console.log('selectedAddressData', selectedAddressData);
-            const defaultAddress = addressData?.find(item => item?.isdefault === 1);
-            setSelectedAddrData(defaultAddress);
-
-            if (defaultAddress && texData) {
+            } finally {
                 setIsOrderloding(false);
             }
 
-            const totalPriceData = localStorage.getItem('TotalPriceData');
+            const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
+           
+            setSelectedAddrData(selectedAddressData);
+
+            const totalPriceData = sessionStorage.getItem('TotalPriceData');
             if (totalPriceData) {
                 const totalPriceNum = parseFloat(totalPriceData);
                 const finalTotalPrice = totalPriceNum;
@@ -108,12 +105,12 @@ const Payment = () => {
         };
 
         fetchData();
-    }, [addressData]);
+    }, []);
 
 
     // useEffect(() => {
     //     const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-    //     console.log('selectedAddressData', selectedAddressData);
+    //    
     //     setSelectedAddrData(selectedAddressData)
 
     //     const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -132,7 +129,7 @@ const Payment = () => {
         setIsloding(true);
         if (selectedAddrData?.id != undefined || selectedAddrData?.id != null) {
             const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-            console.log("paymentResponse", paymentResponse);
+
             if (paymentResponse?.Data?.rd[0]?.stat == 1) {
                 let num = paymentResponse.Data?.rd[0]?.orderno
                 sessionStorage.setItem('orderNumber', num);
@@ -140,7 +137,7 @@ const Payment = () => {
                 setIsloding(false);
 
                 GetCountAPI().then((res) => {
-                    console.log('responseCount', res);
+
                     setCountData(res)
                     setCartCountVal(res?.cartcount)
                 })
@@ -156,24 +153,19 @@ const Payment = () => {
         }
     }
 
-    const handleOrderRemarkChange = () => {
 
-    }
-    const handleOrderRemarkFun = async () => {
+    const handleOrderRemarkFun = async (trimmedRemark) => {
         try {
-            const response = await handleOrderRemark(orderRemark);
+            const response = await handleOrderRemark(trimmedRemark);
             let resStatus = response?.Data?.rd[0]
             if (resStatus?.stat == 1) {
-                // const updatedCartData = cartData.map(cart =>
-                //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
-                // );
-                sessionStorage.setItem('orderRemark', orderRemark)
+                setOrderRemark(resStatus?.orderremarks)
+                sessionStorage.setItem('orderRemark', trimmedRemark)
             }
         } catch (error) {
             console.error("Error:", error);
         }
     }
-
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
@@ -184,8 +176,6 @@ const Payment = () => {
     const handleRedirectpage = () => {
         navigate('/Delivery')
     }
-
-    console.log('skjdkksjjdk', selectedAddrData);
 
     return (
         <div className='smrMo_paymentMainDiv'>
@@ -308,38 +298,32 @@ const Payment = () => {
                                         </div>
                                     </div>
                                     <div className='smilingPaySub1Box2'>
-                                        <div className='orderSubmmuryMain'>
-                                            <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Order Summary</p>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
-                                                <p className='orderSubTitle'>Subtotal</p>
-                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
-                                                    {/* <span
-                                                        className="currencyFont"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: decodeEntities(
-                                                                CurrencyData
-                                                            ),
-                                                        }}
-                                                    /> */}
-                                                     <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                    {finalTotal}
-                                                </p>
+                                        {storeInitData?.IsPriceShow == 1 &&
+                                            <div className='orderSubmmuryMain'>
+                                                <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Order Summary</p>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
+                                                    <p className='orderSubTitle'>Subtotal</p>
+                                                    <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
+                                                        <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                        {formatter(finalTotal)}
+                                                    </p>
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
+                                                    <p className='orderSubTitle'>Estimated Tax</p>
+                                                    <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
+                                                        <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                        {formatter(Number((taxAmmount)?.toFixed(3)))}
+                                                    </p>
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+                                                    <p className='orderSubTitle'>Estimated Total</p>
+                                                    <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
+                                                        <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                        {formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
-                                                <p className='orderSubTitle'>Estimated Tax</p>
-                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont"/>
-                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                {taxAmmount}
-                                                </p>
-                                            </div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                                                <p className='orderSubTitle'>Estimated Total</p>
-                                                <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
-                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                {taxAmmount + finalTotal}
-                                                </p>
-                                            </div>
-                                        </div>
+                                        }
                                         <div className='deliveryShiipingMain'>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Shipping Address :</p>

@@ -17,7 +17,7 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-  console.log('itemgsgdhas-', selectedItem);
+
   return (
     <div className="mala_MainCartList">
       <Grid container spacing={2}>

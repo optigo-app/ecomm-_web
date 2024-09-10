@@ -24,7 +24,7 @@ const CartList = ({
   handleCancel,
   handleMoveToDetail
 }) => {
-  console.log('itemgsgdhas-', items);
+  
   const [storeInitData, setStoreInitData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();

@@ -57,8 +57,6 @@ const AddressCard = ({ address, index, handleOpen, handleDeleteClick, handleDefa
         isdefault
     } = address;
 
-    console.log('address--', address);
-
     const [showButtons, setShowButtons] = useState(false);
 
     const handleMouseEnter = () => {

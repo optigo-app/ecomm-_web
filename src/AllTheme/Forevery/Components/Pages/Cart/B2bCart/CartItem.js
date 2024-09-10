@@ -80,7 +80,7 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
+    
     setIsSelectedItems()
   }
 

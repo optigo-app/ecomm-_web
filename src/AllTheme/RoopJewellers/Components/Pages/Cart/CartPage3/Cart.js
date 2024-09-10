@@ -4,19 +4,25 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './procat_cartPage.scss';
+import './rJ_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
-import { Link, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
-import { proCat_CartCount } from '../../../Recoil/atom';
-import { useSetRecoilState } from 'recoil';
+import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
-
+import { green } from '@mui/material/colors';
+import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
+import { toast } from 'react-toastify';
+import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
+import Cookies from "js-cookie";
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const CartPage = () => {
+  const addressData = useAddress();
+
   const {
     isloding,
     ispriceloding,
@@ -33,6 +39,9 @@ const CartPage = () => {
     countData,
     mrpbasedPriceFlag,
     openMobileModal,
+    setOpenMobileModal,
+    isSelectedAll,
+    handleSelectAll,
     handlecloseMobileModal,
     CartCardImageFunc,
     handleSelectItem,
@@ -60,97 +69,145 @@ const CartPage = () => {
   } = useCart();
 
   const navigate = useNavigate();
+  const [storeInit, setStoreInit] = useState();
+  const [defaultAddr, setDefaultAddr] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const setCartCountVal = useSetRecoilState(roop_CartCount)
+  const islogin = useRecoilValue(roop_loginState);
+  const visiterId = Cookies.get('visiterId');
+  const isLargeScreen = useMediaQuery('(min-width:1000px)');
+  const isMobileScreen = useMediaQuery('(max-width:768px)');
+  const [selectedDia, setSelectedDia] = useState();
 
-  const setCartCountVal = useSetRecoilState(proCat_CartCount);
-  const islogin = useRecoilValue(proCat_loginState);
-
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
+    let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    let priceData = cartData?.reduce(
+      (total, item) => total + item?.FinalCost,
+      0
+    );
+    sessionStorage.setItem("TotalPriceData", priceData);
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
-      navigate('/LoginOption')
+      navigate(redirectUrl);
+      // navigate('/loginOption')
     } else {
-      let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
-      console.log("TotalPriceData", cartData)
-      sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
-      window.scrollTo(0, 0);
+      navigate("/Delivery");
     }
-  }
+    window.scrollTo(0, 0);
+  };
 
-  function scrollToTop() {
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  }
+  }, [])
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [countstatus, setCountStatus] = useState();
-
-  useEffect(() => {
-    const iswishUpdateStatus = sessionStorage.getItem('cartUpdation');
-    setCountStatus(iswishUpdateStatus)
-  }, [handleRemoveItem, handleRemoveAll])
 
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
   };
 
-  const handleConfirmRemoveAll = () => {
+
+  const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
-    handleRemoveAll();
-    setTimeout(() => {
-      if (countstatus) {
-        GetCountAPI().then((res) => {
-          console.log('responseCount', res);
-          setCartCountVal(res?.cartcount);
-        })
-      }
-    }, 500)
+    const returnValue = await handleRemoveAll();
+    if (returnValue?.msg == "success") {
+      GetCountAPI(visiterId).then((res) => {
+        setCartCountVal(res?.cartcount);
+      })
+    }
   };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
 
-  const isLargeScreen = useMediaQuery('(min-width:1050px)');
+  useEffect(() => {
+    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    setStoreInit(storeInit);
+    if (storeInit?.IsPLW == 1) {
+      if (addressData && addressData.addressData) {
+        const defaultAddress = addressData.addressData.find(addr => addr?.isdefault === 1);
+
+        if (defaultAddress) {
+          setDefaultAddr(defaultAddress)
+        } else {
+          console.log('No default address found.');
+        }
+      }
+    }
+  }, []);
 
 
-  console.log('selected--', selectedItem);
+
+  // const handlePay = async () => {
+  //   const visiterId = Cookies.get('visiterId');
+  //   const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+  //   
+  //   if (paymentResponse?.Data?.rd[0]?.stat == 1) {
+  //     let num = paymentResponse.Data?.rd[0]?.orderno
+  //     sessionStorage.setItem('orderNumber', num);
+  //     navigate('/Confirmation');
+  //     GetCountAPI().then((res) => {
+  //       
+  //       setCartCountVal(res?.cartcount)
+  //     })
+
+  //   } else {
+  //     toast.error('Something went wrong!')
+  //   }
+  // }
+
+
   return (
-    <div className='ProCat_MainBGDiv'>
+    <div className='rJ_MainBGDiv'>
+      {isMobileScreen &&
+        <div className="rJ_cart-title">Cart</div>
+      }
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
-          <div className="procat_cart-title">My Cart</div>
-          {!isloding && cartData.length != 0 &&
-            <>
-              <div className="procat_cartButton-group">
-                {/* <button className="procat_cartBtn procat_cartActivebtn">List View</button> */}
-                {/* <button className='procat_cartBtn'>Image View</button> */}
-                {/* <button className='procat_cartBtn' onClick={handleRemoveAll}>Clear All</button> */}
-                <Link className='procat_ReomoveAllCartbtn' href="#" variant="body2" onClick={handleRemoveAllDialog} >
-                  Clear All
-                </Link>
-                {/* <button className='procat_cartBtn'>Show ProductList</button> */}
-
-                {/* <button className='procat_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button> */}
-                {multiSelect && selectedItems.length != 0 &&
-                  <button className='procat_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
-                }
-                <div className='smrProcat_placeOrderMobileMainbtnDiv'>
-                  <button className="smrProcat_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
-                </div>
-              </div>
-              <div className='procat_placeOrderMainbtnDiv'>
-                <button className="procat_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
-              </div>
-            </>
+          {!isloding && cartData.length !== 0 &&
+            <div className='rJ_cartButton-groups'>
+              <Link
+                className='rJ_ReomoveAllCartbtn'
+                variant="body2"
+                onClick={handleRemoveAllDialog}
+              >
+                Clear All
+              </Link>
+            </div>
+          }{!isMobileScreen &&
+            <div className="rJ_cart-title">My Cart</div>
+          }
+          {!isloding && cartData.length !== 0 &&
+            <div className='rJ_placeOrderMainbtnDivs'>
+              <button onClick={handlePlaceOrder}>Place Order</button>
+            </div>
           }
         </div>
         {!isloding ? (
           <>
-            {cartData.length !== 0 ? (
-              <div className="procat_cartMainPage">
-                <div className="procat_cart-left-side">
+            <div style={{ marginLeft: '35px' }}>
+              {multiSelect &&
+                <FormControlLabel
+                  control={<Checkbox
+                    sx={{
+                      color: "rgba(125, 127, 133, 0.4) !important",
+                    }}
+                  />}
+                  label="Select All"
+                  checked={isSelectedAll()}
+                  onChange={handleSelectAll}
+                  sx={{
+                    color: "rgba(125, 127, 133, 0.4)",
+                  }}
+                />
+              }
+            </div>
+            {!isloding && cartData.length != 0 ? (
+              <div className="rJ_cartMainPage">
+                <div className="rJ_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -167,11 +224,12 @@ const CartPage = () => {
                     handleRemarkChange={handleRemarkChange}
                     handleSave={handleSave}
                     handleCancel={handleCancel}
+                    openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="procat_cart-right-side">
+                <div className="rJ_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='procat_pc-cartDetail'>
+                    <div className='rJ_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -196,7 +254,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='procat_mobile-cartDetails'>
+                    <div className='rJ_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -232,29 +290,24 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='procat_noWishlistData'>
-                <p className='procat_title'>No Data Found!</p>
-                <p className='procat_desc'>Please First Add Data in cart</p>
-                <button className='procat_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='rJ_noCartlistData'>
+                <p className='rJ_title'>No Data Found!</p>
+                <p className='rJ_desc'>Please First Add Product in Cart</p>
+                <button className='rJ_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
         ) :
           <CartPageSkeleton />
         }
-
         <ConfirmationDialog
           open={dialogOpen}
           onClose={handleCloseDialog}
           onConfirm={handleConfirmRemoveAll}
-          title="Remove Item"
-          content="Are you sure you want to remove all Item?"
+          title="Confirm"
+          content="Are you sure you want to remove all Items?"
         />
 
-        <Footer />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
       </div>
     </div>
   );

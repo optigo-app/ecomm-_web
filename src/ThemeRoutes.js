@@ -53,14 +53,15 @@ export default function ThemeRoutes() {
       } else {
         setCompanyTitleLogo(logo?.companylogo);
       }
-      dt_setCompanyTitleLogo(logo?.companylogo);
+      dt_setCompanyTitleLogo(logo?.companylogo);          
       el_setCompanyTitleLogo(logo?.companylogo);
     }
    
     if (!SessionData) {
       Storeinit()
         .then((response) => {
-          if (response.status === 200) {
+          if (response.status === 200 && response?.data?.Data) {
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
@@ -119,7 +120,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(6);
     }
     // .finally(() => setLoading(false));
   }, []);
@@ -197,8 +198,7 @@ export default function ThemeRoutes() {
           <link rel="manifest" href={favicon} />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          />
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         </Helmet>
       </div>
 
