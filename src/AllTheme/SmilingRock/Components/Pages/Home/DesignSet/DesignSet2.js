@@ -124,6 +124,14 @@ const DesignSet2 = () => {
       swiper.slideNext();
     }
   };
+
+  const handleNavigate = (e) => {
+    if (e.button === 0 && !e.metaKey && !e.ctrlKey) {
+      e.preventDefault();
+      navigate('/Lookbook');
+    }
+  };
+
   return (
     <>
       <div className="smr_DesignSet2MainDiv">
@@ -131,9 +139,11 @@ const DesignSet2 = () => {
           <>
             <div className='smr_DesignSetTitleDiv'>
               <p className='smr1_desognSetTitle'>COMPLETE YOUR LOOK
-                <Link href="/Lookbook" className='smr_designSetViewmoreBtn'>
-                  VIEW MORE
-                </Link>
+                <span onClick={(e) => handleNavigate(e)}>
+                  <a href="/Lookbook" className='smr_designSetViewmoreBtn'>
+                    VIEW MORE
+                  </a>
+                </span>
               </p>
             </div>
             {/* <Swiper

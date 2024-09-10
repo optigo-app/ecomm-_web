@@ -22,7 +22,7 @@ const CartList = ({
   handleCancel,
   handleMoveToDetail
 }) => {
-  console.log('itemgsgdhas-', items);
+
   const [storeInitData, setStoreInitData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
@@ -37,7 +37,6 @@ const CartList = ({
 
   const handlePlaceOrder = () => {
     let priceData = items.reduce((total, item) => total + item.FinalCost, 0)
-    console.log("TotalPriceData",items)
     sessionStorage.setItem('TotalPriceData', priceData)
     navigate("/payment")
     window.scrollTo(0, 0);

@@ -70,7 +70,6 @@ const CartPage = () => {
     setSnackbarOpen(false);
   };
 
-  console.log('selected--', selectedItem);
   return (
     <div className='smrMo_MainBGDiv'>
       <div className='smrMo_cartMainPageDiv'>

@@ -24,7 +24,6 @@ export const getSizeData = async (item, visiterId) => {
         p: encodedCombinedValue,
         dp:combinedValue
       };
-      console.log('itskfnjn', item);
       const response = await CommonAPI(body);
       return response
     } catch (error) {

@@ -44,7 +44,6 @@ export const fetchSingleProdDT = async (selectedItem, sizedata, diaId, csQid, se
             DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
 
-        console.log('prjdkkjf', combinedValue);
 
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

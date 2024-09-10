@@ -79,7 +79,6 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
     setIsSelectedItems()
   }
 
@@ -112,9 +111,6 @@ const CartItem = ({
   }, [item]);
 
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
-
-  console.log("diamondData", diamondData)
-
 
 
   return (

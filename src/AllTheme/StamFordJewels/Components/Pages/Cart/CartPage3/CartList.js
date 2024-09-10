@@ -21,7 +21,6 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-  console.log('itemgsgdhas-', items);
 
   return (
     <div className="stmpf_RightCartList">

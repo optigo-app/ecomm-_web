@@ -20,6 +20,7 @@ import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction
 
 const Payment = () => {
   const [isloding, setIsloding] = useState(false);
+  const [isPloding, setIsPloding] = useState(false);
   const navigate = useNavigate();
   const [countData, setCountData] = useState();
   const [selectedAddrData, setSelectedAddrData] = useState();
@@ -28,6 +29,7 @@ const Payment = () => {
   const [finalTotal, setFinlTotal] = useState();
   const [CurrencyData, setCurrencyData] = useState();
   const [taxAmmount, setTaxAmount] = useState();
+  const [storeInit, setStoreInit] = useState();
 
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const islogin = useRecoilValue(Hoq_loginState);
@@ -52,6 +54,7 @@ const Payment = () => {
     const orderRemakdata = sessionStorage.getItem("orderRemark");
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    setStoreInit(storeInit)
     setOrderRemark(orderRemakdata);
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData?.CurrencyCode);
@@ -66,7 +69,7 @@ const Payment = () => {
 
   // useEffect(() => {
   //     const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-  //     console.log('selectedAddressData', selectedAddressData);
+  //    
   //     setSelectedAddrData(selectedAddressData)
 
   //     const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -81,6 +84,7 @@ const Payment = () => {
   // }, [])
 
   useEffect(() => {
+    setIsPloding(true);
     const fetchData = async () => {
       try {
         const texData = await fetchEstimateTax();
@@ -89,6 +93,8 @@ const Payment = () => {
         }
       } catch (error) {
         console.error("Error fetching tax data:", error);
+      } finally {
+        setIsPloding(false);
       }
 
       const selectedAddressData = JSON.parse(
@@ -112,7 +118,7 @@ const Payment = () => {
     const visiterId = Cookies.get("visiterId");
     setIsloding(true);
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    console.log("paymentResponse", paymentResponse);
+
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno;
       sessionStorage.setItem("orderNumber", num);
@@ -129,7 +135,7 @@ const Payment = () => {
     }
   };
 
-  const handleOrderRemarkChange = () => {};
+  const handleOrderRemarkChange = () => { };
   const handleOrderRemarkFun = async () => {
     try {
       const response = await handleOrderRemark(orderRemark);
@@ -188,46 +194,48 @@ const Payment = () => {
               </div>
             </div>
             <div className="hoqMo_paymentDetailRightSideContent">
-              <div className="hoqMo_orderSummary">
-                <h3>Order Summary</h3>
-                <div className="hoq_paymenttotalpricesummary">
-                  <p>Subtotal</p>
-                  <p>
-                    <span
-                      className="hoq_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(CurrencyData),
-                      }}
-                    />&nbsp;
-                    {formatter(finalTotal)}
-                  </p>
+              {storeInit?.IsPriceShow == 1 &&
+                <div className="hoqMo_orderSummary">
+                  <h3>Order Summary</h3>
+                  <div className="hoq_paymenttotalpricesummary">
+                    <p>Subtotal</p>
+                    <p>
+                      <span
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(CurrencyData),
+                        }}
+                      />&nbsp;
+                      {formatter(finalTotal)}
+                    </p>
+                  </div>
+                  <div className="hoq_paymenttotalpricesummary">
+                    <p className="">Estimated Tax</p>
+                    <p>
+                      <span
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(CurrencyData),
+                        }}
+                      />&nbsp;
+                      {formatter(taxAmmount)}
+                    </p>
+                  </div>
+                  <Divider className="hoqMo_Divider" />
+                  <div className="hoq_paymenttotalpricesummary">
+                    <p>Estimated Total</p>
+                    <p>
+                      <span
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(CurrencyData),
+                        }}
+                      />&nbsp;
+                      {formatter((taxAmmount + finalTotal).toFixed(0))}
+                    </p>
+                  </div>
                 </div>
-                <div className="hoq_paymenttotalpricesummary">
-                  <p className="">Estimated Tax</p>
-                  <p>
-                    <span
-                      className="hoq_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(CurrencyData),
-                      }}
-                    />&nbsp;
-                    {formatter(taxAmmount)}
-                  </p>
-                </div>
-                <Divider className="hoqMo_Divider" />
-                <div className="hoq_paymenttotalpricesummary">
-                  <p>Estimated Total</p>
-                  <p>
-                    <span
-                      className="hoq_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(CurrencyData),
-                      }}
-                    />&nbsp;
-                    {formatter((taxAmmount + finalTotal).toFixed(0))}
-                  </p>
-                </div>
-              </div>
+              }
               <div className="shippingAddress">
                 <div className="hoqMo_addrChangesBtn">
                   <h3>Shipping Address</h3>

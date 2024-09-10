@@ -66,7 +66,6 @@ const Cart = ({
     } else {
       navigate("/Delivery")
       let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0);
-      console.log("TotalPriceData", items)
       sessionStorage.setItem('TotalPriceData', priceData)
       closeDrawer();
     }
