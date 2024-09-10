@@ -388,6 +388,16 @@ const NewOrderHistoryElvee = () => {
                                       </>
                                     )}
                                     { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal fs_head_acc2`} label={e?.OrderStatusName === '' ? 'Retailer Approval Pending' : e?.OrderStatusName} />}
+                                    <div className="">
+                                  { e?.IsPLW === 1 ?
+                                    <>
+                                      <div className="center_noh" style={{padding:'0px', margin:'0px', width:'70px'}}><PrintIcon size="small" onClick={() => handlePrintOH(e?.id)}  /></div>
+                                    </>
+                                    : ''
+                                  }
+                                  { showPrint ? <div className="center_noh" style={{ fontSize:'7px', lineHeight:'7px'}}>{clickedPrintId === e?.id && 'Coming Soon...'}</div> : <div></div>}  
+
+                                </div>
                                     </div>
                                   </div>
                                   <MoreVertIcon className="_color2 p-0" onClick={() => handleToggleActions(e.id)} />

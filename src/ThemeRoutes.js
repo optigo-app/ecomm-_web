@@ -62,7 +62,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
@@ -120,7 +120,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(6);
+      setThemeNo(3);
     }
     // .finally(() => setLoading(false));
   }, []);
