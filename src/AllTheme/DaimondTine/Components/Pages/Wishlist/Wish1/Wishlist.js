@@ -9,7 +9,7 @@ import SkeletonLoader from "./WishlistSkelton";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { dt_CartCount, dt_WishCount } from '../../../Recoil/atom';
-import ConfirmationDialog from "../../ConfirmationDialog.js/ConfirmationDialog";
+import ConfirmationDialog from "../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog";
 import Cookies from "js-cookie";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 

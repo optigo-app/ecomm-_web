@@ -178,7 +178,7 @@ const CartItem = ({
                 </>
               }
             </div>
-            <div style={{ display: 'flex' }}>
+            <div className="for_sizeDiv" style={{ display: 'flex' }}>
               <p className='for_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
               {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
                 <p className='for_ringSize'>Size: {item?.Size}</p>

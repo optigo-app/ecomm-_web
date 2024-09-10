@@ -11,6 +11,8 @@ export const Storeinit = async (param) => {
     || window.location.hostname === 'fgstorepro.mapp'
     || window.location.hostname === 'fgstore.pro'
     || window.location.hostname === 'fgstore.plw'
+    || window.location.hostname === 'malakan.web'
+    || window.location.hostname === 'rpjewel.web'
 
     || window.location.hostname === 'hdstore.web'
     || window.location.hostname === 'hdstore.mapp'
@@ -28,11 +30,12 @@ export const Storeinit = async (param) => {
 
   const header = {
     Authorization: 'Bearer optigo_json_api',
-    domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'hoq.web' : window.location.hostname,
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'hoq.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.plw' : window.location.hostname,
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'diamondtine.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
-    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
     domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro' : window.location.hostname,
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'malakan.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'demostore' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'developerstore' : window.location.hostname,

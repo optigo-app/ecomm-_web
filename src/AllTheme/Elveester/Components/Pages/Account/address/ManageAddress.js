@@ -5,10 +5,10 @@ import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
 import { defaultAddressState } from '../../../Recoil/atom';
 import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const ManageAddress = () => {
@@ -73,6 +73,7 @@ const ManageAddress = () => {
 
             if(args === 'edit'){
                 setIsEditMode(true);
+                setTimeout(() => {setIsEditMode(true);}, 0)
             }else{
                 setIsEditMode(false);
             }
@@ -446,7 +447,7 @@ const ManageAddress = () => {
                 />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"

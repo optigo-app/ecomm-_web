@@ -8,7 +8,7 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
         const UserEmail = sessionStorage.getItem("registerEmail")
 
         console.log('jbjasd--', updatedItems, metalID, metalCOLORID, diaIDData, colorStoneID, sizeId, markupData, finalPrice, finalPriceWithMarkup);
-        
+
         const combinedValue = JSON.stringify({
             ForEvt: "Cart",
             FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -25,10 +25,11 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "Unitcost": `${updatedItems?.FinalCost ?? 0}`,
                     "markup": `${updatedItems?.SizeMarkUp ?? 0}`,
                     "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`
-                }]
+                }],
+            DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
         const encodedCombinedValue = btoa(combinedValue);
-        console.log('combinedValue',combinedValue);
+        console.log('combinedValue', combinedValue);
         const body = {
             con: `{\"id\":\"\",\"mode\":\"CartCustomize\",\"appuserid\":\"${UserEmail ?? ""}\"}`,
             f: "header (handleUpdateCart)",

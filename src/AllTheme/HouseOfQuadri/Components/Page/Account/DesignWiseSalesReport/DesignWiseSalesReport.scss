@@ -93,3 +93,16 @@
 /* .designWiseSalesReportProduct *{
     font-size: 14px !important;
 } */
+
+
+.w100_dwsr{
+    width: 100% !important;
+}
+.w100dwsr{
+    width: 100% !important;
+}
+@media screen and (max-width:320px), (max-width:320px){
+    .w100dwsr{
+        width: 95% !important;
+    }   
+}

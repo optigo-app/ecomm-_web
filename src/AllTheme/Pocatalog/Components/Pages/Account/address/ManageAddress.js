@@ -5,10 +5,10 @@ import StayPrimaryPortraitIcon from '@mui/icons-material/StayPrimaryPortrait';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
-import ConfirmationDialog from '../../ConfirmationDialog.js/ConfirmationDialog';
 import { useSetRecoilState } from 'recoil';
 import { defaultAddressState } from '../../../Recoil/atom';
 import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const ManageAddress = () => {
@@ -39,7 +39,6 @@ const ManageAddress = () => {
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
     };
-
     const handleDeleteAddressBtn = async () => {
         try {
             setOpenDelete(false);
@@ -68,10 +67,10 @@ const ManageAddress = () => {
         }
     }
     const handleOpen = (item, addressIndex = null, args) => {
-                console.log(item, addressIndex, args);
 
             if(args === 'edit'){
                 setIsEditMode(true);
+                setTimeout(() => {setIsEditMode(true);}, 0)
             }else{
                 setIsEditMode(false);
             }
@@ -217,7 +216,6 @@ const ManageAddress = () => {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
-
     const handleInputChange = (e, fieldName) => {
         const { value } = e.target;
         setFormData((prevData) => ({
@@ -233,9 +231,6 @@ const ManageAddress = () => {
             [fieldName]: error
         }));
     };
-
-
-    
     const handleClose = () => {
         setFormData({
             firstName: '',
@@ -252,16 +247,11 @@ const ManageAddress = () => {
         setIsEditMode(false);
         setOpen(false);
     };
-
-
     const loginDetail = () => {
         const storedData = sessionStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
         return { id: data.id, email: data.userid }
     }
-
- 
-
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
         try {
@@ -289,7 +279,6 @@ const ManageAddress = () => {
         }
 
     };
-
     const fetchData = async () => {
 
         try {
@@ -340,11 +329,9 @@ const ManageAddress = () => {
         }
 
     };
-
     useEffect(() => {
         fetchData();
     }, []);
-
     const handleCloseDialog = () => {
         setOpenDelete(false);
     }
@@ -371,6 +358,7 @@ const ManageAddress = () => {
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}
                 >
                     {
                         isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
@@ -447,14 +435,14 @@ const ManageAddress = () => {
                     content="Are you sure you want to delete address?"
                 />
                 <Dialog open={open} onClose={handleClose} >
-                    <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                    <div className='smilingAddressPopupMain_Procat'>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.firstName}
                                 onChange={(e) => handleInputChange(e, 'firstName')}
@@ -465,7 +453,7 @@ const ManageAddress = () => {
                                 id="lastName"
                                 label="Last Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.lastName}
                                 onChange={(e) => handleInputChange(e, 'lastName')}
@@ -476,7 +464,7 @@ const ManageAddress = () => {
                                 id="address"
                                 label="Address"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.address}
                                 onChange={(e) => handleInputChange(e, 'address')}
@@ -487,7 +475,7 @@ const ManageAddress = () => {
                                 id="country"
                                 label="Country"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.country}
                                 onChange={(e) => handleInputChange(e, 'country')}
@@ -498,7 +486,7 @@ const ManageAddress = () => {
                                 id="state"
                                 label="State"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.state}
                                 onChange={(e) => handleInputChange(e, 'state')}
@@ -509,7 +497,7 @@ const ManageAddress = () => {
                                 id="city"
                                 label="City"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.city}
                                 onChange={(e) => handleInputChange(e, 'city')}
@@ -520,7 +508,7 @@ const ManageAddress = () => {
                                 id="zipCode"
                                 label="ZIP Code"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.zipCode}
                                 onChange={(e) => handleInputChange(e, 'zipCode')}
@@ -531,7 +519,7 @@ const ManageAddress = () => {
                                 id="mobileNo"
                                 label="Mobile No."
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_Procat"
                                 style={{ margin: '15px' }}
                                 value={formData.mobileNo}
                                 onChange={(e) => handleInputChange(e, 'mobileNo')}

@@ -117,7 +117,7 @@ export default function Account() {
                     {/* <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p> */}
                     <div className='sticky_header_web_sm_procat'>
                         <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
-                        <div className='smlingAccountTabWebView yourAccount d_none_acc' >
+                        <div className='smlingAccountTabWebView_Procat yourAccount d_none_acc' >
                                     <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} />
@@ -132,7 +132,7 @@ export default function Account() {
                                         {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                     </Box>
                         </div>
-                        <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount'>
+                        <div className='smlingAccountTabMobileView_Procat YourAccountPageTabs yourAccount'>
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                         <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                             <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
@@ -142,7 +142,7 @@ export default function Account() {
                                             <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
                                             {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                             {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                            <Tab label="Log Out" onClick={handleLogout} />
+                                            {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                                         </Tabs>
                                         {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                     </Box>
@@ -193,7 +193,7 @@ export default function Account() {
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage_Procat">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
                                     sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
@@ -246,13 +246,10 @@ export default function Account() {
     )
 }
 
-// import React from 'react'
-
-
-// const Account = () => {
-//   return (
-//     <div>Account</div>
-//   )
-// }
-
-// export default Account
+//account mobile view icons
+// import AccountBoxIcon from '@mui/icons-material/AccountBox'; - Your Profile
+// import ListAltIcon from '@mui/icons-material/ListAlt'; - Order History
+// import HomeIcon from '@mui/icons-material/Home'; - Manage Address
+// import LockResetIcon from '@mui/icons-material/LockReset'; - change password
+// import SummarizeIcon from '@mui/icons-material/Summarize'; -  Accounts
+// import ShieldIcon from '@mui/icons-material/Shield'; - PLW

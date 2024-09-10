@@ -139,31 +139,49 @@ const ProductDetail = () => {
   }, [singleProd]);
 
   const handleCart = (cartflag) => {
+
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
     let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
+      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] 
+      // ??
+      // metalTypeCombo[0];
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
+      )
+      // ?? 
+      // diaQcCombo[0];
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      )
+      // ?? 
+      // csQcCombo[0];
+      
+    // let mcArr = metalColorCombo?.filter(
+    //   (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
+    // )[0];
+
     let mcArr = metalColorCombo?.filter(
-      (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
-    )[0];
+      (ele) => {
+        if (selectMtColor) {
+          return ele?.colorcode == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.Metalid ? metal?.Metalid : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: dia?.length ? `${dia[0]?.QualityId},${dia[0]?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
+      CsQCid: cs?.length ? `${cs?.QualityId},${cs?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid),
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -295,34 +313,33 @@ const ProductDetail = () => {
         let diaArr
         let csArr
 
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
 
-
-
-        setSelectMtType(metalArr?.metaltype);
+        setSelectMtType(metalArr?.metaltype)
 
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
 
@@ -544,6 +561,7 @@ const ProductDetail = () => {
     let navVal = location?.search.split("?p=")[1];
 
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let decodeobj = decodeAndDecompress(navVal);
     let alName = ''
@@ -568,7 +586,7 @@ const ProductDetail = () => {
       metalArr =
         mtTypeLocal?.filter(
           (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid ?? mtTypeLocal[0]?.Metalid;
+        )[0]?.Metalid 
     }
 
     if (diaQcLocal) {
@@ -577,7 +595,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] ?? "0,0";
+        )[0] 
     }
 
     if (csQcLocal) {
@@ -586,22 +604,28 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] ?? "0,0"
+        )[0] 
     }
 
-    const FetchProductData = async() =>{
+    const FetchProductData = async () => {
 
-      let obj={
-        mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+      // let obj={
+      //   mt: metalArr,
+      //   diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+      //   csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
+      // }
+
+      let obj = {
+        mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+        csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       }
 
       setProdLoading(true)
 
       setisPriceLoading(true)
 
-      await SingleProdListAPI(decodeobj, sizeData, obj, cookie , alName)
+      await SingleProdListAPI(decodeobj, sizeData, obj, cookie, alName)
         .then(async (res) => {
           if (res) {
 
@@ -634,6 +658,8 @@ const ProductDetail = () => {
               ? prod?.DefaultSize
               : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
                 ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
+            
+                console.log("initialsize",initialsize);
 
             setSizeData(initialsize)
 
@@ -1186,9 +1212,9 @@ const ProductDetail = () => {
     }
 
     let obj = {
-      mt: metalArr,
-      diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-      csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+      mt: metalArr ?? 0,
+      diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
+      csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
     }
 
     let prod = {
@@ -1270,8 +1296,8 @@ const ProductDetail = () => {
                       >
                         {(selectedThumbImg?.type == "img") ? (
                           <img
-                          src={selectedThumbImg?.link}
-                          // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            src={selectedThumbImg?.link}
+                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
                             onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
@@ -1281,7 +1307,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="smr_prod_video">
                             <video
-                             src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1542,7 +1568,8 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {storeInit?.IsPriceBreakUp == 1 && (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
+                        {storeInit?.IsPriceShow == 1 && (
+                          storeInit?.IsPriceBreakUp == 1 &&
                           <Accordion
                             elevation={0}
                             sx={{
@@ -1584,29 +1611,9 @@ const ProductDetail = () => {
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: "4px",
-                                // minHeight: "fit-content",
-                                // maxHeight: "300px",
-                                // overflow: "auto",
                                 padding: '0 0 16px 0',
-
                               }}
                             >
-
-                              {/* <table>
-                                <tr>
-                                  <td><Typography>{(singleProd?.Metal_Cost).toFixed(3)}</Typography></td>
-                                  <td><Typography>Metal Amount</Typography></td>
-                                </tr>
-                                <tr>
-                                  <td><Typography>{(singleProd?.Diamond_Cost).toFixed(3)}</Typography></td>
-                                  <td><Typography>Diamond Amount</Typography></td>
-                                </tr>
-                                <tr>
-                                  <td><Typography>{(singleProd?.ColorStone_Cost).toFixed(3)}</Typography></td>
-                                  <td><Typography>Stone Amount</Typography></td>
-                                </tr>
-                              </table> */}
-
                               {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
                                 <span style={{ display: 'flex' }}>
@@ -1715,41 +1722,39 @@ const ProductDetail = () => {
 
                             </AccordionDetails>
                           </Accordion>
-                        )}
 
-                        {
-                          <div className="smr_price_portion">
-                            {isPriceloading ? (
-                              ""
-                            ) : (
-                              <span className="smr_currencyFont">
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                            )}
-                            &nbsp;
-                            {/* {PriceWithMarkupFunction(
-                        mtrd?.AB,
-                        finalprice,
-                        storeInit?.CurrencyRate
-                      )?.toFixed(2)} */}
-                            {isPriceloading ? (
-                              <Skeleton
-                                variant="rounded"
-                                width={140}
-                                height={30}
-                              />
-                            ) :
-                              formatter.format
-                              (
-                                singleProd1?.UnitCostWithMarkUp ??
-                                singleProd?.UnitCostWithMarkUp
-                              )
-                            }
-                            {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
-                          </div>
+                        )
                         }
 
-                        {prodLoading ?null:
+                        {
+                          storeInit?.IsPriceShow == 1 && (
+                            <div className="smr_price_portion">
+                              {isPriceloading ? (
+                                ""
+                              ) : (
+                                <span className="smr_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                              )}
+                              &nbsp;
+                              {isPriceloading ? (
+                                <Skeleton
+                                  variant="rounded"
+                                  width={140}
+                                  height={30}
+                                />
+                              ) :
+                                formatter.format
+                                  (
+                                    singleProd1?.UnitCostWithMarkUp ??
+                                    singleProd?.UnitCostWithMarkUp
+                                  )
+                              }
+                            </div>
+                          )
+                        }
+
+                        {prodLoading ? null :
                           <div>
 
                             <div className="Smr_CartAndWish_portion">
@@ -2422,7 +2427,7 @@ const ProductDetail = () => {
             <Footer />
           </div>
         </div>
-        <div className="smr_prodDetail_backtotop" style={{backgroundColor:'#f1e9dd',color:'black'}} onClick={() => {
+        <div className="smr_prodDetail_backtotop" style={{ backgroundColor: '#f1e9dd', color: 'black' }} onClick={() => {
           window.scroll({
             top: 0,
             behavior: "auto",

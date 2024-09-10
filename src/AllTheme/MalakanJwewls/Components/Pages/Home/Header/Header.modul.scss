@@ -21,7 +21,7 @@
         justify-content: center;
     }
 
-    .mala_Top_header_sub{
+    .mala_Top_header_sub {
         position: relative;
         z-index: 111;
     }
@@ -52,7 +52,7 @@
         align-items: center;
         margin: 0px;
         padding: 0px;
-        gap: 20px;
+        gap: 60px;
     }
 
     .nav_li_smining_shop:hover {
@@ -73,13 +73,13 @@
 
     .nav_li_smining {
         color: white;
-        font-size: $fontSize2;
-        font-weight: 500;
+        font-size: $fontSize3;
+        font-weight: 600;
         letter-spacing: 1px;
         position: relative;
         display: inline-block;
         height: 50px;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
         display: flex;
         align-items: center;
     }

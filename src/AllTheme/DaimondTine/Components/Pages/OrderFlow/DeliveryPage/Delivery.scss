@@ -1,16 +1,15 @@
 @import '../../../scss/variable.scss';
 
-.dt_secondMaindivAdd {
-
-}
+.dt_secondMaindivAdd {}
 
 .dt_addMainDiv {
   margin-inline: 10%;
   padding-top: 80px;
 }
+
 @media (max-width: 800px) {
   .dt_addMainDiv {
-      margin-inline: 3%;
+    margin-inline: 3%;
   }
 }
 
@@ -18,7 +17,7 @@
   margin-bottom: 40px;
 }
 
-.dt_TitleDetailMainDiv{
+.dt_TitleDetailMainDiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,10 +85,11 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.dt_defualt_addrSelectedHide{
+.dt_defualt_addrSelectedHide {
   display: none !important;
 }
-.dt_addcardContentDiv{
+
+.dt_addcardContentDiv {
   margin-top: 10px;
 }
 
@@ -128,14 +128,20 @@
   }
 }
 
-.dt_dialogTitle{
+.dt_dialogTitle {
   color: $titleColor;
   font-weight: 500 !important;
   text-align: center;
 }
 
-.dt_AddNewAddrModalbtn{
-    margin-right: 20px;
+.dt_AddressMBtnGroup {
+  display: flex;
+  justify-content: end;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+
+  .dt_AddNewAddrModalbtn {
     height: 40px;
     width: 150px;
     font-family: $homePageFontFamily !important;
@@ -151,60 +157,69 @@
       color: $btn1bgColor;
       background-color: $btn1FontColor;
     }
-}
-.dt_Cancelbtn{
-  margin-right: 20px;
-  height: 40px;
-  width: 150px;
-  font-family: $homePageFontFamily !important;
-  font-size: $fontSize3;
-  color: $btn1FontColor;
-  background-color: $btn1bgColor;
-  border: 1px solid $btn1bgColor;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  }
 
-  &:hover {
-    color: $btn1bgColor;
-    background-color: $btn1FontColor;
+  .dt_Cancelbtn {
+    height: 40px;
+    width: 150px;
+    font-family: $homePageFontFamily !important;
+    font-size: $fontSize3;
+    color: $btn1FontColor;
+    background-color: $btn1bgColor;
+    border: 1px solid $btn1bgColor;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: $btn1bgColor;
+      background-color: $btn1FontColor;
+    }
   }
 }
 
-.dt_editDeleteBtngroup{
+.dt_editDeleteBtngroup {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
-  .dt_editIcon{
+
+  .dt_editIcon {
     font-size: 20px;
     color: $titleColor;
   }
-  .dt_DeleteIcon{
+
+  .dt_DeleteIcon {
     font-size: 20px;
     color: $titleColor
   }
 }
 
 @media (max-width: 999px) {
-  .dt_ActiveAddrCard, .dt_AddrCard {
+
+  .dt_ActiveAddrCard,
+  .dt_AddrCard {
     padding: 15px 0px 0px 0px !important;
   }
-  .dt_addcardGrid{
+
+  .dt_addcardGrid {
     margin-bottom: 0px !important;
     padding-top: 12px !important;
   }
-  .dt_AddressBtnGroup{
+
+  .dt_AddressBtnGroup {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    .dt_AddNewAddrModalbtn{
+
+    .dt_AddNewAddrModalbtn {
       margin-right: 0px;
       width: 100%;
       font-size: $fontSize2
     }
-    .dt_Cancelbtn{
+
+    .dt_Cancelbtn {
       margin-right: 0px;
       width: 100%;
       font-size: $fontSize2

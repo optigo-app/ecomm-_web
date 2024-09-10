@@ -27,6 +27,13 @@ import Cookies from 'js-cookie';
 import NewOrderHistoryHOQ from './AccountOrderHistory/NewOrderHistoryHOQ';
 
 
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import HomeIcon from '@mui/icons-material/Home';
+import LockResetIcon from '@mui/icons-material/LockReset';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import ShieldIcon from '@mui/icons-material/Shield';
+
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
     useEffect(() => {
@@ -132,8 +139,8 @@ export default function Account() {
             <div>
                 <div className='hoq-AccountMain'>
                     <div className='sticky_header_web_sm_hoq'>
-                        <p className='hoqAccountTitle youraccountpagesec'>Your Account</p>
-                        <div className='hoqAccountTabWebView hoq_main_head_none'>
+                        <p className='hoqAccountTitle youraccountpagesec' style={{height:'40px', margin:'0px', padding:'0px'}}>Your Account</p>
+                        <div className='hoqAccountTabWebView hoq_main_head_none' >
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} />
@@ -148,7 +155,7 @@ export default function Account() {
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
                         </div>
-                        <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount'>
+                        <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount ' style={{display:'none'}}>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                     <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
@@ -162,7 +169,23 @@ export default function Account() {
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
-                               
+                        </div>
+                        <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount'>    
+                            <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} 
+                                TabIndicatorProps={{
+                                    style: {
+                                    backgroundColor: 'black',
+                                    marginTop:'5px'  // This changes the underline color to black
+                                    }
+                                }} 
+                             style={{display:'flex', alignItems:'center', justifyContent:'center', width:'100%'}}>
+                                <Tab icon={<AccountBoxIcon titleAccess='Your Profile' />}  {...a11yProps(0)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                <Tab icon={<ListAltIcon titleAccess='Order History' />}  {...a11yProps(1)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                <Tab icon={<HomeIcon titleAccess='Manage Address' />} {...a11yProps(2)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                {accountValidation() && <Tab icon={<SummarizeIcon titleAccess='Accounts' />}  {...a11yProps(3)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
+                                <Tab icon={<LockResetIcon titleAccess='Change Password' {...a11yProps(accountValidation() ? 4 : 3)} />} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                { loginUSerDeatil?.IsPLWOn && <Tab icon={<ShieldIcon titleAccess='PLM' />} {...a11yProps(1)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
+                            </Tabs>
                         </div>
                     </div>
                     <div className='hoq-AccountTabMain'>
@@ -272,3 +295,12 @@ export default function Account() {
         </div>
     )
 }
+
+
+//account mobile view icons
+// import AccountBoxIcon from '@mui/icons-material/AccountBox'; - Your Profile
+// import ListAltIcon from '@mui/icons-material/ListAlt'; - Order History
+// import HomeIcon from '@mui/icons-material/Home'; - Manage Address
+// import LockResetIcon from '@mui/icons-material/LockReset'; - change password
+// import SummarizeIcon from '@mui/icons-material/Summarize'; -  Accounts
+// import ShieldIcon from '@mui/icons-material/Shield'; - PLW
