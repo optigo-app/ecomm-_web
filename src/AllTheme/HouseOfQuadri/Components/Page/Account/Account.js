@@ -169,16 +169,22 @@ export default function Account() {
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
-                               
                         </div>
                         <div className='hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount'>    
-                            <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} style={{display:'flex', alignItems:'center', justifyContent:'center', width:'100%'}}>
-                                <Tab icon={<AccountBoxIcon titleAccess='Your Profile' />}  {...a11yProps(0)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px'}} />
-                                <Tab icon={<ListAltIcon titleAccess='Order History' />}  {...a11yProps(1)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px'}} />
-                                <Tab icon={<HomeIcon titleAccess='Manage Address' />} {...a11yProps(2)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px'}} />
-                                {accountValidation() && <Tab icon={<SummarizeIcon titleAccess='Accounts' />}  {...a11yProps(3)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px'}} />}
-                                <Tab icon={<LockResetIcon titleAccess='Change Password' {...a11yProps(accountValidation() ? 4 : 3)} />} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px'}} />
-                                { loginUSerDeatil?.IsPLWOn && <Tab icon={<ShieldIcon titleAccess='PLM' />} {...a11yProps(1)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px'}} />}
+                            <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} 
+                                TabIndicatorProps={{
+                                    style: {
+                                    backgroundColor: 'black',
+                                    marginTop:'5px'  // This changes the underline color to black
+                                    }
+                                }} 
+                             style={{display:'flex', alignItems:'center', justifyContent:'center', width:'100%'}}>
+                                <Tab icon={<AccountBoxIcon titleAccess='Your Profile' />}  {...a11yProps(0)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                <Tab icon={<ListAltIcon titleAccess='Order History' />}  {...a11yProps(1)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                <Tab icon={<HomeIcon titleAccess='Manage Address' />} {...a11yProps(2)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                {accountValidation() && <Tab icon={<SummarizeIcon titleAccess='Accounts' />}  {...a11yProps(3)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
+                                <Tab icon={<LockResetIcon titleAccess='Change Password' {...a11yProps(accountValidation() ? 4 : 3)} />} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                { loginUSerDeatil?.IsPLWOn && <Tab icon={<ShieldIcon titleAccess='PLM' />} {...a11yProps(1)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
                             </Tabs>
                         </div>
                     </div>
