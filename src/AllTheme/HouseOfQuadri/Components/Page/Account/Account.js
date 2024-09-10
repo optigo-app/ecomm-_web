@@ -33,6 +33,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import ShieldIcon from '@mui/icons-material/Shield';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -163,8 +165,8 @@ export default function Account() {
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
                                         {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
@@ -181,8 +183,8 @@ export default function Account() {
                              style={{display:'flex', alignItems:'center', justifyContent:'center', width:'100%'}}>
                                 <Tab icon={<AccountBoxIcon titleAccess='Your Profile' />}  {...a11yProps(0)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
                                 <Tab icon={<ListAltIcon titleAccess='Order History' />}  {...a11yProps(1)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
-                                <Tab icon={<HomeIcon titleAccess='Manage Address' />} {...a11yProps(2)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
-                                {accountValidation() && <Tab icon={<SummarizeIcon titleAccess='Accounts' />}  {...a11yProps(3)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
+                                <Tab icon={<PersonPinIcon titleAccess='Manage Address' />} {...a11yProps(2)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
+                                {accountValidation() && <Tab icon={<AutoStoriesIcon titleAccess='Accounts' />}  {...a11yProps(3)} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
                                 <Tab icon={<LockResetIcon titleAccess='Change Password' {...a11yProps(accountValidation() ? 4 : 3)} />} style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />
                                 { loginUSerDeatil?.IsPLWOn && <Tab icon={<ShieldIcon titleAccess='PLM' />} {...a11yProps(1)}  style={{minWidth:'16.66%', display:'flex', justifyContent:'center', alignItems:'center', padding:'2px', height:'30px'}} />}
                             </Tabs>
