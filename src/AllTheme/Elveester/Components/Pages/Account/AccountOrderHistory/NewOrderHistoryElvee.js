@@ -396,7 +396,6 @@ const NewOrderHistoryElvee = () => {
                                     : ''
                                   }
                                   { showPrint ? <div className="center_noh" style={{ fontSize:'7px', lineHeight:'7px'}}>{clickedPrintId === e?.id && 'Coming Soon...'}</div> : <div></div>}  
-
                                 </div>
                                     </div>
                                   </div>
