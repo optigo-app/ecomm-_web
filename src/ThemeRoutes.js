@@ -53,7 +53,7 @@ export default function ThemeRoutes() {
       } else {
         setCompanyTitleLogo(logo?.companylogo);
       }
-      dt_setCompanyTitleLogo(logo?.companylogo);
+      dt_setCompanyTitleLogo(logo?.companylogo);          
       el_setCompanyTitleLogo(logo?.companylogo);
     }
    
@@ -120,7 +120,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(6);
     }
     // .finally(() => setLoading(false));
   }, []);
