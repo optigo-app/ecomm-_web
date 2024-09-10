@@ -33,6 +33,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import ShieldIcon from "@mui/icons-material/Shield";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
