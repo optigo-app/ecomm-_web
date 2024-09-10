@@ -2,11 +2,12 @@
 
 .hoq_Stockitems {
   width: 100%;
-  margin-top: 2.5rem;
+  margin-top: 0rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  margin-bottom: 2rem;
   .hoq_stockItem_div {
     display: flex;
     justify-content: center;

@@ -3172,7 +3172,9 @@ const ProductList = () => {
                                           In memo
                                         </span>
                                       ) : (
-                                        ""
+                                        <span className="proCat_app_Make_to_order">
+                                          Make To Order
+                                        </span>
                                       )}
 
                                       {/* {productData?.StatusId == 1 && (

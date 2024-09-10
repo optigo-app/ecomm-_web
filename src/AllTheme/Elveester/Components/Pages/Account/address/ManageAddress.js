@@ -73,6 +73,7 @@ const ManageAddress = () => {
 
             if(args === 'edit'){
                 setIsEditMode(true);
+                setTimeout(() => {setIsEditMode(true);}, 0)
             }else{
                 setIsEditMode(false);
             }
@@ -446,7 +447,7 @@ const ManageAddress = () => {
                 />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"

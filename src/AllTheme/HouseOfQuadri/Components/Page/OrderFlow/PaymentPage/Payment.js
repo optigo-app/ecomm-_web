@@ -48,7 +48,6 @@ const Payment = () => {
     handleOrderRemarkFun(orderRemark);
     handleClose();
   };
-  console.log("orderreamrk", orderRemark);
 
   useEffect(() => {
     const orderRemakdata = sessionStorage.getItem("orderRemark");
@@ -100,7 +99,6 @@ const Payment = () => {
       const selectedAddressData = JSON.parse(
         sessionStorage.getItem("selectedAddressId")
       );
-      console.log("selectedAddressData", selectedAddressData);
       setSelectedAddrData(selectedAddressData);
 
       const totalPriceData = sessionStorage.getItem("TotalPriceData");
@@ -126,7 +124,6 @@ const Payment = () => {
       setIsloding(false);
 
       GetCountAPI().then((res) => {
-        console.log("responseCount", res);
         setCountData(res);
         setCartCountVal(res?.cartcount);
       });

@@ -193,7 +193,7 @@ export default function Account() {
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage_Procat">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
                                     sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
@@ -246,13 +246,10 @@ export default function Account() {
     )
 }
 
-// import React from 'react'
-
-
-// const Account = () => {
-//   return (
-//     <div>Account</div>
-//   )
-// }
-
-// export default Account
+//account mobile view icons
+// import AccountBoxIcon from '@mui/icons-material/AccountBox'; - Your Profile
+// import ListAltIcon from '@mui/icons-material/ListAlt'; - Order History
+// import HomeIcon from '@mui/icons-material/Home'; - Manage Address
+// import LockResetIcon from '@mui/icons-material/LockReset'; - change password
+// import SummarizeIcon from '@mui/icons-material/Summarize'; -  Accounts
+// import ShieldIcon from '@mui/icons-material/Shield'; - PLW

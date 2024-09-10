@@ -261,19 +261,20 @@ export default function Register() {
         .then((response) => {
           setIsLoading(false);
           if (response.Data.rd[0].stat === 1) {
-            sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem(
-              "loginUserDetail",
-              JSON.stringify(response.Data?.rd[0])
-            );
-            setIsLoginState(true);
-            sessionStorage.setItem("registerEmail", email);
+            navigation("/ContinueWithEmail/");
+            // sessionStorage.setItem("LoginUser", true);
+            // sessionStorage.setItem(
+            //   "loginUserDetail",
+            //   JSON.stringify(response.Data?.rd[0])
+            // );
+            // setIsLoginState(true);
+            // sessionStorage.setItem("registerEmail", email);
 
-            if (redirectEmailUrl) {
-              navigation(redirectEmailUrl);
-            } else {
-              navigation("/");
-            }
+            // if (redirectEmailUrl) {
+            //   navigation(redirectEmailUrl);
+            // } else {
+            //   navigation("/");
+            // }
           } else {
             if (response.Data?.rd[0].ismobileexists === 1) {
               errors.mobileNo = response.Data.rd[0].stat_msg;

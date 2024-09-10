@@ -19,7 +19,6 @@ const WishlistData = ({
   StoreInit
 }) => {
 
-  console.log('itemLength', items?.length);
 
   return (
     <div className="hoq_WlListData">

@@ -20,7 +20,7 @@ const ContactForm = () => {
   const handleformsubmit = (e) => {
     e.preventDefault();
     try {
-      console.log(form);
+    
       toast.success(`Submitted Successfully! `);
       setform({
         name: "",

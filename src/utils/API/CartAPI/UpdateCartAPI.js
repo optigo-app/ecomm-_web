@@ -25,7 +25,8 @@ export const updateCartAPI = async (updatedItems, metalID, metalCOLORID, diaIDDa
                     "Unitcost": `${updatedItems?.FinalCost ?? 0}`,
                     "markup": `${updatedItems?.SizeMarkUp ?? 0}`,
                     "UnitCostWithmarkup": `${updatedItems?.UnitCostWithMarkUp ?? 0}`
-                }]
+                }],
+            DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
         const encodedCombinedValue = btoa(combinedValue);
         const body = {

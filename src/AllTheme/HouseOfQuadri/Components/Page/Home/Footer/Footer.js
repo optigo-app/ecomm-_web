@@ -59,13 +59,11 @@ const Footer = () => {
         redirect: "follow",
       };
       const newsletterUrl = `${newslater}${email}`;
-      console.log("newsletterUrl: ", newsletterUrl);
       await fetch(newsletterUrl, requestOptions)
         .then((response) => {
           response.text();
-          console.log(response);
         })
-        .then((result) => console.log(result))
+        .then((result) =>result)
         .catch((error) => console.error(error));
     }
   };
@@ -91,7 +89,7 @@ const Footer = () => {
 
 const About = () => {
   return (
-    <div className="footer-section">
+    <div className="footer-section about-hoq">
       <h4>ABOUT</h4>
       <ul>
         {/* <li>

@@ -39,7 +39,6 @@ const ManageAddress = () => {
     const handleDefault = (event) => {
         setDefaultAdd(event.target.value);
     };
-
     const handleDeleteAddressBtn = async () => {
         try {
             setOpenDelete(false);
@@ -68,10 +67,10 @@ const ManageAddress = () => {
         }
     }
     const handleOpen = (item, addressIndex = null, args) => {
-                console.log(item, addressIndex, args);
 
             if(args === 'edit'){
                 setIsEditMode(true);
+                setTimeout(() => {setIsEditMode(true);}, 0)
             }else{
                 setIsEditMode(false);
             }
@@ -217,7 +216,6 @@ const ManageAddress = () => {
             setIsLoading(false); // Ensure loading state is reset, regardless of success or failure
         }
     };
-
     const handleInputChange = (e, fieldName) => {
         const { value } = e.target;
         setFormData((prevData) => ({
@@ -233,9 +231,6 @@ const ManageAddress = () => {
             [fieldName]: error
         }));
     };
-
-
-    
     const handleClose = () => {
         setFormData({
             firstName: '',
@@ -252,16 +247,11 @@ const ManageAddress = () => {
         setIsEditMode(false);
         setOpen(false);
     };
-
-
     const loginDetail = () => {
         const storedData = sessionStorage.getItem('loginUserDetail');
         const data = JSON.parse(storedData);
         return { id: data.id, email: data.userid }
     }
-
- 
-
     const handleDefaultSelection = async (addressId) => {
         setIsLoading(true);
         try {
@@ -289,7 +279,6 @@ const ManageAddress = () => {
         }
 
     };
-
     const fetchData = async () => {
 
         try {
@@ -340,11 +329,9 @@ const ManageAddress = () => {
         }
 
     };
-
     useEffect(() => {
         fetchData();
     }, []);
-
     const handleCloseDialog = () => {
         setOpenDelete(false);
     }
@@ -448,8 +435,8 @@ const ManageAddress = () => {
                     content="Are you sure you want to delete address?"
                 />
                 <Dialog open={open} onClose={handleClose} >
-                    <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                    <div className='smilingAddressPopupMain_Procat'>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"

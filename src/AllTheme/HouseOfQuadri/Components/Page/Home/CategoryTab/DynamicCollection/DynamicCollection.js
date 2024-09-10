@@ -107,13 +107,11 @@ const DynamicCollection = () => {
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
-  console.log("wofbwejlkfbwejlkfbwejlk", loginUserDetail?.CurrencyCode);
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    console.log(storeInit);
     let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     SetmetalTypeCombo(mtCombo);
 
@@ -176,12 +174,6 @@ const DynamicCollection = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log(
-      "locationkey",
-      location?.key !== locationKey,
-      location?.key,
-      locationKey
-    );
 
     if (location?.key === locationKey) {
       setIsProdLoading(true);
@@ -577,7 +569,6 @@ const DynamicCollection = () => {
 
       let UrlVal = location?.search.slice(1).split("/");
 
-      console.log("URLVal", UrlVal);
 
       let MenuVal = "";
       let MenuKey = "";
@@ -678,7 +669,6 @@ const DynamicCollection = () => {
                   JSON?.parse(
                     res?.filter((ele) => ele?.Name == "Gross")[0]?.options
                   )[0] || {};
-                console.log("diafilter", diafilter);
                 setSliderValue([diafilter?.Min, diafilter?.Max]);
                 setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
                 setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
@@ -930,10 +920,7 @@ const DynamicCollection = () => {
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
-
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-          console.log("filter", res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
@@ -960,10 +947,8 @@ const DynamicCollection = () => {
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
 
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-            console.log("filter", res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
@@ -988,7 +973,6 @@ const DynamicCollection = () => {
       c: selectedCsId,
       f: output,
     };
-    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
     decodeAndDecompress();
@@ -1198,7 +1182,6 @@ const DynamicCollection = () => {
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
@@ -1222,7 +1205,6 @@ const DynamicCollection = () => {
   };
 
   const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
@@ -2220,7 +2202,6 @@ const C_Card = ({
   CurrencyCode,
   CurrencyCode2,
 }) => {
-  console.log(CurrencyCode);
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
 
