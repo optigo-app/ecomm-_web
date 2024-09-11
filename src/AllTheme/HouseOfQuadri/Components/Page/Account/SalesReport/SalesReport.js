@@ -1164,14 +1164,46 @@ const SalesReport = () => {
         <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
           <AccordionSummary expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
           <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
-            <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
-              All
-            </Button>
-            <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", minWidth:'100%'}} className="searchbox" >
-              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
-              <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+            <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+              <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
+                All
+              </Button>
+              <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "0px",}} className="searchbox" >
+                <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+              </Box>
+              <div className='grosswt_toggle'>
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'20px', position:'relative'}} >
+                <div style={{position:'absolute', top:'-17px'}}>Gross Wt : </div>
+                <Box sx={{  boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{  boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </Box>
+              </div>
             </Box>
-            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'7px', justifyContent:'space-between'}}>
+            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'7px', justifyContent:'space-between'}} className='mb20_hoq_sp'>
               <Box style={{width:'45%'}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -1238,36 +1270,38 @@ const SalesReport = () => {
                 </Button>
               </Box>
             </Box>
-            <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}>
+            <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}  className="grosswt_toggle2">
               <Typography>Gross Wt : </Typography>
             </Box>
-            <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'10px'}}>
-              <Box sx={{ width:'45%', boxSizing:'border-box' }}>
-                <TextField
-                  placeholder="From"
-                  name="from"
-                  sx={{ minWidth:'100%' }}
-                  className="grossWtinputSecSalesReport"
-                  value={grossWtInput?.from}
-                  onChange={(eve) => handleChangegrossWt(eve)}
-                />
+            <div className="grosswt_toggle2">
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'10px'}}>
+                <Box sx={{ width:'45%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ width:'45%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
               </Box>
-              <Box sx={{ width:'45%', boxSizing:'border-box' }}>
-                <TextField
-                  placeholder="To"
-                  name="to"
-                  sx={{ minWidth:'100%' }}
-                  className="grossWtinputSecSalesReport"
-                  value={grossWtInput?.to}
-                  onChange={(eve) => handleChangegrossWt(eve)}
-                />
-              </Box>
-              <Box sx={{ boxSizing:'border-box' }}>
-                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
-                  <SearchIcon sx={{ color: "#fff !important" }} />
-                </Button>
-              </Box>
-            </Box>
+            </div>
           </AccordionDetails>
         </Accordion>
         </>
