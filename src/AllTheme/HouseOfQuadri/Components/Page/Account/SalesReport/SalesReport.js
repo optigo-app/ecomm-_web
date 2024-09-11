@@ -768,70 +768,72 @@ const SalesReport = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box
-          className="salesReporttableWeb full_width_SP_table"
-          sx={{ paddingBottom: "5px", paddingRight: "15px" }}
-        >
-          <table style={{minWidth:'710px'}}>
-            <tbody>
-              <tr>
-                <td>Total Gross Wt</td>
-                <td>Total Net Wt(24k)</td>
-                <td>Total Net Wt</td>
-                <td>Total Diamonds</td>
-                <td>Total Color Stones</td>
-                <td>Unique Designs</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.GrossWt, 3)}
-                </td>
-                <td className="fw_bold">
-                  {" "}
-                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
-                </td>
-                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
-                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
-                  {NumberWithCommas(total?.CsWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.uniqueDesigns, 0)}
-                </td>
-              </tr>
-              <tr>
-                <td>Total Metal Amt</td>
-                <td>Total Dia. Amt</td>
-                <td>Total CST Amt</td>
-                <td>Total Labour Amt</td>
-                <td>Total Other Amt</td>
-                <td>Unique Customers</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.MetalAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiamondAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.LabourAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.OtherAmount, 2)}
-                </td>
-                <td className="fw_bold">1</td>
-              </tr>
-            </tbody>
-          </table>
-        </Box>
+        <div className="sptable_hoq">
+          <Box
+            className="salesReporttableWeb "
+            sx={{ paddingBottom: "5px", paddingRight: "15px" }}
+          >
+            <table style={{minWidth:'710px', overflowX:'scroll'}}>
+              <tbody>
+                <tr>
+                  <td>Total Gross Wt</td>
+                  <td>Total Net Wt(24k)</td>
+                  <td>Total Net Wt</td>
+                  <td>Total Diamonds</td>
+                  <td>Total Color Stones</td>
+                  <td>Unique Designs</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.GrossWt, 3)}
+                  </td>
+                  <td className="fw_bold">
+                    {" "}
+                    {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                  </td>
+                  <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                    {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                    {NumberWithCommas(total?.CsWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.uniqueDesigns, 0)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Metal Amt</td>
+                  <td>Total Dia. Amt</td>
+                  <td>Total CST Amt</td>
+                  <td>Total Labour Amt</td>
+                  <td>Total Other Amt</td>
+                  <td>Unique Customers</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.MetalAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiamondAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.LabourAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.OtherAmount, 2)}
+                  </td>
+                  <td className="fw_bold">1</td>
+                </tr>
+              </tbody>
+            </table>
+          </Box>
+        </div>
         <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
