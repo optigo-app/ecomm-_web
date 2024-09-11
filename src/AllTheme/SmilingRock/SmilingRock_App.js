@@ -37,6 +37,7 @@ import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
+import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(loginState);
@@ -200,6 +201,7 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/FunFact" element={<FunFact />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/natural-diamond" element={<NatualDiamond />} />
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/d/*" element={<ProductDetail />} />

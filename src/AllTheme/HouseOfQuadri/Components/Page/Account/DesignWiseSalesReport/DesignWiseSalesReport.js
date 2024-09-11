@@ -1020,9 +1020,18 @@ const DesignWiseSalesReport = () => {
              <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'20px', marginTop:'20px'}} className='accordion_Account_Head'>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
                 <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
-                <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
-                    <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
-                </Box>
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                        <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
+                            <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                        </Box>
+                        <Box sx={{  paddingBottom: "10px" }}>
+                            <Typography>DesignNo</Typography>
+                            <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
+                                setDesignNo(eve?.target?.value);
+                                handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
+                            }} className='design_No' placeholder='#DesignNo' />
+                        </Box>
+                    </Box>
                 <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}} className='w100dwsr'>
                     <Box style={{ width:'40%', boxSizing:'border-box'}}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1087,78 +1096,142 @@ const DesignWiseSalesReport = () => {
                             <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                     </Box>
                 </Box>
-                <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
-                    <Box sx={{  paddingBottom: "10px", width: 250 }}>
-                        <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                        <Slider
-                            className='netWtSecSlider'
-                            getAriaLabel={() => 'NetWt(gm)'}
-                            value={netWtSlider}
-                            onChange={handleNetWtSlider}
-                            valueLabelDisplay="auto"
-                            getAriaValueText={valuetext}
-                            disableSwap
-                            min={(netWtLimit?.min)}
-                            max={(netWtLimit?.max)}
-                        />                    
-                        <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                    onChange={handleNetWtSliderCustom(0)}
-                                    onBlur={handleBlurNetWt(0)}
-                                    inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
-                                />
-                            </Typography>
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={(netWtSlider[1])}
-                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                    inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                    onChange={handleNetWtSliderCustom(1)}
-                                    onBlur={handleBlurNetWt(1)}
-                                />
-                            </Typography>
+                <div className='toggleRange_dsr2'>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
+                        <Box sx={{  paddingBottom: "10px", width: 250 }}>
+                            <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                            <Slider
+                                className='netWtSecSlider'
+                                getAriaLabel={() => 'NetWt(gm)'}
+                                value={netWtSlider}
+                                onChange={handleNetWtSlider}
+                                valueLabelDisplay="auto"
+                                getAriaValueText={valuetext}
+                                disableSwap
+                                min={(netWtLimit?.min)}
+                                max={(netWtLimit?.max)}
+                            />                    
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        onChange={handleNetWtSliderCustom(0)}
+                                        onBlur={handleBlurNetWt(0)}
+                                        inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                    />
+                                </Typography>
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={(netWtSlider[1])}
+                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                        onChange={handleNetWtSliderCustom(1)}
+                                        onBlur={handleBlurNetWt(1)}
+                                    />
+                                </Typography>
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
-                <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
-                    <Box sx={{ paddingBottom: "10px", width: 250 }}>
-                        <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
-                        <Slider
-                            className='netWtSecSlider'
-                            getAriaLabel={() => 'GrossWt'}
-                            value={grossWtSlider}
-                            onChange={handleGrossWtSlider}
-                            valueLabelDisplay="auto"
-                            disableSwap
-                            min={grossWtLimit?.min}
-                            max={grossWtLimit?.max}
-                        />
-                        <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                    onChange={handleGrossWtSliderCustom(0)}
-                                    onBlur={handleBlurGrossWt(0)}
-                                    inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
-                                />
-                            </Typography>
-                            <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={grossWtSlider[1]}
-                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                    inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
-                                    onChange={handleGrossWtSliderCustom(1)}
-                                    onBlur={handleBlurGrossWt(1)}
-                                />
-                            </Typography>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
+                        <Box sx={{ paddingBottom: "10px", width: 250 }}>
+                            <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                            <Slider
+                                className='netWtSecSlider'
+                                getAriaLabel={() => 'GrossWt'}
+                                value={grossWtSlider}
+                                onChange={handleGrossWtSlider}
+                                valueLabelDisplay="auto"
+                                disableSwap
+                                min={grossWtLimit?.min}
+                                max={grossWtLimit?.max}
+                            />
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        onChange={handleGrossWtSliderCustom(0)}
+                                        onBlur={handleBlurGrossWt(0)}
+                                        inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                    />
+                                </Typography>
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={grossWtSlider[1]}
+                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
+                                        onChange={handleGrossWtSliderCustom(1)}
+                                        onBlur={handleBlurGrossWt(1)}
+                                    />
+                                </Typography>
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
-                <Box sx={{  paddingBottom: "10px" }}>
-                    <Typography>DesignNo</Typography>
-                    <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
-                        setDesignNo(eve?.target?.value);
-                        handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                    }} className='design_No' placeholder='#DesignNo' />
-                </Box>
+                </div>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0px 14px'}} className='toggleRange_dsr'>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                        <Box sx={{  paddingBottom: "10px", width: 190 }}>
+                            <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                            <Slider
+                                className='netWtSecSlider'
+                                getAriaLabel={() => 'NetWt(gm)'}
+                                value={netWtSlider}
+                                onChange={handleNetWtSlider}
+                                valueLabelDisplay="auto"
+                                getAriaValueText={valuetext}
+                                disableSwap
+                                min={(netWtLimit?.min)}
+                                max={(netWtLimit?.max)}
+                            />                    
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        onChange={handleNetWtSliderCustom(0)}
+                                        onBlur={handleBlurNetWt(0)}
+                                        inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                    />
+                                </Typography>
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={(netWtSlider[1])}
+                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                        onChange={handleNetWtSliderCustom(1)}
+                                        onBlur={handleBlurNetWt(1)}
+                                    />
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                        <Box sx={{ paddingBottom: "10px", width: 190 }}>
+                            <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                            <Slider
+                                className='netWtSecSlider'
+                                getAriaLabel={() => 'GrossWt'}
+                                value={grossWtSlider}
+                                onChange={handleGrossWtSlider}
+                                valueLabelDisplay="auto"
+                                disableSwap
+                                min={grossWtLimit?.min}
+                                max={grossWtLimit?.max}
+                            />
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        onChange={handleGrossWtSliderCustom(0)}
+                                        onBlur={handleBlurGrossWt(0)}
+                                        inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                    />
+                                </Typography>
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={grossWtSlider[1]}
+                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
+                                        onChange={handleGrossWtSliderCustom(1)}
+                                        onBlur={handleBlurGrossWt(1)}
+                                    />
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                </div>
+
+                
                 <Box sx={{  paddingBottom: "10px", minWidth:'100%', maxWidth:'100%', width:'100%' }}>
                     <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
                     <Box style={{width:'100%'}}>
