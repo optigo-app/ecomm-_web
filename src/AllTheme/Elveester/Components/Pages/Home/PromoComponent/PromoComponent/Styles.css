@@ -1,7 +1,10 @@
-
 .promo-daimondBoxMain {
     display: flex;
     margin-inline: 90px;
+}
+
+.elv_promo_div {
+    margin-top: 15rem;
 }
 
 .promo-daimondBox1 {
@@ -10,8 +13,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: justify;
     justify-content: center;
-    padding-inline: 10%;
+    padding-right: 5%;
+    margin-right: 5%;
+}
+
+.promo-daimondBox_1 {
+    border: none !important;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    justify-content: center;
+    padding-left: 3%;
+    margin-left: 3%;
 }
 
 .promo-daimondBox2 {
@@ -41,16 +58,31 @@
 
 @media screen and (max-width: 1200px) {
 
+    .elv_promo_div {
+        margin-top: 12rem;
+    }
+
     .promo-daimondBoxMain {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         margin-inline: 10px;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .promo-daimondBox_1 {
+        width: 100%;
+        padding-left: 0;
+        margin-left: 0;
+        padding-inline: 2%;
     }
 
     .promo-daimondBox1 {
         width: 100%;
-        order: 2;
-
+        width: 100%;
+        padding-right: 0;
+        margin-right: 0;
+        padding-inline: 2%;
     }
 
     .promo-daimondBox2 {
@@ -59,22 +91,38 @@
         order: 1;
     }
 
-    .promo-daimondBox1{
+    .promo-daimondBox1 {
         margin-top: 20px;
     }
 
 }
 
+@media (min-width: 768px) and (max-width: 1200px){
+    .elv_promo_div {
+        margin-top: 8rem;
+    }
+}
+
 @media (min-width: 426px) and (max-width: 768px) {
+    .elv_promo_div {
+        margin-top: 5rem;
+    }
+
     .promo-daimondBox2-image {
         height: 290px;
     }
+
+    .promo-daimondBox_1 p {
+        font-size: 14px !important;
+    }
+
     .promo-daimondBox2 {
         height: auto;
     }
-    .promo-daimondBox1 p{
+
+    .promo-daimondBox1 p {
         margin-top: 10px;
-        font-size: 16px !important;
+        font-size: 14px !important;
     }
 }
 
@@ -82,10 +130,20 @@
     .promo-daimondBox2-image {
         height: 290px;
     }
+
+    .elv_promo_div {
+        margin-top: 2rem;
+    }
+
+    .promo-daimondBox_1 p {
+        font-size: 16px !important;
+    }
+
     .promo-daimondBox2 {
         height: auto;
     }
-    .promo-daimondBox1 p{
+
+    .promo-daimondBox1 p {
         margin-top: 10px;
         font-size: 16px !important;
     }

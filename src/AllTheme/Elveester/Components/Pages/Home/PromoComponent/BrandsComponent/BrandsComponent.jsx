@@ -6,7 +6,7 @@ const BrandsComponent = () => {
     return (
         <div id='brandsComponentID' >
             <p className='brandsCompoents'>introducing our exclusive brands</p>
-            <div className='brandsComponentClass' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className='brandsComponentClass'>
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo05.png`} style={{ width: '10%', objectFit: 'cover', marginRight:'90px' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo04.png`} style={{ width: '10%', objectFit: 'cover', marginRight: '90px' }} />

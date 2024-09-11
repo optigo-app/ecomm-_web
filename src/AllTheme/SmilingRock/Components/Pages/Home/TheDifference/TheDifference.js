@@ -1,9 +1,12 @@
 import React from 'react'
 import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
+import { useNavigate } from 'react-router-dom'
 
 const TheDifference = () => {
-    
+
+    const navigate = useNavigate();
+
     return (
         <div style={{ paddingBlock: '5%' }} className='smilingPAgeMain'>
             <p className='smilingTitle'>The KayraCreation Difference</p>
@@ -14,7 +17,7 @@ const TheDifference = () => {
                     </div>
                     <div className='smilingRockBoxSub2'>
                         <p className='smilingBoxName'>Natural Diamond & jewellery</p>
-                        <p className='learnMore'>LEARN MORE</p>
+                        <p className='learnMore' onClick={() => navigate('/natural-diamond')}>LEARN MORE</p>
                     </div>
                 </div>
                 <div className='smilingRockBox'>
@@ -41,7 +44,7 @@ const TheDifference = () => {
                 </div>
                 <div className='smilingRockBox'>
                     <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img "src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference4.webp`} alt="" />
+                        <img class="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference4.webp`} alt="" />
                     </div>
                     <div className='smilingRockBoxSub2'>
                         <p className='smilingBoxName'>ECG+ Certified Brand Butterfly Mark</p>
