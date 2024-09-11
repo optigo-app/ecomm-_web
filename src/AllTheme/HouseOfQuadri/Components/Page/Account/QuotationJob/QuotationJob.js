@@ -1036,8 +1036,21 @@ const scrollToTop = () => {
         <AccordionSummary style={{paddingLeft:'5px', paddingRight:'5px'}} expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
         <AccordionDetails className='acc_Details_elvee_job p0_acc_mob'>
         <Box style={{marginBottom:'10px', marginTop:'5px'}}>
-          <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", marginLeft:'10px', marginBottom:'20px', minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+          <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <Button variant="contained" sx={{ marginBottom: "25px", background: "#7d7f85" }} className='muiSmilingRocksBtn ' onClick={eve => resetAllFilters(eve)} >All</Button>
+            <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px",  width:'100%', maxWidth: "max-content" }} className="searchbox ">
+              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
+                setSearchVal(eve?.target?.value);
+                setPage(0);
+                // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+                handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+              }} />
+              <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+                // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon />
+              </Button>
+            </Box>
+          </Box>
           <Box sx={{ padding: "0 20px" }}>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
@@ -1049,19 +1062,10 @@ const scrollToTop = () => {
             >
               <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 20px 0", marginRight: "0" }} />
               <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 20px 0", marginRight: "0" }} />
+              <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", marginLeft:'10px', marginBottom:'20px', minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
             </RadioGroup>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px", minWidth:'100%', width:'100%', maxWidth: "max-content" }} className="searchbox ">
-            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
-              setSearchVal(eve?.target?.value);
-              setPage(0);
-              // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
-              handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
-            }} />
-            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
-              // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
-              onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
-          </Box>
+          
           <Box style={{ display:'flex', alignItems:'center', justifyContent:'space-between'}} className='w100dwsr'>
             <Box style={{marginBottom:'2rem', boxSizing:'border-box', width:'45%'}}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1129,7 +1133,7 @@ const scrollToTop = () => {
             </Box>
           </Box>
           <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
-            <Box sx={{ position: "relative", padding: "0 0px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="QuotationJobAllBtnSec" >
+            <Box sx={{ position: "relative", padding: "0 0px 40px 0 !important", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
             <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
               
                   <Select
@@ -1177,7 +1181,7 @@ const scrollToTop = () => {
             </Box>
           </div>
           <div style={{display:'flex', alignItems:'center', width:'100%', justifyContent:'space-between'}}>
-            <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="QuotationJobAllBtnSec" >
+            <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
               <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
               <Select
                 labelId="demo-simple-select-label"
