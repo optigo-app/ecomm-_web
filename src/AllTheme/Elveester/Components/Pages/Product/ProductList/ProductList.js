@@ -2546,7 +2546,7 @@ const Product_Card = ({
           </div>
           <div className="elv_filtered_prod_details">
             <div className="elv_filtered_prod_weights">
-              {Number(productData?.Nwt) !== 0 && (
+              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
                 <div
                   style={{ display: "flex" }}
                 >
