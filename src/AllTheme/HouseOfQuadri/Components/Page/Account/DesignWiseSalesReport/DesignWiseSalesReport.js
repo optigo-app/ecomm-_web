@@ -1230,103 +1230,108 @@ const DesignWiseSalesReport = () => {
                         </Box>
                     </Box>
                 </div>
-
                 
-                <Box sx={{  paddingBottom: "10px", minWidth:'100%', maxWidth:'100%', width:'100%' }}>
-                    <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                    <Box style={{width:'100%'}}>
+                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+                    <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                        <Box style={{width:'100%'}}>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={purchaseCount}
+                                label="Age"
+                                onChange={handleChangePurchaseCount}
+                                sx={{ width: "100%" }}
+                            >
+                                {purchaseCountList?.map((ele, ind) => {
+                                    return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+                    </Box>
+                    <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={purchaseCount}
+                            value={metal}
                             label="Age"
-                            onChange={handleChangePurchaseCount}
+                            onChange={handleMetalChange}
                             sx={{ width: "100%" }}
                         >
-                            {purchaseCountList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                            {metalList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
                 </Box>
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={metal}
-                        label="Age"
-                        onChange={handleMetalChange}
-                        sx={{ width: "100%" }}
-                    >
-                        {metalList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
 
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={productType}
-                        label="Product Type"
-                        onChange={handleChangeProductType}
-                        sx={{ width: "100%" }}
-                    >
-                        {productTypeList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
+                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+                    <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={productType}
+                            label="Product Type"
+                            onChange={handleChangeProductType}
+                            sx={{ width: "100%" }}
+                        >
+                            {productTypeList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
 
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={metalColor}
-                        label="Product Type"
-                        onChange={handleChangeMetalColor}
-                        sx={{ width: "100%" }}
-                    >
-                        {metalColorList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
+                    <Box sx={{  paddingBottom: "10px", width:'49%'}}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                        <Select
+                            labelId="metalColor"
+                            id="demo-simple-select"
+                            value={metalColor}
+                            label="Product Type"
+                            onChange={handleChangeMetalColor}
+                            sx={{ width: "100%" }}
+                        >
+                            {metalColorList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
                 </Box>
+                
+                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                    <Box sx={{  paddingBottom: "10px", width:'49%'}}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                        <Select
+                            labelId="metalColor"
+                            id="demo-simple-select"
+                            value={category}
+                            label="Product Type"
+                            onChange={handleChangeCategory}
+                            sx={{ width: "100%" }}
+                        >
+                            {categorylist?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
 
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={category}
-                        label="Product Type"
-                        onChange={handleChangeCategory}
-                        sx={{ width: "100%" }}
-                    >
-                        {categorylist?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
-                    <Select
-                        labelId="SubCategory"
-                        id="demo-simple-select"
-                        value={subCategory}
-                        label="Product Type"
-                        onChange={handleChangeSubCategory}
-                        sx={{ width: "100%" }}
-                    >
-                        {subCategoryList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
+                    <Box sx={{  paddingBottom: "10px", width:'49%'}}>
+                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                        <Select
+                            labelId="SubCategory"
+                            id="demo-simple-select"
+                            value={subCategory}
+                            label="Product Type"
+                            onChange={handleChangeSubCategory}
+                            sx={{ width: "100%" }}
+                        >
+                            {subCategoryList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
                 </Box>
                 
                 </AccordionDetails>
