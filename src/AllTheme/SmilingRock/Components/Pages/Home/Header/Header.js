@@ -727,22 +727,23 @@ const Header = () => {
             <div>
               <p className="smr_menuStaicMobilePage">About us</p>
             </div>
+            {islogin &&
+              <div>
+                <p
+                  className="smr_menuStaicMobilePageLink"
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    navigation("/myWishList");
+                  }}
+                >
+                  WishList
+                </p>
+              </div>
+            }
 
-            <div>
-              <p
-                className="smr_menuStaicMobilePageLink"
-                style={{ marginTop: "10px" }}
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  navigation("/myWishList");
-                }}
-              >
-                WishList
-              </p>
-            </div>
-
-            {IsB2BWebsiteChek === 1 ? (
-              islogin === true ? (
+            {IsB2BWebsiteChek == 1 ? (
+              islogin ? (
                 <>
                   {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
@@ -793,17 +794,18 @@ const Header = () => {
               </div>
             }
 
-            <div>
-              <p
-                className="smr_menuStaicMobilePageLink"
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  handleLogout();
-                }}
-              >
-                Log Out
-              </p>
-            </div>
+            {islogin && (
+              <div>
+                <p
+                  className="smr_menuStaicMobilePageLink"
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    handleLogout();
+                  }}
+                >
+                  Log Out
+                </p>
+              </div>)}
 
             {islogin && (
               <div

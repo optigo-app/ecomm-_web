@@ -7,7 +7,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 const Footer = ({ fromPage }) => {
 
   const [socialMediaData, setSocialMediaData] = useState([]);
-  const [companyInfoData, setCompanuInfoData] = useState();
+  const [companyInfoData, setCompanuInfoData] = useState(null);
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
 
@@ -17,19 +17,31 @@ const Footer = ({ fromPage }) => {
   }, [])
 
   useEffect(() => {
-    let companyInfoData;
-    const storedData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
-    setCompanuInfoData(storedData);
-    if (sessionStorage.getItem("CompanyInfoData")) {
-      if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-        companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData)
-        }
-      }
+    const storedData = sessionStorage.getItem("CompanyInfoData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setCompanuInfoData(parsedData);
+      const parsedSocialMediaUrlData = parsedData?.SocialLinkObj ? JSON.parse(parsedData.SocialLinkObj) : [];
+      setSocialMediaData(parsedSocialMediaUrlData);
     }
-  }, [])
+  }, []);
+
+  // useEffect(() => {
+  //   let companyInfoData;
+  //   const storedData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
+  //   setCompanuInfoData(storedData);
+  //   if (sessionStorage.getItem("CompanyInfoData")) {
+  //     if (companyInfoData?.SocialLinkObj != "" || companyInfoData?.SocialLinkObj != null || companyInfoData?.SocialLinkObj != undefined) {
+  //       // companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+  //       const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
+  //       console.log('parsedSocilaMediaUrlData', parsedSocilaMediaUrlData);
+
+  //       if (parsedSocilaMediaUrlData) {
+  //         setSocialMediaData(parsedSocilaMediaUrlData)
+  //       }
+  //     }
+  //   }
+  // }, [])
 
 
   return (
