@@ -61,13 +61,14 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
             const existingVisitorId = Cookies.get("visiterId");
+            console.log('existingVisitorIdexistingVisitorId',existingVisitorId);
             if (!existingVisitorId) {
               Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
             } else {
@@ -104,10 +105,7 @@ export default function ThemeRoutes() {
               callAllApi(response?.data?.Data);
             }
 
-            let title = response?.data?.Data?.rd[0]?.companyname;
-            let favIcon = response?.data?.Data?.rd[0]?.favicon;
-            setTitle(title);
-            setFavIcon(favIcon);
+
             window.scrollTo({
               top: 0,
               left: 0,
@@ -122,6 +120,11 @@ export default function ThemeRoutes() {
       // setThemeNo(SessionData?.Themeno);
       setThemeNo(7);
     }
+
+    let title = SessionData?.companyname;
+    let favIcon = SessionData?.favicon;
+    setTitle(title);
+    setFavIcon(favIcon);
     // .finally(() => setLoading(false));
   }, []);
 

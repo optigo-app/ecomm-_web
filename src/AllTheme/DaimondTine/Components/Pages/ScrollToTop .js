@@ -29,9 +29,9 @@ const ScrollToTop = () => {
   }, []);
 
   return (
-    <div className="scroll-to-top">
+    <div className="dt_scroll_to_top">
       {isVisible && (
-        <div onClick={scrollToTop} className="scroll-icon">
+        <div onClick={scrollToTop} className="dt_scroll_icon">
           <FaArrowUp />
         </div>
       )}
