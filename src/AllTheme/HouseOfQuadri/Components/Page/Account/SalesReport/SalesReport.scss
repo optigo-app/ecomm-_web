@@ -265,3 +265,25 @@
         justify-content: center;
     }
 }
+.grosswt_toggle{
+    display: none;
+}
+.grosswt_toggle2{
+    display: none;
+}
+@media screen and (min-width:451px) and (max-width:680px){
+    .grosswt_toggle{
+        display: block !important;
+    }
+    .mb20_hoq_sp{
+        margin-bottom: 20px !important;
+    }
+}
+@media screen and (max-width:450px){
+    .grosswt_toggle2{
+        display: block !important;
+    }
+    .mb20_hoq_sp{
+        margin-bottom: 7px !important;
+    }
+}

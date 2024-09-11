@@ -120,7 +120,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(6);
+      setThemeNo(7);
     }
     // .finally(() => setLoading(false));
   }, []);
