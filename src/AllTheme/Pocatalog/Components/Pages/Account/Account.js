@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Account.scss'
-import { Box,  Tab, Tabs,  Typography } from '@mui/material'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import Footer from './../Home/Footer/Footer';
 import { proCat_loginState } from '../../../Components/Recoil/atom';
@@ -89,25 +89,30 @@ export default function Account() {
         setValue1(newValue);
     }
 
-   const handleLogout = () => {
-        // console.log(loginState);
-        setIsLoginState(false);
-        Cookies.remove('userLoginCookie');
-        sessionStorage.setItem('LoginUser', false);
-        sessionStorage.removeItem('storeInit');
-        sessionStorage.removeItem('loginUserDetail');
-        sessionStorage.removeItem('remarks');
-        sessionStorage.removeItem('selectedAddressId');
-        sessionStorage.removeItem('orderNumber');
-        sessionStorage.removeItem('registerEmail');
-        sessionStorage.removeItem('UploadLogicalPath');
-        sessionStorage.removeItem('remarks');
-        sessionStorage.removeItem('registerMobile');
-        sessionStorage.removeItem('allproductlist');
-        sessionStorage.clear();
-        navigation('/')
+    const handleLogout = () => {
+        navigation("/");
+        Cookies.remove("userLoginCookie");
         window.location.reload();
-      }
+        sessionStorage.setItem("LoginUser", false);
+        sessionStorage.removeItem("storeInit");
+        sessionStorage.removeItem("loginUserDetail");
+        sessionStorage.removeItem("remarks");
+        sessionStorage.removeItem("selectedAddressId");
+        sessionStorage.removeItem("orderNumber");
+        sessionStorage.removeItem("registerEmail");
+        sessionStorage.removeItem("UploadLogicalPath");
+        sessionStorage.removeItem("remarks");
+        sessionStorage.removeItem("registerMobile");
+        sessionStorage.removeItem("allproductlist");
+        sessionStorage.removeItem("AllFilter");
+        sessionStorage.removeItem("ColorStoneQualityColorCombo");
+        sessionStorage.removeItem("CompanyInfoData");
+        sessionStorage.removeItem("MetalColorCombo");
+        sessionStorage.removeItem("metalTypeCombo");
+        sessionStorage.removeItem("myAccountFlags");
+        sessionStorage.removeItem("registerEmail");
+        sessionStorage.removeItem("selectedAddressId");
+    };
 
     return (
         <div className='accountPagTabSection'>
@@ -118,35 +123,35 @@ export default function Account() {
                     <div className='sticky_header_web_sm_procat'>
                         <p className='SmilingAccountTitle youraccountpagesecSMR '>Your Account</p>
                         <div className='smlingAccountTabWebView_Procat yourAccount d_none_acc' >
-                                    <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                                            <Tab label="Your Profile" {...a11yProps(0)} />
-                                            <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                            <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                            {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                            <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                            <Tab label="Log Out" onClick={handleLogout} />
-                                        </Tabs>
-                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                                    </Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
+                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                                    <Tab label="Your Profile" {...a11yProps(0)} />
+                                    <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                    {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                    <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                    {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                    {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                    <Tab label="Log Out" onClick={handleLogout} />
+                                </Tabs>
+                                {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                            </Box>
                         </div>
                         <div className='smlingAccountTabMobileView_Procat YourAccountPageTabs yourAccount'>
-                                    <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                        <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
-                                            <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                            <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                            <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                            {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                            <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                            {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                            {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                            {/* <Tab label="Log Out" onClick={handleLogout} /> */}
-                                        </Tabs>
-                                        {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                                    </Box>
-                                
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
+                                    <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
+                                    <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                    {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                    <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                    {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                    {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                    {/* <Tab label="Log Out" onClick={handleLogout} /> */}
+                                </Tabs>
+                                {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                            </Box>
+
                         </div>
                     </div>
 
@@ -195,8 +200,8 @@ export default function Account() {
 
                             {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage_Procat">
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
-                                    sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
+                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example"
+                                        sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
                                                 return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
