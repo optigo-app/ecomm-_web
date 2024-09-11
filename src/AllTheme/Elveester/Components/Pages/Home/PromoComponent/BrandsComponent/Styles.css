@@ -1,9 +1,10 @@
-.mainAffiliDiv{
+.mainAffiliDiv {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.brandsCompoents{
+
+.brandsCompoents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
     font-size: 22px;
@@ -11,71 +12,120 @@
     line-height: 2px;
     margin: 50px 0px 50px 0px !important;
 }
-.AffiliationComponents{
+
+.brandsComponentClass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.AffiliationComponents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
     font-size: 22px;
     text-transform: capitalize;
     line-height: 2px;
     margin: 50px 0px 50px 0px !important;
+}
+
+.elv_affi_cards {
+    width: 18rem;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
 @media (min-width: 446px) and (max-width: 768px) {
-    .brandsComponentClass{
+    .brandsComponentClass {
         width: 100%;
         overflow: auto;
-        display: flex  !important;
+        display: flex !important;
         justify-content: start !important;
     }
-    .AffiliationClassComponents{
+
+    .AffiliationClassComponents {
         width: 100%;
         overflow: auto;
-        display: flex  !important;
+        display: flex !important;
         justify-content: start !important;
     }
-    .AffiliationComponents{
+
+    .AffiliationComponents {
         margin: 50px 0px 20px 0px !important
     }
-    .mainAffiliDiv{
+
+    .mainAffiliDiv {
         display: block !important;
         text-align: center;
     }
-    .affilitionImg{
+
+    .affilitionImg {
         width: 17% !important;
         margin-right: 20px !important;
     }
-    .brandsCompoents{
+
+    .brandsCompoents {
         font-size: 16px;
+    }
+
+    .elv_affi_cards {
+        width: 21rem;
     }
 }
 
 
 @media (max-width: 445px) {
-    .brandsComponentClass{
+    .brandsComponentClass {
         width: 100%;
         overflow: auto;
-        display: flex  !important;
+        display: flex !important;
         justify-content: start !important;
     }
-    .AffiliationClassComponents{
+
+    .elv_affi_cards {
+        width: 2rem;
+    }
+
+    .AffiliationClassComponents {
         width: 100%;
         overflow: auto;
-        display: flex  !important;
+        display: flex !important;
         justify-content: start !important;
     }
-    .AffiliationComponents{
+
+    .AffiliationComponents {
         margin: 50px 0px 20px 0px !important
     }
-    .mainAffiliDiv{
+
+    .mainAffiliDiv {
         display: block !important;
         text-align: center;
     }
-    .affilitionImg{
+
+    .affilitionImg {
         width: 25% !important;
         margin-right: 20px !important;
     }
-    .brandsCompoents{
+
+    .brandsCompoents {
         font-size: 16px;
     }
+}
+
+@media (max-width: 375px) {
+    .elv_affi_cards {
+        width: 13rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .elv_affi_cards {
+        width: 22rem;
+    }
+}
+
+.mySwiper_affli {
+    margin-inline: 4%;
 }

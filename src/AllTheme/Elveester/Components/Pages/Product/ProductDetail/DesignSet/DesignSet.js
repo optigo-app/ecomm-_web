@@ -47,6 +47,7 @@ const DesignSet = ({
             navigation
             pagination={{ clickable: true }}
             // scrollbar={{ draggable: true }}
+            className="my_Product_Swiper"
           >
             {designSetList?.map((designSetList) => (
               <SwiperSlide>

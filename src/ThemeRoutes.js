@@ -28,7 +28,7 @@ import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(1)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -53,10 +53,10 @@ export default function ThemeRoutes() {
       } else {
         setCompanyTitleLogo(logo?.companylogo);
       }
-      dt_setCompanyTitleLogo(logo?.companylogo);          
+      dt_setCompanyTitleLogo(logo?.companylogo);
       el_setCompanyTitleLogo(logo?.companylogo);
     }
-   
+
     if (!SessionData) {
       Storeinit()
         .then((response) => {
@@ -114,13 +114,13 @@ export default function ThemeRoutes() {
               behavior: "smooth",
             });
 
-          
+
           }
         })
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(1);
     }
     // .finally(() => setLoading(false));
   }, []);
@@ -198,7 +198,7 @@ export default function ThemeRoutes() {
           <link rel="manifest" href={favicon} />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         </Helmet>
       </div>
 

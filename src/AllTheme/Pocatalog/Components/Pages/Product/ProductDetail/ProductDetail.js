@@ -144,26 +144,26 @@ const ProductDetail = () => {
     let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] 
-      // ??
-      // metalTypeCombo[0];
+      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0]
+    // ??
+    // metalTypeCombo[0];
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
       )
-      // ?? 
-      // diaQcCombo[0];
+    // ?? 
+    // diaQcCombo[0];
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )
-      // ?? 
-      // csQcCombo[0];
-      
+    // ?? 
+    // csQcCombo[0];
+
     // let mcArr = metalColorCombo?.filter(
     //   (ele) => ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid)
     // )[0];
@@ -318,7 +318,7 @@ const ProductDetail = () => {
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0]
         }
 
         if (diaQcLocal?.length) {
@@ -334,8 +334,8 @@ const ProductDetail = () => {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
-                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+                ele?.QualityId == (decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
             )[0]
         }
 
@@ -586,7 +586,7 @@ const ProductDetail = () => {
       metalArr =
         mtTypeLocal?.filter(
           (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid 
+        )[0]?.Metalid
     }
 
     if (diaQcLocal) {
@@ -595,7 +595,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0] 
+        )[0]
     }
 
     if (csQcLocal) {
@@ -604,7 +604,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0] 
+        )[0]
     }
 
     const FetchProductData = async () => {
@@ -617,7 +617,7 @@ const ProductDetail = () => {
 
       let obj = {
         mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
-        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
         csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       }
 
@@ -658,8 +658,8 @@ const ProductDetail = () => {
               ? prod?.DefaultSize
               : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
                 ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-            
-                console.log("initialsize",initialsize);
+
+            console.log("initialsize", initialsize);
 
             setSizeData(initialsize)
 
@@ -2024,7 +2024,9 @@ const ProductDetail = () => {
                           <th className="Smr_stockItem_table_td">
                             Metal Color-Purity
                           </th>
-                          <th className="Smr_stockItem_table_td">Price</th>
+                          {storeInit?.IsPriceShow != 0 &&
+                            <th className="Smr_stockItem_table_td">Price</th>
+                          }
                           <th className="Smr_stockItem_table_td">
                             Add To Cart
                           </th>
@@ -2147,19 +2149,21 @@ const ProductDetail = () => {
                               </span>
                               {/* </div> */}
                             </td>
-                            <td className="Smr_stockItem_table_td">
-                              <span>
-                                <span className="smr_currencyFont">
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                            {storeInit?.IsPriceShow != 0 &&
+                              <td className="Smr_stockItem_table_td">
+                                <span>
+                                  <span className="smr_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                  &nbsp;
+                                  <span> {
+                                    formatter.format(
+                                      ele?.Amount
+                                    )
+                                  }</span>
                                 </span>
-                                &nbsp;
-                                <span> {
-                                  formatter.format(
-                                    ele?.Amount
-                                  )
-                                }</span>
-                              </span>
-                            </td>
+                              </td>
+                            }
                             <td
                               className="Smr_stockItem_table_td"
                               style={{

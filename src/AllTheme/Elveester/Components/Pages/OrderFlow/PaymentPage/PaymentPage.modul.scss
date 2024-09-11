@@ -431,6 +431,12 @@
     color: $titleColor !important;
 }
 
+@media (max-width: 1024px) {
+    .elv_payment_lists_header {
+        margin-inline: 4% !important;
+    }
+}
+
 @media (max-width: 600px) {
     .elv_paymentDetailMainDiv {
         display: block;
@@ -483,6 +489,15 @@
             width: 22px !important;
             height: 22px !important;
         }
+    }
+
+
+    .elv_PaymentContainer {
+        margin-inline: 0;
+    }
+
+    .elv_payment_lists_header {
+        margin-inline: 2% !important;
     }
 }
 

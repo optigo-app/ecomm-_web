@@ -77,7 +77,7 @@ const WishItem = ({
                     alt={item?.name}
                 />
                  <div className="product-details">
-                    <p>{item?.TitleLine}</p>
+                    <p>{item?.TitleLine != "" || item?.TitleLine != null && item?.TitleLine}</p>
                 </div>
             </td>
             <td className="price">

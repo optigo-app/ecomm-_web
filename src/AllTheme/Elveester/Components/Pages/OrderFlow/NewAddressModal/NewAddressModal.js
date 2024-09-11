@@ -17,13 +17,18 @@ const NewAddressModal = ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: {
+            xs: '90%',  // 90% of the viewport width for extra-small screens
+            sm: '80%',  // 80% of the viewport width for small screens
+            md: 600     // 600px width for medium screens and up
+        },
         bgcolor: 'background.paper',
         border: 'none',
         boxShadow: 24,
-        p: 1,
+        p: 3,  // Increased padding for better spacing
         outline: 'none',
     };
+
     return (
         <Modal
             className='elev_add_modal'

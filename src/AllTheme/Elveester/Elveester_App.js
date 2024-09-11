@@ -33,6 +33,7 @@ import Career from './Components/Pages/Home/StaticPages/Career/Career'
 import Faqs from './Components/Pages/Home/StaticPages/Faqs/Faqs'
 import New1 from './Components/Pages/Product/ProductDetail/New.1'
 import History from './Components/Pages/Home/StaticPages/History/History'
+import Appointment from './Components/Pages/Home/StaticPages/BookAppointment/Appointment'
 
 const Elveester_app = () => {
 
@@ -113,6 +114,7 @@ const Elveester_app = () => {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/contact-us" element={<ContactForm />} />
         <Route path="/careers" element={<Career />} />
+        <Route path="/appointment" element={<Appointment />} />
         <Route path="/faqs" element={<Faqs />} />
       </Routes>
       {showFooter && <Footer />}
