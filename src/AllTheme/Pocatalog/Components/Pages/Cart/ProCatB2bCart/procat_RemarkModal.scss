@@ -44,7 +44,7 @@ $cartUpdateBtncolor: #b1b1b1;
 @media(max-width:445px) {
     .proCat_remarkModalBox {
         padding: 20px 8px 20px 8px !important;
-        width: 300px;
+        width: 100% !important;
 
         h2 {
             color: $titleColor !important;

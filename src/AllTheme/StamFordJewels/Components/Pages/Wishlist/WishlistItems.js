@@ -40,12 +40,12 @@ const WishlistItems = ({
     useEffect(() => {
         if (item?.ImageCount > 0) {
             WishCardImageFunc(item).then((src) => {
-            setImageSrc(src);
-          });
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [item]);
+    }, [item]);
 
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
@@ -96,48 +96,68 @@ const WishlistItems = ({
                                         {item?.TitleLine != "" && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="stam_card-ContentData">
-                                        <span className="stam_wishDT">GWT: </span>
-                                        {/* <span className='stam_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
-                                        <span className="stam_wishDT">
-                                            {(item?.Gwt || 0).toFixed(3)}
-                                        </span>
-
-                                        <span className="stam_pipes"> | </span>
-                                        <span className="stam_wishDT">NWT : </span>
-                                        <span className="stam_wishDT">
-                                            {(item?.Nwt || 0).toFixed(3)}
-                                        </span>
-                                        {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                        {storeInit?.IsGrossWeight == 1 &&
                                             <>
-                                            <span className="stam_pipes"> | </span>
-                                                <span className="stam_wishDT">DWT: </span>
-                                                <span>
-                                                    {(item?.Dwt || 0).toFixed(3)} /
-                                                    {(item?.Dpcs || 0)}
+                                                <span className="stam_wishDT">GWT: </span>
+                                                {/* <span className='stam_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                                <span className="stam_wishDT">
+                                                    {(item?.Gwt || 0).toFixed(3)}
+                                                </span>
+
+                                                <span className="stam_pipes"> | </span>
+                                            </>
+                                        }
+                                        {storeInit?.IsMetalWeight == 1 &&
+                                            <>
+                                                <span className="stam_wishDT">NWT : </span>
+                                                <span className="stam_wishDT">
+                                                    {(item?.Nwt || 0).toFixed(3)}
                                                 </span>
                                             </>
                                         }
-                                        {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                        {storeInit?.IsDiamondWeight == 1 &&
                                             <>
-                                            <span className="stam_pipes"> | </span>
-                                                <span className="stam_wishDT">CWT: </span>
-                                                <span>
-                                                    {(item?.CSwt || 0).toFixed(3)} /
-                                                    {(item?.CSpcs || 0)}
-                                                </span>
+                                                {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className="stam_pipes"> | </span>
+                                                        <span className="stam_wishDT">DWT: </span>
+                                                        <span>
+                                                            {(item?.Dwt || 0).toFixed(3)} /
+                                                            {(item?.Dpcs || 0)}
+                                                        </span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                        {storeInit?.IsStoneWeight == 1 &&
+                                            <>
+                                                {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className="stam_pipes"> | </span>
+                                                        <span className="stam_wishDT">CWT: </span>
+                                                        <span>
+                                                            {(item?.CSwt || 0).toFixed(3)} /
+                                                            {(item?.CSpcs || 0)}
+                                                        </span>
+                                                    </>
+                                                }
                                             </>
                                         }
                                     </Typography>
                                     <Typography variant="body2" className="stam_card-ContentData">
-                                        {item?.metalcolorname !== "" && (
-                                            <span>{item.metalcolorname}</span>
-                                        )}
-                                        {item?.metalcolorname !== "" &&
-                                            item?.metaltypename !== "" && <span> - </span>}
-                                        {item?.metaltypename !== "" && (
-                                            <span>{item?.metaltypename}</span>
-                                        )}
-                                        {" / "}
+                                        {storeInit?.IsMetalTypeWithColor == 1 &&
+                                            <>
+                                                {item?.metalcolorname !== "" && (
+                                                    <span>{item.metalcolorname}</span>
+                                                )}
+                                                {item?.metalcolorname !== "" &&
+                                                    item?.metaltypename !== "" && <span> - </span>}
+                                                {item?.metaltypename !== "" && (
+                                                    <span>{item?.metaltypename}</span>
+                                                )}
+                                                {" / "}
+                                            </>
+                                        }
                                         {/* <span className="stam_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
                                         <span className="stam_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -179,7 +199,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={imageSrc }
+                                image={imageSrc}
                                 alt={item?.TitleLine}
                                 className="stam_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}

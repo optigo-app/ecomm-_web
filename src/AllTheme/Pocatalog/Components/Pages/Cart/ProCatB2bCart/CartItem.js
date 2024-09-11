@@ -173,12 +173,15 @@ const CartItem = ({
                       GWT: {(item?.Gwt || 0).toFixed(3)}
                     </Typography>
                   }
-
-                  {Number(item?.Nwt) !== 0 && (
-                    <Typography variant="body2" className='proCat_card-ContentsData'>
-                      NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
-                    </Typography>
-                  )}
+                  {storeInitData?.IsMetalWeight == 1 &&
+                    <>
+                      {Number(item?.Nwt) !== 0 && (
+                        <Typography variant="body2" className='proCat_card-ContentsData'>
+                          NWT: {(item?.Nwt || 0).toFixed(3)}{' '}
+                        </Typography>
+                      )}
+                    </>
+                  }
 
                 </div>
                 <div>
