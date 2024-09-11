@@ -2999,7 +2999,7 @@ const ProductList = () => {
                                     color: "rgba(143, 140, 139, 0.9019607843)",
                                   }}
                                 >
-                                  {extractedPart}
+                                  {decodeURI(extractedPart)}
                                 </p>
                               </div>
                               <div className={filterData?.length <= 0 ? "smr_sorting_custom_NoData" : "smr_sorting_custom"}

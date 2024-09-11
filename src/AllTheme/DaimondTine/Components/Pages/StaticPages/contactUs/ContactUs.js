@@ -57,7 +57,7 @@ export default function ContactUs() {
             console.log('Form submitted:', formData);
             const combinedValue = JSON.stringify({
                 // companyname: `${formData?.companyName}`,
-                 subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
+                subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
             });
             const encodedCombinedValue = btoa(combinedValue);
             console.log(encodedCombinedValue);
@@ -136,7 +136,7 @@ export default function ContactUs() {
                             <button className='Fo-contactBox1BtnSub'>SUBMIT</button>
                         </div> */}
                         <div className='dt_Fo_contactBox1'>
-                            <form onSubmit={handleSubmit} style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                                 <div className='dt_ContactMobile_ShowDiv'>
                                     <p className='Fo-contactBox1Title'>FULL NAME</p>
                                     <input
@@ -240,25 +240,23 @@ export default function ContactUs() {
                             }}></spna></p>
 
                             <p className='dt_contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
-                            
+
                             <p className='dt_contactBox2Title'>Orders & Returns</p>
                             <p className='dt_contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
                             <p className='dt_contactBox2Desc'>Call us at 98108 76359</p>
                             <p className='dt_contactBox2Desc'>Email: contact@diamondtine.com</p>
-                            <p className='dt_contactBox2Title'>Studio Address
-                                <p className='dt_contactBox2Desc'>E-4, South EX-|| New Delhi 110049</p>
+                            <p className='dt_contactBox2Title'>Studio Address</p>
+                            <p className='dt_contactBox2Desc'>E-4, South EX-|| New Delhi 110049</p>
 
-                                <p className='dt_contactBox2Title'>Opening Hours
-                                    <p className='dt_contactBox2Desc'>Monday - Friday 11am - 6pm <br /> Saturday 12am - 6pm</p>
-                                </p>
-                            </p>
+                            <p className='dt_contactBox2Title'>Opening Hours</p>
+                            <p className='dt_contactBox2Desc'>Monday - Friday 11am - 6pm <br /> Saturday 12am - 6pm</p>
 
                             {/* <p className='dt_contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='dt_contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
                             <div className='mt-4'>
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.057115060303!2d77.21861737616264!3d28.568047587004962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce25b4d73ffff%3A0x5244a585d7ba2ce3!2sDiamondtine!5e0!3m2!1sen!2sin!4v1717044522982!5m2!1sen!2sin"
-                                    style={{ border: "1px solid #f2f2f2"}}
+                                    style={{ border: "1px solid #f2f2f2" }}
                                     allowFullScreen=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
