@@ -7,7 +7,7 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, loginState } from "./Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState } from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -49,6 +49,7 @@ const SmilingRock_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -70,9 +71,11 @@ const SmilingRock_App = () => {
         setCompanyTitleLogo(Logindata?.Private_label_logo);
       } else {
         setCompanyTitleLogo(logo?.companylogo);
+        setCompanyTitleLogoM(logo?.companyMlogo);
       }
     } else {
       setCompanyTitleLogo(logo?.companylogo);
+      setCompanyTitleLogoM(logo?.companyMlogo);
     }
   });
 
@@ -126,9 +129,9 @@ const SmilingRock_App = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
-        {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
-        {/* <Header2 /> */}
+        <Header />
+        {/* {localData?.Headerno === 2 && <Header2 />}
+        {localData?.Headerno === 1 && <Header />} */}
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
