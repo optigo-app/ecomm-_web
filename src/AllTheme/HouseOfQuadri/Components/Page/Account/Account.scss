@@ -335,3 +335,13 @@
 .p2_newhead_hoq_acc .MuiButtonBase-root{
     padding: 2px !important;
 }
+
+
+@media screen and (max-width:1024px){
+    .HeadTitleAcc_none{
+        display: none !important;
+    }
+    .acc_hoq_tab_p_0{
+        padding-top: 0px !important;
+    }
+}
