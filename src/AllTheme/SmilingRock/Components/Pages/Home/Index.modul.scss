@@ -34,7 +34,12 @@ $generalColor : lightgray;
 
 
 @media screen and (max-width:1200px) {
+    .smiling_home_index_main {
+        padding-inline: 2% !important;
+    }
+}
 
+@media screen and (max-width: 800px) {
     .smiling_home_index_main {
         padding-inline: 1% !important;
     }

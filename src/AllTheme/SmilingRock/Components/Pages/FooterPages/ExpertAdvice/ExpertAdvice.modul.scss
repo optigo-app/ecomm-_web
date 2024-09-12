@@ -13,9 +13,15 @@
         margin-inline: 15%;
     }
 
-    .smr_Expert_FooterTopMain_sub{
+    .smr_Expert_FooterTopMain_sub {
         margin-inline: 6%;
         background-color: white;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .smr_Expert_FooterTopMain_sub {
+            margin-inline: 2%;
+        }
     }
 
     @media screen and (max-width: 1000px) {
@@ -42,6 +48,13 @@
 
         .daimondsEveryAbout {
             margin-inline: 2% !important;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .smr_Expert_FooterTopMain_sub {
+            margin-inline: 1%;
+            padding-inline: 10px;
         }
     }
 }
