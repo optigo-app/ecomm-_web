@@ -47,7 +47,6 @@ const Customization = ({
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
 
@@ -57,8 +56,6 @@ const Customization = ({
       toast.success('Cart Updated Successfully');
     }
   }
-
-  console.log("kjhsjhkakjhd", selectedItem);
 
 
   return (

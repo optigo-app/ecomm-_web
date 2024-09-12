@@ -125,43 +125,63 @@ const WishlistItems = ({
                                     {item?.TitleLine != "" && " - " + item?.TitleLine}
                                 </Typography>
                                 <Typography variant="body2" className="for_card-ContentData">
-                                    <span className="for_wishDT">GWT: </span>
-                                    <span className="for_wishDT">
-                                        {(item?.Gwt || 0)?.toFixed(3)}
-                                    </span>
-                                    <span className="for_pipes"> | </span>
-                                    <span className="for_wishDT">NWT : </span>
-                                    <span className="for_wishDT">
-                                        {(item?.Nwt || 0)?.toFixed(3)}
-                                    </span>
-                                    {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                    {storeInit?.IsGrossWeight == 1 &&
                                         <>
+                                            <span className="for_wishDT">GWT: </span>
+                                            <span className="for_wishDT">
+                                                {(item?.Gwt || 0)?.toFixed(3)}
+                                            </span>
                                             <span className="for_pipes"> | </span>
-                                            <span className="for_wishDT">DWT: </span>
-                                            <span>
-                                                {(item?.Dwt || 0)?.toFixed(3)} /
-                                                {(item?.Dpcs || 0)}
+                                        </>
+                                    }
+                                    {storeInit?.IsMetalWeight == 1 &&
+                                        <>
+                                            <span className="for_wishDT">NWT : </span>
+                                            <span className="for_wishDT">
+                                                {(item?.Nwt || 0)?.toFixed(3)}
                                             </span>
                                         </>
                                     }
-                                    {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                    {storeInit?.IsDiamondWeight == 1 &&
                                         <>
-                                            <span className="for_pipes"> | </span>
-                                            <span className="for_wishDT">CWT: </span>
-                                            <span>
-                                                {(item?.CSwt || 0)?.toFixed(3)} /
-                                                {(item?.CSpcs || 0)}
-                                            </span>
+                                            {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                <>
+                                                    <span className="for_pipes"> | </span>
+                                                    <span className="for_wishDT">DWT: </span>
+                                                    <span>
+                                                        {(item?.Dwt || 0)?.toFixed(3)} /
+                                                        {(item?.Dpcs || 0)}
+                                                    </span>
+                                                </>
+                                            }
                                         </>
-                                    }{" "}
-                                    {item?.metalcolorname !== "" && (
-                                        <span>{item.metalcolorname}</span>
-                                    )}
-                                    {item?.metalcolorname !== "" &&
-                                        item?.metaltypename !== "" && <span> - </span>}
-                                    {item?.metaltypename !== "" && (
-                                        <span>{item?.metaltypename}</span>
-                                    )}
+                                    }
+                                    {storeInit?.IsStoneWeight == 1 &&
+                                        <>
+                                            {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                <>
+                                                    <span className="for_pipes"> | </span>
+                                                    <span className="for_wishDT">CWT: </span>
+                                                    <span>
+                                                        {(item?.CSwt || 0)?.toFixed(3)} /
+                                                        {(item?.CSpcs || 0)}
+                                                    </span>
+                                                </>
+                                            }{" "}
+                                        </>
+                                    }
+                                    {storeInit?.IsMetalTypeWithColor == 1 &&
+                                        <>
+                                            {item?.metalcolorname !== "" && (
+                                                <span>{item.metalcolorname}</span>
+                                            )}
+                                            {item?.metalcolorname !== "" &&
+                                                item?.metaltypename !== "" && <span> - </span>}
+                                            {item?.metaltypename !== "" && (
+                                                <span>{item?.metaltypename}</span>
+                                            )}
+                                        </>
+                                    }
                                 </Typography>
                                 {selectedDia && Object.keys(selectedDia).length != 0 &&
                                     <Typography variant="body2" className="for_card-ContentData for_diamondData">

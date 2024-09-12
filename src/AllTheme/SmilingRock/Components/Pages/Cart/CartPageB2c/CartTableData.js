@@ -35,20 +35,20 @@ const ExampleComponent = ({
 
     useEffect(() => {
         if (cartData?.ImageCount > 0) {
-          CartCardImageFunc(cartData).then((src) => {
-            setImageSrc(src);
-          });
+            CartCardImageFunc(cartData).then((src) => {
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [cartData]);
+    }, [cartData]);
 
     // const handleRemovecartData = (cartData) => {
     //     onRemove(cartData)
     //     setTimeout(() => {
     //         if (countstatus) {
     //             GetCountAPI(visiterId).then((res) => {
-    //                 console.log('responseCount', res);
+    //                 
     //                 setCartCountVal(res?.cartcount);
     //             })
     //         }
@@ -79,19 +79,27 @@ const ExampleComponent = ({
                         <p className='smr_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>
                         {/* <p className='smr_b2ccartContentMtDT'>{cartData?.metalcolorname} | {cartData?.MetalWeight} | {cartData?.totalGrossweight} | {cartData?.totalDiaWt} / {cartData?.totaldiamondpcs} | {cartData?.totalCSWt}  / {cartData?.totalcolorstonepcs}</p> */}
                         <p className='smr_b2ccartContentMtDT'>
-                            <span className='smr_b2ccartContentcartData'>{cartData?.metalcolorname}</span>
-                            <span> | </span>
+                            {storeInitData?.IsMetalTypeWithColor == 1 &&
+                                <>
+                                    <span className='smr_b2ccartContentcartData'>{cartData?.metalcolorname}</span>
+                                    <span> | </span>
+                                </>
+                            }
                             {storeInitData?.IsGrossWeight == 1 &&
                                 <>
                                     <span className='smr_b2ccartContentcartData'>{(cartData?.Nwt || 0)?.toFixed(3)}</span>
                                 </>
                             }
-                            <span> | </span>
-                            {Number(cartData?.Nwt) !== 0 && (
+                            {storeInitData?.IsMetalWeight == 1 &&
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
+                                    <span> | </span>
+                                    {Number(cartData?.Nwt) !== 0 && (
+                                        <>
+                                            <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
+                                        </>
+                                    )}
                                 </>
-                            )}
+                            }
                             <span> | </span>
                             {storeInitData?.IsDiamondWeight == 1 &&
                                 <>

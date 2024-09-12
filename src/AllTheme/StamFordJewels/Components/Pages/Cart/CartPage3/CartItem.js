@@ -79,7 +79,6 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
     setIsSelectedItems()
   }
 
@@ -113,9 +112,6 @@ const CartItem = ({
 
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
 
-  console.log("diamondData", diamondData)
-
-
 
   return (
     <>
@@ -144,13 +140,17 @@ const CartItem = ({
                   <span className="stmpf_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
                 </div>
               }
-              {Number(item?.Nwt) !== 0 && (
-                <div className="stmpf_weightPair">
-                  <span className="stmpf_pipe">|</span>
-                  <span className="stmpf_weightLabel">Nwt:</span>
-                  <span className="stmpf_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
-                </div>
-              )}
+              {storeInitData?.IsMetalWeight == 1 &&
+                <>
+                  {Number(item?.Nwt) !== 0 && (
+                    <div className="stmpf_weightPair">
+                      <span className="stmpf_pipe">|</span>
+                      <span className="stmpf_weightLabel">Nwt:</span>
+                      <span className="stmpf_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
+                    </div>
+                  )}
+                </>
+              }
               {storeInitData?.IsDiamondWeight == 1 &&
                 <>
                   {(item?.Dwt != "0" || item?.Dpcs != "0") &&

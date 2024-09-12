@@ -318,3 +318,25 @@
         padding: 0px;
     }
 }
+@media screen and (max-width:705px) and (min-width:401px){
+    .daysfilter_account{
+        display: none !important;
+    }
+    .accordion_pd_Acc{
+        padding: 10px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+        margin: 10px !important;
+    }
+}
+@media screen and (max-width:400px){
+    .daysfilter_account2{
+        display: none !important;
+    }
+    .accordion_pd_Acc{
+        padding: 0px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+        margin: 10px !important;
+    }
+}

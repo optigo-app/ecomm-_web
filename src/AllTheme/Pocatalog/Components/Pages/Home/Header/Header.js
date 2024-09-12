@@ -150,7 +150,14 @@ const Header = () => {
     sessionStorage.removeItem("remarks");
     sessionStorage.removeItem("registerMobile");
     sessionStorage.removeItem("allproductlist");
-    sessionStorage.clear();
+    sessionStorage.removeItem("AllFilter");
+    sessionStorage.removeItem("ColorStoneQualityColorCombo");
+    sessionStorage.removeItem("CompanyInfoData");
+    sessionStorage.removeItem("MetalColorCombo");
+    sessionStorage.removeItem("metalTypeCombo");
+    sessionStorage.removeItem("myAccountFlags");
+    sessionStorage.removeItem("registerEmail");
+    sessionStorage.removeItem("selectedAddressId");
   };
 
 
@@ -431,13 +438,13 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge> */}
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -664,13 +671,13 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge> */}
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px", color: 'black' }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -718,13 +725,13 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge> */}
-                    <li
+                    {/* <li
                       className="nav_li_smining_Icone smr_mobileHideIcone"
                       onClick={toggleOverlay} style={{}}>
                       <IoSearchOutline
                         style={{ height: "20px", cursor: "pointer", width: "20px" }}
                       />
-                    </li>
+                    </li> */}
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -831,13 +838,13 @@ const Header = () => {
                           </li>
                         </Tooltip>
                       </Badge> */}
-                      <li
+                      {/* <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                         onClick={toggleOverlay} style={{}}>
                         <IoSearchOutline
                           style={{ height: "20px", cursor: "pointer", width: "20px" }}
                         />
-                      </li>
+                      </li> */}
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -881,13 +888,13 @@ const Header = () => {
                           </li>
                         </Tooltip>
                       </Badge> */}
-                      <li
+                      {/* <li
                         className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
                         onClick={toggleOverlay} style={{}}>
                         <IoSearchOutline
                           style={{ height: "20px", cursor: "pointer", width: "20px" }}
                         />
-                      </li>
+                      </li> */}
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}

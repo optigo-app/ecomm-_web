@@ -3,6 +3,7 @@ import { TextField,  Grid, IconButton } from "@mui/material";
 import "./Plm.scss";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import HeadTitleAcc from "../HeadTitleAcc";
 
 const Plm = () => {
 
@@ -58,7 +59,8 @@ const Plm = () => {
     <>
     <div className="plm_container">
     <div className="plm_width">
-      <div className="w-100 text-center plm_title" style={{cursor:'pointer'}}>
+      <HeadTitleAcc title="Private Label Setup" />
+      <div className="w-100 text-center plm_title HeadTitleAcc_none" style={{cursor:'pointer'}}>
         Private Label Setup
       </div>
       <div className="fieldContainer">
@@ -164,7 +166,7 @@ const Plm = () => {
               />
             </Grid>
             <Grid item xs={12} sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                <button  className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Save</button>
+                <button  className='SmilingAddEditAddrwess_hoq' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Save</button>
             </Grid>
           </Grid>
         </form>

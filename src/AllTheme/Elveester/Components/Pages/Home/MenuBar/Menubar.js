@@ -22,9 +22,13 @@ const Menubar = () => {
     const navigation = useNavigate();
     const [islogin, setislogin] = useRecoilState(el_loginState);
     const [toggle, setToggle] = useState(false);
+    const [menuToggle, setMenuToggle] = useState(false);
 
     const handleToggle = () => {
         setToggle(!toggle);
+    }
+    const handleMenuToggle = (index) => {
+        setMenuToggle(menuToggle === index ? null : index);
     }
 
     useEffect(() => {
@@ -49,7 +53,7 @@ const Menubar = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [expandedMenu, setExpandedMenu] = useState(null);
     const [selectedData, setSelectedData] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(null);
     const [isIconOpen, setIsIconOpen] = useState(false);
 
     // const setCartCount = useRecoilState(el_CartCount);
@@ -61,7 +65,7 @@ const Menubar = () => {
             try {
                 const visiterID = Cookies.get('visiterId');
                 const res = await GetCountAPI(visiterID);
-                console.log('responseCount', res);
+                
                 setCartCount(res?.cartcount);
                 setWishCount(res?.wishcount);
             } catch (error) {
@@ -72,8 +76,8 @@ const Menubar = () => {
         fetchData();
     }, []);
 
-    const handleToogle = () => {
-        setIsOpen(!isOpen);
+    const handleToogle = (index) => {
+        setIsOpen(isOpen === index ? null : index);
     }
 
     const handleIcon = (i) => {
@@ -262,11 +266,11 @@ const Menubar = () => {
                                         <div>
                                             <CloseIcon onClick={handleToggle} className='elv_login_header_menu_close_btn' />
                                         </div>
-                                        <div className="el_login_header_menu_main_div1">
+                                        {/* <div className="el_login_header_menu_main_div1">
                                             <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingLeft: '25px' }}>
                                                 {titleImg && <img src={titleImg} alt="Title" className="el_login_header_menu_main_div1_logo" />}
                                             </a>
-                                        </div>
+                                        </div> */}
 
                                         <ul className="el_login_header_menu_main_div2">
                                             <>
@@ -324,7 +328,7 @@ const Menubar = () => {
                                                     style={{
                                                         marginLeft: "33px",
                                                         marginBottom: '20px',
-                                                        cursor: "default",
+                                                        cursor: "pointer",
                                                         textDecoration: "none",
                                                         position: "relative",
                                                         color: "inherit"
@@ -367,7 +371,7 @@ const Menubar = () => {
                                                             handleMouseEnter(index, item);
                                                             handleMenuClick(item);
                                                             handleMouseLeave(index);
-                                                            handleToogle(e);
+                                                            handleToogle(index);
                                                             handleIcon(index);
                                                         }}
                                                     >
@@ -403,7 +407,7 @@ const Menubar = () => {
                                                                     {(item?.menuid === selectedData?.menuid) && isOpen && (
                                                                         <>
                                                                             {/* <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}> */}
-                                                                            <div style={{ padding: '5px', marginRight: '8px', marginTop: '5px' }}>
+                                                                            <div style={{ padding: '5px', marginRight: '8px', marginTop: '10px' }}>
                                                                                 <div style={{ width: '95%', textTransform: 'uppercase' }}>
                                                                                     {selectedData?.param1?.map((param1Item, param1Index) => (
                                                                                         <div key={param1Index}>

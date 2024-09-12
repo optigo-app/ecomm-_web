@@ -35,20 +35,20 @@ const ExampleComponent = ({
 
     useEffect(() => {
         if (cartData?.ImageCount > 0) {
-          CartCardImageFunc(cartData).then((src) => {
-            setImageSrc(src);
-          });
+            CartCardImageFunc(cartData).then((src) => {
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [cartData]);
+    }, [cartData]);
 
     // const handleRemovecartData = (cartData) => {
     //     onRemove(cartData)
     //     setTimeout(() => {
     //         if (countstatus) {
     //             GetCountAPI(visiterId).then((res) => {
-    //                 console.log('responseCount', res);
+    //                 
     //                 setCartCountVal(res?.cartcount);
     //             })
     //         }
@@ -87,12 +87,16 @@ const ExampleComponent = ({
                                 </>
                             }
                             <span> | </span>
-                            {Number(cartData?.Nwt) !== 0 && (
+                            {storeInitData?.IsMetalWeight == 1 &&
                                 <>
-                                    <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
+                                    {Number(cartData?.Nwt) !== 0 && (
+                                        <>
+                                            <span className='smr_b2ccartContentcartData'>{(cartData?.Gwt || 0)?.toFixed(3)}</span>
+                                        </>
+                                    )}
+                                    <span> | </span>
                                 </>
-                            )}
-                            <span> | </span>
+                            }
                             {storeInitData?.IsDiamondWeight == 1 &&
                                 <>
                                     {(cartData?.Dwt != "0" || cartData?.Dpcs != "0") &&

@@ -21,7 +21,11 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 
 const Payment = () => {
   const [isloding, setIsloding] = useState(false);
+<<<<<<< HEAD
   const [isloading, setIsloading] = useState(false);
+=======
+  const [isPloding, setIsPloding] = useState(false);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
   const navigate = useNavigate();
   const [countData, setCountData] = useState();
   const [selectedAddrData, setSelectedAddrData] = useState();
@@ -30,6 +34,7 @@ const Payment = () => {
   const [finalTotal, setFinlTotal] = useState();
   const [CurrencyData, setCurrencyData] = useState();
   const [taxAmmount, setTaxAmount] = useState();
+  const [storeInit, setStoreInit] = useState();
 
   const setCartCountVal = useSetRecoilState(Hoq_CartCount);
   const islogin = useRecoilValue(Hoq_loginState);
@@ -53,6 +58,7 @@ const Payment = () => {
     const orderRemakdata = sessionStorage.getItem("orderRemark");
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    setStoreInit(storeInit)
     setOrderRemark(orderRemakdata);
     if (storeInit?.IsB2BWebsite != 0) {
       setCurrencyData(storedData?.CurrencyCode);
@@ -67,7 +73,7 @@ const Payment = () => {
 
   // useEffect(() => {
   //     const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-  //     console.log('selectedAddressData', selectedAddressData);
+  //    
   //     setSelectedAddrData(selectedAddressData)
 
   //     const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -82,7 +88,11 @@ const Payment = () => {
   // }, [])
 
   useEffect(() => {
+<<<<<<< HEAD
     setIsloading(true);
+=======
+    setIsPloding(true);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
     const fetchData = async () => {
       try {
         const texData = await fetchEstimateTax();
@@ -95,7 +105,11 @@ const Payment = () => {
       } catch (error) {
         console.error("Error fetching tax data:", error);
       } finally {
+<<<<<<< HEAD
         setIsloading(false);
+=======
+        setIsPloding(false);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
       }
 
       const selectedAddressData = JSON.parse(
@@ -117,6 +131,7 @@ const Payment = () => {
     const visiterId = Cookies.get("visiterId");
     setIsloding(true);
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno;
       sessionStorage.setItem("orderNumber", num);
@@ -132,7 +147,7 @@ const Payment = () => {
     }
   };
 
-  const handleOrderRemarkChange = () => {};
+  const handleOrderRemarkChange = () => { };
   const handleOrderRemarkFun = async () => {
     try {
       const response = await handleOrderRemark(orderRemark);
@@ -161,6 +176,7 @@ const Payment = () => {
   console.log(isloding);
 
   return (
+<<<<<<< HEAD
     <>
       {isloading ? (
         <>
@@ -285,6 +301,113 @@ const Payment = () => {
               ) : (
                 <Skeleton variant="rectangular" className="skeleton-payment" />
               )}
+=======
+    <div className="hoqMo_paymentMainDiv">
+      <p className="SmiCartListTitle">
+        <IoArrowBack
+          style={{ height: "25px", width: "25px", marginRight: "10px" }}
+          onClick={() => navigate(-1)}
+        />
+        Order Summary
+      </p>
+      <div className="hoqMo_paymentSecondMainDiv">
+        <div className="hoqMo_PaymentContainer">
+          <div className="hoqMo_paymentDetailMainDiv">
+            <div className="hoqMo_paymentDetailLeftSideContent">
+              <h2>Payment Card Method</h2>
+              <div className="hoqMo_billingAddress">
+                <h3>Billing Address</h3>
+                <p>
+                  Name : {selectedAddrData?.shippingfirstname}{" "}
+                  {selectedAddrData?.shippinglastname}
+                </p>
+                <p>Address : {selectedAddrData?.street}</p>
+                <p>City : {selectedAddrData?.city}</p>
+                <p>State : {selectedAddrData?.state}</p>
+                <p>Mobile : {selectedAddrData?.shippingmobile}</p>
+                <p
+                  className="hoq_orderRemakrPtag"
+                  style={{ maxWidth: "400px", wordWrap: "break-word" }}
+                >
+                  Order Remark : {orderRemark}
+                </p>
+              </div>
+            </div>
+            <div className="hoqMo_paymentDetailRightSideContent">
+              {storeInit?.IsPriceShow == 1 &&
+                <div className="hoqMo_orderSummary">
+                  <h3>Order Summary</h3>
+                  <div className="hoq_paymenttotalpricesummary">
+                    <p>Subtotal</p>
+                    <p>
+                      <span
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(CurrencyData),
+                        }}
+                      />&nbsp;
+                      {formatter(finalTotal)}
+                    </p>
+                  </div>
+                  <div className="hoq_paymenttotalpricesummary">
+                    <p className="">Estimated Tax</p>
+                    <p>
+                      <span
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(CurrencyData),
+                        }}
+                      />&nbsp;
+                      {formatter(taxAmmount)}
+                    </p>
+                  </div>
+                  <Divider className="hoqMo_Divider" />
+                  <div className="hoq_paymenttotalpricesummary">
+                    <p>Estimated Total</p>
+                    <p>
+                      <span
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(CurrencyData),
+                        }}
+                      />&nbsp;
+                      {formatter((taxAmmount + finalTotal).toFixed(0))}
+                    </p>
+                  </div>
+                </div>
+              }
+              <div className="shippingAddress">
+                <div className="hoqMo_addrChangesBtn">
+                  <h3>Shipping Address</h3>
+                  <Button
+                    onClick={handleRedirectpage}
+                    className="hoqMo_changeAddr"
+                  >
+                    Change
+                  </Button>
+                </div>
+                <p className="hoqMo_paymentUserName">
+                  {selectedAddrData?.shippingfirstname}{" "}
+                  {selectedAddrData?.shippinglastname}
+                </p>
+                <p>{selectedAddrData?.street}</p>
+                <p>
+                  {selectedAddrData?.city}-{selectedAddrData?.zip}
+                </p>
+                <p>{selectedAddrData?.state}</p>
+                <p>{selectedAddrData?.shippingmobile}</p>
+              </div>
+              <div className="hoqMo_paymentButtonDiv">
+                <button
+                  className="hoqMo_payOnAccountBtn"
+                  onClick={handlePay}
+                  disabled={isloding}
+                >
+                  {isloding ? "Loading..." : "Pay On Account"}
+                  {isloding && <span className="loader"></span>}
+                </button>
+              </div>
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
             </div>
           </div>
           <OrderRemarkModal

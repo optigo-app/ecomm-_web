@@ -56,15 +56,30 @@ const Header = () => {
     // }, 100);
   }, []);
 
+  const GetCompanyLogo = async () => {
+    try {
+      const value = JSON?.parse(sessionStorage?.getItem("LoginUser"));
+      setislogin(value);
+      const storeData = JSON?.parse(sessionStorage?.getItem('storeInit'));
+      console.log("jj", storeData)
+      setStoreInit(storeData);
+      const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
+      setCompanyTitleLogo(storeInit?.companylogo);
+      console.log(storeInit?.companylogo);
+      window.scroll({ behavior: "smooth", top: 0 });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    const value = JSON.parse(sessionStorage.getItem("LoginUser"));
-    setislogin(value);
-    const storeData = JSON.parse(sessionStorage.getItem('storeInit'));
-    setStoreInit(storeData);
-    const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    setCompanyTitleLogo(storeInit?.companylogo);
-    console.log(storeInit?.companylogo);
-    window.scroll({ behavior: "smooth", top: 0 });
+    setTimeout(() => {
+      if (JSON?.parse(sessionStorage?.getItem("storeInit"))) {
+        GetCompanyLogo()
+      } else {
+        return
+      }
+    }, 600)
   }, []);
 
   useEffect(() => {
@@ -608,6 +623,7 @@ const Header = () => {
                           }}
                           onClick={(e) => {
                             handelMenu({ "menuname": item?.menuname, "key": item?.param0name, "value": item?.param0dataname }, {}, {}, e)
+                            handleMouseLeave();
                           }}
                         >
                           <a href={`/p/${item?.menuname}/?M=${btoa(
@@ -624,7 +640,7 @@ const Header = () => {
                         className="el_Login_header_li go-lookbook"
                         style={{
                           marginLeft: " 20px",
-                          cursor: "default",
+                          cursor: "pointer",
                           textDecoration: "none",
                           position: "relative",
                           color: "inherit"
@@ -985,7 +1001,7 @@ const Header = () => {
                       className="level1MenuData"
                       key={param1Index}
                       style={{
-                        fontSize: "16px",
+                        fontSize: "14px",
                         textDecoration: "underline",
                         marginBottom: "10px",
                         fontFamily: '"PT Sans", sans-serif',
@@ -1044,7 +1060,7 @@ const Header = () => {
                               )
                             }
                             style={{
-                              fontSize: "15px",
+                              fontSize: "14px",
                               margin: "3px 15px 3px 0px",
                               fontFamily: '"PT Sans", sans-serif',
                               letterSpacing: 0.4,

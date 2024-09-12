@@ -106,3 +106,26 @@
         width: 95% !important;
     }   
 }
+
+.toggleRange_dsr{
+    display: none ;
+}
+.toggleRange_dsr2{
+    display: none ;
+}
+@media screen and (min-width:500px) and (max-width:680px){
+    .toggleRange_dsr{
+        display: flex !important;
+    }
+    .toggleRange_dsr2{
+        display: none !important;
+    }
+}
+@media screen and (max-width:500px){
+    .toggleRange_dsr2{
+        display: block;
+    }
+    .toggleRange_dsr{
+        display: none !important;
+    }
+}

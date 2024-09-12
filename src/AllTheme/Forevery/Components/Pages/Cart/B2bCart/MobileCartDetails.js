@@ -57,7 +57,6 @@ const MobileCartDetails = ({
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
   const handleUpdateCart = async (selectedItem) => {

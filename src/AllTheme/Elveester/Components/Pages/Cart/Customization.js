@@ -22,7 +22,6 @@ const Customization = ({
   decodeEntities,
   onUpdateCart
 }) => {
-  console.log('selectedItem: ', selectedItem);
 
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
@@ -214,8 +213,6 @@ const Customization = ({
                     <span>{selectedItem?.metalcolorname}</span>
                   </div>
                 }
-              </div>
-              <div className='elv_stock_2'>
                 {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
                   <div className="elv_option">
                     <label htmlFor="diamond">Diamond:&nbsp;</label>
@@ -228,14 +225,16 @@ const Customization = ({
                     <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
                   </div>
                 }
-              </div>
-              <div className='elv_stock_3'>
                 {selectedItem?.Size != "" &&
                   <div className="elv_option">
                     <label htmlFor="size">Size:&nbsp;</label>
                     <span>{selectedItem?.Size}</span>
                   </div>
                 }
+                <div className='elv_stock_2'>
+                </div>
+              </div>
+              <div className='elv_stock_3'>
                 <div className="elv_cartQtyPricemainDev_1">
                   {storeInitData?.IsPriceShow == 1 &&
                     <div className="elv_product-price_1">
