@@ -246,9 +246,9 @@ const CartItem = ({
               {item?.StockNo != "" && (
                 <span className="hoq_DesignNoTExt">{item?.StockNo}</span>
               )}
-              <Box className="hoq_PriceBox">
+              { storeInitData?.IsPriceShow == 1 &&  <Box className="hoq_PriceBox">
                 <>
-                  {storeInitData?.IsPriceShow == 1 && (
+                  {storeInitData?.IsPriceShow == 1 && ( 
                     <span className="hoq_currencyFontPrice">
                       <span
                         className="hoq_currencyFont"
@@ -261,7 +261,7 @@ const CartItem = ({
                     </span>
                   )}
                 </>
-              </Box>
+              </Box>}
               {item?.Remarks !== "" && (
                 <Typography variant="body2" className="hoq_remarktext" noWrap>
                   <span>Remark:</span>

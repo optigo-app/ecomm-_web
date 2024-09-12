@@ -7,7 +7,7 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import OrderRemarkModal from "../OrderRemark/OrderRemark";
 import { handleOrderRemark } from "../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI";
-import { Divider, Button } from "@mui/material";
+import { Divider, Button, Skeleton } from "@mui/material";
 import {
   Hoq_CartCount,
   Hoq_loginState,
@@ -17,10 +17,15 @@ import { fetchEstimateTax } from "../../../../../../utils/API/OrderFlow/GetTax";
 import { IoArrowBack } from "react-icons/io5";
 import Cookies from "js-cookie";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { RiSecurePaymentLine } from "react-icons/ri";
 
 const Payment = () => {
   const [isloding, setIsloding] = useState(false);
+<<<<<<< HEAD
+  const [isloading, setIsloading] = useState(false);
+=======
   const [isPloding, setIsPloding] = useState(false);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
   const navigate = useNavigate();
   const [countData, setCountData] = useState();
   const [selectedAddrData, setSelectedAddrData] = useState();
@@ -83,17 +88,28 @@ const Payment = () => {
   // }, [])
 
   useEffect(() => {
+<<<<<<< HEAD
+    setIsloading(true);
+=======
     setIsPloding(true);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
     const fetchData = async () => {
       try {
         const texData = await fetchEstimateTax();
         if (texData) {
-          setTaxAmount(texData[0]?.TaxAmount);
+          setTaxAmount(texData[0]);
+          console.log(texData[0]);
+        setFinlTotal(texData[0]?.TotalAmount);
+
         }
       } catch (error) {
         console.error("Error fetching tax data:", error);
       } finally {
+<<<<<<< HEAD
+        setIsloading(false);
+=======
         setIsPloding(false);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
       }
 
       const selectedAddressData = JSON.parse(
@@ -105,7 +121,6 @@ const Payment = () => {
       if (totalPriceData) {
         const totalPriceNum = parseFloat(totalPriceData);
         const finalTotalPrice = totalPriceNum;
-        setFinlTotal(finalTotalPrice);
       }
     };
 
@@ -158,7 +173,135 @@ const Payment = () => {
     navigate("/Delivery");
   };
 
+  console.log(isloding);
+
   return (
+<<<<<<< HEAD
+    <>
+      {isloading ? (
+        <>
+          <div className="sl">
+            <Skeleton variant="rectangular" className="skeleton1" />
+          </div>
+        </>
+      ) : null}
+      <div className="hoqMo_paymentMainDiv">
+        <p className="SmiCartListTitle">
+          <IoArrowBack
+            style={{ height: "25px", width: "25px", marginRight: "10px" }}
+            onClick={() => navigate(-1)}
+          />
+          Order Summary
+        </p>
+        <div className="hoqMo_paymentSecondMainDiv">
+          <div className="hoqMo_PaymentContainer">
+            <div className="hoqMo_paymentDetailMainDiv">
+              {!isloading ? (
+                <div className="hoqMo_paymentDetailLeftSideContent">
+                  <h2>Payment Card Method</h2>
+                  <div className="hoqMo_billingAddress">
+                    <h3>Billing Address</h3>
+                    <p>
+                      Name : {selectedAddrData?.shippingfirstname}{" "}
+                      {selectedAddrData?.shippinglastname}
+                    </p>
+                    <p>Address : {selectedAddrData?.street}</p>
+                    <p>City : {selectedAddrData?.city}</p>
+                    <p>State : {selectedAddrData?.state}</p>
+                    <p>Mobile : {selectedAddrData?.shippingmobile}</p>
+                    <p
+                      className="hoq_orderRemakrPtag"
+                      style={{ maxWidth: "400px", wordWrap: "break-word" }}
+                    >
+                      Order Remark : {orderRemark}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <Skeleton variant="rectangular" className="skeleton-payment" />
+              )}
+              {!isloading ? (
+                <div className="hoqMo_paymentDetailRightSideContent">
+                  <div className="hoqMo_orderSummary">
+                    <h3>Order Summary</h3>
+                    <div className="hoq_paymenttotalpricesummary">
+                      <p>Subtotal</p>
+                      <p>
+                        <span
+                          className="hoq_currencyFont"
+                          dangerouslySetInnerHTML={{
+                            __html: decodeEntities(CurrencyData),
+                          }}
+                        />
+                        &nbsp;
+                        {formatter(finalTotal)}
+                      </p>
+                    </div>
+                    <div className="hoq_paymenttotalpricesummary">
+                      <p className="">Estimated Tax</p>
+                      <p>
+                        <span
+                          className="hoq_currencyFont"
+                          dangerouslySetInnerHTML={{
+                            __html: decodeEntities(CurrencyData),
+                          }}
+                        />
+                        &nbsp;
+                        {formatter(taxAmmount?.TaxAmount)}
+                      </p>
+                    </div>
+                    <Divider className="hoqMo_Divider" />
+                    <div className="hoq_paymenttotalpricesummary">
+                      <p>Estimated Total</p>
+                      <p>
+                        <span
+                          className="hoq_currencyFont"
+                          dangerouslySetInnerHTML={{
+                            __html: decodeEntities(CurrencyData),
+                          }}
+                        />
+                        &nbsp;
+                        {formatter((taxAmmount?.TotalAmountWithTax)?.toFixed(0))}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="shippingAddress">
+                    <div className="hoqMo_addrChangesBtn">
+                      <h3>Shipping Address</h3>
+                      <Button
+                        onClick={handleRedirectpage}
+                        className="hoqMo_changeAddr"
+                      >
+                        Change
+                      </Button>
+                    </div>
+                    <p className="hoqMo_paymentUserName">
+                      {selectedAddrData?.shippingfirstname}{" "}
+                      {selectedAddrData?.shippinglastname}
+                    </p>
+                    <p>{selectedAddrData?.street}</p>
+                    <p>
+                      {selectedAddrData?.city}-{selectedAddrData?.zip}
+                    </p>
+                    <p>{selectedAddrData?.state}</p>
+                    <p>{selectedAddrData?.shippingmobile}</p>
+                  </div>
+                  <div className="hoqMo_paymentButtonDiv">
+                    <button
+                      className="hoqMo_payOnAccountBtn"
+                      onClick={handlePay}
+                      disabled={isloding}
+                    >
+                      <RiSecurePaymentLine size={24}/>
+                      {isloding ? "Loading..." : `Pay On Account`}
+                      {isloding && <span className="loader"></span>}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <Skeleton variant="rectangular" className="skeleton-payment" />
+              )}
+=======
     <div className="hoqMo_paymentMainDiv">
       <p className="SmiCartListTitle">
         <IoArrowBack
@@ -264,18 +407,19 @@ const Payment = () => {
                   {isloding && <span className="loader"></span>}
                 </button>
               </div>
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
             </div>
           </div>
+          <OrderRemarkModal
+            open={open}
+            onClose={handleClose}
+            remark={orderRemark}
+            onRemarkChange={handleRemarkChangeInternal}
+            onSave={handleSaveInternal}
+          />
         </div>
-        <OrderRemarkModal
-          open={open}
-          onClose={handleClose}
-          remark={orderRemark}
-          onRemarkChange={handleRemarkChangeInternal}
-          onSave={handleSaveInternal}
-        />
       </div>
-    </div>
+    </>
   );
 };
 

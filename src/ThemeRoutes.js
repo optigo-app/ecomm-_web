@@ -121,7 +121,11 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       setThemeNo(SessionData?.Themeno);
+<<<<<<< HEAD
+      // setThemeNo(7);
+=======
       // setThemeNo(1);
+>>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
