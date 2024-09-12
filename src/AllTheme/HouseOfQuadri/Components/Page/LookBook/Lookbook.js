@@ -3557,15 +3557,25 @@ const Lookbook = () => {
                           }}
                         >
                           <p className="hoq_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
-                            DWT:{" "}
+                            {storeInit?.IsDiamondWeight == 1 &&
+                              <>
+                               DWT:{" "}
                             {calculateTotalUnitCostWithMarkUpDwt(
                               JSON?.parse(slide.Designdetail)
                             ).toFixed(3)}{" "}
-                            | GWT:{" "}
+                            | 
+                              </>
+                            }
+                             { storeInit?.IsGrossWeight == 1 &&
+                              <>
+                              GWT:{" "}
                             {calculateTotalUnitCostWithMarkUpGWt(
                               JSON?.parse(slide.Designdetail)
                             ).toFixed(3)}{" "}
-                            | NWT:{" "}
+                            |
+                              </>
+                             }
+                              NWT:{" "}
                             {calculateTotalUnitCostWithMarkUpNwt(
                               JSON?.parse(slide.Designdetail)
                             ).toFixed(3)}{" "}
@@ -3574,6 +3584,7 @@ const Lookbook = () => {
                             className="hoq_lookBookImgDeatilSub"
                             style={{ display: "flex", alignItems: "center" }}
                           >
+                           {storeInit?.IsPriceShow == 1 && <>
                             <p
                               style={{
                                 margin: "0px 10px 0px 0px",
@@ -3601,6 +3612,7 @@ const Lookbook = () => {
                                 JSON?.parse(slide.Designdetail)
                               ))}
                             </p>
+                           </>}
                             <button
                               className="hoq_lookBookBuyBtn"
                               onClick={() =>
@@ -3757,15 +3769,17 @@ const Lookbook = () => {
                               }}
                             >
                               <p className="hoq_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
-                                DWT:{" "}
+                               { storeInit?.IsGrossWeight == 1 && <> DWT:{" "}
                                 {calculateTotalUnitCostWithMarkUpDwt(
                                   JSON?.parse(slide.Designdetail)
-                                ).toFixed(3)}{" "}
-                                | GWT:{" "}
+                                ).toFixed(3)}{" "} </>}
+                                { storeInit?.IsGrossWeight == 1 && <>
+                                  | GWT:{" "}
                                 {calculateTotalUnitCostWithMarkUpGWt(
                                   JSON?.parse(slide.Designdetail)
                                 ).toFixed(3)}{" "}
-                                | NWT:{" "}
+                                |
+                                </>} NWT:{" "}
                                 {calculateTotalUnitCostWithMarkUpNwt(
                                   JSON?.parse(slide.Designdetail)
                                 ).toFixed(3)}{" "}
@@ -3774,7 +3788,7 @@ const Lookbook = () => {
                                 className="hoq_lookBookImgDeatilSub"
                                 style={{ display: "flex", alignItems: "center" }}
                               >
-                                <p
+                               {storeInit?.IsPriceShow == 1 && <p
                                   style={{
                                     margin: "0px 10px 0px 0px",
                                     fontSize: "15px",
@@ -3800,7 +3814,7 @@ const Lookbook = () => {
                                   {formatter(calculateTotalUnitCostWithMarkUp(
                                     JSON?.parse(slide.Designdetail)
                                   ))}
-                                </p>
+                                </p>}
                                 <button
                                   className="hoq_lookBookBuyBtn"
                                   onClick={() =>
@@ -4137,7 +4151,7 @@ const Lookbook = () => {
 
                                                 {Number(ele?.Nwt) !== 0 && (
                                                   <>
-                                                    <span className='hoq_lb3pipe'> | </span>
+                                                   {storeInit?.IsGrossWeight ==1 &&  <span className='hoq_lb3pipe'> | </span>}
                                                     <span className='hoq_lb3detailDT'>NWT : </span>
                                                     <span className='hoq_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
                                                   </>
@@ -4174,6 +4188,7 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
+                                               {storeInit?.IsPriceShow == 1 && <>
                                                 <span
                                                   className="hoq_currencyFont"
                                                 >
@@ -4181,6 +4196,7 @@ const Lookbook = () => {
                                                 </span>
                                                 &nbsp;
                                                 {formatter(ele?.UnitCostWithMarkUp)}
+                                               </>}
                                               </p>
                                             </div>
                                           </div>

@@ -107,7 +107,6 @@ const DynamicCollection = () => {
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
-
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
@@ -568,7 +567,6 @@ const DynamicCollection = () => {
       // };
 
       let UrlVal = location?.search.slice(1).split("/");
-
 
       let MenuVal = "";
       let MenuKey = "";
@@ -1315,7 +1313,7 @@ const DynamicCollection = () => {
           className="hoq_filterDrawer"
           style={{ zIndex: "99999999" }}
           sx={{
-            fontFamily  :""
+            fontFamily: "",
           }}
         >
           <div
@@ -1494,9 +1492,9 @@ const DynamicCollection = () => {
                     borderRadius: "8px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif ",
-                    'option'  :{
-                    fontFamily: "sans-serif ",
-                    }
+                    option: {
+                      fontFamily: "sans-serif ",
+                    },
                   }}
                   className="select"
                   value={sortBySelect}
@@ -1650,16 +1648,18 @@ const DynamicCollection = () => {
                                     alignItems: "center",
                                     justifyContent: "space-between",
                                     gap: "12px",
-                                    fontFamily: "Tenor Sans , sans-serif !important",
+                                    fontFamily:
+                                      "Tenor Sans , sans-serif !important",
                                   }}
                                   key={opt?.id}
                                 >
                                   <FormControlLabel
-                                  sx={{
-                                    '& .MuiFormControlLabel-label': {
-                                      fontFamily: "Tenor Sans, sans-serif !important",
-                                    }
-                                  }}
+                                    sx={{
+                                      "& .MuiFormControlLabel-label": {
+                                        fontFamily:
+                                          "Tenor Sans, sans-serif !important",
+                                      },
+                                    }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1672,13 +1672,15 @@ const DynamicCollection = () => {
                                               ]?.checked
                                         }
                                         sx={{
-                                    fontFamily  :"Tenor Sans , sans-serif !important" ,
+                                          fontFamily:
+                                            "Tenor Sans , sans-serif !important",
                                         }}
                                         style={{
                                           color: "#7f7d85",
                                           padding: 0,
                                           width: "10px",
-                                          fontFamily: "Tenor Sans , sans-serif  !important",
+                                          fontFamily:
+                                            "Tenor Sans , sans-serif  !important",
                                         }}
                                         onClick={(e) =>
                                           handleCheckboxChange(
@@ -1687,7 +1689,6 @@ const DynamicCollection = () => {
                                             opt?.Name
                                           )
                                         }
-                                        
                                         size="small"
                                       />
                                     }
@@ -2430,7 +2431,7 @@ const C_Card = ({
           {/* </span> */}
         </small>
         <div className="hoq_prod_mtcolr_price">
-          <span className="hoq_prod_metal_col">
+          {<span className="hoq_prod_metal_col">
             {findMetalColor(
               productData?.MetalColorid
             )?.[0]?.metalcolorname?.toUpperCase()}
@@ -2442,20 +2443,24 @@ const C_Card = ({
                   : selectedMetalId ?? productData?.MetalPurityid
               )[0]?.metaltype
             }
-          </span>
-          <span> / </span>
-          <span className="hoq_price">
-            <span
-              className="hoq_currencyFont"
-              style={{ paddingRight: "0.1rem" }}
-              dangerouslySetInnerHTML={{
-                __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
-              }}
-            />
-            <span className="hoq_pricePort">
-              {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
-            </span>
-          </span>
+          </span>}
+          {storeInit?.IsPriceShow === 1 && (
+            <>
+              <span> / </span>
+              <span className="hoq_price">
+                <span
+                  className="hoq_currencyFont"
+                  style={{ paddingRight: "0.1rem" }}
+                  dangerouslySetInnerHTML={{
+                    __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
+                  }}
+                />
+                <span className="hoq_pricePort">
+                  {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
+                </span>
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

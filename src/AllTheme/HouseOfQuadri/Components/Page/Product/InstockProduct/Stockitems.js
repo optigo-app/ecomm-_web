@@ -10,6 +10,7 @@ const Stockitems = ({
   loginInfo,
   cartArr,
   handleCartandWish,
+  check,
 }) => {
   return (
     <div className="hoq_Stockitems">
@@ -31,7 +32,7 @@ const Stockitems = ({
                   Gross Wt/Net Wt/Dia Wt/CS Wt
                 </th>
                 <th className="hoq_stockItem_table_td">Metal Color-Purity</th>
-                <th className="hoq_stockItem_table_td">Price</th>
+                {check && <th className="hoq_stockItem_table_td">Price</th>}
                 <th className="hoq_stockItem_table_td">Add To Cart</th>
               </tr>
               {stockItemArr?.map((ele, i) => (
@@ -52,7 +53,7 @@ const Stockitems = ({
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                  <td className="hoq_stockItem_table_td" >
+                  <td className="hoq_stockItem_table_td">
                     <div className="hoq_prod_Allwt">
                       <div
                         style={{
@@ -62,7 +63,7 @@ const Stockitems = ({
                           letterSpacing: "1px",
                           gap: "3px",
                         }}
-                       className="reponsive-tab"
+                        className="reponsive-tab"
                       >
                         {storeInit?.IsGrossWeight == 1 &&
                           Number(ele?.GrossWt) !== 0 && (
@@ -78,10 +79,13 @@ const Stockitems = ({
 
                         {Number(ele?.NetWt) !== 0 && (
                           <>
-                            <span>|</span>
+                            {storeInit?.IsGrossWeight == 1 &&
+                              Number(ele?.GrossWt) !== 0 && <span>|</span>}
                             <span className="hoq_prod_wt">
                               <span className="hoq_d_keys">NWT:</span>
-                              <span className="hoq_d_val">{ele?.NetWt?.toFixed(3)}</span>
+                              <span className="hoq_d_val">
+                                {ele?.NetWt?.toFixed(3)}
+                              </span>
                             </span>
                           </>
                         )}
@@ -141,22 +145,17 @@ const Stockitems = ({
                     </span>
                     {/* </div> */}
                   </td>
-                  <td className="hoq_stockItem_table_td">
-                    <span>
-                      <span className="hoq_currencyFont">
-                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                      </span>
-                      &nbsp;
+                  {check && (
+                    <td className="hoq_stockItem_table_td">
                       <span>
-                        {" "}
-                        {
-                          formatter(
-                          ele?.Amount
-                          )
-                        }
+                        <span className="hoq_currencyFont">
+                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                        </span>
+                        &nbsp;
+                        <span> {formatter(ele?.Amount)}</span>
                       </span>
-                    </span>
-                  </td>
+                    </td>
+                  )}
                   <td
                     className="hoq_stockItem_table_td"
                     style={{

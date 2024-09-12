@@ -224,7 +224,7 @@ const ProductDetail = () => {
         });
     }
   };
-
+ 
   const handleWishList = (e, ele) => {
     setWishListFlag(e?.target?.checked);
 
