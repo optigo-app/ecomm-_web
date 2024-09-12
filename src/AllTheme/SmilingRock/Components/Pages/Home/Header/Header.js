@@ -725,7 +725,11 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="smr_menuStaicMobilePage">About us</p>
+              <p className="smr_menuStaicMobilePage"
+                 onClick={() => {
+                  setDrawerShowOverlay(false);
+                  navigation("/aboutUs");
+                }}>About us</p>
             </div>
             {islogin &&
               <div>
