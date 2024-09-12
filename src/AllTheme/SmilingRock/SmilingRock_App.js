@@ -7,7 +7,11 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, companyLogoM, loginState } from "./Components/Recoil/atom";
+import {
+  companyLogo,
+  companyLogoM,
+  loginState,
+} from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -38,6 +42,7 @@ import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
+import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(loginState);
@@ -49,7 +54,8 @@ const SmilingRock_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
-  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM);
+  const [companyTitleLogoM, setCompanyTitleLogoM] =
+    useRecoilState(companyLogoM);
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -59,6 +65,25 @@ const SmilingRock_App = () => {
       backgroundColor
     );
   };
+
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          // Parse the JSON data
+          const jsonData = JSON.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
 
   useEffect(() => {
     setCSSVariable();
@@ -105,20 +130,19 @@ const SmilingRock_App = () => {
     setLocalData(localD);
   }, []);
 
-
   if (islogin === true) {
     const restrictedPaths = [
-      '/LoginOption',
-      '/ContinueWithEmail',
-      '/ContinueWithMobile',
-      '/LoginWithEmailCode',
-      '/LoginWithMobileCode',
-      '/ForgotPass',
-      '/LoginWithEmail',
-      '/register'
+      "/LoginOption",
+      "/ContinueWithEmail",
+      "/ContinueWithMobile",
+      "/LoginWithEmailCode",
+      "/LoginWithMobileCode",
+      "/ForgotPass",
+      "/LoginWithEmail",
+      "/register",
     ];
 
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
       return navigation("/");
     }
   }
@@ -129,9 +153,12 @@ const SmilingRock_App = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
-        <Header />
-        {/* {localData?.Headerno === 2 && <Header2 />}
-        {localData?.Headerno === 1 && <Header />} */}
+        {htmlContent?.rd && htmlContent?.rd.length > 0 && (
+          <>
+            {htmlContent.rd[0].Headerno === 2 && <Header2 />}
+            {htmlContent.rd[0].Headerno === 1 && <Header />}
+          </>
+        )}
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
