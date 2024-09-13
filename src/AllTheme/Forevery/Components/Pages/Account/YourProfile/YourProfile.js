@@ -454,6 +454,11 @@ export default function YourProfile() {
                                     // disabled={!editMode}
                                     disabled
                                     onChange={handleInputChange}
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
+                                    multiline
+                                    rows={2}
                                 />
                             </div>
                         </>
@@ -524,6 +529,11 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.defaddress_street}
                                     helperText={errors.defaddress_street}
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
+                                    multiline
+                                    rows={2}
                                 />
                             </>
                         )}

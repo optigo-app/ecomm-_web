@@ -174,10 +174,10 @@ export default function YourProfile() {
                                     sx={{ "& .MuiInputBase-input.Mui-disabled" : {
                                         WebkitTextFillColor:'black'
                                     }}}
-                                    value={userData?.street || ''}
-                                    disabled
                                     multiline
                                     rows={2}
+                                    value={userData?.street || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>

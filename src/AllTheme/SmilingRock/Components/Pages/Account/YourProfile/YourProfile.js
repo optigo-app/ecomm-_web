@@ -165,6 +165,11 @@ export default function YourProfile() {
                                     style={{ margin: '15px' }}
                                     value={userData?.street || ''}
                                     disabled
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
+                                    multiline
+                                    rows={2}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -235,6 +240,11 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.street}
                                     helperText={errors.street}
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
+                                    multiline
+                                    rows={2}
                                 />
                             </>
                         )}
