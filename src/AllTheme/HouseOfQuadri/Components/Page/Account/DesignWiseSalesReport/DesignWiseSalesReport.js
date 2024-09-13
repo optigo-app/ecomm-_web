@@ -1339,7 +1339,6 @@ const DesignWiseSalesReport = () => {
             </>
             }                        
 
-
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
                 <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
@@ -1354,7 +1353,7 @@ const DesignWiseSalesReport = () => {
                                 zIndex: 0,
                                 background: "#c0bbb133",
                             }}
-                            className="smilingProductImageBox designWiseSalesReportProduct"
+                            className="smilingProductImageBox designWiseSalesReportProduct minW_dwsr_acc_hoq"
                         >
                             <Box sx={{
                                 paddingBottom: "10px"
