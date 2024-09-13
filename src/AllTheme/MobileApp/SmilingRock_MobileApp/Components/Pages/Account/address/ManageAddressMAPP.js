@@ -560,7 +560,7 @@ const ManageAddressMAPP = () => {
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
                                     <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
-                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn'>
+                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn_mapp'>
                                         Cancel
                                     </button>
                                 </div>

@@ -252,8 +252,8 @@ export default function YourProfile() {
                             </>
                         )}
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                          <button type='submit' className='smr_SmilingAddEditAddrwessDT btn_bg_color_DT'  style={{  marginInline: '5px' }}>Save</button>
-                          <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwessDT btn_bg_color_DT' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                          <button type='submit' className='smilingDeleveryformSaveBtnDT btn_bg_color_DT'  style={{  marginInline: '5px' }}>Save</button>
+                          <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtnDT btn_bg_color_DT' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
                       </div>
                     </form>
                 </div>
