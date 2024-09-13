@@ -450,7 +450,7 @@ const QuotationJob = () => {
       const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
       const { FrontEnd_RegNo } = storeInit;
 
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
