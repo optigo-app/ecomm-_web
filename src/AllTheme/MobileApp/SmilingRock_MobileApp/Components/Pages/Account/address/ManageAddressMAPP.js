@@ -467,7 +467,7 @@ const ManageAddressMAPP = () => {
                 />
                 <Dialog open={open} onClose={handleClose} className='dialogBox_Mapp'>
                     <div className='smilingAddressPopupMain dialogMAddress_Mapp'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"
