@@ -384,9 +384,10 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
-
+            console.log(storeInit, response?.Data?.rd);
+            
             if (response?.Data?.rd) {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
@@ -397,6 +398,7 @@ const QuotationQuote = () => {
             
                 setData(rows);
                 setFilterData(rows);
+                
             } else {
                 // alert('nodata')
                 setData([]);

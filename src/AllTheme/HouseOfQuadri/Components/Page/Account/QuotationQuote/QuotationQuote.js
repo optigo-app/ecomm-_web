@@ -386,7 +386,7 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
             if (response?.Data?.rd) {
@@ -434,7 +434,6 @@ const QuotationQuote = () => {
           tableContainer.scrollTop = 0;
         }
     };
-
 
     return (
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>

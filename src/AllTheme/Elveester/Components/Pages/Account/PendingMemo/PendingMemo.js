@@ -682,7 +682,7 @@ const PendingMemo = () => {
       const customerid = data.id;
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       // const combinedValue = JSON.stringify({
       //   CurrencyRate: "1",
       //   FrontEnd_RegNo: `${FrontEnd_RegNo}`,

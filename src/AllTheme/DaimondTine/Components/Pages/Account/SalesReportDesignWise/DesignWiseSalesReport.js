@@ -404,7 +404,7 @@ const handleBlurGrossWt = (index) => (event) => {
 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
   
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
             

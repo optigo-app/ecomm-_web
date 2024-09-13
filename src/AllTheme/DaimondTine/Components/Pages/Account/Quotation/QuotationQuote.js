@@ -372,7 +372,7 @@ const QuotationQuote = () => {
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
    
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
             if (response?.Data?.rd) {
