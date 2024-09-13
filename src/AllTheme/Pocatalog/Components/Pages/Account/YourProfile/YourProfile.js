@@ -286,7 +286,7 @@ export default function YourProfile() {
                         )}
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
                         <button type='submit' className='smilingDeleveryformSaveBtn' style={{  marginInline: '5px' }}>Save</button>
-                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn' >Cancel</button>
+                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_Pro' >Cancel</button>
                     </div>
                     </form>
                 </div>
