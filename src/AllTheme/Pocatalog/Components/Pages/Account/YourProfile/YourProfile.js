@@ -206,6 +206,9 @@ export default function YourProfile() {
                                     rows={2} // Number of visible rows
                                     style={{ margin: '15px', color:'black' }}
                                     value={userData?.street || ''}
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
                                     disabled
                                     onChange={handleInputChange}
                                 />
@@ -283,8 +286,8 @@ export default function YourProfile() {
                             </>
                         )}
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        <button type='submit' className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginInline: '5px' }}>Save</button>
-                        <button onClick={() => handleCancel()} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray' }}>Cancel</button>
+                        <button type='submit' className='smilingDeleveryformSaveBtn' style={{  marginInline: '5px' }}>Save</button>
+                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn' >Cancel</button>
                     </div>
                     </form>
                 </div>

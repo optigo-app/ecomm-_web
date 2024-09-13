@@ -2,8 +2,6 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 export const GetSinglePriceListApi = async (item) => {
 
-  console.log("prodInfo",item);
-
   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"))
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"))
   const islogin = JSON.parse(sessionStorage.getItem("LoginUser"))
@@ -58,8 +56,6 @@ export const GetSinglePriceListApi = async (item) => {
     sessionStorage.setItem("fullProdInfo", JSON.stringify(res?.Data))
     finalData = res?.Data 
   })
-
-  console.log('finaldataa',finalData);
 
   return finalData
 

@@ -80,7 +80,7 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
+
     setIsSelectedItems()
   }
 
@@ -148,13 +148,17 @@ const CartItem = ({
                   <span className="for_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
                 </div>
               }
-              {Number(item?.Nwt) !== 0 && (
-                <div className="for_weightPair">
-                  <span className="for_pipe">|</span>
-                  <span className="for_weightLabel">Nwt:</span>
-                  <span className="for_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
-                </div>
-              )}
+              {storeInitData?.IsMetalWeight == 1 &&
+                <>
+                  {Number(item?.Nwt) !== 0 && (
+                    <div className="for_weightPair">
+                      <span className="for_pipe">|</span>
+                      <span className="for_weightLabel">Nwt:</span>
+                      <span className="for_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
+                    </div>
+                  )}
+                </>
+              }
               {storeInitData?.IsDiamondWeight == 1 &&
                 <>
                   {(item?.Dwt != "0" || item?.Dpcs != "0") &&
@@ -221,9 +225,9 @@ const CartItem = ({
             // }}
             >
               <div className="for_cart-item__image">
-                <img src={diamondData?.image_file_url}  
-                alt='Product-image' 
-                onError={handleError}
+                <img src={diamondData?.image_file_url}
+                  alt='Product-image'
+                  onError={handleError}
                 />
               </div>
               <div className="for_cart-item__details">

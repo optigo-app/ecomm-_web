@@ -145,8 +145,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-        props;
+    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -169,6 +168,7 @@ function EnhancedTableHead(props) {
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ width: '125px' }}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
@@ -214,8 +214,6 @@ const QuotationQuote = () => {
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
-
-
 
     const handleClick = (event, id) => {
         const selectedIndex = selected.indexOf(id);
@@ -385,7 +383,7 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
             if (response?.Data?.rd) {
@@ -433,7 +431,6 @@ const QuotationQuote = () => {
           tableContainer.scrollTop = 0;
         }
     };
-
 
     return (
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
@@ -567,15 +564,16 @@ const QuotationQuote = () => {
                                                 scope="row"
                                                 padding="none"
                                                 align="center"
+                                                sx={{ width: '125px' }}
                                             >
                                             
                                                 {page * rowsPerPage + index + 1}
                                             </TableCell>
-                                            <TableCell align="center">{row.Date}</TableCell>
-                                            <TableCell align="center">{row.SKUNo}</TableCell>
-                                            <TableCell align="center">{row.TotalDesign}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                            <TableCell align="center">
+                                            <TableCell align="center" sx={{ width: '125px' }}>{row.Date}</TableCell>
+                                            <TableCell align="center" sx={{ width: '125px' }}>{row.SKUNo}</TableCell>
+                                            <TableCell align="center" sx={{ width: '125px' }}>{row.TotalDesign}</TableCell>
+                                            <TableCell align="right" sx={{ width: '125px' }}>{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="center" sx={{ width: '125px' }}>
                                                 
                                                
                                                         <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
@@ -614,15 +612,4 @@ const QuotationQuote = () => {
         </Box>
     )
 }
-
-export default QuotationQuote
-
-// import React from 'react'
-
-// const QuotationQuote = () => {
-//   return (
-//     <div>QuotationQuote</div>
-//   )
-// }
-
-// export default QuotationQuote
+export default QuotationQuote;

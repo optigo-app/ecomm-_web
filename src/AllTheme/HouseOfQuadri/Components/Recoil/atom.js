@@ -4,6 +4,11 @@ export const Hoq_companyLogo = atom({
   key: "hoq_companyLogo",
   default: [],
 });
+export const Hoq_MobilecompanyLogo = atom({
+  key: "Hoq_MobilecompanyLogo",
+  default: [],
+});
+
 
 export const Hoq_loginState = atom({
   key: "hoq_loginState",
@@ -35,4 +40,7 @@ export const Hoq_defaultAddressState =atom({
   key : "Hoq_defaultAddressState",
   default : null
 })
-
+export const lookBookDrawer = atom({
+  key: 'hoq_lookBookDrawer',
+  default: false,
+});

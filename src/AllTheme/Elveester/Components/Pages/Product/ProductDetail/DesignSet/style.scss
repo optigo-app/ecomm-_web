@@ -678,7 +678,6 @@
         }
     }
 
-
     @media screen and (max-width:1200px) {
         .elv_prod_image_shortInfo {
             display: flex;
@@ -766,6 +765,17 @@
             align-items: center;
             // height:364px;
             // overflow-y: scroll;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .my_Product_Swiper {
+            width: 100%;
+        }
+    }
+    @media (max-width: 320px) {
+        .my_Product_Swiper {
+            width: 100vw;
         }
     }
 }

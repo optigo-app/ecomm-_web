@@ -107,13 +107,10 @@ const DynamicCollection = () => {
   );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
 
-  console.log("wofbwejlkfbwejlkfbwejlk", loginUserDetail?.CurrencyCode);
-
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    console.log(storeInit);
     let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     SetmetalTypeCombo(mtCombo);
 
@@ -176,12 +173,6 @@ const DynamicCollection = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log(
-      "locationkey",
-      location?.key !== locationKey,
-      location?.key,
-      locationKey
-    );
 
     if (location?.key === locationKey) {
       setIsProdLoading(true);
@@ -577,8 +568,6 @@ const DynamicCollection = () => {
 
       let UrlVal = location?.search.slice(1).split("/");
 
-      console.log("URLVal", UrlVal);
-
       let MenuVal = "";
       let MenuKey = "";
       let SearchVar = "";
@@ -678,7 +667,6 @@ const DynamicCollection = () => {
                   JSON?.parse(
                     res?.filter((ele) => ele?.Name == "Gross")[0]?.options
                   )[0] || {};
-                console.log("diafilter", diafilter);
                 setSliderValue([diafilter?.Min, diafilter?.Max]);
                 setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
                 setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
@@ -930,10 +918,7 @@ const DynamicCollection = () => {
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
-
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-          console.log("filter", res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
@@ -960,10 +945,8 @@ const DynamicCollection = () => {
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
 
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-            console.log("filter", res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
@@ -988,7 +971,6 @@ const DynamicCollection = () => {
       c: selectedCsId,
       f: output,
     };
-    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
     decodeAndDecompress();
@@ -1198,7 +1180,6 @@ const DynamicCollection = () => {
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          console.log("wdikwbdwdbwidbwidbwik", res?.pdResp);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
@@ -1222,7 +1203,6 @@ const DynamicCollection = () => {
   };
 
   const handleCartandWish = (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
@@ -1333,7 +1313,7 @@ const DynamicCollection = () => {
           className="hoq_filterDrawer"
           style={{ zIndex: "99999999" }}
           sx={{
-            fontFamily  :""
+            fontFamily: "",
           }}
         >
           <div
@@ -1512,9 +1492,9 @@ const DynamicCollection = () => {
                     borderRadius: "8px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif ",
-                    'option'  :{
-                    fontFamily: "sans-serif ",
-                    }
+                    option: {
+                      fontFamily: "sans-serif ",
+                    },
                   }}
                   className="select"
                   value={sortBySelect}
@@ -1668,16 +1648,18 @@ const DynamicCollection = () => {
                                     alignItems: "center",
                                     justifyContent: "space-between",
                                     gap: "12px",
-                                    fontFamily: "Tenor Sans , sans-serif !important",
+                                    fontFamily:
+                                      "Tenor Sans , sans-serif !important",
                                   }}
                                   key={opt?.id}
                                 >
                                   <FormControlLabel
-                                  sx={{
-                                    '& .MuiFormControlLabel-label': {
-                                      fontFamily: "Tenor Sans, sans-serif !important",
-                                    }
-                                  }}
+                                    sx={{
+                                      "& .MuiFormControlLabel-label": {
+                                        fontFamily:
+                                          "Tenor Sans, sans-serif !important",
+                                      },
+                                    }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1690,13 +1672,15 @@ const DynamicCollection = () => {
                                               ]?.checked
                                         }
                                         sx={{
-                                    fontFamily  :"Tenor Sans , sans-serif !important" ,
+                                          fontFamily:
+                                            "Tenor Sans , sans-serif !important",
                                         }}
                                         style={{
                                           color: "#7f7d85",
                                           padding: 0,
                                           width: "10px",
-                                          fontFamily: "Tenor Sans , sans-serif  !important",
+                                          fontFamily:
+                                            "Tenor Sans , sans-serif  !important",
                                         }}
                                         onClick={(e) =>
                                           handleCheckboxChange(
@@ -1705,7 +1689,6 @@ const DynamicCollection = () => {
                                             opt?.Name
                                           )
                                         }
-                                        
                                         size="small"
                                       />
                                     }
@@ -2220,7 +2203,6 @@ const C_Card = ({
   CurrencyCode,
   CurrencyCode2,
 }) => {
-  console.log(CurrencyCode);
   const [isHover, setisHover] = useState(false);
   const [isPlusClicked, SetisPlusClicked] = useState(false);
 
@@ -2449,7 +2431,7 @@ const C_Card = ({
           {/* </span> */}
         </small>
         <div className="hoq_prod_mtcolr_price">
-          <span className="hoq_prod_metal_col">
+          {<span className="hoq_prod_metal_col">
             {findMetalColor(
               productData?.MetalColorid
             )?.[0]?.metalcolorname?.toUpperCase()}
@@ -2461,20 +2443,24 @@ const C_Card = ({
                   : selectedMetalId ?? productData?.MetalPurityid
               )[0]?.metaltype
             }
-          </span>
-          <span> / </span>
-          <span className="hoq_price">
-            <span
-              className="hoq_currencyFont"
-              style={{ paddingRight: "0.1rem" }}
-              dangerouslySetInnerHTML={{
-                __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
-              }}
-            />
-            <span className="hoq_pricePort">
-              {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
-            </span>
-          </span>
+          </span>}
+          {storeInit?.IsPriceShow === 1 && (
+            <>
+              <span> / </span>
+              <span className="hoq_price">
+                <span
+                  className="hoq_currencyFont"
+                  style={{ paddingRight: "0.1rem" }}
+                  dangerouslySetInnerHTML={{
+                    __html: decodeEntities(CurrencyCode ?? CurrencyCode2),
+                  }}
+                />
+                <span className="hoq_pricePort">
+                  {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
+                </span>
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

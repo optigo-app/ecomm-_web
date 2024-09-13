@@ -1,12 +1,12 @@
 @import '../../../scss/variable.scss';
 
-.smrMo_cart-modal {
+.proCatMo_cart-modal {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.smrMo_cart-container {
+.proCatMo_cart-container {
     max-width: 600px;
     width: 100%;
     margin: auto;
@@ -65,7 +65,7 @@
     }
 }
 
-.smrMo_Cart-imageDiv {
+.proCatMo_Cart-imageDiv {
     text-align: center;
     margin-bottom: 20px;
 
@@ -73,7 +73,7 @@
         margin-bottom: 10px;
     }
 
-    .smrMo_cartImage {
+    .proCatMo_cartImage {
         max-width: 100%;
         height: auto;
         cursor: pointer;
@@ -81,9 +81,9 @@
     }
 }
 
-.smrMo_Cart_R-details,
-.smrMo_CartCusto_R-details {
-    .smrMo_cart-Titleline {
+.proCatMo_Cart_R-details,
+.proCatMo_CartCusto_R-details {
+    .proCatMo_cart-Titleline {
         font-size: 1.2rem;
         font-weight: bold;
         margin-bottom: 10px;
@@ -93,8 +93,8 @@
         }
     }
 
-    .smrMo_Cart-options,
-    .smrMo_StockCart-options {
+    .proCatMo_Cart-options,
+    .proCatMo_StockCart-options {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
@@ -135,13 +135,14 @@
         }
     }
 
-    .smrMo_cartQtyPricemainDev {
+    .proCatMo_cartQtyPricemainDev {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         font-family: $primaryFontFamily;
 
         .product-price,
-        .smrMo_Stockproduct-price {
+        .proCatMo_Stockproduct-price {
             font-size: $fontSize4;
             color: $titleColor;
             font-weight: bold;
@@ -152,7 +153,7 @@
         }
     }
 
-    .smrMo_UpdateCartBtn {
+    .proCatMo_UpdateCartBtn {
         margin-top: 20px;
         display: flex;
         justify-content: end;
@@ -160,7 +161,7 @@
         font-family: $primaryFontFamily;
 
 
-        .smrMo_cartUpdate-button {
+        .proCatMo_cartUpdate-button {
             background-color: #b1b1b1;
             border: none;
             border-radius: 5px;
@@ -181,7 +182,7 @@
 }
 
 
-.smrMo_CloseIcon {
+.proCatMo_CloseIcon {
     position: absolute;
     top: 20px;
     right: 20px;

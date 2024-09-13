@@ -712,7 +712,7 @@ const SalesReport = () => {
       const customerid = data.id;
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       // const combinedValue = JSON.stringify({
       //   CurrencyRate: "1",
       //   FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -806,6 +806,7 @@ const SalesReport = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
+  
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -826,9 +827,9 @@ const SalesReport = () => {
       >
         <Box
           className="salesReporttableWeb"
-          sx={{ paddingBottom: "5px", paddingRight: "15px" }}
+          sx={{ paddingBottom: "5px", paddingRight: "15px", overflowX:'scroll' }}
         >
-          <table>
+          <table style={{minWidth:'700px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>

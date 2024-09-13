@@ -1,8 +1,13 @@
 import { atom } from "recoil";
 
 export const companyLogo = atom({
-    key:'companyLogo',
-    default:[]
+  key: 'companyLogo',
+  default: []
+})
+
+export const companyLogoM = atom({
+  key: 'companyLogoM',
+  default: []
 })
 
 export const loginState = atom({

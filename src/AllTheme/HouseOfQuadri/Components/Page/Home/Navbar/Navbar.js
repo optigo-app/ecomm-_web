@@ -22,6 +22,7 @@ import { TfiClose } from "react-icons/tfi";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import {
   Hoq_CartCount,
+  Hoq_MobilecompanyLogo,
   Hoq_WishCount,
   Hoq_companyLogo,
   Hoq_loginState,
@@ -57,7 +58,9 @@ const Navbar = () => {
   const [searchText, setSearchText] = useState("");
   const location = useLocation()
   const [titleImg, setCompanyTitleLogo] = useRecoilState(Hoq_companyLogo);
+  const [MobileLogo, setCompanyMobileLogo] = useRecoilState(Hoq_MobilecompanyLogo);
   const is320px = useMediaQuery("(max-width:320px)");
+  const is400px = useMediaQuery("(max-width:401px)");
 
     const debounce = (func, wait) => {
       let timeout;
@@ -79,7 +82,7 @@ const Navbar = () => {
     setislogin(value);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
-    console.log(storeInit?.companylogo);
+    setCompanyMobileLogo(storeInit?.companyMlogo)
     window.scroll({ behavior: "smooth", top: 0 });
   }, []);
 
@@ -104,7 +107,6 @@ const Navbar = () => {
     }
   };
 
-  console.log(isScrolled);
   // const handleScroll = debounce(() => {
   //   const currentScrollY = window.scrollY;
 
@@ -125,7 +127,6 @@ const Navbar = () => {
   const fetchData = () => {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
-    console.log(value);
   };
 
   const handleLogout = () => {
@@ -269,7 +270,6 @@ const Navbar = () => {
       `size=${finalData.size ?? 50}`,
     ].join("&");
 
-    console.log("otherparamsUrl--", otherparamUrl);
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
@@ -350,8 +350,6 @@ const Navbar = () => {
     let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
 
-    console.log("callll");
-    console.log(LoggedUserDetails);
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
@@ -412,7 +410,7 @@ const Navbar = () => {
             setisMobileMenu={setisMobileMenu}
             menuItems={menuItems}
             handleMenu={handleMenu}
-            logo={titleImg}
+            logo={MobileLogo}
             islogin={islogin}
             selectedData={selectedData}
             navigation={navigate}
@@ -520,7 +518,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={titleImg}
+                  src={is400px ? MobileLogo : titleImg}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
@@ -1097,6 +1095,8 @@ const NavbarCenter = ({
   handleMenu,
   logo,
   islogin,
+  is400px ,
+  MobileLogo
 }) => {
   const isOpen = true;
   return (

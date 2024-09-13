@@ -159,7 +159,7 @@ function EnhancedTableHead(props) {
 }
 
 const Sales = () => {
-    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
+    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px)');
     const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px)');
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
@@ -334,7 +334,7 @@ const Sales = () => {
 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             // const combinedValue = JSON.stringify({
             //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
             // });
@@ -544,7 +544,7 @@ const Sales = () => {
                                 />
                             </LocalizationProvider>
                         </Box>
-                        <Box sx={{ padding: "0 15px 4px 0", display: "flex", alignItems: "center", }} className="">
+                        <Box sx={{ padding: "0 5px 4px 0", display: "flex", alignItems: "center", }} className="">
                             <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                         </Box>
                     </Box>
@@ -556,16 +556,19 @@ const Sales = () => {
                 <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
                     <AccordionDetails style={{padding:'0px'}}>
-                        <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
-                            All
-                        </Button>
-                        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", minWidth:'100%',  maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
-                            <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote" style={{minWidth:'100%'}} value={searchVal} onChange={eve => {
-                                setSearchVal(eve?.target?.value);
-                                handleSearch(eve, eve?.target?.value, fromDate, toDate);
-                            }} />
-                            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
-                                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon /></Button>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                            <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
+                                All
+                            </Button>
+                            <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 2px 35px 0",   maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                                <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote" style={{minWidth:'100%'}} value={searchVal} onChange={eve => {
+                                    setSearchVal(eve?.target?.value);
+                                    handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                                }} />
+                                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                                    onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon />
+                                </Button>
+                            </Box>
                         </Box>
                         <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
                             <Box style={{ boxSizing:'border-box'}}>

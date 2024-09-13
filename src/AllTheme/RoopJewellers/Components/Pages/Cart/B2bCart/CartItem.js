@@ -77,7 +77,6 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    console.log('isselectedItems', isselected);
     setIsSelectedItems()
   }
 
@@ -137,8 +136,8 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='smr_cartListCardGrid'>
-      <Card className={itemLength <= 3 ? 'smr_cartListCard' : 'smr_cartListCard'}
+      className='rJ_cartListCardGrid'>
+      <Card className={itemLength <= 3 ? 'rJ_cartListCard' : 'rJ_cartListCard'}
         key={item?.id}
         sx={{
           boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
@@ -152,31 +151,31 @@ const CartItem = ({
       // onTouchStart={handlePress('start')}
       // onTouchEnd={cancelPress}
       >
-        <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+        <Box className="rJ_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
           <CardMedia
             component="img"
             image={imageSrc}
             alt={item?.TitleLine}
-            className='smr_cartListImage'
+            className='rJ_cartListImage'
             onClick={() => onSelect(item)}
           />
-          <div className='smr_rightContentDataDiv'>
-            <CardContent className='smr_cartcontentData' onClick={() => onSelect(item)}>
-              <Typography variant="body2" className='smr_DesignNoTExt'>
+          <div className='rJ_rightContentDataDiv'>
+            <CardContent className='rJ_cartcontentData' onClick={() => onSelect(item)}>
+              <Typography variant="body2" className='rJ_DesignNoTExt'>
                 {item?.designno} {item?.StockNo != "" &&
-                  <span className='smr_DesignNoTExt'>({item?.StockNo})</span>
+                  <span className='rJ_DesignNoTExt'>({item?.StockNo})</span>
                 }
               </Typography>
-              <div className='smr_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div className='rJ_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
                   {storeInitData?.IsGrossWeight == 1 &&
-                    <Typography variant="body2" className='smr_card-ContentsData'>
+                    <Typography variant="body2" className='rJ_card-ContentsData'>
                       GWT: {(item?.Gwt || 0)?.toFixed(3)}
                     </Typography>
                   }
 
                   {Number(item?.Nwt) !== 0 && (
-                    <Typography variant="body2" className='smr_card-ContentsData'>
+                    <Typography variant="body2" className='rJ_card-ContentsData'>
                       NWT: {(item?.Nwt || 0)?.toFixed(3)}{' '}
                     </Typography>
                   )}
@@ -187,7 +186,7 @@ const CartItem = ({
                     <>
                       {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                         <>
-                          <Typography variant="body2" className='smr_card-ContentsData'>
+                          <Typography variant="body2" className='rJ_card-ContentsData'>
                             DWT: {(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}
                           </Typography>
                         </>
@@ -198,7 +197,7 @@ const CartItem = ({
                     <>
                       {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                         <>
-                          <Typography variant="body2" className='smr_card-ContentsData'>
+                          <Typography variant="body2" className='rJ_card-ContentsData'>
                             CWT: {(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}
                           </Typography>
                         </>
@@ -207,13 +206,13 @@ const CartItem = ({
                   }
                 </div>
               </div>
-              <Box className="smr_PriceBox">
+              <Box className="rJ_PriceBox">
                 <>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <span className='smr_currencyFontPrice'>
-                      <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className='rJ_currencyFontPrice'>
+                      <span className="rJ_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {/* <span
-                        className="smr_currencyFont"
+                        className="rJ_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
@@ -226,16 +225,16 @@ const CartItem = ({
                 </>
               </Box>
               {item?.Remarks !== "" && (
-                <Typography variant="body2" className='smr_remarktext'>
+                <Typography variant="body2" className='rJ_remarktext'>
                   <span>Remark:</span> {truncateText(item?.Remarks || productRemark, 40)}
                 </Typography>
               )}
             </CardContent>
-            <Box className="smr_cartbtngroupReRm">
-              <Link className='smr_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+            <Box className="rJ_cartbtngroupReRm">
+              <Link className='rJ_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='smr_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              <Link className='rJ_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
               </Link>
             </Box>
@@ -256,8 +255,8 @@ const CartItem = ({
           }
         </div>
         {item?.StockId != 0 &&
-          <div className="smr_inStockbadgeDiv">
-            <span className="smr_inStockbadgeSpan">In Stock</span>
+          <div className="rJ_inStockbadgeDiv">
+            <span className="rJ_inStockbadgeSpan">In Stock</span>
           </div>
         }
       </Card>

@@ -34,18 +34,24 @@ import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
-import { roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
+import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
 
 const RoopJewellers_App = () => {
   const islogin = useRecoilValue(roop_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(roop_loginState);
+  const setCartNo = useSetRecoilState(roop_CartNo);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(roop_companyLogo);
+
+
+  useEffect(() => {
+    setCartNo(3);
+  }, []);
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");

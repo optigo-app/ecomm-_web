@@ -75,10 +75,10 @@
     width: 100px;
 }
 .smilingDeleveryformCansleBtn{
-    background: #f6efe6;
+    background: #c20000 !important;
     border: none;
     border-radius: 5px;
-    color: rgba(31, 25, 25, .7);
+    color:white !important;
     font-family: PT Sans, sans-serif !important;
     font-weight: 600;
     margin-inline: 5px;
@@ -138,5 +138,10 @@
         height: 80vh !important;
         width: 100% !important;
         padding: 10px;
+    }
+}
+@media screen and (max-width:1024px){
+    .none_addTitleAcc{
+        display: none !important;
     }
 }

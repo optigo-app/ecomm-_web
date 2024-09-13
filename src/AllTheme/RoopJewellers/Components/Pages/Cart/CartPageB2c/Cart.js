@@ -52,8 +52,6 @@ function Cart(props) {
   const isOpen = useRecoilValue(roop_cartB2CDrawer)
   const setCartOpenState = useSetRecoilState(roop_cartB2CDrawer);
 
-  console.log('khdkjhaskd', props);
-
   const handleCloseDrawer = () => {
     setCartOpenState(false)
     // navigate(-1)
@@ -61,7 +59,7 @@ function Cart(props) {
 
 
   return (
-    <div className="smr_CartPageMainB2cDiv">
+    <div className="rJ_CartPageMainB2cDiv">
       <Basket
         isOpen={isOpen}
         closeDrawer={handleCloseDrawer}

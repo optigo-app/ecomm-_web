@@ -385,7 +385,6 @@ const Header = () => {
   // for cart drawer
   console.log("cartTheameNo", cartTheameNo)
   const toggleCartDrawer = () => {
-    debugger;
     setTimeout(() => {
       if (cartTheameNo == 2) {
         setIsCartOpen((prevState) => !prevState);

@@ -11,7 +11,7 @@ const ChatMenu = () => {
     <div className="hoq_main_ChatMenu">
       <button className="wa">
         <a
-           href={isTablet ? whatsappUrl : whatsappMobileUrl}
+           href={isTablet ? whatsappMobileUrl : whatsappMobileUrl}
           target="_blank"
         >
           <img

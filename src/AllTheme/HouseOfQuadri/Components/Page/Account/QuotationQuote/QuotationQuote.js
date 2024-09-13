@@ -386,7 +386,7 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
             if (response?.Data?.rd) {
@@ -434,7 +434,6 @@ const QuotationQuote = () => {
           tableContainer.scrollTop = 0;
         }
     };
-
 
     return (
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
@@ -623,16 +622,20 @@ const QuotationQuote = () => {
                 <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className='accordion_Account_Head'>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
                     <AccordionDetails style={{padding:'0px'}} className='p0_acc_mob'>
-                        <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
-                            All
-                        </Button>
-                        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 35px 0", minWidth:'100%',  maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
-                            <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote" style={{minWidth:'100%'}} value={searchVal} onChange={eve => {
+                        
+                        <Box sx={{ display: "flex", justifyContent:'space-between', alignItems: "center", position: "relative", padding: "0 0px 35px 0", minWidth:'100%',  maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                            <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '5px' }} onClick={eve => resetAllFilters(eve)}>
+                                All
+                            </Button>
+                            <div style={{position:'relative'}}>
+                            <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote"  value={searchVal} onChange={eve => {
                                 setSearchVal(eve?.target?.value);
                                 handleSearch(eve, eve?.target?.value, fromDate, toDate);
                             }} />
-                            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
-                                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon /></Button>
+                            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+                                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon />
+                            </Button>
+                            </div>
                         </Box>
                         <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', paddingBottom:'10px'}}>
                             <Box style={{ boxSizing:'border-box', width:'45%'}}>

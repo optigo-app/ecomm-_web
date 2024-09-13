@@ -1,4 +1,4 @@
-.orderHistory_acc{
+.orderHistory_acc_Hoq{
     // border: 1px solid black;
     padding: 10px;
  
@@ -445,6 +445,12 @@
     }
     .fs_head_acc_tax{
         font-size: 7px !important;
+    }
+ }
+
+ @media screen and (max-width:1025px){
+    .orderHistory_acc_Hoq{
+        padding-top: 0px !important;
     }
  }
 

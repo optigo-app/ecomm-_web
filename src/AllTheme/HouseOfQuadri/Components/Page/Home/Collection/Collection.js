@@ -49,7 +49,6 @@ const Collection = () => {
     .then((response) => {
       if (response?.Data?.rd) {
         setDesignSetList(response?.Data?.rd);
-        console.log("sss", response?.Data?.rd);
       }
     })
     .catch((err) => console.log(err));
@@ -97,6 +96,10 @@ const Collection = () => {
     );
   };
 
+  if(designSetList?.length === 0){
+    return  <div style={{marginTop  :"-3rem"}}></div>;
+  }
+
   return (
     <div className="hoq_main_Collection">
       <div className="heading">
@@ -104,7 +107,6 @@ const Collection = () => {
       </div>
       <div className="collection_cards desktop-collection">
         {designSetList?.slice(0, 4)?.map((val, i) => {
-          console.log(val);
           return (
             <div
               className="c_card"

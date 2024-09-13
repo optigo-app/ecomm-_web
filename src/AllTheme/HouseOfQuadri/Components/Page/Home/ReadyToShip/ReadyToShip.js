@@ -57,7 +57,6 @@ const ReadyToShip = () => {
   };
 
   const handleNavigation = (designNo, autoCode, titleLine) => {
-    console.log("aaaaaaaaaaa", designNo, autoCode, titleLine);
     let obj = {
       a: autoCode,
       b: designNo,
@@ -84,6 +83,10 @@ const ReadyToShip = () => {
     return;
   };
 
+  if(bestSellerData?.length === 0){
+    return  <div style={{marginTop  :"-2rem"}}></div>;
+  }
+
   return (
     <div className="hoq_main_TabSection">
       <div className="header">
@@ -106,6 +109,7 @@ const ReadyToShip = () => {
                 data?.ImageExtension,
                 data?.ImageCount
               )}
+              condition={storeInit?.IsPriceShow === 1 }
               designNo={data?.designno}
               CurrCode={
                 loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode
@@ -146,6 +150,7 @@ const CARD = ({
   price,
   onClick,
   ImageCount,
+  condition
 }) => {
   const formatter = new Intl.NumberFormat("en-IN");
   return (
@@ -173,11 +178,11 @@ const CARD = ({
       </div>
       <div className="tab_hover_Details">
         <h3>{designNo}</h3>
-        <small>
+       {condition && <small>
           {CurrCode}
           &nbsp;
           {formatter.format(price)}
-        </small>
+        </small>}
       </div>
     </div>
   );

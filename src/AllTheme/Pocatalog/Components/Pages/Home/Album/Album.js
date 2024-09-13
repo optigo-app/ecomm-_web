@@ -8,11 +8,14 @@ import { proCat_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { Box, Modal } from "@mui/material";
 import AlbumSkeleton from "./AlbumSkeleton/AlbumSkeleton";
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Album = () => {
   const [albumData, setAlbumData] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const [imageStatus, setImageStatus] = useState({});
+  const [imageStatusModel, setImageStatusModel] = useState({});
   const [fallbackImages, setFallbackImages] = useState({});
   const [designSubData, setDesignSubData] = useState([]);
   const [openAlbumName, setOpenAlbumName] = useState("");
@@ -35,6 +38,21 @@ const Album = () => {
     });
   }
 
+
+  useEffect(() => {
+    const checkImages = async () => {
+      const status = {};
+      for (const data of designSubData) {
+        const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+        const available = await checkImageAvailability(imageUrlI);
+        status[imageUrlI] = available;
+      }
+      setImageStatusModel(status);
+    };
+
+    checkImages();
+  }, [designSubData, imageUrl]);
+
   useEffect(() => {
     const fetchAlbumData = async () => {
       const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -43,7 +61,7 @@ const Album = () => {
       const queryParams = new URLSearchParams(window.location.search);
       const ALCVAL = queryParams.get('ALC');
       const finalID = storeInit?.IsB2BWebsite === 0 ? (islogin ? loginUserDetail?.id || "0" : visiterID) : loginUserDetail?.id || "0";
-      
+
       if (ALCVAL) {
         sessionStorage.setItem('ALCVALUE', ALCVAL);
         await fetchAndSetAlbumData(ALCVAL, finalID);
@@ -101,7 +119,7 @@ const Album = () => {
   const handleNavigate = (data) => {
     const url = `/p/${data?.AlbumName}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
-    
+
     if (data?.IsDual === 1) {
       const Newdata = JSON.parse(data?.AlbumDetail || '[]');
       setOpenAlbumName(data?.AlbumName);
@@ -115,13 +133,14 @@ const Album = () => {
   const handleNavigateSub = (data) => {
     const url = `/p/${data?.AlbumName}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
-    
+
     navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
   };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  console.log('designSubDatadesignSubDatadesignSubData', designSubData);
   return (
     <div className="proCat_alubmMainDiv">
       <Modal
@@ -136,23 +155,55 @@ const Album = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "70%",
             bgcolor: "background.paper",
             boxShadow: 24,
             height: "650px",
             display: "flex",
             border: 'none',
+            outline: 'none',
             flexDirection: 'column',
             p: 4,
           }}
+          className="proCat_album_box_main"
         >
+          <IconButton
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              zIndex: 1,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+
+          <p
+            style={{
+              position: "absolute",
+              bottom: 8,
+              right: 8,
+              zIndex: 1,
+              margin: '0px',
+              fontWeight: 500
+            }}
+            className="pro_pressESCClose"
+          >
+            Press ESC To Close
+          </p>
           <div>
             <p style={{ fontWeight: 500, textDecoration: 'underline', textAlign: 'center' }}>{openAlbumName}</p>
           </div>
-          <div style={{ display: "flex", flexWrap: 'wrap' , overflow: 'scroll' }}>
+          <div className="proCat_model_overFlow" style={{ display: "flex", flexWrap: 'wrap', overflow: 'scroll' }}>
             {designSubData?.map((data, index) => {
               const imageUrlI = `${imageUrl}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-              const imgSrc = imageStatus[imageUrlI] ? imageUrlI : imageNotFound;
+              const imageAvailable = imageStatusModel[imageUrlI];
+              const imgSrc =
+                imageAvailable === undefined
+                  ? ''
+                  : imageAvailable
+                    ? imageUrlI // Show the image if available
+                    : imageNotFound; // Show 'image not found' if unavailable
 
               return (
                 <div

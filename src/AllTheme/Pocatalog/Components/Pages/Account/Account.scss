@@ -15,6 +15,7 @@
 
 .smling-AccountTabMain {
     margin-inline: 10%;
+    margin-top: 0px !important;
 }
 
 .smlingOrderHistory {
@@ -148,6 +149,7 @@
 
     .smling-AccountTabMain {
     margin-inline: 5%;
+    margin-top: 0px !important;
 
     }
 
@@ -228,10 +230,11 @@
     min-width: max-content;
    }
 
-   .accountSalesPage > div{
+   .accountSalesPage_Procat > div{
     padding-left: 0 !important;
     padding-right: 0 !important;
-    margin-top: 50px !important;
+    margin-top: 0px !important;
+    padding-top: 0px !important;
    }
 }
 

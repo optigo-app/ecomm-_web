@@ -34,7 +34,7 @@ const CustomSortIcon = ({ order }) => {
 
 const QuotationJob = () => {
 
-  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
+  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:530px)');
   const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1070px)');
 
   const [allChecked, setAllChecked] = useState(false);
@@ -444,7 +444,7 @@ const QuotationJob = () => {
       const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
       const { FrontEnd_RegNo } = storeInit;
 
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
@@ -852,19 +852,18 @@ const scrollToTop = () => {
       </Box>}
       {
        (!isSmallScreen && isTabletScreen) && <Box>
-        <Box style={{display:'flex', alignItems:'center', paddingBottom:'15px'}}>
+        <Box style={{display:'flex', alignItems:'center', paddingBottom:'5px'}}>
             <Button variant="contained" sx={{  background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
             <Box sx={{ padding: "0 20px" }}>
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
                 value={orderProm}
-
                 onChange={handleOrderProms}
                 sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
               >
-                <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 0px 0", marginRight: "0" }} />
-                <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 20px 0px 0", marginRight: "0" }} />
+                <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate_hoq' control={<Radio sx={{padding:'0px'}} />} label="Order Date" sx={{ padding: "0 5px 0px 0", marginRight: "0", marginLeft:'-20px' }} />
+                <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate_hoq' control={<Radio sx={{padding:'0px'}} />} label="Promise Date" sx={{ padding: "0 5px 0px 2px", marginRight: "0" }} />
               </RadioGroup>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 0px 0", maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSe">
@@ -947,7 +946,7 @@ const scrollToTop = () => {
         </Box>
         <Box style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', paddingBottom:'25px'}}>
         <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
-        <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
           
               <Select
                 labelId="demo-multiple-checkbox-label"
@@ -1011,7 +1010,7 @@ const scrollToTop = () => {
             }
           </Select>
         </Box>
-        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
+        <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'0px', width:'25%' }}  >
           <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
           <Select
             labelId="demo-simple-select-label"
@@ -1037,8 +1036,21 @@ const scrollToTop = () => {
         <AccordionSummary style={{paddingLeft:'5px', paddingRight:'5px'}} expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
         <AccordionDetails className='acc_Details_elvee_job p0_acc_mob'>
         <Box style={{marginBottom:'10px', marginTop:'5px'}}>
-          <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", marginLeft:'10px', marginBottom:'20px', minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+          <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <Button variant="contained" sx={{ marginBottom: "25px", background: "#7d7f85" }} className='muiSmilingRocksBtn ' onClick={eve => resetAllFilters(eve)} >All</Button>
+            <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px",  width:'100%', maxWidth: "max-content" }} className="searchbox ">
+              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
+                setSearchVal(eve?.target?.value);
+                setPage(0);
+                // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+                handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+              }} />
+              <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+                // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon />
+              </Button>
+            </Box>
+          </Box>
           <Box sx={{ padding: "0 20px" }}>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
@@ -1050,19 +1062,10 @@ const scrollToTop = () => {
             >
               <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 20px 0", marginRight: "0" }} />
               <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 20px 0", marginRight: "0" }} />
+              <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", marginLeft:'10px', marginBottom:'20px', minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
             </RadioGroup>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px", minWidth:'100%', width:'100%', maxWidth: "max-content" }} className="searchbox ">
-            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
-              setSearchVal(eve?.target?.value);
-              setPage(0);
-              // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
-              handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
-            }} />
-            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
-              // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
-              onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
-          </Box>
+          
           <Box style={{ display:'flex', alignItems:'center', justifyContent:'space-between'}} className='w100dwsr'>
             <Box style={{marginBottom:'2rem', boxSizing:'border-box', width:'45%'}}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1129,89 +1132,92 @@ const scrollToTop = () => {
               <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "9px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
             </Box>
           </Box>
-          <Box sx={{ position: "relative", padding: "0 0px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-          <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
-            
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  multiple
-                  value={selectedStatus} // Assuming selectedStatus is an array of selected values
-                  onChange={handleStatus} // Assuming handleStatus function receives selected values
-                  MenuProps={MenuProps}
-                  input={<OutlinedInput  />}
-                  style={{minHeight:'2.9375em', width:'100%'}}
-                  className='statusSelect'
-                  size='small'
-                  label='ALL'
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return <em style={{color:'black'}}>Placeholder</em>;
-                    }
-        
-                    return '';
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
+            <Box sx={{ position: "relative", padding: "0 0px 40px 0 !important", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
+              
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    value={selectedStatus} // Assuming selectedStatus is an array of selected values
+                    onChange={handleStatus} // Assuming handleStatus function receives selected values
+                    MenuProps={MenuProps}
+                    input={<OutlinedInput  />}
+                    style={{minHeight:'2.9375em', width:'100%'}}
+                    className='statusSelect'
+                    size='small'
+                    label='ALL'
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return <em style={{color:'black'}}>Placeholder</em>;
+                      }
+                      return '';
+                    }}
+                    inputProps={{
+                      placeholder: 'Placeholder', // Set placeholder directly on the inputProps
                   }}
-                  inputProps={{
-                    placeholder: 'Placeholder', // Set placeholder directly on the inputProps
-                }}
-                
-                >
                   
-                {statusList?.map((status) => (
-                  <MenuItem key={status.id} value={status.value}>
-                    <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
-                    <ListItemText primary={status.label} />
-                  </MenuItem>
-                ))}
+                  >
+                    
+                  {statusList?.map((status) => (
+                    <MenuItem key={status.id} value={status.value}>
+                      <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
+                      <ListItemText primary={status.label} />
+                    </MenuItem>
+                  ))}
+                </Select>
+        
+            </Box>
+            <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="QuotationJobAllBtnSec" >
+              <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' style={{width:'100%'}} value={category} label="Status" onChange={handleCategory} >
+                {
+                  categoryList?.map((e, i) => {
+                    return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                  })
+                }
               </Select>
-      
-          </Box>
-          <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' style={{width:'100%'}} value={category} label="Status" onChange={handleCategory} >
-              {
-                categoryList?.map((e, i) => {
-                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
-                })
-              }
-            </Select>
-          </Box>
-          <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={MetalColor}
-              label="Status"
-              className='MetalColorList'
-              onChange={handleMetalColor}
-              style={{width:'100%'}}
-            >
-              {
-                metalColorList?.map((e, i) => {
-                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
-                })
-              }
-            </Select>
-          </Box>
-          <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="" >
-            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={metalPurity}
-              label="Status"
-              className='MetalPurityList'
-              onChange={handleMetalPurity}
-              style={{width:'100%'}}
-            >
-              {
-                metalPurityList?.map((e, i) => {
-                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
-                })
-              }
-            </Select>
-          </Box>
+            </Box>
+          </div>
+          <div style={{display:'flex', alignItems:'center', width:'100%', justifyContent:'space-between'}}>
+            <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
+              <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={MetalColor}
+                label="Status"
+                className='MetalColorList'
+                onChange={handleMetalColor}
+                style={{width:'100%'}}
+              >
+                {
+                  metalColorList?.map((e, i) => {
+                    return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                  })
+                }
+              </Select>
+            </Box>
+            <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
+              <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={metalPurity}
+                label="Status"
+                className='MetalPurityList'
+                onChange={handleMetalPurity}
+                style={{width:'100%'}}
+              >
+                {
+                  metalPurityList?.map((e, i) => {
+                    return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                  })
+                }
+              </Select>
+            </Box>
+          </div>
         </Box>
       </AccordionDetails>
       </Accordion>

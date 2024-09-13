@@ -7,6 +7,7 @@ import { Hoq_defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { validateChangeYPAccount, validateUserDataYPAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 
 export default function YourProfile() {
@@ -113,6 +114,7 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <div><HeadTitleAcc title="Profile" /></div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
                 {  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
@@ -169,8 +171,13 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
+                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                        WebkitTextFillColor:'black'
+                                    }}}
                                     value={userData?.street || ''}
                                     disabled
+                                    multiline
+                                    rows={2}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -239,6 +246,8 @@ export default function YourProfile() {
                                      id="street"
                                      label="Address"
                                      variant="outlined"
+                                     multiline
+                                     rows={2}
                                      style={{ margin: '15px' }}
                                      value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
                                      onChange={handleInputChange}

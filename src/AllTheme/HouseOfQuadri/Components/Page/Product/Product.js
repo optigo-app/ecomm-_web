@@ -16,7 +16,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { FaWhatsapp } from "react-icons/fa";
-import {noimage} from '../../Constants/noimage'
+import { noimage } from "../../Constants/noimage";
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -50,6 +50,7 @@ import { useSetRecoilState } from "recoil";
 import Stockitems from "./InstockProduct/Stockitems";
 import DesignSet from "./DesignSet/DesignSet";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { Helmet } from "react-helmet";
 
 const ProductPage = () => {
   const Navigate = useNavigate();
@@ -291,9 +292,8 @@ const ProductPage = () => {
 
     if (mtTypeLocal?.length) {
       metalArr =
-        mtTypeLocal?.filter(
-          (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid ?? decodeobj?.m;
+        mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0]
+          ?.Metalid ?? decodeobj?.m;
     }
 
     if (diaQcLocal) {
@@ -366,7 +366,6 @@ const ProductPage = () => {
           if (resp) {
             await getSizeData(resp?.pdList[0], cookie)
               .then((res) => {
-                console.log("Sizeres", res);
                 setSizeCombo(res?.Data);
               })
               .catch((err) => console.log("SizeErr", err));
@@ -390,7 +389,6 @@ const ProductPage = () => {
 
             await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
               .then((res) => {
-                console.log("designsetList", res?.Data?.rd[0]);
                 setDesignSetList(res?.Data?.rd);
               })
               .catch((err) => console.log("designsetErr", err));
@@ -417,12 +415,18 @@ const ProductPage = () => {
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
       )[0] ?? diaQcCombo[0];
-    let cs =
-      csQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectCsQc.split(",")[0] &&
-          ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+    // let cs =
+    //   csQcCombo?.filter(
+    //     (ele) =>
+    //       ele?.Quality == selectCsQc.split(",")[0] &&
+    //       ele?.color == selectCsQc.split(",")[1]
+    //   )[0] ?? csQcCombo[0];
+
+    const cs =
+    csQcCombo?.find((ele) => {
+      return ele?.Quality == selectCsQc.split(",")[0] &&
+        ele?.color == selectCsQc.split(",")[1]
+    }) ?? csQcCombo;
 
     let mcArr = metalColorCombo?.filter((ele) => {
       if (selectMtColor) {
@@ -434,14 +438,12 @@ const ProductPage = () => {
       }
     })[0];
 
-    console.log("selectMtColor", selectMtColor);
-
     let prodObj = {
       autocode: singleProd?.autocode,
       Metalid: metal?.Metalid,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -489,12 +491,19 @@ const ProductPage = () => {
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
       )[0] ?? diaQcCombo[0];
-    let cs =
-      csQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectCsQc.split(",")[0] &&
-          ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      
+    // let cs =
+    //   csQcCombo?.filter(
+    //     (ele) =>
+    //       ele?.Quality == selectCsQc.split(",")[0] &&
+    //       ele?.color == selectCsQc.split(",")[1]
+    //   )[0] ?? csQcCombo[0];
+
+    const cs =
+    csQcCombo?.find((ele) => {
+      return ele?.Quality == selectCsQc.split(",")[0] &&
+        ele?.color == selectCsQc.split(",")[1]
+    }) ?? csQcCombo;
 
     let mcArr = metalColorCombo?.filter((ele) => {
       if (selectMtColor) {
@@ -505,14 +514,13 @@ const ProductPage = () => {
         );
       }
     })[0];
-    console.log("ekekekekeb", cs);
 
     let prodObj = {
       autocode: singleProd?.autocode,
       Metalid: metal?.Metalid,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -564,39 +572,43 @@ const ProductPage = () => {
 
     setTimeout(() => {
       if (decodeUrl) {
-        let metalArr;
-        let diaArr;
-        let csArr;
+        let metalArr
+        let diaArr
+        let csArr
+
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
 
-        setSelectMtType(metalArr?.metaltype);
+        setSelectMtType(metalArr?.metaltype)
 
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
 
         setSelectCsQc(`${csArr?.Quality},${csArr?.color}`);
+
+
 
         // let InitialSize = (singleProd && singleProd.DefaultSize !== "")
         //                       ? singleProd?.DefaultSize
@@ -608,10 +620,12 @@ const ProductPage = () => {
         // if(metalArr || diaArr || csArr || InitialSize){
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
-        console.log("default", { metalArr, diaArr, csArr }, decodeobj);
+
+        // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
-    }, 500);
-  }, [singleProd]);
+    }, 500)
+  }, [singleProd])
+
 
   useEffect(() => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -700,8 +714,6 @@ const ProductPage = () => {
       IsColImg = await checkImageAvailability(colImg);
     }
 
-    console.log("colImg", IsColImg);
-
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
@@ -720,8 +732,6 @@ const ProductPage = () => {
     } else {
       finalprodListimg = imageNotFound;
     }
-
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -872,8 +882,6 @@ const ProductPage = () => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
 
-    console.log(e.target.value, "metal color rrrrrr");
-
     if (mtColorLocal?.length) {
       mcArr = mtColorLocal?.filter(
         (ele) => ele?.metalcolorname == e.target.value
@@ -972,7 +980,6 @@ const ProductPage = () => {
         setPdImageArr([...imageMap, ...videoArr]);
       }
     }
-    console.log(pdImgList);
 
     // if (pdvideoList?.length > 0) {
     //   setPdVideoArr(pdvideoList);
@@ -1088,9 +1095,12 @@ const ProductPage = () => {
   if (!singleProd) {
     return <NotFoundProduct Navigate={Navigate} />;
   }
-  console.log(PdImageArr?.length > 1);
 
   return (
+    <>
+     <Helmet>
+        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
+      </Helmet>
     <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
       <main>
         <div className="images_slider">
@@ -1134,7 +1144,7 @@ const ProductPage = () => {
                   sx={{
                     padding: "0",
                     marginTop: "-16rem",
-                    marginLeft : "-8px",
+                    marginLeft: "-8px",
                     height: "100vh",
                     backgroundColor: "#f0ededb4 !important;",
                   }}
@@ -1164,8 +1174,7 @@ const ProductPage = () => {
                           }}
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src =
-                              noimage;
+                            e.target.src = noimage;
                           }}
                         />
                       ) : (
@@ -1204,16 +1213,12 @@ const ProductPage = () => {
                                 {val?.type == "img" ? (
                                   <img
                                     loading="lazy"
-                                    src={
-                                      val?.src ||
-                                      noimage
-                                    }
+                                    src={val?.src || noimage}
                                     alt={""}
                                     onLoad={() => setIsImageLoad(false)}
                                     onError={(e) => {
                                       e.target.onerror = null;
-                                      e.target.src =
-                                        noimage;
+                                      e.target.src = noimage;
                                     }}
                                   />
                                 ) : (
@@ -1243,9 +1248,7 @@ const ProductPage = () => {
                       ) : (
                         <div className="main_image">
                           <img
-                            src={
-                              noimage
-                            }
+                            src={noimage}
                             alt={""}
                             style={{
                               width: "100%",
@@ -1256,8 +1259,7 @@ const ProductPage = () => {
                             }}
                             onError={(e) => {
                               e.target.onerror = null;
-                              e.target.src =
-                                noimage;
+                              e.target.src = noimage;
                             }}
                           />
                         </div>
@@ -1268,12 +1270,15 @@ const ProductPage = () => {
                   <>
                     <div className="slider_card">
                       <div className="image">
-                        <img src={PdImageArr[0]?.src ? PdImageArr[0]?.src : 'a.jpg'} alt="ddwd" 
-                         onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src =
-                            noimage;
-                        }}
+                        <img
+                          src={
+                            PdImageArr[0]?.src ? PdImageArr[0]?.src : "a.jpg"
+                          }
+                          alt="ddwd"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noimage;
+                          }}
                         />
                       </div>
                     </div>
@@ -1292,31 +1297,35 @@ const ProductPage = () => {
             >
               {singleProd?.designno}
             </span>
-            <div className="pricecharge">
-              {
-                <div className="hoq_price_portion">
-                  {isPriceloading ? (
-                    ""
-                  ) : (
-                    <span
-                      style={{ paddingRight: "0.4rem" }}
-                      className="hoq_currencyFont"
-                      dangerouslySetInnerHTML={{
-                        __html: decodeEntities(loginInfo?.CurrencyCode),
-                      }}
-                    />
-                  )}
-                  {isPriceloading ? (
-                    <Skeleton variant="rounded" width={140} height={30} />
-                  ) : (
-                    <>
-                      {singleProd1?.UnitCostWithMarkUp ??
-                        singleProd?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
-                    </>
-                  )}
-                </div>
-              }
-            </div>
+            {storeInit?.IsPriceShow === 1 && (
+              <div className="pricecharge">
+                {
+                  <div className="hoq_price_portion">
+                    {isPriceloading ? (
+                      ""
+                    ) : (
+                      <span
+                        style={{ paddingRight: "0.4rem" }}
+                        className="hoq_currencyFont"
+                        dangerouslySetInnerHTML={{
+                          __html: decodeEntities(loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode),
+                        }}
+                      />
+                    )}
+                    {isPriceloading ? (
+                      <Skeleton variant="rounded" width={140} height={30} />
+                    ) : (
+                      <>
+                        {singleProd1?.UnitCostWithMarkUp ??
+                          singleProd?.UnitCostWithMarkUp?.toLocaleString(
+                            "en-IN"
+                          )}
+                      </>
+                    )}
+                  </div>
+                }
+              </div>
+            )}
           </div>
           <div className="product_main_Details">
             {storeInit?.IsProductWebCustomization == 1 &&
@@ -1634,14 +1643,14 @@ const ProductPage = () => {
                         </span>
                       </span>
                     ) : null}
-                    {storeInit?.IsMetalWeight && (
+                    {storeInit?.IsMetalWeight === 1 && (
                       <span className="smr_prod_short_key">
-                        Net Wt :{" "}
+                        Net Wt :
                         <span className="smr_prod_short_val">
                           {singleProd1?.Nwt ?? singleProd?.Nwt?.toFixed(3)}
                         </span>
                       </span>
-                    )}
+                    ) }
                   </div>
                 </div>
               </AccordionDetails>
@@ -1892,7 +1901,8 @@ const ProductPage = () => {
               </AccordionDetails>
             </Accordion>
 
-            {storeInit?.IsPriceBreakUp == 1 &&
+            {storeInit?.IsPriceShow === 1 &&
+              storeInit?.IsPriceBreakUp == 1 &&
               (singleProd1 ?? singleProd)?.IsMrpBase !== 1 && (
                 <Accordion
                   className="accordian"
@@ -2262,6 +2272,7 @@ const ProductPage = () => {
           loginInfo={loginInfo}
           cartArr={cartArr}
           handleCartandWish={handleCartandWish}
+          check={storeInit?.IsPriceShow === 1}
         />
       )}
       {storeInit?.IsProductDetailSimilarDesign == 1 &&
@@ -2271,6 +2282,7 @@ const ProductPage = () => {
             handleMoveToDetail={handleMoveToDetail}
             storeInit={storeInit}
             loginInfo={loginInfo}
+            check={storeInit?.IsPriceShow === 1}
           />
         )}
       {storeInit?.IsProductDetailDesignSet === 1 && (
@@ -2279,12 +2291,14 @@ const ProductPage = () => {
           handleMoveToDetail={handleMoveToDetail}
           imageNotFound={imageNotFound}
           loginInfo={loginInfo}
-          storeInit={storeInit} 
+          storeInit={storeInit}
+          check={storeInit?.IsPriceShow === 1}
         />
       )}
 
       {/* <RecentlyViewd /> */}
     </div>
+    </>
   );
 };
 
@@ -2358,7 +2372,7 @@ const WhatsAppButton = () => {
   const HandleWhatsApp = () => {
     const msg1 = "Hello, Talk to a Jewellery expert now!";
     const phoneNumber = 9099889962;
-    const whatsappUrl = `https://web.whatsapp.com/send?phone=9099889962&text=${msg1}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=9099889962&text=Hello,%20Talk%20to%20a%20Jewellery%20expert%20now!`;
     window.location.href = whatsappUrl;
   };
   return (

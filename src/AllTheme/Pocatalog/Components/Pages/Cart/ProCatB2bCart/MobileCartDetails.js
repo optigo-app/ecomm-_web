@@ -54,7 +54,6 @@ const MobileCartDetails = ({
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log('CSQtyColorData', CSQtyColorData);
   }, [])
 
   const handleUpdateCart = async (selectedItem) => {
@@ -76,24 +75,24 @@ const MobileCartDetails = ({
 
 
   return (
-    <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
-        <div className="smrMo_Cart-imageDiv">
+    <Modal open={open} onClose={handleClose} className="proCatMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+      <div className="proCatMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
+        <div className="proCatMo_Cart-imageDiv">
           <img
             src={imageSrc}
             alt="Cluster Diamond"
-            className='smrMo_cartImage'
+            className='proCatMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             style={{ border: 'none' }}
           />
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-            <div className="smrMo_Cart_R-details">
-              <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="proCatMo_Cart_R-details">
+              <p className='proCatMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
-                <div className="smrMo_Cart-options">
+                <div className="proCatMo_Cart-options">
                   {storeInitData?.IsMetalCustomization == 1 &&
                     <div className="option">
                       <label htmlFor="metal-type">Metal Type:</label>
@@ -186,7 +185,7 @@ const MobileCartDetails = ({
                   }
                 </div>
               }
-              <div className='smrMo_cartQtyPricemainDev'>
+              <div className='proCatMo_cartQtyPricemainDev'>
                 <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
                 {storeInitData?.IsPriceShow == 1 &&
                   <div className="product-price">
@@ -197,23 +196,23 @@ const MobileCartDetails = ({
                         &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
-                      <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
+                      <Skeleton className='proCatMo_CartSkelton' variant="text" width="80%" animation="wave" />
                     )}
                   </div>
                 }
               </div>
-              <div className='smrMo_UpdateCartBtn'>
-                <Button className="smrMo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
+              <div className='proCatMo_UpdateCartBtn'>
+                <Button className="proCatMo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
               </div>
-              <div className='smrMo_CloseIcon' onClick={handleClose}>
+              <div className='proCatMo_CloseIcon' onClick={handleClose}>
                 <CloseIcon />
               </div>
             </div>
           ) :
-            <div className="smrMo_CartCusto_R-details">
-              <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="proCatMo_CartCusto_R-details">
+              <p className='proCatMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
-              <div className="smrMo_StockCart-options">
+              <div className="proCatMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&
                   <div className="option">
                     <label htmlFor="metal-type">Metal Type:</label>
@@ -245,14 +244,14 @@ const MobileCartDetails = ({
                   </div>
                 }
               </div>
-              <div className="smrMo_stockPriceQtyDiv">
+              <div className="proCatMo_stockPriceQtyDiv">
                 <div className="option">
                   <label htmlFor="qty">Qty:</label>
                   <span>{selectedItem?.Quantity}</span>
                 </div>
                 <div className=''>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <div className="smrMo_Stockproduct-price">
+                    <div className="proCatMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
                           {loginInfo?.CurrencyCode ??
@@ -260,7 +259,7 @@ const MobileCartDetails = ({
                           &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
                       ) :
-                        <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
+                        <Skeleton className='proCatMo_CartSkelton' variant="text" width="80%" animation="wave" />
                       }
                     </div>
                   }

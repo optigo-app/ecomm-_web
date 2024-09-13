@@ -103,6 +103,29 @@ const HouseOfQuadri_App = () => {
   //   setLocalData(localD);
   // }, []);
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (islogin == true) {
+  //       const restrictedPaths = [
+  //         '/LoginOption',
+  //         '/ContinueWithEmail',
+  //         '/ContinueWithMobile',
+  //         '/LoginWithEmailCode',
+  //         '/LoginWithMobileCode',
+  //         '/ForgotPass',
+  //         '/LoginWithEmail',
+  //         '/register'
+  //       ];
+
+  //       if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+  //         return navigation("/");
+  //       }
+  //     }
+
+  //   }, 500);
+  // }, [location?.pathname])
+
+
   return (
     <>
       <Navbar />

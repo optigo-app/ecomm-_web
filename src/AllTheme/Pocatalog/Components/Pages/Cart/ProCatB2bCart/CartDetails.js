@@ -41,7 +41,7 @@ const CartDetails = ({
     }
   }, [selectedItem]);
 
-  console.log('selectediTem', selectedItem);
+  
   return (
     <div className="proCat_cart-container">
       <div className="proCat_Cart-imageDiv">

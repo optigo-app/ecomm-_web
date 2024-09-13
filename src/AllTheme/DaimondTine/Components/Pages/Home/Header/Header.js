@@ -423,24 +423,20 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a href={`tel:${'98997 78849'}`} className="FontFamilySet" style={{ fontSize: "12px", color: 'black', cursor: 'pointer', textDecoration: 'none' , fontWeight: 500}}>
-                        Call: +91-98997 78849
+                    <a href={`tel:${'98108 76359'}`} className="Dt_FontFamilySet" style={{ fontSize: "12px", color: 'white', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>
+                        Call: +91-98108 76359
                     </a>
                 </div>
-                <p style={{ margin: '0px', color: 'black', fontWeight: 500 }}>100% Natural Diamond</p>
+                <p className='Dt_FontFamilySet' style={{ margin: '0px', color: 'white', fontWeight: 500 }}>100% Natural Diamonds</p>
                 <div className="dai_login_link">
-                    {/* <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} /> */}
-
                     {socialMediaData?.map((social, index) => (
                         <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
                             <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
                                 onError={(e) => { e.target.style.display = 'none'; }} />
                         </a>
                     ))}
-
-                    {/* <AiFillInstagram style={{ fontSize: '15px', color: '#acabab', cursor: 'pointer' }} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} /> */}
                     {!islogin &&
-                        <p style={{ margin: '0px 20px', cursor: 'pointer', color: 'black', fontWeight: 500 }} onClick={() => navigation('/LoginOption')}>
+                        <p className='Dt_FontFamilySet' style={{ margin: '0px 20px', cursor: 'pointer', color: 'white', fontWeight: 500 }} onClick={() => navigation('/LoginOption')}>
                             Login
                         </p>
                     }
@@ -1124,7 +1120,7 @@ const Header = () => {
                                     )}
                                 </div>
                             ))}
-
+                            {/* 
                             <ButtonBase
                                 component="div"
                                 style={{ width: '100%' }}
@@ -1153,7 +1149,7 @@ const Header = () => {
                                 <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
                                     FAQS
                                 </p>
-                            </ButtonBase>
+                            </ButtonBase> */}
                         </List>
                     </Drawer>
                 </>

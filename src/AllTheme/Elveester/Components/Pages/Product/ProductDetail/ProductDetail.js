@@ -78,11 +78,12 @@ const ProductDetail = () => {
   console.log('stockItemArr: ', stockItemArr);
   const [cartArr, setCartArr] = useState({});
 
+  let maxWidth1400pxAndMinWidth1000px = useMediaQuery('(max-width: 1400px) and (min-width: 1000px)');
   let maxWidth1400px = useMediaQuery('(max-width:1400px)')
   let maxWidth1000px = useMediaQuery('(max-width:1000px)')
   useEffect(() => {
     const handleMax1400px = () => {
-      if (maxWidth1400px) {
+      if (maxWidth1400pxAndMinWidth1000px) {
         setMaxWidth1400(true)
       }
       else {
@@ -502,14 +503,43 @@ const ProductDetail = () => {
 
             let prod = res?.pdList[0];
 
-            let initialsize =
-              prod && prod.DefaultSize !== ""
-                ? prod?.DefaultSize
-                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                  ?.sizename === undefined
-                  ? SizeCombo?.rd[0]?.sizename
-                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                    ?.sizename;
+            let resp = res;
+            console.log('resp: ', resp);
+            if (resp) {
+              await getSizeData(resp?.pdList[0], cookie)
+                .then((res) => {
+                  console.log("Sizeres", res);
+                  setSizeCombo(res?.Data);
+                })
+                .catch((err) => console.log("SizeErr", err));
+
+              if (storeinitInside?.IsStockWebsite === 1) {
+                await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
+                  setStockItemArr(res?.Data?.rd)
+                }).catch((err) => console.log("stockItemErr", err))
+              }
+
+              if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
+                await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
+                  setSimilarBrandArr(res?.Data?.rd)
+                }).catch((err) => console.log("similarbrandErr", err))
+              }
+
+              if (storeinitInside?.IsProductDetailDesignSet === 1) {
+                await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
+                  setDesignSetList(res?.Data?.rd)
+                }).catch((err) => console.log("designsetErr", err))
+              }
+            }
+
+            let initialsize = (
+              (prod && prod.DefaultSize !== "")
+                ? prod.DefaultSize
+                : (
+                  (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined) ? SizeCombo?.rd[0]?.sizename
+                    : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename
+                )
+            );
 
             setSizeData(initialsize);
 
@@ -517,38 +547,15 @@ const ProductDetail = () => {
             //   setSingleProdPrice(res);
             //   console.log("singlePrice", res);
             // });
+
           }
+
           return res;
         })
-        .then(async (resp) => {
-          console.log('resp: ', resp);
-          if (resp) {
-            await getSizeData(resp?.pdList[0], cookie)
-              .then((res) => {
-                console.log("Sizeres", res);
-                setSizeCombo(res?.Data);
-              })
-              .catch((err) => console.log("SizeErr", err));
+        // .then(async (resp) => {
+        //   console.log('resp: ', resp);
 
-            if (storeinitInside?.IsStockWebsite === 1) {
-              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
-                setStockItemArr(res?.Data?.rd)
-              }).catch((err) => console.log("stockItemErr", err))
-            }
-
-            if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
-              await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
-                setSimilarBrandArr(res?.Data?.rd)
-              }).catch((err) => console.log("similarbrandErr", err))
-            }
-
-            if (storeinitInside?.IsProductDetailDesignSet === 1) {
-              await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
-                setDesignSetList(res?.Data?.rd)
-              }).catch((err) => console.log("designsetErr", err))
-            }
-          }
-        })
+        // })
         .catch((err) => console.log("err", err));
     };
 
@@ -558,7 +565,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [location?.key, location?.pathname]);
+  }, [location?.key]);
 
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
@@ -1120,182 +1127,11 @@ const ProductDetail = () => {
           <>
             {maxWidth1400 ? (
               <>
-                <div className='elv_ProductDet_max1400'>
-                  <div className='elv_ProductDet_prod_img_max1400'>
-                    {selectedThumbImg !== undefined ? (
-                      selectedThumbImg?.type == "img" ? (
-                        <img
-                          // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className="elv_ProductDet_prod_image_max1400"
-                        />
-                      ) : (
-                        <div>
-                          <video
-                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            loop
-                            autoPlay
-                            playsInline
-                            muted // Add this attribute to ensure autoplay works
-                            style={{
-                              width: "100%",
-                              objectFit: "cover",
-                              height: "100%",
-                              borderRadius: "8px",
-                            }}
-                          />
-                        </div>
-                      )
-                    ) : (
-                      pdVideoArr?.length > 0 ? (
-                        <div>
-                          <video
-                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            loop
-                            autoPlay
-                            playsInline
-                            muted // Add this attribute to ensure autoplay works
-                            style={{
-                              width: "100%",
-                              objectFit: "cover",
-                              height: "100%",
-                              borderRadius: "8px",
-                            }}
-                          />
-                        </div>) : (
-                        <img
-                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className="elv_ProductDet_prod_image_max1400"
-                        />
-                      )
-
-                    )
-                    }
-                  </div>
-                  <div className='elv_ProductDet_prod_img_list_max1400'>
-                    {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
-                      pdThumbImg?.map((ele, i) => (
-                        <img
-                          src={ele}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className='elv_ProductDet_image_max1400'
-                          onClick={() => {
-                            setSelectedThumbImg({
-                              link: ele,
-                              type: "img",
-                            });
-                            setThumbImgIndex(i);
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = noImageFound
-                          }}
-                        />
-                      ))}
-                    {pdVideoArr?.map((data) => (
-                      <div
-                        style={{
-                          position: "relative",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        onClick={() =>
-                          setSelectedThumbImg({ link: data, type: "vid" })
-                        }
-                      >
-                        <video
-                          src={data}
-                          autoPlay={true}
-                          loop={true}
-                          className="elv_ProductDet_image_max1400"
-                          style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                        />
-                        <IoIosPlayCircle
-                          style={{
-                            position: "absolute",
-                            color: "white",
-                            width: "35px",
-                            height: "35px",
-                            cursor: 'pointer',
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
                 {loadingdata ? (
-                  <Skeleton className='elv_prod_det_default_thumb' variant="square" />
+                  <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                 ) : (
-                  <div className='elv_ProductDet_prod_img_list'>
-                    {(pdThumbImg?.length > 1) &&
-                      pdThumbImg?.map((ele, i) => (
-                        <img
-                          src={ele}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className='elv_ProductDet_image'
-                          onClick={() => {
-                            setSelectedThumbImg({
-                              link: ele,
-                              type: "img",
-                            });
-                            setThumbImgIndex(i);
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = noImageFound
-                          }}
-                        />
-                      ))}
-                    {pdVideoArr?.map((data) => (
-                      <div
-                        style={{
-                          position: "relative",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        onClick={() =>
-                          setSelectedThumbImg({ link: data, type: "vid" })
-                        }
-                      >
-                        <video
-                          src={data}
-                          autoPlay={true}
-                          loop={true}
-                          // className="elv_prod_thumb_img"
-                          style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                        />
-                        <IoIosPlayCircle
-                          style={{
-                            position: "absolute",
-                            color: "white",
-                            width: "35px",
-                            height: "35px",
-                            cursor: 'pointer',
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {loadingdata ? (
-                  <Skeleton className='elv_prod_det_default' variant="rectangular" />
-                ) : (
-                  <>
-                    <div className='elv_ProductDet_prod_img'>
+                  <div className='elv_ProductDet_max1400'>
+                    <div className='elv_ProductDet_prod_img_max1400'>
                       {selectedThumbImg !== undefined ? (
                         selectedThumbImg?.type == "img" ? (
                           <img
@@ -1304,7 +1140,7 @@ const ProductDetail = () => {
                             onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
-                            className="elv_ProductDet_prod_image"
+                            className="elv_ProductDet_prod_image_max1400"
                           />
                         ) : (
                           <div>
@@ -1317,9 +1153,7 @@ const ProductDetail = () => {
                               style={{
                                 width: "100%",
                                 objectFit: "cover",
-                                position: 'relative',
-                                left: '6rem',
-                                // height: "90%",
+                                height: "100%",
                                 borderRadius: "8px",
                               }}
                             />
@@ -1337,25 +1171,218 @@ const ProductDetail = () => {
                               style={{
                                 width: "100%",
                                 objectFit: "cover",
-                                position: 'relative',
-                                left: '6rem',
-                                // height: "90%",
+                                height: "100%",
                                 borderRadius: "8px",
                               }}
                             />
-                          </div>
-                        ) : (
+                          </div>) : (
                           <img
                             src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
-                            className="elv_ProductDet_prod_image"
+                            className="elv_ProductDet_prod_image_max1400"
                           />
                         )
+
                       )
                       }
                     </div>
+
+                    {/* {!loadingdata ? (
+                  <Skeleton className='elv_prod_det_default_thumb_1400' variant="square" />
+                ) : ( */}
+                    <div className='elv_ProductDet_prod_img_list_max1400'>
+                      {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                        pdThumbImg?.map((ele, i) => (
+                          <img
+                            src={ele}
+                            alt={""}
+                            onLoad={() => setIsImageLoad(false)}
+                            className='elv_ProductDet_image_max1400'
+                            onClick={() => {
+                              setSelectedThumbImg({
+                                link: ele,
+                                type: "img",
+                              });
+                              setThumbImgIndex(i);
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = noImageFound
+                            }}
+                          />
+                        ))}
+                      {pdVideoArr?.map((data) => (
+                        <div
+                          style={{
+                            position: "relative",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          onClick={() =>
+                            setSelectedThumbImg({ link: data, type: "vid" })
+                          }
+                        >
+                          <video
+                            src={data}
+                            autoPlay={true}
+                            loop={true}
+                            className="elv_ProductDet_image_max1400"
+                            style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                          />
+                          <IoIosPlayCircle
+                            style={{
+                              position: "absolute",
+                              color: "white",
+                              width: "35px",
+                              height: "35px",
+                              cursor: 'pointer',
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {/* )} */}
+              </>
+            ) : (
+              <>
+                {!maxWidth1000 && (
+                  <>{loadingdata ? (
+                    <Skeleton className='elv_prod_det_default_thumb' variant="square" />
+                  ) : (
+                    <div className='elv_ProductDet_prod_img_list'>
+                      {(pdThumbImg?.length > 1) &&
+                        pdThumbImg?.map((ele, i) => (
+                          <img
+                            src={ele}
+                            alt={""}
+                            onLoad={() => setIsImageLoad(false)}
+                            className='elv_ProductDet_image'
+                            onClick={() => {
+                              setSelectedThumbImg({
+                                link: ele,
+                                type: "img",
+                              });
+                              setThumbImgIndex(i);
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = noImageFound
+                            }}
+                          />
+                        ))}
+                      {pdVideoArr?.map((data) => (
+                        <div
+                          style={{
+                            position: "relative",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          onClick={() =>
+                            setSelectedThumbImg({ link: data, type: "vid" })
+                          }
+                        >
+                          <video
+                            src={data}
+                            autoPlay={true}
+                            loop={true}
+                            // className="elv_prod_thumb_img"
+                            style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                          />
+                          <IoIosPlayCircle
+                            style={{
+                              position: "absolute",
+                              color: "white",
+                              width: "35px",
+                              height: "35px",
+                              cursor: 'pointer',
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                    {loadingdata ? (
+                      <Skeleton className='elv_prod_det_default' variant="rectangular" />
+                    ) : (
+                      <>
+                        <div className='elv_ProductDet_prod_img'>
+                          {selectedThumbImg !== undefined ? (
+                            selectedThumbImg?.type == "img" ? (
+                              <img
+                                // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src =
+                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                }}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="elv_ProductDet_prod_image"
+                              />
+                            ) : (
+                              <div>
+                                <video
+                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+                                  loop
+                                  autoPlay
+                                  playsInline
+                                  muted // Add this attribute to ensure autoplay works
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    position: 'relative',
+                                    left: '6rem',
+                                    // height: "90%",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            pdVideoArr?.length > 0 ? (
+                              <div>
+                                <video
+                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+                                  loop
+                                  autoPlay
+                                  playsInline
+                                  muted // Add this attribute to ensure autoplay works
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    position: 'relative',
+                                    left: '6rem',
+                                    // height: "90%",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            ) : (
+                              <img
+                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src =
+                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                }}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="elv_ProductDet_prod_image"
+                              />
+                            )
+                          )
+                          }
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
 
@@ -1364,119 +1391,127 @@ const ProductDetail = () => {
             {maxWidth1000 ? (
               <>
                 <div className='elv_ProductDet_max1000'>
-                  <div className='elv_ProductDet_prod_img_max1000'>
-                    {selectedThumbImg !== undefined ? (
-                      selectedThumbImg?.type == "img" ? (
-                        <img
-                          // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className="elv_ProductDet_prod_image_max1000"
-                        />
-                      ) : (
-                        <div>
-                          <video
-                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            loop
-                            autoPlay
-                            playsInline
-                            muted // Add this attribute to ensure autoplay works
-                            style={{
-                              width: "100%",
-                              objectFit: "cover",
-                              marginTop: '40px',
-                              height: "100%",
-                              maxHeight: "40.625rem",
-                              borderRadius: "8px",
-                            }}
-                          />
+                  {loadingdata ? (
+                    <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
+                  ) : (
+                    <>
+                      <div>
+                        <div className='elv_ProductDet_prod_img_max1000'>
+                          {selectedThumbImg !== undefined ? (
+                            selectedThumbImg?.type == "img" ? (
+                              <img
+                                // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
+                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="elv_ProductDet_prod_image_max1000"
+                              />
+                            ) : (
+                              <div>
+                                <video
+                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                  loop
+                                  autoPlay
+                                  playsInline
+                                  muted // Add this attribute to ensure autoplay works
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    marginTop: '40px',
+                                    height: "100%",
+                                    maxHeight: "40.625rem",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            pdVideoArr?.length > 0 ? (
+                              <div>
+                                <video
+                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                  loop
+                                  autoPlay
+                                  playsInline
+                                  muted // Add this attribute to ensure autoplay works
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    marginTop: '40px',
+                                    height: "100%",
+                                    maxHeight: "40.625rem",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            ) : (
+                              <img
+                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="elv_ProductDet_prod_image_max1000"
+                              />
+                            )
+                          )
+                          }
                         </div>
-                      )
-                    ) : (
-                      pdVideoArr?.length > 0 ? (
-                        <div>
-                          <video
-                            src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            loop
-                            autoPlay
-                            playsInline
-                            muted // Add this attribute to ensure autoplay works
-                            style={{
-                              width: "100%",
-                              objectFit: "cover",
-                              marginTop: '40px',
-                              height: "100%",
-                              maxHeight: "40.625rem",
-                              borderRadius: "8px",
-                            }}
-                          />
+                        <div className='elv_ProductDet_prod_img_list_max1000'>
+                          {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
+                            pdThumbImg?.map((ele, i) => (
+                              <img
+                                src={ele}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className='elv_ProductDet_image_max1000'
+                                onClick={() => {
+                                  setSelectedThumbImg({
+                                    link: ele,
+                                    type: "img",
+                                  });
+                                  setThumbImgIndex(i);
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = noImageFound
+                                }}
+                              />
+                            ))}
+                          {pdVideoArr?.map((data) => (
+                            <div
+                              style={{
+                                position: "relative",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                              onClick={() =>
+                                setSelectedThumbImg({ link: data, type: "vid" })
+                              }
+                            >
+                              <video
+                                src={data}
+                                autoPlay={true}
+                                loop={true}
+                                className="elv_ProductDet_image_max1000"
+                                style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
+                              />
+                              <IoIosPlayCircle
+                                style={{
+                                  position: "absolute",
+                                  color: "white",
+                                  width: "35px",
+                                  height: "35px",
+                                  cursor: 'pointer',
+                                }}
+                              />
+                            </div>
+                          ))}
                         </div>
-                      ) : (
-                        <img
-                          src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                          onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className="elv_ProductDet_prod_image_max1000"
-                        />
-                      )
-                    )
-                    }
-                  </div>
-                  <div className='elv_ProductDet_prod_img_list_max1000'>
-                    {(pdThumbImg?.length > 1 || pdVideoArr?.length > 0) &&
-                      pdThumbImg?.map((ele, i) => (
-                        <img
-                          src={ele}
-                          alt={""}
-                          onLoad={() => setIsImageLoad(false)}
-                          className='elv_ProductDet_image_max1000'
-                          onClick={() => {
-                            setSelectedThumbImg({
-                              link: ele,
-                              type: "img",
-                            });
-                            setThumbImgIndex(i);
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = noImageFound
-                          }}
-                        />
-                      ))}
-                    {pdVideoArr?.map((data) => (
-                      <div
-                        style={{
-                          position: "relative",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        onClick={() =>
-                          setSelectedThumbImg({ link: data, type: "vid" })
-                        }
-                      >
-                        <video
-                          src={data}
-                          autoPlay={true}
-                          loop={true}
-                          className="elv_ProductDet_image_max1000"
-                          style={{ height: "58px", width: '58px', objectFit: "cover", cursor: 'pointer' }}
-                        />
-                        <IoIosPlayCircle
-                          style={{
-                            position: "absolute",
-                            color: "white",
-                            width: "35px",
-                            height: "35px",
-                            cursor: 'pointer',
-                          }}
-                        />
                       </div>
-                    ))}
-                  </div>
+                    </>
+                  )}
                   <div className='elv_ProductDet_prod_description_max1000'>
                     <div className='elv_Product_prod_desc_data_max1000'>
                       <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
@@ -1683,7 +1718,7 @@ const ProductDetail = () => {
                                 </div>
                               </>
                             )}
-                            {storeInit?.IsPriceBreakUp == 1 && (singleProd ?? singleProd1)?.IsMrpBase !== 1 && (
+                            {(storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1) && (singleProd ?? singleProd1)?.IsMrpBase != 1 && (
                               <Accordion
                                 elevation={0}
                                 sx={{
@@ -2101,7 +2136,7 @@ const ProductDetail = () => {
                               </div>
                             </>
                           )}
-                          {storeInit?.IsPriceBreakUp == 1 && (singleProd ?? singleProd1)?.IsMrpBase != 1 && (
+                          {(storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1) && (singleProd ?? singleProd1)?.IsMrpBase != 1 && (
                             <Accordion
                               elevation={0}
                               sx={{

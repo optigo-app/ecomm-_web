@@ -34,6 +34,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { FaPlayCircle } from "react-icons/fa";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -1335,9 +1336,10 @@ const ProductDetail = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                               }}
-                              className="smr_app_prod_thumb_img"
+                              className="prodAppVideo_app_prod_thumb_img"
                               onClick={() => setSelectedThumbImg({ link: data, type: 'vid' })}
                             >
+                              <FaPlayCircle style={{ height: '25px', width: '25px' }} />
                             </div>
                           ))}
                         </div>

@@ -48,6 +48,10 @@ const CategoryTab = () => {
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
   };
 
+  if(albumData?.length === 0){
+    return  <div style={{marginTop  :"-2rem"}}></div>;
+  }
+
   return (
     <div className="hoq_main_CategoryTab">
       <div className="header">

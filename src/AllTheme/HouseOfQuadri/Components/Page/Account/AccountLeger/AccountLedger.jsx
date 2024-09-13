@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const AccountLedger = () => {
 
-    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px),(max-width:699px)');
+    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px),(max-width:703px)');
     const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:950px), (max-width:1000px), (max-width:1050px), (max-width:1100px), (max-width:1155px)');
   
 
@@ -495,7 +495,7 @@ const AccountLedger = () => {
     <>
     <div>
         <div>
-            <div className='border_Acc'>
+            <div className='border_Acc acc_led_hoq_p10' >
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p_2_acc ps_4_acc border_bottom_acc fs_Al_mq' style={{letterSpacing:'1px'}}>
                 Account Detail for &nbsp; <b className='fs_Al_mq'>{userName}</b>
                 &nbsp; Period of &nbsp;<b className='fs_Al_mq'>{moment(showStartDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showStartDate).format('DD MMM YYYY')}</b>&nbsp; to 
@@ -747,23 +747,43 @@ const AccountLedger = () => {
                     }
                     {
                         isSmallScreen && <>
-                            <Accordion>
-                                <AccordionSummary  expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-                                <AccordionDetails style={{padding:'0px'}}>
-                                <Box sx={{paddingBottom: "10px", paddingRight: "0px"}}>
-                                    <Button variant="contained" className="muiSmilingRocksBtn" size='small' sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", marginLeft:'10px'}}  
-                                    onClick={() => backToInitial3()}>
-                                        All
-                                    </Button>
-                                </Box>
-                                <div style={{display:'flex', alignItems:'center', marginTop:'10px', marginBottom:'10px'}}>
-                                    <Box>
+                            <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'0px', marginTop:'20px'}}  className='accordion_Account_Head accordion_pd_Acc'>
+                                <AccordionSummary  expandIcon={<ExpandMoreIcon />} >Filters</AccordionSummary>
+                                <AccordionDetails style={{padding:'0px'}} className=''>
+                                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%', padding:'0px 10px'}}>
+                                        <Box sx={{paddingBottom: "10px", paddingRight: "0px"}}>
+                                            <Button variant="contained" className="muiSmilingRocksBtn" size='small' sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", marginLeft:'10px'}} onClick={() => backToInitial3()}>
+                                                All
+                                            </Button>
+                                        </Box>
+                                        <Box className="daysfilter_account2">
+                                            <Box  className=" center_acc w_all_acc">                      
+                                    <div className='d_flex_Acc' style={{paddingTop:'8px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                        <button className=' btn_acc border_Acc daybtn' 
+                                            style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
+                                            paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
+                                            title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                                            {[30, 60, 90]?.map((days) => (
+                                                <button key={days} 
+                                                className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
+                                                title={`${days} days`} 
+                                                style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                                                onClick={() => handleDays(days)}>{days}</button>
+                                            ))}
+                                        <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
+                                        onClick={() => handleNextDays()}
+                                        >&gt;</button>
+                                    </div>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                <div style={{display:'flex', alignItems:'center', marginTop:'10px', marginBottom:'10px', justifyContent:'space-between'}}>
+                                    <Box style={{width:'40%'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 label="Date From"
                                                 value={fromDate} 
                                                 ref={fromDateRef}
-
                                                 onChange={(newValue) => {
                                                     if (newValue === null) {
                                                     setFromDate(null)
@@ -785,19 +805,19 @@ const AccountLedger = () => {
                                                 }}
                                                 format="DD MM YYYY"
                                                 placeholder="DD MM YYYY"
-                                                className='quotationFilterDates w_all_acc'
+                                                className='quotationFilterDates w_all_acc w100_dwsr'
                                                 name="date" 
                                                 id="startdate" 
                                             />
                                         </LocalizationProvider>
                                     </Box>
-                                    <Box>
+                                    <Box style={{width:'40%'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
-                                                label="Date From"
+                                                label="Date To"
                                                 value={toDate} 
                                                 ref={toDateRef}
-
+                                                style={{width:'100%'}}
                                                 onChange={(newValue) => {
                                                     if (newValue === null) {
                                                         setToDate(null)
@@ -808,7 +828,7 @@ const AccountLedger = () => {
                                                             } else {
                                                                 Swal.fire({
                                                                 title: "Error !",
-                                                                text: "Enter Valid Date From",
+                                                                text: "Enter Valid Date To",
                                                                 icon: "error",
                                                                 confirmButtonText: "ok"
                                                                 });
@@ -819,37 +839,38 @@ const AccountLedger = () => {
                                                 }}
                                                 format="DD MM YYYY"
                                                 placeholder="DD MM YYYY"
-                                                className='quotationFilterDates w_all_acc'
+                                                className='quotationFilterDates w_all_acc w100_dwsr'
                                                 name="date" 
-                                                id="startdate" 
+                                                id="enddate" 
                                             />
                                         </LocalizationProvider>
                                     </Box>
-                                    <Box sx={{ paddingBottom: "0px", paddingRight: "15px"}}>
+                                    <Box sx={{ paddingBottom: "0px"}}>
                                         <Button variant='contained' size='small' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
                                             <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
                                         </Button>
                                     </Box>
                                 </div>
-                                <Box  className=" center_acc w_all_acc">
-                        
-                            <div className='d_flex_Acc' style={{paddingTop:'8px', display:'flex', justifyContent:'center', alignItems:'center'}}>
-                                <button className=' btn_acc border_Acc daybtn' 
-                                    style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
-                                    paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
-                                    title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
-                                    {[30, 60, 90]?.map((days) => (
-                                        <button key={days} 
-                                        className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
-                                        title={`${days} days`} 
-                                        style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
-                                        onClick={() => handleDays(days)}>{days}</button>
-                                    ))}
-                                <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
-                                onClick={() => handleNextDays()}
-                                >&gt;</button>
-                            </div>
-                                </Box>
+                                <div className="daysfilter_account">
+                                    <Box  className=" center_acc w_all_acc">                      
+                                        <div className='d_flex_Acc' style={{paddingTop:'8px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                            <button className=' btn_acc border_Acc daybtn' 
+                                                style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
+                                                paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
+                                                title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                                                {[30, 60, 90]?.map((days) => (
+                                                    <button key={days} 
+                                                    className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
+                                                    title={`${days} days`} 
+                                                    style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                                                    onClick={() => handleDays(days)}>{days}</button>
+                                                ))}
+                                            <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
+                                            onClick={() => handleNextDays()}
+                                            >&gt;</button>
+                                        </div>
+                                    </Box>
+                                </div>
                                 </AccordionDetails>
                             </Accordion>
                         </>
@@ -949,7 +970,6 @@ const AccountLedger = () => {
                                 (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
                               ))
                             }&nbsp;
-
                             {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }
                         </div>
                         </div>

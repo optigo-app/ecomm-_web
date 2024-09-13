@@ -228,7 +228,7 @@ const ProductDetail = () => {
         });
     }
   };
-
+ 
   const handleWishList = (e, ele) => {
     setWishListFlag(e?.target?.checked);
 
@@ -1954,7 +1954,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                <div className="smr_material_details_portion">
+                {/* <div className="smr_material_details_portion">
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
                     <p className="smr_details_title"> Product Details</p>
                   )}
@@ -1991,7 +1991,6 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-                  {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
                   {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
@@ -2059,7 +2058,7 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">

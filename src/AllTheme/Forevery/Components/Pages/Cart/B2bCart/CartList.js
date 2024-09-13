@@ -23,7 +23,6 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-  console.log('itemgsgdhas-', diamondData, items);
 
   return (
     <div className="for_RightCartList">
