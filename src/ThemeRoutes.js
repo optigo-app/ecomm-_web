@@ -28,7 +28,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(7)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -120,12 +120,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
-<<<<<<< HEAD
-      // setThemeNo(7);
-=======
-      // setThemeNo(1);
->>>>>>> 1da50b031c669e5533b038ef5ad8a781d9ca0463
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -228,9 +224,8 @@ export default function ThemeRoutes() {
           </Helmet>
         </HelmetProvider>
       </div>
-      <SmilingRock_App />
 
-      {/* {themeNo === 1 && <SmilingRock_App />}
+      {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
@@ -252,7 +247,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 12 && <MalakanJewels_App />} */}
+      {themeNo === 12 && <MalakanJewels_App />}
 
     </>
   );
