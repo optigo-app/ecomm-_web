@@ -31,11 +31,13 @@ const Footer = () => {
         if (companyInfoDataStr) {
           companyInfoData = JSON.parse(companyInfoDataStr);
           setCompanuInfoData(companyInfoData);
+          console.log("footer",companyInfoData)
   
           const socialLinkStr = companyInfoData?.SocialLinkObj;
           if (socialLinkStr) {
             try {
               const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
+              console.log("footer",parsedSocialMediaUrlData)
               setSocialMediaData(parsedSocialMediaUrlData);
             } catch (error) {
               console.error("Error parsing social media data:", error);
@@ -71,7 +73,7 @@ const Footer = () => {
     <div className="hoq_main_footer">
       <footer className="footer">
         <div className="footer-content">
-          <ContactInformation />
+          <ContactInformation  socialLinkStr={socialMediaData}/>
           <NewsLetter
             onsubmit={HandleFormSubmit}
             email={email}
@@ -170,7 +172,7 @@ const Copyright = () => {
     </div>
   );
 };
-const ContactInformation = () => {
+const ContactInformation = ({socialLinkStr}) => {
   return (
     <div className="footer-section">
       <h4>CONTACT US</h4>
@@ -187,25 +189,33 @@ const ContactInformation = () => {
         Email: hello@loremipusmum.com
       </p>
       <div className="social-links">
-        <Link
-          to="https://www.instagram.com/"
+      {
+        socialLinkStr?.map((val,i)=>{
+          return <>
+            <Link
+          to={val?.SLink}
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
           target="_blank"
         >
-          <FaInstagram size={17} color="#F60092" />
-          Instagram
+          <img src={val?.SImgPath} alt="" width={15} height={15} style={{
+            mixBlendMode  :"darken"
+          }} />
+          {val?.SName}
         </Link>
-        <Link
-          to="https://www.facebook.com/"
-          style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          target="_blank"
-        >
-          <FaFacebook size={17} color="blue" />
-          Facebook
-        </Link>
+          </>
+        })
+      }
       </div>
     </div>
   );
 };
 
 export default Footer;
+  {/* <Link
+          to="https://www.facebook.com/"
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          target="_blank"
+        >
+          <FaFacebook size={17} color="blue" />
+          Facebook
+        </Link> */}

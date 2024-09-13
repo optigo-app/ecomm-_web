@@ -6,6 +6,7 @@ import {
   WishCount,
   cartB2CDrawer,
   companyLogo,
+  companyLogoM,
   loginState,
 } from "../../../Recoil/atom";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -36,6 +37,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
   const compnyLogo = useRecoilValue(companyLogo);
+  const compnyLogoM = useRecoilValue(companyLogoM);
   const [islogin, setislogin] = useRecoilState(loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -725,7 +727,11 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="smr_menuStaicMobilePage">About us</p>
+              <p className="smr_menuStaicMobilePage"
+                 onClick={() => {
+                  setDrawerShowOverlay(false);
+                  navigation("/aboutUs");
+                }}>About us</p>
             </div>
             {islogin &&
               <div>
@@ -971,10 +977,19 @@ const Header = () => {
               />
             </ul>
           </div>
-          <div className="smiling_Top_header_div2">
+          <div className="smiling_Top_header_div2_web">
             <a href="/">
               <img
                 src={compnyLogo}
+                loading="lazy"
+                className="smr_logo_header"
+              />
+            </a>
+          </div>
+          <div className="smiling_Top_header_div2_Mobile">
+            <a href="/">
+              <img
+                src={compnyLogoM}
                 loading="lazy"
                 className="smr_logo_header"
               />
@@ -1297,10 +1312,20 @@ const Header = () => {
                 {/* } */}
               </ul>
             </div>
-            <div className="smiling_Top_header_div2">
+            <div className="smiling_Top_header_div2_web">
               <a href="/">
                 <img
                   src={compnyLogo}
+                  loading="lazy"
+                  className="smr_logo_header_Fixed"
+                />
+              </a>
+            </div>
+
+            <div className="smiling_Top_header_div2_Mobile">
+              <a href="/">
+                <img
+                  src={compnyLogoM}
                   loading="lazy"
                   className="smr_logo_header_Fixed"
                 />

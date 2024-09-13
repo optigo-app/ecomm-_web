@@ -19,7 +19,7 @@ export default function AboutUs() {
     }, []);
 
     return (
-        <div className='contactMain'>
+        <div className='smr_about_mainDiv'>
             <div className='daimondsEveryAbout'>
                 <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
