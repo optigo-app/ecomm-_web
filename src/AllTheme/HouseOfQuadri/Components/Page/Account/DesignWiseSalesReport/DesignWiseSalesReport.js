@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const DesignWiseSalesReport = () => {
     
     const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-    const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1080px)');
+    const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1080px), (max-width:1185px)');
   
     const [offset, setOffset] = useState(0);
     const [perPage, setPerPage] = useState(10);
