@@ -841,7 +841,7 @@ const SalesReport = () => {
           className="salesReporttable"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table>
+          <table style={{minWidth:'720px', margin:'10px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
