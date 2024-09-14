@@ -70,11 +70,11 @@ const SmilingRock_App = () => {
 
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response.text())
+      .then((response) => response?.text())
       .then((text) => {
         try {
           // Parse the JSON data
-          const jsonData = JSON.parse(text);
+          const jsonData = JSON?.parse(text);
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -109,7 +109,7 @@ const SmilingRock_App = () => {
     if (cookieValue) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
+          if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);

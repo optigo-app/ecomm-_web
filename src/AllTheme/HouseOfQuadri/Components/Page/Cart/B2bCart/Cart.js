@@ -468,7 +468,7 @@ const CartPage = () => {
         0
       );
       sessionStorage.setItem("TotalPriceData", priceData);
-      navigate("/Delivery");
+      navigate("/Delivery", { replace: true });
     } else {
       handlePay();
     }
