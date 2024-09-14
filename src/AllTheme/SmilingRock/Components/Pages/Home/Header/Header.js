@@ -433,7 +433,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -462,7 +462,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}

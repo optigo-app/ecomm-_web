@@ -146,7 +146,6 @@ const ProductList = () => {
   }, [])
 
 
-  console.log("selectedMetalId",selectedMetalId)
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -2329,6 +2328,8 @@ const ProductList = () => {
                     // </div>
                   )}
 
+                  {productListData?.length > 0 ? 
+                  (
                   <div className="smr_mainPortion">
                     <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
                       <div className="empty_sorting_div">
@@ -2369,12 +2370,21 @@ const ProductList = () => {
                           </div>
                         )}
 
-                        {location?.search.charAt(1) == "N" && (
+                        {location?.search?.charAt(1) == "N" && (
                           <div
                             className="smr_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"New Arrival"}</span>
+                          </div>
+                        )}
+
+                        {location?.search?.charAt(1) == "S" && (
+                          <div
+                            className="smr_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{location?.pathname?.split("/")[2]}</span>
                           </div>
                         )}
 
@@ -3331,6 +3341,18 @@ const ProductList = () => {
                       </div>
                     )}
                   </div>
+                  ) 
+                  : 
+                  (
+                  <div style={{display:'flex',justifyContent:'center',height:'100vh',width:'100%',alignItems:'center',flexDirection:'column',flexWrap:'wrap'}}>
+                    <div className="serach_notfound">
+                    <p style={{textTransform:'capitalize'}}>We couldn't find any matches for</p>
+                    <p style={{fontWeight:'bold'}}>{`"${decodeURIComponent(location?.pathname?.split("/")[2])}".`}</p>
+                    </div>
+
+                    <p className="search_notfound2">Please try another search.</p>
+                  </div>
+                )}
                 </>
               )}
 

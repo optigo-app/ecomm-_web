@@ -479,6 +479,27 @@
   // min-width:399px;
 }
 
+.serach_notfound{
+  font-size: 2rem;
+  line-height: 34px;
+  text-align: center;
+  color: #6f6b64;
+  // font-family: InterSemiBold, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0px 0px 20px;
+  font-family: $primaryFontFamily;
+  flex-wrap: wrap;
+  
+}
+
+.search_notfound2{
+  font-size: 1.5rem;
+  font-family: $primaryFontFamily;
+  color: #6f6b64;
+  margin-top: -30px;
+
+
+}
+
 // .smr_backtotop{
 //   width:100%;
 //   display: flex;
