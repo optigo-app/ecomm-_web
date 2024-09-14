@@ -377,9 +377,10 @@ const Header = () => {
           f: {},
         };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        // let encodeObj = compressAndEncode(JSON.stringify(obj));
+        let encodeObj = btoa(JSON.stringify(obj))
 
-        navigate(`/d/${searchText}?p=${encodeObj}`);
+        navigate(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
         setSearchText("")
         // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)

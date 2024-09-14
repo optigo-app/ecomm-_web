@@ -28,7 +28,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(1)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -63,6 +63,7 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(1);
 
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
@@ -70,7 +71,6 @@ export default function ThemeRoutes() {
             setFavIcon(favIcon);
 
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -121,7 +121,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       setThemeNo(SessionData?.Themeno);
-      // setThemeNo(1);
+      // setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;

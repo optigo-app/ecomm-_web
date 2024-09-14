@@ -319,12 +319,12 @@ const ProductList = () => {
   useEffect(() => {
 
     const fetchData = async () => {
+      // debugger
 
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
       let UrlVal = location?.search.slice(1).split("/")
 
-      // console.log("URLVal", UrlVal);
 
       let MenuVal = '';
       let MenuKey = '';
@@ -392,6 +392,8 @@ const ProductList = () => {
       if (AlbumVar) {
         productlisttype = AlbumVar.split("=")[1]
       }
+
+      console.log("URLVal", productlisttype);
 
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
