@@ -653,7 +653,6 @@ const PendingMemo = () => {
       // const response = await CommonAPI(body);
       // const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
       const response = await getMemoReturnData(CurrencyRate, FrontEnd_RegNo, customerid, data);
-      console.log(response);
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -733,6 +732,7 @@ const PendingMemo = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
+  
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
