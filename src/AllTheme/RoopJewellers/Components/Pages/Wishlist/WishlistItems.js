@@ -40,12 +40,12 @@ const WishlistItems = ({
     useEffect(() => {
         if (item?.ImageCount > 0) {
             WishCardImageFunc(item).then((src) => {
-            setImageSrc(src);
-          });
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [item]);
+    }, [item]);
 
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
@@ -93,56 +93,79 @@ const WishlistItems = ({
                                         className="smr_card-ContentData smr_WlTitleline"
                                     >
                                         {item?.designno != "" && item?.designno}
-                                        {item?.TitleLine != "" && " - " + item?.TitleLine}
+                                        {item?.TitleLine != "" || item?.TitleLine != null && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="smr_card-ContentData">
-                                        <span className="smr_wishDT">GWT: </span>
-                                        {/* <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
-                                        <span className="smr_wishDT">
-                                            {(item?.Gwt || 0).toFixed(3)}
-                                        </span>
-
-                                        <span className="smr_pipes"> | </span>
-                                        <span className="smr_wishDT">NWT : </span>
-                                        <span className="smr_wishDT">
-                                            {(item?.Nwt || 0).toFixed(3)}
-                                        </span>
-                                        {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                        {storeInit?.IsGrossWeight == 1 &&
                                             <>
-                                            <span className="smr_pipes"> | </span>
-                                                <span className="smr_wishDT">DWT: </span>
-                                                <span>
-                                                    {(item?.Dwt || 0).toFixed(3)} /
-                                                    {(item?.Dpcs || 0)}
+                                                <span className="smr_wishDT">GWT: </span>
+                                                {/* <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                                <span className="smr_wishDT">
+                                                    {(item?.Gwt || 0).toFixed(3)}
+                                                </span>
+                                                <span className="smr_pipes"> | </span>
+                                            </>
+                                        }
+                                        {storeInit?.IsMetalWeight == 1 &&
+                                            <>
+                                                <span className="smr_wishDT">NWT : </span>
+                                                <span className="smr_wishDT">
+                                                    {(item?.Nwt || 0).toFixed(3)}
                                                 </span>
                                             </>
                                         }
-                                        {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                        {storeInit?.IsDiamondWeight == 1 &&
                                             <>
-                                            <span className="smr_pipes"> | </span>
-                                                <span className="smr_wishDT">CWT: </span>
-                                                <span>
-                                                    {(item?.CSwt || 0).toFixed(3)} /
-                                                    {(item?.CSpcs || 0)}
-                                                </span>
+                                                {(item?.Dwt != "0" || item?.Dpcs != "0") &&
+                                                    <>
+                                                        <span className="smr_pipes"> | </span>
+                                                        <span className="smr_wishDT">DWT: </span>
+                                                        <span>
+                                                            {(item?.Dwt || 0).toFixed(3)} /
+                                                            {(item?.Dpcs || 0)}
+                                                        </span>
+                                                    </>
+                                                }
+                                            </>
+                                        }
+                                        {storeInit?.IsStoneWeight == 1 &&
+                                            <>
+                                                {(item?.CSwt != "0" || item?.CSpcs != "0") &&
+                                                    <>
+                                                        <span className="smr_pipes"> | </span>
+                                                        <span className="smr_wishDT">CWT: </span>
+                                                        <span>
+                                                            {(item?.CSwt || 0).toFixed(3)} /
+                                                            {(item?.CSpcs || 0)}
+                                                        </span>
+                                                    </>
+                                                }
                                             </>
                                         }
                                     </Typography>
                                     <Typography variant="body2" className="smr_card-ContentData">
-                                        {item?.metalcolorname !== "" && (
-                                            <span>{item.metalcolorname}</span>
-                                        )}
-                                        {item?.metalcolorname !== "" &&
-                                            item?.metaltypename !== "" && <span> - </span>}
-                                        {item?.metaltypename !== "" && (
-                                            <span>{item?.metaltypename}</span>
-                                        )}
-                                        {" / "}
+                                        {storeInit?.IsMetalTypeWithColor == 1 &&
+                                            <>
+                                                {item?.metalcolorname !== "" && (
+                                                    <span>{item.metalcolorname}</span>
+                                                )}
+                                                {item?.metalcolorname !== "" &&
+                                                    item?.metaltypename !== "" && <span> - </span>}
+                                                {item?.metaltypename !== "" && (
+                                                    <span>{item?.metaltypename}</span>
+                                                )}
+                                                {" / "}
+                                            </>
+                                        }
                                         {/* <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>{" "}
-                                        <span>{formatter(item?.FinalCost)}</span>
+                                        {storeInit?.IsPriceShow == 1 &&
+                                            <>
+                                                <span className="smr_currencyFont">
+                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>{" "}
+                                                <span>{formatter(item?.FinalCost)}</span>
+                                            </>
+                                        }
                                     </Typography>
                                 </div>
                                 {/* <div className='designNoWlList'>
@@ -179,7 +202,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={imageSrc }
+                                image={imageSrc}
                                 alt={item?.TitleLine}
                                 className="smr_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}

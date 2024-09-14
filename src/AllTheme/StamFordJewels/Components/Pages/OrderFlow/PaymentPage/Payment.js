@@ -25,6 +25,7 @@ const Payment = () => {
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
     const [taxAmmount, setTaxAmount] = useState();
+    const [storeinit, setStoreInit] = useState();
 
     const setCartCountVal = useSetRecoilState(stam_CartCount);
 
@@ -48,8 +49,8 @@ const Payment = () => {
 
     const handleSaveInternal = () => {
         const trimmedRemark = orderRemark?.trim();
-            handleOrderRemarkFun(trimmedRemark);
-            handleClose();
+        handleOrderRemarkFun(trimmedRemark);
+        handleClose();
     };
 
     console.log('orderreamrk', orderRemark);
@@ -61,6 +62,7 @@ const Payment = () => {
         const orderRemakdata = sessionStorage.getItem("orderRemark");
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        setStoreInit(storeInit)
         setOrderRemarkData(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
@@ -88,7 +90,7 @@ const Payment = () => {
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-           
+
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -107,7 +109,7 @@ const Payment = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-        
+
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
@@ -116,7 +118,7 @@ const Payment = () => {
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
-                
+
                 setCartCountVal(res?.cartcount)
             })
 
@@ -163,7 +165,7 @@ const Payment = () => {
                             variant="body2"
                             onClick={handleOpen}
                         >
-                          {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
+                            {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
                     <div className='stam_paymentDetailMainDiv'>
@@ -183,39 +185,43 @@ const Payment = () => {
                             </div>
                         </div>
                         <div className='stam_paymentDetailRightSideContent'>
-                            <h3>Order Summary</h3>
-                            {!isploding ? (
-                                <div class="stam_order-summary">
-                                    <div class="stam_summary-item">
-                                        <div class="stam_label">Subtotal</div>
-                                        <div class="stam_value">
-                                            <span className="stam_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>&nbsp;
-                                            <span>{formatter(finalTotal)}</span>
+                            {storeinit?.IsPriceShow == 1 &&
+                                <>
+                                    <h3>Order Summary</h3> 
+                                    {!isploding ? (
+                                        <div class="stam_order-summary">
+                                            <div class="stam_summary-item">
+                                                <div class="stam_label">Subtotal</div>
+                                                <div class="stam_value">
+                                                    <span className="stam_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(finalTotal)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="stam_summary-item">
+                                                <div class="stam_label">Estimated Tax</div>
+                                                <div class="stam_value">
+                                                    <span className="stam_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                            <div class="stam_summary-item">
+                                                <div class="stam_label">Estimated Total</div>
+                                                <div class="stam_value">
+                                                    <span className="stam_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="stam_summary-item">
-                                        <div class="stam_label">Estimated Tax</div>
-                                        <div class="stam_value">
-                                            <span className="stam_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>&nbsp;
-                                            <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                        </div>
-                                    </div>
-                                    <div class="stam_summary-item">
-                                        <div class="stam_label">Estimated Total</div>
-                                        <div class="stam_value">
-                                            <span className="stam_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>&nbsp;
-                                            <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) :
-                                <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    ) :
+                                        <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    }
+                                </>
                             }
                             <div className='stam_shippingAddress'>
                                 <h3>Shipping Address</h3>

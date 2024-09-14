@@ -13,9 +13,11 @@ import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/Or
 import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
+    const [isPloding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
@@ -70,6 +72,7 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             try {
                 const texData = await fetchEstimateTax();
@@ -78,6 +81,8 @@ const Payment = () => {
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally {
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
@@ -210,36 +215,39 @@ const Payment = () => {
                                     <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
                                 </p>
                             </div> */}
-
-                                    <div class="smr_order-summary">
-                                        <div class="smr_summary-item">
-                                            <div class="smr_label">Subtotal</div>
-                                            <div class="smr_value">
-                                                <span className="smr_currencyFont">
-                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(finalTotal)}</span>
+                                    {!isPloding ? (
+                                        <div class="smr_order-summary">
+                                            <div class="smr_summary-item">
+                                                <div class="smr_label">Subtotal</div>
+                                                <div class="smr_value">
+                                                    <span className="smr_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(finalTotal)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="smr_summary-item">
+                                                <div class="smr_label">Estimated Tax</div>
+                                                <div class="smr_value">
+                                                    <span className="smr_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                            <div class="smr_summary-item">
+                                                <div class="smr_label">Estimated Total</div>
+                                                <div class="smr_value">
+                                                    <span className="smr_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="smr_summary-item">
-                                            <div class="smr_label">Estimated Tax</div>
-                                            <div class="smr_value">
-                                                <span className="smr_currencyFont">
-                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                            </div>
-                                        </div>
-                                        <div class="smr_summary-item">
-                                            <div class="smr_label">Estimated Total</div>
-                                            <div class="smr_value">
-                                                <span className="smr_currencyFont">
-                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ) :
+                                        <Skeleton className='smr_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    }
                                 </>
                             }
                             <div className='smr_shippingAddress'>
