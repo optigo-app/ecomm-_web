@@ -174,10 +174,10 @@ export default function YourProfile() {
                                     sx={{ "& .MuiInputBase-input.Mui-disabled" : {
                                         WebkitTextFillColor:'black'
                                     }}}
-                                    value={userData?.street || ''}
-                                    disabled
                                     multiline
                                     rows={2}
+                                    value={userData?.street || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -257,8 +257,8 @@ export default function YourProfile() {
                             </>
                         )}
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '25px' ,padding  :"0 14px" }}>
-                        <button type='submit' className='hoq_SmilingAddEditAddrwess' >Save</button>
-                        <button onClick={() => handleCancel()} className='hoq_SmilingAddEditAddrwess' >Cancel</button>
+                        <button type='submit' className='hoq_smilingDeleveryformSaveBtn' >Save</button>
+                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn' >Cancel</button>
                     </div>
                     </form>
                 </div>
