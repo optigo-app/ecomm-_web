@@ -1685,7 +1685,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {(storeInit?.IsPriceShow === 1 && storeInit?.IsPriceBreakUp == 1 )&& singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                        {(storeInit?.IsPriceShow === 1 && storeInit?.IsPriceBreakUp == 1 ) && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
                         (
                           <Accordion
                             elevation={0}

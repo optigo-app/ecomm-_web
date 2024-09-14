@@ -181,7 +181,7 @@ const ProductDetail = () => {
       Metalid: metal?.Metalid ? metal?.Metalid : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
       DiaQCid: dia?.length ? `${dia[0]?.QualityId},${dia[0]?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
-      CsQCid: cs?.length ? `${cs?.QualityId},${cs?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid),
+      CsQCid: cs?.length ? `${cs[0]?.QualityId},${cs[0]?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid),
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -1487,7 +1487,13 @@ const ProductDetail = () => {
                                   <label className="menuItemTimeEleveDeatil">
                                     DIAMOND :
                                   </label>
-                                  {
+                                  {singleProd?.IsMrpBase == 1 ? 
+                                  (
+                                    <span className="menuitemSelectoreMain">
+                                      {singleProd?.DiaQuaCol}
+                                    </span>
+                                  ) 
+                                  :
                                     <select
                                       className="menuitemSelectoreMain"
                                       value={selectDiaQc}
@@ -1512,7 +1518,12 @@ const ProductDetail = () => {
                                   <label className="menuItemTimeEleveDeatil">
                                     COLOR STONE :
                                   </label>
-                                  <select
+                                  { singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.CsQuaCol}
+                                      </span>
+                                    ):
+                                    <select
                                     className="menuitemSelectoreMain"
                                     value={selectCsQc}
                                     // onChange={(e) => setSelectCsQc(e.target.value)}
@@ -1526,7 +1537,7 @@ const ProductDetail = () => {
                                         value={`${ele?.Quality},${ele?.color}`}
                                       >{`${ele?.Quality},${ele?.color}`}</option>
                                     ))}
-                                  </select>
+                                  </select>}
                                 </div>
                               ) : null}
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
@@ -1823,7 +1834,7 @@ const ProductDetail = () => {
                             (accumulator, data) => accumulator + data?.N,
                             0
                           )
-                          .toFixed(2)}ct)`}</li>
+                          .toFixed(3)}ct)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -1837,14 +1848,14 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{data?.N}
+                            {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
                     </div>
                   )}
 
-                  {csList?.length > 0 && (
+                  {/* {csList?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
@@ -1857,7 +1868,7 @@ const ProductDetail = () => {
                             (accumulator, data) => accumulator + data?.N,
                             0
                           )
-                          .toFixed(2)}ct)`}</li>
+                          .toFixed(3)}ct)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -1871,7 +1882,75 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{data?.N}
+                            {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                          </li>
+                        </ul>
+                      ))}
+                    </div>
+                  )} */}
+
+                  {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
+                    <div className="smr_material_details_portion_inner">
+                      <ul style={{ margin: "10px 0px 3px 0px" }}>
+                        <li
+                          style={{ fontWeight: 600 }}
+                        >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
+                          (accumulator, data) => accumulator + data.M,
+                          0
+                        )}  ${csList?.filter((ele) => ele?.D !== "MISC")
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data?.N,
+                            0
+                          )
+                          .toFixed(3)}ct)`}</li>
+                      </ul>
+                      <ul className="smr_mt_detail_title_ul">
+                        <li className="smr_proDeatilList">Shape</li>
+                        <li className="smr_proDeatilList">Clarity</li>
+                        <li className="smr_proDeatilList">Color</li>
+                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      </ul>
+                      {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
+                        <ul className="smr_mt_detail_title_ul">
+                          <li className="smr_proDeatilList1">{data?.F}</li>
+                          <li className="smr_proDeatilList1">{data?.H}</li>
+                          <li className="smr_proDeatilList1">{data?.J}</li>
+                          <li className="smr_proDeatilList1">
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                          </li>
+                        </ul>
+                      ))}
+                    </div>
+                  )}
+
+{csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                    <div className="smr_material_details_portion_inner">
+                      <ul style={{ margin: "10px 0px 3px 0px" }}>
+                        <li
+                          style={{ fontWeight: 600 }}
+                        >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
+                          (accumulator, data) => accumulator + data.M,
+                          0
+                        )}  ${csList?.filter((ele) => ele?.D === "MISC")
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data?.N,
+                            0
+                          )
+                          .toFixed(3)}gm)`}</li>
+                      </ul>
+                      <ul className="smr_mt_detail_title_ul">
+                        <li className="smr_proDeatilList">Shape</li>
+                        <li className="smr_proDeatilList">Clarity</li>
+                        <li className="smr_proDeatilList">Color</li>
+                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                      </ul>
+                      {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
+                        <ul className="smr_mt_detail_title_ul">
+                          <li className="smr_proDeatilList1">{data?.F}</li>
+                          <li className="smr_proDeatilList1">{data?.H}</li>
+                          <li className="smr_proDeatilList1">{data?.J}</li>
+                          <li className="smr_proDeatilList1">
+                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -1914,7 +1993,7 @@ const ProductDetail = () => {
 
                             </div>
                             <img
-                              className="smr_productCard_Image"
+                              className="procat_productCard_Image"
                               src={
                                 storeInit?.DesignImageFol +
                                 ele?.designno +
@@ -1991,7 +2070,7 @@ const ProductDetail = () => {
                               </div>
 
                               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }} className="smr_stockItem_price_type_mt">
-                                {ele?.MetalColorName}-{ele?.metaltypename}{ele?.metalPurity}
+                                {storeInit?.IsMetalTypeWithColor == 1 ? `${ele?.MetalColorName}-${ele?.metaltypename}${ele?.metalPurity}`: ""}
                                 {" "}/{" "}
                                 {
                                   storeInit?.IsPriceShow == 1 && (
@@ -2214,7 +2293,7 @@ const ProductDetail = () => {
                               }
                             >
                               <img
-                                className="smr_productCard_Image"
+                                className="procat_productCard_Image"
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.DesignImageFol +
