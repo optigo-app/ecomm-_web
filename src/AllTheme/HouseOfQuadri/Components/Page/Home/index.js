@@ -16,7 +16,6 @@ import Preloader from "../../../../../dum/Load";
 
 const HomePage = () => {
   const data = JSON.parse(sessionStorage.getItem("storeInit"));
-  console.log(data)
 
   useEffect(() => {
     window.scrollTo({

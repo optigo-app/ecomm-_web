@@ -84,7 +84,7 @@ const CartPage = () => {
     if (storeInit?.IsPLW == 0) {
       let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
       sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
+      navigate("/Delivery",{replace  :true})
     } else {
       handlePay();
     }
@@ -147,7 +147,7 @@ const CartPage = () => {
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
-      navigate('/Confirmation');
+      navigate('/Confirmation',{replace  :true});
       GetCountAPI().then((res) => {
         setCartCountVal(res?.cartcount)
       })

@@ -165,7 +165,7 @@ const CartPage = () => {
   }, []);
 
   const handleMoveToOrder = () => {
-    navigate('/Delivery');
+    navigate('/Delivery',{replace  :true});
     sessionStorage.setItem('iscartData', randomNumber);
   }
 
