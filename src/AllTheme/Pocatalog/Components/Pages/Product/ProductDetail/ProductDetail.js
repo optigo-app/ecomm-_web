@@ -2332,17 +2332,21 @@ const ProductDetail = () => {
                                   }}
                                   className="smr_stockItem_price_type_mt"
                                 >
-                                  <spam>
-                                    <span className="smr_currencyFont">
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                    &nbsp;
-                                  </spam>
-                                  <span>{
-                                    // formatter.format(
-                                    ele?.UnitCostWithMarkUp
-                                    // )
-                                  }</span>
+                                  {storeInit?.IsPriceShow == 1 &&
+                                    <>
+                                      <spam>
+                                        <span className="smr_currencyFont">
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                        &nbsp;
+                                      </spam>
+                                      <span>{
+                                        // formatter.format(
+                                        ele?.UnitCostWithMarkUp
+                                        // )
+                                      }</span>
+                                    </>
+                                  }
                                 </div>
                               </div>
                             </div>
@@ -2462,21 +2466,23 @@ const ProductDetail = () => {
                                           }}
                                           className="srthelook_prodinfo_inner"
                                         >
-                                          <p>
-                                            {ele?.designno} - {ele?.CategoryName}
-                                            <br />
-                                            {
-                                              <span className="smr_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                              </span>
-                                            }
-                                            &nbsp;
-                                            {
-                                              // formatter.format(
-                                              ele?.UnitCostWithMarkUp
-                                              // )
-                                            }
-                                          </p>
+                                          {storeInit?.IsPriceShow == 1 &&
+                                            <p>
+                                              {ele?.designno} - {ele?.CategoryName}
+                                              <br />
+                                              {
+                                                <span className="smr_currencyFont">
+                                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                </span>
+                                              }
+                                              &nbsp;
+                                              {
+                                                // formatter.format(
+                                                ele?.UnitCostWithMarkUp
+                                                // )
+                                              }
+                                            </p>
+                                          }
                                         </div>
                                         {/* <div>
                           <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>

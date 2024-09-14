@@ -59,14 +59,12 @@ const Usewishlist = () => {
       const response = await fetchWishlistDetails(visiterId);
       if (response?.Data?.rd[0]?.stat != 0) {
         let diamondData = response?.Data?.rd1;
-        console.log('res--', response?.Data?.rd);
         setWishlistData(response?.Data?.rd);
         setIsWlLoading(false);
 
         if (diamondData?.length != 0) {
           const solStockNos = diamondData?.map(item => item?.Sol_StockNo);
           const commaSeparatedString = solStockNos?.join(',');
-          console.log(commaSeparatedString, "djskjdlk");
           if (commaSeparatedString != null || commaSeparatedString != undefined) {
             getDiamondData(commaSeparatedString)
           }
@@ -99,7 +97,6 @@ const Usewishlist = () => {
     getWishlistData();
   }, []);
 
-  console.log('cartData--', wishlistData);
 
   // remove
   const handleRemoveItem = async (item, isdiamond) => {
@@ -166,16 +163,13 @@ const Usewishlist = () => {
   // add to cart all
   const handleAddtoCartAll = async () => {
     if (isProcessing) return;
-
     setIsProcessing(true);
-
     const visiterId = Cookies.get('visiterId');
     let param = "isSelectAll";
     let resStatus;
 
     try {
       const allItemsInCart = wishlistData.every(item => item.IsInCart === 1);
-
       if (!allItemsInCart) {
         try {
           const response = await handleWishlistToCartAPI(param, {}, visiterId);
@@ -285,7 +279,6 @@ const Usewishlist = () => {
   };
 
   const handleMoveToDetail = (wishtData) => {
-    console.log('wishtData', wishtData);
     let obj = {
       a: wishtData?.autocode,
       b: wishtData?.designno,
@@ -304,7 +297,6 @@ const Usewishlist = () => {
   const handelMenu = () => {
     let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
     if (menudata) {
-      console.log('otherparamsUrl--', menudata);
       const queryParameters1 = [
         menudata?.FilterKey && `${menudata?.FilterVal}`,
         menudata?.FilterKey1 && `${menudata?.FilterVal1}`,

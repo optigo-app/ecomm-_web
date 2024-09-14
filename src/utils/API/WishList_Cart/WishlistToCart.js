@@ -8,7 +8,6 @@ export const handleWishlistToCartAPI = async (param, item, visiterId) => {
     const data = JSON.parse(storedData);
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data.userid ?? "";
-    console.log('ietem---', param, item);
     try {
         let combinedValue;
         if (param == 'isSelectAll') {
@@ -34,7 +33,6 @@ export const handleWishlistToCartAPI = async (param, item, visiterId) => {
             p: encodedCombinedValue,
             dp: combinedValue
         };
-        console.log('encodedCombinedValue', encodedCombinedValue, combinedValue);
         const response = await CommonAPI(body);
 
         return response;
