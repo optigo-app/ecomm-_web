@@ -235,54 +235,6 @@ const headCells = [
     minWidth: 110,
   },
   {
-    id: "MetalAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiamondAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "DiamondAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "ColorStoneAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "ColorStone Amount",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "LabourAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Labour Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "OtherAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Other Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "UnitCost",
-    numeric: false,
-    disablePadding: false,
-    label: "Unit Cost",
-    align: "center",
-    minWidth: 140,
-  },
-  {
     id: "Category",
     numeric: false,
     disablePadding: false,
@@ -367,7 +319,8 @@ function EnhancedTableHead(props) {
               textAlign: headCell?.align || "left",
             }}
           >
-            <TableSortLabel
+            {
+              (headCell?.id?.toLowerCase() === 'srno') ? `${headCell?.label}` : <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
@@ -380,6 +333,7 @@ function EnhancedTableHead(props) {
                 </Box>
               ) : null}
             </TableSortLabel>
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -663,6 +617,7 @@ const PendingMemo = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -1122,18 +1077,13 @@ const PendingMemo = () => {
                           handleimageShow(eve, row?.imgsrc)
                         }
                       >
-                        <TableCell id={labelId} scope="row" align="center">
-                          {" "}
-                          {index + 1}{" "}
-                        </TableCell>
+                        <TableCell id={labelId} scope="row" align="center"> {index + 1} </TableCell>
                         <TableCell align="center">{row.EntryDate}</TableCell>
-                        <TableCell align="center">
-                          {row.StockDocumentNo}
-                        </TableCell>
+                        <TableCell align="center"> {row.StockDocumentNo} </TableCell>
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{row.MetalAmount}</TableCell>
+                        {/* <TableCell align="center">{row.MetalAmount}</TableCell>
                         <TableCell align="center">
                           {row.DiamondAmount}
                         </TableCell>
@@ -1142,7 +1092,7 @@ const PendingMemo = () => {
                         </TableCell>
                         <TableCell align="center">{row.LabourAmount}</TableCell>
                         <TableCell align="center">{row.OtherAmount}</TableCell>
-                        <TableCell align="center">{row.UnitCost}</TableCell>
+                        <TableCell align="center">{row.UnitCost}</TableCell> */}
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>

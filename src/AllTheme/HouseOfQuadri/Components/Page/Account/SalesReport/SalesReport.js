@@ -647,6 +647,7 @@ const SalesReport = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {

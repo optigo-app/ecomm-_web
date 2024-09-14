@@ -805,7 +805,7 @@ const DesignWiseSalesReport = () => {
                                     zIndex: 0,
                                     background: "#c0bbb133",
                                 }}
-                                className="smilingProductImageBox designWiseSalesReportProduct"
+                                className="smilingProductImageBox designWiseSalesReportProduct minW_dwsr_acc_smr_mapp"
                             >
                                 <Box sx={{
                                     paddingBottom: "10px"
