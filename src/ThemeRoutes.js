@@ -28,7 +28,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(7)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -62,8 +62,8 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            setThemeNo(1);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(1);
 
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
@@ -120,8 +120,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
