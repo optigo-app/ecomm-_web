@@ -36,22 +36,22 @@ function Home() {
     setCSSVariable();
   }, []);
 
-  useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response?.text())
-      .then((text) => {
-        try {
-          // Parse the JSON data
-          const jsonData = JSON?.parse(text);
-          setHtmlContent(jsonData);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${storImagePath()}/Store_Init.txt`)
+  //     .then((response) => response?.text())
+  //     .then((text) => {
+  //       try {
+  //         // Parse the JSON data
+  //         const jsonData = JSON?.parse(text);
+  //         setHtmlContent(jsonData);
+  //       } catch (error) {
+  //         console.error("Error parsing JSON:", error);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching the file:", error);
+  //     });
+  // }, []);
 
   const setCSSVariable = () => {
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -64,10 +64,9 @@ function Home() {
 
   return (
     <>
-      {htmlContent?.rd && htmlContent?.rd.length > 0 && (
         <div className="smiling_home_index_main">
           <div style={{ minHeight: minHeight, backgroundColor: "white" }}>
-            {htmlContent?.rd[0]?.Blockno == 1 && (
+            {localData?.Blockno == 1 && (
               <div className="smiling_home_index_Submain">
                 <TopSection />
                 <TheDifference />
@@ -88,7 +87,7 @@ function Home() {
             )}
           </div>
           <div style={{ minHeight: minHeight, backgroundColor: "white" }}>
-            {htmlContent?.rd[0]?.Blockno == 2 && (
+            {localData?.Blockno == 2 && (
               <div className="smiling_home_index_Submain">
                 <TopSection />
                 <TheDifference />
@@ -153,7 +152,6 @@ function Home() {
             </p>
           </div>
         </div>
-      )}
     </>
   );
 }

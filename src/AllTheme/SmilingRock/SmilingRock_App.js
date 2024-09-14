@@ -68,22 +68,22 @@ const SmilingRock_App = () => {
 
   const [htmlContent, setHtmlContent] = useState("");
 
-  useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response?.text())
-      .then((text) => {
-        try {
-          // Parse the JSON data
-          const jsonData = JSON?.parse(text);
-          setHtmlContent(jsonData);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${storImagePath()}/Store_Init.txt`)
+  //     .then((response) => response?.text())
+  //     .then((text) => {
+  //       try {
+  //         // Parse the JSON data
+  //         const jsonData = JSON?.parse(text);
+  //         setHtmlContent(jsonData);
+  //       } catch (error) {
+  //         console.error("Error parsing JSON:", error);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching the file:", error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     setCSSVariable();
@@ -153,12 +153,8 @@ const SmilingRock_App = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
-        {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-          <>
-            {htmlContent.rd[0].Headerno === 2 && <Header2 />}
-            {htmlContent.rd[0].Headerno === 1 && <Header />}
-          </>
-        )}
+            {localData?.Headerno === 2 && <Header2 />}
+            {localData?.Headerno === 1 && <Header />}
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
