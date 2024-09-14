@@ -188,7 +188,8 @@
     letter-spacing: 2px;
     width: 100%;
     padding: 2px 8px !important;
-    border: 1px solid #bbbbbb;
+    border: none;
+    // border: 1px solid #bbbbbb;
     outline: none;
 
     :focus {
@@ -217,7 +218,8 @@
     letter-spacing: 2px;
     width: 100%;
     padding: 2px 8px !important;
-    border: 1px solid #bbbbbb;
+    border: none;
+    // border: 1px solid #bbbbbb;
     outline: none;
 
     :focus {
@@ -236,7 +238,8 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     padding: 2px 8px !important;
-    border: 1px solid #bbbbbb;
+    border: none;
+    // border: 1px solid #bbbbbb;
     outline: none;
 
     :focus {
@@ -505,7 +508,7 @@
   .elv_filtered_icons {
     display: flex;
     justify-content: space-between;
-    padding: 20px 25px 10px 25px;
+    padding: 10px 10px 0px 10px;
     position: absolute;
     z-index: 10;
     width: 100%;
@@ -960,17 +963,17 @@
 
   @media screen and (max-width: 1690px) {
     .elv_filtered_prodlists_1 {
-      width: 49.6%;
+      width: 50%;
       height: fit-content;
     }
 
     .elv_filtered_prodlists_2 {
-      width: 32.8%;
+      width: 33.3%;
       height: fit-content;
     }
 
     .elv_filtered_prodlists_3 {
-      width: 24.3%;
+      width: 25%;
       height: fit-content;
     }
   }
@@ -1009,19 +1012,19 @@
     }
 
     .elv_filteration_rows_2_filter {
-      flex: 1 1 25%;
+      flex: 1 1 20%;
     }
 
     .elv_filteration_rows_3_combo {
-      flex: 1 1 25%;
+      flex: 1 1 60%;
     }
 
     .elv_filteration_rows_1_filter {
-      flex: 1 1 25%;
+      flex: 1 1 10%;
     }
 
     .elv_filteration_rows_5_filter {
-      flex: 1 1 25%;
+      flex: 1 1 10%;
     }
 
   }
@@ -1054,6 +1057,14 @@
 
     .elv_trend_drp {
       font-size: 11px;
+    }
+
+    .elv_diamond_drp {
+      font-size: 12px;
+    }
+
+    .elv_metal_drp {
+      font-size: 12px;
     }
 
     .elv_filtered_icons {
@@ -1098,6 +1109,23 @@
       padding: 0;
       justify-content: center;
     }
+
+    .elv_filteration_rows_1_filter {
+      flex: 1 1 33.3%;
+    }
+
+    .elv_trend_drp {
+      font-size: 11px;
+    }
+
+    .elv_filteration_rows_2_filter {
+      flex: 1 1 33.3%;
+    }
+
+    .elv_filteration_rows_3_filter {
+      flex: 1 1 33.3%;
+    }
+
   }
 
   @media (max-width: 768px) {
@@ -1175,6 +1203,34 @@
       height: fit-content;
     }
 
+    .elv_filteration_rows_1_filter {
+      flex: 1 1 20%;
+    }
+
+    .elv_trend_drp {
+      font-size: 11px;
+    }
+
+    .elv_metal_drp {
+      font-size: 12px;
+    }
+
+    .elv_filteration_rows_2_filter {
+      flex: 1 1 70%;
+    }
+
+    .elv_filteration_rows_3_filter {
+      flex: 1 1 10%;
+    }
+
+    .elv_diamond_drp {
+      font-size: 12px;
+    }
+
+    .elv_trend_drp {
+      font-size: 11px;
+    }
+
     .elv_filtered_prodlists_2 {
       width: 32%;
       height: fit-content;
@@ -1182,10 +1238,6 @@
 
     .elv_filtered_icons {
       padding: 18px 15px 5px 15px;
-    }
-
-    .elv_trend_drp {
-      font-size: 15px;
     }
 
     .elv_Productlists_details_1 {
@@ -1212,6 +1264,18 @@
       height: fit-content;
     }
 
+    .elv_metal_drp {
+      font-size: 12px;
+    }
+
+    .elv_diamond_drp {
+      font-size: 12px;
+    }
+
+    .elv_trend_drp {
+      font-size: 11px;
+    }
+
     .elv_filtered_prodlists_2 {
       width: 32%;
       height: fit-content;
@@ -1226,18 +1290,13 @@
     }
 
     .elv_filteration_rows_1_filter {
-      padding: 0;
       font-size: 8px;
     }
 
     .elv_filteration_rows_2_filter {
-      padding: 0;
       font-size: 8px;
     }
 
-    .elv_filteration_rows_3_combo {
-      padding: 0;
-    }
 
     .elv_filteration_rows_5_filter_dots {
       padding: 0;
@@ -1251,6 +1310,18 @@
   @media screen and (max-width: 375px) {
     .elv_filtered_icons {
       padding: 0px 7px 0px 7px;
+    }
+
+    .elv_metal_drp {
+      font-size: 12px;
+    }
+
+    .elv_diamond_drp {
+      font-size: 12px;
+    }
+
+    .elv_trend_drp {
+      font-size: 11px;
     }
 
     .elv_filtered_prodlists_1 {
@@ -1323,6 +1394,19 @@
   @media (max-width: 320px) {
     .pagination-container {
       margin-top: 2rem;
+    }
+
+    .elv_metal_drp {
+      font-size: 12px;
+    }
+
+    .elv_diamond_drp {
+      font-size: 12px;
+    }
+
+
+    .elv_trend_drp {
+      font-size: 11px;
     }
 
     .pagination_div ul {

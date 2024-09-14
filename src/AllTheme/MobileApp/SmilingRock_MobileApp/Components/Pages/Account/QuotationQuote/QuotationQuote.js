@@ -394,7 +394,7 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
             if (response?.Data?.rd) {
@@ -595,14 +595,7 @@ const QuotationQuote = () => {
                                             sx={{ cursor: 'pointer' }}
                                         >
 
-                                            <TableCell
-                                                component="td"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                align="center"
-                                            >
-                                            
+                                            <TableCell component="td" id={labelId} scope="row" padding="none" align="center" >
                                                 {page * rowsPerPage + index + 1}
                                             </TableCell>
                                             <TableCell align="center">{row.Date}</TableCell>

@@ -8,49 +8,52 @@ import { IoLogoInstagram } from "react-icons/io5";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { GrMailOption } from "react-icons/gr";
 import { Link, useNavigate } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const MobileFooter = () => {
+const MobileFooter = ({ socialLinkStr, companyInfoData }) => {
   const [email, setemail] = useState("");
   const navigation = useNavigate();
-  const [companyInfoData, setCompanuInfoData] = useState();
-  const [socialMediaData, setSocialMediaData] = useState([]);
+  const ismobile = useMediaQuery('(max-width:502px)')
+  // const [companyInfoData, setCompanuInfoData] = useState();
+  // const [socialMediaData, setSocialMediaData] = useState([]);
   const [selectedFooteVal, setSelectedVal] = useState(0);
 
-  useEffect(() => {
-    let storeInit;
-    let companyInfoData;
+  // useEffect(() => {
+  //   let storeInit;
+  //   let companyInfoData;
 
-    setTimeout(() => {
-      try {
-        const storeInitData = sessionStorage?.getItem("storeInit");
-        if (storeInitData) {
-          storeInit = JSON.parse(storeInitData);
-        }
-      } catch (error) {
-        console.error("Error parsing storeInit:", error);
-      }
+  //   setTimeout(() => {
+  //     try {
+  //       const storeInitData = sessionStorage?.getItem("storeInit");
+  //       if (storeInitData) {
+  //         storeInit = JSON.parse(storeInitData);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error parsing storeInit:", error);
+  //     }
 
-      try {
-        const companyInfoDataStr = sessionStorage?.getItem("CompanyInfoData");
-        if (companyInfoDataStr) {
-          companyInfoData = JSON.parse(companyInfoDataStr);
-          setCompanuInfoData(companyInfoData);
+  //     try {
+  //       const companyInfoDataStr = sessionStorage?.getItem("CompanyInfoData");
+  //       if (companyInfoDataStr) {
+  //         companyInfoData = JSON.parse(companyInfoDataStr);
+  //         setCompanuInfoData(companyInfoData);
 
-          const socialLinkStr = companyInfoData?.SocialLinkObj;
-          if (socialLinkStr) {
-            try {
-              const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
-              setSocialMediaData(parsedSocialMediaUrlData);
-            } catch (error) {
-              console.error("Error parsing social media data:", error);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Error parsing CompanyInfoData:", error);
-      }
-    }, 500);
-  }, []);
+  //         const socialLinkStr = companyInfoData?.SocialLinkObj;
+  //         if (socialLinkStr) {
+  //           try {
+  //             const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
+  //             setSocialMediaData(parsedSocialMediaUrlData);
+  //           } catch (error) {
+  //             console.error("Error parsing social media data:", error);
+  //           }
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error parsing CompanyInfoData:", error);
+  //     }
+  //   }, 500);
+  // }, []);
   const HandleFormSubmit = async (e) => {
     e.preventDefault();
     // const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
@@ -69,7 +72,7 @@ const MobileFooter = () => {
     //     })
     //     .then((result) => console.log(result))
     //     .catch((error) => console.error(error));
-    }
+  };
   // };
   return (
     <>
@@ -87,13 +90,18 @@ const MobileFooter = () => {
             </AccordionSummary>
             <AccordionDetails>
               <div className="details">
-                <p className="address">
-                  Lorem ipsum dolor sit amet. <br />
-                  Lorem ipsum dolor sit amet consectetur. 400001
+                <p className="address" style={{
+                  fontSize  :!ismobile ? "14.2px"  :"13px"
+                }}>
+                {companyInfoData?.FrontEndAddress},
+        <br />
+        {companyInfoData?.FrontEndCity} 
+        <br />
+        {companyInfoData?.FrontEndZipCode}
                 </p>
-                <p className="phoneno">Mob. +12345674689</p>
+                <p className="phoneno">Mobile : {companyInfoData?.FrontEndContactno1}</p>
                 <p className="email">
-                  Email : <span>Lorem ipsum dolor sit amet.</span>
+                  Email : <span> {companyInfoData?.FrontEndEmail1}</span>
                 </p>
                 <div
                   className="social-links"
@@ -101,38 +109,38 @@ const MobileFooter = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    flexDirection: "row-reverse",
+                    flexDirection: !ismobile ? "row-reverse"  :"column",
                     gap: "1rem",
                   }}
                 >
-                  <Link
-                    to="https://www.instagram.com/"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    target="_blank"
-                  >
-                    <FaInstagram size={17} color="#F60092" />
-                    Instagram
-                  </Link>
-                  <Link
-                    to="https://www.facebook.com/"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    target="_blank"
-                  >
-                    <FaFacebook size={17} color="blue" />
-                    Facebook
-                  </Link>
+                  {socialLinkStr?.map((val, i) => {
+                    return (
+                      <>
+                        <Link
+                          to={val?.SLink}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                            textDecoration  :"none",
+                            color  :"black"
+                          }}
+                          target="_blank"
+                        >
+                          <img
+                            src={val?.SImgPath}
+                            alt=""
+                            width={15}
+                            height={15}
+                            style={{
+                              mixBlendMode: "darken",
+                            }}
+                          />
+                          {val?.SName}
+                        </Link>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             </AccordionDetails>
@@ -252,25 +260,25 @@ const MobileFooter = () => {
         <div className="brand_logo">
           <div className="pay">
             <img
-              src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/363_Visa_Credit_Card_logo-256.png"
+              src={storImagePath()+`/images/footer/mastercard.webp`}
               alt=""
             />
           </div>
           <div className="pay">
             <img
-              src="https://cdn0.iconfinder.com/data/icons/shift-ecommerce/32/Master_Card-256.png"
+              src={storImagePath()+`/images/footer/gpay.webp`}
               alt=""
             />
           </div>
           <div className="pay">
             <img
-              src="https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/436/Google_Pay_GPay_Logo-512.png"
+              src={storImagePath()+`/images/footer/visa.webp`}
               alt=""
             />
           </div>
           <div className="pay">
             <img
-              src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/paytm-512.png"
+              src={storImagePath()+`/images/footer/paytm.webp`}
               alt=""
             />
           </div>

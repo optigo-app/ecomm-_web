@@ -157,21 +157,25 @@ const ProductDetail = () => {
   }, [singleProd]);
 
   const handleCart = (cartflag) => {
+
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+
     let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
+      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
+      )
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      )
 
     let mcArr = metalColorCombo?.filter(
       (ele) => {
@@ -185,10 +189,10 @@ const ProductDetail = () => {
 
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.length ? metal[0]?.Metalid : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: dia?.length ? `${dia[0]?.QualityId},${dia[0]?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+      CsQCid: cs?.length ? `${cs[0]?.QualityId},${cs[0]?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid),
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -224,25 +228,29 @@ const ProductDetail = () => {
         });
     }
   };
-
+ 
   const handleWishList = (e, ele) => {
     setWishListFlag(e?.target?.checked);
 
+    let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+    let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
     let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
+      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)
+
     let dia =
       diaQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
+      )
+
     let cs =
       csQcCombo?.filter(
         (ele) =>
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      ) 
 
     let mcArr = metalColorCombo?.filter(
       (ele) =>{ if(selectMtColor) {
@@ -251,12 +259,18 @@ const ProductDetail = () => {
       else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
     })[0];
 
+    // let obj = {
+    //   mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+    //   diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+    //   csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
+    // }
+
     let prodObj = {
       autocode: singleProd?.autocode,
-      Metalid: metal?.Metalid,
+      Metalid: metal?.length ? metal[0]?.Metalid : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: dia?.length ? `${dia[0]?.QualityId},${dia[0]?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+      CsQCid: cs?.length ? `${cs[0]?.QualityId},${cs[0]?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid),
       Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize),
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -1671,7 +1685,7 @@ const ProductDetail = () => {
                             </div>
                           )}
 
-                        {storeInit?.IsPriceBreakUp == 1  && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                        {(storeInit?.IsPriceShow === 1 && storeInit?.IsPriceBreakUp == 1 ) && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
                         (
                           <Accordion
                             elevation={0}
@@ -1940,7 +1954,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                <div className="smr_material_details_portion">
+                {/* <div className="smr_material_details_portion">
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
                     <p className="smr_details_title"> Product Details</p>
                   )}
@@ -1977,7 +1991,6 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-                  {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
                   {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
@@ -2045,7 +2058,7 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">

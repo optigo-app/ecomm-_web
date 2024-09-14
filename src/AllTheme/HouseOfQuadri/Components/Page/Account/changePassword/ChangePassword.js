@@ -7,6 +7,7 @@ import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';
 import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 export default function ChangePassword() {
 
@@ -141,6 +142,7 @@ export default function ChangePassword() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <HeadTitleAcc title="Change Password" />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
                 <TextField
                     id="outlined-confirm-password-input"

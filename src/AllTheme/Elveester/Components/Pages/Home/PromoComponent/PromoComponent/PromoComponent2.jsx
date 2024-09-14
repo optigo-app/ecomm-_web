@@ -43,7 +43,7 @@ var BrandsContent = [
 
 const PromoComponent2 = () => {
     return (
-        <div style={{ marginTop: '15rem'}}>
+        <div className='elv_promo_div'>
             <Swiper
                 // pagination={{ clickable: true }}
                 className="mySwiper"

@@ -236,7 +236,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
+  // justify-content: center;
 }
 
 .smr_productCard {
@@ -527,6 +527,10 @@
   .smr_filter_portion_outter {
     padding: 6% 14%;
   }
+
+  .smr_productCard_noFil {
+    width: 32%;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -619,6 +623,10 @@
     width: 49%;
   }
 
+  .smr_productCard_noFil {
+    width: 49%;
+  }
+
   .cart_and_wishlist_icon {
     width: 49%;
   }
@@ -627,8 +635,8 @@
     display: none !important;
   }
 
-  .proCat_app_product_label{
-    font-size: 10px!important;
+  .proCat_app_product_label {
+    font-size: 10px !important;
   }
 }
 

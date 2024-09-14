@@ -48,6 +48,15 @@ const Confirmation = () => {
         });
     }
 
+    useEffect(()=>{
+        const timer = setTimeout(() => {
+            navigate("/",{replace  :true})
+        }, 2000);
+        return  ()=>{
+            clearTimeout(timer)
+        }
+    },[])
+
     return (
         <div className='stam_confirMaindiv'>
             <div className='smr_confirSecondMaindiv'>

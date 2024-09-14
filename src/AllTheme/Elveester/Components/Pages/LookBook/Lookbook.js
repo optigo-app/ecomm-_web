@@ -916,73 +916,71 @@ const Lookbook = () => {
         <div className="smr1_LookBookSubMainDiv">
           <div
             className="smr_lookBookMobileTopLine"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              margin: "0px 5px 25px 5px",
-              gap: '20px'
-            }}
           >
             <div className="smr_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>
-            <div style={{ display: 'flex' }}>
-              <FilterAltIcon
-                fontSize="large"
-                style={{ color: "#c0bbb1" }}
-                className="smr_lookBookMobileFilter"
-                onClick={() => setIsDrawerOpen(true)}
-              />
-              <HtmlTooltip
-                title={selectedCategories?.length != 0 && <CustomTooltipContent categories={selectedCategories} />}
-              >
-                <button
-                  onClick={handleOpen}
-                  className="smr_lookBookSelectViewBtn"
-                  style={{
-                    background: "#7d7f85",
-                    color: "#fff",
-                    marginRight: '20px'
+            <div className="elv_lookbook_resp_head">
+              <div>
+                <FilterAltIcon
+                  fontSize="large"
+                  style={{ color: "#c0bbb1" }}
+                  className="smr_lookBookMobileFilter"
+                  onClick={() => setIsDrawerOpen(true)}
+                />
+              </div>
+              <div>
+                <HtmlTooltip
+                  title={selectedCategories?.length != 0 && <CustomTooltipContent categories={selectedCategories} />}
+                >
+                  <button
+                    onClick={handleOpen}
+                    className="smr_lookBookSelectViewBtn"
+                    style={{
+                      background: "#7d7f85",
+                      color: "#fff",
+                      marginRight: '20px'
+                    }}
+                  >
+                    Set View
+                  </button>
+                </HtmlTooltip>
+                <ToggleButtonGroup
+                  size="medium"
+                  value={selectedValue}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="text alignment"
+                  sx={{
+                    height: "35px",
+                    borderRadius: '0px',
+                    '.Mui-selected': {
+                      backgroundColor: '#7d7f856e',
+                      color: '#fff',
+                    },
+                    '.MuiToggleButton-root': {
+                      borderRadius: '0px',
+                      '&:not(.Mui-selected)': {
+                        backgroundColor: 'transparent',
+                        color: '#000',
+                      }
+                    }
                   }}
                 >
-                  Set View
-                </button>
-              </HtmlTooltip>
-              <ToggleButtonGroup
-                size="medium"
-                value={selectedValue}
-                exclusive
-                onChange={handleChange}
-                aria-label="text alignment"
-                sx={{
-                  height: "35px",
-                  borderRadius: '0px',
-                  '.Mui-selected': {
-                    backgroundColor: '#7d7f856e',
-                    color: '#fff',
-                  },
-                  '.MuiToggleButton-root': {
-                    borderRadius: '0px',
-                    '&:not(.Mui-selected)': {
-                      backgroundColor: 'transparent',
-                      color: '#000',
-                    }
-                  }
-                }}
-              >
-                <ToggleButton value={1} aria-label="left aligned">
-                  {/* <RxGrid /> */}|
-                </ToggleButton>
-                <ToggleButton value={2} aria-label="centered">
-                  {/* <TfiLayoutGrid2 /> */}
-                  ||
-                </ToggleButton>
-                <ToggleButton value={3} aria-label="right aligned">
-                  {/* <TfiLayoutGrid3 /> */}
-                  |||
-                </ToggleButton>
-              </ToggleButtonGroup>
+                  <ToggleButton value={1} aria-label="left aligned">
+                    {/* <RxGrid /> */}|
+                  </ToggleButton>
+                  <ToggleButton value={2} aria-label="centered">
+                    {/* <TfiLayoutGrid2 /> */}
+                    ||
+                  </ToggleButton>
+                  <ToggleButton value={3} aria-label="right aligned">
+                    {/* <TfiLayoutGrid3 /> */}
+                    |||
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
             </div>
           </div>
           <div className="smr_SubDiv_LookBookSubMainDiv">

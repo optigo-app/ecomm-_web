@@ -165,7 +165,7 @@ const CartPage = () => {
   }, []);
 
   const handleMoveToOrder = () => {
-    navigate('/Delivery');
+    navigate('/Delivery',{replace  :true});
     sessionStorage.setItem('iscartData', randomNumber);
   }
 
@@ -249,7 +249,7 @@ const CartPage = () => {
                   {isMobileResp2 ? (
                     <>
                       <div className="elv_Cartblock_rows_1_combo" >
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.2rem' }} onClick={handleOpenPriceModal}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.2rem', fontSize: '13px' }} onClick={handleOpenPriceModal}>
                           <span style={{ textDecoration: 'underline' }}>Price Details</span>
                           <SellIcon className='elv_price_mdoalIcon' />
                         </div>
@@ -259,6 +259,7 @@ const CartPage = () => {
                               Total Price: &nbsp;
                               <span>
                                 <span
+                                  style={{ fontWeight: 'bold' }}
                                   className="elv_currencyFont"
                                 >
                                   {loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode}
@@ -283,6 +284,7 @@ const CartPage = () => {
                           {isMobileResp1 ? 'Price:' : '' || isMobileResp2 ? '' : 'Total Price:'}&nbsp;
                           <span>
                             <span
+                              style={{ fontWeight: 'bold' }}
                               className="elv_currencyFont"
                               dangerouslySetInnerHTML={{
                                 __html: decodeEntities(

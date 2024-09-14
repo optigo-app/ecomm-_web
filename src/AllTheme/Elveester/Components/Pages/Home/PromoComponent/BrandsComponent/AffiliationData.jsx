@@ -70,30 +70,19 @@ const AffiliationData = () => {
                         spaceBetween={10}
                         loop={true}
                         breakpoints={{
+                            425: { slidesPerView: 1, spaceBetween: 0 },
                             640: { slidesPerView: 2, spaceBetween: 0 },
                             768: { slidesPerView: 4, spaceBetween: 0 },
                             1024: { slidesPerView: 5, spaceBetween: 0 },
                             1240: { slidesPerView: 6, spaceBetween: 0 },
                         }}
                         modules={[Pagination]}
-                        className="mySwiper"
-                         // Pass swiper instance to handleSlideChange
+                        className="mySwiper_affli"
+                    // Pass swiper instance to handleSlideChange
                     >
-                        {sliderData.slice(0, 6).map((slide, index) => (
-                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }}  onSlideChange={(swiper) => handleSlideChange(swiper)}>
-                                <div style={{ width: '18rem', height: '10rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <img
-                                        loading="lazy"
-                                        src={storImagePath() + slide.imageUrl}
-                                        alt={`Slide ${index}`}
-                                        style={{ maxWidth: '180px', objectFit: 'contain' }}
-                                    />
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                        {sliderData.slice(6, 13).map((slide, index) => (
-                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }}>
-                                <div style={{ width: '18rem', height: '10.3rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}  onSlideChange={(swiper) => handleSlideChange(swiper)}>
+                        {sliderData.map((slide, index) => (
+                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }} onSlideChange={(swiper) => handleSlideChange(swiper)}>
+                                <div className='elv_affi_cards'>
                                     <img
                                         loading="lazy"
                                         src={storImagePath() + slide.imageUrl}

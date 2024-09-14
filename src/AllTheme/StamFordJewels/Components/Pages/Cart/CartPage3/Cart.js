@@ -91,7 +91,7 @@ const CartPage = () => {
       navigate(redirectUrl);
       // navigate('/loginOption')
     } else {
-      navigate("/Delivery");
+      navigate("/Delivery",{replace  :true});
     }
     window.scrollTo(0, 0);
   };

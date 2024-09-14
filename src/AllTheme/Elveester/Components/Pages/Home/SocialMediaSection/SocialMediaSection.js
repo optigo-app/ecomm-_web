@@ -60,7 +60,7 @@ export default function SocialMediaSection() {
       >
         {sliderData.map((slide, index) => (
           <div style={{ background: 'red' }}>
-            <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px' }}>
+            <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px 0px 19px' }}>
               <Link to={slide?.link}>
                 <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} />
               </Link>

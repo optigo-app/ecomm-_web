@@ -187,6 +187,7 @@ const Album = () => {
               margin: '0px',
               fontWeight: 500
             }}
+            className="pro_pressESCClose"
           >
             Press ESC To Close
           </p>

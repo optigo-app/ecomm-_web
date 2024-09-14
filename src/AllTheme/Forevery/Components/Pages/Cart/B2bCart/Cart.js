@@ -95,7 +95,7 @@ const CartPage = () => {
       navigate(redirectUrl);
       // navigate('/loginOption')
     } else {
-      navigate("/Delivery");
+      navigate("/Delivery",{replace  :true});
     }
     window.scrollTo(0, 0);
   };
@@ -165,7 +165,7 @@ const CartPage = () => {
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
-      navigate('/Confirmation');
+      navigate('/Confirmation',{replace  :true});
       GetCountAPI().then((res) => {
         
         setCartCountVal(res?.cartcount)

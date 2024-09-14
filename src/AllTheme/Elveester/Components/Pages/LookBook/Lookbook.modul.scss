@@ -16,6 +16,21 @@
   cursor: pointer;
 }
 
+.elv_lookbook_resp_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-inline: 2.3%;
+}
+
+.smr_lookBookMobileTopLine {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 5px 25px 5px;
+  gap: 20px;
+}
+
 .smr_LookBookMain {
   background-color: $backgroundColor;
 
@@ -842,4 +857,10 @@
 
 .smr_LookBookMobileThridViewMain_swiper_w {
   width: 100% !important;
+}
+
+@media (max-width: 375px) {
+  .elv_lookbook_resp_head {
+    padding-inline: 0;
+  }
 }

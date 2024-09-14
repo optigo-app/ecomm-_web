@@ -60,7 +60,7 @@ const CartPage = () => {
   const handlePlaceOrder = () => {
     let priceData = cartData.reduce((total, item) => total + item.UnitCostWithmarkup, 0).toFixed(2)
     sessionStorage.setItem('TotalPriceData', priceData)
-    navigate("/Delivery")
+    navigate("/Delivery",{replace  :true})
     window.scrollTo(0, 0);
   }
 

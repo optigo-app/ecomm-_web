@@ -126,9 +126,13 @@ const DesignSet2 = () => {
   };
 
   const handleNavigate = (e) => {
-    if (e.button === 0 && !e.metaKey && !e.ctrlKey) {
-      e.preventDefault();
-      navigate('/Lookbook');
+    if (islogin) {
+      if (e.button === 0 && !e.metaKey && !e.ctrlKey) {
+        e.preventDefault();
+        navigate('/Lookbook');
+      }
+    } else {
+      navigate('/LoginOption');
     }
   };
 

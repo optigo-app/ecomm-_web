@@ -36,7 +36,7 @@ const WishlistItems = ({
   const handleWishlistToCartFun = async (item) => {
     const returnValue = await handleWishlistToCart(item);
     if (returnValue?.msg == "success") {
-      toast.success("Wishlist items added in cart")
+      toast.success("Wishlist items added in cart");
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       });
@@ -73,7 +73,7 @@ const WishlistItems = ({
       md={itemsLength <= 2 ? 4 : 4}
       lg={itemsLength <= 2 ? 3 : 3}
     >
-      <Card className="hoq_WlListCard" square sx={{ border: "none"  }}>
+      <Card className="hoq_WlListCard" square sx={{ border: "none" }}>
         <div className="cardContent">
           <CardMedia
             component="img"
@@ -90,30 +90,47 @@ const WishlistItems = ({
           >
             <div className="cardText">
               <Typography variant="body2" className="hoq_card-ContentData">
-                {item?.TitleLine != "" && item?.TitleLine} -{" "}
+                {item?.TitleLine != "" && item?.TitleLine} {(item?.TitleLine && item?.designno ) && '-'}
                 {item?.designno != "" && item?.designno}
               </Typography>
               <Typography variant="body2" className="hoq_card-ContentData-1">
+                {StoreInit?.IsGrossWeight == 1 && (
+                  <>
+                    {" "}
+                    <span className="hoq_wishDT">GWT: </span>
+                    <span className="hoq_wishDT">
+                      {(item?.Gwt || 0).toFixed(3)}
+                    </span>
+                    <span className="hoq_pipe"> | </span>{" "}
+                  </>
+                )}
                 <span className="hoq_wishDT">NWT : </span>
                 <span className="hoq_wishDT">
                   {(item?.Nwt || 0).toFixed(3)}{" "}
                 </span>
-                <span className="hoq_pipe"> | </span>
-                <span className="hoq_wishDT">GWT: </span>
-                <span className="hoq_wishDT">
-                  {(item?.Gwt || 0).toFixed(3)}
-                </span>
-               
-                {(item?.Dwt != "0" || item?.Dpcs != "0") && (<>  <span className="hoq_pipe"> | </span><span className="hoq_wishDT">DWT: </span>
-                <span>
-                  {(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0).toFixed(0)}
-                </span></>)}
-               {(item?.CSwt != "0" || item?.CSpcs != "0") &&<> <span className="hoq_pipe"> | </span>
-                <span className="hoq_wishDT">CWT: </span>
-                <span>
-                  {(item?.CSwt || 0).toFixed(3)} /{" "}
-                  {(item?.CSpcs || 0).toFixed(0)}{" "}
-                </span></>}
+
+                { StoreInit?.IsDiamondWeight == 1 && (item?.Dwt != "0" || item?.Dpcs != "0") && (
+                  <>
+                    {" "}
+                    <span className="hoq_pipe"> | </span>
+                    <span className="hoq_wishDT">DWT: </span>
+                    <span>
+                      {(item?.Dwt || 0).toFixed(3)} /{" "}
+                      {(item?.Dpcs || 0).toFixed(0)}
+                    </span>
+                  </>
+                )}
+                {(item?.CSwt != "0" || item?.CSpcs != "0") && (
+                  <>
+                    {" "}
+                    <span className="hoq_pipe"> | </span>
+                    <span className="hoq_wishDT">CWT: </span>
+                    <span>
+                      {(item?.CSwt || 0).toFixed(3)} /{" "}
+                      {(item?.CSpcs || 0).toFixed(0)}{" "}
+                    </span>
+                  </>
+                )}
               </Typography>
               <Typography variant="body2" className="hoq_card-ContentData">
                 {item?.metalcolorname !== "" && (
@@ -125,7 +142,8 @@ const WishlistItems = ({
                 {item?.metaltypename !== "" && (
                   <span>{item?.metaltypename}</span>
                 )}
-                {" / "}
+                {StoreInit?.IsPriceShow && <>
+                  {" / "}
                 <span
                   className="hoq_currencyFont"
                   dangerouslySetInnerHTML={{
@@ -133,10 +151,11 @@ const WishlistItems = ({
                       loginUserDetail?.CurrencyCode ?? StoreInit?.CurrencyCode
                     ),
                   }}
-                />{" "}
+                />
                 {item?.UnitCost !== "" && (
                   <span>{(item?.FinalCost).toLocaleString("en-IN")}</span>
                 )}
+                </>}
               </Typography>
             </div>
             {/* <div className='designNoWlList'>

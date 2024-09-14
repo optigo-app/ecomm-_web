@@ -10,7 +10,6 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Helmet } from "react-helmet";
 import { companyLogo, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
@@ -25,12 +24,14 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(1)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
+
 
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
@@ -53,17 +54,23 @@ export default function ThemeRoutes() {
       } else {
         setCompanyTitleLogo(logo?.companylogo);
       }
-      dt_setCompanyTitleLogo(logo?.companylogo);          
+      dt_setCompanyTitleLogo(logo?.companylogo);
       el_setCompanyTitleLogo(logo?.companylogo);
     }
-   
+
     if (!SessionData) {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(1);
+
+            let title = response?.data?.Data?.rd[0]?.companyname;
+            let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            setTitle(title);
+            setFavIcon(favIcon);
+
+            let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -104,17 +111,11 @@ export default function ThemeRoutes() {
               callAllApi(response?.data?.Data);
             }
 
-            let title = response?.data?.Data?.rd[0]?.companyname;
-            let favIcon = response?.data?.Data?.rd[0]?.favicon;
-            setTitle(title);
-            setFavIcon(favIcon);
             window.scrollTo({
               top: 0,
               left: 0,
               behavior: "smooth",
             });
-
-          
           }
         })
         .catch((err) => console.log(err));
@@ -122,6 +123,10 @@ export default function ThemeRoutes() {
       // setThemeNo(SessionData?.Themeno);
       setThemeNo(1);
     }
+    let title = SessionData?.companyname;
+    let favIcon = SessionData?.favicon;
+    setTitle(title);
+    setFavIcon(favIcon);
     // .finally(() => setLoading(false));
   }, []);
 
@@ -188,20 +193,37 @@ export default function ThemeRoutes() {
 
   return (
     <>
-
       <div>
-        <Helmet>
-          <title>{title}</title>
-          <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
-          <meta name="description" content={title} />
-          <link rel="apple-touch-icon" href={favicon} />
-          <link rel="manifest" href={favicon} />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        </Helmet>
-      </div>
+        <HelmetProvider>
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={title} />
 
+            <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+            <link rel="apple-touch-icon" href={favicon} />
+            <link rel="icon" sizes="192x192" href={favicon} />
+            <link rel="icon" sizes="512x512" href={favicon} />
+
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={title} />
+            <meta property="og:image" content={favicon} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={window.location.href} />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:description" content={title} />
+            <meta name="twitter:image" content={favicon} />
+
+            <link rel="manifest" href="./public/manifest.json" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            />
+          </Helmet>
+        </HelmetProvider>
+      </div>
+      {/* <SmilingRock_App /> */}
 
       {themeNo === 1 && <SmilingRock_App />}
 
@@ -225,7 +247,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 12 && <MalakanJewels_App />}
+      {themeNo === 12 && <MalakanJewels_App />} 
 
     </>
   );

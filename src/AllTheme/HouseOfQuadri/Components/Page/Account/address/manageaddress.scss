@@ -140,3 +140,8 @@
         padding: 10px;
     }
 }
+@media screen and (max-width:1024px){
+    .none_addTitleAcc{
+        display: none !important;
+    }
+}

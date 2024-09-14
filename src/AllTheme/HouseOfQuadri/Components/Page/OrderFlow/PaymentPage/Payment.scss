@@ -1,9 +1,22 @@
 @import "../../../scss/variable.scss";
 
+.sl {
+  position: fixed;
+  bottom: 0;
+  z-index: 88;
+  width: 100%;
+  background: #fff;
+  .skeleton1 {
+    width: 100%;
+    height: 95px;
+  }
+}
+
 .hoqMo_paymentMainDiv {
   background-color: white;
   font-family: $fontDmSans;
   position: relative;
+  
   .SmiCartListTitle {
     margin-left: 30px;
     margin-top: 25px;
@@ -29,6 +42,16 @@
   color: $titleColor;
   background-color: #fcfcfc !important;
   padding: 10px;
+
+  .skeleton-payment {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+    @media screen and (max-width: 614px) {
+      width: 100%;
+      height: 200px;
+    }
+  }
 }
 
 .hoqMo_paymenttotalpricesummary {
@@ -41,8 +64,8 @@
 }
 
 .hoqMo_paymentDetailLeftSideContent {
-    width: 50%;
-    padding: 10px 0;
+  width: 50%;
+  padding: 10px 0;
   .hoqMo_billingAddress {
     margin-top: 15px;
   }
@@ -63,7 +86,7 @@
 }
 
 .hoqMo_paymentDetailRightSideContent {
-    width: 20%;
+  width: 20%;
   .hoqMo_orderSummary {
     background-color: rgb(245, 244, 244);
     padding: 15px;
@@ -137,6 +160,10 @@
     cursor: pointer;
     text-transform: capitalize !important;
     transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 
     &:hover {
       color: $btn1hoverFontColor;
@@ -189,9 +216,15 @@
   }
 
   .hoqMo_payOnAccountBtn {
-    width: 140px;
+    width: 100%;
     position: fixed;
+    background-color: #c20000;
+    z-index: 888;
+    padding: 32px 0;
     bottom: 0px;
-    right: 10px;
+    right: 0;
+    left: 0;
+    font-weight: 800 !important;
+    font-size: 18px !important;
   }
 }

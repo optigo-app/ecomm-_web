@@ -235,54 +235,6 @@ const headCells = [
     minWidth: 110,
   },
   {
-    id: "MetalAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiamondAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "DiamondAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "ColorStoneAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "ColorStone Amount",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "LabourAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Labour Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "OtherAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Other Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "UnitCost",
-    numeric: false,
-    disablePadding: false,
-    label: "Unit Cost",
-    align: "center",
-    minWidth: 140,
-  },
-  {
     id: "Category",
     numeric: false,
     disablePadding: false,
@@ -367,7 +319,8 @@ function EnhancedTableHead(props) {
               textAlign: headCell?.align || "left",
             }}
           >
-            <TableSortLabel
+            {
+              (headCell?.id?.toLowerCase() === 'srno') ? `${headCell?.label}` : <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
@@ -380,6 +333,7 @@ function EnhancedTableHead(props) {
                 </Box>
               ) : null}
             </TableSortLabel>
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -663,6 +617,7 @@ const PendingMemo = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -698,7 +653,6 @@ const PendingMemo = () => {
       // const response = await CommonAPI(body);
       // const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
       const response = await getMemoReturnData(CurrencyRate, FrontEnd_RegNo, customerid, data);
-      console.log(response);
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -778,6 +732,7 @@ const PendingMemo = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
+  
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -800,7 +755,7 @@ const PendingMemo = () => {
           className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table>
+          <table style={{minWidth:'850px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
@@ -809,6 +764,7 @@ const PendingMemo = () => {
                 <td>Total Diamonds</td>
                 <td>Total Color Stones</td>
                 <td>Unique Designs</td>
+                <td>Unique Customers</td>
               </tr>
               <tr>
                 <td className="fw_bold">
@@ -830,8 +786,37 @@ const PendingMemo = () => {
                 <td className="fw_bold">
                   {NumberWithCommas(total?.uniqueDesigns, 0)}
                 </td>
+                <td className="fw_bold">
+                  1
+                </td>
               </tr>
               <tr>
+                {/* <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td> */}
+                {/* <td>Unique Customers</td> */}
+              </tr>
+              <tr>
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">1</td> */}
+              </tr>
+              {/* <tr>
                 <td>Total Metal Amt</td>
                 <td>Total Dia. Amt</td>
                 <td>Total CST Amt</td>
@@ -856,16 +841,16 @@ const PendingMemo = () => {
                   {NumberWithCommas(total?.OtherAmount, 2)}
                 </td>
                 <td className="fw_bold">1</td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </Box>
-        <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
-        </Box>
+        </Box> */}
         <Box
           className="salesReportImgSec"
           sx={{
@@ -1122,18 +1107,13 @@ const PendingMemo = () => {
                           handleimageShow(eve, row?.imgsrc)
                         }
                       >
-                        <TableCell id={labelId} scope="row" align="center">
-                          {" "}
-                          {index + 1}{" "}
-                        </TableCell>
+                        <TableCell id={labelId} scope="row" align="center"> {index + 1} </TableCell>
                         <TableCell align="center">{row.EntryDate}</TableCell>
-                        <TableCell align="center">
-                          {row.StockDocumentNo}
-                        </TableCell>
+                        <TableCell align="center"> {row.StockDocumentNo} </TableCell>
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{row.MetalAmount}</TableCell>
+                        {/* <TableCell align="center">{row.MetalAmount}</TableCell>
                         <TableCell align="center">
                           {row.DiamondAmount}
                         </TableCell>
@@ -1142,7 +1122,7 @@ const PendingMemo = () => {
                         </TableCell>
                         <TableCell align="center">{row.LabourAmount}</TableCell>
                         <TableCell align="center">{row.OtherAmount}</TableCell>
-                        <TableCell align="center">{row.UnitCost}</TableCell>
+                        <TableCell align="center">{row.UnitCost}</TableCell> */}
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>
