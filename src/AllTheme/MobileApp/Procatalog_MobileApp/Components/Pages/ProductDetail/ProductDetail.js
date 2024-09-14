@@ -1983,10 +1983,12 @@ const ProductDetail = () => {
                               <span>
                                 {ele?.MetalColorName}{" "}-{" "}{ele?.metaltypename}{ele?.metalPurity}
                                 {" "}/{" "}
-                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                </span>
                               </span>
-                              <span>&nbsp;{formatter.format(ele?.Amount)}</span>
+                              {storeInit?.IsPriceShow == 1 &&
+                                <span className="smr_currencyFont">
+                                  &nbsp;{loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}&nbsp;{formatter.format(ele?.Amount)}
+                                </span>
+                              }
                             </div>
                           </div>
                         </div>
@@ -2022,15 +2024,16 @@ const ProductDetail = () => {
                             <span className="smr_prod_designno" style={{ fontSize: '14px' }}>
                               {ele?.designno}
                             </span>
-
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', fontSize: '16px' }} className="smr_stockItem_price_type_mt">
-                              <spam>
-                                <span className="smr_currencyFont">
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                </span>
-                              </spam>
-                              <span>&nbsp;{formatter.format(ele?.UnitCost)}</span>
-                            </div>
+                            {storeInit?.IsPriceShow == 1 &&
+                              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', fontSize: '16px' }} className="smr_stockItem_price_type_mt">
+                                <spam>
+                                  <span className="smr_currencyFont">
+                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  </span>
+                                </spam>
+                                <span>&nbsp;{formatter.format(ele?.UnitCost)}</span>
+                              </div>
+                            }
                           </div>
                         </div>
                       ))}
@@ -2152,16 +2155,20 @@ const ProductDetail = () => {
                                           <p>
                                             {ele?.designno} - {ele?.CategoryName}
                                             <br />
-                                            {
-                                              <span className="smr_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                              </span>
-                                            }
-                                            &nbsp;
-                                            {
-                                              formatter.format(
-                                                ele?.UnitCostWithMarkUp
-                                              )
+                                            {storeInit?.IsPriceShow == 1 &&
+                                              <>
+                                                {
+                                                  <span className="smr_currencyFont">
+                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                  </span>
+                                                }
+                                                &nbsp;
+                                                {
+                                                  formatter.format(
+                                                    ele?.UnitCostWithMarkUp
+                                                  )
+                                                }
+                                              </>
                                             }
                                           </p>
                                         </div>

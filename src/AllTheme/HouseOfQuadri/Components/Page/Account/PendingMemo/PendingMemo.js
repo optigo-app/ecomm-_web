@@ -33,6 +33,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getMemoReturnData } from "../../../../../../utils/API/AccountTabs/MemoReturn";
 
 function createData(
   SrNo,
@@ -622,8 +623,8 @@ const PendingMemo = () => {
       const { FrontEnd_RegNo } = storeInit;
       let currencyRate = storeInit?.CurrencyRate;
 
-      const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
+      const response = await getMemoReturnData(currencyRate, FrontEnd_RegNo, customerid, data);
+
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
