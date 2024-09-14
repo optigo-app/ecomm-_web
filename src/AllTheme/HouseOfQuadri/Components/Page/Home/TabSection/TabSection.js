@@ -61,7 +61,6 @@ const TabSection = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
-    console.log(storeinit);
     // IsPriceShow
     // IsPriceBreakUp
   }, []);
@@ -148,6 +147,7 @@ const TabSection = () => {
           View All
         </button>
       </div>
+      {/* 330 w 500 h */}
       <div className="tab_card">
         {newArrivalData?.slice(0, 4)?.map((val, i) => {
           return (

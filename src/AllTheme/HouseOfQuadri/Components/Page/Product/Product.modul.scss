@@ -1,5 +1,13 @@
 @import "../../scss/Variable.scss";
 
+@mixin Truncate($lineNo){
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lineNo;
+  overflow: hidden;
+}
+
 .not-found-product {
   text-align: center;
   width: 100%;
@@ -194,6 +202,38 @@
         padding: 5px 45px;
         display: flex;
         flex-direction: column;
+        .desc-p-details{
+          .btn_sec_pd{
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            margin-bottom: 0.4rem;
+            margin-top: -1rem;
+            button{
+              outline: none;
+              border: none;
+              background-color: transparent;
+              font-weight: 500 !important;
+              font-size: 13.2px ;
+            }
+          }
+          .showless{
+            font-weight: 400 !important;
+            font-size: 16px !important;
+            @include Truncate(2);
+            // @media screen and (max-width : 715px) {
+            //   text-align: center;
+            // }
+          }
+        }
+
+        .showmore{
+          font-weight: 400 !important;
+          font-size: 16px !important;
+          // @media screen and (max-width : 715px) {
+          //   text-align: center;
+          // }
+        }
         h1 {
           font-size: 29.75px;
           font-family: $fontCrimsonTextRegular;

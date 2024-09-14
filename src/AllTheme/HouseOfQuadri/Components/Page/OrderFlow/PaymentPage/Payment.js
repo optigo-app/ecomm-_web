@@ -126,7 +126,7 @@ const Payment = () => {
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno;
       sessionStorage.setItem("orderNumber", num);
-      navigate("/Confirmation");
+      navigate("/Confirmation", { replace: true });
       setIsloding(false);
 
       GetCountAPI().then((res) => {
@@ -161,7 +161,7 @@ const Payment = () => {
   };
 
   const handleRedirectpage = () => {
-    navigate("/Delivery");
+    navigate("/Delivery", { replace: true });
   };
 
   console.log(isloding);

@@ -224,8 +224,9 @@ export default function ThemeRoutes() {
           </Helmet>
         </HelmetProvider>
       </div>
+      {/* <SmilingRock_App /> */}
 
-      {themeNo === 1 && <SmilingRock_App />}
+       {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
@@ -247,7 +248,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 12 && <MalakanJewels_App />}
+      {themeNo === 12 && <MalakanJewels_App />} 
 
     </>
   );
