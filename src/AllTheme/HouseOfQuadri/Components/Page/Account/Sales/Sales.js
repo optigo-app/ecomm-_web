@@ -236,6 +236,7 @@ const Sales = () => {
         setToDate(null);
         setFilterData(data);
         setPage(0);
+        setRowsPerPage(10);
     }
 
     const handleSearch = (eve, searchValue, fromDatess, todatess) => {

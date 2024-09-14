@@ -699,6 +699,7 @@ const SalesReport = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -840,7 +841,7 @@ const SalesReport = () => {
           className="salesReporttable"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table>
+          <table style={{minWidth:'720px', margin:'10px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>

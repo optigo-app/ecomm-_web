@@ -562,7 +562,7 @@ const AccountLedger = () => {
             <MobViewHeader title="Ledger" />
         </div>
         <div>
-            <div className='border'>
+            <div className=''>
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p-2 ps-4 border-bottom fs_Al_mq' style={{letterSpacing:'1px'}}>
                 Account Detail for &nbsp; <b className='fs_Al_mq'>{userName}</b>
                 &nbsp; Period of &nbsp;<b className='fs_Al_mq'>{moment(showStartDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showStartDate).format('DD MMM YYYY')}</b>&nbsp; to 
@@ -754,7 +754,10 @@ const AccountLedger = () => {
                 {
                     loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}>
                         <CircularProgress className='loadingBarManage' /></Box> : <div className=' overflow-auto'  style={{margin:'10px', marginBottom:'20%'}}>
-                    <table className='w-100'>
+                    <>
+                    { 
+                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? <div className='data_not_present_mapp'>Data Not Present</div> : 
+                        <table className='w-100' style={{minWidth:'1200px'}}>
                         <thead className='w-100 border'>
                             <tr className='w-100 border-bottom fs_td'>
                                 <td className='fw-bold text-center border-end' colSpan={9}>DEBIT</td>
@@ -871,7 +874,9 @@ const AccountLedger = () => {
                                             <td className=' p-1 text-center'></td>
                                         </tr>
                         </tbody>
-                    </table>
+                        </table>
+                    }
+                    </>
                 </div>
                 }
             </div>
