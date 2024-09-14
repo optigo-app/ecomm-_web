@@ -46,6 +46,7 @@ import Customization from "./Components/Page/staticPage/customization/Customizat
 const HouseOfQuadri_App = () => {
   const islogin = useRecoilValue(Hoq_loginState);
   const [localData, setLocalData] = useState();
+  const [StoreData, setStoreData] = useState();
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(Hoq_loginState);
   const location = useLocation();
@@ -54,22 +55,60 @@ const HouseOfQuadri_App = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] =
     useRecoilState(Hoq_companyLogo);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-    }
-  });
-
+  // useEffect(() => {
+  //   let data = sessionStorage.getItem("storeInit");
+  //   console.log(data ,"store iit")
+  //   let com = sessionStorage.getItem("CompanyInfoData");
+  //   let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  //   let logo = JSON?.parse(data);
+  //   setStoreData(JSON?.parse(com))
+  //   if (Logindata) {
+  //     if (Logindata?.IsPLWOn == 1) {
+  //       setCompanyTitleLogo(Logindata?.Private_label_logo);
+  //     } else {
+  //       setCompanyTitleLogo(logo?.companylogo);
+  //     }
+  //   } else {
+  //     setCompanyTitleLogo(logo?.companylogo);
+  //   }
+  // },[]);
+    useEffect(() => {
+      let interval;
+      const checkStoreInit = () => {
+        try {
+          const storeInit = sessionStorage.getItem("storeInit");
+          if (storeInit) {
+            const parsedData = JSON.parse(storeInit);
+            setStoreData(parsedData);
+            setLoading(false);
+            console.log(parsedData,"avaiable");
+  
+            if (interval) {
+              clearInterval(interval);
+            }
+          } else {
+            setLoading(true);
+          }
+        } catch (error) {
+          console.error('Error parsing storeInit:', error);
+          setLoading(false); 
+  
+          if (interval) {
+            clearInterval(interval);
+          }
+        }
+      };
+  
+      checkStoreInit();
+      interval = setInterval(checkStoreInit, 1000); 
+      return () => {
+        if (interval) {
+          clearInterval(interval);
+        }
+      };
+    }, []);
   useEffect(() => {
     window.scrollTo({
       behavior: "smooth",
@@ -125,10 +164,10 @@ const HouseOfQuadri_App = () => {
   //   }, 500);
   // }, [location?.pathname])
 
-
+console.log(StoreData,"000")
   return (
     <>
-      <Navbar />
+      <Navbar StoreData={StoreData} />
       <ChatMenu />
       <Routes>
         {/* Auth Flow  */}
@@ -188,7 +227,7 @@ const HouseOfQuadri_App = () => {
           element={<QualityCertification />}
         />
       </Routes>
-      <Footer />
+      <Footer StoreData={StoreData} />
     </>
   );
 };

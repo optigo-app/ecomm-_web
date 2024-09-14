@@ -100,6 +100,7 @@ const ProductPage = () => {
   const [cartArr, setCartArr] = useState({});
   const [videoArr, SETvideoArr] = useState([]);
   const videoRef = useRef(null);
+const [ShowMdesc,setShowMdesc] = useState(false);
 
   useEffect(() => {
     if (singleProd?.IsInWish == 1) {
@@ -328,6 +329,7 @@ const ProductPage = () => {
         .then(async (res) => {
           if (res) {
             setSingleProd(res?.pdList[0]);
+            console.log(res?.pdList[0] , "single product")
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
@@ -1326,7 +1328,13 @@ const ProductPage = () => {
                 }
               </div>
             )}
-          </div>
+          {singleProd?.description && <div className="desc-p-details">
+            <p className={`${!ShowMdesc ? 'showless' : 'showmore'}`}>{singleProd?.description}</p>
+            <div className="btn_sec_pd">
+              <button onClick={()=>setShowMdesc(!ShowMdesc)}>{ShowMdesc ?  "...Show Less" : "...Show More"}</button>
+            </div>
+           </div> }
+              </div>
           <div className="product_main_Details">
             {storeInit?.IsProductWebCustomization == 1 &&
               metalTypeCombo?.length > 0 &&
@@ -2296,7 +2304,7 @@ const ProductPage = () => {
         />
       )}
 
-      {/* <RecentlyViewd /> */}
+      {/* <RecentlyViewd /> hold on */}
     </div>
     </>
   );

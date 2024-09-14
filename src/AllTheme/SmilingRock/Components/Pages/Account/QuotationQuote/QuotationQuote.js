@@ -214,8 +214,6 @@ const QuotationQuote = () => {
         }
     };
 
-
-
     const handleClick = (event, id) => {
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];

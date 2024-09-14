@@ -595,14 +595,7 @@ const QuotationQuote = () => {
                                             sx={{ cursor: 'pointer' }}
                                         >
 
-                                            <TableCell
-                                                component="td"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                align="center"
-                                            >
-                                            
+                                            <TableCell component="td" id={labelId} scope="row" padding="none" align="center" >
                                                 {page * rowsPerPage + index + 1}
                                             </TableCell>
                                             <TableCell align="center">{row.Date}</TableCell>

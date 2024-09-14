@@ -31,11 +31,11 @@ const RecentlyViewd = () => {
             </Link>
           );
         })}
-        <div className="TabCard_main mobile-only">
+        {/* <div className="TabCard_main mobile-only">
         <div className="box">
           <Link to={"/"}>View All 106 Products</Link>
         </div>
-      </div>
+      </div> */}
       </div>
     </div>
   );

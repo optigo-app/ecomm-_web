@@ -61,14 +61,7 @@ const Navbar = () => {
   const [MobileLogo, setCompanyMobileLogo] = useRecoilState(Hoq_MobilecompanyLogo);
   const is320px = useMediaQuery("(max-width:320px)");
   const is400px = useMediaQuery("(max-width:401px)");
-
-    const debounce = (func, wait) => {
-      let timeout;
-      return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
-    };
+  const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
       setisMobileMenu(false)
@@ -76,6 +69,44 @@ const Navbar = () => {
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
+
+  useEffect(() => {
+    let interval;
+    const checkStoreInit = () => {
+      try {
+        const storeInit = sessionStorage.getItem("storeInit");
+        if (storeInit) {
+          const parsedData = JSON.parse(storeInit);
+          setCompanyTitleLogo(parsedData?.companylogo);
+          setCompanyMobileLogo(parsedData?.companyMlogo)
+          window.scroll({ behavior: "smooth", top: 0 });
+          setLoading(false);
+          console.log(parsedData,"avaiable");
+
+          if (interval) {
+            clearInterval(interval);
+          }
+        } else {
+          setLoading(true);
+        }
+      } catch (error) {
+        console.error('Error parsing storeInit:', error);
+        setLoading(false); 
+
+        if (interval) {
+          clearInterval(interval);
+        }
+      }
+    };
+
+    checkStoreInit();
+    interval = setInterval(checkStoreInit, 1000); 
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -89,6 +120,7 @@ const Navbar = () => {
   const HandleAccountRoute = () => {
     navigate("/account");
   };
+  
   const handleScroll = () => {
     const scrollTop = window.pageYOffset;
     const currentScrollY = window.scrollY;
