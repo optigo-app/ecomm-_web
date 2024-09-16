@@ -86,8 +86,6 @@ const Header2 = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
 
-        console.log("callll");
-
         if (storeinit?.IsB2BWebsite === 0) {
             getMenuApi();
             return;
@@ -201,9 +199,7 @@ const Header2 = () => {
             `size=${finalData.size ?? 50}`
         ].join('&');
 
-        console.log('otherparamsUrl--', otherparamUrl);
         const url = `/p/${queryParameters}/${otherparamUrl}/${paginationParam}`;
-
 
         // let d = new Date();
         // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
@@ -223,18 +219,12 @@ const Header2 = () => {
             const { param1, param2, ...cleanedParam1Item } = param1Item;
             menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
 
-            console.log('Menu Item:', cleanedMenuItem);
-            console.log('Submenu Item:', cleanedParam1Item);
-
             if (param2Item) {
                 menuDataObj = { ...menuDataObj, ...param2Item };
-                console.log('Second Submenu Item:', param2Item);
             }
         } else {
-            console.log('Menu Item:', cleanedMenuItem);
-        }
 
-        console.log('Menu Data Object:', menuDataObj);
+        }
 
         let finalData = {
             menuname: menuDataObj?.menuname ?? "",
@@ -246,7 +236,6 @@ const Header2 = () => {
             FilterVal2: menuDataObj?.param2dataname ?? ""
         }
 
-        console.log('finalData', finalData);
         // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
 
         navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
@@ -281,7 +270,6 @@ const Header2 = () => {
 
         // }
 
-        console.log('menuData', finalData);
         sessionStorage.setItem('menuparams', JSON.stringify(finalData));
     };
 
@@ -304,7 +292,6 @@ const Header2 = () => {
     };
 
     const handleSubSubMenuClick = (menuItem, subMenuItem, subSubMenuName, subSubMenuItem) => {
-        console.log('subSubMenuItem--', subSubMenuItem);
         const { param1, ...menuItemWithoutParam1 } = menuItem;
         const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
         handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
@@ -340,7 +327,6 @@ const Header2 = () => {
                 console.log("getCountApiErr", err);
             }
         })
-        console.log("getCount", GetCountAPI());
     }, [])
 
 

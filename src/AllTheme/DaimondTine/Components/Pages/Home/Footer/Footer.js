@@ -96,7 +96,7 @@ export default function Footer() {
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>ABOUT DIAMONDTINE</p>
                             <p className='FoooterText'>We are a contemporary diamond and gold jewellery brand selling exquisite pieces for the woman of today.
-                                Learn More</p>
+                                <span onClick={() => navigation('/aboutUs')} className='dt_footerLermore'> Learn More</span></p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>QUICK LINKS</p>

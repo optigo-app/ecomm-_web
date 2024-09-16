@@ -6,6 +6,7 @@ import {
   WishCount,
   cartB2CDrawer,
   companyLogo,
+  companyLogoM,
   loginState,
 } from "../../../Recoil/atom";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -36,6 +37,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
   const compnyLogo = useRecoilValue(companyLogo);
+  const compnyLogoM = useRecoilValue(companyLogoM);
   const [islogin, setislogin] = useRecoilState(loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -130,8 +132,6 @@ const Header = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-
-    // console.log("callll");
 
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
@@ -283,8 +283,6 @@ const Header = () => {
         `size=${finalData.size ?? 50}`,
       ].join("&");
 
-      // console.log("otherparamsUrl--", otherparamUrl);
-
       let menuEncoded = `${queryParameters}/${otherparamUrl}`;
       // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
       const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
@@ -375,9 +373,10 @@ const Header = () => {
           f: {},
         };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        // let encodeObj = compressAndEncode(JSON.stringify(obj));
+        let encodeObj = btoa(JSON.stringify(obj))
 
-        navigate(`/d/${searchText}?p=${encodeObj}`);
+        navigate(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
         setSearchText("")
         // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
@@ -430,7 +429,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -459,7 +458,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -725,24 +724,29 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="smr_menuStaicMobilePage">About us</p>
-            </div>
-
-            <div>
-              <p
-                className="smr_menuStaicMobilePageLink"
-                style={{ marginTop: "10px" }}
-                onClick={() => {
+              <p className="smr_menuStaicMobilePage"
+                 onClick={() => {
                   setDrawerShowOverlay(false);
-                  navigation("/myWishList");
-                }}
-              >
-                WishList
-              </p>
+                  navigation("/aboutUs");
+                }}>About us</p>
             </div>
+            {islogin &&
+              <div>
+                <p
+                  className="smr_menuStaicMobilePageLink"
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    navigation("/myWishList");
+                  }}
+                >
+                  WishList
+                </p>
+              </div>
+            }
 
-            {IsB2BWebsiteChek === 1 ? (
-              islogin === true ? (
+            {IsB2BWebsiteChek == 1 ? (
+              islogin ? (
                 <>
                   {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
@@ -793,17 +797,18 @@ const Header = () => {
               </div>
             }
 
-            <div>
-              <p
-                className="smr_menuStaicMobilePageLink"
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  handleLogout();
-                }}
-              >
-                Log Out
-              </p>
-            </div>
+            {islogin && (
+              <div>
+                <p
+                  className="smr_menuStaicMobilePageLink"
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    handleLogout();
+                  }}
+                >
+                  Log Out
+                </p>
+              </div>)}
 
             {islogin && (
               <div
@@ -969,10 +974,19 @@ const Header = () => {
               />
             </ul>
           </div>
-          <div className="smiling_Top_header_div2">
+          <div className="smiling_Top_header_div2_web">
             <a href="/">
               <img
                 src={compnyLogo}
+                loading="lazy"
+                className="smr_logo_header"
+              />
+            </a>
+          </div>
+          <div className="smiling_Top_header_div2_Mobile">
+            <a href="/">
+              <img
+                src={compnyLogoM}
                 loading="lazy"
                 className="smr_logo_header"
               />
@@ -1295,10 +1309,20 @@ const Header = () => {
                 {/* } */}
               </ul>
             </div>
-            <div className="smiling_Top_header_div2">
+            <div className="smiling_Top_header_div2_web">
               <a href="/">
                 <img
                   src={compnyLogo}
+                  loading="lazy"
+                  className="smr_logo_header_Fixed"
+                />
+              </a>
+            </div>
+
+            <div className="smiling_Top_header_div2_Mobile">
+              <a href="/">
+                <img
+                  src={compnyLogoM}
                   loading="lazy"
                   className="smr_logo_header_Fixed"
                 />

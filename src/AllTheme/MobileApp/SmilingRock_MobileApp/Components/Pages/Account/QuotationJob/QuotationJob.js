@@ -26,6 +26,8 @@ import MobViewHeader from './../MobViewHeader/MobViewHeader';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { headCells_Jobs as columns } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const CustomSortIcon = ({ order }) => {
   return (
     <>
@@ -103,21 +105,6 @@ const QuotationJob = () => {
   };
   moment.locale('en-gb');
 
-  const columns = [
-    { id: 'checkbox', label: <Checkbox />, minWidth: 50, align: "center" },
-    { id: 'Sr#', label: 'Sr No', minWidth: 85, align: "center" },
-    { id: 'Date', label: 'Date', minWidth: 130, align: "center" },
-    { id: 'SKUNO', label: 'SKU#', minWidth: 110, align: "center" },
-    { id: 'PO', label: 'PO', minWidth: 110, align: "center" },
-    { id: 'JobNo', label: 'Job#', minWidth: 100, align: "center" },
-    { id: 'DesignNo', label: 'Design#', minWidth: 100, align: "center" },
-    { id: 'Category', label: 'Category', minWidth: 110, align: "center" },
-    { id: 'PDate', label: 'Promise Date', minWidth: 130, align: "center" },
-    { id: 'FinalAmount', label: 'Quote Price', minWidth: 120, align: "center" },
-    { id: 'ProgressStatusName', label: 'Status', minWidth: 120, align: "center" },
-    { id: 'Quantity', label: 'Total Qty', minWidth: 100, align: "center" },
-    { id: 'SuppliedQuantity', label: 'Supplied', minWidth: 100, align: "center" },
-  ];
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -536,7 +523,7 @@ function descendingComparator(a, b, orderBy) {
       // };
       
       // const response = await CommonAPI(body);
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
@@ -1036,12 +1023,3 @@ const scrollToTop = () => {
 }
 
 export default QuotationJob
-// import React from 'react'
-
-// const QuotationJob = () => {
-//   return (
-//     <div>QuotationJob</div>
-//   )
-// }
-
-// export default QuotationJob

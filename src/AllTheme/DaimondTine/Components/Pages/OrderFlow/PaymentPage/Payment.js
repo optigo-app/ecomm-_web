@@ -13,9 +13,11 @@ import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/Or
 import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
+    const [isPloding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
@@ -68,6 +70,7 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             try {
                 const taxData = await fetchEstimateTax();
@@ -78,6 +81,8 @@ const Payment = () => {
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally {
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
@@ -103,7 +108,7 @@ const Payment = () => {
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
-            navigate('/Confirmation');
+            navigate('/Confirmation', { replace: true });
             setIsloding(false);
             sessionStorage.removeItem("orderRemark")
 
@@ -170,10 +175,12 @@ const Payment = () => {
                             {storeInit?.IsPriceShow == 1 &&
                                 <>
                                     <h3>Order Summary</h3>
-                                    <div className='dt_paymenttotalpricesummary'>
-                                        <p>Subtotal</p>
-                                        <p>
-                                            {/* <span
+                                    {!isPloding ? (
+                                        <>
+                                            <div className='dt_paymenttotalpricesummary'>
+                                                <p>Subtotal</p>
+                                                <p>
+                                                    {/* <span
                                         className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -182,17 +189,17 @@ const Payment = () => {
                                         }}
                                     /> */}
 
-                                            <span className="dt_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>&nbsp;
+                                                    <span className="dt_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
 
-                                            <span>{formatter(taxAmmountData?.TotalAmount)}</span>
-                                        </p>
-                                    </div>
-                                    <div className='dt_paymenttotalpricesummary'>
-                                        <p>Estimated Tax</p>
-                                        <p>
-                                            {/* <span
+                                                    <span>{formatter(taxAmmountData?.TotalAmount)}</span>
+                                                </p>
+                                            </div>
+                                            <div className='dt_paymenttotalpricesummary'>
+                                                <p>Estimated Tax</p>
+                                                <p>
+                                                    {/* <span
                                         className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -201,16 +208,16 @@ const Payment = () => {
                                         }}
                                     />
                                     <span>{totalpriceText}</span> */}
-                                            <span className="dt_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>&nbsp;
-                                            <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
-                                        </p>
-                                    </div>
-                                    <div className='dt_paymenttotalpricesummary'>
-                                        <p>Estimated Total</p>
-                                        <p>
-                                            {/* <span
+                                                    <span className="dt_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
+                                                </p>
+                                            </div>
+                                            <div className='dt_paymenttotalpricesummary'>
+                                                <p>Estimated Total</p>
+                                                <p>
+                                                    {/* <span
                                         className="dt_currencyFont"
                                         dangerouslySetInnerHTML={{
                                             __html: decodeEntities(
@@ -218,12 +225,16 @@ const Payment = () => {
                                             ),
                                         }}
                                     /> */}
-                                            <span className="dt_currencyFont">
-                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>&nbsp;
-                                            <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
-                                        </p>
-                                    </div>
+                                                    <span className="dt_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
+                                                </p>
+                                            </div>
+                                        </>
+                                    ) :
+                                        <Skeleton className='dt_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    }
                                 </>
                             }
                             <div className='dt_shippingAddress'>

@@ -390,7 +390,7 @@ const DesignWiseSalesReport = () => {
 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             // const combinedValue = JSON.stringify({
             //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
             // });
@@ -805,7 +805,7 @@ const DesignWiseSalesReport = () => {
                                     zIndex: 0,
                                     background: "#c0bbb133",
                                 }}
-                                className="smilingProductImageBox designWiseSalesReportProduct"
+                                className="smilingProductImageBox designWiseSalesReportProduct minW_dwsr_acc_smr_mapp"
                             >
                                 <Box sx={{
                                     paddingBottom: "10px"

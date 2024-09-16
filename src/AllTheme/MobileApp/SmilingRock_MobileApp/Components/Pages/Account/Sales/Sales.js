@@ -35,6 +35,8 @@ import PrintIcon from '@mui/icons-material/Print';
 import { getSalesData } from '../../../../../../../utils/API/AccountTabs/sales';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { headCells_Sales as headCells } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
     return {
         SrNo,
@@ -105,44 +107,6 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-
-const headCells = [
-    {
-        id: 'SrNo',
-        numeric: true,
-        disablePadding: false,
-        label: 'Sr#',
-        align: "center"
-    },
-    {
-        id: 'Date',
-        numeric: false,
-        disablePadding: false,
-        label: 'OutWard Date',
-        align: "center"
-    },
-    {
-        id: 'StockDocumentNo',
-        numeric: false,
-        disablePadding: false,
-        label: 'Bill#',
-        align: "center"
-    },
-    {
-        id: 'Amount',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Amount',
-        align: "right"
-    },
-    {
-        id: 'Print',
-        numeric: true,
-        disablePadding: false,
-        label: 'Print',
-        align: "center"
-    },
-];
 
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -268,6 +232,7 @@ const Sales = () => {
         setToDate(null);
         setFilterData(data);
         setPage(0);
+        setRowsPerPage(10);
     }
 
     const handleSearch = (eve, searchValue, fromDatess, todatess) => {
@@ -367,7 +332,7 @@ const Sales = () => {
 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             // const combinedValue = JSON.stringify({
             //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
             // });

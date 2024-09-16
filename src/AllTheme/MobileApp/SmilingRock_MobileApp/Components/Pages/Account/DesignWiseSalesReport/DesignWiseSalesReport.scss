@@ -101,3 +101,13 @@
     z-index: 10; // Ensures it stays on top of other content
     background-color: white; // Ensures background color is consistent when it becomes sticky
   }
+
+ @media screen and (max-width:530px){
+    .minW_dwsr_acc_smr_mapp{
+        min-width: 90% !important;
+        width: 90% !important;
+        margin: 0 auto !important;
+    }
+ }
+
+ 

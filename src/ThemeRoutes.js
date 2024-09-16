@@ -10,7 +10,6 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Helmet } from "react-helmet";
 import { companyLogo, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
@@ -26,12 +25,14 @@ import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
+import { Helmet } from "react-helmet";
 
 export default function ThemeRoutes() {
 
   const [themeNo, setThemeNo] = useState(3)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
+
 
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
@@ -63,8 +64,12 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
             // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            let title = response?.data?.Data?.rd[0]?.companyname;
+            let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            setTitle(title);
+            setFavIcon(favIcon);
+
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -104,10 +109,10 @@ export default function ThemeRoutes() {
             if (response?.data?.Data) {
               callAllApi(response?.data?.Data);
             }
-            let title = response?.data?.Data?.rd[0]?.companyname;
+            // let title = response?.data?.Data?.rd[0]?.companyname;
             let title1 = response?.data?.Data?.rd[0]?.BrowserTitle;
             // let title = response?.data?.Data?.rd[0]?.companyname;
-            let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            // let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title1);
             setFavIcon(favIcon);
             window.scrollTo({
@@ -115,8 +120,6 @@ export default function ThemeRoutes() {
               left: 0,
               behavior: "smooth",
             });
-
-
           }
         })
         .catch((err) => console.log(err));
@@ -124,6 +127,10 @@ export default function ThemeRoutes() {
       // setThemeNo(SessionData?.Themeno);
       setThemeNo(3);
     }
+    let title = SessionData?.companyname;
+    let favIcon = SessionData?.favicon;
+    setTitle(title);
+    setFavIcon(favIcon);
     // .finally(() => setLoading(false));
   }, []);
 
@@ -190,10 +197,11 @@ export default function ThemeRoutes() {
 
   return (
     <>
-
       <div>
         <Helmet>
           <title>{title}</title>
+          <meta name="description" content={title} />
+
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <meta name="description" content={title} />
           <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
@@ -213,10 +221,22 @@ export default function ThemeRoutes() {
           <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
         </Helmet>
+        {/* <SEO
+          favicon={favicon}
+          title={title}
+          description=""
+          url={window.location.href}
+          image={favicon}
+        /> */}
       </div>
+      {/* <Procatalog_App /> */}
 
+      {/* {themeNo === 6 && <Procatalog_App />} */}
+
+      {/* <SmilingRock_App /> */}
 
       {themeNo === 1 && <SmilingRock_App />}
 

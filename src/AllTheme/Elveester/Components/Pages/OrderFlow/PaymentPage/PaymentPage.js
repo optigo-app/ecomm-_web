@@ -120,7 +120,7 @@ const PaymentPage = () => {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
             setIsloding(false);
-            navigate('/Confirmation');
+            navigate('/Confirmation',{replace  :true});
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {

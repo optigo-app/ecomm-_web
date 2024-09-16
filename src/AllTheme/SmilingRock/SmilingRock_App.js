@@ -38,6 +38,7 @@ import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
+import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(loginState);
@@ -49,6 +50,7 @@ const SmilingRock_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
+  const [htmlContent, setHtmlContent] = useState("");
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -58,6 +60,33 @@ const SmilingRock_App = () => {
       backgroundColor
     );
   };
+
+ 
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (htmlContent) {
+      setLocalData((prevData) => ({
+        ...prevData,
+        Headerno: htmlContent?.rd[0]?.Headerno, 
+        BrowserTitle: htmlContent.BrowserTitle, 
+      }));
+    }
+  }, [htmlContent]);
 
   useEffect(() => {
     setCSSVariable();
@@ -81,7 +110,7 @@ const SmilingRock_App = () => {
     if (cookieValue) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
+          if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);
@@ -126,9 +155,8 @@ const SmilingRock_App = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
-        {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
-        {/* <Header2 /> */}
+        {localData?.Headerno == 1 && <Header />}
+        {localData?.Headerno == 2 && <Header2 />}
       </div>
       <Routes>
         <Route path="/" element={<Home />} />

@@ -42,6 +42,8 @@ import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../../utils/API/AccountTabs/salesReport";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { headCells_SalesReport as headCells } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 function createData(
   SrNo,
   EntryDate,
@@ -90,15 +92,7 @@ function createData(
   };
 }
 
-// function descendingComparator(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
+
 function parseCustomDate(dateString) {
   const months = {
     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
@@ -218,160 +212,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: "SrNo",
-    numeric: true,
-    disablePadding: false,
-    label: "Sr#",
-    align: "center",
-    minWidth: 100,
-  },
-  {
-    id: "EntryDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Entry Date",
-    align: "center",
-    minWidth: 130,
-  },
-  {
-    id: "StockDocumentNo",
-    numeric: false,
-    disablePadding: false,
-    label: "Stock DocumentNo",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "SKUNo",
-    numeric: false,
-    disablePadding: false,
-    label: "SKU No",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "designno",
-    numeric: false,
-    disablePadding: false,
-    label: "designno",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalType",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalType",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiamondAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "DiamondAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "ColorStoneAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "ColorStone Amount",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "LabourAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Labour Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "OtherAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Other Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "UnitCost",
-    numeric: false,
-    disablePadding: false,
-    label: "Unit Cost",
-    align: "center",
-    minWidth: 140,
-  },
-  {
-    id: "Category",
-    numeric: false,
-    disablePadding: false,
-    label: "Category",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "GrossWt",
-    numeric: false,
-    disablePadding: false,
-    label: "GrossWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "NetWt",
-    numeric: false,
-    disablePadding: false,
-    label: "NetWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "Dia Pcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaWt",
-    numeric: false,
-    disablePadding: false,
-    label: "DiaWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "CsPcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsWt",
-    numeric: false,
-    disablePadding: false,
-    label: "CsWt",
-    align: "center",
-    minWidth: 110,
-  },
-];
 
 function EnhancedTableHead(props) {
   const {
@@ -699,6 +539,7 @@ const SalesReport = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -719,7 +560,7 @@ const SalesReport = () => {
       const customerid = data.id;
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       // const combinedValue = JSON.stringify({
       //   CurrencyRate: "1",
       //   FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -840,7 +681,7 @@ const SalesReport = () => {
           className="salesReporttable"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table>
+          <table style={{minWidth:'720px', margin:'10px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>

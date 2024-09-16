@@ -25,6 +25,7 @@ import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../../utils/API/AccountTabs/quotationQuote";
 import MobViewHeader from './../MobViewHeader/MobViewHeader';
 
+import { headCells_Quotation as headCells } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
 const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
     return {
@@ -101,50 +102,6 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    {
-        id: 'SrNo',
-        numeric: true,
-        disablePadding: false,
-        label: 'Sr#',
-        align: "center"
-    },
-    {
-        id: 'Date',
-        numeric: false,
-        disablePadding: false,
-        label: 'Date',
-        align: "center"
-    },
-    {
-        id: 'SKUNo',
-        numeric: false,
-        disablePadding: false,
-        label: 'SKU No',
-        align: "center"
-    },
-    {
-        id: 'TotalDesign',
-        numeric: true,
-        disablePadding: false,
-        label: 'Design',
-        align: "center"
-    },
-    {
-        id: 'Amount',
-        numeric: true,
-        disablePadding: false,
-        label: 'Amount',
-        align: "right"
-    },
-    {
-        id: 'Print',
-        numeric: false,
-        disablePadding: false,
-        label: 'Print',
-        align: "center"
-    },
-];
 
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -395,7 +352,7 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
 
             if (response?.Data?.rd) {

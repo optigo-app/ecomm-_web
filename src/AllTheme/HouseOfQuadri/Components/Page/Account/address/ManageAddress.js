@@ -9,6 +9,7 @@ import { useSetRecoilState } from 'recoil';
 import { Hoq_defaultAddressState } from '../../../Recoil/atom';
 import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 
 const ManageAddress = () => {
@@ -351,6 +352,7 @@ const ManageAddress = () => {
                 zIndex : 999999
             }}/>
             <div>
+                <HeadTitleAcc title="Saved Addresses" />
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
@@ -361,7 +363,7 @@ const ManageAddress = () => {
                     fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
-                }} className='savedAddress'>Saved Addresses</p>
+                }} className='savedAddress none_addTitleAcc'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
                     <Button className='hoq_muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
@@ -443,7 +445,7 @@ const ManageAddress = () => {
                 />
                 <Dialog open={open} onClose={handleClose} sx={{zIndex : 999999}} >
                     <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>Add Shipping Info</DialogTitle>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"

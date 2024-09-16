@@ -28,10 +28,9 @@ const DesignSet = () => {
 
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
-        if (IsB2BWebsite == 0) {
+        if (storeInit?.IsB2BWebsite == 0) {
             finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
         } else {
             finalID = loginUserDetail?.id || '0';
@@ -93,7 +92,6 @@ const DesignSet = () => {
     };
 
     const onSwiperInit = (swiper) => {
-        console.log('Swiper initialized:', swiper);
         setSwiper(swiper);
     };
 
@@ -104,11 +102,7 @@ const DesignSet = () => {
         setShowAll(true);
     };
 
-    // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 4);
-    console.log('jkksdjkjfkdsj', itemsToShow);
-
-    console.log('designSetListdesignSetList', designSetList);
 
     const handleNavigate = () => {
         navigate("/Lookbook");

@@ -24,6 +24,9 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/quotationQuote";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import { headCells_Quotation as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
     return {
         SrNo,
@@ -76,58 +79,6 @@ const getComparator = (order, orderBy) => {
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
-
-const headCells = [
-    {
-        id: 'SrNo',
-        numeric: true,
-        disablePadding: false,
-        label: 'Sr#',
-        align: "center",
-        sortable:false
-    },
-    {
-        id: 'Date',
-        numeric: false,
-        disablePadding: false,
-        label: 'Date',
-        align: "center",
-        sortable:true
-    },
-    {
-        id: 'SKUNo',
-        numeric: false,
-        disablePadding: false,
-        label: 'SKU No',
-        align: "center",
-        sortable:true
-    },
-    {
-        id: 'TotalDesign',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Design',
-        align: "center",
-        sortable:true
-    },
-    {
-        id: 'Amount',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Amount',
-        align: "right",
-        sortable:true
-    },
-    {
-        id: 'Print',
-        numeric: false,
-        disablePadding: false,
-        label: 'Print',
-        align: "center",
-        sortable:false
-    },
-];
 
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -213,8 +164,6 @@ const QuotationQuote = () => {
             setOrderBy(property);
         }
     };
-
-
 
     const handleClick = (event, id) => {
         const selectedIndex = selected.indexOf(id);
@@ -384,9 +333,10 @@ const QuotationQuote = () => {
             //     p: encodedCombinedValue
             // };
             // const response = await CommonAPI(body);
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
-
+            console.log(storeInit, response?.Data?.rd);
+            
             if (response?.Data?.rd) {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
@@ -397,6 +347,7 @@ const QuotationQuote = () => {
             
                 setData(rows);
                 setFilterData(rows);
+                
             } else {
                 // alert('nodata')
                 setData([]);

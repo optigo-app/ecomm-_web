@@ -1312,37 +1312,39 @@ const ProductDetail = () => {
                       </div>
                     ))}
 
-                  <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <p
-                      style={{
-                        color: "#7d7f85",
-                        fontSize: "14px",
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        // whiteSpace: 'nowrap',
-                        display: isExpanded ? 'block' : '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: isExpanded ? 'none' : 3,
-                        height: isExpanded ? 'auto' : '4.5em', 
-                        margin: '0px'
-                      }}
-                    >
-                      {singleProd?.description}
-                    </p>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleExpand();
-                      }}
-                      style={{
-                        color: '#007bff',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {isExpanded ? 'Show less' : 'Read more'}
-                    </a>
-                  </div>
+                  {singleProd?.description &&
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <p
+                        style={{
+                          color: "#7d7f85",
+                          fontSize: "14px",
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          // whiteSpace: 'nowrap',
+                          display: isExpanded ? 'block' : '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: isExpanded ? 'none' : 3,
+                          height: isExpanded ? 'auto' : '4.5em',
+                          margin: '0px'
+                        }}
+                      >
+                        {singleProd?.description}
+                      </p>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleExpand();
+                        }}
+                        style={{
+                          color: 'black',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {isExpanded ? 'Show less' : 'Read more'}
+                      </a>
+                    </div>
+                  }
                   <div
                     style={{
                       display: "flex",
@@ -1824,12 +1826,12 @@ const ProductDetail = () => {
                               <Checkbox
                                 icon={
                                   <FavoriteBorderIcon
-                                    sx={{ fontSize: "25px", color: "#d2815f" }}
+                                    sx={{ fontSize: "25px", color: "pink" }}
                                   />
                                 }
                                 checkedIcon={
                                   <FavoriteIcon
-                                    sx={{ fontSize: "25px", color: "#d2815f" }}
+                                    sx={{ fontSize: "25px", color: "pink" }}
                                   />
                                 }
                                 disableRipple={true}

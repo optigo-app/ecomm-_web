@@ -7,6 +7,7 @@ import { Hoq_defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { validateChangeYPAccount, validateUserDataYPAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 
 export default function YourProfile() {
@@ -113,6 +114,7 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <div><HeadTitleAcc title="Profile" /></div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
                 {  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
@@ -172,10 +174,10 @@ export default function YourProfile() {
                                     sx={{ "& .MuiInputBase-input.Mui-disabled" : {
                                         WebkitTextFillColor:'black'
                                     }}}
-                                    value={userData?.street || ''}
-                                    disabled
                                     multiline
                                     rows={2}
+                                    value={userData?.street || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -255,8 +257,8 @@ export default function YourProfile() {
                             </>
                         )}
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '25px' ,padding  :"0 14px" }}>
-                        <button type='submit' className='hoq_SmilingAddEditAddrwess' >Save</button>
-                        <button onClick={() => handleCancel()} className='hoq_SmilingAddEditAddrwess' >Cancel</button>
+                        <button type='submit' className='hoq_smilingDeleveryformSaveBtn' >Save</button>
+                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn' >Cancel</button>
                     </div>
                     </form>
                 </div>
