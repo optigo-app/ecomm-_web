@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './NewArrival1.scss';
 import { Grid, Typography, Card, CardContent, CardMedia, Link } from '@mui/material';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { homeLoading, loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
 const NewArrival = () => {
+    const newArrivalRef = useRef(null);
     const [newArrivalData, setNewArrivalData] = useState('');
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
@@ -19,14 +20,62 @@ const NewArrival = () => {
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
     const islogin = useRecoilValue(loginState);
+    const setLoadingHome =  useSetRecoilState(homeLoading);
 
     useEffect(() => {
+        setLoadingHome(true);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAPI();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null, 
+                threshold: 0.5, 
+            }
+        );
+
+        if (newArrivalRef.current) {
+            observer.observe(newArrivalRef.current);
+        }
+        return () => {
+            if (newArrivalRef.current) {
+                observer.unobserve(newArrivalRef.current);
+            }
+        };
+
+        // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        // const visiterID = Cookies.get('visiterId');
+        // let finalID;
+        // if (storeInit?.IsB2BWebsite == 0) {
+        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        // } else {
+        //     finalID = loginUserDetail?.id || '0';
+        // }
+        // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        // setStoreInit(storeinit)
+
+        // let data = JSON.parse(sessionStorage.getItem('storeInit'))
+        // setImageUrl(data?.DesignImageFol);
+
+        // Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
+        //     if (response?.Data?.rd) {
+        //         setNewArrivalData(response?.Data?.rd);
+        //     }
+        // }).catch((err) => console.log(err))
+    }, [])
+
+    const callAPI = () => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
-        if (IsB2BWebsite == 0) {
+        if (storeInit?.IsB2BWebsite == 0) {
             finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
         } else {
             finalID = loginUserDetail?.id || '0';
@@ -40,9 +89,10 @@ const NewArrival = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
+                setLoadingHome(false);
             }
         }).catch((err) => console.log(err))
-    }, [])
+    }
 
 
     const compressAndEncode = (inputString) => {
@@ -94,10 +144,8 @@ const NewArrival = () => {
         setRing2ImageChange(false)
     }
 
-    console.log('newArrivalData', newArrivalData);
-
     return (
-        <>
+        <div ref={newArrivalRef}>
             {newArrivalData?.length != 0 &&
                 <div className='smr_newwArr1MainDiv'>
                     <Typography variant='h4' className='smrN_NewArr1Title'>NEW ARRIVAL
@@ -175,7 +223,7 @@ const NewArrival = () => {
                     </Grid>
                 </div>
             }
-        </>
+        </div>
 
     );
 }

@@ -74,8 +74,6 @@ const BestSellerSection = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-
-      console.log('aaaaaaaaaaa',designNo, autoCode, titleLine);
         let obj = {
             a: autoCode,
             b: designNo,

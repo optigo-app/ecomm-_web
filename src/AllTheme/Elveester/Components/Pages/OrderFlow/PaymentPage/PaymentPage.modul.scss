@@ -314,22 +314,6 @@
     margin-inline: auto;
 }
 
-.elv_billingAddress {
-    line-height: 1.5rem;
-
-    .elv_billAdd_text {
-        margin-top: 1rem;
-
-        .elv_bill_add_text {
-            margin-top: 1rem;
-            font-size: 15px;
-            margin: 0;
-            color: black;
-        }
-    }
-
-}
-
 .elv_payment_total_title {
     font-size: 16px;
 }
@@ -609,4 +593,43 @@
         outline: none;
         width: 220px;
     }
+}
+
+.elv_shippingAddress {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .elv_bill_add_text {
+        max-width: 18rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        margin-top: 1rem;
+        font-size: 15px;
+        margin: 0;
+        color: black;
+    }
+}
+
+.elv_billingAddress {
+    line-height: 1.5rem;
+
+    .elv_billAdd_text {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .elv_bill_add_text {
+            max-width: 18rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            margin-top: 1rem;
+            font-size: 15px;
+            margin: 0;
+            color: black;
+        }
+    }
+
 }

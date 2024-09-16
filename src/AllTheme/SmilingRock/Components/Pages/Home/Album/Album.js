@@ -40,8 +40,6 @@ const Album = () => {
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
   }
 
-  console.log('albumDataalbumData', albumData);
-
   return (
     <div className="smr_alubmMainDiv">
       {albumData?.length > 0 && <p className="smr_albumTitle">Infinitely Inspiring</p>}

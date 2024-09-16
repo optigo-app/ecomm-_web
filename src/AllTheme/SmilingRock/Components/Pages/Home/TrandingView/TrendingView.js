@@ -174,9 +174,6 @@ const TrendingView = () => {
     for (let i = 0; i < trandingViewData?.length; i += 3) {
         chunkedData.push(trandingViewData?.slice(i, i + 3));
     }
-    
-    console.log('trandingViewDatatrandingViewData', trandingViewData);
-    console.log('chunkedDatachunkedData', chunkedData);
     return (
         <div>
             {trandingViewData?.length != 0 &&

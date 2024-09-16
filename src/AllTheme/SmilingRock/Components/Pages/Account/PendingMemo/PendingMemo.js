@@ -39,6 +39,8 @@ import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
 import { getMemoReturnData } from "../../../../../../utils/API/AccountTabs/MemoReturn";
 
+import { headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 function createData(
   SrNo,
   EntryDate,
@@ -182,115 +184,6 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
-
-
-const headCells = [
-  {
-    id: "SrNo",
-    numeric: true,
-    disablePadding: false,
-    label: "Sr#",
-    align: "center",
-    minWidth: 100,
-  },
-  {
-    id: "EntryDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Entry Date",
-    align: "center",
-    minWidth: 130,
-  },
-  {
-    id: "StockDocumentNo",
-    numeric: false,
-    disablePadding: false,
-    label: "Stock DocumentNo",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "SKUNo",
-    numeric: false,
-    disablePadding: false,
-    label: "SKU No",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "designno",
-    numeric: false,
-    disablePadding: false,
-    label: "designno",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalType",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalType",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "Category",
-    numeric: false,
-    disablePadding: false,
-    label: "Category",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "GrossWt",
-    numeric: false,
-    disablePadding: false,
-    label: "GrossWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "NetWt",
-    numeric: false,
-    disablePadding: false,
-    label: "NetWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "Dia Pcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaWt",
-    numeric: false,
-    disablePadding: false,
-    label: "DiaWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "CsPcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsWt",
-    numeric: false,
-    disablePadding: false,
-    label: "CsWt",
-    align: "center",
-    minWidth: 110,
-  },
-];
 
 function EnhancedTableHead(props) {
   const {
@@ -851,93 +744,23 @@ const PendingMemo = () => {
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box> */}
-        <Box
-          className="salesReportImgSec"
-          sx={{
-            width: "135px",
-            height: "135px",
-            paddingBottom: "20px",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              border: "1px solid #d6d6d6",
-              height: "117px",
-              marginTop: "17px",
-            }}
-          >
+        <Box className="salesReportImgSec" sx={{ width: "135px", height: "135px", paddingBottom: "20px", overflow: "hidden", }} >
+          <Box sx={{ border: "1px solid #d6d6d6", height: "117px", marginTop: "17px", }} >
             {hoverImg !== "" && (
-              <img
-                src={hoverImg}
-                alt=""
-                style={{
-                  width: "100%",
-                  objectFit: "contain",
-                  minHeight: "114px",
-                  maxHeight: "114px",
-                }}
-              />
+              <img src={hoverImg} alt="" style={{ width: "100%", objectFit: "contain", minHeight: "114px", maxHeight: "114px", }} />
             )}
           </Box>
         </Box>
       </Box>
       <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-        <Box
-          sx={{
-            paddingBottom: "15px",
-            position: "relative",
-            top: "-2px",
-            paddingRight: "15px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{ background: "#7d7f85" }}
-            className="muiSmilingRocksBtn"
-            onClick={(eve) => resetAllFilters(eve)}
-          >
+        <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "15px", }} >
+          <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
             All
           </Button>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            position: "relative",
-            maxWidth: "max-content",
-            paddingBottom: "15px",
-            paddingRight: "15px",
-          }}
-          className="searchbox"
-        >
-          <TextField
-            id="standard-basic"
-            label="Search"
-            variant="outlined"
-            value={searchVal}
-            onChange={(eve) => {
-              setSearchVal(eve?.target?.value);
-              handleSearch(
-                eve,
-                eve?.target?.value,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              );
-            }}
-          />
-          <Button
-            sx={{
-              padding: 0,
-              maxWidth: "max-content",
-              minWidth: "max-content",
-              position: "absolute",
-              right: "8px",
-              color: "#757575",
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", }} className="searchbox" >
+          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} >
             <SearchIcon />
           </Button>
         </Box>
@@ -1006,22 +829,8 @@ const PendingMemo = () => {
           <Button
             variant="contained"
             className="muiSmilingRocksBtn"
-            sx={{
-              padding: "7px 10px",
-              minWidth: "max-content",
-              background: "#7d7f85",
-            }}
-            onClick={(eve) =>
-              handleSearch(
-                eve,
-                searchVal,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              )
-            }
-          >
+            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85", }}
+            onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
             <SearchIcon sx={{ color: "#fff !important" }} />
           </Button>
         </Box>
@@ -1052,30 +861,14 @@ const PendingMemo = () => {
           <Button
             variant="contained"
             className="muiSmilingRocksBtn"
-            sx={{
-              padding: "7px 10px",
-              minWidth: "max-content",
-              background: "#7d7f85",
-            }}
-            onClick={(eve) =>
-              handleSearch(
-                eve,
-                searchVal,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              )
-            }
-          >
+            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
+            onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
             <SearchIcon sx={{ color: "#fff !important" }} />
           </Button>
         </Box>
       </Box>
       {isLoading ? (
-        <Box
-          sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }} >
           <CircularProgress className="loadingBarManage" />
         </Box>
       ) : (
@@ -1100,13 +893,7 @@ const PendingMemo = () => {
                         tabIndex={-1}
                         key={row.id}
                         sx={{ cursor: "pointer" }}
-                        onMouseEnter={(eve) =>
-                          handleimageShow(eve, row?.imgsrc)
-                        }
-                        onMouseLeave={(eve) =>
-                          handleimageShow(eve, row?.imgsrc)
-                        }
-                      >
+                        onMouseEnter={(eve) => handleimageShow(eve, row?.imgsrc) } onMouseLeave={(eve) => handleimageShow(eve, row?.imgsrc) } >
                         <TableCell id={labelId} scope="row" align="center"> {index + 1} </TableCell>
                         <TableCell align="center">{row.EntryDate}</TableCell>
                         <TableCell align="center"> {row.StockDocumentNo} </TableCell>

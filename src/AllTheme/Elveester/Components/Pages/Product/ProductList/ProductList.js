@@ -28,6 +28,7 @@ import Checkbox from "@mui/material/Checkbox";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { TfiLayoutGrid4Alt } from "react-icons/tfi";
 import {
   Accordion,
   Box,
@@ -392,18 +393,21 @@ const ProductList = () => {
       name: 'window',
       class1: 'elv_filtered_prodlists_1',
       class2: 'elv_filtered_image_1',
+      class3: 'elv_filtered_image_1_filter_click',
       calcWidth: 'calc(100% / 2)',
     },
     {
       name: 'apps',
       class1: 'elv_filtered_prodlists_2',
       class2: 'elv_filtered_image_2',
+      class3: 'elv_filtered_image_2_filter_click',
       calcWidth: 'calc(100% / 3)',
     },
     {
       name: 'view_grid',
       class1: 'elv_filtered_prodlists_3',
       class2: 'elv_filtered_image_3',
+      class3: 'elv_filtered_image_3_filter_click',
       calcWidth: 'calc(100% / 4)',
     },
     {
@@ -1280,7 +1284,7 @@ const ProductList = () => {
                       </span>
                     )}
                   </span>
-                  <span className="elv_Productlists_details_2">&nbsp;{afterFilterCount}</span>
+                  <span className="elv_Productlists_details_2">&nbsp;&nbsp;&nbsp;{afterFilterCount}</span>
                   <span className="elv_Productlists_details_3">
                     &nbsp;{afterFilterCount?.length == 1 ? "Design" : "Designs"}
                   </span>
@@ -2341,6 +2345,7 @@ const ProductList = () => {
                                             key={productIndex}
                                             class1={iconConfig.class1}
                                             class2={iconConfig.class2}
+                                            class3={iconConfig.class3}
                                             productData={item}
                                             calcVal={iconConfig.calcWidth}
                                             handleCartandWish={handleCartandWish}
@@ -2352,6 +2357,10 @@ const ProductList = () => {
                                             RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                                             handleMoveToDetail={handleMoveToDetail}
                                             formatter={formatter}
+                                            showFilter={showFilter}
+                                            filter={filter}
+                                            filterData={filterData}
+                                            noImageFound={noImageFound}
                                           />
                                         ))}
                                       </React.Fragment>
@@ -2398,6 +2407,7 @@ export default ProductList;
 const Product_Card = ({
   class1,
   class2,
+  class3,
   productData,
   calcVal,
   videoUrl,
@@ -2409,6 +2419,10 @@ const Product_Card = ({
   handleMoveToDetail,
   loginCurrency,
   formatter,
+  showFilter,
+  filter,
+  noImageFound,
+  filterData,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [storeInit, setStoreInit] = useState();
@@ -2434,8 +2448,8 @@ const Product_Card = ({
           <div className="elv_filtered_icons">
             <div>
               <Checkbox
-                icon={<LocalMallOutlinedIcon sx={{ fontSize: "22px", color: "#009500", opacity: ".7" }} />}
-                checkedIcon={<LocalMallIcon sx={{ fontSize: "22px", color: "#009500" }} />}
+                icon={<LocalMallOutlinedIcon sx={{ fontSize: "22px", color: "#0E244D", opacity: "0.3" }} />}
+                checkedIcon={<LocalMallIcon sx={{ fontSize: "22px", color: "#0E244D" }} />}
                 disableRipple={false}
                 sx={{ padding: "10px" }}
                 onChange={(e) =>
@@ -2456,7 +2470,7 @@ const Product_Card = ({
                     sx={{
                       fontSize: "22px",
                       color: "#c2001",
-                      opacity: ".7",
+                      opacity: "0.3",
                     }}
                   />
                 }
@@ -2522,7 +2536,7 @@ const Product_Card = ({
                 </>
               ) : null}
               <img
-                className={class2}
+                className={showFilter && filter == false ? ((class3 != null || class3 != undefined) ? class3 : class2) : filterData?.length > 0 ? class2 : class3}
                 loading={lazy}
                 src={imageUrl}
                 onError={(e) => {
@@ -2595,17 +2609,19 @@ const Product_Card = ({
               <span className="elv_prod_weight_span_1_design">
                 {productData?.designno}
               </span>
-              <span
-                className="elv_price_div"
-              >
+              {storeInit?.IsPriceShow == 1 && (
                 <span
-                  dangerouslySetInnerHTML={{
-                    __html: decodeEntities(loginCurrency?.CurrencyCode),
-                  }}
-                  style={{ paddingRight: '0.4rem' }}
-                />
-                <span className="elv_price_tags">{formatter(productData?.UnitCostWithMarkUp)}</span>
-              </span>
+                  className="elv_price_div"
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: decodeEntities(loginCurrency?.CurrencyCode),
+                    }}
+                    style={{ paddingRight: '0.4rem' }}
+                  />
+                  <span className="elv_price_tags">{formatter(productData?.UnitCostWithMarkUp)}</span>
+                </span>
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Keyboard, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -7,39 +7,84 @@ import './Album1.scss';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { loginState } from "../../../Recoil/atom";
-import { useRecoilValue } from "recoil";
+import { homeLoading, loginState } from "../../../Recoil/atom";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Album1 = () => {
+    const albumRef = useRef(null);
     const [selectedAlbum, setSelectedAlbum] = useState();
-    const [albumData, setAlbumData] = useState();
+    const [albumData, setAlbumData] = useState('');
     const [imageUrl, setImageUrl] = useState();
     const navigation = useNavigate();
     const islogin = useRecoilValue(loginState);
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
+    const setLoadingHome = useSetRecoilState(homeLoading);
 
     useEffect(() => {
+        setLoadingHome(true);
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
         setStoreInit(data)
+        // const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
+        // const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
+        // const visiterID = Cookies.get('visiterId');
+        // let finalID;
+        // if (storeInit?.IsB2BWebsite == 0) {
+        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        // } else {
+        //     finalID = loginUserDetail?.id || '0';
+        // }
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        apiCall();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
 
+        if (albumRef.current) {
+            observer.observe(albumRef.current);
+        }
+        return () => {
+            if (albumRef.current) {
+                observer.unobserve(albumRef.current);
+            }
+        };
+
+        // Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
+        //     .then((response) => {
+        //         if (response?.Data?.rd) {
+        //             setAlbumData(response?.Data?.rd);
+        //             setSelectedAlbum(response?.Data?.rd[0]?.AlbumName)
+        //         }
+        //     })
+        //     .catch((err) => console.log(err));
+    }, []);
+
+    const apiCall = () => {
         const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
         const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
-        const { IsB2BWebsite } = storeInit;
         const visiterID = Cookies.get('visiterId');
         let finalID;
-        if (IsB2BWebsite == 0) {
+        if (storeInit?.IsB2BWebsite == 0) {
             finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
         } else {
             finalID = loginUserDetail?.id || '0';
         }
-
+        setLoadingHome(false);
         Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
             .then((response) => {
                 if (response?.Data?.rd) {
@@ -48,7 +93,7 @@ const Album1 = () => {
                 }
             })
             .catch((err) => console.log(err));
-    }, []);
+    }
 
     const compressAndEncode = (inputString) => {
         try {
@@ -66,8 +111,6 @@ const Album1 = () => {
     }
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-
-        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
         let obj = {
             a: autoCode,
             b: designNo,
@@ -92,12 +135,10 @@ const Album1 = () => {
         return txt.value;
     }
 
-    console.log('albumDataalbumData', albumData);
-
     return (
         <>
             {albumData?.length != 0 &&
-                <div className="album-container">
+                <div className="album-container" ref={albumRef}>
                     <div className='smr_ablbumtitleDiv'>
                         <span className='smr_albumtitle'>ALBUM</span>
                         {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>

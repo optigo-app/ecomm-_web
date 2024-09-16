@@ -11,6 +11,7 @@ import AccountLedger from './AccountLeger/AccountLedger';
 import Sales from './Sales/Sales';
 import DesignWiseSalesReport from "./DesignWiseSalesReport/DesignWiseSalesReport"
 import SalesReport from './SalesReport/SalesReport';
+import PendingMemo from './PendingMemo/PendingMemo';
 import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
@@ -210,9 +211,9 @@ export default function Account() {
                                             {e?.id === 1159 && <CustomTabPanel value={value1} index={i}>
                                                 <AccountLedger />
                                             </CustomTabPanel>}
-                                            {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                                            {e?.id === 18129 && <CustomTabPanel value={value1} index={i}>
                                                 <PendingMemo />
-                                            </CustomTabPanel>} */}
+                                            </CustomTabPanel>}
                                         </React.Fragment>
                                     })
                                 }

@@ -28,7 +28,7 @@
 
     .smr_logo_header {
         object-fit: contain;
-        max-width: 500px;
+        max-width: 1000px;
     }
 
 
@@ -520,6 +520,11 @@
     @media screen and (max-width:1000px) {
         .smiling_Top_header_div2_web {
             display: none;
+        }
+
+        .smiling_Top_header_div2_Mobile{
+            display: flex;
+            align-items: center;
         }
     }
 

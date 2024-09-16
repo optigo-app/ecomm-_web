@@ -7,7 +7,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 const Footer = ({ fromPage }) => {
 
   const [socialMediaData, setSocialMediaData] = useState([]);
-  const [companyInfoData, setCompanuInfoData] = useState(null);
+  const [companyInfoData, setCompanyInfoData] = useState(null);
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
 
@@ -17,14 +17,23 @@ const Footer = ({ fromPage }) => {
   }, [])
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("CompanyInfoData");
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setCompanuInfoData(parsedData);
-      const parsedSocialMediaUrlData = parsedData?.SocialLinkObj ? JSON.parse(parsedData.SocialLinkObj) : [];
-      setSocialMediaData(parsedSocialMediaUrlData);
+    const fetchCompanyInfo = () => {
+      const storedData = sessionStorage.getItem("CompanyInfoData");
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        if (!companyInfoData) { 
+          setCompanyInfoData(parsedData);
+          const parsedSocialMediaUrlData = parsedData?.SocialLinkObj ? JSON.parse(parsedData.SocialLinkObj) : [];
+          setSocialMediaData(parsedSocialMediaUrlData);
+        }
+      }
+    };
+
+    if (!companyInfoData) {
+      const intervalId = setInterval(fetchCompanyInfo, 2000);
+      return () => clearInterval(intervalId);
     }
-  }, []);
+  }, [companyInfoData]); 
 
   // useEffect(() => {
   //   let companyInfoData;
