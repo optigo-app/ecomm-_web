@@ -24,6 +24,7 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
+import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
 import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import SEO from "./utils/Seo/Seo";
@@ -130,7 +131,12 @@ export default function ThemeRoutes() {
             if (response?.data?.Data) {
               callAllApi(response?.data?.Data);
             }
-
+            // let title = response?.data?.Data?.rd[0]?.companyname;
+            let title1 = response?.data?.Data?.rd[0]?.BrowserTitle;
+            // let title = response?.data?.Data?.rd[0]?.companyname;
+            // let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            setTitle(title1);
+            setFavIcon(favIcon);
             window.scrollTo({
               top: 0,
               left: 0,
@@ -223,31 +229,22 @@ export default function ThemeRoutes() {
           <link rel="icon" sizes="192x192" href={favicon} />
           <link rel="icon" sizes="512x512" href={favicon} />
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
-          <link rel="apple-touch-icon" href={favicon} />
-          <link rel="icon" sizes="192x192" href={favicon} />
-          <link rel="icon" sizes="512x512" href={favicon} />
+          <meta name="description" content={title} />
+          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
 
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={title} />
-          <meta property="og:image" content={favicon} />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={window.location.href} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={title} />
-          <meta property="og:image" content={favicon} />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={window.location.href} />
+          {/* Apple Touch Icon */}
+          <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
 
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={title} />
-          <meta name="twitter:image" content={favicon} />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={title} />
-          <meta name="twitter:image" content={favicon} />
+          {/* Android Chrome Icons */}
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/android-chrome-192x192`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/android-chrome-512x512`} />
 
-          <link rel="manifest" href="./public/manifest.json" />
+          {/* Microsoft Tile Icons */}
+          {/* <meta name="msapplication-TileColor" content="#ffffff" /> */}
+          {/* <meta name="msapplication-TileImage" content="/mstile-150x150.png" /> */}
+
+          {/* Safari Pinned Tab Icon */}
+          <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"

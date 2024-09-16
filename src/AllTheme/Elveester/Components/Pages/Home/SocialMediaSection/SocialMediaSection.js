@@ -11,18 +11,22 @@ const sliderData = [
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia1.jpg",
     link: 'https://www.instagram.com/p/Ce7uShwlDBi/?hl=en',
+    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon1/Instagram.svg.png'
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia2.jpg",
     link: 'https://in.pinterest.com/pin/706854104032666402/',
+    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon5/pintrest.png'
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia3.jpg",
     link: 'https://www.facebook.com/photo/?fbid=5153569661402827&set=a.1321180487975116',
+    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon2/fb.png'
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia4.jpg",
     link: 'https://www.linkedin.com/feed/update/urn:li:share:7118470948286009344/?actorCompanyId=3118775',
+    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon3/twitter.png'
   },
 ];
 
@@ -56,13 +60,18 @@ export default function SocialMediaSection() {
         }}
         modules={[Pagination]}
         // pagination={{ clickable: true }}
-        className="mySwiper"
+        className="social_mySwiper"
       >
         {sliderData.map((slide, index) => (
           <div style={{ background: 'red' }}>
             <SwiperSlide key={index} style={{ marginRight: '0px', padding: '30px 20px 0px 19px' }}>
               <Link to={slide?.link}>
-                <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} />
+                <div style={{ position: 'relative' }}>
+                  <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%', padding: '0px' }} />
+                </div>
+                <div className='elv_social_div'>
+                  <img src={slide?.icon} className='elv_social_icon' height={25} width={25} alt="icons.png" />
+                </div>
               </Link>
             </SwiperSlide>
           </div>
