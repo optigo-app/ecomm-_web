@@ -24,7 +24,8 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
-import { Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
+import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
@@ -119,7 +120,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(1);
+      setThemeNo(11);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -192,32 +193,39 @@ export default function ThemeRoutes() {
   return (
     <>
       <div>
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={title} />
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={title} />
 
-            <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
-            <link rel="apple-touch-icon" href={favicon} />
-            <link rel="icon" sizes="192x192" href={favicon} />
-            <link rel="icon" sizes="512x512" href={favicon} />
+          <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="icon" sizes="192x192" href={favicon} />
+          <link rel="icon" sizes="512x512" href={favicon} />
 
-            <meta property="og:title" content={title} />
-            <meta property="og:description" content={title} />
-            <meta property="og:image" content={favicon} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={window.location.href} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={title} />
+          <meta property="og:image" content={favicon} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={window.location.href} />
 
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={title} />
-            <meta name="twitter:description" content={title} />
-            <meta name="twitter:image" content={favicon} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={title} />
+          <meta name="twitter:image" content={favicon} />
 
-            <link rel="manifest" href="./public/manifest.json" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-            />
-          </Helmet>
+          <link rel="manifest" href="./public/manifest.json" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
+        </Helmet>
+        <SEO
+          favicon={favicon}
+          title={title}
+          description=""
+          url={window.location.href}
+          image={favicon}
+        />
       </div>
 
       {/* <Procatalog_App /> */}
@@ -248,7 +256,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 12 && <MalakanJewels_App />} 
+      {themeNo === 12 && <MalakanJewels_App />}
 
     </>
   );
