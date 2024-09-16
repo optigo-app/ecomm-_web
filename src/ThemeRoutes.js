@@ -24,11 +24,12 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
+import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(6)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -62,15 +63,13 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
             setFavIcon(favIcon);
 
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -120,8 +119,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
-      // setThemeNo(7);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(6);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -193,40 +192,48 @@ export default function ThemeRoutes() {
 
   return (
     <>
-
       <div>
-        <HelmetProvider>
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={title} />
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={title} />
 
-            <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
-            <link rel="apple-touch-icon" href={favicon} />
-            <link rel="icon" sizes="192x192" href={favicon} />
-            <link rel="icon" sizes="512x512" href={favicon} />
+          <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="icon" sizes="192x192" href={favicon} />
+          <link rel="icon" sizes="512x512" href={favicon} />
 
-            <meta property="og:title" content={title} />
-            <meta property="og:description" content={title} />
-            <meta property="og:image" content={favicon} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={window.location.href} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={title} />
+          <meta property="og:image" content={favicon} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={window.location.href} />
 
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={title} />
-            <meta name="twitter:description" content={title} />
-            <meta name="twitter:image" content={favicon} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={title} />
+          <meta name="twitter:image" content={favicon} />
 
-            <link rel="manifest" href="./public/manifest.json" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-            />
-          </Helmet>
-        </HelmetProvider>
+          <link rel="manifest" href="./public/manifest.json" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
+        </Helmet>
+        <SEO
+          favicon={favicon}
+          title={title}
+          description=""
+          url={window.location.href}
+          image={favicon}
+        />
       </div>
+      {/* <Procatalog_App /> */}
+
+      {/* {themeNo === 6 && <Procatalog_App />} */}
+
       {/* <SmilingRock_App /> */}
 
-       {themeNo === 1 && <SmilingRock_App />}
+      {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
@@ -248,7 +255,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 12 && <MalakanJewels_App />} 
+      {themeNo === 12 && <MalakanJewels_App />}
 
     </>
   );

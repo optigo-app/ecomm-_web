@@ -103,7 +103,6 @@ export default function ChangePassword() {
                 //     "p": encodedCombinedValue
                 // }
 
-                // console.log(body);
                 // const response = await CommonAPI(body);
                 if(passwordError === ''){
 

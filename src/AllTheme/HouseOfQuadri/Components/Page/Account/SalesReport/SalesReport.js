@@ -34,6 +34,8 @@ import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { headCells_SalesReport as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 function createData(
   SrNo,
   EntryDate,
@@ -179,160 +181,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-const headCells = [
-  {
-    id: "SrNo",
-    numeric: true,
-    disablePadding: false,
-    label: "Sr#",
-    align: "center",
-    minWidth: 100,
-  },
-  {
-    id: "EntryDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Entry Date",
-    align: "center",
-    minWidth: 130,
-  },
-  {
-    id: "StockDocumentNo",
-    numeric: false,
-    disablePadding: false,
-    label: "Stock DocumentNo",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "SKUNo",
-    numeric: false,
-    disablePadding: false,
-    label: "SKU No",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "designno",
-    numeric: false,
-    disablePadding: false,
-    label: "designno",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalType",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalType",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiamondAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "DiamondAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "ColorStoneAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "ColorStone Amount",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "LabourAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Labour Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "OtherAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Other Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "UnitCost",
-    numeric: false,
-    disablePadding: false,
-    label: "Unit Cost",
-    align: "center",
-    minWidth: 140,
-  },
-  {
-    id: "Category",
-    numeric: false,
-    disablePadding: false,
-    label: "Category",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "GrossWt",
-    numeric: false,
-    disablePadding: false,
-    label: "GrossWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "NetWt",
-    numeric: false,
-    disablePadding: false,
-    label: "NetWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "Dia Pcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaWt",
-    numeric: false,
-    disablePadding: false,
-    label: "DiaWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "CsPcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsWt",
-    numeric: false,
-    disablePadding: false,
-    label: "CsWt",
-    align: "center",
-    minWidth: 110,
-  },
-];
 
 function EnhancedTableHead(props) {
   const {
@@ -432,7 +280,7 @@ const SalesReport = () => {
   const toDateRef = useRef(null);
 
   const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1415px)');
+  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1440px)');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -647,6 +495,7 @@ const SalesReport = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -1110,7 +959,7 @@ const SalesReport = () => {
             </Box>
             <Box style={{position:'relative'}}>
               <div style={{position:'absolute', top:'-15px'}}>
-                  <Typography>Gross Wt : </Typography>
+                  <div>Gross Wt : </div>
               </div>
               <div style={{display:'flex', alignItems:'center'}}>
                 <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>

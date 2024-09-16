@@ -22,6 +22,8 @@ import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
 import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
 
+import { headCells_Sales as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
     return {
         SrNo,
@@ -69,43 +71,6 @@ const getComparator = (order, orderBy) => {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-const headCells = [
-    {
-        id: 'SrNo',
-        numeric: true,
-        disablePadding: false,
-        label: 'Sr#',
-        align: "center"
-    },
-    {
-        id: 'Date',
-        numeric: false,
-        disablePadding: false,
-        label: 'OutWard Date',
-        align: "center"
-    },
-    {
-        id: 'StockDocumentNo',
-        numeric: false,
-        disablePadding: false,
-        label: 'Bill#',
-        align: "center"
-    },
-    {
-        id: 'Amount',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Amount',
-        align: "right"
-    },
-    {
-        id: 'Print',
-        numeric: true,
-        disablePadding: false,
-        label: 'Print',
-        align: "center"
-    },
-];
 
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
@@ -232,6 +197,7 @@ const Sales = () => {
         setToDate(null);
         setFilterData(data);
         setPage(0);
+        setRowsPerPage(10);
     }
 
     const handleSearch = (eve, searchValue, fromDatess, todatess) => {

@@ -142,7 +142,6 @@ const Lookbook = () => {
   }, []);
 
   useEffect(() => {
-    console.log("cartItemscartItemscartItems", filterData);
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -321,10 +320,6 @@ const Lookbook = () => {
         const updatedCartItems = prevCartItems.filter(
           (item) => item !== ele?.autocode
         );
-        console.log(
-          "Updated cartItems inside setState callback:",
-          updatedCartItems
-        );
         return updatedCartItems;
       });
     } catch (err) {
@@ -445,11 +440,6 @@ const Lookbook = () => {
     selectedCategories
   );
 
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
-
   const calculateTotalUnitCostWithMarkUp = (details) => {
     let total = 0;
     details.forEach((detail) => {
@@ -525,12 +515,6 @@ const Lookbook = () => {
       </ul>
     </div>
   );
-
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
-
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -1939,15 +1923,17 @@ const Lookbook = () => {
                                                     <span className='smr_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
                                                   </>
                                                 }
-
-                                                {Number(ele?.Nwt) !== 0 && (
+                                                {storeInit?.IsMetalWeight == 1 &&
                                                   <>
-                                                    <span className='smr_lb3pipe'> | </span>
-                                                    <span className='smr_lb3detailDT'>NWT : </span>
-                                                    <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                    {Number(ele?.Nwt) !== 0 && (
+                                                      <>
+                                                        <span className='smr_lb3pipe'> | </span>
+                                                        <span className='smr_lb3detailDT'>NWT : </span>
+                                                        <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                      </>
+                                                    )}
                                                   </>
-                                                )}
-
+                                                }
                                                 {storeInit?.IsGrossWeight == 1 &&
                                                   <>
                                                     {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&

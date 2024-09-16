@@ -43,9 +43,9 @@ import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
+import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 
 const Procatalog_App = () => {
-  const localData = JSON.parse(sessionStorage.getItem("storeInit"));
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(proCat_loginState);
   const location = useLocation();
@@ -54,22 +54,49 @@ const Procatalog_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
+  const [htmlContent, setHtmlContent] = useState("");
+  const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
 
+  useEffect(() => {
+    if (htmlContent) {
+      setLocalData((prevData) => ({
+        ...prevData,
+        Headerno: htmlContent?.rd[0]?.Headerno, 
+        BrowserTitle: htmlContent.BrowserTitle, 
+      }));
+    }
+  }, [htmlContent]);
+
+  useEffect(() => {
+    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLocalData(localD);
     let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {
         setCompanyTitleLogo(Logindata?.Private_label_logo);
       } else {
-        setCompanyTitleLogo(logo?.companylogo);
+        setCompanyTitleLogo(localD?.companylogo);
       }
     } else {
-      setCompanyTitleLogo(logo?.companylogo);
+      setCompanyTitleLogo(localD?.companylogo);
     }
-  });
+  },[]);
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");

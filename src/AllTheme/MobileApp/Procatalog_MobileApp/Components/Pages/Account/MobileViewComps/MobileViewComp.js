@@ -97,6 +97,10 @@ const MobileViewComp = () => {
                     <p className='menuMainAccountTitle' >Sales Report</p>
                         <FaChevronRight />
                 </div>
+                <div className='menuMainAccount' onClick={() => naviagation('/Memo')}>
+                    <p className='menuMainAccountTitle' >Memo</p>
+                        <FaChevronRight />
+                </div>
                 <div className='menuMainAccount' onClick={() => naviagation('/DesignWiseSalesReport')}>
                     <p className='menuMainAccountTitle'>Design Wise Sales Report</p>
                         <FaChevronRight />

@@ -28,6 +28,8 @@ import QuotationQuote from './Components/Pages/Account/QuotationQuote/QuotationQ
 import QuotationJob from './Components/Pages/Account/QuotationJob/QuotationJob';
 import Sales from './Components/Pages/Account/Sales/Sales';
 import SalesReport from './Components/Pages/Account/SalesReport/SalesReport';
+import PendingMemo from './Components/Pages/Account/PendingMemo/PendingMemo';
+
 import DesignWiseSalesReport from './Components/Pages/Account/DesignWiseSalesReport/DesignWiseSalesReport';
 import TermsCondition from './Components/Pages/StaticPages/TermsCondition'
 import PrivacyPolicy from './Components/Pages/StaticPages/PrivacyPolicy'
@@ -121,6 +123,7 @@ const SmilingRock_MobileApp_App = () => {
           <Route path="/QuotationJob" element={<QuotationJob />} />
           <Route path="/Sales" element={<Sales />} />
           <Route path="/SalesReport" element={<SalesReport />} />
+          <Route path="/Memo" element={<PendingMemo />} />
           <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
           <Route path="/YourProfile" element={<YourProfile />} />
           {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}

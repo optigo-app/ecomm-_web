@@ -754,7 +754,9 @@ const AccountLedger = () => {
                 {
                     loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}>
                         <CircularProgress className='loadingBarManage' /></Box> : <div className=' overflow-auto'  style={{margin:'10px', marginBottom:'20%'}}>
-                    <table className='w-100'>
+                    <>
+                    {
+                        (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? <div className='data_not_present_mapp'>Data Not Present</div> : <table className='w-100' style={{minWidth:'1200px'}}>
                         <thead className='w-100 border'>
                             <tr className='w-100 border-bottom fs_td'>
                                 <td className='fw-bold text-center border-end' colSpan={9}>DEBIT</td>
@@ -872,6 +874,8 @@ const AccountLedger = () => {
                                         </tr>
                         </tbody>
                     </table>
+                    }
+                    </>
                 </div>
                 }
             </div>

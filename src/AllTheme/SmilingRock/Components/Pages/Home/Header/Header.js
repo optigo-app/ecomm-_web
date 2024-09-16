@@ -133,8 +133,6 @@ const Header = () => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
 
-    // console.log("callll");
-
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
@@ -285,8 +283,6 @@ const Header = () => {
         `size=${finalData.size ?? 50}`,
       ].join("&");
 
-      // console.log("otherparamsUrl--", otherparamUrl);
-
       let menuEncoded = `${queryParameters}/${otherparamUrl}`;
       // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
       const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
@@ -377,9 +373,10 @@ const Header = () => {
           f: {},
         };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        // let encodeObj = compressAndEncode(JSON.stringify(obj));
+        let encodeObj = btoa(JSON.stringify(obj))
 
-        navigate(`/d/${searchText}?p=${encodeObj}`);
+        navigate(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
         setSearchText("")
         // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
@@ -432,7 +429,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -461,7 +458,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}

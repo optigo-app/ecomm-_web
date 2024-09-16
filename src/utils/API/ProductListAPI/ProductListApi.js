@@ -2,9 +2,11 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "") => {
+  
   let MenuParams = {};
   let serachVar = ""
 
+  console.log("mainData", mainData);
 
 
   if (Array.isArray(mainData)) {
@@ -21,19 +23,25 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     }
   } else {
     if (mainData !== "") {
-      console.log("mainData", atob(mainData)?.split("=")[0]);
 
-      if (atob(mainData)?.split("=")[0] == "AlbumName") {
-        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
-        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
-      }
-      else if (mainData?.split("=")[0] == "S") {
+      if(mainData?.split("=")[0] == "S") {
         serachVar = JSON.parse(atob(mainData.split("=")[1]))
-        console.log("serachVar", JSON.parse(atob(mainData.split("=")[1])))
       } else {
         MenuParams.FilterKey = atob(mainData)
         MenuParams.FilterVal = atob(mainData)
       }
+
+      if(mainData?.split("=")[0] !== "S") {
+        if (atob(mainData)?.split("=")[0] == "AlbumName") {
+          MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+          MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+        }else {
+          MenuParams.FilterKey = atob(mainData)
+          MenuParams.FilterVal = atob(mainData)
+        }
+      }
+
+      
     }
   }
 
@@ -78,6 +86,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   //     IsFromDesDet: "1"
   // }
 
+  console.log("serachVar11", serachVar)
 
   let diaQc = (obj?.dia === undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.dia)
   let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
@@ -98,7 +107,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     FilterVal1: `${MenuParams?.FilterVal1 ?? ""}`,
     FilterKey2: `${MenuParams?.FilterKey2 ?? ""}`,
     FilterVal2: `${MenuParams?.FilterVal2 ?? ""}`,
-    SearchKey: `${serachVar ?? ""}`,
+    SearchKey: `${serachVar?.b ?? ""}`,
     PageNo: `${page ?? ''}`,
     PageSize: `${storeinit?.PageSize ?? ''}`,
     Metalid: `${mtid ?? ''}`,

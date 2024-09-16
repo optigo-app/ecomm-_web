@@ -3302,11 +3302,11 @@ const ProductList = () => {
                                                   GWT:
                                                 </span>
                                                 <span className="smr_val">
-                                                  {productData?.Gwt}
+                                                  {productData?.Gwt?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
-                                          {Number(productData?.Nwt) !== 0 && (
+                                          {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
                                             <>
                                               <span>|</span>
                                               <span className="smr_prod_wt">
@@ -3314,7 +3314,7 @@ const ProductList = () => {
                                                   NWT:
                                                 </span>
                                                 <span className="smr_val">
-                                                  {productData?.Nwt}
+                                                  {productData?.Nwt?.toFixed(3)}
                                                 </span>
                                               </span>
                                             </>
@@ -3330,7 +3330,7 @@ const ProductList = () => {
                                                     DWT:
                                                   </span>
                                                   <span className="smr_val">
-                                                    {productData?.Dwt}
+                                                    {productData?.Dwt?.toFixed(3)}
                                                     {storeInit?.IsDiamondPcs ===
                                                       1
                                                       ? `/${productData?.Dpcs}`
@@ -3348,7 +3348,7 @@ const ProductList = () => {
                                                     CWT:
                                                   </span>
                                                   <span className="smr_val">
-                                                    {productData?.CSwt}
+                                                    {productData?.CSwt?.toFixed(3)}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
                                                       : null}

@@ -90,8 +90,6 @@ const Wishlist = () => {
     });
   }
 
-  console.log("cartdataCount--", wishlistData);
-
   return (
     <div className="roop_MainWishlist_Div">
       <div className="roop_wishlist_sub">
