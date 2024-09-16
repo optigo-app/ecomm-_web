@@ -110,7 +110,7 @@ const SmilingRock_App = () => {
     if (cookieValue) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
-          if (response.Data.rd[0].stat === 1) {
+          if (response?.Data?.rd[0]?.stat === 1) {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);

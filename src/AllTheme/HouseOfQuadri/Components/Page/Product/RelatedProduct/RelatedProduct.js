@@ -7,6 +7,7 @@ const RelatedProduct = ({
   SimilarBrandArr,
   loginInfo,
   storeInit,
+  check ,
   handleMoveToDetail,
 }) => {
   const formatter = new Intl.NumberFormat("en-IN");
@@ -46,10 +47,10 @@ const RelatedProduct = ({
               </div>
               <div className="tab_hover_Details">
                 <h3>{hoq?.designno}</h3>
-                <small>
+               {check && <small>
                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode} &nbsp;
                   {formatter.format(hoq?.UnitCostWithMarkUp)}
-                </small>
+                </small>}
               </div>
             </div>
           );

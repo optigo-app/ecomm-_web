@@ -14,6 +14,7 @@ const DesignSet = ({
   imageNotFound,
   loginInfo,
   handleMoveToDetail,
+  check
 }) => {
   return (
     <div className="hoq_design_Set">
@@ -131,18 +132,19 @@ const DesignSet = ({
                               <p>
                                 {ele?.designno} - {ele?.CategoryName}
                                 <br />
-                                {
+                                {check && (<>
                                   <span className="hoq_currencyFont">
                                     {loginInfo?.CurrencyCode ??
                                       storeInit?.CurrencyCode}
                                   </span>
-                                }
+                                
                                 &nbsp;
                                 {
                                   formatter(
                                   ele?.UnitCostWithMarkUp
                                   )
-                                }
+                                
+                                }</>)}
                               </p>
                             </div>
                             {/* <div>

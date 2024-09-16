@@ -236,6 +236,7 @@ const Sales = () => {
         setToDate(null);
         setFilterData(data);
         setPage(0);
+        setRowsPerPage(10);
     }
 
     const handleSearch = (eve, searchValue, fromDatess, todatess) => {
@@ -334,7 +335,7 @@ const Sales = () => {
 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
             // const combinedValue = JSON.stringify({
             //     CurrencyRate: "1", FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
             // });

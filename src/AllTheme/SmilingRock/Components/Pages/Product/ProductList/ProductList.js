@@ -130,6 +130,13 @@ const ProductList = () => {
 
   }, [])
 
+
+
+  // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
+
+  // console.log("rollOverImgPd",rollOverImgPd).
+
+
   // useEffect(()=>{
   //   let UrlVal =  location?.search.slice(1).split("/")
   //     let MenuVal = '';
@@ -361,6 +368,8 @@ const ProductList = () => {
       if (AlbumVar) {
         productlisttype = AlbumVar.split("=")[1]
       }
+
+      console.log("URLVal", productlisttype);
 
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
@@ -2290,6 +2299,8 @@ const ProductList = () => {
                     // </div>
                   )}
 
+                  {productListData?.length > 0 ? 
+                  (
                   <div className="smr_mainPortion">
                     <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
                       <div className="empty_sorting_div">
@@ -2330,12 +2341,21 @@ const ProductList = () => {
                           </div>
                         )}
 
-                        {location?.search.charAt(1) == "N" && (
+                        {location?.search?.charAt(1) == "N" && (
                           <div
                             className="smr_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"New Arrival"}</span>
+                          </div>
+                        )}
+
+                        {location?.search?.charAt(1) == "S" && (
+                          <div
+                            className="smr_breadcums_port"
+                            style={{ marginLeft: "3px" }}
+                          >
+                            <span>{location?.pathname?.split("/")[2]}</span>
                           </div>
                         )}
 
@@ -3292,6 +3312,18 @@ const ProductList = () => {
                       </div>
                     )}
                   </div>
+                  ) 
+                  : 
+                  (
+                  <div style={{display:'flex',justifyContent:'center',height:'100vh',width:'100%',alignItems:'center',flexDirection:'column',flexWrap:'wrap'}}>
+                    <div className="serach_notfound">
+                    <p style={{textTransform:'capitalize'}}>We couldn't find any matches for</p>
+                    <p style={{fontWeight:'bold'}}>{`"${decodeURIComponent(location?.pathname?.split("/")[2])}".`}</p>
+                    </div>
+
+                    <p className="search_notfound2">Please try another search.</p>
+                  </div>
+                )}
                 </>
               )}
 

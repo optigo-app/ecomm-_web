@@ -32,16 +32,22 @@ export const FilterListAPI = async (mainData, visiterId) => {
   } else {
     if (mainData !== "") {
 
-      if (atob(mainData)?.split("=")[0] == "AlbumName") {
-        MenuParams.FilterKey = atob(mainData)?.split("=")[0]
-        MenuParams.FilterVal = atob(mainData)?.split("=")[1]
-      }
-      else if (mainData.split("=")[0] == "S") {
-        serachVar = atob(mainData.split("=")[1])
-      }
-      else {
+      if(mainData?.split("=")[0] == "S") {
+
+        serachVar = JSON.parse(atob(mainData.split("=")[1]))
+      } else {
         MenuParams.FilterKey = atob(mainData)
         MenuParams.FilterVal = atob(mainData)
+      }
+
+      if(mainData?.split("=")[0] !== "S") {
+        if (atob(mainData)?.split("=")[0] == "AlbumName") {
+          MenuParams.FilterKey = atob(mainData)?.split("=")[0]
+          MenuParams.FilterVal = atob(mainData)?.split("=")[1]
+        }else {
+          MenuParams.FilterKey = atob(mainData)
+          MenuParams.FilterVal = atob(mainData)
+        }
       }
     }
   }
@@ -58,7 +64,7 @@ export const FilterListAPI = async (mainData, visiterId) => {
     "FilterVal1": `${MenuParams?.FilterVal1 ?? ""}`,
     "FilterKey2": `${MenuParams?.FilterKey2 ?? ""}`,
     "FilterVal2": `${MenuParams?.FilterVal2 ?? ""}`,
-    SearchKey: `${serachVar ?? ""}`,
+    SearchKey: `${serachVar?.b ?? ""}`,
     CurrencyRate: `${loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate}`,
     DomainForNo: `${storeinit?.DomainForNo ?? ""}`
   }

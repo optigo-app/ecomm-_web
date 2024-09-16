@@ -24,11 +24,11 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet} from "react-helmet";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(1)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -69,7 +69,6 @@ export default function ThemeRoutes() {
             setFavIcon(favIcon);
 
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
             sessionStorage.setItem("CompanyInfoData", JSON.stringify(response.data.Data.rd2[0]));
@@ -119,8 +118,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
-      // setThemeNo(1);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(1);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -192,9 +191,7 @@ export default function ThemeRoutes() {
 
   return (
     <>
-
       <div>
-        <HelmetProvider>
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={title} />
@@ -221,7 +218,6 @@ export default function ThemeRoutes() {
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
           </Helmet>
-        </HelmetProvider>
       </div>
 
       <Procatalog_App />
@@ -229,7 +225,7 @@ export default function ThemeRoutes() {
 
       {/* <SmilingRock_App /> */}
 
-      {/* {themeNo === 1 && <SmilingRock_App />}
+      {themeNo === 1 && <SmilingRock_App />}
 
       {themeNo === 2 && <DaimondTine_App />}
 
@@ -251,7 +247,7 @@ export default function ThemeRoutes() {
 
       {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 12 && <MalakanJewels_App />} */}
+      {themeNo === 12 && <MalakanJewels_App />} 
 
     </>
   );

@@ -96,6 +96,10 @@ const Collection = () => {
     );
   };
 
+  if(designSetList?.length === 0){
+    return  <div style={{marginTop  :"-3rem"}}></div>;
+  }
+
   return (
     <div className="hoq_main_Collection">
       <div className="heading">

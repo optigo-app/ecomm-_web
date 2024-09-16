@@ -3,55 +3,67 @@ import "./Footer.modul.scss";
 import Payment from "./Payment";
 import MobileFooter from "./MobileFooter";
 import { Link, useNavigate } from "react-router-dom";
-import { FaInstagram, FaFacebook } from "react-icons/fa";
 
-const Footer = () => {
+const Footer = ({StoreData}) => {
   const [email, setemail] = useState("");
-  const [companyInfoData, setCompanuInfoData] = useState();
+  const [companyInfoData, setCompanuInfoData] = useState(StoreData);
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [selectedFooteVal, setSelectedVal] = useState(0);
   const navigation = useNavigate();
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
-    let storeInit;
-    let companyInfoData;
-  
-    setTimeout(() => {
+    let interval;
+    const fetchData = () => {
       try {
-        const storeInitData = sessionStorage?.getItem("storeInit");
+        const storeInitData = sessionStorage.getItem("storeInit");
         if (storeInitData) {
-          storeInit = JSON.parse(storeInitData);
-        }
-      } catch (error) {
-        console.error("Error parsing storeInit:", error);
-      }
-  
-      try {
-        const companyInfoDataStr = sessionStorage?.getItem("CompanyInfoData");
-        if (companyInfoDataStr) {
-          companyInfoData = JSON.parse(companyInfoDataStr);
-          setCompanuInfoData(companyInfoData);
-  
-          const socialLinkStr = companyInfoData?.SocialLinkObj;
-          if (socialLinkStr) {
-            try {
-              const parsedSocialMediaUrlData = JSON.parse(socialLinkStr);
-              setSocialMediaData(parsedSocialMediaUrlData);
-            } catch (error) {
-              console.error("Error parsing social media data:", error);
+          const parsedStoreInit = JSON.parse(storeInitData);
+          const companyInfoDataStr = sessionStorage.getItem("CompanyInfoData");
+          if (companyInfoDataStr) {
+            const parsedCompanyInfo = JSON.parse(companyInfoDataStr);
+            setCompanuInfoData(parsedCompanyInfo);
+
+            const socialLinkStr = parsedCompanyInfo?.SocialLinkObj;
+            if (socialLinkStr) {
+              try {
+                const parsedSocialMediaData = JSON.parse(socialLinkStr);
+                setSocialMediaData(parsedSocialMediaData);
+              } catch (error) {
+                console.error("Error parsing social media data:", error);
+              }
             }
           }
+
+          setLoading(false);
+          clearInterval(interval); // Clear the interval once data is found
         }
       } catch (error) {
-        console.error("Error parsing CompanyInfoData:", error);
+        console.error("Error parsing data from sessionStorage:", error);
+        setLoading(false);
+        clearInterval(interval); // Clear the interval in case of error
       }
-    }, 500);
+    };
+
+    // Initial fetch
+    fetchData();
+
+    // Set up interval for continuous checking
+    interval = setInterval(fetchData, 1000);
+
+    // Cleanup function to clear interval on unmount
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
-  
+ 
 
   const HandleFormSubmit = async (e) => {
     e.preventDefault();
-    const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
+    const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
     const newslater = storeInit?.newslatter;
     if (newslater) {
       const requestOptions = {
@@ -71,7 +83,7 @@ const Footer = () => {
     <div className="hoq_main_footer">
       <footer className="footer">
         <div className="footer-content">
-          <ContactInformation />
+          <ContactInformation  socialLinkStr={socialMediaData} companyInfoData={companyInfoData}/>
           <NewsLetter
             onsubmit={HandleFormSubmit}
             email={email}
@@ -82,7 +94,7 @@ const Footer = () => {
         </div>
         <Copyright />
       </footer>
-      <MobileFooter />
+      <MobileFooter  socialLinkStr={socialMediaData} companyInfoData={companyInfoData}/>
     </div>
   );
 };
@@ -170,42 +182,50 @@ const Copyright = () => {
     </div>
   );
 };
-const ContactInformation = () => {
+const ContactInformation = ({socialLinkStr ,companyInfoData}) => {
   return (
     <div className="footer-section">
       <h4>CONTACT US</h4>
       <p>
-        Lorem ipsum, dolor sit amet consectetur
+      {companyInfoData?.FrontEndAddress},
         <br />
-        1st Flr, 7 Lorem ipsum dolok .,
+        {companyInfoData?.FrontEndCity} 
         <br />
-        192 lorem lorem Rd, lorem, lorem 000000
+        {companyInfoData?.FrontEndZipCode}
       </p>
       <p>
-        Mob. +01234567890
+        Mob. {companyInfoData?.FrontEndContactno1}
         <br />
-        Email: hello@loremipusmum.com
+        Email:     {companyInfoData?.FrontEndEmail1}
       </p>
       <div className="social-links">
-        <Link
-          to="https://www.instagram.com/"
+      {
+        socialLinkStr?.map((val,i)=>{
+          return <>
+            <Link
+          to={val?.SLink}
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
           target="_blank"
         >
-          <FaInstagram size={17} color="#F60092" />
-          Instagram
+          <img src={val?.SImgPath} alt="" width={15} height={15} style={{
+            mixBlendMode  :"darken"
+          }} />
+          {val?.SName}
         </Link>
-        <Link
-          to="https://www.facebook.com/"
-          style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          target="_blank"
-        >
-          <FaFacebook size={17} color="blue" />
-          Facebook
-        </Link>
+          </>
+        })
+      }
       </div>
     </div>
   );
 };
 
 export default Footer;
+  {/* <Link
+          to="https://www.facebook.com/"
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          target="_blank"
+        >
+          <FaFacebook size={17} color="blue" />
+          Facebook
+        </Link> */}

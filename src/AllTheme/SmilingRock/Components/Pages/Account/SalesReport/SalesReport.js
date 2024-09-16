@@ -642,6 +642,7 @@ const SalesReport = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -662,7 +663,7 @@ const SalesReport = () => {
       const customerid = data.id;
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
 
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
       

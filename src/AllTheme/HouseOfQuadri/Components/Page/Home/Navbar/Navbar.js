@@ -22,6 +22,7 @@ import { TfiClose } from "react-icons/tfi";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import {
   Hoq_CartCount,
+  Hoq_MobilecompanyLogo,
   Hoq_WishCount,
   Hoq_companyLogo,
   Hoq_loginState,
@@ -57,15 +58,10 @@ const Navbar = () => {
   const [searchText, setSearchText] = useState("");
   const location = useLocation()
   const [titleImg, setCompanyTitleLogo] = useRecoilState(Hoq_companyLogo);
+  const [MobileLogo, setCompanyMobileLogo] = useRecoilState(Hoq_MobilecompanyLogo);
   const is320px = useMediaQuery("(max-width:320px)");
-
-    const debounce = (func, wait) => {
-      let timeout;
-      return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
-    };
+  const is400px = useMediaQuery("(max-width:401px)");
+  const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
       setisMobileMenu(false)
@@ -75,16 +71,56 @@ const Navbar = () => {
   }, [cartCountNum]);
 
   useEffect(() => {
+    let interval;
+    const checkStoreInit = () => {
+      try {
+        const storeInit = sessionStorage.getItem("storeInit");
+        if (storeInit) {
+          const parsedData = JSON.parse(storeInit);
+          setCompanyTitleLogo(parsedData?.companylogo);
+          setCompanyMobileLogo(parsedData?.companyMlogo)
+          window.scroll({ behavior: "smooth", top: 0 });
+          setLoading(false);
+          console.log(parsedData,"avaiable");
+
+          if (interval) {
+            clearInterval(interval);
+          }
+        } else {
+          setLoading(true);
+        }
+      } catch (error) {
+        console.error('Error parsing storeInit:', error);
+        setLoading(false); 
+
+        if (interval) {
+          clearInterval(interval);
+        }
+      }
+    };
+
+    checkStoreInit();
+    interval = setInterval(checkStoreInit, 1000); 
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
+    setCompanyMobileLogo(storeInit?.companyMlogo)
     window.scroll({ behavior: "smooth", top: 0 });
   }, []);
 
   const HandleAccountRoute = () => {
     navigate("/account");
   };
+  
   const handleScroll = () => {
     const scrollTop = window.pageYOffset;
     const currentScrollY = window.scrollY;
@@ -406,7 +442,7 @@ const Navbar = () => {
             setisMobileMenu={setisMobileMenu}
             menuItems={menuItems}
             handleMenu={handleMenu}
-            logo={titleImg}
+            logo={MobileLogo}
             islogin={islogin}
             selectedData={selectedData}
             navigation={navigate}
@@ -514,7 +550,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={titleImg}
+                  src={is400px ? MobileLogo : titleImg}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
@@ -1091,6 +1127,8 @@ const NavbarCenter = ({
   handleMenu,
   logo,
   islogin,
+  is400px ,
+  MobileLogo
 }) => {
   const isOpen = true;
   return (

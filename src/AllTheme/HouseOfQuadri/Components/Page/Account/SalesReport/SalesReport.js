@@ -432,7 +432,7 @@ const SalesReport = () => {
   const toDateRef = useRef(null);
 
   const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1415px)');
+  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1440px)');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -647,6 +647,7 @@ const SalesReport = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -667,7 +668,7 @@ const SalesReport = () => {
       const customerid = data.id;
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
 
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
       
@@ -1110,7 +1111,7 @@ const SalesReport = () => {
             </Box>
             <Box style={{position:'relative'}}>
               <div style={{position:'absolute', top:'-15px'}}>
-                  <Typography>Gross Wt : </Typography>
+                  <div>Gross Wt : </div>
               </div>
               <div style={{display:'flex', alignItems:'center'}}>
                 <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>

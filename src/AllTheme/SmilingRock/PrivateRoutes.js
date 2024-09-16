@@ -15,6 +15,8 @@ const PrivateRoutes = ({ isLoginStatus }) => {
 
         return () => clearTimeout(timeout);
     }, [isLoginStatus]);
+
+
     if (isLoading) {
         return <div></div>;
     }

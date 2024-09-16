@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const DesignWiseSalesReport = () => {
     
     const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
-    const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1080px)');
+    const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1080px), (max-width:1185px)');
   
     const [offset, setOffset] = useState(0);
     const [perPage, setPerPage] = useState(10);
@@ -394,7 +394,7 @@ const DesignWiseSalesReport = () => {
 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            let currencyRate = "1";
+            let currencyRate = storeInit?.CurrencyRate;
   
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
             
@@ -1339,7 +1339,6 @@ const DesignWiseSalesReport = () => {
             </>
             }                        
 
-
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
                 <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
@@ -1354,7 +1353,7 @@ const DesignWiseSalesReport = () => {
                                 zIndex: 0,
                                 background: "#c0bbb133",
                             }}
-                            className="smilingProductImageBox designWiseSalesReportProduct"
+                            className="smilingProductImageBox designWiseSalesReportProduct minW_dwsr_acc_hoq"
                         >
                             <Box sx={{
                                 paddingBottom: "10px"

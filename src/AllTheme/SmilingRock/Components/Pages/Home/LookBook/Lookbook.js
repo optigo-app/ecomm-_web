@@ -1923,15 +1923,17 @@ const Lookbook = () => {
                                                     <span className='smr_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
                                                   </>
                                                 }
-
-                                                {Number(ele?.Nwt) !== 0 && (
+                                                {storeInit?.IsMetalWeight == 1 &&
                                                   <>
-                                                    <span className='smr_lb3pipe'> | </span>
-                                                    <span className='smr_lb3detailDT'>NWT : </span>
-                                                    <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                    {Number(ele?.Nwt) !== 0 && (
+                                                      <>
+                                                        <span className='smr_lb3pipe'> | </span>
+                                                        <span className='smr_lb3detailDT'>NWT : </span>
+                                                        <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                      </>
+                                                    )}
                                                   </>
-                                                )}
-
+                                                }
                                                 {storeInit?.IsGrossWeight == 1 &&
                                                   <>
                                                     {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&

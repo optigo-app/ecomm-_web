@@ -84,7 +84,7 @@ const CartPage = () => {
     if (storeInit?.IsPLW == 0) {
       let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
       sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery")
+      navigate("/Delivery",{replace  :true})
     } else {
       handlePay();
     }

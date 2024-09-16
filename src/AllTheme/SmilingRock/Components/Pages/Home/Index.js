@@ -63,7 +63,6 @@ function Home() {
 
   return (
     <>
-      {htmlContent?.rd && htmlContent?.rd.length > 0 && (
         <div className="smiling_home_index_main">
           <div style={{ backgroundColor: "white" }}>
             {htmlContent?.rd[0]?.Blockno == 1 && (
@@ -122,7 +121,6 @@ function Home() {
             </p>
           </div>
         </div>
-      )}
     </>
   );
 }

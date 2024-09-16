@@ -48,7 +48,7 @@ import { Hoq_loginState } from "../../../Recoil/atom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Pako from "pako";
-import noimage from '../../../Assets/noImageFound.jpg';
+import noimage from "../../../Assets/noImageFound.jpg";
 
 const TabSection = () => {
   const [newArrivalData, setNewArrivalData] = useState([]);
@@ -61,6 +61,8 @@ const TabSection = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
+    // IsPriceShow
+    // IsPriceBreakUp
   }, []);
 
   useEffect(() => {
@@ -131,6 +133,10 @@ const TabSection = () => {
 
   const formatter = new Intl.NumberFormat("en-IN");
 
+  if (newArrivalData?.length === 0) {
+    return <div style={{ marginTop: "2rem" }}></div>;
+  }
+
   return (
     <div className="hoq_main_TabSection">
       <div className="header">
@@ -141,6 +147,7 @@ const TabSection = () => {
           View All
         </button>
       </div>
+      {/* 330 w 500 h */}
       <div className="tab_card">
         {newArrivalData?.slice(0, 4)?.map((val, i) => {
           return (
@@ -154,9 +161,9 @@ const TabSection = () => {
                   src={ImageGenrate(val)}
                   alt={val?.id}
                   style={{ mixBlendMode: "multiply", objectFit: "contain" }}
-                  onError={(e)=>{
-                    e.target.src = noimage ;
-                    e.target.alt = 'Fallback image';
+                  onError={(e) => {
+                    e.target.src = noimage;
+                    e.target.alt = "Fallback image";
                   }}
                 />
                 {/* <div className="overlay_img">
@@ -165,11 +172,13 @@ const TabSection = () => {
               </div>
               <div className="tab_hover_Details">
                 <h3 style={{ fontSize: "20px" }}>{val?.designno}</h3>
-                <small>
-                  {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}{" "}
-                  &nbsp;
-                  {formatter.format(val?.UnitCostWithMarkUp)}
-                </small>
+                {storeInit?.IsPriceShow === 1 && (
+                  <small>
+                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}{" "}
+                    &nbsp;
+                    {formatter.format(val?.UnitCostWithMarkUp)}
+                  </small>
+                )}
               </div>
             </div>
           );

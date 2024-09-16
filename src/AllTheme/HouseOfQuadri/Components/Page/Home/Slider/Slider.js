@@ -50,7 +50,7 @@ const TopSlider = () => {
             ))
           : SliderItemns.map((val, i) => (
               <div className="slide" key={i}>
-                <img src={val?.url || ""} alt={val?.key} />
+                <img src={ val?.url || ""} alt={val?.key} />
               </div>
             ))}
       </Slider>{" "}

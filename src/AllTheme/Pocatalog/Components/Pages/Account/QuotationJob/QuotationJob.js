@@ -491,7 +491,7 @@ const QuotationJob = () => {
       // };
       
       // const response = await CommonAPI(body);
-      let currencyRate = "1";
+      let currencyRate = storeInit?.CurrencyRate;
       const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
       
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
