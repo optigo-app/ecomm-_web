@@ -29,7 +29,7 @@ import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(1)
+  const [themeNo, setThemeNo] = useState();
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -119,8 +119,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(11);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(4);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -227,12 +227,9 @@ export default function ThemeRoutes() {
           image={favicon}
         />
       </div>
-
       {/* <Procatalog_App /> */}
 
       {/* {themeNo === 6 && <Procatalog_App />} */}
-
-      <SmilingRock_App />
 
       {themeNo === 1 && <SmilingRock_App />}
 

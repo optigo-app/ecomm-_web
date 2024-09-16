@@ -621,6 +621,7 @@ const PendingMemo = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
+
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -639,7 +640,7 @@ const PendingMemo = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box
+        {/* <Box
           className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
@@ -702,13 +703,107 @@ const PendingMemo = () => {
               </tr>
             </tbody>
           </table>
+        </Box> */}
+                <Box
+          className="salesReporttableWeb"
+          sx={{ paddingBottom: "5px", paddingRight: "15px" }}
+        >
+          <table style={{minWidth:'850px'}}>
+            <tbody>
+              <tr>
+                <td>Total Gross Wt</td>
+                <td>Total Net Wt(24k)</td>
+                <td>Total Net Wt</td>
+                <td>Total Diamonds</td>
+                <td>Total Color Stones</td>
+                <td>Unique Designs</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.GrossWt, 3)}
+                </td>
+                <td className="fw_bold">
+                  {" "}
+                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                </td>
+                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                  {NumberWithCommas(total?.CsWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.uniqueDesigns, 0)}
+                </td>
+                <td className="fw_bold">
+                  1
+                </td>
+              </tr>
+              <tr>
+                {/* <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td> */}
+                {/* <td>Unique Customers</td> */}
+              </tr>
+              <tr>
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">1</td> */}
+              </tr>
+              {/* <tr>
+                <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td>
+                <td className="fw_bold">1</td>
+              </tr> */}
+            </tbody>
+          </table>
         </Box>
-        <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
-        </Box>
+        </Box> */}
         <Box
           className="salesReportImgSec"
           sx={{
@@ -976,7 +1071,7 @@ const PendingMemo = () => {
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{row.MetalAmount}</TableCell>
+                        {/* <TableCell align="center">{row.MetalAmount}</TableCell>
                         <TableCell align="center">
                           {row.DiamondAmount}
                         </TableCell>
@@ -985,7 +1080,7 @@ const PendingMemo = () => {
                         </TableCell>
                         <TableCell align="center">{row.LabourAmount}</TableCell>
                         <TableCell align="center">{row.OtherAmount}</TableCell>
-                        <TableCell align="center">{row.UnitCost}</TableCell>
+                        <TableCell align="center">{row.UnitCost}</TableCell> */}
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>

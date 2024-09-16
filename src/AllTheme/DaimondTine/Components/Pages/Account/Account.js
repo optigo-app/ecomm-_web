@@ -24,6 +24,7 @@ import YourProfile from './YourProfile/YourProfile';
 import ManageAddress from './ManageAddress/ManageAddress';
 import Plm from './PLM/PLM';
 import NewOrderHistoryDT from './OrderHistory/NewOrderHistoryDT';
+import PendingMemo from './PendingMemo/PendingMemo';
 
 
 function CustomTabPanel(props) {
@@ -217,6 +218,9 @@ export default function Account() {
                                             </CustomTabPanel>}
                                             {e?.id === 1314 && <CustomTabPanel value={value1} index={i} className="salesReport">
                                                 <SalesReport />
+                                            </CustomTabPanel>}
+                                            {e?.id === 18129 && <CustomTabPanel value={value1} index={i} className="salesReport">
+                                                <PendingMemo />
                                             </CustomTabPanel>}
                                             {e?.id === 17020 && <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport">
                                                 <DesignWiseSalesReport />
