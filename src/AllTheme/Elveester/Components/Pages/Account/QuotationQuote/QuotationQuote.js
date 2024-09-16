@@ -25,6 +25,8 @@ import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/q
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { headCells_Quotation as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
     return {
         SrNo,
@@ -78,57 +80,6 @@ const getComparator = (order, orderBy) => {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-
-const headCells = [
-    {
-        id: 'SrNo',
-        numeric: true,
-        disablePadding: false,
-        label: 'Sr#',
-        align: "center",
-        sortable:false
-    },
-    {
-        id: 'Date',
-        numeric: false,
-        disablePadding: false,
-        label: 'Date',
-        align: "center",
-        sortable:true
-    },
-    {
-        id: 'SKUNo',
-        numeric: false,
-        disablePadding: false,
-        label: 'SKU No',
-        align: "center",
-        sortable:true
-    },
-    {
-        id: 'TotalDesign',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Design',
-        align: "center",
-        sortable:true
-    },
-    {
-        id: 'Amount',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Amount',
-        align: "right",
-        sortable:true
-    },
-    {
-        id: 'Print',
-        numeric: false,
-        disablePadding: false,
-        label: 'Print',
-        align: "center",
-        sortable:false
-    },
-];
 
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =

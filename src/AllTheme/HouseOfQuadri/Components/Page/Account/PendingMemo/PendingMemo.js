@@ -35,6 +35,8 @@ import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/sale
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getMemoReturnData } from "../../../../../../utils/API/AccountTabs/MemoReturn";
 
+import { headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 function createData(
   SrNo,
   EntryDate,
@@ -180,112 +182,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-const headCells = [
-  {
-    id: "SrNo",
-    numeric: true,
-    disablePadding: false,
-    label: "Sr#",
-    align: "center",
-    minWidth: 100,
-  },
-  {
-    id: "EntryDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Entry Date",
-    align: "center",
-    minWidth: 130,
-  },
-  {
-    id: "StockDocumentNo",
-    numeric: false,
-    disablePadding: false,
-    label: "Stock DocumentNo",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "SKUNo",
-    numeric: false,
-    disablePadding: false,
-    label: "SKU No",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "designno",
-    numeric: false,
-    disablePadding: false,
-    label: "designno",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalType",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalType",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "Category",
-    numeric: false,
-    disablePadding: false,
-    label: "Category",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "GrossWt",
-    numeric: false,
-    disablePadding: false,
-    label: "GrossWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "NetWt",
-    numeric: false,
-    disablePadding: false,
-    label: "NetWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "Dia Pcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaWt",
-    numeric: false,
-    disablePadding: false,
-    label: "DiaWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "CsPcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsWt",
-    numeric: false,
-    disablePadding: false,
-    label: "CsWt",
-    align: "center",
-    minWidth: 110,
-  },
-];
 
 function EnhancedTableHead(props) {
   const {
