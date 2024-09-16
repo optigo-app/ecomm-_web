@@ -26,12 +26,11 @@ import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
-import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(1)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
