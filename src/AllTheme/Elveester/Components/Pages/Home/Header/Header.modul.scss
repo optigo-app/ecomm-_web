@@ -8,7 +8,6 @@
     z-index: 11;
     background-color: white;
     height: auto; //chnages    80px
-    min-height: 80px;
 
     .el_withoutL_Header_Main {
         display: flex;
@@ -54,8 +53,9 @@
         list-style: none;
         width: 100%;
         padding: 0px;
-        align-items: center;
         margin: 0;
+        height: 80px;
+        margin-bottom: 0.3rem;
     }
 
     .el_withoutL_ul_Main_side {
@@ -70,8 +70,9 @@
     .el_whioutL_headerDiv1 {
         width: 44%;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-end;
+        margin-bottom: 0.7rem;
     }
 
     .el_whioutL_headerDiv2 {
@@ -79,7 +80,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-inline: 4%;
+        // margin-inline: 2%;
+        margin-bottom: 0.5rem;
     }
 
     .el_whioutL_headerDiv2_side {
@@ -93,7 +95,8 @@
         width: 44%;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
+        margin-bottom: 0.7rem;
     }
 
     .el_whioutL_headerDiv3_side {
@@ -105,7 +108,7 @@
 
     .el_without_headerLogo {
         max-width: 1000px;
-        margin-top: 0.5rem;
+        // margin-top: 0.5rem;
         object-fit: contain;
     }
 
@@ -120,7 +123,8 @@
     }
 
     .el_whioutL_li {
-        margin-inline: 15px;
+        margin-inline: 20px;
+        font-size: 15px;
     }
 
     .el_login_header_main {
@@ -486,7 +490,7 @@
                 border: none;
                 border-bottom: 1px solid black;
                 background-color: #ffffff;
-                width: 80vw;
+                width: 92vw;
 
                 &:focus {
                     outline: none;
@@ -535,7 +539,7 @@
                 border: none;
                 border-bottom: 1px solid black;
                 background-color: #F9FAFB;
-                width: 70vw;
+                width: 90vw;
 
                 &:focus {
                     outline: none;
@@ -636,7 +640,7 @@
                 border: none;
                 border-bottom: 1px solid black;
                 background-color: #ffffff;
-                width: 60vw;
+                width: 86vw;
 
                 &:focus {
                     outline: none;

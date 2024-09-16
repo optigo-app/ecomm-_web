@@ -21,6 +21,21 @@ const ConfirmationPage = () => {
     navigate('/')
   }
 
+  useEffect(() => {
+    const handlePopState = (event) => {
+      const orderNumber = sessionStorage.getItem("orderNumber");
+      const newUrl = `/Confirmation?orderId=${orderNumber}`;
+      window.history.replaceState(null, '', newUrl);
+      navigate("/", { replace: true });
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [location?.pathname.includes('Confirmation')]);
+
   return (
     <div className='elv_confirMaindiv'>
       <div className='elv_confirSecondMaindiv'>

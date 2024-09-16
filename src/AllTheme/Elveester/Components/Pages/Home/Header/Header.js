@@ -37,10 +37,12 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [mobilelogo, setMobileLogo] = useState(null);
   const inputRef = useRef(null);
 
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
   const isDesktopResp = useMediaQuery('(max-width:1650px)');
+  const isMobile = useMediaQuery('(max-width:425px)');
 
   useEffect(() => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
@@ -65,6 +67,7 @@ const Header = () => {
       setStoreInit(storeData);
       const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
       setCompanyTitleLogo(storeInit?.companylogo);
+      setMobileLogo(storeInit?.companyMlogo)
       console.log(storeInit?.companylogo);
       window.scroll({ behavior: "smooth", top: 0 });
     } catch (error) {
@@ -80,6 +83,40 @@ const Header = () => {
         return
       }
     }, 600)
+  }, []);
+
+  useEffect(() => {
+    let interval;
+    const checkStoreInit = () => {
+      try {
+        const storeInit = sessionStorage.getItem("storeInit");
+        if (storeInit) {
+          const parsedData = JSON.parse(storeInit);
+          setCompanyTitleLogo(parsedData?.companylogo);
+          setMobileLogo(parsedData?.companyMlogo)
+          window.scroll({ behavior: "smooth", top: 0 });
+          console.log(parsedData,"avaiable");
+
+          if (interval) {
+            clearInterval(interval);
+          }
+        }
+      } catch (error) {
+        console.error('Error parsing storeInit:', error);
+
+        if (interval) {
+          clearInterval(interval);
+        }
+      }
+    };
+
+    checkStoreInit();
+    interval = setInterval(checkStoreInit, 1000); 
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -473,7 +510,7 @@ const Header = () => {
                     <a href="/">
                       {titleImg && (
                         <img
-                          src={titleImg}
+                          src={isMobile ? mobilelogo : titleImg}
                           alt="Title"
                           className="el_without_headerLogo_side"
                         />
@@ -529,7 +566,7 @@ const Header = () => {
                     <a href='/'>
                       {titleImg && (
                         <img
-                          src={titleImg}
+                          src={isMobile ? mobilelogo : titleImg}
                           alt="Title"
                           className="el_without_headerLogo"
                         />
@@ -598,7 +635,7 @@ const Header = () => {
                   >
                     {titleImg && (
                       <img
-                        src={titleImg}
+                        src={isMobile ? mobilelogo : titleImg}
                         alt="Title"
                         className="el_login_header_main_div1_logo"
                       />
@@ -689,7 +726,7 @@ const Header = () => {
               >
                 {titleImg && (
                   <img
-                    src={titleImg}
+                    src={isMobile ? mobilelogo : titleImg}
                     alt="Title"
                     className="el_login_header_main_div1_logo"
                   />

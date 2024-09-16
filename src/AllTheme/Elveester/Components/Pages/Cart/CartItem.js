@@ -166,7 +166,11 @@ const CartItem = ({
           border: isSelectedItems ? '1px solid brown' : '1px solid #e1e1e1'
         }}
       >
-
+        {item?.StockId != 0 &&
+          <div className="elv_inStockbadgeDiv">
+            <span className="elv_inStockbadgeSpan">In Stock</span>
+          </div>
+        }
         <div className='elv_cardImage_div' >
           <img className='elv_cardImage_img' src={imageSrc} alt=""
             onClick={() => {
@@ -178,7 +182,9 @@ const CartItem = ({
         <div className='elv_ProductCard_details'>
           <div className={`elv_Product_details ${mobileScreen && item?.Remarks !== '' ? 'with-remarks' : ''}`}>
             <div>
-              <span className='elv_ProdDesignno'>{item?.designno}</span>
+              <span className='elv_ProdDesignno'>{item?.designno}&nbsp;{item?.StockNo != "" &&
+                <span className='smr_DesignNoTExt'>({item?.StockNo})</span>
+              }</span>
               <div className='elv_ProdWeights_div'>
                 <div className='elv_ProdWt1_div'>
                   <div>

@@ -25,10 +25,11 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
+import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(1)
+  const [themeNo, setThemeNo] = useState(3)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
@@ -103,10 +104,11 @@ export default function ThemeRoutes() {
             if (response?.data?.Data) {
               callAllApi(response?.data?.Data);
             }
-
             let title = response?.data?.Data?.rd[0]?.companyname;
+            let title1 = response?.data?.Data?.rd[0]?.BrowserTitle;
+            // let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
-            setTitle(title);
+            setTitle(title1);
             setFavIcon(favIcon);
             window.scrollTo({
               top: 0,
@@ -120,7 +122,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       // setThemeNo(SessionData?.Themeno);
-      setThemeNo(1);
+      setThemeNo(3);
     }
     // .finally(() => setLoading(false));
   }, []);
@@ -194,8 +196,21 @@ export default function ThemeRoutes() {
           <title>{title}</title>
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <meta name="description" content={title} />
-          <link rel="apple-touch-icon" href={favicon} />
-          <link rel="manifest" href={favicon} />
+          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
+
+          {/* Apple Touch Icon */}
+          <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
+
+          {/* Android Chrome Icons */}
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/android-chrome-192x192`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/android-chrome-512x512`} />
+
+          {/* Microsoft Tile Icons */}
+          {/* <meta name="msapplication-TileColor" content="#ffffff" /> */}
+          {/* <meta name="msapplication-TileImage" content="/mstile-150x150.png" /> */}
+
+          {/* Safari Pinned Tab Icon */}
+          <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />

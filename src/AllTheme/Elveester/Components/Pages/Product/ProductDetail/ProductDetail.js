@@ -26,6 +26,7 @@ import { StockItemApi } from '../../../../../../utils/API/StockItemAPI/StockItem
 import { DesignSetListAPI } from '../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI';
 import DesignSet from './DesignSet/DesignSet';
 import Stockitems from './InstockProduct/Stockitems';
+import { SaveLastViewDesign } from '../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign';
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
@@ -64,6 +65,8 @@ const ProductDetail = () => {
   const [wishListFlag, setWishListFlag] = useState(null);
   const [isDataFound, setIsDataFound] = useState(false)
   const location = useLocation();
+  const [saveLastView, setSaveLastView] = useState();
+  console.log('saveLastView: ', saveLastView);
 
   let cookie = Cookies.get('visiterId')
 
@@ -109,6 +112,12 @@ const ProductDetail = () => {
   }, [maxWidth1400px, maxWidth1000px])
 
   // API Integration
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleText = () => {
+    setIsExpanded(prevState => !prevState);
+  };
 
 
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
@@ -160,8 +169,8 @@ const ProductDetail = () => {
       autocode: singleProd?.autocode,
       Metalid: metal?.Metalid,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -228,8 +237,8 @@ const ProductDetail = () => {
       autocode: singleProd?.autocode,
       Metalid: metal?.Metalid,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -302,32 +311,32 @@ const ProductDetail = () => {
         let diaArr
         let csArr
 
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0]
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
-            )[0] ?? diaQcLocal[0];
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
+            )[0]
         }
 
         if (csQcLocal?.length) {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId == (decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
-
-
 
         setMetalType(metalArr?.metaltype);
 
@@ -530,6 +539,11 @@ const ProductDetail = () => {
                   setDesignSetList(res?.Data?.rd)
                 }).catch((err) => console.log("designsetErr", err))
               }
+
+              await SaveLastViewDesign(cookie, resp?.pdList[0]?.autocode, resp?.pdList[0]?.designno).then((res) => {
+                setSaveLastView(res?.Data?.rd)
+              }).catch((err) => console.log("saveLastView", err))
+
             }
 
             let initialsize = (
@@ -933,6 +947,10 @@ const ProductDetail = () => {
     let csArr;
     let size;
 
+    const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
+    const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+    const csQcLocal = JSON.parse(sessionStorage.getItem('ColorStoneQualityColorCombo'));
+
     if (type === 'mt') {
       metalArr = mTypeLocal?.find((ele) => {
         return ele?.metaltype === e.target.value
@@ -950,11 +968,13 @@ const ProductDetail = () => {
       setSelectDiaQc(e.target.value)
     }
     if (type === 'cs') {
-      csArr = csQcLocal.find((ele) => {
-        return ele?.Quality === e.target.value?.split(',')[0] &&
-          ele?.color === e.target.value?.split(",")[1]
-      })
       setSelectCsQC(e.target.value)
+      csArr =
+        csQcLocal?.filter(
+          (ele) =>
+            ele?.Quality == e.target.value?.split(",")[0] &&
+            ele?.color == e.target.value?.split(",")[1]
+        )[0]
     }
     if (type === "size") {
       setSizeData(e.target.value)
@@ -987,9 +1007,9 @@ const ProductDetail = () => {
     }
 
     let obj = {
-      mt: metalArr,
-      diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-      csQc: `${csArr?.QualityId},${csArr?.ColorId}`
+      mt: metalArr ?? 0,
+      diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
+      csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`
     }
 
 
@@ -1537,6 +1557,19 @@ const ProductDetail = () => {
                           <div className='elv_ProductDet_prod_text_div_max1000'>
                             <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
                           </div>
+                          {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
+                            <>
+                              <hr className='elv_ProductDet_divider' />
+                              <div className={`elv_prod_description ${isExpanded ? 'show-more' : ''}`}>
+                                <p className="description-text">
+                                  {(singleProd1?.description ?? singleProd?.description)}
+                                </p>
+                                <span className="toggle-text" onClick={toggleText}>
+                                  {isExpanded ? 'Read Less' : 'Read More'}
+                                </span>
+                              </div>
+                            </>
+                          )}
                         </div>
                         <hr className='elv_ProductDet_divider' />
                       </div>
@@ -1885,7 +1918,7 @@ const ProductDetail = () => {
                           </div>
                         )}
 
-                      <div className='elv_ProductDet_prod_price'>
+                      {storeInit?.IsPriceShow == 1 && <div className='elv_ProductDet_prod_price'>
                         <span className='elv_ProductDet_prod_price_1'>
                           {
                             <span
@@ -1901,7 +1934,7 @@ const ProductDetail = () => {
                               <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                           }
                         </span>
-                      </div>
+                      </div>}
                       <div className='elv_ProductDet_prod_addtocart'>
                         <div className='elv_ProductDet_cart_div'>
                           <button onClick={() => handleCart(!addToCardFlag)} className='elv_ProductDet_cart'>{addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}</button>
@@ -1954,6 +1987,19 @@ const ProductDetail = () => {
                         <div>
                           <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
                         </div>
+                        {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
+                          <>
+                            <hr className='elv_ProductDet_divider' />
+                            <div className={`elv_prod_description ${isExpanded ? 'show-more' : ''}`}>
+                              <p className="description-text">
+                                {(singleProd1?.description ?? singleProd?.description)}
+                              </p>
+                              <span className="toggle-text" onClick={toggleText}>
+                                {isExpanded ? 'Read Less' : 'Read More'}
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
                       <hr className='elv_ProductDet_divider' />
                     </div>
@@ -2302,7 +2348,7 @@ const ProductDetail = () => {
                           )}
                         </div>
                       )}
-                    <div className='elv_ProductDet_prod_price'>
+                    {storeInit?.IsPriceShow == 1 && <div className='elv_ProductDet_prod_price'>
                       <span className='elv_ProductDet_prod_price_1'>
                         {
                           <span
@@ -2318,7 +2364,7 @@ const ProductDetail = () => {
                             <span style={{ marginInline: "0.3rem" }}>{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                         }
                       </span>
-                    </div>
+                    </div>}
                     <div className='elv_ProductDet_prod_addtocart'>
                       <div className='elv_ProductDet_cart_div'>
                         <button onClick={() => handleCart(!addToCardFlag)} className='elv_ProductDet_cart'>{addToCardFlag === false ? "ADD TO CART" : "REMOVE FROM CART"}</button>
@@ -2357,21 +2403,21 @@ const ProductDetail = () => {
         {diaList?.length > 0 && (
           <>
             <div>
-              <TableComponents list={diaList} details={'Diamond Details'} />
+              <TableComponentsDia list={diaList} details={'Diamond Details'} />
             </div>
           </>
         )}
         {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
           <>
             <div style={{ marginTop: '1.5rem' }}>
-              <TableComponents list={csList} details={'Color Stone Details'} />
+              <TableComponentsMISC list={csList} details={'Color Stone Details'} />
             </div>
           </>
         )}
         {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
           <>
             <div style={{ marginTop: '1.5rem' }}>
-              <TableComponents list={csList} details={'MISC Details'} />
+              <TableComponentsMISC list={csList} details={'MISC Details'} />
             </div>
           </>
         )}
@@ -2419,7 +2465,7 @@ const ProductDetail = () => {
 
 export default ProductDetail
 
-const TableComponents = ({ list, details }) => {
+const TableComponentsDia = ({ list, details }) => {
 
   const pcsTotalVal = [];
   const wtTotalVal = [];
@@ -2438,15 +2484,7 @@ const TableComponents = ({ list, details }) => {
       <ul class='elv_ProductDet_diaDet'>
         <li>
           <div>
-            {details.includes('MISC') ? (
-              <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}gm)</span>
-              </>
-            ) : (
-              <>
-                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
-              </>
-            )}
+            <span>{details}</span> <span>({pcsTotalVal[0]?.total}&nbsp;{wtTotalVal[0]?.total}ct)</span>
           </div>
         </li>
       </ul>
@@ -2469,6 +2507,88 @@ const TableComponents = ({ list, details }) => {
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
               </tr>
             ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+
+}
+const TableComponentsMISC = ({ list, details }) => {
+
+  const pcsTotalVal = [];
+  const wtTotalVal = [];
+  const pcsTotalVal1 = [];
+  const wtTotalVal1 = [];
+
+  const getTotalPcs = list?.filter((ele) => ele?.D !== "MISC")?.reduce((total, pcs) => total + pcs?.M, 0)
+  pcsTotalVal.push({
+    total: getTotalPcs
+  })
+  const getTotalWt = list?.filter((ele) => ele?.D !== "MISC")?.reduce((total, WT) => total + WT?.N, 0)
+  wtTotalVal.push({
+    total: getTotalWt.toFixed(3)
+  })
+  const getTotalPcs1 = list?.filter((ele) => ele?.D == "MISC")?.reduce((total, pcs) => total + pcs?.M, 0)
+  pcsTotalVal1.push({
+    total: getTotalPcs1
+  })
+  const getTotalWt1 = list?.filter((ele) => ele?.D == "MISC")?.reduce((total, WT) => total + WT?.N, 0)
+  wtTotalVal1.push({
+    total: getTotalWt1.toFixed(3)
+  })
+
+  return (
+    <>
+      <ul class='elv_ProductDet_diaDet'>
+        <li>
+          <div>
+            {details.includes('MISC') ? (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}&nbsp;{wtTotalVal1[0]?.total}gm)</span>
+              </>
+            ) : (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}&nbsp;{wtTotalVal[0]?.total}ct)</span>
+              </>
+            )}
+          </div>
+        </li>
+      </ul>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead className='elv_ProductDet_weight_names' style={{ color: '#7d7f85', fontWeight: '600', textDecoration: 'underline' }}>
+            <tr style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <th style={{ flex: '1' }}>Shape</th>
+              <th style={{ flex: '1' }}>Clarity</th>
+              <th style={{ flex: '1' }}>Color</th>
+              <th style={{ flex: '1' }}>Pcs/wt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {details.includes('MISC') ? (
+              <>
+                {list?.filter((ele) => ele?.D === 'MISC')?.map((val, i) => (
+                  <tr key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
+                  </tr>
+                ))}
+              </>
+            ) : (
+              <>
+                {list?.filter((ele) => ele?.D !== 'MISC')?.map((val, i) => (
+                  <tr key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
+                  </tr>
+                ))}
+              </>
+            )}
           </tbody>
         </table>
       </div>

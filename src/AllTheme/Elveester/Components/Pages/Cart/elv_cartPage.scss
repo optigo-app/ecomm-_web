@@ -675,6 +675,20 @@
 
     }
 
+    .elv_inStockbadgeDiv {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+
+        .elv_inStockbadgeSpan {
+            background-color: #0BDA51;
+            color: black;
+            font-size: 12px;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    }
+
     // cart list item css(left side)
 
     .elvMo_cartListCard {

@@ -74,6 +74,12 @@ const CartPage = () => {
   const isMobileResp1 = useMediaQuery('(max-width:800px)');
   const isMobileResp2 = useMediaQuery('(max-width:600px)');
   const isMobileResp3 = useMediaQuery('(max-width:425px)');
+  const [storeinit, setStoreInit] = useState();
+
+  useEffect(() => {
+    const data = JSON.parse(sessionStorage.getItem('storeInit'));
+    setStoreInit(data)
+  }, [])
 
   const getTotalPrice = [];
   const totalPrice = cartData?.reduce((total, item) => total + item?.FinalCost, 0)
@@ -257,15 +263,17 @@ const CartPage = () => {
                           <Box sx={modalStyle}>
                             <span className="elv_total_price_title">
                               Total Price: &nbsp;
-                              <span>
-                                <span
-                                  style={{ fontWeight: 'bold' }}
-                                  className="elv_currencyFont"
-                                >
-                                  {loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode}
+                              {storeinit?.IsPriceShow == 1 && (
+                                <span>
+                                  <span
+                                    style={{ fontWeight: 'bold' }}
+                                    className="elv_currencyFont"
+                                  >
+                                    {loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode}
+                                  </span>
+                                  &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
                                 </span>
-                                &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
-                              </span>
+                              )}
                             </span>
                             <div className="elv_Cartblock_rows_2" >
                               <span className="elv_items_title">
@@ -282,18 +290,20 @@ const CartPage = () => {
                       <div className="elv_Cartblock_rows_1" >
                         <span className="elv_total_price_title">
                           {isMobileResp1 ? 'Price:' : '' || isMobileResp2 ? '' : 'Total Price:'}&nbsp;
-                          <span>
-                            <span
-                              style={{ fontWeight: 'bold' }}
-                              className="elv_currencyFont"
-                              dangerouslySetInnerHTML={{
-                                __html: decodeEntities(
-                                  loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode
-                                ),
-                              }}
-                            />
-                            &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
-                          </span>
+                          {storeinit?.IsPriceShow == 1 && (
+                            <span>
+                              <span
+                                style={{ fontWeight: 'bold' }}
+                                className="elv_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    loginInfo?.CurrencyCode ?? CurrencyData?.CurrencyCode
+                                  ),
+                                }}
+                              />
+                              &nbsp;<span style={{ fontWeight: 'bold' }}>{formatter(getTotalPrice[0]?.total)}</span>
+                            </span>
+                          )}
                         </span>
                       </div>
                       <div className="elv_Cartblock_rows_2" >
