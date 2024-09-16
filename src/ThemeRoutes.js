@@ -24,7 +24,7 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet} from "react-helmet";
 
 export default function ThemeRoutes() {
 
@@ -63,8 +63,6 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            // setThemeNo(1);
-
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -194,7 +192,6 @@ export default function ThemeRoutes() {
   return (
     <>
       <div>
-        <HelmetProvider>
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={title} />
@@ -221,9 +218,13 @@ export default function ThemeRoutes() {
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
           </Helmet>
-        </HelmetProvider>
       </div>
-      {/* <SmilingRock_App /> */}
+
+      {/* <Procatalog_App /> */}
+
+      {/* {themeNo === 6 && <Procatalog_App />} */}
+
+      <SmilingRock_App />
 
       {themeNo === 1 && <SmilingRock_App />}
 

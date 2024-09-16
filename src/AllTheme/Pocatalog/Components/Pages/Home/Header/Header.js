@@ -140,7 +140,6 @@ const Header = () => {
     Cookies.remove("userLoginCookie");
     window.location.reload();
     sessionStorage.setItem("LoginUser", false);
-    sessionStorage.removeItem("storeInit");
     sessionStorage.removeItem("loginUserDetail");
     sessionStorage.removeItem("remarks");
     sessionStorage.removeItem("selectedAddressId");
