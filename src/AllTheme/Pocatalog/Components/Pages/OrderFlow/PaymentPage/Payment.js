@@ -13,9 +13,11 @@ import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/Or
 import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
+    const [isPloding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
@@ -72,6 +74,7 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             try {
                 const texData = await fetchEstimateTax();
@@ -80,6 +83,8 @@ const Payment = () => {
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally {
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
@@ -106,7 +111,7 @@ const Payment = () => {
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
-            navigate('/Confirmation',{replace  :true});
+            navigate('/Confirmation', { replace: true });
             setIsloding(false);
             sessionStorage.removeItem("orderRemark")
 
@@ -187,35 +192,39 @@ const Payment = () => {
                             {storeInit?.IsPriceShow == 1 &&
                                 <>
                                     <h3>Order Summary</h3>
-                                    <div class="proCat_order-summary">
-                                        <div class="proCat_summary-item">
-                                            <div class="proCat_label">Subtotal</div>
-                                            <div class="proCat_value">
-                                                <span className="proCat_currencyFont">
-                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(finalTotal)}</span>
+                                    {!isPloding ? (
+                                        <div class="proCat_order-summary">
+                                            <div class="proCat_summary-item">
+                                                <div class="proCat_label">Subtotal</div>
+                                                <div class="proCat_value">
+                                                    <span className="proCat_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(finalTotal)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="proCat_summary-item">
+                                                <div class="proCat_label">Estimated Tax</div>
+                                                <div class="proCat_value">
+                                                    <span className="proCat_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                            <div class="proCat_summary-item">
+                                                <div class="proCat_label">Estimated Total</div>
+                                                <div class="proCat_value">
+                                                    <span className="proCat_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="proCat_summary-item">
-                                            <div class="proCat_label">Estimated Tax</div>
-                                            <div class="proCat_value">
-                                                <span className="proCat_currencyFont">
-                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                            </div>
-                                        </div>
-                                        <div class="proCat_summary-item">
-                                            <div class="proCat_label">Estimated Total</div>
-                                            <div class="proCat_value">
-                                                <span className="proCat_currencyFont">
-                                                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>&nbsp;
-                                                <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ) :
+                                        <Skeleton className='proCat_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    }
                                 </>
                             }
                             <div className='proCat_shippingAddress'>
