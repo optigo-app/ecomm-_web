@@ -220,10 +220,11 @@ export default function ThemeRoutes() {
           </Helmet>
       </div>
 
-      <Procatalog_App />
+      {/* <Procatalog_App /> */}
+
       {/* {themeNo === 6 && <Procatalog_App />} */}
 
-      {/* <SmilingRock_App /> */}
+      <SmilingRock_App />
 
       {themeNo === 1 && <SmilingRock_App />}
 
