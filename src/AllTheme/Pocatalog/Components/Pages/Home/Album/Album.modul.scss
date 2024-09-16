@@ -19,6 +19,7 @@
 .proCat_AlbumImageMainPopup_img {
     width: 100%;
     object-fit: contain;
+    min-height: 200px;
 }
 
 .lock_icon {
@@ -73,6 +74,12 @@
 
     .pro_pressESCClose {
         display: none !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .proCat_albumName {
+        font-size: 12px !important;
     }
 }
 

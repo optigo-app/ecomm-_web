@@ -851,93 +851,23 @@ const PendingMemo = () => {
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box> */}
-        <Box
-          className="salesReportImgSec"
-          sx={{
-            width: "135px",
-            height: "135px",
-            paddingBottom: "20px",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              border: "1px solid #d6d6d6",
-              height: "117px",
-              marginTop: "17px",
-            }}
-          >
+        <Box className="salesReportImgSec" sx={{ width: "135px", height: "135px", paddingBottom: "20px", overflow: "hidden", }} >
+          <Box sx={{ border: "1px solid #d6d6d6", height: "117px", marginTop: "17px", }} >
             {hoverImg !== "" && (
-              <img
-                src={hoverImg}
-                alt=""
-                style={{
-                  width: "100%",
-                  objectFit: "contain",
-                  minHeight: "114px",
-                  maxHeight: "114px",
-                }}
-              />
+              <img src={hoverImg} alt="" style={{ width: "100%", objectFit: "contain", minHeight: "114px", maxHeight: "114px", }} />
             )}
           </Box>
         </Box>
       </Box>
       <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-        <Box
-          sx={{
-            paddingBottom: "15px",
-            position: "relative",
-            top: "-2px",
-            paddingRight: "15px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{ background: "#7d7f85" }}
-            className="muiSmilingRocksBtn"
-            onClick={(eve) => resetAllFilters(eve)}
-          >
+        <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "15px", }} >
+          <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
             All
           </Button>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            position: "relative",
-            maxWidth: "max-content",
-            paddingBottom: "15px",
-            paddingRight: "15px",
-          }}
-          className="searchbox"
-        >
-          <TextField
-            id="standard-basic"
-            label="Search"
-            variant="outlined"
-            value={searchVal}
-            onChange={(eve) => {
-              setSearchVal(eve?.target?.value);
-              handleSearch(
-                eve,
-                eve?.target?.value,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              );
-            }}
-          />
-          <Button
-            sx={{
-              padding: 0,
-              maxWidth: "max-content",
-              minWidth: "max-content",
-              position: "absolute",
-              right: "8px",
-              color: "#757575",
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", }} className="searchbox" >
+          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} >
             <SearchIcon />
           </Button>
         </Box>
@@ -1006,22 +936,8 @@ const PendingMemo = () => {
           <Button
             variant="contained"
             className="muiSmilingRocksBtn"
-            sx={{
-              padding: "7px 10px",
-              minWidth: "max-content",
-              background: "#7d7f85",
-            }}
-            onClick={(eve) =>
-              handleSearch(
-                eve,
-                searchVal,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              )
-            }
-          >
+            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85", }}
+            onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
             <SearchIcon sx={{ color: "#fff !important" }} />
           </Button>
         </Box>
@@ -1052,30 +968,14 @@ const PendingMemo = () => {
           <Button
             variant="contained"
             className="muiSmilingRocksBtn"
-            sx={{
-              padding: "7px 10px",
-              minWidth: "max-content",
-              background: "#7d7f85",
-            }}
-            onClick={(eve) =>
-              handleSearch(
-                eve,
-                searchVal,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              )
-            }
-          >
+            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
+            onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
             <SearchIcon sx={{ color: "#fff !important" }} />
           </Button>
         </Box>
       </Box>
       {isLoading ? (
-        <Box
-          sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }} >
           <CircularProgress className="loadingBarManage" />
         </Box>
       ) : (
@@ -1100,13 +1000,7 @@ const PendingMemo = () => {
                         tabIndex={-1}
                         key={row.id}
                         sx={{ cursor: "pointer" }}
-                        onMouseEnter={(eve) =>
-                          handleimageShow(eve, row?.imgsrc)
-                        }
-                        onMouseLeave={(eve) =>
-                          handleimageShow(eve, row?.imgsrc)
-                        }
-                      >
+                        onMouseEnter={(eve) => handleimageShow(eve, row?.imgsrc) } onMouseLeave={(eve) => handleimageShow(eve, row?.imgsrc) } >
                         <TableCell id={labelId} scope="row" align="center"> {index + 1} </TableCell>
                         <TableCell align="center">{row.EntryDate}</TableCell>
                         <TableCell align="center"> {row.StockDocumentNo} </TableCell>

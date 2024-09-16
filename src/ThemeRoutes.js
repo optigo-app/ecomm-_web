@@ -64,8 +64,6 @@ export default function ThemeRoutes() {
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
             setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            // setThemeNo(1);
-
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -229,7 +227,12 @@ export default function ThemeRoutes() {
           image={favicon}
         />
       </div>
-      {/* <SmilingRock_App /> */}
+
+      {/* <Procatalog_App /> */}
+
+      {/* {themeNo === 6 && <Procatalog_App />} */}
+
+      <SmilingRock_App />
 
       {themeNo === 1 && <SmilingRock_App />}
 

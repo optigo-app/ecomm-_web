@@ -89,9 +89,6 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
-
-  // console.log("SizeCombo",SizeCombo);
-
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
   // const [colorStoneFilterData, setColorStoneFiletrData] = useState([]);
@@ -104,18 +101,8 @@ const ProductDetail = () => {
 
   const [stockItemArr, setStockItemArr] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
-
   const [cartArr, setCartArr] = useState({})
-
-
   let cookie = Cookies.get('visiterId')
-
-  // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
-
-  // console.log("sizeData",sizeData)
-
-  // console.log("pdVideoArr", selectedThumbImg?.link ?? imageNotFound)
-
   const navigate = useNavigate()
 
   const setCSSVariable = () => {
@@ -185,8 +172,6 @@ const ProductDetail = () => {
         else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
       })[0];
 
-    console.log("selectMtColor", selectMtColor);
-
     let prodObj = {
       autocode: singleProd?.autocode,
       Metalid: metal?.length ? metal[0]?.Metalid : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
@@ -210,7 +195,6 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          // console.log("addtocart re", cartflag);
           setAddToCartFlag(cartflag);
         });
     } else {
@@ -223,7 +207,6 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          // console.log("rremovve add", cartflag);
           setAddToCartFlag(cartflag);
         });
     }
@@ -380,8 +363,6 @@ const ProductDetail = () => {
         // if(metalArr || diaArr || csArr || InitialSize){
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
-
-        // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     }, 500)
   }, [singleProd])
@@ -580,8 +561,6 @@ const ProductDetail = () => {
     }
   };
 
-  // console.log("sizeData",sizeData);
-
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
 
@@ -629,22 +608,14 @@ const ProductDetail = () => {
         )[0]
     }
 
-    // console.log("decodeobj",(diaArr))
-
-
     const FetchProductData = async () => {
-
       let obj = {
         mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
         diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
         csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       }
-
-      // console.log("objjj",obj)
       setProdLoading(true)
-
       setisPriceLoading(true)
-
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
@@ -662,7 +633,6 @@ const ProductDetail = () => {
             }
 
             if (!res?.pdList[0]) {
-              // console.log("singleprod",res?.pdList[0]);
               setisPriceLoading(false)
               setProdLoading(false)
               setIsDataFound(true)
@@ -679,19 +649,12 @@ const ProductDetail = () => {
               ? prod?.DefaultSize
               : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
                 ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-
             setSizeData(initialsize)
-
-            // await SingleFullProdPriceAPI(decodeobj).then((res) => {
-            //   setSingleProdPrice(res);
-            //   console.log("singlePrice", res);
-            // });
           }
           return res;
         }).then(async (resp) => {
           if (resp) {
             await getSizeData(resp?.pdList[0], cookie).then((res) => {
-              // console.log("Sizeres",res)
               setSizeCombo(res?.Data)
             }).catch((err) => console.log("SizeErr", err))
 
@@ -709,7 +672,6 @@ const ProductDetail = () => {
 
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
               await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
-                // console.log("designsetList",res?.Data?.rd[0])
                 setDesignSetList(res?.Data?.rd)
               }).catch((err) => console.log("designsetErr", err))
             }
@@ -726,10 +688,6 @@ const ProductDetail = () => {
     });
 
   }, [location?.key]);
-
-  console.log("locationKey", location?.key);
-
-  console.log("prodLoading",prodLoading);
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -878,13 +836,10 @@ const ProductDetail = () => {
       }
     }
 
-
     let IsColImg = false;
     if (colImg?.length > 0) {
       IsColImg = await checkImageAvailability(colImg)
     }
-
-    console.log("colImg", IsColImg)
 
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
@@ -904,8 +859,6 @@ const ProductDetail = () => {
     } else {
       finalprodListimg = imageNotFound;
     }
-
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -935,8 +888,6 @@ const ProductDetail = () => {
       }
     }
 
-    console.log("SearchData", singleProd);
-
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
       setSelectedThumbImg({ "link": FinalPdImgList[0], "type": 'img' });
@@ -965,8 +916,6 @@ const ProductDetail = () => {
 
       // setVision360(`${storeinitInside?.Vision360URL}${singleProd?.designno}`)
       setVision360(VisionLink)
-
-      //  console.log("checkurl",CheckUrl(`https://www.google.com/`))
 
     }
 
@@ -1286,12 +1235,9 @@ const ProductDetail = () => {
   const formatter = new Intl.NumberFormat('en-IN')
 
   const SizeSorting = (SizeArr) => {
-
     let SizeSorted = SizeArr?.sort((a, b) => {
       const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
       const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
-      console.log("SizeSorted",a?.sizename?.toUpperCase())
-
       return nameA - nameB;
     })
 
@@ -1306,8 +1252,6 @@ const ProductDetail = () => {
   //     setIsVisionShow(true)
   //   }
   // },[pdThumbImg,pdVideoArr])
-
-  console.log("ColorStone_Cost",isVisionShow);
 
   return (
     <>
@@ -1646,7 +1590,6 @@ const ProductDetail = () => {
                                 :
                                 null
                               }
-                              {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
                               {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
