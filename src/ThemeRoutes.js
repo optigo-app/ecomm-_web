@@ -62,8 +62,8 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
-            // setThemeNo(1);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(1);
 
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;

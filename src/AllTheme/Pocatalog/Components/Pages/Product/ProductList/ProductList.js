@@ -3308,7 +3308,7 @@ const ProductList = () => {
                                             )}
                                           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span>|</span>
+                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span>|</span>:""}
                                               <span className="smr_prod_wt">
                                                 <span className="smr_keys">
                                                   NWT:
@@ -3324,7 +3324,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span>|</span>
+                                               { (storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span>|</span>:""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     DWT:
@@ -3342,7 +3342,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span>|</span>
+                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1 )?<span>|</span>:""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     CWT:
@@ -3360,7 +3360,7 @@ const ProductList = () => {
                                         </div>
                                       </div>
                                       <div className="smr_prod_mtcolr_price">
-                                        <span className="smr_prod_metal_col">
+                                        {storeInit?.IsMetalTypeWithColor == 1 ? <span className="smr_prod_metal_col">
                                           {findMetalColor(
                                             productData?.MetalColorid
                                           )?.[0]?.metalcolorname.toUpperCase()}
@@ -3373,11 +3373,11 @@ const ProductList = () => {
                                                 productData?.MetalPurityid
                                             )[0]?.metaltype
                                           }
-                                        </span>
+                                        </span> :  ""}
                                         {
                                           storeInit?.IsPriceShow == 1 &&
                                           <>
-                                            <span>/</span>
+                                            {(storeInit?.IsPriceShow == 1 && storeInit?.IsMetalTypeWithColor == 1 )?<span>/</span>:""}
                                             <span className="smr_price">
                                               <span className="smr_currencyFont">
                                                 {loginUserDetail?.CurrencyCode ??
