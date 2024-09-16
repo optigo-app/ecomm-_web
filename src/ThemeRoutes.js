@@ -26,10 +26,11 @@ import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 import { Helmet } from "react-helmet";
 import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
+import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(1)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -82,7 +83,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -212,12 +213,15 @@ export default function ThemeRoutes() {
 
   return (
     <>
-
       <div>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={title} />
 
+          <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="icon" sizes="192x192" href={favicon} />
+          <link rel="icon" sizes="512x512" href={favicon} />
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <link rel="apple-touch-icon" href={favicon} />
           <link rel="icon" sizes="192x192" href={favicon} />
@@ -228,7 +232,16 @@ export default function ThemeRoutes() {
           <meta property="og:image" content={favicon} />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={window.location.href} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={title} />
+          <meta property="og:image" content={favicon} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={window.location.href} />
 
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={title} />
+          <meta name="twitter:image" content={favicon} />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={title} />
           <meta name="twitter:description" content={title} />
@@ -268,7 +281,8 @@ export default function ThemeRoutes() {
 
             {themeNo === 12 && <MalakanJewels_App />}
           </>
-        )}
+        )
+      }
     </>
 
   );

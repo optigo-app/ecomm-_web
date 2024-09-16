@@ -23,6 +23,8 @@ import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { headCells_Sales as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
     return {
         SrNo,
@@ -70,43 +72,6 @@ const getComparator = (order, orderBy) => {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-const headCells = [
-    {
-        id: 'SrNo',
-        numeric: true,
-        disablePadding: false,
-        label: 'Sr#',
-        align: "center"
-    },
-    {
-        id: 'Date',
-        numeric: false,
-        disablePadding: false,
-        label: 'OutWard Date',
-        align: "center"
-    },
-    {
-        id: 'StockDocumentNo',
-        numeric: false,
-        disablePadding: false,
-        label: 'Bill#',
-        align: "center"
-    },
-    {
-        id: 'Amount',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Amount',
-        align: "right"
-    },
-    {
-        id: 'Print',
-        numeric: true,
-        disablePadding: false,
-        label: 'Print',
-        align: "center"
-    },
-];
 
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =

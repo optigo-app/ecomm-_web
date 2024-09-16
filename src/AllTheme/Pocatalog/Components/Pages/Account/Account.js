@@ -18,7 +18,7 @@ import DesignWiseSalesReport from "./DesignWiseSalesReport/DesignWiseSalesReport
 import SalesReport from './SalesReport/SalesReport';
 import QuotationJob from './QuotationJob/QuotationJob';
 import QuotationQuote from './QuotationQuote/QuotationQuote';
-
+import PendingMemo from "./PendingMemo/PendingMemo";
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import NewOrderHistoryPC from './AccountOrderHistory/NewOrderHistoryPC';
 import Cookies from 'js-cookie';
@@ -223,6 +223,9 @@ export default function Account() {
                                             </CustomTabPanel>}
                                             {e?.id === 1314 && <CustomTabPanel value={value1} index={i} className="salesReport">
                                                 <SalesReport />
+                                            </CustomTabPanel>}
+                                            {e?.id === 18129 && <CustomTabPanel value={value1} index={i} className="salesReport">
+                                                <PendingMemo />
                                             </CustomTabPanel>}
                                             {e?.id === 17020 && <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport">
                                                 <DesignWiseSalesReport />

@@ -38,6 +38,8 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
 
+import { headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 function createData(
   SrNo,
   EntryDate,
@@ -182,162 +184,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-
-
-const headCells = [
-  {
-    id: "SrNo",
-    numeric: true,
-    disablePadding: false,
-    label: "Sr#",
-    align: "center",
-    minWidth: 100,
-  },
-  {
-    id: "EntryDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Entry Date",
-    align: "center",
-    minWidth: 130,
-  },
-  {
-    id: "StockDocumentNo",
-    numeric: false,
-    disablePadding: false,
-    label: "Stock DocumentNo",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "SKUNo",
-    numeric: false,
-    disablePadding: false,
-    label: "SKU No",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "designno",
-    numeric: false,
-    disablePadding: false,
-    label: "designno",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalType",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalType",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "MetalAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "MetalAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiamondAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "DiamondAmount",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "ColorStoneAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "ColorStone Amount",
-    align: "center",
-    minWidth: 185,
-  },
-  {
-    id: "LabourAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Labour Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "OtherAmount",
-    numeric: false,
-    disablePadding: false,
-    label: "Other Amount",
-    align: "center",
-    minWidth: 160,
-  },
-  {
-    id: "UnitCost",
-    numeric: false,
-    disablePadding: false,
-    label: "Unit Cost",
-    align: "center",
-    minWidth: 140,
-  },
-  {
-    id: "Category",
-    numeric: false,
-    disablePadding: false,
-    label: "Category",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "GrossWt",
-    numeric: false,
-    disablePadding: false,
-    label: "GrossWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "NetWt",
-    numeric: false,
-    disablePadding: false,
-    label: "NetWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "Dia Pcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "DiaWt",
-    numeric: false,
-    disablePadding: false,
-    label: "DiaWt",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsPcs",
-    numeric: false,
-    disablePadding: false,
-    label: "CsPcs",
-    align: "center",
-    minWidth: 110,
-  },
-  {
-    id: "CsWt",
-    numeric: false,
-    disablePadding: false,
-    label: "CsWt",
-    align: "center",
-    minWidth: 110,
-  },
-];
 
 function EnhancedTableHead(props) {
   const {
@@ -798,7 +644,96 @@ const PendingMemo = () => {
           className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table>
+          <table style={{minWidth:'850px'}}>
+            <tbody>
+              <tr>
+                <td>Total Gross Wt</td>
+                <td>Total Net Wt(24k)</td>
+                <td>Total Net Wt</td>
+                <td>Total Diamonds</td>
+                <td>Total Color Stones</td>
+                <td>Unique Designs</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.GrossWt, 3)}
+                </td>
+                <td className="fw_bold">
+                  {" "}
+                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                </td>
+                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                  {NumberWithCommas(total?.CsWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.uniqueDesigns, 0)}
+                </td>
+                <td className="fw_bold">
+                  1
+                </td>
+              </tr>
+              <tr>
+                {/* <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td> */}
+                {/* <td>Unique Customers</td> */}
+              </tr>
+              <tr>
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">1</td> */}
+              </tr>
+              {/* <tr>
+                <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td>
+                <td className="fw_bold">1</td>
+              </tr> */}
+            </tbody>
+          </table>
+          {/* <table>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
@@ -856,14 +791,14 @@ const PendingMemo = () => {
                 <td className="fw_bold">1</td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
         </Box>
-        <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
-        </Box>
+        </Box> */}
         <Box
           className="salesReportImgSec"
           sx={{
@@ -1131,7 +1066,7 @@ const PendingMemo = () => {
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{row.MetalAmount}</TableCell>
+                        {/* <TableCell align="center">{row.MetalAmount}</TableCell>
                         <TableCell align="center">
                           {row.DiamondAmount}
                         </TableCell>
@@ -1140,7 +1075,7 @@ const PendingMemo = () => {
                         </TableCell>
                         <TableCell align="center">{row.LabourAmount}</TableCell>
                         <TableCell align="center">{row.OtherAmount}</TableCell>
-                        <TableCell align="center">{row.UnitCost}</TableCell>
+                        <TableCell align="center">{row.UnitCost}</TableCell> */}
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>
