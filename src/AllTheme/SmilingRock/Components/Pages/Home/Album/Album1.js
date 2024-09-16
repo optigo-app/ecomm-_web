@@ -7,8 +7,8 @@ import './Album1.scss';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { loginState } from "../../../Recoil/atom";
-import { useRecoilValue } from "recoil";
+import { homeLoading, loginState } from "../../../Recoil/atom";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import imageNotFound from '../../../Assets/image-not-found.jpg';
 import Pako from 'pako';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
@@ -24,8 +24,10 @@ const Album1 = () => {
     const [storeInit, setStoreInit] = useState({});
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const isMobileScreen = useMediaQuery('(max-width:768px)');
+    const setLoadingHome = useSetRecoilState(homeLoading);
 
     useEffect(() => {
+        setLoadingHome(true);
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
         setStoreInit(data)
@@ -48,8 +50,8 @@ const Album1 = () => {
                 });
             },
             {
-                root: null, 
-                threshold: 0.5, 
+                root: null,
+                threshold: 0.5,
             }
         );
 
@@ -82,7 +84,7 @@ const Album1 = () => {
         } else {
             finalID = loginUserDetail?.id || '0';
         }
-
+        setLoadingHome(false);
         Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
             .then((response) => {
                 if (response?.Data?.rd) {

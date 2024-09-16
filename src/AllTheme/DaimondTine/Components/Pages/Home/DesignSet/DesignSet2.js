@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./DesignSet2.scss";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -10,14 +10,14 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import Cookies from 'js-cookie';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Link } from '@mui/material';
 import gradientColors from "../color.json"
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import { dt_loginState } from "../../../Recoil/atom";
+import { dt_homeLoading, dt_loginState } from "../../../Recoil/atom";
 
 const DesignSet2 = () => {
-
+  const designSetRef = useRef(null);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState();
   const [designSetList, setDesignSetList] = useState([]);
@@ -26,9 +26,39 @@ const DesignSet2 = () => {
   const islogin = useRecoilValue(dt_loginState);
   const [swiper, setSwiper] = useState(null);
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
+  const setLoadingHome =  useSetRecoilState(dt_homeLoading);
 
   useEffect(() => {
+    setLoadingHome(true);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            callAPI();
+            console.log("visble")
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.5,
+      }
+    );
 
+    if (designSetRef.current) {
+      observer.observe(designSetRef.current);
+    }
+    return () => {
+      if (designSetRef.current) {
+        observer.unobserve(designSetRef.current);
+      }
+    };
+
+
+  }, []);
+
+  const callAPI = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
     const { IsB2BWebsite } = storeInit;
@@ -51,10 +81,11 @@ const DesignSet2 = () => {
       .then((response) => {
         if (response?.Data?.rd) {
           setDesignSetList(response?.Data?.rd);
+          setLoadingHome(false);
         }
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -171,7 +202,7 @@ const DesignSet2 = () => {
   };
   return (
     <>
-      <div className="dt_DesignSet2MainDiv">
+      <div className="dt_DesignSet2MainDiv" ref={designSetRef}>
         {designSetList?.length !== 0 && (
           <>
             <div className='smr_DesignSetTitleDiv'>

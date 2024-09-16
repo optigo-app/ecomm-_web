@@ -21,11 +21,14 @@ import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
 import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { useRecoilValue } from "recoil";
+import { homeLoading } from "../../Recoil/atom";
 
 function Home() {
   const [localData, setLocalData] = useState();
   const [minHeight, setMinHeight] = useState("0px");
   const [htmlContent, setHtmlContent] = useState("");
+  const isLoadingHome = useRecoilValue(homeLoading);
 
   useEffect(() => {
     let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
@@ -64,65 +67,73 @@ function Home() {
   return (
     <>
       {htmlContent?.rd && htmlContent?.rd.length > 0 &&
-        <div className="smiling_home_index_main">
-          <div style={{ backgroundColor: "white" }}>
-            {htmlContent?.rd[0]?.Blockno == 1 && (
-              <div className="smiling_home_index_Submain">
-                <TopSection />
-                <TheDifference />
-                <PromotionBaner1 />
-                {localData?.IsHomeAlbum === 1 && <Album />}
-                {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
-                {localData?.IsHomeNewArrival === 1 && <NewArrival />}
-                {localData?.IsHomeTrending === 1 && <TrendingView />}
-                {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-                <BottomBanner />
-                <Footer />
-              </div>
-            )}
+        (
+          <div className="smiling_home_index_main">
+            <div style={{ backgroundColor: "white" }}>
+              {htmlContent?.rd[0]?.Blockno === 1 && (
+                <div className="smiling_home_index_Submain">
+                  <TopSection />
+                  <TheDifference />
+                  <PromotionBaner1 />
+                  {localData?.IsHomeAlbum === 1 && <Album />}
+                  {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
+                  {localData?.IsHomeNewArrival === 1 && <NewArrival />}
+                  {localData?.IsHomeTrending === 1 && <TrendingView />}
+                  {localData?.IsHomeDesignSet === 1 && <DesignSet />}
+                  <BottomBanner />
+                  <Footer />
+                </div>
+              )}
+            </div>
+            <div style={{ backgroundColor: "white" }}>
+              {htmlContent?.rd[0]?.Blockno === 2 && (
+                <div className="smiling_home_index_Submain">
+                  <TopSection />
+                  <TheDifference />
+                  <PromotionBaner2 />
+                  {htmlContent?.rd[0]?.IsHomeAlbum === 1 && <Album1 />}
+                  {htmlContent?.rd[0]?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+                  {htmlContent?.rd[0]?.IsHomeNewArrival === 1 && <NewArrival1 />}
+                  {htmlContent?.rd[0]?.IsHomeTrending === 1 && <TrendingView1 />}
+                  {htmlContent?.rd[0]?.IsHomeDesignSet === 1 && <DesignSet1 />}
+                  {isLoadingHome == true ?
+                    <div className="smrHome_loader_container">
+                      <div className="smrHome_loader"></div>
+                    </div>
+                    :
+                    <>
+                      <BottomBanner />
+                      <BrandsComponent />
+                      <Footer />
+                    </>
+                  }
+                </div>
+              )}
+            </div>
+            <div>
+              <p
+                style={{
+                  paddingBlock: "30px",
+                  margin: "0px",
+                  textAlign: "center",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  letterSpacing: "1px",
+                }}
+                onClick={() =>
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                BACK TO TOP
+              </p>
+            </div>
           </div>
-          <div style={{ backgroundColor: "white" }}>
-            {htmlContent?.rd[0]?.Blockno == 2 && (
-              <div className="smiling_home_index_Submain">
-                <TopSection />
-                <TheDifference />
-                <PromotionBaner2 />
-                {htmlContent?.rd[0]?.IsHomeAlbum == 1 && <Album1 />}
-                {/* <BestSellerSection1 /> */}
-                {htmlContent?.rd[0]?.IsHomeBestSeller == 1 && <BestSellerSection1 />}
-                {htmlContent?.rd[0]?.IsHomeNewArrival == 1 && <NewArrival1 />}
-                {htmlContent?.rd[0]?.IsHomeTrending == 1 && <TrendingView1 />}
-                {htmlContent?.rd[0]?.IsHomeDesignSet == 1 && <DesignSet1 />}
-                <BottomBanner />
-                <BrandsComponent />
-                <Footer />
-              </div>
-            )}
-          </div>
-          <div>
-            <p
-              style={{
-                paddingBlock: "30px",
-                margin: "0px",
-                textAlign: "center",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "13px",
-                fontWeight: 500,
-                letterSpacing: "1px",
-              }}
-              onClick={() =>
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                })
-              }
-            >
-              BACK TO TOP
-            </p>
-          </div>
-        </div>
-      }
+        )}
     </>
   );
 }

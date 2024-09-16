@@ -6,9 +6,9 @@
     width: 100%;
 }
 
-.festiveBox {
+.smr_festiveBox {
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 83% !important;
     transform: translate(-50%, -50%);
     text-align: center;
@@ -43,7 +43,7 @@
         flex-direction: column !important;
     }
 
-    .festiveBox {
+    .smr_festiveBox {
         position: static !important;
         background-color: #c0bbb1;
         top: 0;
@@ -59,7 +59,7 @@
         color: white !important;
     }
 
-    .festiveBox {
+    .smr_festiveBox {
         padding-top: 5px !important;
     }
 

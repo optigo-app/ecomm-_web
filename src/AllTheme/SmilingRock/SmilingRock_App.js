@@ -7,7 +7,7 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, loginState } from "./Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState } from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -50,6 +50,7 @@ const SmilingRock_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
 
   const setCSSVariable = () => {
@@ -97,11 +98,14 @@ const SmilingRock_App = () => {
     if (Logindata) {
       if (Logindata?.IsPLWOn == 1) {
         setCompanyTitleLogo(Logindata?.Private_label_logo);
+        setCompanyTitleLogoM()
       } else {
         setCompanyTitleLogo(logo?.companylogo);
+        setCompanyTitleLogoM(logo?.companyMlogo)
       }
     } else {
       setCompanyTitleLogo(logo?.companylogo);
+      setCompanyTitleLogoM(logo?.companyMlogo)
     }
   });
 
