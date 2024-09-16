@@ -1442,9 +1442,9 @@ const ProductDetail = () => {
                               </span>
                             </span> : null}
                             <span className="smr_prod_short_key">
-                              Net Wt :{" "}
+                              Dia. wt :{" "}
                               <span className="smr_prod_short_val">
-                                {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
+                                {(singleProd1?.Dwt ?? singleProd?.Dwt)?.toFixed(3)}
                               </span>
                             </span>
                           </div>

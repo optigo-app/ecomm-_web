@@ -90,20 +90,15 @@ const Header = () => {
         } else {
             finalID = loginUserDetail?.id || "0";
         }
-        console.log('store init menu callll....');
         await GetMenuAPI(finalID).then((response) => {
             setMenuData(response?.Data?.rd)
         }).catch((err) => console.log(err))
 
     }
 
-
-    //this useEffect for the top header fixed
-
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-        console.log('store init menu....', storeInit);
         if (storeinit?.IsB2BWebsite == 0) {
             getMenuApi();
             return;

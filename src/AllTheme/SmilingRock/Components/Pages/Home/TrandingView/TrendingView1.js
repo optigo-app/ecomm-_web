@@ -5,8 +5,8 @@ import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
-import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { homeLoading, loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 
 
@@ -29,6 +29,7 @@ const TrendingView1 = () => {
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
     const islogin = useRecoilValue(loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
+    const setLoadingHome =  useSetRecoilState(homeLoading);
 
     const isOdd = (num) => num % 2 !== 0;
 
@@ -44,6 +45,7 @@ const TrendingView1 = () => {
     };
 
     useEffect(() => {
+        setLoadingHome(true);
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -121,7 +123,7 @@ const TrendingView1 = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
-
+                setLoadingHome(false);
                 const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
                 const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
 
