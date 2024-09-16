@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
@@ -13,6 +13,7 @@ import Cookies from 'js-cookie';
 
 
 const TrendingView1 = () => {
+    const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
@@ -43,6 +44,64 @@ const TrendingView1 = () => {
     };
 
     useEffect(() => {
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAPI();
+                        console.log("visble")
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
+
+        if (trendingRef.current) {
+            observer.observe(trendingRef.current);
+        }
+        return () => {
+            if (trendingRef.current) {
+                observer.unobserve(trendingRef.current);
+            }
+        };
+
+
+        // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        // setStoreInit(storeinit)
+
+        // let data = JSON.parse(sessionStorage.getItem('storeInit'))
+        // setImageUrl(data?.DesignImageFol);
+        // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        // const visiterID = Cookies.get('visiterId');
+        // let finalID;
+        // if (storeInit?.IsB2BWebsite == 0) {
+        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        // } else {
+        //     finalID = loginUserDetail?.id || '0';
+        // }
+
+
+        // Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
+        //     if (response?.Data?.rd) {
+        //         setTrandingViewData(response?.Data?.rd);
+
+        //         const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
+        //         const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
+
+        //         // Setting states with the separated objects
+        //         setOddNumberObjects(oddNumbers);
+        //         setEvenNumberObjects(evenNumbers);
+        //     }
+        // }).catch((err) => console.log(err))
+    }, [])
+
+    const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
 
@@ -50,10 +109,9 @@ const TrendingView1 = () => {
         setImageUrl(data?.DesignImageFol);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        const IsB2BWebsite = storeInit?.IsB2BWebsite;
         const visiterID = Cookies.get('visiterId');
         let finalID;
-        if (IsB2BWebsite == 0) {
+        if (storeInit?.IsB2BWebsite == 0) {
             finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
         } else {
             finalID = loginUserDetail?.id || '0';
@@ -72,7 +130,8 @@ const TrendingView1 = () => {
                 setEvenNumberObjects(evenNumbers);
             }
         }).catch((err) => console.log(err))
-    }, [])
+
+    }
 
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
@@ -157,17 +216,15 @@ const TrendingView1 = () => {
         setRing4ImageChange(false)
     }
 
-    console.log('nnnnnnnnnnnnn', trandingViewData);
-
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {
         chunkedData.push(trandingViewData?.slice(i, i + 3));
     }
 
     return (
-        <>
+        <div ref={trendingRef}>
             {trandingViewData?.length != 0 &&
-                <div className='smr_mainTrending1Div'>
+                <div className='smr_mainTrending1Div' >
                     <div className='smr1_trending1TitleDiv'>
                         <span className='smr_trending1Title'>TRENDING</span>
                     </div>
@@ -245,7 +302,7 @@ const TrendingView1 = () => {
                     </div>
                 </div>
             }
-        </>
+        </div>
     );
 };
 
