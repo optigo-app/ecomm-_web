@@ -133,8 +133,6 @@ const Header = () => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
 
-    // console.log("callll");
-
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
@@ -284,8 +282,6 @@ const Header = () => {
         `page=${finalData.page ?? 1}`,
         `size=${finalData.size ?? 50}`,
       ].join("&");
-
-      // console.log("otherparamsUrl--", otherparamUrl);
 
       let menuEncoded = `${queryParameters}/${otherparamUrl}`;
       // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;

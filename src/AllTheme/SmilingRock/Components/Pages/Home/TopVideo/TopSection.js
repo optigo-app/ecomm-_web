@@ -13,7 +13,6 @@ const TopSection = () => {
   useEffect(() => {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
-    console.log("localDatalocalData", localData);
   }, []);
 
   const handleVideoLoad = () => {

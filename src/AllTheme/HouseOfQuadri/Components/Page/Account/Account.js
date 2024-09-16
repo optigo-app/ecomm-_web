@@ -115,7 +115,6 @@ export default function Account() {
   //     window.location.reload();
   // }
   const handleLogout = () => {
-    // console.log(loginState);
     setIsLoginState(false);
     Cookies.remove("userLoginCookie");
     sessionStorage.setItem("LoginUser", false);
@@ -140,10 +139,8 @@ export default function Account() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setisSticky(true);
-          console.log("yes")
         } else {
           setisSticky(false);
-          console.log("no")
         }
       });
     };

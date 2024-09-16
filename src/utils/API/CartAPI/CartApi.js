@@ -7,7 +7,6 @@ export const fetchCartDetails = async (visiterId) => {
     const data = JSON.parse(storedData);
     const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.id ?? 0;
     const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.userid ?? "";
-    const {FrontEnd_RegNo} = storeInit;
 
     let packageId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? storeInit?.PackageId : data?.PackageId ?? 0
     let laboursetid = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? storeInit?.pricemanagement_laboursetid : data?.pricemanagement_laboursetid ?? 0
@@ -20,7 +19,7 @@ export const fetchCartDetails = async (visiterId) => {
             PageNo: "1",
             PageSize: "1000",
             CurrRate: "1",
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+            FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}` ?? '',
             Customerid: `${customerId ?? ""}`,
             PackageId: packageId,
             Laboursetid:laboursetid,

@@ -94,11 +94,7 @@ const ProductList = () => {
   const [rollOverImgPd, setRolloverImgPd] = useState({})
   const [locationKey, setLocationKey] = useState()
   const [prodListType, setprodListType] = useState();
-
   const [sortBySelect, setSortBySelect] = useState();
-
-  const [totalProductCount, setTotalProductCount] = useState();
-
   const setCartCountVal = useSetRecoilState(CartCount)
   const setWishCountVal = useSetRecoilState(WishCount)
   const [diaFilterRange, setDiaFilterRange] = useState({})
@@ -106,18 +102,7 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
   const [isRollOverVideo, setIsRollOverVideo] = useState({});
-
   const [afterCountStatus, setAfterCountStatus] = useState(false);
-
-  const [value, setValue] = React.useState([]);
-
-  const getDiaRangeFilter = useRecoilValue(DiamondRangeArr)
-
-
-  // console.log("getDiaRangeFilter",getDiaRangeFilter)
-
-
-
   let cookie = Cookies.get('visiterId')
 
   const setCSSVariable = () => {
@@ -145,18 +130,8 @@ const ProductList = () => {
 
   }, [])
 
-
-  console.log("selectedMetalId",selectedMetalId)
-
-  // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
-
-  // console.log("rollOverImgPd",rollOverImgPd).
-
-
   // useEffect(()=>{
-
   //   let UrlVal =  location?.search.slice(1).split("/")
-
   //     let MenuVal = '';
   //     let MenuKey = '';
   //     let SearchVar = '';
@@ -317,15 +292,9 @@ const ProductList = () => {
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
-
     const fetchData = async () => {
-
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
       let UrlVal = location?.search.slice(1).split("/")
-
-      // console.log("URLVal", UrlVal);
-
       let MenuVal = '';
       let MenuKey = '';
       let SearchVar = '';
@@ -424,16 +393,12 @@ const ProductList = () => {
           if (res) {
             await FilterListAPI(productlisttype, cookie).then((res) => {
               setFilterData(res)
-
               let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
               let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
               let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
-
-              // console.log("diafilter",diafilter);
               setSliderValue([diafilter?.Min, diafilter?.Max])
               setSliderValue1([diafilter1?.Min, diafilter1?.Max])
               setSliderValue2([diafilter2?.Min, diafilter2?.Max])
-
               forWardResp1 = res
             }).catch((err) => console.log("err", err))
           }
@@ -668,8 +633,6 @@ const ProductList = () => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
-
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true)
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)

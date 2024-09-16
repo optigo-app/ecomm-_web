@@ -7,11 +7,7 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  companyLogo,
-  companyLogoM,
-  loginState,
-} from "./Components/Recoil/atom";
+import { companyLogo, loginState } from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -54,8 +50,7 @@ const SmilingRock_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
-  const [companyTitleLogoM, setCompanyTitleLogoM] =
-    useRecoilState(companyLogoM);
+  const [htmlContent, setHtmlContent] = useState("");
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -66,14 +61,12 @@ const SmilingRock_App = () => {
     );
   };
 
-  const [htmlContent, setHtmlContent] = useState("");
-
+ 
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
       .then((text) => {
         try {
-          // Parse the JSON data
           const jsonData = JSON.parse(text);
           setHtmlContent(jsonData);
         } catch (error) {
@@ -86,6 +79,16 @@ const SmilingRock_App = () => {
   }, []);
 
   useEffect(() => {
+    if (htmlContent) {
+      setLocalData((prevData) => ({
+        ...prevData,
+        Headerno: htmlContent?.rd[0]?.Headerno, 
+        BrowserTitle: htmlContent.BrowserTitle, 
+      }));
+    }
+  }, [htmlContent]);
+
+  useEffect(() => {
     setCSSVariable();
 
     let data = sessionStorage.getItem("storeInit");
@@ -96,11 +99,9 @@ const SmilingRock_App = () => {
         setCompanyTitleLogo(Logindata?.Private_label_logo);
       } else {
         setCompanyTitleLogo(logo?.companylogo);
-        setCompanyTitleLogoM(logo?.companyMlogo);
       }
     } else {
       setCompanyTitleLogo(logo?.companylogo);
-      setCompanyTitleLogoM(logo?.companyMlogo);
     }
   });
 
@@ -130,19 +131,20 @@ const SmilingRock_App = () => {
     setLocalData(localD);
   }, []);
 
+
   if (islogin === true) {
     const restrictedPaths = [
-      "/LoginOption",
-      "/ContinueWithEmail",
-      "/ContinueWithMobile",
-      "/LoginWithEmailCode",
-      "/LoginWithMobileCode",
-      "/ForgotPass",
-      "/LoginWithEmail",
-      "/register",
+      '/LoginOption',
+      '/ContinueWithEmail',
+      '/ContinueWithMobile',
+      '/LoginWithEmailCode',
+      '/LoginWithMobileCode',
+      '/ForgotPass',
+      '/LoginWithEmail',
+      '/register'
     ];
 
-    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
+    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
       return navigation("/");
     }
   }
@@ -153,12 +155,8 @@ const SmilingRock_App = () => {
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
       <div>
-        {htmlContent?.rd && htmlContent?.rd.length > 0 && (
-          <>
-            {htmlContent.rd[0].Headerno === 2 && <Header2 />}
-            {htmlContent.rd[0].Headerno === 1 && <Header />}
-          </>
-        )}
+        {localData?.Headerno == 1 && <Header />}
+        {localData?.Headerno == 2 && <Header2 />}
       </div>
       <Routes>
         <Route path="/" element={<Home />} />

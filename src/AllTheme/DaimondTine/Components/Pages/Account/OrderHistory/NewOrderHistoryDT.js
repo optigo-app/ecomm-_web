@@ -98,7 +98,6 @@ const NewOrderHistoryDT = () => {
         }
       }
     } catch (error) {
-      console.log(error);
       setLoaderOH(false);
       setOrderHistoryData([]);
     }

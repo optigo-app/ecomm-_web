@@ -61,11 +61,9 @@ const Header = () => {
       const value = JSON?.parse(sessionStorage?.getItem("LoginUser"));
       setislogin(value);
       const storeData = JSON?.parse(sessionStorage?.getItem('storeInit'));
-      console.log("jj", storeData)
       setStoreInit(storeData);
       const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
       setCompanyTitleLogo(storeInit?.companylogo);
-      console.log(storeInit?.companylogo);
       window.scroll({ behavior: "smooth", top: 0 });
     } catch (error) {
       console.log(error)

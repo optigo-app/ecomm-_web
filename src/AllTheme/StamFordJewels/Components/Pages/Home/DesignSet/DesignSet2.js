@@ -75,7 +75,6 @@ const DesignSet2 = () => {
   const parseDesignDetails = (details) => {
     try {
       let finalArr = JSON.parse(details);
-      console.log('kjdksjfkjsdjf', finalArr);
       return finalArr;
     } catch (error) {
       console.error("Error parsing design details:", error);
