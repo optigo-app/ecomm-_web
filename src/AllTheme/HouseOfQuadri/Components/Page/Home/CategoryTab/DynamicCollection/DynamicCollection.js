@@ -1301,6 +1301,28 @@ const DynamicCollection = () => {
     handelFilterClearAll();
   }, [location?.pathname || location?.search]);
 
+
+  const CustomLabel = ({ text  }) => (
+    <Typography
+      sx={{
+        fontFamily  :"Tenor Sans , sans-serif !important" ,
+        fontSize: {
+          xs: '14.2px !important',  // Mobile screens
+          sm: '16px !important',  // Tablets
+          md: '15.2px !important',  // Desktop screens
+          lg: '16px !important',  // Large desktops
+          xl: '16.4px !important'   // Extra large screens
+        }
+      }}
+    >
+      {text}
+    </Typography>
+  );
+  
+
+
+
+
   return (
     <>
       <div className="hoq_dynamic_Collections">
@@ -1693,7 +1715,7 @@ const DynamicCollection = () => {
                                       />
                                     }
                                     className="smr_mui_checkbox_label"
-                                    label={opt.Name}
+                                    label={ <CustomLabel text={opt.Name}/> }
                                   />
                                 </div>
                               ))}
@@ -1809,8 +1831,9 @@ const DynamicCollection = () => {
                                   //   fontFamily:'TT Commons Regular'
                                   // }}
                                   className="smr_mui_checkbox_label"
+                            
                                   label={
-                                    opt?.Minval == 0
+                                 <CustomLabel   text={opt?.Minval == 0
                                       ? `Under  ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
@@ -1828,7 +1851,7 @@ const DynamicCollection = () => {
                                         )} - ${decodeEntities(
                                           loginUserDetail?.CurrencyCode ??
                                             storeInit?.CurrencyCode
-                                        )}  ${formatter(opt?.Maxval)}`
+                                        )}  ${formatter(opt?.Maxval)}`} />
                                   }
                                 />
                               </div>
