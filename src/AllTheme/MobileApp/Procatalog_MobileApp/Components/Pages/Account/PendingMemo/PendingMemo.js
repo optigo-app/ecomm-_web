@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./PendingMemo.scss"
+import "./PendingMemoMapp.scss";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   CircularProgress,
@@ -31,14 +34,15 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
+import MobViewHeader from './../MobViewHeader/MobViewHeader';
 import { FaBullseye } from "react-icons/fa";
-import { NumberWithCommas, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
-import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
+import { getSalesReportData } from "../../../../../../../utils/API/AccountTabs/salesReport";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+import { headCells } from "../../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
 function createData(
   SrNo,
@@ -88,6 +92,15 @@ function createData(
   };
 }
 
+// function descendingComparator(a, b, orderBy) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
 function parseCustomDate(dateString) {
   const months = {
     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
@@ -177,11 +190,34 @@ function descendingComparator(a, b, orderBy) {
       return 0;
   }
 }
+const customComparator_Col = (a, b) => {
+const regex = /([^\d]+)(\d+)/;
+const [, wordA, numA] = a?.match(regex);
+const [, wordB, numB] = b?.match(regex);
+
+if (wordA !== wordB) {
+    return wordA?.localeCompare(wordB);
+}
+
+return parseInt(numB, 10) - parseInt(numA, 10);
+};
 
 function getComparator(order, orderBy) {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
 }
 
 
@@ -212,19 +248,22 @@ function EnhancedTableHead(props) {
               textAlign: headCell?.align || "left",
             }}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-              sx={{ textAlign: "center" }}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+             {
+          (headCell?.id?.toLowerCase() === 'srno') ? 'SrNo' : 
+          <TableSortLabel
+          active={orderBy === headCell.id}
+          direction={orderBy === headCell.id ? order : "asc"}
+          onClick={createSortHandler(headCell.id)}
+          sx={{ textAlign: "center" }}
+        >
+          {headCell.label}
+          {orderBy === headCell.id ? (
+            <Box component="span" sx={visuallyHidden}>
+              {order === "desc" ? "sorted descending" : "sorted ascending"}
+            </Box>
+          ) : null}
+        </TableSortLabel>
+         }
           </TableCell>
         ))}
       </TableRow>
@@ -508,6 +547,7 @@ const PendingMemo = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -631,20 +671,25 @@ const PendingMemo = () => {
   };
 
   return (
-    <Box>
+    <>
+    <div className="sticky-header">
+       <MobViewHeader title="Memo" />
+    </div>
+    <Box style={{marginBottom:'5rem'}}>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           flexWrap: "wrap",
           justifyContent: "space-between",
+          marginTop:'10px'
         }}
       >
         <Box
-          className="salesReporttableWeb"
+          className="salesReporttable"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
-          <table style={{minWidth:'850px'}}>
+            <table style={{minWidth:'850px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
@@ -733,7 +778,7 @@ const PendingMemo = () => {
               </tr> */}
             </tbody>
           </table>
-          {/* <table>
+          {/* <table style={{minWidth:'720px', margin:'10px'}}>
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
@@ -793,7 +838,7 @@ const PendingMemo = () => {
             </tbody>
           </table> */}
         </Box>
-        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px", padding:'20px' }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
@@ -806,6 +851,7 @@ const PendingMemo = () => {
             height: "135px",
             paddingBottom: "20px",
             overflow: "hidden",
+            padding:'10px'
           }}
         >
           <Box
@@ -830,7 +876,12 @@ const PendingMemo = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+      <Accordion sx={{marginBottom:'20px'}}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          More FIlters
+        </AccordionSummary>
+        <AccordionDetails>
+        <Box className="pad_10_ds" sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <Box
           sx={{
             paddingBottom: "15px",
@@ -1020,6 +1071,8 @@ const PendingMemo = () => {
           </Button>
         </Box>
       </Box>
+        </AccordionDetails>
+      </Accordion>
       {isLoading ? (
         <Box
           sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
@@ -1028,8 +1081,8 @@ const PendingMemo = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
-            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSec">
+            <TableContainer sx={{ maxHeight: 580 }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}
@@ -1097,11 +1150,13 @@ const PendingMemo = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              className="pd_0_Sp_mapp"
             />
           </Paper>
         </>
       )}
     </Box>
+    </>
   );
 };
 

@@ -23,6 +23,8 @@ import Swal from 'sweetalert2';
 
 import { getQuotationJobData } from '../../../../../../utils/API/AccountTabs/quotationJob';
 
+import { headCells_Jobs as columns } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
+
 const CustomSortIcon = ({ order }) => {
   return (
     <>
@@ -33,8 +35,6 @@ const CustomSortIcon = ({ order }) => {
 };
 
 const QuotationJob = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [printJobError, setPrintJobError] = useState('');
 
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
@@ -42,7 +42,6 @@ const QuotationJob = () => {
   const [toDate, setToDate] = useState(null);
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [filterData2, setFilterData2] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [orderBy, setOrderBy] = useState('');
   const [order, setOrder] = useState('');
@@ -70,6 +69,11 @@ const QuotationJob = () => {
   const [PrintUrl, setPrintUrl] = useState('');
 
   const isSmallScreen = useMediaQuery('(max-width:500px)');
+
+  moment.locale('en-gb');
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleOrderProms = (event) => {
     setPage(0);
@@ -103,26 +107,6 @@ const QuotationJob = () => {
     // handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, statuse, orderProm);
     handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, selectedStatus, orderProm);
   };
-  moment.locale('en-gb');
-
-  const columns = [
-    { id: 'checkbox', label: <Checkbox />, minWidth: 50, align: "center" },
-    { id: 'Sr#', label: 'Sr No', minWidth: 85, align: "center" },
-    { id: 'Date', label: 'Date', minWidth: 130, align: "center" },
-    { id: 'SKUNO', label: 'SKU#', minWidth: 110, align: "center" },
-    { id: 'PO', label: 'PO', minWidth: 110, align: "center" },
-    { id: 'JobNo', label: 'Job#', minWidth: 100, align: "center" },
-    { id: 'DesignNo', label: 'Design#', minWidth: 100, align: "center" },
-    { id: 'Category', label: 'Category', minWidth: 110, align: "center" },
-    { id: 'PDate', label: 'Promise Date', minWidth: 130, align: "center" },
-    { id: 'FinalAmount', label: 'Quote Price', minWidth: 120, align: "center" },
-    { id: 'ProgressStatusName', label: 'Status', minWidth: 120, align: "center" },
-    { id: 'Quantity', label: 'Total Qty', minWidth: 100, align: "center" },
-    { id: 'SuppliedQuantity', label: 'Supplied', minWidth: 100, align: "center" },
-  ];
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -1131,12 +1115,3 @@ const scrollToTop = () => {
 }
 
 export default QuotationJob
-// import React from 'react'
-
-// const QuotationJob = () => {
-//   return (
-//     <div>QuotationJob</div>
-//   )
-// }
-
-// export default QuotationJob

@@ -227,7 +227,6 @@ export default function ThemeRoutes() {
           image={favicon}
         />
       </div>
-
       {/* <Procatalog_App /> */}
 
       {/* {themeNo === 6 && <Procatalog_App />} */}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./PendingMemo.scss"
+import "./PendingMemo.scss";
 import {
   Box,
   Button,
@@ -33,7 +33,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import { FaBullseye } from "react-icons/fa";
-import { NumberWithCommas, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -88,6 +88,15 @@ function createData(
   };
 }
 
+// function descendingComparator(a, b, orderBy) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
 function parseCustomDate(dateString) {
   const months = {
     Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
@@ -177,11 +186,34 @@ function descendingComparator(a, b, orderBy) {
       return 0;
   }
 }
+const customComparator_Col = (a, b) => {
+const regex = /([^\d]+)(\d+)/;
+const [, wordA, numA] = a?.match(regex);
+const [, wordB, numB] = b?.match(regex);
+
+if (wordA !== wordB) {
+    return wordA?.localeCompare(wordB);
+}
+
+return parseInt(numB, 10) - parseInt(numA, 10);
+};
 
 function getComparator(order, orderBy) {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
 }
 
 
@@ -241,7 +273,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const PendingMemo = () => {
+const SalesReport = () => {
   const [searchVal, setSearchVal] = useState("");
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -508,6 +540,7 @@ const PendingMemo = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -622,6 +655,7 @@ const PendingMemo = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
+  
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -640,7 +674,77 @@ const PendingMemo = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box
+        {/* <Box
+          className="salesReporttableWeb"
+          sx={{ paddingBottom: "5px", paddingRight: "15px", overflowX:'scroll' }}
+        >
+          <table style={{minWidth:'700px'}}>
+            <tbody>
+              <tr>
+                <td>Total Gross Wt</td>
+                <td>Total Net Wt(24k)</td>
+                <td>Total Net Wt</td>
+                <td>Total Diamonds</td>
+                <td>Total Color Stones</td>
+                <td>Unique Designs</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.GrossWt, 3)}
+                </td>
+                <td className="fw_bold">
+                  {" "}
+                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                </td>
+                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                  {NumberWithCommas(total?.CsWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.uniqueDesigns, 0)}
+                </td>
+              </tr>
+              <tr>
+                <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td>
+                <td className="fw_bold">1</td>
+              </tr>
+            </tbody>
+          </table>
+        </Box>
+        <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+          <Typography>Total Amount</Typography>
+          <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
+            {NumberWithCommas(total?.TotalAmount, 2)}
+          </Typography>
+        </Box> */}
+                <Box
           className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px" }}
         >
@@ -733,72 +837,7 @@ const PendingMemo = () => {
               </tr> */}
             </tbody>
           </table>
-          {/* <table>
-            <tbody>
-              <tr>
-                <td>Total Gross Wt</td>
-                <td>Total Net Wt(24k)</td>
-                <td>Total Net Wt</td>
-                <td>Total Diamonds</td>
-                <td>Total Color Stones</td>
-                <td>Unique Designs</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.GrossWt, 3)}
-                </td>
-                <td className="fw_bold">
-                  {" "}
-                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
-                </td>
-                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
-                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
-                  {NumberWithCommas(total?.CsWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.uniqueDesigns, 0)}
-                </td>
-              </tr>
-              <tr>
-                <td>Total Metal Amt</td>
-                <td>Total Dia. Amt</td>
-                <td>Total CST Amt</td>
-                <td>Total Labour Amt</td>
-                <td>Total Other Amt</td>
-                <td>Unique Customers</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.MetalAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiamondAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.LabourAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.OtherAmount, 2)}
-                </td>
-                <td className="fw_bold">1</td>
-              </tr>
-            </tbody>
-          </table> */}
         </Box>
-        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
-          <Typography>Total Amount</Typography>
-          <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
-            {NumberWithCommas(total?.TotalAmount, 2)}
-          </Typography>
-        </Box> */}
         <Box
           className="salesReportImgSec"
           sx={{
@@ -1040,7 +1079,7 @@ const PendingMemo = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  {visibleRows.map((row, index) => {
+                  { filterData?.length > 0 ? visibleRows.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -1085,7 +1124,7 @@ const PendingMemo = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  })}
+                  }) : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -1105,4 +1144,4 @@ const PendingMemo = () => {
   );
 };
 
-export default PendingMemo;
+export default SalesReport;
