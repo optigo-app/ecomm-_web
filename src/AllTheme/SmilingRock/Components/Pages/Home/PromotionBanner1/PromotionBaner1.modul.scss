@@ -32,6 +32,19 @@
     background-color: transparent;
 }
 
+@media screen and (max-width: 1900px) {
+    .smilingFestiMainTitle2 {
+        font-size: 25px !important;
+    }
+
+    .smr_festiveBox {
+        position: absolute !important;
+        top: 30%;
+    }
+
+}
+
+
 @media screen and (max-width: 1024px) {
 
     .smr_promotion1 {
