@@ -127,7 +127,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Max_GrossWeight: `${gross?.grossMax ?? ""}`,
     Min_NetWt: `${netWt?.netMin ?? ""}`,
     Max_NetWt: `${netWt?.netMax ?? ""}`,
-    FilPrice: `${filterObj?.Price ?? ''}`,
+    FilPrice: `${JSON.stringify(filterObj?.Price)}` ?? '',
     // Max_Price: '',
     // Min_Price: '',
     CurrencyRate: `${(loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate) ?? ''}`,
