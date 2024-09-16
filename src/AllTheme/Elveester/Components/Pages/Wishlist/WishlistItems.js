@@ -117,10 +117,12 @@ const WishlistItems = ({
                                     <span>GWT: {(item?.Gwt || 0).toFixed(3)}</span>
                                 </div>
                                 <div className='elv_wishlist_card_weights_2'>
-                                    <div style={{ display: 'flex' }}>
-                                        <span style={{ paddingRight: '0.3rem' }} dangerouslySetInnerHTML={{ __html: decodeEntities(loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode) }} />
-                                        {item && <div>{formatter(item.FinalCost)}</div>}
-                                    </div>
+                                    {storeInit?.IsPriceShow == 1 && (
+                                        <div style={{ display: 'flex' }}>
+                                            <span style={{ paddingRight: '0.3rem' }} dangerouslySetInnerHTML={{ __html: decodeEntities(loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode) }} />
+                                            {item && <div>{formatter(item.FinalCost)}</div>}
+                                        </div>
+                                    )}
                                     <span>{item?.designno != "" && item?.designno}</span>
                                 </div>
                             </div>

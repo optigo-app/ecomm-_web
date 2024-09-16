@@ -116,7 +116,7 @@
             .elv_ProductDet_prod_title {
                 color: #424242;
                 font-family: 'PT Sans', sans-serif;
-                font-size: 40px;
+                font-size: 30px;
                 font-style: normal;
                 font-weight: 400;
                 text-align: start !important;
@@ -445,6 +445,7 @@
         .elv_ProductDet_title {
             text-align: center;
             font-size: 30px;
+            padding-top: 1rem;
             font-family: "FreightDisp Pro Medium";
             color: rgb(125, 127, 133);
         }
@@ -643,4 +644,33 @@
         }
     }
 
+}
+
+.elv_prod_description {
+    position: relative;
+    margin-block: 0.5rem;
+}
+
+.description-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-align: justify;
+    transition: height 0.3s ease;
+    margin: 0;
+}
+
+.show-more .description-text {
+    -webkit-line-clamp: unset;
+    height: none;
+}
+
+.toggle-text {
+    display: block;
+    cursor: pointer;
+    color: blue;
+    text-align: right;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
 }

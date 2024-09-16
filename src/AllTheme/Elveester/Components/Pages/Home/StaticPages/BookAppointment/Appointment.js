@@ -15,7 +15,7 @@ const Appointment = () => {
                 <img src={`${storImagePath()}/images/HomePage/ImageBannerTab/Faqs.jpg`} alt="img" />
                 <h1>Book a Appointment</h1>
             </div>
-            <h3 style={{ textAlign: 'center', marginTop: '2rem' }}>Coming Soon...</h3>
+            <h3 style={{ textAlign: 'center', marginTop: '2rem', fontSize: '3rem', minHeight: '20rem', alignContent: 'center' }}>Coming Soon...</h3>
         </div>
     )
 }

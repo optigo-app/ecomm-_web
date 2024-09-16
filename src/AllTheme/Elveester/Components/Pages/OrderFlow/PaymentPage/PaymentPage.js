@@ -10,7 +10,7 @@ import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import { Box, Skeleton } from '@mui/material';
-import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 
 const PaymentPage = () => {
@@ -58,7 +58,9 @@ const PaymentPage = () => {
             try {
                 const texData = await fetchEstimateTax();
                 if (texData) {
-                    setTaxAmount(texData[0]?.TaxAmount);
+                    setTaxAmount(texData[0]);
+                    console.log(texData[0]);
+                    setFinlTotal(texData[0]?.TotalAmount);
                 }
             } catch (error) {
                 console.error("Error fetching tax data:", error);
@@ -78,7 +80,6 @@ const PaymentPage = () => {
                 const totalPriceNum = parseFloat(totalPriceData?.total);
                 console.log('totalPriceNum: ', totalPriceNum);
                 const finalTotalPrice = totalPriceNum;
-                setFinlTotal(finalTotalPrice);
             }
         };
 
@@ -114,7 +115,7 @@ const PaymentPage = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-        
+
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
@@ -123,7 +124,7 @@ const PaymentPage = () => {
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
-                
+
                 setCartCountVal(res?.cartcount)
             })
 
@@ -279,7 +280,7 @@ const PaymentPage = () => {
                                                                 ),
                                                             }}
                                                         />
-                                                        <span className='elv_subtotal_price'> {finalTotal}</span>
+                                                        <span className='elv_subtotal_price'> {formatter(finalTotal)}</span>
                                                     </p>
                                                 </div>
                                                 <div className='elv_paymenttotalpricesummary'>
@@ -294,7 +295,7 @@ const PaymentPage = () => {
                                                                 ),
                                                             }}
                                                         />
-                                                        <span className='elv_estimate_tax'> {taxAmmount}</span>
+                                                        <span className='elv_estimate_tax'> {formatter(taxAmmount?.TaxAmount)}</span>
                                                     </p>
                                                 </div>
                                                 <div className='elv_payment_total_border'></div>
@@ -310,27 +311,28 @@ const PaymentPage = () => {
                                                                 ),
                                                             }}
                                                         />
-                                                        <span className='elv_estimate_total'> {(taxAmmount + finalTotal)}</span>
+                                                        <span className='elv_estimate_total'> {formatter((taxAmmount?.TotalAmountWithTax)?.toFixed(0))}</span>
                                                     </p>
                                                 </div>
                                             </div>
                                         ) :
-                                            <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                            <Skeleton sx={{
+                                                backgroundColor: '#FCFCFC'
+                                            }} variant="rectangular" width="100%" height={90} animation="wave" />
                                         }
-
 
                                         <div className='elv_shippingAddress'>
                                             <h3 className='elv_payment_shipp_title'>Shipping Address : </h3>
                                             <p className='elv_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
-                                            <p>{selectedAddrData?.street}</p>
-                                            <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
-                                            <p>{selectedAddrData?.state}</p>
-                                            <p>{selectedAddrData?.shippingmobile}</p>
+                                            <p className='elv_bill_add_text'>{selectedAddrData?.street}</p>
+                                            <p className='elv_bill_add_text'>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
+                                            <p className='elv_bill_add_text'>{selectedAddrData?.state}</p>
+                                            <p className='elv_bill_add_text'>{selectedAddrData?.shippingmobile}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div className='elv_paymentButtonDiv'>
-                                    {/* <button className='elv_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                                    {/* <button className='e className='elv_bill_add_text'lv_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                                     {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                                     {isloding && <span className="loader"></span>}
                                 </button> */}
