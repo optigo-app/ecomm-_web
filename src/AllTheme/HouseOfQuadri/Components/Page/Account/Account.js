@@ -170,12 +170,7 @@ export default function Account() {
           <div className={` ${!isSticky ? 'sticky_header_web_sm_hoq_isSticky' : 'sticky_header_web_sm_hoq'}`} style={{
             top  : !isSticky && '0px' ,
           }}>
-            <p
-              className="hoqAccountTitle youraccountpagesec"
-              style={{ height: "40px", margin: "0px", padding: "0px" }}
-            >
-              Your Account
-            </p>
+            <p className="hoqAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
             <div className="hoqAccountTabWebView hoq_main_head_none" style={{paddingTop:'1%'}}>
               <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
