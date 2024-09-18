@@ -1337,12 +1337,8 @@ const ProductDetail = () => {
                             selectedThumbImg?.type == "img" ? (
                               <img
                                 // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
+                                src={selectedThumbImg?.link}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
                                 className="elv_ProductDet_prod_image"
@@ -1350,9 +1346,9 @@ const ProductDetail = () => {
                             ) : (
                               <div>
                                 <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                  loop
-                                  autoPlay
+                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                  loop={true}
+                                  autoPlay={true}
                                   playsInline
                                   muted // Add this attribute to ensure autoplay works
                                   style={{
@@ -1367,37 +1363,48 @@ const ProductDetail = () => {
                               </div>
                             )
                           ) : (
-                            pdVideoArr?.length > 0 ? (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    position: 'relative',
-                                    left: '6rem',
-                                    // height: "90%",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <img
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image"
-                              />
-                            )
+                            <img
+                              src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src =
+                                  noImageFound
+                              }}
+                              alt={""}
+                              onLoad={() => setIsImageLoad(false)}
+                              className="elv_ProductDet_prod_image"
+                            />
+                            // pdVideoArr?.length > 0 ? (
+                            //   <div>
+                            //     <video
+                            //       src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+                            //       loop
+                            //       autoPlay
+                            //       playsInline
+                            //       muted // Add this attribute to ensure autoplay works
+                            //       style={{
+                            //         width: "100%",
+                            //         objectFit: "cover",
+                            //         position: 'relative',
+                            //         left: '6rem',
+                            //         // height: "90%",
+                            //         borderRadius: "8px",
+                            //       }}
+                            //     />
+                            //   </div>
+                            // ) : (
+                            //   <img
+                            //     src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+                            //     onError={(e) => {
+                            //       e.target.onerror = null;
+                            //       e.target.src =
+                            //         "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                            //     }}
+                            //     alt={""}
+                            //     onLoad={() => setIsImageLoad(false)}
+                            //     className="elv_ProductDet_prod_image"
+                            //   />
+                            // )
                           )
                           }
                         </div>
