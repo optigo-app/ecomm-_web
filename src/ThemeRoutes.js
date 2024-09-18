@@ -51,6 +51,7 @@ export default function ThemeRoutes() {
       .then((text) => {
         try {
           const jsonData = JSON?.parse(text);
+          console.log(jsonData , "hoq")
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -265,7 +266,7 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-            {themeNo === 7 && <HouseOfQuadri_App />}
+            {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
             {themeNo === 8 && <ForEveryRoutes />}
 
