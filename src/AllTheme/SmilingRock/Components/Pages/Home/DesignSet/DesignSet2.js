@@ -11,8 +11,8 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import Cookies from 'js-cookie';
-import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { homeLoading, loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
 import gradientColors from "../LookBook/color.json"
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
@@ -28,9 +28,10 @@ const DesignSet2 = () => {
   const islogin = useRecoilValue(loginState);
   const [swiper, setSwiper] = useState(null);
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
+  const setLoadingHome = useSetRecoilState(homeLoading);
 
   useEffect(() => {
-
+    setLoadingHome(true);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -103,6 +104,7 @@ const DesignSet2 = () => {
       .then((response) => {
         if (response?.Data?.rd) {
           setDesignSetList(response?.Data?.rd);
+          setLoadingHome(false);
         }
       })
       .catch((err) => console.log(err));
@@ -285,7 +287,14 @@ const DesignSet2 = () => {
                                   /> {formatter(detail?.UnitCostWithMarkUp)}
                                 </p>
                               </div>
-                              <div className="fs3 centerall">View Details</div>
+                              <div className="fs3 centerall"
+                                onClick={() =>
+                                  handleNavigation(
+                                    detail?.designno,
+                                    detail?.autocode,
+                                    detail?.TitleLine ? detail?.TitleLine : ""
+                                  )
+                                }>View Details</div>
                             </SwiperSlide>
                           ))}
                         </>

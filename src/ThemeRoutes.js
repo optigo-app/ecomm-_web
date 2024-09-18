@@ -10,7 +10,7 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { companyLogo, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
@@ -24,13 +24,15 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
+import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
 import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(6)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
 
@@ -38,8 +40,26 @@ export default function ThemeRoutes() {
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
 
   const [title, setTitle] = useState();
+
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON?.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");
@@ -63,7 +83,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -90,6 +110,7 @@ export default function ThemeRoutes() {
 
             if (response?.data?.Data?.rd[0]?.Themeno === 1) {
               setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+              setCompanyTitleLogoM(response?.data?.Data?.rd[0]?.companyMlogo);
             }
 
             if (response?.data?.Data?.rd[0]?.Themeno === 2) {
@@ -109,7 +130,12 @@ export default function ThemeRoutes() {
             if (response?.data?.Data) {
               callAllApi(response?.data?.Data);
             }
-
+            // let title = response?.data?.Data?.rd[0]?.companyname;
+            let title1 = response?.data?.Data?.rd[0]?.BrowserTitle;
+            // let title = response?.data?.Data?.rd[0]?.companyname;
+            // let favIcon = response?.data?.Data?.rd[0]?.favicon;
+            setTitle(title1);
+            setFavIcon(favIcon);
             window.scrollTo({
               top: 0,
               left: 0,
@@ -119,8 +145,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(6);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(1);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -201,62 +227,59 @@ export default function ThemeRoutes() {
           <link rel="apple-touch-icon" href={favicon} />
           <link rel="icon" sizes="192x192" href={favicon} />
           <link rel="icon" sizes="512x512" href={favicon} />
+          <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <meta name="description" content={title} />
+          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
 
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={title} />
-          <meta property="og:image" content={favicon} />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={window.location.href} />
+          {/* Apple Touch Icon */}
+          <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
 
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={title} />
-          <meta name="twitter:image" content={favicon} />
+          {/* Android Chrome Icons */}
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/android-chrome-192x192`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/android-chrome-512x512`} />
 
-          <link rel="manifest" href="./public/manifest.json" />
+          {/* Microsoft Tile Icons */}
+          {/* <meta name="msapplication-TileColor" content="#ffffff" /> */}
+          {/* <meta name="msapplication-TileImage" content="/mstile-150x150.png" /> */}
+
+          {/* Safari Pinned Tab Icon */}
+          <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
         </Helmet>
-        <SEO
-          favicon={favicon}
-          title={title}
-          description=""
-          url={window.location.href}
-          image={favicon}
-        />
       </div>
-      {/* <Procatalog_App /> */}
+      {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+        (
+          <>
+            {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-      {/* {themeNo === 6 && <Procatalog_App />} */}
+            {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-      {/* <SmilingRock_App /> */}
+            {themeNo === 3 && <Elveester_App />}
 
-      {themeNo === 1 && <SmilingRock_App />}
+            {themeNo === 4 && <SmilingRock_MobileApp_App />}
 
-      {themeNo === 2 && <DaimondTine_App />}
+            {themeNo === 5 && <HemratnaProcatalog_App />}
 
-      {themeNo === 3 && <Elveester_App />}
+            {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-      {themeNo === 4 && <SmilingRock_MobileApp_App />}
+            {themeNo === 7 && <HouseOfQuadri_App />}
 
-      {themeNo === 5 && <HemratnaProcatalog_App />}
+            {themeNo === 8 && <ForEveryRoutes />}
 
-      {themeNo === 6 && <Procatalog_App />}
+            {themeNo === 9 && <Procatalog_MobileApp_App />}
 
-      {themeNo === 7 && <HouseOfQuadri_App />}
+            {themeNo === 10 && <StamFordJewels_App />}
 
-      {themeNo === 8 && <ForEveryRoutes />}
+            {themeNo === 11 && <RoopJewellers_App />}
 
-      {themeNo === 9 && <Procatalog_MobileApp_App />}
-
-      {themeNo === 10 && <StamFordJewels_App />}
-
-      {themeNo === 11 && <RoopJewellers_App />}
-
-      {themeNo === 12 && <MalakanJewels_App />}
-
+            {themeNo === 12 && <MalakanJewels_App />}
+          </>
+        )
+      }
     </>
+
   );
 }

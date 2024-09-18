@@ -1,33 +1,78 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './NewArrival.modul.scss'
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { Grid } from '@mui/material';
-import { dt_loginState } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const NewArrival = () => {
-
+    const newArrivalRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [newArrivalData, setNewArrivalData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
     const islogin = useRecoilValue(dt_loginState);
     const [storeInit, setStoreInit] = useState({});
     const navigation = useNavigate();
+    const setLoadingHome =  useSetRecoilState(dt_homeLoading);
 
     useEffect(() => {
+        setLoadingHome(true);
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setStoreInit(data)
         setImageUrl(data?.DesignImageFol);
 
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival").then((response) => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAPI();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
+
+        if (newArrivalRef.current) {
+            observer.observe(newArrivalRef.current);
+        }
+        return () => {
+            if (newArrivalRef.current) {
+                observer.unobserve(newArrivalRef.current);
+            }
+        };
+    }, [])
+
+    const callAPI = () => {
+        const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        const visiterID = Cookies.get('visiterId');
+        let finalID;
+        if (storeInit?.IsB2BWebsite == 0) {
+            finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        } else {
+            finalID = loginUserDetail?.id || '0';
+        }
+        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+        setStoreInit(storeinit)
+
+        let data = JSON.parse(sessionStorage.getItem('storeInit'))
+        setImageUrl(data?.DesignImageFol);
+
+        Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
+                setLoadingHome(false);
             }
         }).catch((err) => console.log(err))
-    }, [])
+    }
 
     const decodeEntities = (html) => {
         var txt = document.createElement("textarea");
