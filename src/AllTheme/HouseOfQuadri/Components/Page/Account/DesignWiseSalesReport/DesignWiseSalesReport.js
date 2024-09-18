@@ -1096,9 +1096,10 @@ const DesignWiseSalesReport = () => {
                             <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                     </Box>
                 </Box>
+
                 <div className='toggleRange_dsr2'>
-                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
-                        <Box sx={{  paddingBottom: "10px", width: 250 }}>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}} className='mr10_slider1_acc'>
+                        <Box sx={{  paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
                             <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                             <Slider
                                 className='netWtSecSlider'
@@ -1130,8 +1131,8 @@ const DesignWiseSalesReport = () => {
                             </Box>
                         </Box>
                     </Box>
-                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
-                        <Box sx={{ paddingBottom: "10px", width: 250 }}>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}}>
+                        <Box sx={{ paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
                             <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
                             <Slider
                                 className='netWtSecSlider'
