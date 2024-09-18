@@ -52,7 +52,7 @@ export default function ThemeRoutes() {
       .then((text) => {
         try {
           const jsonData = JSON?.parse(text);
-          console.log(jsonData , "hoq")
+          console.log(jsonData, "hoq")
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -289,6 +289,5 @@ export default function ThemeRoutes() {
         )
       }
     </>
-
   );
 }
