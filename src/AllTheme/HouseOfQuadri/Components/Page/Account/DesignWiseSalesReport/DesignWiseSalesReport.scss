@@ -113,7 +113,7 @@
 .toggleRange_dsr2{
     display: none ;
 }
-@media screen and (min-width:500px) and (max-width:680px){
+@media screen and (min-width:501px) and (max-width:680px){
     .toggleRange_dsr{
         display: flex !important;
     }
@@ -132,5 +132,28 @@
         min-width: 90% !important;
         width: 90% !important;
         margin: 0 auto !important;
+    }
+}
+@media screen and (max-width:320px), (max-width:360px), (max-width:390px), (max-width:400px), (max-width:430px), (max-width:460px),(max-width:500px){
+    .toggleRange_dsr2{
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-left:-6px !important;
+    }
+    .toggleRange_dsr{
+        display: none !important;
+    }
+    .minW_dwsr_acc_hoq{
+        min-width: 90% !important;
+        width: 90% !important;
+        margin: 0 auto !important;
+    }
+    .boxWidth_Acc_Slider{
+        width: 100% !important;
+    }
+    .mr10_slider1_acc{
+        margin-right: 10px;
     }
 }
