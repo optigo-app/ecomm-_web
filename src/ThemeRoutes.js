@@ -30,7 +30,7 @@ import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(7)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -50,7 +50,6 @@ export default function ThemeRoutes() {
       .then((response) => response.text())
       .then((text) => {
         try {
-          console.log('texttttt', text);
           const jsonData = JSON?.parse(text);
           console.log(jsonData , "hoq")
           setHtmlContent(jsonData);
@@ -147,8 +146,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -262,15 +261,15 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}.
 
-            {themeNo === 5 && <HemratnaProcatalog_App />}
+            {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
             {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
             {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-            {themeNo === 8 && <ForEveryRoutes />}
+            {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
             {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
