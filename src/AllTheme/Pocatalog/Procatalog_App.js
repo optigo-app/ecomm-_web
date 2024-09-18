@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
   proCat_companyLogo,
+  proCat_companyLogoM,
   proCat_loginState,
 } from "./Components/Recoil/atom";
 import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
@@ -54,6 +55,7 @@ const Procatalog_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(proCat_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
 
@@ -88,13 +90,11 @@ const Procatalog_App = () => {
     setLocalData(localD);
     let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
         setCompanyTitleLogo(localD?.companylogo);
-      }
+        setCompanyTitleLogoM(localD?.companyMlogo);
     } else {
       setCompanyTitleLogo(localD?.companylogo);
+      setCompanyTitleLogoM(localD?.companyMlogo);
     }
   },[]);
 
