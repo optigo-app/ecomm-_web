@@ -248,7 +248,7 @@ const Album = () => {
           </div>
         </Box>
       </Modal>
-      <p className="proCat_albumTitle">ALBUM</p>
+      <p className="proCat_albumTitle">ALBUMS</p>
       <div className="proCat_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
         {albumData.map((data, index) => {
           const imageUrlI = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;

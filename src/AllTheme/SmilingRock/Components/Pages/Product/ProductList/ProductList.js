@@ -632,6 +632,7 @@ const ProductList = () => {
     }
 
     // if 
+    console.log("output",output);
 
     return output
   }
@@ -3192,7 +3193,7 @@ const ProductList = () => {
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{fontSize:'0.9vw'}}>|</span>
+                                              <span style={{fontSize:'13px'}}>|</span>
                                               <span className="smr_prod_wt">
                                                 <span className="smr_main_keys">NWT:</span>
                                                 <span className="smr_main_val">
@@ -3206,7 +3207,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
+                                                <span style={{fontSize:'13px'}}>|</span>
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_main_keys">
                                                     DWT:
@@ -3223,7 +3224,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
+                                                <span style={{fontSize:'13px'}}>|</span>
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_main_keys">
                                                     CWT:

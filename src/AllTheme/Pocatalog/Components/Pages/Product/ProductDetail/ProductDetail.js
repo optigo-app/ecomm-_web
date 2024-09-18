@@ -1580,7 +1580,7 @@ const ProductDetail = () => {
                           )}
 
                         {storeInit?.IsPriceShow == 1 && (
-                          storeInit?.IsPriceBreakUp == 1 &&
+                          storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
                           <Accordion
                             elevation={0}
                             sx={{
@@ -2281,7 +2281,7 @@ const ProductDetail = () => {
                   SimilarBrandArr?.length > 0 && (
                     <div className="smr_stockItem_div">
                       <p className="smr_details_title"> Similar Designs</p>
-                      <div className="smr_stockitem_container" style={{ maxWidth: '650px', overflowX: 'scroll' }}>
+                      <div className="smr_stockitem_container" style={{ maxWidth: '650px', overflowX: 'auto' }}>
                         <div className="smr_stock_item_card">
                           {SimilarBrandArr?.map((ele) => (
                             <div
@@ -2341,9 +2341,9 @@ const ProductDetail = () => {
                                         &nbsp;
                                       </spam>
                                       <span>{
-                                        // formatter.format(
+                                        formatter.format(
                                         ele?.UnitCostWithMarkUp
-                                        // )
+                                        )
                                       }</span>
                                     </>
                                   }
@@ -2466,23 +2466,23 @@ const ProductDetail = () => {
                                           }}
                                           className="srthelook_prodinfo_inner"
                                         >
-                                          {storeInit?.IsPriceShow == 1 &&
+                                          
                                             <p>
                                               {ele?.designno} - {ele?.CategoryName}
                                               <br />
-                                              {
+                                              {storeInit?.IsPriceShow == 1 &&
                                                 <span className="smr_currencyFont">
                                                   {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
                                               }
                                               &nbsp;
-                                              {
-                                                // formatter.format(
+                                              {storeInit?.IsPriceShow == 1 &&
+                                                formatter.format(
                                                 ele?.UnitCostWithMarkUp
-                                                // )
+                                                )
                                               }
                                             </p>
-                                          }
+                                          
                                         </div>
                                         {/* <div>
                           <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>

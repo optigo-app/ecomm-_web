@@ -42,6 +42,11 @@
         width: 100%;
         overflow: auto;
         display: flex !important;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
         justify-content: start !important;
     }
 
@@ -82,6 +87,10 @@
         overflow: auto;
         display: flex !important;
         justify-content: start !important;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     .elv_affi_cards {

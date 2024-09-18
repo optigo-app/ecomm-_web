@@ -12,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import Cookies from 'js-cookie';
 import pako from "pako";
+import useCountdown from '../../CountDownTimer/CountDownTimer';
 
 
 const Header = () => {
@@ -35,6 +36,9 @@ const Header = () => {
 
   let navigate = useNavigate();
   let cookie = Cookies.get('visiterId')
+  
+    const countdown = useCountdown();
+
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();

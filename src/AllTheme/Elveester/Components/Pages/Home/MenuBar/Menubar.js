@@ -65,7 +65,7 @@ const Menubar = () => {
             try {
                 const visiterID = Cookies.get('visiterId');
                 const res = await GetCountAPI(visiterID);
-                
+
                 setCartCount(res?.cartcount);
                 setWishCount(res?.wishcount);
             } catch (error) {
@@ -404,7 +404,7 @@ const Menubar = () => {
                                                                     className="menuDropdownData"
                                                                 >
                                                                     <hr className='elv_login_header_menu_hr' />
-                                                                    {(item?.menuid === selectedData?.menuid) && isOpen && (
+                                                                    {(item?.menuid === selectedData?.menuid) && isOpen ? (
                                                                         <>
                                                                             {/* <div style={{ background: '#F1F2F3', padding: '5px', marginRight: '8px', marginTop: '5px' }}> */}
                                                                             <div style={{ padding: '5px', marginRight: '8px', marginTop: '10px' }}>
@@ -438,7 +438,7 @@ const Menubar = () => {
                                                                                 </div>
                                                                             </div>
                                                                         </>
-                                                                    )}
+                                                                    ) : null}
                                                                 </div>
                                                             </div>
                                                         </div>

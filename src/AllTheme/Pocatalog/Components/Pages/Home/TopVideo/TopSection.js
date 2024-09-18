@@ -4,7 +4,7 @@ const TopSection = () => {
   const localData = JSON.parse(sessionStorage.getItem('storeInit'));
   return (
     <div>
-      <img src={`${localData?.ProCatLogbanner}`} style={{ width: '100%' }} />
+      <img src={`${localData?.ProCatLogbanner}`} style={{ width: '100%' , minHeight: '250px' }} />
     </div>
   )
 }
