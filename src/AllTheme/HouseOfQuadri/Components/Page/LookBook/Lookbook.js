@@ -950,9 +950,9 @@
 //                                         {Object.values(filterChecked).filter(
 //                                             (ele) => ele.checked
 //                                         )?.length === 0
-//                                             ? 
+//                                             ?
 //                                             "Filters"
-//                                             : 
+//                                             :
 //                                             `Product Found:
 //                                              ${afterFilterCount}`}
 //                                     </span> */}
@@ -1317,7 +1317,7 @@
 //                 </ToggleButton>
 //                 <ToggleButton value={3} aria-label="right aligned">
 //                   {/* <TfiLayoutGrid3 /> */}
-//                   ||| 
+//                   |||
 //                 </ToggleButton>
 //               </ToggleButtonGroup>
 //             </div>
@@ -1383,7 +1383,7 @@
 //                           display: dataKey == index ? "none" : "flex",
 //                           justifyContent: "space-between",
 //                           margin: "5px",
-                         
+
 //                         }}
 //                       >
 //                         <p style={{ fontSize: "13px", margin: "2px" }}>
@@ -1912,7 +1912,7 @@
 //                                               fontSize: "14px",
 //                                               color: "#7d7f85",
 //                                               textTransform: "uppercase",
-                                               
+
 //                                             }}
 //                                             className="hoq_lb3srthelook_prodinfo_inner"
 //                                           >
@@ -1930,7 +1930,7 @@
 //                                                   <span className='hoq_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
 //                                                 </>
 //                                               )}
-                                             
+
 //                                               {storeInit?.IsGrossWeight == 1 &&
 //                                                 <>
 //                                                 <span className="hoq_lb3pipe"> | </span>
@@ -2144,7 +2144,7 @@
 // };
 
 // export default Lookbook;import React, { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Lookbook.modul.scss";
 import gradientColors from "./color.json";
 import {
@@ -2193,7 +2193,7 @@ import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import Pako from "pako";
 import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 
 import { RxGrid } from "react-icons/rx";
@@ -2201,7 +2201,7 @@ import { TfiLayoutGrid2 } from "react-icons/tfi";
 import { TfiLayoutGrid3 } from "react-icons/tfi";
 import { Hoq_CartCount, Hoq_loginState } from "../../Recoil/atom";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -2210,7 +2210,9 @@ const Lookbook = () => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const isMobileScreen = useMediaQuery("(max-width:800px)");
 
-  const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+  const loginUserDetail = JSON?.parse(
+    sessionStorage.getItem("loginUserDetail")
+  );
   const [designSetLstData, setDesignSetListData] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
@@ -2235,6 +2237,45 @@ const Lookbook = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [isShowfilter, setIsShowFilter] = useState(false);
+  const SwiperSlideRef = useRef();
+  const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
+
+  const updateSize = () => {
+    if (SwiperSlideRef.current) {
+      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      console.log("Size updated:", offsetWidth, offsetHeight);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (SwiperSlideRef?.current) {
+        const { offsetWidth, offsetHeight } = SwiperSlideRef?.current;
+        setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      }
+    };
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDynamicSize({ w: `${width}px`, h: `${height}px` });
+        console.log("Resized:", width, height);
+      }
+    });
+
+    if (SwiperSlideRef.current) {
+      resizeObserver.observe(SwiperSlideRef.current);
+      updateSize();
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handlePrevious = () => {
     if (swiper !== null) {
@@ -2256,7 +2297,9 @@ const Lookbook = () => {
     setImageUrl(data?.DesignSetImageFol);
     setImageUrlDesignSet(data?.DesignImageFol);
 
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON?.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
@@ -2290,7 +2333,9 @@ const Lookbook = () => {
   }, []);
 
   useEffect(() => {
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON?.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
@@ -2332,8 +2377,8 @@ const Lookbook = () => {
   };
 
   const handleFilterShow = () => {
-    setIsShowFilter(!isShowfilter)
-  }
+    setIsShowFilter(!isShowfilter);
+  };
 
   const FilterValueWithCheckedOnly = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(
@@ -2371,7 +2416,9 @@ const Lookbook = () => {
   };
 
   useEffect(() => {
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON?.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
 
@@ -2542,7 +2589,8 @@ const Lookbook = () => {
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
     navigate(
-      `/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine?.replace(/\s+/g, `_`)}${
+        titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -2587,7 +2635,6 @@ const Lookbook = () => {
     designSetLstData,
     selectedCategories
   );
-
 
   const calculateTotalUnitCostWithMarkUp = (details) => {
     let total = 0;
@@ -2647,24 +2694,23 @@ const Lookbook = () => {
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#f5f5f9',
-      color: 'rgba(0, 0, 0, 0.87)',
+      backgroundColor: "#f5f5f9",
+      color: "rgba(0, 0, 0, 0.87)",
       maxWidth: 220,
       fontSize: theme.typography.pxToRem(12),
-      border: '1px solid #dadde9',
+      border: "1px solid #dadde9",
     },
   }));
 
   const CustomTooltipContent = ({ categories }) => (
     <div>
-      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+      <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
         {categories.map((category, index) => (
           <li key={index}>{category}</li>
         ))}
       </ul>
     </div>
   );
-
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -2701,23 +2747,22 @@ const Lookbook = () => {
   //   }
   // }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
-  const CustomLabel = ({ text  }) => (
+  const CustomLabel = ({ text }) => (
     <Typography
       sx={{
-        fontFamily  :"Tenor Sans , sans-serif !important" ,
+        fontFamily: "Tenor Sans , sans-serif !important",
         fontSize: {
-          xs: '14.2px !important',  // Mobile screens
-          sm: '16px !important',  // Tablets
-          md: '15.2px !important',  // Desktop screens
-          lg: '17.6px !important',  // Large desktops
-          xl: '18px !important'   // Extra large screens
-        }
+          xs: "14.2px !important", // Mobile screens
+          sm: "16px !important", // Tablets
+          md: "15.2px !important", // Desktop screens
+          lg: "16px !important", // Large desktops
+          xl: "16px !important", // Extra large screens
+        },
       }}
     >
       {text}
     </Typography>
   );
-  
 
   return (
     <div className="hoq_LookBookMain">
@@ -2729,7 +2774,10 @@ const Lookbook = () => {
         className="hoq_filterDrawer"
       >
         {filterData?.length > 0 && (
-          <div className="hoq1_lookBookFilterSubDiv" style={{ padding: "20px" }}>
+          <div
+            className="hoq1_lookBookFilterSubDiv"
+            style={{ padding: "20px" }}
+          >
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <IoClose
                 style={{
@@ -2767,8 +2815,8 @@ const Lookbook = () => {
                             background: "none",
                           },
                         }}
-                      // expanded={accExpanded}
-                      // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                       >
                         <AccordionSummary
                           expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
@@ -2782,7 +2830,7 @@ const Lookbook = () => {
                               padding: 0,
                             },
                           }}
-                        // className="filtercategoryLable"
+                          // className="filtercategoryLable"
                         >
                           {/* <span> */}
                           {ele.Name}
@@ -2817,13 +2865,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                width  :"100%",
-                                flexDirection  :"row-reverse",
-                                                  }}
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  width: "100%",
+                                  flexDirection: "row-reverse",
+                                }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -2837,7 +2885,7 @@ const Lookbook = () => {
                                         ?.checked === undefined
                                         ? false
                                         : filterChecked[`${ele?.id}${opt?.id}`]
-                                          ?.checked
+                                            ?.checked
                                     }
                                     style={{
                                       color: "#7d7f85 !important",
@@ -2883,8 +2931,8 @@ const Lookbook = () => {
                           background: "none",
                         },
                       }}
-                    // expanded={accExpanded}
-                    // defaultExpanded={}
+                      // expanded={accExpanded}
+                      // defaultExpanded={}
                     >
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
@@ -2898,7 +2946,7 @@ const Lookbook = () => {
                             padding: 0,
                           },
                         }}
-                      // className="filtercategoryLable"
+                        // className="filtercategoryLable"
                       >
                         {/* <span> */}
                         {ele.Name}
@@ -2937,9 +2985,9 @@ const Lookbook = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "space-between",
-                                width  :"100%",
-                                flexDirection  :"row-reverse",
-                                                  }}
+                                width: "100%",
+                                flexDirection: "row-reverse",
+                              }}
                               control={
                                 <Checkbox
                                   name={`Price${i}${i}`}
@@ -2950,7 +2998,7 @@ const Lookbook = () => {
                                   // }
                                   checked={
                                     filterChecked[`Price${i}${i}`]?.checked ===
-                                      undefined
+                                    undefined
                                       ? false
                                       : filterChecked[`Price${i}${i}`]?.checked
                                   }
@@ -2988,14 +3036,27 @@ const Lookbook = () => {
                               //       )}${opt?.Maxval}`
                               // }
                               label={
-                              <CustomLabel  text={
-                                opt?.Minval == 0
-                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                  : opt?.Maxval == 0
-                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                             
-                              }/>  
+                                <CustomLabel
+                                  text={
+                                    opt?.Minval == 0
+                                      ? `Under ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        }${opt?.Maxval}`
+                                      : opt?.Maxval == 0
+                                      ? `Over ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        }${opt?.Minval}`
+                                      : `${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        }${opt?.Minval} - ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        }${opt?.Maxval}`
+                                  }
+                                />
                               }
                             />
                           </div>
@@ -3082,12 +3143,12 @@ const Lookbook = () => {
                         key={opt?.id}
                       >
                         <FormControlLabel
-                        sx={{
-                          width  :"100%" ,
-                          display  :"flex",
-                          alignItems :"center",
-                          gap : "15px"
-                        }}
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "15px",
+                          }}
                           control={
                             <Checkbox
                               name={`${ele?.id}${opt?.id}`}
@@ -3104,7 +3165,7 @@ const Lookbook = () => {
                             />
                           }
                           className="hoq_mui_checkbox_label"
-                          label={<CustomLabel text={opt?.Name}/> }
+                          label={<CustomLabel text={opt?.Name} />}
                         />
                       </div>
                     ))}
@@ -3116,14 +3177,12 @@ const Lookbook = () => {
         </Box>
       </Modal>
 
-
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
           <ProductListSkeleton />
         </div>
       ) : (
-
         <div className="hoq1_LookBookSubMainDiv">
           <div
             className="hoq_lookBookMobileTopLine"
@@ -3131,374 +3190,102 @@ const Lookbook = () => {
               display: "flex",
               justifyContent: "space-between",
               margin: "0px 5px 25px 5px",
-              gap: '20px'
+              gap: "20px",
             }}
           >
-            <div className="hoq_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
-              {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
-              <FilterListIcon style={{ color: 'white' }} />
-            </div>
-            <div style={{ display: 'flex' ,justifyContent  :"space-between" ,width  :"100%",alignItems  :"center"}}>
-              <div className="filter_hoq_icon">
-              <FilterAltIcon
-                fontSize="large"
-                style={{ color: "#c0bbb1" }}
-                className="hoq_lookBookMobileFilter"
-                onClick={() => setIsDrawerOpen(true)}
-              />
+            <div
+              className="hoq_lookBook_FilterIconeDiv"
+              // onClick={handleFilterShow}
+              style={{ fontSize: "12px" }}
+              onClick={() => setIsDrawerOpen(true)}
+            >
+              {/* {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"} */}
+              {/* <FilterListIcon style={{ color: "white" }} /> */}
+              <div className="12">
+                <FilterAltIcon
+                  fontSize="large"
+                  style={{ color: "#fff" }}
+                  onClick={() => setIsDrawerOpen(true)}
+                />
               </div>
-             <div className="sec_hoq_right">
-             <HtmlTooltip
-                title={<CustomTooltipContent categories={selectedCategories} />}
-              >
-                <button
-                  onClick={()=>handleOpen()}
-                  className="hoq_lookBookSelectViewBtn"
-                  style={{
-                    background: "#c20000" ,
-                    color: "#fff" ,
-                    marginRight: '20px'
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <div className="filter_hoq_icon">
+                <FilterAltIcon
+                  fontSize="large"
+                  style={{ color: "#c0bbb1" }}
+                  className="hoq_lookBookMobileFilter"
+                  onClick={() => setIsDrawerOpen(true)}
+                />
+              </div>
+              <div className="sec_hoq_right">
+                <HtmlTooltip
+                  title={
+                    <CustomTooltipContent categories={selectedCategories} />
+                  }
+                >
+                  <button
+                    onClick={() => handleOpen()}
+                    className="hoq_lookBookSelectViewBtn"
+                    style={{
+                      background: "#c20000",
+                      color: "#fff",
+                      marginRight: "20px",
+                    }}
+                  >
+                    Set View
+                  </button>
+                </HtmlTooltip>
+                <ToggleButtonGroup
+                  size="medium"
+                  value={selectedValue}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="text alignment"
+                  sx={{
+                    height: "35px",
+                    borderRadius: "0px",
+                    ".Mui-selected": {
+                      backgroundColor: "#7d7f856e",
+                      color: "#fff",
+                    },
+                    ".MuiToggleButton-root": {
+                      borderRadius: "0px",
+                      "&:not(.Mui-selected)": {
+                        backgroundColor: "transparent",
+                        color: "#000",
+                      },
+                    },
                   }}
                 >
-                  Set View
-                </button>
-              </HtmlTooltip>
-              <ToggleButtonGroup
-                size="medium"
-                value={selectedValue}
-                exclusive
-                onChange={handleChange}
-                aria-label="text alignment"
-                sx={{
-                  height: "35px",
-                  borderRadius: '0px',
-                  '.Mui-selected': {
-                    backgroundColor: '#7d7f856e',
-                    color: '#fff',
-                  },
-                  '.MuiToggleButton-root': {
-                    borderRadius: '0px',
-                    '&:not(.Mui-selected)': {
-                      backgroundColor: 'transparent',
-                      color: '#000',
-                    }
-                  }
-                }}
-              >
-                <ToggleButton value={1} aria-label="left aligned">
-                  {/* <RxGrid /> */}|
-                </ToggleButton>
-                <ToggleButton value={2} aria-label="centered">
-                  {/* <TfiLayoutGrid2 /> */}
-                  ||
-                </ToggleButton>
-                <ToggleButton value={3} aria-label="right aligned">
-                  {/* <TfiLayoutGrid3 /> */}
-                  |||
-                </ToggleButton>
-              </ToggleButtonGroup>
-             </div>
+                  <ToggleButton value={1} aria-label="left aligned">
+                    {/* <RxGrid /> */}|
+                  </ToggleButton>
+                  <ToggleButton value={2} aria-label="centered">
+                    {/* <TfiLayoutGrid2 /> */}
+                    ||
+                  </ToggleButton>
+                  <ToggleButton value={3} aria-label="right aligned">
+                    {/* <TfiLayoutGrid3 /> */}
+                    |||
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
             </div>
           </div>
           <div className="hoq_SubDiv_LookBookSubMainDiv">
-            <div className="hoq_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '999', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
-
-              {filterData?.length > 0 && (
-                <div className="hoq1_lookBookFilterSubDiv">
-                  <span className="hoq_filter_text">
-                    <span>Filters</span>
-
-
-                    {/* <span>
-                                        {Object.values(filterChecked).filter(
-                                            (ele) => ele.checked
-                                        )?.length === 0
-                                            ? 
-                                            "Filters"
-                                            : 
-                                            `Product Found:
-                                             ${afterFilterCount}`}
-                                    </span> */}
-                    <span onClick={() => handelFilterClearAll()}>
-                      {Object.values(filterChecked).filter((ele) => ele.checked)
-                        ?.length > 0
-                        ? "Clear All"
-                        : ""}
-                    </span>
-                  </span>
-                  <div className="hoq_bg_main_filter" style={{ marginTop: "12px" }}>
-                    {filterData?.map((ele) => (
-                      <>
-                        {!ele?.id?.includes("Range") &&
-                          !ele?.id?.includes("Price") && (
-                            <Accordion
-                              elevation={0}
-                              sx={{
-                                borderBottom: "1px solid #c7c8c9",
-                                borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
-                                "&.MuiPaper-root.MuiAccordion-root:before": {
-                                  background: "none",
-                                },
-                              }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
-                            >
-                              <AccordionSummary
-                                expandIcon={
-                                  <ExpandMoreIcon sx={{ width: "20px" }} />
-                                }
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                                sx={{
-                                  color: "#7d7f85 !important",
-                                  borderRadius: 0,
-
-                                  "&.MuiAccordionSummary-root": {
-                                    padding: 0,
-                                  },
-                                }}
-                              // className="filtercategoryLable"
-                              >
-                                {/* <span> */}
-                                {ele.Name}
-                                {/* </span> */}
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "4px",
-                                  minHeight: "fit-content",
-                                  maxHeight: "300px",
-                                  overflow: "auto",
-
-                                }}
-                              >
-                                {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      width  :"100%",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={opt?.id}
-                                  >
-                                    {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                    <FormControlLabel
-                                    sx={{
-                                      display  :"flex",
-                                      alignItems  :"center",
-                                      justifyContent  :"space-between",
-                                      flexDirection  :"row-reverse",
-                                      width  :"100%",
-
-
-                                    }}
-                                      control={
-                                        <Checkbox
-                                          name={`${ele?.id}${opt?.id}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`${ele?.id}${opt?.id}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
-                                          }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(
-                                              e,
-                                              ele?.id,
-                                              opt?.Name
-                                            )
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="hoq_mui_checkbox_label"
-                                      label={<CustomLabel text={opt?.Name}/>}
-                                    />
-                                  </div>
-                                ))}
-                              </AccordionDetails>
-                            </Accordion>
-                          )}
-                        {ele?.id?.includes("Price") && (
-                          <Accordion
-                            elevation={0}
-                            sx={{
-                              borderBottom: "0px solid #c7c8c9",
-                              borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
-                              "&.MuiPaper-root.MuiAccordion-root:before": {
-                                background: "none",
-                              },
-                            }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
-                              }
-                              aria-controls="panel1-content"
-                              id="panel1-header"
-                              sx={{
-                                color: "#7d7f85 !important",
-                                borderRadius: 0,
-                                "&.MuiAccordionSummary-root": {
-                                  padding: 0,
-                                },
-                              }}
-                            // className="filtercategoryLable"
-                            >
-                              {/* <span> */}
-                              {ele.Name}
-                              {/* </span> */}
-                            </AccordionSummary>
-                            <AccordionDetails
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                minHeight: "fit-content",
-                                maxHeight: "300px",
-                                overflow: "auto",
-                              }}
-                            >
-                              {(JSON?.parse(ele?.options) ?? [])?.map(
-                                (opt, i) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={i}
-                                  >
-                                    {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                    <FormControlLabel
-                                      sx={{
-                                        display  :"flex",
-                                        alignItems  :"center",
-                                        justifyContent  :"space-between",
-                                        flexDirection  :"row-reverse",
-                                        width  :"100%",
-                                      }}
-                                      control={
-                                        <Checkbox
-                                          name={`Price${i}${i}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`Price${i}${i}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[`Price${i}${i}`]
-                                                ?.checked
-                                          }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(e, ele?.id, opt)
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="hoq_mui_checkbox_label"
-                                      // label={
-                                      //   opt?.Minval == 0
-                                      //     ? `Under ${decodeEntities(
-                                      //       storeInit?.Currencysymbol
-                                      //     )}${opt?.Maxval}`
-                                      //     : opt?.Maxval == 0
-                                      //       ? `Over ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval}`
-                                      //       : `${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval} - ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Maxval}`
-                                      // }
-                                      label={
-                                        opt?.Minval == 0
-                                          ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                          : opt?.Maxval == 0
-                                            ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                            : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                      }
-                                    />
-                                  </div>
-                                )
-                              )}
-                            </AccordionDetails>
-                          </Accordion>
-                        )}
-                      </>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="hoq_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
-
-
+          
+            <div
+              className="hoq_Main_lookBookImgDiv"
+              style={{ transition: "1s ease", width: "100%" }}
+            >
               {selectedValue == 2 && (
                 <div className="hoq_lookBookImgDivMain">
                   {filteredDesignSetLstData?.length == 0 ? (
@@ -3512,7 +3299,7 @@ const Lookbook = () => {
                           style={{
                             display: "flex",
                             height: dataKey == index && "100%",
-                            position: 'relative'
+                            position: "relative",
                           }}
                         >
                           {ProdCardImageFunc(slide) ? (
@@ -3540,7 +3327,14 @@ const Lookbook = () => {
                                 cursor: "pointer",
                               }}
                             >
-                              <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                              <p
+                                style={{
+                                  fontSize: "30px",
+                                  color: getRandomBgColor(index).color,
+                                }}
+                              >
+                                {slide?.designsetno}
+                              </p>
                             </div>
                           )}
                           {/* <p className="hoq_lb2designList_title">
@@ -3552,30 +3346,33 @@ const Lookbook = () => {
                           style={{
                             display: dataKey == index ? "none" : "flex",
                             justifyContent: "space-between",
-                            alignItems: 'center',
+                            alignItems: "center",
                             margin: "5px",
                           }}
                         >
-                          <p className="hoq_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
-                            {storeInit?.IsDiamondWeight == 1 &&
+                          <p
+                            className="hoq_lookBookDesc"
+                            style={{ fontSize: "13px", margin: "2px" }}
+                          >
+                            {storeInit?.IsDiamondWeight == 1 && (
                               <>
-                               DWT:{" "}
-                            {calculateTotalUnitCostWithMarkUpDwt(
-                              JSON?.parse(slide.Designdetail)
-                            ).toFixed(3)}{" "}
-                            | 
+                                DWT:{" "}
+                                {calculateTotalUnitCostWithMarkUpDwt(
+                                  JSON?.parse(slide.Designdetail)
+                                ).toFixed(3)}{" "}
+                                |
                               </>
-                            }
-                             { storeInit?.IsGrossWeight == 1 &&
+                            )}
+                            {storeInit?.IsGrossWeight == 1 && (
                               <>
-                              GWT:{" "}
-                            {calculateTotalUnitCostWithMarkUpGWt(
-                              JSON?.parse(slide.Designdetail)
-                            ).toFixed(3)}{" "}
-                            |
+                                GWT:{" "}
+                                {calculateTotalUnitCostWithMarkUpGWt(
+                                  JSON?.parse(slide.Designdetail)
+                                ).toFixed(3)}{" "}
+                                |
                               </>
-                             }
-                              NWT:{" "}
+                            )}
+                            NWT:{" "}
                             {calculateTotalUnitCostWithMarkUpNwt(
                               JSON?.parse(slide.Designdetail)
                             ).toFixed(3)}{" "}
@@ -3584,22 +3381,22 @@ const Lookbook = () => {
                             className="hoq_lookBookImgDeatilSub"
                             style={{ display: "flex", alignItems: "center" }}
                           >
-                           {storeInit?.IsPriceShow == 1 && <>
-                            <p
-                              style={{
-                                margin: "0px 10px 0px 0px",
-                                fontSize: "15px",
-                                fontWeight: 600,
-                              }}
-                              className="hoq_lookBookPriceShow"
-                            >
-                              {" "}
-                              <span
-                                className="hoq_currencyFont"
-                              >
-                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
-                              {/* <span
+                            {storeInit?.IsPriceShow == 1 && (
+                              <>
+                                <p
+                                  style={{
+                                    margin: "0px 10px 0px 0px",
+                                    fontSize: "15px",
+                                    fontWeight: 600,
+                                  }}
+                                  className="hoq_lookBookPriceShow"
+                                >
+                                  {" "}
+                                  <span className="hoq_currencyFont">
+                                    {loginUserDetail?.CurrencyCode ??
+                                      storeInit?.CurrencyCode}
+                                  </span>
+                                  {/* <span
                               className="hoq_currencyFont"
                               dangerouslySetInnerHTML={{
                                 __html: decodeEntities(
@@ -3607,17 +3404,23 @@ const Lookbook = () => {
                                 ),
                               }}
                             /> */}
-                              &nbsp;
-                              {formatter(calculateTotalUnitCostWithMarkUp(
-                                JSON?.parse(slide.Designdetail)
-                              ))}
-                            </p>
-                           </>}
+                                  &nbsp;
+                                  {formatter(
+                                    calculateTotalUnitCostWithMarkUp(
+                                      JSON?.parse(slide.Designdetail)
+                                    )
+                                  )}
+                                </p>
+                              </>
+                            )}
                             <button
                               className="hoq_lookBookBuyBtn"
                               onClick={() =>
                                 handleByCombo(
-                                  parseDesignDetails(slide?.Designdetail, "Cart")
+                                  parseDesignDetails(
+                                    slide?.Designdetail,
+                                    "Cart"
+                                  )
                                 )
                               }
                             >
@@ -3642,17 +3445,28 @@ const Lookbook = () => {
                               640: { slidesPerView: 3, spaceBetween: 30 },
                             }}
                           >
-                            {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
-                              const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                            {sortDesignDetailsBySrNo(
+                              parseDesignDetails(slide?.Designdetail)
+                            )?.map((detail, subIndex) => {
+                              const imageSrc =
+                                imageSources[detail?.designno] || imageNotFound;
 
                               return (
-                                <div className="hoq_lookBookSubImageDiv" key={subIndex}>
+                                <div
+                                  className="hoq_lookBookSubImageDiv"
+                                  key={subIndex}
+                                >
                                   <SwiperSlide
                                     className="hoq_lookBookSliderSubDiv"
-                                    style={{ marginRight: "0px", cursor: "pointer" }}
+                                    style={{
+                                      marginRight: "0px",
+                                      cursor: "pointer",
+                                    }}
                                   >
                                     {detail?.IsInReadyStock == 1 && (
-                                      <span className="hoq_LookBookinstock">In Stock</span>
+                                      <span className="hoq_LookBookinstock">
+                                        In Stock
+                                      </span>
                                     )}
                                     <img
                                       className="hoq_lookBookSubImage"
@@ -3663,22 +3477,34 @@ const Lookbook = () => {
                                         handleNavigation(
                                           detail?.designno,
                                           detail?.autocode,
-                                          detail?.TitleLine ? detail?.TitleLine : ""
+                                          detail?.TitleLine
+                                            ? detail?.TitleLine
+                                            : ""
                                         )
                                       }
                                     />
-                                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "5px" }}>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginBottom: "5px",
+                                      }}
+                                    >
                                       {cartItems.includes(detail?.autocode) ? (
                                         <button
                                           className="hoq_lookBookINCartBtn"
-                                          onClick={() => handleRemoveCart(detail)}
+                                          onClick={() =>
+                                            handleRemoveCart(detail)
+                                          }
                                         >
                                           REMOVE CART
                                         </button>
                                       ) : (
                                         <button
                                           className="hoq_lookBookAddtoCartBtn"
-                                          onClick={() => handleAddToCart(detail)}
+                                          onClick={() =>
+                                            handleAddToCart(detail)
+                                          }
                                         >
                                           ADD TO CART +
                                         </button>
@@ -3711,7 +3537,7 @@ const Lookbook = () => {
                               display: "flex",
                               width: "30%",
                               height: "300px",
-                              position: 'relative'
+                              position: "relative",
                             }}
                             className="hoq_designSetDiv2_sub1"
                           >
@@ -3740,10 +3566,19 @@ const Lookbook = () => {
                                   cursor: "pointer",
                                 }}
                               >
-                                <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                <p
+                                  style={{
+                                    fontSize: "30px",
+                                    color: getRandomBgColor(index).color,
+                                  }}
+                                >
+                                  {slide?.designsetno}
+                                </p>
                               </div>
                             )}
-                            <p className="hoq_lb1designList_title">{slide?.designsetno}</p>
+                            <p className="hoq_lb1designList_title">
+                              {slide?.designsetno}
+                            </p>
                           </div>
 
                           <div
@@ -3762,42 +3597,57 @@ const Lookbook = () => {
                               style={{
                                 display: dataKey == index ? "none" : "flex",
                                 justifyContent: "space-between",
-                                alignItems: 'center',
+                                alignItems: "center",
                                 width: "100%",
                                 padding: "0px 15px",
                                 margin: "5px",
                               }}
                             >
-                              <p className="hoq_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
-                               { storeInit?.IsGrossWeight == 1 && <> DWT:{" "}
-                                {calculateTotalUnitCostWithMarkUpDwt(
-                                  JSON?.parse(slide.Designdetail)
-                                ).toFixed(3)}{" "} </>}
-                                { storeInit?.IsGrossWeight == 1 && <>
-                                  | GWT:{" "}
-                                {calculateTotalUnitCostWithMarkUpGWt(
-                                  JSON?.parse(slide.Designdetail)
-                                ).toFixed(3)}{" "}
-                                |
-                                </>} NWT:{" "}
+                              <p
+                                className="hoq_lookBookDesc"
+                                style={{ fontSize: "13px", margin: "2px" }}
+                              >
+                                {storeInit?.IsGrossWeight == 1 && (
+                                  <>
+                                    {" "}
+                                    DWT:{" "}
+                                    {calculateTotalUnitCostWithMarkUpDwt(
+                                      JSON?.parse(slide.Designdetail)
+                                    ).toFixed(3)}{" "}
+                                  </>
+                                )}
+                                {storeInit?.IsGrossWeight == 1 && (
+                                  <>
+                                    | GWT:{" "}
+                                    {calculateTotalUnitCostWithMarkUpGWt(
+                                      JSON?.parse(slide.Designdetail)
+                                    ).toFixed(3)}{" "}
+                                    |
+                                  </>
+                                )}{" "}
+                                NWT:{" "}
                                 {calculateTotalUnitCostWithMarkUpNwt(
                                   JSON?.parse(slide.Designdetail)
                                 ).toFixed(3)}{" "}
                               </p>
                               <div
                                 className="hoq_lookBookImgDeatilSub"
-                                style={{ display: "flex", alignItems: "center" }}
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
                               >
-                               {storeInit?.IsPriceShow == 1 && <p
-                                  style={{
-                                    margin: "0px 10px 0px 0px",
-                                    fontSize: "15px",
-                                    fontWeight: 600,
-                                  }}
-                                  className="hoq_lookBookPriceShow"
-                                >
-                                  {" "}
-                                  {/* <span
+                                {storeInit?.IsPriceShow == 1 && (
+                                  <p
+                                    style={{
+                                      margin: "0px 10px 0px 0px",
+                                      fontSize: "15px",
+                                      fontWeight: 600,
+                                    }}
+                                    className="hoq_lookBookPriceShow"
+                                  >
+                                    {" "}
+                                    {/* <span
                                   className="hoq_currencyFont"
                                   dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
@@ -3805,16 +3655,18 @@ const Lookbook = () => {
                                     ),
                                   }}
                                 /> */}
-                                  <span
-                                    className="hoq_currencyFont"
-                                  >
-                                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                  </span>
-                                  &nbsp;
-                                  {formatter(calculateTotalUnitCostWithMarkUp(
-                                    JSON?.parse(slide.Designdetail)
-                                  ))}
-                                </p>}
+                                    <span className="hoq_currencyFont">
+                                      {loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode}
+                                    </span>
+                                    &nbsp;
+                                    {formatter(
+                                      calculateTotalUnitCostWithMarkUp(
+                                        JSON?.parse(slide.Designdetail)
+                                      )
+                                    )}
+                                  </p>
+                                )}
                                 <button
                                   className="hoq_lookBookBuyBtn"
                                   onClick={() =>
@@ -3896,14 +3748,18 @@ const Lookbook = () => {
                                       {cartItems.includes(detail?.autocode) ? (
                                         <button
                                           className="hoq_lookBookINCartBtn"
-                                          onClick={() => handleRemoveCart(detail)}
+                                          onClick={() =>
+                                            handleRemoveCart(detail)
+                                          }
                                         >
                                           REMOVE CART
                                         </button>
                                       ) : (
                                         <button
                                           className="hoq_lookBookAddtoCartBtn"
-                                          onClick={() => handleAddToCart(detail)}
+                                          onClick={() =>
+                                            handleAddToCart(detail)
+                                          }
                                         >
                                           ADD TO CART +
                                         </button>
@@ -3913,7 +3769,6 @@ const Lookbook = () => {
                                 </div>
                               ))}
                             </Swiper>
-
 
                             <div className="hoq_LookBookMobileThridViewMain">
                               <div className="card">
@@ -3967,17 +3822,23 @@ const Lookbook = () => {
                                             marginBottom: "5px",
                                           }}
                                         >
-                                          {cartItems.includes(detail?.autocode) ? (
+                                          {cartItems.includes(
+                                            detail?.autocode
+                                          ) ? (
                                             <button
                                               className="hoq_lookBookINCartBtn"
-                                              onClick={() => handleRemoveCart(detail)}
+                                              onClick={() =>
+                                                handleRemoveCart(detail)
+                                              }
                                             >
                                               REMOVE CART
                                             </button>
                                           ) : (
                                             <button
                                               className="hoq_lookBookAddtoCartBtn"
-                                              onClick={() => handleAddToCart(detail)}
+                                              onClick={() =>
+                                                handleAddToCart(detail)
+                                              }
                                             >
                                               ADD TO CART +
                                             </button>
@@ -4017,7 +3878,13 @@ const Lookbook = () => {
                         navigation={true}
                         loop={true}
                         thumbs={{ swiper: thumbsSwiper }}
-                        modules={[Keyboard, FreeMode, Navigation, Thumbs, Scrollbar]}
+                        modules={[
+                          Keyboard,
+                          FreeMode,
+                          Navigation,
+                          Thumbs,
+                          Scrollbar,
+                        ]}
                         keyboard={{ enabled: true }}
                         mousewheel={true}
                         className="hoq_LookBookmySwiper mySwiper2"
@@ -4061,21 +3928,24 @@ const Lookbook = () => {
                                     Buy Combo
                                   </button>
                                 </div> */}
-
                                 </div>
                                 <div
                                   className={
                                     (slide?.Designdetail == undefined
                                       ? []
                                       : sortDesignDetailsBySrNo(
-                                        parseDesignDetails(slide?.Designdetail)
-                                      )
+                                          parseDesignDetails(
+                                            slide?.Designdetail
+                                          )
+                                        )
                                     )?.length > 3
                                       ? "hoq_lb3compeletethelook_prodt_for_3"
                                       : "hoq_lb3compeletethelook_prodt"
                                   }
                                 >
-                                  <p className="hoq_lb3designList_title" >{slide?.designsetno}</p>
+                                  <p className="hoq_lb3designList_title">
+                                    {slide?.designsetno}
+                                  </p>
                                   <div className="hoq_lb3_prodtDivs2">
                                     {sortDesignDetailsBySrNo(
                                       parseDesignDetails(slide?.Designdetail)
@@ -4084,7 +3954,8 @@ const Lookbook = () => {
                                         key={subIndex}
                                         className="hoq_lb3completethelook_outer"
                                         style={{
-                                          borderTop: subIndex !== 0 ? "none" : "",
+                                          borderTop:
+                                            subIndex !== 0 ? "none" : "",
                                           width: "513px",
                                           padding: "5px",
                                           border: "1px solid #e1e1e1",
@@ -4099,7 +3970,10 @@ const Lookbook = () => {
                                             justifyContent: "space-around",
                                           }}
                                         >
-                                          <div className="hoq_lb3ImageDiv" style={{ marginLeft: "12px" }}>
+                                          <div
+                                            className="hoq_lb3ImageDiv"
+                                            style={{ marginLeft: "12px" }}
+                                          >
                                             <img
                                               src={
                                                 ele?.ImageCount > 0
@@ -4119,15 +3993,18 @@ const Lookbook = () => {
                                               }
                                             />
                                           </div>
-                                          <div className="hoq_lb3srthelook_prodinfo" onClick={() =>
-                                            handleNavigation(
-                                              ele?.designno,
-                                              ele?.autocode,
-                                              ele?.TitleLine
-                                                ? ele?.TitleLine
-                                                : ""
-                                            )
-                                          }>
+                                          <div
+                                            className="hoq_lb3srthelook_prodinfo"
+                                            onClick={() =>
+                                              handleNavigation(
+                                                ele?.designno,
+                                                ele?.autocode,
+                                                ele?.TitleLine
+                                                  ? ele?.TitleLine
+                                                  : ""
+                                              )
+                                            }
+                                          >
                                             <div
                                               style={{
                                                 fontSize: "14px",
@@ -4138,47 +4015,91 @@ const Lookbook = () => {
                                             >
                                               <p>
                                                 <span>
-                                                  {ele?.designno} - {ele?.CategoryName}
+                                                  {ele?.designno} -{" "}
+                                                  {ele?.CategoryName}
                                                 </span>
                                                 <br />
 
-                                                {storeInit?.IsGrossWeight == 1 &&
+                                                {storeInit?.IsGrossWeight ==
+                                                  1 && (
                                                   <>
-                                                    <span className='hoq_lb3detailDT'>GWT: </span>
-                                                    <span className='hoq_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
-                                                  </>
-                                                }
-
-                                                {Number(ele?.Nwt) !== 0 && (
-                                                  <>
-                                                   {storeInit?.IsGrossWeight ==1 &&  <span className='hoq_lb3pipe'> | </span>}
-                                                    <span className='hoq_lb3detailDT'>NWT : </span>
-                                                    <span className='hoq_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                    <span className="hoq_lb3detailDT">
+                                                      GWT:{" "}
+                                                    </span>
+                                                    <span className="hoq_lb3detailDT">
+                                                      {(ele?.Gwt || 0)?.toFixed(
+                                                        3
+                                                      )}
+                                                    </span>
                                                   </>
                                                 )}
 
-                                                {storeInit?.IsGrossWeight == 1 &&
+                                                {Number(ele?.Nwt) !== 0 && (
                                                   <>
-                                                    {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
-                                                      <>
-                                                        <span className='hoq_lb3pipe'> | </span>
-                                                        <span className='hoq_lb3detailDT'>DWT: </span>
-                                                        <span className='hoq_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
-                                                      </>
-                                                    }
+                                                    {storeInit?.IsGrossWeight ==
+                                                      1 && (
+                                                      <span className="hoq_lb3pipe">
+                                                        {" "}
+                                                        |{" "}
+                                                      </span>
+                                                    )}
+                                                    <span className="hoq_lb3detailDT">
+                                                      NWT :{" "}
+                                                    </span>
+                                                    <span className="hoq_lb3detailDT">
+                                                      {(ele?.Nwt || 0)?.toFixed(
+                                                        3
+                                                      )}
+                                                    </span>
                                                   </>
-                                                }
-                                                {storeInit?.IsStoneWeight == 1 &&
+                                                )}
+
+                                                {storeInit?.IsGrossWeight ==
+                                                  1 && (
                                                   <>
-                                                    {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+                                                    {(ele?.Dwt != "0" ||
+                                                      ele?.Dpcs != "0") && (
                                                       <>
-                                                        <span className='hoq_lb3pipe'> | </span>
-                                                        <span className='hoq_lb3detailDT'>CWT: </span>
-                                                        <span className='hoq_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                        <span className="hoq_lb3pipe">
+                                                          {" "}
+                                                          |{" "}
+                                                        </span>
+                                                        <span className="hoq_lb3detailDT">
+                                                          DWT:{" "}
+                                                        </span>
+                                                        <span className="hoq_lb3detailDT">
+                                                          {(
+                                                            ele?.Dwt || 0
+                                                          )?.toFixed(3)}{" "}
+                                                          / {ele?.Dpcs || 0}
+                                                        </span>
                                                       </>
-                                                    }
+                                                    )}
                                                   </>
-                                                }
+                                                )}
+                                                {storeInit?.IsStoneWeight ==
+                                                  1 && (
+                                                  <>
+                                                    {(ele?.CSwt != "0" ||
+                                                      ele?.CSpcs != "0") && (
+                                                      <>
+                                                        <span className="hoq_lb3pipe">
+                                                          {" "}
+                                                          |{" "}
+                                                        </span>
+                                                        <span className="hoq_lb3detailDT">
+                                                          CWT:{" "}
+                                                        </span>
+                                                        <span className="hoq_lb3detailDT">
+                                                          {(
+                                                            ele?.CSwt || 0
+                                                          )?.toFixed(3)}{" "}
+                                                          /{ele?.CSpcs || 0}
+                                                        </span>
+                                                      </>
+                                                    )}
+                                                  </>
+                                                )}
                                                 <br />
                                                 {/* <span
                                               className="hoq_currencyFont"
@@ -4188,15 +4109,19 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
-                                               {storeInit?.IsPriceShow == 1 && <>
-                                                <span
-                                                  className="hoq_currencyFont"
-                                                >
-                                                  {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>
-                                                &nbsp;
-                                                {formatter(ele?.UnitCostWithMarkUp)}
-                                               </>}
+                                                {storeInit?.IsPriceShow ==
+                                                  1 && (
+                                                  <>
+                                                    <span className="hoq_currencyFont">
+                                                      {loginUserDetail?.CurrencyCode ??
+                                                        storeInit?.CurrencyCode}
+                                                    </span>
+                                                    &nbsp;
+                                                    {formatter(
+                                                      ele?.UnitCostWithMarkUp
+                                                    )}
+                                                  </>
+                                                )}
                                               </p>
                                             </div>
                                           </div>
@@ -4209,53 +4134,57 @@ const Lookbook = () => {
                                             }}
                                             className="hoq_lb3cartIconBtnDiv"
                                           >
-                                            {cartItems.includes(ele?.autocode) ? (
+                                            {cartItems.includes(
+                                              ele?.autocode
+                                            ) ? (
                                               <IconButton
-                                                onClick={() => handleRemoveCart(ele)}
+                                                onClick={() =>
+                                                  handleRemoveCart(ele)
+                                                }
                                               >
                                                 <LocalMallIcon className="hoq_lookBookINCartIconBtn" />
                                               </IconButton>
                                             ) : (
                                               <IconButton
-                                                onClick={() => handleAddToCart(ele)}
+                                                onClick={() =>
+                                                  handleAddToCart(ele)
+                                                }
                                               >
                                                 <LocalMallOutlinedIcon className="hoq_lookBookAddtoCartIconBtn" />
                                               </IconButton>
                                             )}
-
-
                                           </div>
                                         </div>
                                       </div>
                                     ))}
                                   </div>
-                                  <div
-                                    className="hoq_lb3TotalBtnGroups"
-                                  >
+                                  <div className="hoq_lb3TotalBtnGroups">
                                     <div className="hoq_lb3TotalPrice">
                                       <span>
-                                        <span
-                                          className="hoq_currencyFont"
-                                        >
-                                          {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        <span className="hoq_currencyFont">
+                                          {loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode}
                                         </span>
                                         &nbsp;
-                                        {formatter(calculateTotalUnitCostWithMarkUp(
-                                          JSON?.parse(slide.Designdetail)
-                                        ))}
+                                        {formatter(
+                                          calculateTotalUnitCostWithMarkUp(
+                                            JSON?.parse(slide.Designdetail)
+                                          )
+                                        )}
                                       </span>
                                     </div>
-                                    <div className="hoq_lb3BuyComboDiv" onClick={() =>
-                                      handleByCombo(
-                                        parseDesignDetails(
-                                          slide?.Designdetail,
-                                          "Cart"
+                                    <div
+                                      className="hoq_lb3BuyComboDiv"
+                                      onClick={() =>
+                                        handleByCombo(
+                                          parseDesignDetails(
+                                            slide?.Designdetail,
+                                            "Cart"
+                                          )
                                         )
-                                      )
-                                    }>
-                                      <span>
-                                        Buy Combo
-                                      </span>
+                                      }
+                                    >
+                                      <span>Buy Combo</span>
                                     </div>
                                   </div>
                                 </div>
@@ -4305,29 +4234,28 @@ const Lookbook = () => {
                           >
                             {filteredDesignSetLstData?.map((slide, index) => (
                               <SwiperSlide key={index}>
-
                                 {ProdCardImageFunc(slide) ? (
                                   <>
-                                  <img
-                                    src={ProdCardImageFunc(slide)}
-                                    alt=""
-                                    className="ctl_Paginationimg"
-                                  />
+                                    <img
+                                      ref={SwiperSlideRef}
+                                      src={ProdCardImageFunc(slide)}
+                                      alt=""
+                                      className="ctl_Paginationimg"
+                                    />
                                   </>
                                 ) : (
                                   <div
                                     style={{
-                                      height: "100%",
-                                      width: "100%",
+                                      height: DynamicSize.h,
+                                      width: DynamicSize.w,
                                       ...getRandomBgColor(index),
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
                                       cursor: "pointer",
-                                      minHeight: `clamp(50px, 10vh + 20px, 66.3px)`,
-                                      margin : 0
+                                      margin: 0,
                                     }}
-                                    className="hoq_lb3ctl_img_new "
+                                    className="hoq_lb3ctl_img_new"
                                   >
                                     {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
@@ -4341,7 +4269,6 @@ const Lookbook = () => {
                   )}
                 </div>
               )}
-
             </div>
           </div>
         </div>
@@ -4373,3 +4300,332 @@ const Lookbook = () => {
 };
 
 export default Lookbook;
+
+
+
+
+// <div
+// className="hoq_lookbookFilterMain"
+// style={{
+//   transition: "1s ease",
+//   backgroundColor: "white",
+//   zIndex: "999",
+//   width: `19%`,
+//   left: `${isShowfilter ? "0" : "-500%"}`,
+//   position: "absolute",
+//   top: "100px",
+//   display: isShowfilter ? "block" : "none",
+// }}
+// >
+// {filterData?.length > 0 && (
+//   <div className="hoq1_lookBookFilterSubDiv">
+//     <span className="hoq_filter_text">
+//       <span>Filters</span>
+
+//       {/* <span>
+//                           {Object.values(filterChecked).filter(
+//                               (ele) => ele.checked
+//                           )?.length === 0
+//                               ? 
+//                               "Filters"
+//                               : 
+//                               `Product Found:
+//                                ${afterFilterCount}`}
+//                       </span> */}
+//       <span onClick={() => handelFilterClearAll()}>
+//         {Object.values(filterChecked).filter((ele) => ele.checked)
+//           ?.length > 0
+//           ? "Clear All"
+//           : ""}
+//       </span>
+//     </span>
+//     <div
+//       className="hoq_bg_main_filter"
+//       style={{ marginTop: "12px" }}
+//     >
+//       {filterData?.map((ele) => (
+//         <>
+//           {!ele?.id?.includes("Range") &&
+//             !ele?.id?.includes("Price") && (
+//               <Accordion
+//                 elevation={0}
+//                 sx={{
+//                   borderBottom: "1px solid #c7c8c9",
+//                   borderRadius: 0,
+//                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                     {
+//                       borderBottomLeftRadius: "0px",
+//                       borderBottomRightRadius: "0px",
+//                     },
+//                   "&.MuiPaper-root.MuiAccordion-root:before": {
+//                     background: "none",
+//                   },
+//                 }}
+//                 // expanded={accExpanded}
+//                 // defaultExpanded={}
+//               >
+//                 <AccordionSummary
+//                   expandIcon={
+//                     <ExpandMoreIcon sx={{ width: "20px" }} />
+//                   }
+//                   aria-controls="panel1-content"
+//                   id="panel1-header"
+//                   sx={{
+//                     color: "#7d7f85 !important",
+//                     borderRadius: 0,
+
+//                     "&.MuiAccordionSummary-root": {
+//                       padding: 0,
+//                     },
+//                   }}
+//                   // className="filtercategoryLable"
+//                 >
+//                   {/* <span> */}
+//                   {ele.Name}
+//                   {/* </span> */}
+//                 </AccordionSummary>
+//                 <AccordionDetails
+//                   sx={{
+//                     display: "flex",
+//                     flexDirection: "column",
+//                     gap: "4px",
+//                     minHeight: "fit-content",
+//                     maxHeight: "300px",
+//                     overflow: "auto",
+//                   }}
+//                 >
+//                   {(JSON?.parse(ele?.options) ?? [])?.map(
+//                     (opt) => (
+//                       <div
+//                         style={{
+//                           display: "flex",
+//                           alignItems: "center",
+//                           width: "100%",
+//                           justifyContent: "space-between",
+//                           gap: "12px",
+//                         }}
+//                         key={opt?.id}
+//                       >
+//                         {/* <small
+//                           style={{
+//                             fontFamily: "TT Commons, sans-serif",
+//                             color: "#7f7d85",
+//                           }}
+//                         >
+//                           {opt.Name}
+//                         </small> */}
+//                         <FormControlLabel
+//                           sx={{
+//                             display: "flex",
+//                             alignItems: "center",
+//                             justifyContent: "space-between",
+//                             flexDirection: "row-reverse",
+//                             width: "100%",
+//                           }}
+//                           control={
+//                             <Checkbox
+//                               name={`${ele?.id}${opt?.id}`}
+//                               // checked={
+//                               //   filterChecked[`checkbox${index + 1}${i + 1}`]
+//                               //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+//                               //     : false
+//                               // }
+//                               checked={
+//                                 filterChecked[
+//                                   `${ele?.id}${opt?.id}`
+//                                 ]?.checked === undefined
+//                                   ? false
+//                                   : filterChecked[
+//                                       `${ele?.id}${opt?.id}`
+//                                     ]?.checked
+//                               }
+//                               style={{
+//                                 color: "#7f7d85",
+//                                 padding: 0,
+//                                 width: "10px",
+//                               }}
+//                               onClick={(e) =>
+//                                 handleCheckboxChange(
+//                                   e,
+//                                   ele?.id,
+//                                   opt?.Name
+//                                 )
+//                               }
+//                               size="small"
+//                             />
+//                           }
+//                           // sx={{
+//                           //   display: "flex",
+//                           //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+//                           //   width: "100%",
+//                           //   flexDirection: "row-reverse", // Align items to the right
+//                           //   fontFamily:'TT Commons Regular'
+//                           // }}
+//                           className="hoq_mui_checkbox_label"
+//                           label={<CustomLabel text={opt?.Name} />}
+//                         />
+//                       </div>
+//                     )
+//                   )}
+//                 </AccordionDetails>
+//               </Accordion>
+//             )}
+//           {ele?.id?.includes("Price") && (
+//             <Accordion
+//               elevation={0}
+//               sx={{
+//                 borderBottom: "0px solid #c7c8c9",
+//                 borderRadius: 0,
+//                 "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                   {
+//                     borderBottomLeftRadius: "0px",
+//                     borderBottomRightRadius: "0px",
+//                   },
+//                 "&.MuiPaper-root.MuiAccordion-root:before": {
+//                   background: "none",
+//                 },
+//               }}
+//               // expanded={accExpanded}
+//               // defaultExpanded={}
+//             >
+//               <AccordionSummary
+//                 expandIcon={
+//                   <ExpandMoreIcon sx={{ width: "20px" }} />
+//                 }
+//                 aria-controls="panel1-content"
+//                 id="panel1-header"
+//                 sx={{
+//                   color: "#7d7f85 !important",
+//                   borderRadius: 0,
+//                   "&.MuiAccordionSummary-root": {
+//                     padding: 0,
+//                   },
+//                 }}
+//                 // className="filtercategoryLable"
+//               >
+//                 {/* <span> */}
+//                 {ele.Name}
+//                 {/* </span> */}
+//               </AccordionSummary>
+//               <AccordionDetails
+//                 sx={{
+//                   display: "flex",
+//                   flexDirection: "column",
+//                   gap: "4px",
+//                   minHeight: "fit-content",
+//                   maxHeight: "300px",
+//                   overflow: "auto",
+//                 }}
+//               >
+//                 {(JSON?.parse(ele?.options) ?? [])?.map(
+//                   (opt, i) => (
+//                     <div
+//                       style={{
+//                         display: "flex",
+//                         alignItems: "center",
+//                         justifyContent: "space-between",
+//                         gap: "12px",
+//                       }}
+//                       key={i}
+//                     >
+//                       {/* <small
+//                           style={{
+//                             fontFamily: "TT Commons, sans-serif",
+//                             color: "#7f7d85",
+//                           }}
+//                         >
+//                           {opt.Name}
+//                         </small> */}
+//                       <FormControlLabel
+//                         sx={{
+//                           display: "flex",
+//                           alignItems: "center",
+//                           justifyContent: "space-between",
+//                           flexDirection: "row-reverse",
+//                           width: "100%",
+//                         }}
+//                         control={
+//                           <Checkbox
+//                             name={`Price${i}${i}`}
+//                             // checked={
+//                             //   filterChecked[`checkbox${index + 1}${i + 1}`]
+//                             //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+//                             //     : false
+//                             // }
+//                             checked={
+//                               filterChecked[`Price${i}${i}`]
+//                                 ?.checked === undefined
+//                                 ? false
+//                                 : filterChecked[`Price${i}${i}`]
+//                                     ?.checked
+//                             }
+//                             style={{
+//                               color: "#7f7d85",
+//                               padding: 0,
+//                               width: "10px",
+//                             }}
+//                             onClick={(e) =>
+//                               handleCheckboxChange(
+//                                 e,
+//                                 ele?.id,
+//                                 opt
+//                               )
+//                             }
+//                             size="small"
+//                           />
+//                         }
+//                         // sx={{
+//                         //   display: "flex",
+//                         //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+//                         //   width: "100%",
+//                         //   flexDirection: "row-reverse", // Align items to the right
+//                         //   fontFamily:'TT Commons Regular'
+//                         // }}
+//                         className="hoq_mui_checkbox_label"
+//                         // label={
+//                         //   opt?.Minval == 0
+//                         //     ? `Under ${decodeEntities(
+//                         //       storeInit?.Currencysymbol
+//                         //     )}${opt?.Maxval}`
+//                         //     : opt?.Maxval == 0
+//                         //       ? `Over ${decodeEntities(
+//                         //         storeInit?.Currencysymbol
+//                         //       )}${opt?.Minval}`
+//                         //       : `${decodeEntities(
+//                         //         storeInit?.Currencysymbol
+//                         //       )}${opt?.Minval} - ${decodeEntities(
+//                         //         storeInit?.Currencysymbol
+//                         //       )}${opt?.Maxval}`
+//                         // }
+//                         label={
+//                           opt?.Minval == 0
+//                             ? `Under ${
+//                                 loginUserDetail?.CurrencyCode ??
+//                                 storeInit?.CurrencyCode
+//                               }${opt?.Maxval}`
+//                             : opt?.Maxval == 0
+//                             ? `Over ${
+//                                 loginUserDetail?.CurrencyCode ??
+//                                 storeInit?.CurrencyCode
+//                               }${opt?.Minval}`
+//                             : `${
+//                                 loginUserDetail?.CurrencyCode ??
+//                                 storeInit?.CurrencyCode
+//                               }${opt?.Minval} - ${
+//                                 loginUserDetail?.CurrencyCode ??
+//                                 storeInit?.CurrencyCode
+//                               }${opt?.Maxval}`
+//                         }
+//                       />
+//                     </div>
+//                   )
+//                 )}
+//               </AccordionDetails>
+//             </Accordion>
+//           )}
+//         </>
+//       ))}
+//     </div>
+//   </div>
+// )}
+// </div>
