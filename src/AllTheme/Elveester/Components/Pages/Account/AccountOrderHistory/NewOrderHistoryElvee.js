@@ -35,6 +35,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { ExpandLess } from "@mui/icons-material";
 import { formatAmount, formatAmount2 } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from "../HeadTitleAcc";
 const NewOrderHistoryElvee = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -276,6 +277,7 @@ const NewOrderHistoryElvee = () => {
           </Box>
         ) : (
           <div>
+            <HeadTitleAcc title="Order History" />
             <div style={{ width: "100%" }}>
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
