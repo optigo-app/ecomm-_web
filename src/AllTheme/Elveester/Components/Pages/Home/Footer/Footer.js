@@ -179,7 +179,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className='elv_copyrights_div'>
-                <hr />
+                <hr className='elv_copy_hr' />
                 <div className='elv_coprights'>
                     <span className='elv_copyrights_text'>Copyright &#169; 2024 Elvee. All Rights Reserved.</span>
                 </div>
