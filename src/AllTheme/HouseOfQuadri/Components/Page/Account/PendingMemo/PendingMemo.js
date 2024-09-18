@@ -1326,6 +1326,7 @@ const PendingMemo = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              className="memoTablePagination_Acc"
             />
           </Paper>
         </>

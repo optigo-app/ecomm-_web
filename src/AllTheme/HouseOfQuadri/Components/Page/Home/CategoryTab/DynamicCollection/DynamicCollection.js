@@ -97,6 +97,7 @@ const DynamicCollection = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(
     loginUserDetail?.MetalId
   );
+  const [SearchError,setSearchError] = useState(false)
   const [cartArr, setCartArr] = useState({});
   const [wishArr, setWishArr] = useState({});
   const [accExpanded, setAccExpanded] = useState(null);
@@ -180,6 +181,7 @@ const DynamicCollection = () => {
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
+            console.log(res,"setSearchError")
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
             setAfterCountStatus(false);
@@ -1301,6 +1303,23 @@ const DynamicCollection = () => {
     handelFilterClearAll();
   }, [location?.pathname || location?.search]);
 
+  const CustomLabel = ({ text }) => (
+    <Typography
+      sx={{
+        fontFamily: "Tenor Sans , sans-serif !important",
+        fontSize: {
+          xs: "14.2px !important", // Mobile screens
+          sm: "16px !important", // Tablets
+          md: "15.2px !important", // Desktop screens
+          lg: "16px !important", // Large desktops
+          xl: "16.4px !important", // Extra large screens
+        },
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
   return (
     <>
       <div className="hoq_dynamic_Collections">
@@ -1693,7 +1712,7 @@ const DynamicCollection = () => {
                                       />
                                     }
                                     className="smr_mui_checkbox_label"
-                                    label={opt.Name}
+                                    label={<CustomLabel text={opt.Name} />}
                                   />
                                 </div>
                               ))}
@@ -1810,25 +1829,29 @@ const DynamicCollection = () => {
                                   // }}
                                   className="smr_mui_checkbox_label"
                                   label={
-                                    opt?.Minval == 0
-                                      ? `Under  ${decodeEntities(
-                                          loginUserDetail?.CurrencyCode ??
-                                            storeInit?.CurrencyCode
-                                        )} ${formatter(opt?.Maxval)}`
-                                      : opt?.Maxval == 0
-                                      ? `Over  ${decodeEntities(
-                                          loginUserDetail?.CurrencyCode ??
-                                            storeInit?.CurrencyCode
-                                        )} ${formatter(opt?.Minval)}`
-                                      : `${decodeEntities(
-                                          loginUserDetail?.CurrencyCode ??
-                                            storeInit?.CurrencyCode
-                                        )}  ${formatter(
-                                          opt?.Minval
-                                        )} - ${decodeEntities(
-                                          loginUserDetail?.CurrencyCode ??
-                                            storeInit?.CurrencyCode
-                                        )}  ${formatter(opt?.Maxval)}`
+                                    <CustomLabel
+                                      text={
+                                        opt?.Minval == 0
+                                          ? `Under  ${decodeEntities(
+                                              loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                            )} ${formatter(opt?.Maxval)}`
+                                          : opt?.Maxval == 0
+                                          ? `Over  ${decodeEntities(
+                                              loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                            )} ${formatter(opt?.Minval)}`
+                                          : `${decodeEntities(
+                                              loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                            )}  ${formatter(
+                                              opt?.Minval
+                                            )} - ${decodeEntities(
+                                              loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                            )}  ${formatter(opt?.Maxval)}`
+                                      }
+                                    />
                                   }
                                 />
                               </div>
@@ -2146,7 +2169,8 @@ const DynamicCollection = () => {
                 ))}
               </div>
             ) : (
-              <NoProductFound />
+              // <NoProductFound />
+              <NoSearchRes location={location}/>
             )}
 
             {/* Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && ( */}
@@ -2431,19 +2455,21 @@ const C_Card = ({
           {/* </span> */}
         </small>
         <div className="hoq_prod_mtcolr_price">
-          {<span className="hoq_prod_metal_col">
-            {findMetalColor(
-              productData?.MetalColorid
-            )?.[0]?.metalcolorname?.toUpperCase()}
-            -
-            {
-              findMetalType(
-                productData?.IsMrpBase == 1
-                  ? productData?.MetalPurityid
-                  : selectedMetalId ?? productData?.MetalPurityid
-              )[0]?.metaltype
-            }
-          </span>}
+          {
+            <span className="hoq_prod_metal_col">
+              {findMetalColor(
+                productData?.MetalColorid
+              )?.[0]?.metalcolorname?.toUpperCase()}
+              -
+              {
+                findMetalType(
+                  productData?.IsMrpBase == 1
+                    ? productData?.MetalPurityid
+                    : selectedMetalId ?? productData?.MetalPurityid
+                )[0]?.metaltype
+              }
+            </span>
+          }
           {storeInit?.IsPriceShow === 1 && (
             <>
               <span> / </span>
@@ -2492,6 +2518,17 @@ const NoProductFound = () => {
     </div>
   );
 };
+
+const NoSearchRes = ({location})=>{
+  return  <div className="NoProductFound">
+  <div className="">
+  <p style={{textTransform:'capitalize'}}>We couldn't find any matches for</p>
+  <p style={{fontWeight:'bold'}}>{`"${decodeURIComponent(location?.pathname?.split("/")[2])}".`}</p>
+  </div>
+  <br />
+  <p className="search_notfound2">Please try another search.</p>
+</div>
+}
 const LoadingSkeleton = () => {
   return Array.from({ length: 8 }).map((_, i) => {
     return (
@@ -2578,6 +2615,11 @@ const BreadcrumbMenu = ({
         {location?.search.charAt(1) == "B" && (
           <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
             <span>{"Best Seller"}</span>
+          </div>
+        )}
+        {location?.search?.charAt(1) == "S" && (
+          <div className="hoq_breadcums_port" style={{ marginLeft: "3px" }}>
+            <span>{location?.pathname?.split("/")[2]}</span>
           </div>
         )}
 

@@ -56,8 +56,9 @@ export default function ContinueWithEmail() {
     setIsLoading(true);
     ContinueWithEmailAPI(trimmedEmail)
       .then((response) => {
+        console.log(response)
         setIsLoading(false);
-        if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
+        if (response?.Data?.rd[0]?.stat == 1 && response?.Data?.rd[0]?.islead == 1) {
           toast.error("You are not a customer, contact to admin");
         } else if (
           response.Data.rd[0].stat == 1 &&
@@ -112,7 +113,7 @@ export default function ContinueWithEmail() {
         </div>
       )}
       <div >
-        <div className="smling-forgot-main">
+        <form onSubmit={(e)=>{handleSubmit() ; e.preventDefault()}} className="smling-forgot-main">
           <p
             style={{
               textAlign: "center",
@@ -153,11 +154,11 @@ export default function ContinueWithEmail() {
               className="smr_continuEmailBox"
               style={{ margin: "15px" }}
               value={email}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  handleSubmit();
-                }
-              }}
+              // onKeyDown={(event) => {
+              //   if (event.key === "Enter") {
+              //     handleSubmit();
+              //   }
+              // }}
               onChange={handleEmailChange}
               error={!!emailError}
               helperText={emailError}
@@ -176,18 +177,19 @@ export default function ContinueWithEmail() {
             <button
               type="submit"
               className="submitBtnForgot"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
             >
               SUBMIT
             </button>
             <Button
+            // type="submit"
               style={{ marginTop: "10px", color: "gray" }}
               onClick={() => navigation(cancelRedireactUrl)}
             >
               CANCEL
             </Button>
           </div>
-        </div>
+        </form>
       </div>
       <div
         style={{
