@@ -4,27 +4,24 @@ import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
-import { loginState } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { homeLoading, loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
-import HomeSkeleton from '../HomeSkeleton/HomeSkeleton';
-
 
 const ProductGrid = () => {
+
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData, setBestSellerData] = useState('')
     const [storeInit, setStoreInit] = useState({});
     const [isLoding, setIsLoding] = useState(true);
-
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
-
-
-    // console.log('best saller...');
+    const setLoadingHome = useSetRecoilState(homeLoading);
+    
     const settings = {
         dots: true,
         infinite: true,
@@ -105,6 +102,7 @@ const ProductGrid = () => {
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
+                setLoadingHome(false);
                 setIsLoding(false);
                 setBestSellerData(response?.Data?.rd);
             }
@@ -113,6 +111,7 @@ const ProductGrid = () => {
     }
 
     useEffect(() => {
+        setLoadingHome(true);
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -187,91 +186,85 @@ const ProductGrid = () => {
 
     return (
         <div ref={bestSallerRef}>
-            {isLoding ?
-                <>
-                    <HomeSkeleton />
-                </>
-                :
-                <div>
-                    {bestSellerData?.length != 0 &&
-                        <div className='smr_mainBestSeler1Div' >
-                            <div className='smr_bestseler1TitleDiv'>
-                                <span className='smr_bestseler1Title'>BEST SELLER</span>
-                            </div>
-                            <div className="product-grid">
-                                <div className='smr_leftSideBestSeler'>
-                                    {bestSellerData?.slice(0, 4).map((data, index) => (
-                                        <div key={index} className="product-card">
-                                            <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
-                                                <img
-                                                    src={data?.ImageCount >= 1 ?
-                                                        `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
-                                                        :
-                                                        imageNotFound
-                                                    }
-                                                    alt={data.name}
-                                                />
-                                            </div>
-                                            <div className="product-info">
-                                                <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
-                                                {storeInit?.IsGrossWeight == 1 &&
-                                                    <>
-                                                        <span className='smr_btdetailDT'>GWT: </span>
-                                                        <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
-                                                    </>
+            <div>
+                {bestSellerData?.length != 0 &&
+                    <div className='smr_mainBestSeler1Div' >
+                        <div className='smr_bestseler1TitleDiv'>
+                            <span className='smr_bestseler1Title'>BEST SELLER</span>
+                        </div>
+                        <div className="product-grid">
+                            <div className='smr_leftSideBestSeler'>
+                                {bestSellerData?.slice(0, 4).map((data, index) => (
+                                    <div key={index} className="product-card">
+                                        <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                            <img
+                                                src={data?.ImageCount >= 1 ?
+                                                    `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
+                                                    :
+                                                    imageNotFound
                                                 }
-                                                {Number(data?.Nwt) !== 0 && (
-                                                    <>
-                                                        <span className='smr_btpipe'>|</span>
-                                                        <span className='smr_btdetailDT'>NWT : </span>
-                                                        <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
-                                                    </>
-                                                )}
-                                                {storeInit?.IsDiamondWeight == 1 &&
-                                                    <>
-                                                        {(data?.Dwt != "0" || data?.Dpcs != "0") &&
-                                                            <>
-                                                                <span className='smr_btpipe'>|</span>
-                                                                <span className='smr_btdetailDT'>DWT: </span>
-                                                                <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
-                                                            </>
-                                                        }
-                                                    </>
-                                                }
-                                                {storeInit?.IsStoneWeight == 1 &&
-                                                    <>
-                                                        {(data?.CSwt != "0" || data?.CSpcs != "0") &&
-                                                            <>
-                                                                <span className='smr_btpipe'>|</span>
-                                                                <span className='smr_btdetailDT'>CWT: </span>
-                                                                <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
-                                                            </>
-                                                        }
-                                                    </>
-                                                }
-                                                <p>
-                                                    <span className="smr_currencyFont">
-                                                        {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
-                                                    </span>&nbsp;
-                                                    <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
-                                            </div>
+                                                alt={data.name}
+                                            />
                                         </div>
-                                    ))}
-                                </div>
-                                <div className='smr_rightSideBestSeler'>
-                                    {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                                    <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" />
-                                    <div className="smr_lookbookImageRightDT">
-                                        <p>SHORESIDE COLLECTION</p>
-                                        <h2>FOR LOVE OF SUN & SEA</h2>
-                                        <button onClick={() => navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</button>
+                                        <div className="product-info">
+                                            <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                    <span className='smr_btdetailDT'>GWT: </span>
+                                                    <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                            }
+                                            {Number(data?.Nwt) !== 0 && (
+                                                <>
+                                                    <span className='smr_btpipe'>|</span>
+                                                    <span className='smr_btdetailDT'>NWT : </span>
+                                                    <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                                </>
+                                            )}
+                                            {storeInit?.IsDiamondWeight == 1 &&
+                                                <>
+                                                    {(data?.Dwt != "0" || data?.Dpcs != "0") &&
+                                                        <>
+                                                            <span className='smr_btpipe'>|</span>
+                                                            <span className='smr_btdetailDT'>DWT: </span>
+                                                            <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                        </>
+                                                    }
+                                                </>
+                                            }
+                                            {storeInit?.IsStoneWeight == 1 &&
+                                                <>
+                                                    {(data?.CSwt != "0" || data?.CSpcs != "0") &&
+                                                        <>
+                                                            <span className='smr_btpipe'>|</span>
+                                                            <span className='smr_btdetailDT'>CWT: </span>
+                                                            <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                        </>
+                                                    }
+                                                </>
+                                            }
+                                            <p>
+                                                <span className="smr_currencyFont">
+                                                    {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
+                                                </span>&nbsp;
+                                                <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
+                                        </div>
                                     </div>
+                                ))}
+                            </div>
+                            <div className='smr_rightSideBestSeler'>
+                                {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
+                                <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" />
+                                <div className="smr_lookbookImageRightDT">
+                                    <p>SHORESIDE COLLECTION</p>
+                                    <h2>FOR LOVE OF SUN & SEA</h2>
+                                    <button onClick={() => navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</button>
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
-            }
+                    </div>
+                }
+            </div>
         </div>
     );
 };

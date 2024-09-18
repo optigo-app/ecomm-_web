@@ -10,7 +10,7 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { companyLogo, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
@@ -26,11 +26,13 @@ import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
+import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(3)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
 
 
@@ -38,8 +40,27 @@ export default function ThemeRoutes() {
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
 
   const [title, setTitle] = useState();
+
   const [favicon, setFavIcon] = useState();
   const islogin = useRecoilValue(loginState);
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON?.parse(text);
+          console.log(jsonData , "hoq")
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");
@@ -90,6 +111,7 @@ export default function ThemeRoutes() {
 
             if (response?.data?.Data?.rd[0]?.Themeno === 1) {
               setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+              setCompanyTitleLogoM(response?.data?.Data?.rd[0]?.companyMlogo);
             }
 
             if (response?.data?.Data?.rd[0]?.Themeno === 2) {
@@ -124,8 +146,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(3);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -203,65 +225,65 @@ export default function ThemeRoutes() {
           <meta name="description" content={title} />
 
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="icon" sizes="192x192" href={favicon} />
+          <link rel="icon" sizes="512x512" href={favicon} />
+          <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <meta name="description" content={title} />
-          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
+          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon1.png`} type="image/x-icon" />
 
           {/* Apple Touch Icon */}
           <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
 
           {/* Android Chrome Icons */}
-          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/android-chrome-192x192`} />
-          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/android-chrome-512x512`} />
-
-          {/* Microsoft Tile Icons */}
-          {/* <meta name="msapplication-TileColor" content="#ffffff" /> */}
-          {/* <meta name="msapplication-TileImage" content="/mstile-150x150.png" /> */}
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/androidCh1.png`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/androidCh2.png`} />
 
           {/* Safari Pinned Tab Icon */}
           <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
+
+          {/* Microsoft Tile Icons */}
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta name="msapplication-TileImage" content={`${storImagePath()}/logo-icon/androidCh2.png`} />
+
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
         </Helmet>
-        {/* <SEO
-          favicon={favicon}
-          title={title}
-          description=""
-          url={window.location.href}
-          image={favicon}
-        /> */}
+
       </div>
-      {/* <Procatalog_App /> */}
 
-      {/* {themeNo === 6 && <Procatalog_App />} */}
+      {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+        (
+          <>
+            {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-      {/* <SmilingRock_App /> */}
+            {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-      {themeNo === 1 && <SmilingRock_App />}
+            {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-      {themeNo === 2 && <DaimondTine_App />}
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}.
 
-      {themeNo === 3 && <Elveester_App />}
+            {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
-      {themeNo === 4 && <SmilingRock_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-      {themeNo === 5 && <HemratnaProcatalog_App />}
+            {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-      {themeNo === 6 && <Procatalog_App />}
+            {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
-      {themeNo === 7 && <HouseOfQuadri_App />}
+            {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
-      {themeNo === 8 && <ForEveryRoutes />}
+            {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-      {themeNo === 9 && <Procatalog_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-      {themeNo === 10 && <StamFordJewels_App />}
-
-      {themeNo === 11 && <RoopJewellers_App />}
-
-      {themeNo === 12 && <MalakanJewels_App />}
-
+            {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+          </>
+        )
+      }
     </>
+
   );
 }

@@ -5,6 +5,11 @@ export const dt_companyLogo = atom({
   default: []
 })
 
+export const dt_homeLoading = atom({
+  key: 'dt_homeLoading',
+  default: true
+})
+
 export const dt_loginState = atom({
   key: 'dt_loginState',
   default: false,

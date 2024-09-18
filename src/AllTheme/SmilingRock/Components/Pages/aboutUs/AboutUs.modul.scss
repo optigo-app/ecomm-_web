@@ -17,6 +17,11 @@
         position: fixed;
     }
 
+    .smr_daimondsEveryAbout_sub{
+        margin-inline: 16%;
+        padding-top: 50px;
+    }
+
     .smiling-About-container2 {
         background-color: black;
         opacity: 0.2;
@@ -83,6 +88,10 @@
 
 
     @media screen and (max-width: 1200px) {
+
+        .smr_daimondsEveryAbout_sub{
+            margin-inline: 6%;
+        }
 
         .about-daimondBoxMain {
             display: flex;

@@ -140,7 +140,15 @@
 .hoqYourAccountPageTabs{
     display: none;
 }
-
+// .iconsTabAcc .MuiTabs-flexContainer{
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+// }
+.iconsTabAcc{
+    display: none !important;
+}
 @media screen and (max-width: 1441px) {
 
     .Smiling-AccountMain {
@@ -164,6 +172,9 @@
         background-color: white;
         z-index: 10; /* Adjust z-index as needed */
         padding: 10px 0;
+    }
+    .iconsTabAcc{
+        display: none !important;
     }
 }
 // @media screen and (min-width: 1050px) {
@@ -225,6 +236,9 @@
         flex-direction: column;
         align-items: center;
     }
+    .iconsTabAcc{
+        display: none !important;
+    }
 }
 
 @media screen and (max-width:1024px){
@@ -246,6 +260,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+    .iconsTabAcc{
+        display: unset !important;
+    }
+    .iconsTabAcc .MuiTabs-flexContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2%;
     }
 }
 

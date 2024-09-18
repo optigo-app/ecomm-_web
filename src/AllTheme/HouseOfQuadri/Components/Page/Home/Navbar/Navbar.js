@@ -365,9 +365,9 @@ const Navbar = () => {
           f: {},
         };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
+        let encodeObj = btoa(JSON.stringify(obj))
 
-        navigate(`/d/${searchText}?p=${encodeObj}`);
+        navigate(`/p/${searchText}?S=${encodeObj}`);
         // toggleOverlay();
         setSearchText("");
         setshowSearchBar(!showSearchBar);

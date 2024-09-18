@@ -1927,6 +1927,15 @@ const ProductList = () => {
                     </div>
                   )}
 
+                  {location?.search.charAt(1) == "S" && (
+                    <div
+                      className="smr_breadcums_port_app"
+                      // style={{ marginLeft: "3px" }}
+                    >
+                      <span>{location?.pathname?.split("/")[2]}</span>
+                    </div>
+                  )}
+
                   {IsBreadCumShow && (
                     <div
                       className="smr_breadcums_port_app"

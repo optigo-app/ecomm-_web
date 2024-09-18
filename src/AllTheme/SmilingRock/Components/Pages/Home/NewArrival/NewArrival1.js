@@ -4,8 +4,8 @@ import { Grid, Typography, Card, CardContent, CardMedia, Link } from '@mui/mater
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { homeLoading, loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
@@ -20,9 +20,10 @@ const NewArrival = () => {
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
     const islogin = useRecoilValue(loginState);
+    const setLoadingHome =  useSetRecoilState(homeLoading);
 
     useEffect(() => {
-
+        setLoadingHome(true);
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -88,6 +89,7 @@ const NewArrival = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
+                setLoadingHome(false);
             }
         }).catch((err) => console.log(err))
     }

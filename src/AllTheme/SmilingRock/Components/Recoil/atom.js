@@ -35,6 +35,11 @@ export const DiamondRangeArr = atom({
   default: []
 })
 
+export const homeLoading = atom({
+  key: 'homeLoading',
+  default: true
+})
+
 export const defaultAddressState = atom({
   key: 'defaultAddressState',
   default: null,

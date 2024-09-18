@@ -35,6 +35,7 @@ import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
 import { roop_CartNo, roop_companyLogo, roop_loginState } from "./Components/Recoil/atom";
+import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 
 const RoopJewellers_App = () => {
   const islogin = useRecoilValue(roop_loginState);
@@ -47,7 +48,32 @@ const RoopJewellers_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(roop_companyLogo);
+  const [htmlContent, setHtmlContent] = useState("");
 
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (htmlContent) {
+      setLocalData((prevData) => ({
+        ...prevData,
+        Headerno: htmlContent?.rd[0]?.Headerno,
+      }));
+    }
+  }, [htmlContent]);
 
   useEffect(() => {
     setCartNo(3);

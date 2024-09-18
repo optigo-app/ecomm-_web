@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './BestSellerSection.modul.scss'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,12 +8,13 @@ import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
-import { smrMA_loginState } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 const BestSellerSection = () => {
 
+    const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData , setBestSellerData] = useState('')
     const[storeInit,setStoreInit]=useState({});
@@ -22,6 +23,8 @@ const BestSellerSection = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(smrMA_loginState);
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
+
     const settings = {
         dots: true,
         infinite: false,
@@ -33,40 +36,58 @@ const BestSellerSection = () => {
         // nextArrow: false,
     };
 
-    useEffect(() => {
-      const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-      const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-      const { IsB2BWebsite } = storeInit;
-      const visiterID = Cookies.get('visiterId');
-      let finalID;
-      if (IsB2BWebsite == 0) {
-          finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-      } else {
-          finalID = loginUserDetail?.id || '0';
+  useEffect(() => {
+      setLoadingHome(true);
+      const observer = new IntersectionObserver(
+          (entries) => {
+              entries.forEach((entry) => {
+                  if (entry.isIntersecting) {
+                      callAllApi()
+                      observer.unobserve(entry.target);
+                  }
+              });
+          },
+          {
+              root: null,
+              threshold: 0.5,
+          }
+      );
+
+      if (bestSallerRef.current) {
+          observer.observe(bestSallerRef.current);
       }
+      return () => {
+          if (bestSallerRef.current) {
+              observer.unobserve(bestSallerRef.current);
+          }
+      };
+  }, [])
 
-        let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-        setStoreInit(storeinit)
+  const callAllApi = () => {
+    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+    const visiterID = Cookies.get('visiterId');
+    let finalID;
+    if (storeInit?.IsB2BWebsite == 0) {
+        finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    } else {
+        finalID = loginUserDetail?.id || '0';
+    }
 
-        let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(data?.DesignImageFol);
-        Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller" , finalID)
-        .then(async(response) => {
-            if (response?.Data?.rd) {
-                const data = response.Data.rd;
-                const urls = await Promise.all(data?.map(async (item) => {
-                    const url = `${storeInit?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;
-                    const available = await checkImageAvailability(url);
-                    return available ? url : imageNotFound;
-                }));
-                setBestSellerData(data);
-                setImageUrls(urls);
-            }
-        })
-        .catch((err) => {
-            console.error('Error fetching best seller data:', err);
-        });
-    }, [])
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    setStoreInit(storeinit)
+
+    let data = JSON.parse(sessionStorage.getItem('storeInit'))
+    setImageUrl(data?.DesignImageFol);
+
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
+        if (response?.Data?.rd) {
+            setLoadingHome(false);
+            setBestSellerData(response?.Data?.rd);
+        }
+    }).catch((err) => console.log(err))
+
+}
 
     const checkImageAvailability = (url) => {
       return new Promise((resolve) => {
@@ -169,7 +190,7 @@ const BestSellerSection = () => {
         return slides;
     };
   return (
-    <div className='smrMA_bestSallerMain'>
+    <div className='smrMA_bestSallerMain' ref={bestSallerRef}>
       {bestSellerData?.length != 0 &&
           <div className='linkingLoveMain'>
             <div className='linkingLove'>

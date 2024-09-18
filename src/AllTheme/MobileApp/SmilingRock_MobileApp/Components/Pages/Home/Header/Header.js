@@ -116,9 +116,6 @@ const Header = () => {
   //     }
   //   }
   // }
-
-  console.log('ddddddddd', location);
-
   const handleNaviagteSearch = () => {
 
     if (isB2bFlag == 1) {
