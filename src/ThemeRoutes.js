@@ -30,7 +30,7 @@ import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(7)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -51,6 +51,7 @@ export default function ThemeRoutes() {
       .then((text) => {
         try {
           const jsonData = JSON?.parse(text);
+          console.log(jsonData , "hoq")
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -145,8 +146,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
-      // setThemeNo(1);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -265,7 +266,7 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-            {themeNo === 7 && <HouseOfQuadri_App />}
+            {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
             {themeNo === 8 && <ForEveryRoutes />}
 

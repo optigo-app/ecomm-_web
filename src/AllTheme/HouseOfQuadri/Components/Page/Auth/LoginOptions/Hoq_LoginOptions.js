@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Hoq_LoginOption.modul.scss";
 import { useNavigate, useLocation } from "react-router";
 
@@ -15,6 +15,30 @@ const LoginOption = () => {
 
   const redirectMobileUrl = `/ContimueWithMobile/${search}`;
 
+  const LoginMail = () => {
+    try {
+      navigation(redirectEmailUrl);
+    } catch (error) {
+      console.error("Navigation error:", error);
+    }
+  };
+
+  const LoginMobile = () => {
+    try {
+      navigation(redirectMobileUrl);
+    } catch (error) {
+      console.error("Navigation error:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Component mounted");
+  }, []);
+
+  useEffect(() => {
+    console.log("redirectEmailUrl or redirectMobileUrl changed");
+  }, [redirectEmailUrl, redirectMobileUrl]);
+
   return (
     <div className="Hoq_Loginoption">
       <div className="loginDailog">
@@ -29,10 +53,7 @@ const LoginOption = () => {
             Use your email or mobile no to continue with the organization.
           </p>
           <div className="smilingLoginOptionMain">
-            <div
-              className="loginMail"
-              onClick={() => navigation(redirectEmailUrl)}
-            >
+            <div className="loginMail" onClick={LoginMail}>
               <IoMdMail style={{ height: "25px", width: "25px" }} />
               <p
                 style={{
@@ -45,10 +66,7 @@ const LoginOption = () => {
                 Continue with email
               </p>
             </div>
-            <div
-              className="loginMobile"
-              onClick={() => navigation(redirectMobileUrl)}
-            >
+            <div className="loginMobile" onClick={LoginMobile}>
               <FaMobileAlt
                 style={{ height: "25px", width: "25px", marginRight: "10px" }}
               />
