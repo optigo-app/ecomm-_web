@@ -30,7 +30,7 @@ import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(3)
+  const [themeNo, setThemeNo] = useState(1)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -51,7 +51,7 @@ export default function ThemeRoutes() {
       .then((text) => {
         try {
           const jsonData = JSON?.parse(text);
-          console.log(jsonData , "hoq")
+          console.log(jsonData, "hoq")
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -147,7 +147,7 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       setThemeNo(SessionData?.Themeno);
-      setThemeNo(3);
+      setThemeNo(1);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -263,7 +263,7 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}.
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
             {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
@@ -284,6 +284,5 @@ export default function ThemeRoutes() {
         )
       }
     </>
-
   );
 }

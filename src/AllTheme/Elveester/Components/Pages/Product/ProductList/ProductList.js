@@ -474,8 +474,10 @@ const ProductList = () => {
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
+        console.log('UrlVal: ', UrlVal);
 
         let MenuVal = "";
+        let SearchVar = '';
         let productlisttype;
 
         UrlVal.forEach((ele) => {
@@ -484,6 +486,9 @@ const ProductList = () => {
           switch (firstChar) {
             case "M":
               MenuVal = ele;
+              break;
+            case 'S':
+              SearchVar = ele;
               break;
             default:
               return "";
@@ -497,6 +502,11 @@ const ProductList = () => {
           setIsBreadcumShow(true)
           productlisttype = [key, val];
         }
+
+        if (SearchVar) {
+          productlisttype = SearchVar
+        }
+
         setprodListType(productlisttype);
         setIsProdLoading(true);
 
@@ -506,6 +516,7 @@ const ProductList = () => {
 
         if (res) {
           setProductListData(res?.pdList);
+          console.log('res?.pdList: ', res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
         }
 
@@ -1202,20 +1213,16 @@ const ProductList = () => {
 
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3)))?.split('/')
-    console.log('BreadCum: ', BreadCum);
 
     const values = BreadCum[0]?.split(',');
-    console.log('values: ', values);
     const labels = BreadCum[1]?.split(',');
-    console.log('labels: ', labels);
 
     const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
-    console.log('updatedBreadCum: ', updatedBreadCum);
 
-    const result = updatedBreadCum && Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+    let result = updatedBreadCum && Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
@@ -1223,8 +1230,7 @@ const ProductList = () => {
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    console.log("ffff",result)
-
+    result = result || {};
     result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
 
     return result
@@ -1930,8 +1936,9 @@ const ProductList = () => {
                                       </Accordion>
                                     )}
                                   {item?.id?.includes("Price") && (
-                                    <Accordion className="accordian">
+                                    <Accordion className="accordian" sx={{ paddingInline: 0 }}>
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon
                                             sx={{ width: "20px" }}
@@ -2023,6 +2030,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("Diamond") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2050,6 +2058,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("Gross") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2077,6 +2086,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("NetWt") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2187,6 +2197,7 @@ const ProductList = () => {
                                 {item?.id?.includes("Price") && (
                                   <Accordion className="accordian">
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon
                                           sx={{ width: "20px" }}
@@ -2282,6 +2293,7 @@ const ProductList = () => {
                                 {item?.Name?.includes("Diamond") && (
                                   <Accordion elevation={0} >
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon sx={{ width: "20px" }} />
                                       }
@@ -2309,6 +2321,7 @@ const ProductList = () => {
                                 {item?.Name?.includes("Gross") && (
                                   <Accordion elevation={0} >
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon sx={{ width: "20px" }} />
                                       }
@@ -2336,6 +2349,7 @@ const ProductList = () => {
                                 {item?.Name?.includes("NetWt") && (
                                   <Accordion elevation={0} >
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon sx={{ width: "20px" }} />
                                       }
@@ -2370,7 +2384,7 @@ const ProductList = () => {
                       <ProductFilterSkeleton />
                     ) : (
                       <>
-                        {productListData.length < 1 ? (
+                        {productListData.length == 0 ? (
                           <div style={{ display: 'flex', justifyContent: 'center', width: '80%', fontSize: '25px', marginTop: '5rem' }}>
                             Products not found
                           </div>
