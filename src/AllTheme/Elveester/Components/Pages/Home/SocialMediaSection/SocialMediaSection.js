@@ -11,22 +11,22 @@ const sliderData = [
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia1.jpg",
     link: 'https://www.instagram.com/p/Ce7uShwlDBi/?hl=en',
-    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon1/Instagram.svg.png'
+    icon: `${storImagePath()}/images/HomePage/SocialLinks/instagram.png`
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia2.jpg",
     link: 'https://in.pinterest.com/pin/706854104032666402/',
-    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon5/pintrest.png'
+    icon: `${storImagePath()}/images/HomePage/SocialLinks/pinterest.png`
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia3.jpg",
     link: 'https://www.facebook.com/photo/?fbid=5153569661402827&set=a.1321180487975116',
-    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon2/fb.png'
+    icon: `${storImagePath()}/images/HomePage/SocialLinks/facebook.png`
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia4.jpg",
     link: 'https://www.linkedin.com/feed/update/urn:li:share:7118470948286009344/?actorCompanyId=3118775',
-    icon: 'http://zen/R50B3/UFS/demostoreQI9S5BDATC0M1KYJH/b2cstoreFooterimages/Elvee Promise Store/footerIcon3/twitter.png'
+    icon: `${storImagePath()}/images/HomePage/SocialLinks/linkedin.png`
   },
 ];
 

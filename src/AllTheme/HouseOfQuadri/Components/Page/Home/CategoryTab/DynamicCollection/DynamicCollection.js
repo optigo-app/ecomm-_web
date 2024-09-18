@@ -1254,7 +1254,6 @@ const DynamicCollection = () => {
       }));
     }
   };
-
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
 
@@ -1275,6 +1274,7 @@ const DynamicCollection = () => {
       },
       {}
     );
+
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 

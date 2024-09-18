@@ -170,12 +170,7 @@ export default function Account() {
           <div className={` ${!isSticky ? 'sticky_header_web_sm_hoq_isSticky' : 'sticky_header_web_sm_hoq'}`} style={{
             top  : !isSticky && '0px' ,
           }}>
-            <p
-              className="hoqAccountTitle youraccountpagesec"
-              style={{ height: "40px", margin: "0px", padding: "0px" }}
-            >
-              Your Account
-            </p>
+            <p className="hoqAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
             <div className="hoqAccountTabWebView hoq_main_head_none" style={{paddingTop:'1%'}}>
               <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
@@ -184,7 +179,8 @@ export default function Account() {
                   <Tab label="Your Profile" {...a11yProps(0)} />
                   <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                   <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
-                  <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} /> {/* <Tab label="PLM" {...a11yProps(5)} /> */} {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )}
+                  <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} /> {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                   {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )}
                   {/* <Tab label="Log Out" onClick={handleLogout} /> */}
                 </Tabs>
                 {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
@@ -320,11 +316,11 @@ export default function Account() {
                   <ChangePassword />
                 </div>
               </CustomTabPanel>
-              <CustomTabPanel value={value} index={5}>
+              { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
                 <div>
                   <Plm />
                 </div>
-              </CustomTabPanel>
+              </CustomTabPanel>}
             </Box>
           </div>
         </div>

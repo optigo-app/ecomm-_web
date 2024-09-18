@@ -238,11 +238,11 @@ export default function Account() {
                                     <ChangePassword />
                                 </div>
                             </CustomTabPanel>
-                            <CustomTabPanel value={value} index={accountValidation() ? 5 : 3}>
+                            { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={accountValidation() ? 5 : 3}>
                                 <div>
                                     <Plm />
                                 </div>
-                            </CustomTabPanel>
+                            </CustomTabPanel>}
 
 
                         </Box>

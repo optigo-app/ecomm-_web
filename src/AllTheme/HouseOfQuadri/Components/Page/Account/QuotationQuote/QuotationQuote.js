@@ -105,7 +105,7 @@ function EnhancedTableHead(props) {
                             align={headCell.align}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
-                            sx={{ position: 'sticky', top: '-1px', backgroundColor: '#fff', zIndex: 1 }}
+                            sx={{ position: 'sticky', top: '-1px', backgroundColor: 'rgb(235, 235, 235)', zIndex: 1 }}
                             className="sticky_quote_top"
                         >
                             {
@@ -323,7 +323,7 @@ const QuotationQuote = () => {
             setIsLoading(true);
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
-            const customerid = data.id; 
+            const customerid = data?.id; 
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             // const combinedValue = JSON.stringify({

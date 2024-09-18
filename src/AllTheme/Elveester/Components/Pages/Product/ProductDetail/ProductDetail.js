@@ -66,6 +66,7 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
+  const [imageSrc, setImageSrc] = useState();
   console.log('saveLastView: ', saveLastView);
 
   let cookie = Cookies.get('visiterId')
@@ -430,6 +431,20 @@ const ProductDetail = () => {
   //   });
 
   // }, [location?.key])
+
+  useEffect(() => {
+    if (selectedThumbImg) {
+      setImageSrc(selectedThumbImg.link);
+    } else {
+      // Set a default image if no thumbnail is selected
+      setImageSrc(pdVideoArr?.length > 0 ? noImageFound : 'p.png');
+    }
+  }, [selectedThumbImg, pdVideoArr]);
+
+  const handleError = (e) => {
+    e.target.onerror = null; // Prevent looping
+    e.target.src = noImageFound; // Fallback image
+  };
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
@@ -1152,12 +1167,12 @@ const ProductDetail = () => {
                 ) : (
                   <div className='elv_ProductDet_max1400'>
                     <div className='elv_ProductDet_prod_img_max1400'>
-                      {selectedThumbImg !== undefined ? (
+                      {selectedThumbImg ? (
                         selectedThumbImg?.type == "img" ? (
                           <img
                             // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            src={imageSrc}
+                            onError={handleError}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
                             className="elv_ProductDet_prod_image_max1400"
@@ -1180,31 +1195,13 @@ const ProductDetail = () => {
                           </div>
                         )
                       ) : (
-                        pdVideoArr?.length > 0 ? (
-                          <div>
-                            <video
-                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                              loop
-                              autoPlay
-                              playsInline
-                              muted // Add this attribute to ensure autoplay works
-                              style={{
-                                width: "100%",
-                                objectFit: "cover",
-                                height: "100%",
-                                borderRadius: "8px",
-                              }}
-                            />
-                          </div>) : (
-                          <img
-                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                            alt={""}
-                            onLoad={() => setIsImageLoad(false)}
-                            className="elv_ProductDet_prod_image_max1400"
-                          />
-                        )
-
+                        <img
+                          src={imageSrc}
+                          onError={handleError}
+                          alt={""}
+                          onLoad={() => setIsImageLoad(false)}
+                          className="elv_ProductDet_prod_image_max1400"
+                        />
                       )
                       }
                     </div>
@@ -1327,85 +1324,50 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-
                     {loadingdata ? (
                       <Skeleton className='elv_prod_det_default' variant="rectangular" />
                     ) : (
                       <>
                         <div className='elv_ProductDet_prod_img'>
-                          {selectedThumbImg !== undefined ? (
-                            selectedThumbImg?.type == "img" ? (
+                          {selectedThumbImg?.length > 0 ? (
+                            selectedThumbImg.type === "img" ? (
                               <img
-                                // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                                alt={""}
+                                src={imageSrc}
+                                onError={handleError}
+                                alt=""
                                 onLoad={() => setIsImageLoad(false)}
                                 className="elv_ProductDet_prod_image"
                               />
                             ) : (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    position: 'relative',
-                                    left: '6rem',
-                                    // height: "90%",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
+                              <video
+                                src={pdVideoArr.length > 0 ? selectedThumbImg.link : imageNotFound}
+                                loop
+                                autoPlay
+                                playsInline
+                                muted
+                                style={{
+                                  width: "100%",
+                                  objectFit: "cover",
+                                  position: 'relative',
+                                  left: '6rem',
+                                  borderRadius: "8px",
+                                }}
+                              />
                             )
                           ) : (
-                            pdVideoArr?.length > 0 ? (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    position: 'relative',
-                                    left: '6rem',
-                                    // height: "90%",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <img
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image"
-                              />
-                            )
-                          )
-                          }
+                            <img
+                              src={imageSrc}
+                              onError={handleError}
+                              alt=""
+                              onLoad={() => setIsImageLoad(false)}
+                              className="elv_ProductDet_prod_image"
+                            />
+                          )}
                         </div>
                       </>
                     )}
                   </>
                 )}
-
               </>
             )}
             {maxWidth1000 ? (
@@ -1417,12 +1379,12 @@ const ProductDetail = () => {
                     <>
                       <div>
                         <div className='elv_ProductDet_prod_img_max1000'>
-                          {selectedThumbImg !== undefined ? (
+                          {selectedThumbImg ? (
                             selectedThumbImg?.type == "img" ? (
                               <img
                                 // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                src={imageSrc}
+                                onError={handleError}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
                                 className="elv_ProductDet_prod_image_max1000"
@@ -1447,33 +1409,13 @@ const ProductDetail = () => {
                               </div>
                             )
                           ) : (
-                            pdVideoArr?.length > 0 ? (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    marginTop: '40px',
-                                    height: "100%",
-                                    maxHeight: "40.625rem",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <img
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image_max1000"
-                              />
-                            )
+                            <img
+                              src={imageSrc}
+                              onError={handleError}
+                              alt={""}
+                              onLoad={() => setIsImageLoad(false)}
+                              className="elv_ProductDet_prod_image_max1000"
+                            />
                           )
                           }
                         </div>
@@ -2596,3 +2538,37 @@ const TableComponentsMISC = ({ list, details }) => {
   );
 
 }
+
+
+
+// pdVideoArr?.length > 0 ? (
+//   <div>
+//     <video
+//       src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+//       loop
+//       autoPlay
+//       playsInline
+//       muted // Add this attribute to ensure autoplay works
+//       style={{
+//         width: "100%",
+//         objectFit: "cover",
+//         position: 'relative',
+//         left: '6rem',
+//         // height: "90%",
+//         borderRadius: "8px",
+//       }}
+//     />
+//   </div>
+// ) : (
+//   <img
+//     src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+//     onError={(e) => {
+//       e.target.onerror = null;
+//       e.target.src =
+//         "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+//     }}
+//     alt={""}
+//     onLoad={() => setIsImageLoad(false)}
+//     className="elv_ProductDet_prod_image"
+//   />
+// )

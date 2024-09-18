@@ -28,6 +28,7 @@ import Checkbox from "@mui/material/Checkbox";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { CiMenuKebab } from "react-icons/ci";
 import { TfiLayoutGrid4Alt } from "react-icons/tfi";
 import {
   Accordion,
@@ -473,8 +474,10 @@ const ProductList = () => {
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
+        console.log('UrlVal: ', UrlVal);
 
         let MenuVal = "";
+        let SearchVar = '';
         let productlisttype;
 
         UrlVal.forEach((ele) => {
@@ -483,6 +486,9 @@ const ProductList = () => {
           switch (firstChar) {
             case "M":
               MenuVal = ele;
+              break;
+            case 'S':
+              SearchVar = ele;
               break;
             default:
               return "";
@@ -496,6 +502,11 @@ const ProductList = () => {
           setIsBreadcumShow(true)
           productlisttype = [key, val];
         }
+
+        if (SearchVar) {
+          productlisttype = SearchVar
+        }
+
         setprodListType(productlisttype);
         setIsProdLoading(true);
 
@@ -505,6 +516,7 @@ const ProductList = () => {
 
         if (res) {
           setProductListData(res?.pdList);
+          console.log('res?.pdList: ', res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
         }
 
@@ -1200,17 +1212,17 @@ const ProductList = () => {
   }
 
   const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+    let BreadCum = decodeURI(atob(location?.search.slice(3)))?.split('/')
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum[0]?.split(',');
+    const labels = BreadCum[1]?.split(',');
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+    let result = updatedBreadCum && Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
@@ -1218,7 +1230,8 @@ const ProductList = () => {
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    result = result || {};
+    result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
 
     return result
   }
@@ -1675,9 +1688,9 @@ const ProductList = () => {
                       <div className="elv_grid_view">
                         {openGridModal ? (
                           <>
-                            <MoreVertIcon
+                            <CiMenuKebab
                               onClick={handleGridToggles}
-                              style={{ fontSize: "2rem", cursor: "pointer" }}
+                              style={{ fontSize: "1.5rem", cursor: "pointer" }}
                             />
                             <Popover
                               id={id}
@@ -1695,21 +1708,29 @@ const ProductList = () => {
                             >
                               <div style={{ padding: "10px" }}>
                                 <div
+                                  // style={{
+                                  //   display: "flex",
+                                  //   justifyContent: "center",
+                                  //   flexDirection: "row",
+                                  //   gap: "5px",
+                                  // }}
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
-                                    flexDirection: "row",
-                                    gap: "5px",
+                                    alignItems: 'center',
+                                    flexDirection: "column",
+                                    gap: "10px",
                                   }}
                                 >
-                                  {activeIconsBtns.map((iconConfig, index) => {
+                                  {/* {activeIconsBtns.map((iconConfig, index) => {
                                     const isActive = iconConfig.name === activeIcon;
                                     const IconComponent = iconConfig.name === 'single_view' ? StopRoundedIcon : iconConfig.name === 'double_view' ? ViewStreamIcon : null;
 
                                     return (
                                       IconComponent && (
-                                        <IconComponent
+                                        <div
                                           key={index}
+                                          label={IconComponent}
                                           onClick={() => handleActiveIcons(iconConfig.name)}
                                           style={{
                                             paddingRight: "8px",
@@ -1718,6 +1739,30 @@ const ProductList = () => {
                                             cursor: "pointer",
                                           }}
                                         />
+                                      )
+                                    );
+                                  })} */}
+                                  {activeIconsBtns.map((iconConfig, index) => {
+                                    const isActive = iconConfig.name === activeIcon;
+
+                                    const label = iconConfig.name === 'single_view' ? 'Single View' :
+                                      iconConfig.name === 'double_view' ? 'Double View' :
+                                        null;
+
+                                    return (
+                                      label && (
+                                        <div
+                                          key={index}
+                                          onClick={() => handleActiveIcons(iconConfig.name)}
+                                          style={{
+                                            fontSize: "14px",
+                                            textAlign: 'center',
+                                            color: isActive ? "#000" : "#A2A2A2",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          {label}
+                                        </div>
                                       )
                                     );
                                   })}
@@ -1772,7 +1817,7 @@ const ProductList = () => {
                               IconComponent = AppsIcon;
                               break;
                             case 'view_grid':
-                              IconComponent = ViewCompactIcon;
+                              IconComponent = TfiLayoutGrid4Alt;
                               break;
                             default:
                               IconComponent = null;
@@ -1789,6 +1834,10 @@ const ProductList = () => {
                                   color: isActive ? "#000" : "#A2A2A2",
                                   cursor: "pointer",
                                 }}
+                                fontSize={iconConfig?.name === 'view_grid' ? "1.25rem" : '2rem'}
+                                color={isActive ? "#000" : "#A2A2A2"}
+                                paddingRight={iconConfig.name === 'view_grid' ? "2px" : "8px"}
+                                cursor={"pointer"}
                               />
                             )
                           );
@@ -1887,8 +1936,9 @@ const ProductList = () => {
                                       </Accordion>
                                     )}
                                   {item?.id?.includes("Price") && (
-                                    <Accordion className="accordian">
+                                    <Accordion className="accordian" sx={{ paddingInline: 0 }}>
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon
                                             sx={{ width: "20px" }}
@@ -1980,6 +2030,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("Diamond") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2007,6 +2058,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("Gross") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2034,6 +2086,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("NetWt") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
+                                        sx={{ paddingInline: 0 }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2144,6 +2197,7 @@ const ProductList = () => {
                                 {item?.id?.includes("Price") && (
                                   <Accordion className="accordian">
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon
                                           sx={{ width: "20px" }}
@@ -2239,6 +2293,7 @@ const ProductList = () => {
                                 {item?.Name?.includes("Diamond") && (
                                   <Accordion elevation={0} >
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon sx={{ width: "20px" }} />
                                       }
@@ -2266,6 +2321,7 @@ const ProductList = () => {
                                 {item?.Name?.includes("Gross") && (
                                   <Accordion elevation={0} >
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon sx={{ width: "20px" }} />
                                       }
@@ -2293,6 +2349,7 @@ const ProductList = () => {
                                 {item?.Name?.includes("NetWt") && (
                                   <Accordion elevation={0} >
                                     <AccordionSummary
+                                      sx={{ paddingInline: 0 }}
                                       expandIcon={
                                         <ExpandMoreIcon sx={{ width: "20px" }} />
                                       }
@@ -2327,7 +2384,7 @@ const ProductList = () => {
                       <ProductFilterSkeleton />
                     ) : (
                       <>
-                        {productListData.length < 1 ? (
+                        {productListData.length == 0 ? (
                           <div style={{ display: 'flex', justifyContent: 'center', width: '80%', fontSize: '25px', marginTop: '5rem' }}>
                             Products not found
                           </div>
