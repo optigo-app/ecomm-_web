@@ -19,28 +19,47 @@ const Footer = () => {
     const navigation = useNavigate();
     const isLogin = useRecoilState(el_loginState)
 
-
     useEffect(() => {
-        let storeInit;
-        let companyInfoData;
-        setTimeout(() => {
-            if (sessionStorage.getItem("storeInit")) {
-                storeInit = JSON?.parse(sessionStorage.getItem("storeInit")) ?? {};
-            }
-            if (sessionStorage.getItem("CompanyInfoData")) {
-                companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? {};
-                setCompanuInfoData(companyInfoData)
-                let parsedSocialMediaUrlData = [];
-                try {
-                    parsedSocialMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) || [];
-                    setSocialMediaData(parsedSocialMediaUrlData);
-                } catch (error) {
-                    console.error("Failed to parse SocialLinkObj:", error);
-                }
-            }
-        }, 500)
+        let interval;
+        const fetchData = () => {
+            try {
+                const storeInitData = sessionStorage.getItem("storeInit");
+                if (storeInitData) {
+                    const companyInfoDataStr = sessionStorage.getItem("CompanyInfoData");
+                    if (companyInfoDataStr) {
+                        const parsedCompanyInfo = JSON.parse(companyInfoDataStr);
+                        setCompanuInfoData(parsedCompanyInfo);
 
-    }, [])
+                        const socialLinkStr = parsedCompanyInfo?.SocialLinkObj;
+                        if (socialLinkStr) {
+                            try {
+                                const parsedSocialMediaData = JSON.parse(socialLinkStr);
+                                setSocialMediaData(parsedSocialMediaData);
+                            } catch (error) {
+                                console.error("Error parsing social media data:", error);
+                            }
+                        }
+                    }
+
+                    clearInterval(interval);
+                }
+            } catch (error) {
+                console.error("Error parsing data from sessionStorage:", error);
+                clearInterval(interval);
+            }
+        };
+
+        fetchData();
+
+        interval = setInterval(fetchData, 1000);
+
+        // Cleanup function to clear interval on unmount
+        return () => {
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
+    }, []);
 
     const handleSubmitNewlater = async () => {
         const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
@@ -118,13 +137,13 @@ const Footer = () => {
                         selectedFooteVal === 0 ?
                             <div>
                                 <p className='footerOfficeDesc' style={{ display: 'flex', alignItems: 'center', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
-                                    <IoLocationOutline style={{ width: '30px', height: 'fit-content' }} />
+                                    <IoLocationOutline style={{ minWidth: '30px', width: 'fit-content', height: 'fit-content' }} />
                                     <span>
                                         {companyInfoData?.FrontEndAddress}, {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
                                     </span>
                                 </p>
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdCall style={{ width: '18px', height: 'fit-content', marginLeft: '6px' }} />
+                                    <IoMdCall style={{ width: '18px', height: '18px', marginLeft: '6px' }} />
                                     <span style={{ marginLeft: '5px' }}>
                                         <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                                             {companyInfoData?.FrontEndContactno1}
@@ -132,7 +151,7 @@ const Footer = () => {
                                     </span>
                                 </p>
                                 <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdMail style={{ width: '18px', height: 'fit-content', marginLeft: '8px' }} />
+                                    <IoMdMail style={{ width: '18px', height: '18px', marginLeft: '8px' }} />
                                     <span style={{ marginLeft: '5px' }}>
                                         <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                                             {companyInfoData?.FrontEndEmail1}
@@ -157,6 +176,12 @@ const Footer = () => {
                             </div>
 
                     }
+                </div>
+            </div>
+            <div className='elv_copyrights_div'>
+                <hr />
+                <div className='elv_coprights'>
+                    <span className='elv_copyrights_text'>Copyright &#169; 2024 Elvee. All Rights Reserved.</span>
                 </div>
             </div>
         </div>

@@ -138,6 +138,22 @@
         text-decoration: underline;
     }
 
+    .elv_copyrights_div {
+        margin-top: 1rem;
+    }
+
+    .elv_coprights {
+        max-width: 80rem;
+        margin-inline: auto;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .elv_copyrights_text {
+        font-weight: 600;
+        font-size: 17px;
+    }
+
     @media screen and (max-width:1500px) {
 
         .ElevFooterBoxTitle {
@@ -351,6 +367,13 @@
 
         .ElveFooterMain {
             padding: 10px !important;
+        }
+
+    }
+
+    @media (max-width: 425px) {
+        .elv_copyrights_text {
+            font-size: 17px;
         }
 
     }

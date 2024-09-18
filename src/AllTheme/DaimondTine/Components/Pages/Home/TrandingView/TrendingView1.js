@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './TrendingView1.scss';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
-import { dt_loginState } from '../../../Recoil/atom';
+import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
 
 
 
 
 const TrendingView1 = () => {
+    const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
@@ -27,7 +28,7 @@ const TrendingView1 = () => {
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
     const islogin = useRecoilValue(dt_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
-
+    const setLoadingHome = useSetRecoilState(dt_homeLoading);
     const isOdd = (num) => num % 2 !== 0;
 
     const settings = {
@@ -42,9 +43,37 @@ const TrendingView1 = () => {
     };
 
     useEffect(() => {
+        setLoadingHome(true);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAPI();
+                        console.log("visble")
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
+
+        if (trendingRef.current) {
+            observer.observe(trendingRef.current);
+        }
+        return () => {
+            if (trendingRef.current) {
+                observer.unobserve(trendingRef.current);
+            }
+        };
+
+    }, [])
+
+    const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
-
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
@@ -62,7 +91,7 @@ const TrendingView1 = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setTrandingViewData(response?.Data?.rd);
-
+                setLoadingHome(false);
                 const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
                 const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
 
@@ -71,7 +100,7 @@ const TrendingView1 = () => {
                 setEvenNumberObjects(evenNumbers);
             }
         }).catch((err) => console.log(err))
-    }, [])
+    }
 
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
@@ -167,7 +196,7 @@ const TrendingView1 = () => {
     }
 
     return (
-        <>
+        <div ref={trendingRef}>
             {trandingViewData?.length != 0 &&
                 <div className='dt_mainTrending1Div'>
                     <div className='smr_trending1TitleDiv'>
@@ -314,7 +343,7 @@ const TrendingView1 = () => {
                     </div>
                 </div>
             }
-        </>
+        </div>
     );
 };
 

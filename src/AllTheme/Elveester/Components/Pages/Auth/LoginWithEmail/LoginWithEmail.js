@@ -100,7 +100,8 @@ export default function LoginWithEmail() {
 
     const handleForgotPassword = async () => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        let Domian = `https://${storeInit?.domain}`
+        let Domian = `${window.location.protocol}://${storeInit?.domain}`
+        // let Domian = `https://${storeInit?.domain}`
         setIsLoading(true);
         ForgotPasswordEmailAPI(Domian, email).then((response) => {
             setIsLoading(false);

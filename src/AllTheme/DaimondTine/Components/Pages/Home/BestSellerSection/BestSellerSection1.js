@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './BestSellerSection1.scss';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
-import { dt_loginState } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
 
 const BestSellerSection1 = () => {
+    const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData, setBestSellerData] = useState('')
     const [storeInit, setStoreInit] = useState({});
-
+    const setLoadingHome = useSetRecoilState(dt_homeLoading);
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(dt_loginState);
@@ -34,7 +35,34 @@ const BestSellerSection1 = () => {
     };
 
     useEffect(() => {
+        setLoadingHome(true);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAllApi()
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
 
+        if (bestSallerRef.current) {
+            observer.observe(bestSallerRef.current);
+        }
+        return () => {
+            if (bestSallerRef.current) {
+                observer.unobserve(bestSallerRef.current);
+            }
+        };
+
+    }, [])
+
+    const callAllApi = () => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
@@ -55,9 +83,10 @@ const BestSellerSection1 = () => {
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
                 setBestSellerData(response?.Data?.rd);
+                setLoadingHome(false);
             }
         }).catch((err) => console.log(err))
-    }, [])
+    }
 
 
 
@@ -112,7 +141,7 @@ const BestSellerSection1 = () => {
     console.log("kjdkjkjdkjk", ...chunkedData);
 
     return (
-        <>
+        <div ref={bestSallerRef}>
             {bestSellerData?.length != 0 &&
                 <div className='dt_mainBestSeler1Div'>
                     <div className='smr_bestseler1TitleDiv'>
@@ -253,7 +282,7 @@ const BestSellerSection1 = () => {
                     </div>
                 </div>
             }
-        </>
+        </div>
     );
 };
 

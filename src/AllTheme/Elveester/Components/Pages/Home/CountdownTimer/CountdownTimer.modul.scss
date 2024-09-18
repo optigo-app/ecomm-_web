@@ -70,7 +70,7 @@
     .elv_CountdownTimer_logo {
         width: 131px;
         height: 187px;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     @media screen and (max-width: 1270px) {
@@ -121,7 +121,7 @@
         .elv_CountdownTimer_logo {
             width: 100px;
             height: 130px;
-            object-fit: cover;
+            object-fit: contain;
         }
 
     }
@@ -170,7 +170,7 @@
         .elv_CountdownTimer_logo {
             width: 100px;
             height: 110px;
-            object-fit: cover;
+            object-fit: contain;
         }
     }
 
@@ -229,7 +229,7 @@
         .elv_CountdownTimer_logo {
             width: 59px;
             height: 89px;
-            object-fit: cover;
+            object-fit: contain;
             display: none;
         }
     }
@@ -261,7 +261,7 @@
         .elv_CountdownTimer_logo {
             width: 56px;
             height: 89px;
-            object-fit: cover;
+            object-fit: contain;
         }
     }
 

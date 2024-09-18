@@ -86,6 +86,7 @@ const Lookbook = () => {
   const [isDrawerOpen1, setIsDrawerOpen1] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [isShowfilter, setIsShowFilter] = useState(false);
+  const [imageSources, setImageSources] = React.useState({});
 
   const handlePrevious = () => {
     if (swiper !== null) {
@@ -525,10 +526,39 @@ const Lookbook = () => {
     </div>
   );
 
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
+
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
+  useEffect(() => {
+    if (filteredDesignSetLstData) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound
+          };
+        })
+      );
+
+      Promise.all(imagePromises).then((results) => {
+        // Update state with the resolved image sources
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
+        setImageSources(newImageSources);
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
     <div className="smr_LookBookMain">
@@ -1419,65 +1449,66 @@ const Lookbook = () => {
                               },
                             }}
                           >
-                            {sortDesignDetailsBySrNo(
-                              parseDesignDetails(slide?.Designdetail)
-                            )?.map((detail, subIndex) => (
-                              <div
-                                className="smr_lookBookSubImageDiv"
-                                key={subIndex}
-                              >
-                                <SwiperSlide
-                                  className="smr_lookBookSliderSubDiv"
-                                  style={{
-                                    marginRight: "0px",
-                                    cursor: "pointer",
-                                  }}
+                            {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                              const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                              return (
+                                <div
+                                  className="smr_lookBookSubImageDiv"
+                                  key={subIndex}
                                 >
-                                  {detail?.IsInReadyStock == 1 && (
-                                    <span className="smr_LookBookinstock">
-                                      In Stock
-                                    </span>
-                                  )}
-                                  <img
-                                    className="smr_lookBookSubImage"
-                                    loading="lazy"
-                                    src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                    alt={`Sub image ${subIndex} for slide ${index}`}
-                                    onClick={() =>
-                                      handleNavigation(
-                                        detail?.designno,
-                                        detail?.autocode,
-                                        detail?.TitleLine ? detail?.TitleLine : ""
-                                      )
-                                    }
-                                  />
-                                  {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
-                                  <div
+                                  <SwiperSlide
+                                    className="smr_lookBookSliderSubDiv"
                                     style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      marginBottom: "5px",
+                                      marginRight: "0px",
+                                      cursor: "pointer",
                                     }}
                                   >
-                                    {cartItems.includes(detail?.autocode) ? (
-                                      <button
-                                        className="smr_lookBookINCartBtn"
-                                        onClick={() => handleRemoveCart(detail)}
-                                      >
-                                        REMOVE CART
-                                      </button>
-                                    ) : (
-                                      <button
-                                        className="smr_lookBookAddtoCartBtn"
-                                        onClick={() => handleAddToCart(detail)}
-                                      >
-                                        ADD TO CART +
-                                      </button>
+                                    {detail?.IsInReadyStock == 1 && (
+                                      <span className="smr_LookBookinstock">
+                                        In Stock
+                                      </span>
                                     )}
-                                  </div>
-                                </SwiperSlide>
-                              </div>
-                            ))}
+                                    <img
+                                      className="smr_lookBookSubImage"
+                                      loading="lazy"
+                                      src={imageSrc}
+                                      alt={`Sub image ${subIndex} for slide ${index}`}
+                                      onClick={() =>
+                                        handleNavigation(
+                                          detail?.designno,
+                                          detail?.autocode,
+                                          detail?.TitleLine ? detail?.TitleLine : ""
+                                        )
+                                      }
+                                    />
+                                    {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginBottom: "5px",
+                                      }}
+                                    >
+                                      {cartItems.includes(detail?.autocode) ? (
+                                        <button
+                                          className="smr_lookBookINCartBtn"
+                                          onClick={() => handleRemoveCart(detail)}
+                                        >
+                                          REMOVE CART
+                                        </button>
+                                      ) : (
+                                        <button
+                                          className="smr_lookBookAddtoCartBtn"
+                                          onClick={() => handleAddToCart(detail)}
+                                        >
+                                          ADD TO CART +
+                                        </button>
+                                      )}
+                                    </div>
+                                  </SwiperSlide>
+                                </div>
+                              )
+                            })}
                           </Swiper>
                         </div>
                       </div>
@@ -1640,9 +1671,9 @@ const Lookbook = () => {
                                 },
                               }}
                             >
-                              {sortDesignDetailsBySrNo(
-                                parseDesignDetails(slide?.Designdetail)
-                              )?.map((detail, subIndex) => (
+                              {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                                const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                              return(
                                 <div
                                   className="smr_lookBookSubImageDiv"
                                   key={subIndex}
@@ -1662,7 +1693,7 @@ const Lookbook = () => {
                                     <img
                                       className="smr_lookBookSubImage"
                                       loading="lazy"
-                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                      src={imageSrc}
                                       alt={`Sub image ${subIndex} for slide ${index}`}
                                       onClick={() =>
                                         handleNavigation(
@@ -1699,7 +1730,7 @@ const Lookbook = () => {
                                     </div>
                                   </SwiperSlide>
                                 </div>
-                              ))}
+                              )})}
                             </Swiper>
 
 
@@ -1714,9 +1745,9 @@ const Lookbook = () => {
                                   navigation
                                   pagination
                                 >
-                                  {sortDesignDetailsBySrNo(
-                                    parseDesignDetails(slide?.Designdetail)
-                                  )?.map((detail, subIndex) => (
+                                  {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                                     const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                                  return(
                                     <div
                                       className="smr_lookBookSubImageDiv"
                                       key={subIndex}
@@ -1736,7 +1767,7 @@ const Lookbook = () => {
                                         <img
                                           className="smr_lookBookSubImage"
                                           loading="lazy"
-                                          src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                          src={imageSrc}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
                                           onClick={() =>
                                             handleNavigation(
@@ -1773,7 +1804,7 @@ const Lookbook = () => {
                                         </div>
                                       </SwiperSlide>
                                     </div>
-                                  ))}
+                                  )})}
                                 </Swiper>
                               </div>
                               {/* <div className="btnflex">
@@ -1865,9 +1896,7 @@ const Lookbook = () => {
                                 >
                                   <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
                                   <div className="smr_lb3_prodtDivs2">
-                                    {sortDesignDetailsBySrNo(
-                                      parseDesignDetails(slide?.Designdetail)
-                                    )?.map((ele, subIndex) => (
+                                    {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
                                       <div
                                         key={subIndex}
                                         className="smr_lb3completethelook_outer"

@@ -90,20 +90,15 @@ const Header = () => {
         } else {
             finalID = loginUserDetail?.id || "0";
         }
-        console.log('store init menu callll....');
         await GetMenuAPI(finalID).then((response) => {
             setMenuData(response?.Data?.rd)
         }).catch((err) => console.log(err))
 
     }
 
-
-    //this useEffect for the top header fixed
-
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let isUserLogin = JSON.parse(sessionStorage.getItem("LoginUser"));
-        console.log('store init menu....', storeInit);
         if (storeinit?.IsB2BWebsite == 0) {
             getMenuApi();
             return;
@@ -406,11 +401,12 @@ const Header = () => {
                     f: {},
                 };
 
-                let encodeObj = compressAndEncode(JSON.stringify(obj));
+                // let encodeObj = compressAndEncode(JSON.stringify(obj));
+                let encodeObj = btoa(JSON.stringify(obj))
 
                 setSearchText("");
                 setDrawerOpen(false);
-                navigate(`/d/${searchText}?p=${encodeObj}`);
+                navigate(`/p/${searchText}?S=${encodeObj}`);
                 // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
                 // }
             }

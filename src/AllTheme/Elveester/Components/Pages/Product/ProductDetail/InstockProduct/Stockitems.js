@@ -14,79 +14,79 @@ const Stockitems = ({
   return (
     <div className="elv_Stockitems">
       {/* {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && ( */}
-        <div className="elv_stockItem_div">
-          <p className="elv_details_title"> Stock Items </p>
-          <div className="elv_stockitem_container">
-            {/* 12 */}
-            <table className="elv_stockItem_table">
+      <div className="elv_stockItem_div">
+        <p className="elv_details_title"> Stock Items </p>
+        <div className="elv_stockitem_container">
+          {/* 12 */}
+          <table className="elv_stockItem_table">
+            <tr className="elv_stockItem_table_tr">
+              <th className="elv_stockItem_table_td">SrNo</th>
+              <th className="elv_stockItem_table_td">Design No</th>
+              {/* <th className="elv_stockItem_table_td" >StockBarcode</th> */}
+              <th className="elv_stockItem_table_td">Job No</th>
+              <th
+                className="elv_stockItem_table_td"
+                style={{ textAlign: "center" }}
+              >
+                Gross Wt/Net Wt/Dia Wt/CS Wt
+              </th>
+              <th className="elv_stockItem_table_td">Metal Color-Purity</th>
+              {storeInit?.isPriceShow == 1 && <th className="elv_stockItem_table_td">Price</th>}
+              <th className="elv_stockItem_table_td">Add To Cart</th>
+            </tr>
+            {stockItemArr?.map((ele, i) => (
               <tr className="elv_stockItem_table_tr">
-                <th className="elv_stockItem_table_td">SrNo</th>
-                <th className="elv_stockItem_table_td">Design No</th>
-                {/* <th className="elv_stockItem_table_td" >StockBarcode</th> */}
-                <th className="elv_stockItem_table_td">Job No</th>
-                <th
-                  className="elv_stockItem_table_td"
-                  style={{ textAlign: "center" }}
-                >
-                  Gross Wt/Net Wt/Dia Wt/CS Wt
-                </th>
-                <th className="elv_stockItem_table_td">Metal Color-Purity</th>
-                <th className="elv_stockItem_table_td">Price</th>
-                <th className="elv_stockItem_table_td">Add To Cart</th>
-              </tr>
-              {stockItemArr?.map((ele, i) => (
-                <tr className="elv_stockItem_table_tr">
-                  <td className="elv_stockItem_table_td">
-                    <span className="elv_prod_designno">{ele?.SrNo}</span>
-                  </td>
-                  <td className="elv_stockItem_table_td">
-                    <span className="elv_prod_designno">{ele?.designno}</span>
-                  </td>
-                  <td className="elv_stockItem_table_td">
-                    <span className="elv_prod_designno">
-                      {ele?.StockBarcode}
-                    </span>
-                  </td>
-                  {/* <td className="elv_stockItem_table_td">
+                <td className="elv_stockItem_table_td">
+                  <span className="elv_prod_designno">{ele?.SrNo}</span>
+                </td>
+                <td className="elv_stockItem_table_td">
+                  <span className="elv_prod_designno">{ele?.designno}</span>
+                </td>
+                <td className="elv_stockItem_table_td">
+                  <span className="elv_prod_designno">
+                    {ele?.StockBarcode}
+                  </span>
+                </td>
+                {/* <td className="elv_stockItem_table_td">
                         <span className="elv_prod_designno">
                         {ele?.JobNo}
                         </span>
                       </td> */}
-                  <td className="elv_stockItem_table_td" >
-                    <div className="elv_prod_Allwt">
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          letterSpacing: "1px",
-                          gap: "3px",
-                        }}
-                       className="reponsive-tab"
-                      >
-                        {storeInit?.IsGrossWeight == 1 &&
-                          Number(ele?.GrossWt) !== 0 && (
-                            <>
-                              <span className="elv_prod_wt">
-                                <span className="elv_d_keys">GWT:</span>
-                                <span className="elv_d_val">
-                                  {ele?.GrossWt?.toFixed(3)}
-                                </span>
-                              </span>
-                            </>
-                          )}
-
-                        {Number(ele?.NetWt) !== 0 && (
+                <td className="elv_stockItem_table_td" >
+                  <div className="elv_prod_Allwt">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        letterSpacing: "1px",
+                        gap: "3px",
+                      }}
+                      className="reponsive-tab"
+                    >
+                      {storeInit?.IsGrossWeight == 1 &&
+                        Number(ele?.GrossWt) !== 0 && (
                           <>
-                            <span>|</span>
                             <span className="elv_prod_wt">
-                              <span className="elv_d_keys">NWT:</span>
-                              <span className="elv_d_val">{ele?.NetWt?.toFixed(3)}</span>
+                              <span className="elv_d_keys">GWT:</span>
+                              <span className="elv_d_val">
+                                {ele?.GrossWt?.toFixed(3)}
+                              </span>
                             </span>
                           </>
                         )}
 
-                        {/* {storeInit?.IsGrossWeight == 1 &&
+                      {Number(ele?.NetWt) !== 0 && (
+                        <>
+                          <span>|</span>
+                          <span className="elv_prod_wt">
+                            <span className="elv_d_keys">NWT:</span>
+                            <span className="elv_d_val">{ele?.NetWt?.toFixed(3)}</span>
+                          </span>
+                        </>
+                      )}
+
+                      {/* {storeInit?.IsGrossWeight == 1 &&
                               Number(ele?.GrossWt) !== 0 && (
                                 <>
                                   <span>|</span>
@@ -98,106 +98,106 @@ const Stockitems = ({
                                   </span>
                                 </>
                               )} */}
-                        {storeInit?.IsDiamondWeight == 1 &&
-                          Number(ele?.DiaWt) !== 0 && (
-                            <>
-                              <span>|</span>
-                              <span className="elv_prod_wt">
-                                <span className="elv_d_keys">DWT:</span>
-                                <span className="elv_d_val">
-                                  {ele?.DiaWt?.toFixed(3)}
-                                  {storeInit?.IsDiamondPcs === 1
-                                    ? `/${ele?.DiaPcs}`
-                                    : null}
-                                </span>
+                      {storeInit?.IsDiamondWeight == 1 &&
+                        Number(ele?.DiaWt) !== 0 && (
+                          <>
+                            <span>|</span>
+                            <span className="elv_prod_wt">
+                              <span className="elv_d_keys">DWT:</span>
+                              <span className="elv_d_val">
+                                {ele?.DiaWt?.toFixed(3)}
+                                {storeInit?.IsDiamondPcs === 1
+                                  ? `/${ele?.DiaPcs}`
+                                  : null}
                               </span>
-                            </>
-                          )}
+                            </span>
+                          </>
+                        )}
 
-                        {storeInit?.IsStoneWeight == 1 &&
-                          Number(ele?.CsWt) !== 0 && (
-                            <>
-                              <span>|</span>
-                              <span className="elv_prod_wt">
-                                <span className="elv_d_keys">CWT:</span>
-                                <span className="elv_d_val">
-                                  {ele?.CsWt?.toFixed(3)}
-                                  {storeInit?.IsStonePcs === 1
-                                    ? `/${ele?.CsPcs}`
-                                    : null}
-                                </span>
+                      {storeInit?.IsStoneWeight == 1 &&
+                        Number(ele?.CsWt) !== 0 && (
+                          <>
+                            <span>|</span>
+                            <span className="elv_prod_wt">
+                              <span className="elv_d_keys">CWT:</span>
+                              <span className="elv_d_val">
+                                {ele?.CsWt?.toFixed(3)}
+                                {storeInit?.IsStonePcs === 1
+                                  ? `/${ele?.CsPcs}`
+                                  : null}
                               </span>
-                            </>
-                          )}
-                      </div>
+                            </span>
+                          </>
+                        )}
                     </div>
-                  </td>
-                  <td className="elv_stockItem_table_td">
-                    {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="elv_stockItem_price_type_mt"> */}
-                    <span>
-                      {ele?.MetalColorName}-{ele?.metaltypename}
-                      {ele?.metalPurity}
-                      {/* {" "}/{" "} */}
+                  </div>
+                </td>
+                <td className="elv_stockItem_table_td">
+                  {/* <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%'}} className="elv_stockItem_price_type_mt"> */}
+                  <span>
+                    {ele?.MetalColorName}-{ele?.metaltypename}
+                    {ele?.metalPurity}
+                    {/* {" "}/{" "} */}
+                  </span>
+                  {/* </div> */}
+                </td>
+                {storeInit?.isPriceShow == 1 && <td className="elv_stockItem_table_td">
+                  <span>
+                    <span className="elv_currencyFont">
+                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                     </span>
-                    {/* </div> */}
-                  </td>
-                  <td className="elv_stockItem_table_td">
+                    &nbsp;
                     <span>
-                      <span className="elv_currencyFont">
-                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                      </span>
-                      &nbsp;
-                      <span>
-                        {" "}
-                        {
-                          formatter(
+                      {" "}
+                      {
+                        formatter(
                           ele?.Amount
-                          )
-                        }
-                      </span>
+                        )
+                      }
                     </span>
-                  </td>
-                  <td
-                    className="elv_stockItem_table_td"
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      border: "none",
-                    }}
-                  >
-                    <Checkbox
-                      icon={
-                        <LocalMallOutlinedIcon
-                          sx={{
-                            fontSize: "22px",
-                            color: "#7d7f85",
-                            opacity: ".7",
-                          }}
-                        />
-                      }
-                      checkedIcon={
-                        <LocalMallIcon
-                          sx={{
-                            fontSize: "22px",
-                            color: "#009500",
-                          }}
-                        />
-                      }
-                      disableRipple={false}
-                      sx={{ padding: "10px" }}
-                      onChange={(e) => handleCartandWish(e, ele, "Cart")}
-                      checked={
-                        cartArr[ele?.StockId] ?? ele?.IsInCart === 1
-                          ? true
-                          : false
-                      }
-                    />
-                  </td>
-                </tr>
-              ))}
-            </table>
-          </div>
+                  </span>
+                </td>}
+                <td
+                  className="elv_stockItem_table_td"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    border: "none",
+                  }}
+                >
+                  <Checkbox
+                    icon={
+                      <LocalMallOutlinedIcon
+                        sx={{
+                          fontSize: "22px",
+                          color: "#7d7f85",
+                          opacity: ".7",
+                        }}
+                      />
+                    }
+                    checkedIcon={
+                      <LocalMallIcon
+                        sx={{
+                          fontSize: "22px",
+                          color: "#009500",
+                        }}
+                      />
+                    }
+                    disableRipple={false}
+                    sx={{ padding: "10px" }}
+                    onChange={(e) => handleCartandWish(e, ele, "Cart")}
+                    checked={
+                      cartArr[ele?.StockId] ?? ele?.IsInCart === 1
+                        ? true
+                        : false
+                    }
+                  />
+                </td>
+              </tr>
+            ))}
+          </table>
         </div>
+      </div>
       {/* )} */}
     </div>
   );

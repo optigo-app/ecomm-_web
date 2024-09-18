@@ -32,9 +32,8 @@
 }
 
 .promo-daimondBox2 {
-    height: 550px;
-    width: 50%;
-
+    height: 450px;
+    width: 43%;
 }
 
 .promo-daimondBox2-image {
@@ -97,16 +96,19 @@
 
 }
 
-@media (min-width: 768px) and (max-width: 1200px){
+@media (min-width: 768px) and (max-width: 1200px) {
+    .elv_promo_div {
+        margin-top: 8rem;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
     .elv_promo_div {
         margin-top: 8rem;
     }
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-    .elv_promo_div {
-        margin-top: 5rem;
-    }
 
     .promo-daimondBox2-image {
         height: 290px;
@@ -126,14 +128,18 @@
     }
 }
 
+@media (max-width: 500px) {
+    .elv_promo_div {
+        margin-top: 5rem;
+    }
+}
+
 @media screen and (max-width: 425px) {
     .promo-daimondBox2-image {
         height: 290px;
     }
 
-    .elv_promo_div {
-        margin-top: 2rem;
-    }
+
 
     .promo-daimondBox_1 p {
         font-size: 16px !important;
