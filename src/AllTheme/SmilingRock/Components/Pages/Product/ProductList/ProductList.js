@@ -68,7 +68,7 @@ const ProductList = () => {
   let maxwidth464px = useMediaQuery('(max-width:464px)')
 
   const [productListData, setProductListData] = useState([]);
-  const [priceListData, setPriceListData] = useState([]);
+  const [isProductListData, setIsProductListData] = useState(false);
   const [finalProductListData, setFinalProductListData] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
@@ -378,8 +378,13 @@ const ProductList = () => {
         .then((res) => {
           if (res) {
             // console.log("productList", res);
+            
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          }
+
+          if(res?.pdList){
+            setIsProductListData(true)
           }
           return res;
         })
@@ -631,8 +636,8 @@ const ProductList = () => {
       }
     }
 
-    // if 
-    console.log("output",output);
+    let finalOutput = JSON.stringify(output?.Price)
+    // console.log("finalOutput",finalOutput)
 
     return output
   }
@@ -1367,17 +1372,17 @@ const ProductList = () => {
   }
 
   const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+    let BreadCum = decodeURI(atob(location?.search.slice(3)))?.split('/')
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum[0]?.split(',');
+    const labels = BreadCum[1]?.split(',');
 
-    const updatedBreadCum = labels.reduce((acc, label, index) => {
+    const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+    const result = Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
@@ -1385,7 +1390,7 @@ const ProductList = () => {
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
 
     return result
   }
@@ -2300,7 +2305,7 @@ const ProductList = () => {
                     // </div>
                   )}
 
-                  {productListData?.length > 0 ? 
+                  {isProductListData === true ? 
                   (
                   <div className="smr_mainPortion">
                     <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
@@ -2354,9 +2359,9 @@ const ProductList = () => {
                         {location?.search?.charAt(1) == "S" && (
                           <div
                             className="smr_breadcums_port"
-                            style={{ marginLeft: "3px" }}
+                            style={{ marginLeft: "3px",textTransform:"uppercase"}}
                           >
-                            <span>{location?.pathname?.split("/")[2]}</span>
+                            <span>{decodeURIComponent(location?.pathname?.split("/")[2])}</span>
                           </div>
                         )}
 
