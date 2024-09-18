@@ -30,7 +30,7 @@ import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(7)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -50,7 +50,9 @@ export default function ThemeRoutes() {
       .then((response) => response.text())
       .then((text) => {
         try {
+          console.log('texttttt', text);
           const jsonData = JSON?.parse(text);
+          console.log(jsonData , "hoq")
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -145,8 +147,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
-      // setThemeNo(1);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -250,6 +252,7 @@ export default function ThemeRoutes() {
           />
         </Helmet>
       </div>
+
       {htmlContent?.rd && htmlContent?.rd.length > 0 &&
         (
           <>
@@ -257,25 +260,25 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-            {themeNo === 3 && <Elveester_App />}
+            {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {themeNo === 4 && <SmilingRock_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
             {themeNo === 5 && <HemratnaProcatalog_App />}
 
             {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-            {themeNo === 7 && <HouseOfQuadri_App />}
+            {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
             {themeNo === 8 && <ForEveryRoutes />}
 
-            {themeNo === 9 && <Procatalog_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
-            {themeNo === 10 && <StamFordJewels_App />}
+            {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-            {themeNo === 11 && <RoopJewellers_App />}
+            {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-            {themeNo === 12 && <MalakanJewels_App />}
+            {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
           </>
         )
       }

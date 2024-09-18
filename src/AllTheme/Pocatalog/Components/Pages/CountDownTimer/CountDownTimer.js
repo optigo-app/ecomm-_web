@@ -16,8 +16,8 @@ const useCountdown = () => {
     const entryDate = storedData.adhoc_startdate1;
     const expiryDate = storedData.adhoc_enddate1;
 
-    // const entryDate = "2024-09-16T14:45:40.383";
-    // const expiryDate = "2024-09-16T15:25:40.383";
+    // const entryDate = "2024-09-16T14:45:40.383";  
+    // const expiryDate = "2024-09-16T15:59:59.383";
 
     useEffect(() => {
         let timerID

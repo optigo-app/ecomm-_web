@@ -29,3 +29,8 @@ export const smrMA_ShowSnackBar = atom({
   key: 'smrMA_ShowSnackBar',
   default: false,
 });
+
+export const smrMA_homeLoading = atom({
+  key: 'smrMA_homeLoading',
+  default: true
+})

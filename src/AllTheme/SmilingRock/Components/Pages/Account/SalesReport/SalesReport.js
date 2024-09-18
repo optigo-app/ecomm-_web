@@ -216,7 +216,6 @@ function EnhancedTableHead(props) {
           onClick={createSortHandler(headCell.id)}
           sx={{ textAlign: "center" }}
         >
-          {console.log(headCell.label)}
           {headCell.label}
           {orderBy === headCell.id ? (
             <Box component="span" sx={visuallyHidden}>
