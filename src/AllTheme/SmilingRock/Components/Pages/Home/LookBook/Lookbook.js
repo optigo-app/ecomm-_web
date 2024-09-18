@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Lookbook.modul.scss";
 import gradientColors from "./color.json"
 import {
@@ -87,7 +87,47 @@ const Lookbook = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [isShowfilter, setIsShowFilter] = useState(false);
+  const SwiperSlideRef = useRef();
+  const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
 
+  const updateSize = () => {
+    if (SwiperSlideRef.current) {
+      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      console.log("Size updated:", offsetWidth, offsetHeight);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (SwiperSlideRef?.current) {
+        const { offsetWidth, offsetHeight } = SwiperSlideRef?.current;
+        setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      }
+    };
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDynamicSize({ w: `${width}px`, h: `${height}px` });
+        console.log("Resized:", width, height);
+      }
+    });
+
+    if (SwiperSlideRef.current) {
+      resizeObserver.observe(SwiperSlideRef.current);
+      updateSize();
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  
+  
   const handlePrevious = () => {
     if (swiper !== null) {
       swiper.slidePrev();
@@ -2086,6 +2126,7 @@ const Lookbook = () => {
                                     src={ProdCardImageFunc(slide)}
                                     alt=""
                                     className="ctl_Paginationimg"
+                                    ref={SwiperSlideRef}
                                   />
                                 ) : (
                                   <div
@@ -2096,6 +2137,8 @@ const Lookbook = () => {
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
+                                      height: DynamicSize.h,
+                                      width: DynamicSize.w,
                                       cursor: "pointer",
                                     }}
                                     className="smr_lb3ctl_img_new"
