@@ -42,6 +42,7 @@ import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Page/LookBook/Lookbook";
 import Customization from "./Components/Page/staticPage/customization/Customization";
+import ContactPage from "./Components/Page/Checker";
 
 const HouseOfQuadri_App = () => {
   const islogin = useRecoilValue(Hoq_loginState);
@@ -170,6 +171,7 @@ console.log(StoreData,"000")
       <Navbar StoreData={StoreData} />
       <ChatMenu />
       <Routes>
+      <Route path="/checker" element={<ContactPage/>}/>
         {/* Auth Flow  */}
         <Route path="/LoginOption" element={!islogin && <LoginOption />} />
         <Route

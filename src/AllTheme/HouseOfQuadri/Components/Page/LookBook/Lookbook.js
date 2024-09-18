@@ -4031,7 +4031,7 @@ const Lookbook = () => {
                                     <img
                                       src={ProdCardImageFunc(slide)}
                                       alt=""
-                                      className="hoq_lb3ctl_img_new"
+                                      className="hoq_lb3ctl_img_new "
                                     />
                                   ) : (
                                     <div
@@ -4307,11 +4307,13 @@ const Lookbook = () => {
                               <SwiperSlide key={index}>
 
                                 {ProdCardImageFunc(slide) ? (
+                                  <>
                                   <img
                                     src={ProdCardImageFunc(slide)}
                                     alt=""
                                     className="ctl_Paginationimg"
                                   />
+                                  </>
                                 ) : (
                                   <div
                                     style={{
@@ -4322,8 +4324,10 @@ const Lookbook = () => {
                                       alignItems: "center",
                                       justifyContent: "center",
                                       cursor: "pointer",
+                                      minHeight: `clamp(50px, 10vh + 20px, 66.3px)`,
+                                      margin : 0
                                     }}
-                                    className="hoq_lb3ctl_img_new"
+                                    className="hoq_lb3ctl_img_new "
                                   >
                                     {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
