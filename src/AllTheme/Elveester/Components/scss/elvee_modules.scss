@@ -1,3 +1,38 @@
+@font-face {
+    font-family: 'butler-black';
+    src: url('../Assets/font/Butler_Black.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'butter-bold';
+    src: url('../Assets/font/Butler_Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'butter-extraBold';
+    src: url('../Assets/font/Butler_ExtraBold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'butter-light';
+    src: url('../Assets/font/Butler_Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'butter-medium';
+    src: url('../Assets/font/Butler_Medium.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'butter-regular';
+    src: url('../Assets/font/Butler_Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'butter-ultraLight';
+    src: url('../Assets/font/Butler_Ultra_Light.otf') format('opentype');
+}
+
 //backgroundcolors
 
 $backgroundColor: var(--background-color);
@@ -15,6 +50,15 @@ $btn1FontColor: #7d7f85;
 $btn1hoverColor: #7d7f85;
 $btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
+
+// Elvee font-colors
+$fontBlack: 'butler-black', sans-serif;
+$fontBold:'butler-bold', sans-serif;
+$fontExtraBold: 'butler-extraBold', sans-serif;
+$fontLight: 'butler-light', sans-serif;
+$fontMedium: 'butler-medium', sans-serif;
+$fontRegular: 'butler-regular', sans-serif;
+$fontUltraLight: 'butler-ultraLight', sans-serif;
 
 //fontFamily
 $homePageFontFamily: "FreightDispProMedium-Regular,Times New Roman,serif";
@@ -44,6 +88,3 @@ $fontSize8: 40px;
 //borderColor
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
-
-
-

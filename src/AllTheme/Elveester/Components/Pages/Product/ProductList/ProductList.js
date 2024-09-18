@@ -28,6 +28,7 @@ import Checkbox from "@mui/material/Checkbox";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { CiMenuKebab } from "react-icons/ci";
 import { TfiLayoutGrid4Alt } from "react-icons/tfi";
 import {
   Accordion,
@@ -1675,9 +1676,9 @@ const ProductList = () => {
                       <div className="elv_grid_view">
                         {openGridModal ? (
                           <>
-                            <MoreVertIcon
+                            <CiMenuKebab
                               onClick={handleGridToggles}
-                              style={{ fontSize: "2rem", cursor: "pointer" }}
+                              style={{ fontSize: "1.5rem", cursor: "pointer" }}
                             />
                             <Popover
                               id={id}
@@ -1695,21 +1696,29 @@ const ProductList = () => {
                             >
                               <div style={{ padding: "10px" }}>
                                 <div
+                                  // style={{
+                                  //   display: "flex",
+                                  //   justifyContent: "center",
+                                  //   flexDirection: "row",
+                                  //   gap: "5px",
+                                  // }}
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
-                                    flexDirection: "row",
-                                    gap: "5px",
+                                    alignItems: 'center',
+                                    flexDirection: "column",
+                                    gap: "10px",
                                   }}
                                 >
-                                  {activeIconsBtns.map((iconConfig, index) => {
+                                  {/* {activeIconsBtns.map((iconConfig, index) => {
                                     const isActive = iconConfig.name === activeIcon;
                                     const IconComponent = iconConfig.name === 'single_view' ? StopRoundedIcon : iconConfig.name === 'double_view' ? ViewStreamIcon : null;
 
                                     return (
                                       IconComponent && (
-                                        <IconComponent
+                                        <div
                                           key={index}
+                                          label={IconComponent}
                                           onClick={() => handleActiveIcons(iconConfig.name)}
                                           style={{
                                             paddingRight: "8px",
@@ -1718,6 +1727,30 @@ const ProductList = () => {
                                             cursor: "pointer",
                                           }}
                                         />
+                                      )
+                                    );
+                                  })} */}
+                                  {activeIconsBtns.map((iconConfig, index) => {
+                                    const isActive = iconConfig.name === activeIcon;
+
+                                    const label = iconConfig.name === 'single_view' ? 'Single View' :
+                                      iconConfig.name === 'double_view' ? 'Double View' :
+                                        null;
+
+                                    return (
+                                      label && (
+                                        <div
+                                          key={index}
+                                          onClick={() => handleActiveIcons(iconConfig.name)}
+                                          style={{
+                                            fontSize: "14px",
+                                            textAlign: 'center',
+                                            color: isActive ? "#000" : "#A2A2A2",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          {label}
+                                        </div>
                                       )
                                     );
                                   })}
@@ -1772,7 +1805,7 @@ const ProductList = () => {
                               IconComponent = AppsIcon;
                               break;
                             case 'view_grid':
-                              IconComponent = ViewCompactIcon;
+                              IconComponent = TfiLayoutGrid4Alt;
                               break;
                             default:
                               IconComponent = null;
@@ -1789,6 +1822,10 @@ const ProductList = () => {
                                   color: isActive ? "#000" : "#A2A2A2",
                                   cursor: "pointer",
                                 }}
+                                fontSize={iconConfig?.name === 'view_grid' ? "1.25rem" : '2rem'}
+                                color={isActive ? "#000" : "#A2A2A2"}
+                                paddingRight={iconConfig.name === 'view_grid' ? "2px" : "8px"}
+                                cursor={"pointer"}
                               />
                             )
                           );
