@@ -1,40 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Album.modul.scss";
 import { useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
-import { smrMA_loginState } from "../../../Recoil/atom";
-import { useRecoilValue } from "recoil";
+import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const Album = () => {
-  const [albumData, setAlbumData] = useState();
+
+  const albumRef = useRef(null);
+  const [albumData, setAlbumData] = useState('');
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
   const islogin = useRecoilValue(smrMA_loginState);
+  const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
 
   useEffect(() => {
-    let data = JSON.parse(sessionStorage.getItem("storeInit"));
+    setLoadingHome(true);
+    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
+    // const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
+    // const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
+    // const visiterID = Cookies.get('visiterId');
+    // let finalID;
+    // if (storeInit?.IsB2BWebsite == 0) {
+    //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    // } else {
+    //     finalID = loginUserDetail?.id || '0';
+    // }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            apiCall();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.5,
+      }
+    );
 
-    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-    const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-    const { IsB2BWebsite } = storeInit;
+    if (albumRef.current) {
+      observer.observe(albumRef.current);
+    }
+    return () => {
+      if (albumRef.current) {
+        observer.unobserve(albumRef.current);
+      }
+    };
+  }, []);
+
+  const apiCall = () => {
+    const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
+    const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
     const visiterID = Cookies.get('visiterId');
     let finalID;
-    if (IsB2BWebsite == 0) {
+    if (storeInit?.IsB2BWebsite == 0) {
       finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
     } else {
       finalID = loginUserDetail?.id || '0';
     }
-
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
+    setLoadingHome(false);
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setAlbumData(response?.Data?.rd);
         }
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
 
 
   const handleNavigate = (name) => {
@@ -52,7 +89,7 @@ const Album = () => {
   }
 
   return (
-    <>
+    <div ref={albumRef}>
       {albumData?.length != 0 &&
         <div className="smrMA_alubmMainDiv">
           <p className="smr_albumTitle">Album</p>
@@ -73,7 +110,7 @@ const Album = () => {
           </div>
         </div>
       }
-    </>
+    </div>
   );
 };
 

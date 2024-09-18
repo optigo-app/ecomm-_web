@@ -8,8 +8,8 @@ import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import DesignSet from "./DesignSet/DesignSet";
 import BottomBanner from "./BottomBanner/BottomBanner";
 import "./Home.modul.scss";
-import { smrMA_CartCount, smrMA_loginState, smrMA_WishCount } from "../../Recoil/atom";
-import { useRecoilState } from "recoil";
+import { smrMA_CartCount, smrMA_homeLoading, smrMA_loginState, smrMA_WishCount } from "../../Recoil/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 import { WebLoginWithMobileToken } from "../../../../../../utils/API/Auth/WebLoginWithMobileToken";
 import { Helmet } from "react-helmet";
@@ -29,7 +29,7 @@ const Home = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
-
+  const isLoadingHome = useRecoilValue(smrMA_homeLoading);
   const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
   const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
 
@@ -215,7 +215,15 @@ const Home = () => {
       {localData?.IsHomeNewArrival === 1 && <NewArrival />}
       {localData?.IsHomeTrending === 1 && <TrendingView />}
       {localData?.IsHomeDesignSet === 1 && <DesignSet />}
-      <SustainAbility />
+      {isLoadingHome == true ?
+        <div className="smrMA_Home_loader">
+          <div className="smrMA_Home_loader_container"></div>
+        </div>
+        :
+        <>
+          <SustainAbility />
+        </>
+      }
     </div>
   );
 };
