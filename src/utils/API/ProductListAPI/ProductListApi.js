@@ -11,12 +11,12 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
 
   if (Array.isArray(mainData)) {
     if (mainData?.length > 0) {
-      Object.values(mainData[0]).forEach((ele, index) => {
+      Object.values(mainData[0])?.forEach((ele, index) => {
         let keyName = `FilterKey${index === 0 ? '' : index}`;
         MenuParams[keyName] = ele.replace(/%20/g, ' ')
       })
 
-      Object.values(mainData[1]).forEach((ele, index) => {
+      Object.values(mainData[1])?.forEach((ele, index) => {
         let keyName = `FilterVal${index === 0 ? '' : index}`;
         MenuParams[keyName] = ele.replace(/%20/g, ' ')
       })
@@ -25,7 +25,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     if (mainData !== "") {
 
       if(mainData?.split("=")[0] == "S") {
-        serachVar = JSON.parse(atob(mainData.split("=")[1]))
+        serachVar = JSON.parse(atob(mainData?.split("=")[1]))
       } else {
         MenuParams.FilterKey = atob(mainData)
         MenuParams.FilterVal = atob(mainData)
@@ -91,8 +91,9 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   let diaQc = (obj?.dia === undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.dia)
   let csQc = (obj?.cs === undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.cs)
   let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
+  let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
 
-  console.log("stroreeeeeeeeeeee", storeinit);
+  console.log("stroreeeeeeeeeeee", filPrice);
 
   const data = {
     PackageId: `${(loginInfo?.PackageId ?? storeinit?.PackageId) ?? ''}`,
@@ -127,7 +128,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Max_GrossWeight: `${gross?.grossMax ?? ""}`,
     Min_NetWt: `${netWt?.netMin ?? ""}`,
     Max_NetWt: `${netWt?.netMax ?? ""}`,
-    FilPrice: `${JSON.stringify(filterObj?.Price)}` ?? '',
+    // FilPrice: filterObj?.Price?.length > 0 ? `${JSON.stringify(filterObj?.Price)}` : '',
+    FilPrice: filPrice,
     // Max_Price: '',
     // Min_Price: '',
     CurrencyRate: `${(loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate) ?? ''}`,
