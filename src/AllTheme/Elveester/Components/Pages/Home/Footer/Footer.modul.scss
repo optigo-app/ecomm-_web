@@ -142,16 +142,20 @@
         margin-top: 1rem;
     }
 
+    .elv_copy_hr{
+        margin-block: 0.5rem;
+    }
+
     .elv_coprights {
         max-width: 80rem;
         margin-inline: auto;
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-block: 0.5rem;
     }
 
     .elv_copyrights_text {
         font-weight: 600;
-        font-size: 17px;
+        font-size: 14px;
     }
 
     @media screen and (max-width:1500px) {

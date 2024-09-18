@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./PromotionBanner2.modul.scss";
 import Pako from "pako";
 import { useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
-import { useRecoilValue } from "recoil";
-import { smrMA_loginState } from "../../../Recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { smrMA_homeLoading, smrMA_loginState } from "../../../Recoil/atom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,6 +14,8 @@ import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunct
 import notfound from '../../../Assets/image-not-found.jpg';
 
 const NewArrival = () => {
+
+  const newArrivalRef = useRef(null);
   const [newArrivalData, setNewArrivalData] = useState([]);
   const [imageUrl, setImageUrl] = useState();
   const navigation = useNavigate();
@@ -21,6 +23,7 @@ const NewArrival = () => {
   const [storeInit, setStoreInit] = useState({});
   const islogin = useRecoilValue(smrMA_loginState);
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -32,6 +35,36 @@ const NewArrival = () => {
   }
 
   useEffect(() => {
+    setLoadingHome(true);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            callAPI();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.5,
+      }
+    );
+
+    if (newArrivalRef.current) {
+      observer.observe(newArrivalRef.current);
+    }
+    return () => {
+      if (newArrivalRef.current) {
+        observer.unobserve(newArrivalRef.current);
+      }
+    };
+
+  }, []);
+
+
+  const callAPI = () => {
+
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -62,7 +95,7 @@ const NewArrival = () => {
         }
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
 
   const compressAndEncode = (inputString) => {
     try {
@@ -111,9 +144,8 @@ const NewArrival = () => {
   };
 
 
-
   return (
-    <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }}>
+    <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }} ref={newArrivalRef}>
       {newArrivalData?.length != 0 &&
         <div className="smrMA_NewArrivalMain">
           <Swiper {...swiperParams}

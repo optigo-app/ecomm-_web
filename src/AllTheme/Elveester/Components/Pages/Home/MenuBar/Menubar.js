@@ -342,7 +342,7 @@ const Menubar = () => {
                                                         style={{
                                                             backgroundColor: "#9C27B0",
                                                             position: "absolute",
-                                                            marginTop: "-35px",
+                                                            marginTop: "-30px",
                                                             display: "flex",
                                                             alignItems: "center",
                                                             justifyContent: "center",
@@ -351,7 +351,7 @@ const Menubar = () => {
                                                             padding: "0 5px",
                                                             fontSize: "10px",
                                                             borderRadius: " 3px",
-                                                            marginLeft: "-15px",
+                                                            marginLeft: "-10px",
                                                             color: 'white'
                                                         }}
                                                     >

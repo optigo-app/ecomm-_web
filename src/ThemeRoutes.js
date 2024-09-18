@@ -30,7 +30,7 @@ import SEO from "./utils/Seo/Seo";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(7)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -84,7 +84,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -146,8 +146,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(7);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(7);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -230,27 +230,30 @@ export default function ThemeRoutes() {
           <link rel="icon" sizes="512x512" href={favicon} />
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <meta name="description" content={title} />
-          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
+          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon1.png`} type="image/x-icon" />
 
           {/* Apple Touch Icon */}
           <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
 
           {/* Android Chrome Icons */}
-          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/android-chrome-192x192`} />
-          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/android-chrome-512x512`} />
-
-          {/* Microsoft Tile Icons */}
-          {/* <meta name="msapplication-TileColor" content="#ffffff" /> */}
-          {/* <meta name="msapplication-TileImage" content="/mstile-150x150.png" /> */}
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/androidCh1.png`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/androidCh2.png`} />
 
           {/* Safari Pinned Tab Icon */}
           <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
+
+          {/* Microsoft Tile Icons */}
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta name="msapplication-TileImage" content={`${storImagePath()}/logo-icon/androidCh2.png`} />
+
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
         </Helmet>
+
       </div>
+
       {htmlContent?.rd && htmlContent?.rd.length > 0 &&
         (
           <>
@@ -258,25 +261,25 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-            {themeNo === 3 && <Elveester_App />}
+            {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {themeNo === 4 && <SmilingRock_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}.
 
-            {themeNo === 5 && <HemratnaProcatalog_App />}
+            {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
             {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
             {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-            {themeNo === 8 && <ForEveryRoutes />}
+            {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
-            {themeNo === 9 && <Procatalog_MobileApp_App />}
+            {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
-            {themeNo === 10 && <StamFordJewels_App />}
+            {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-            {themeNo === 11 && <RoopJewellers_App />}
+            {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-            {themeNo === 12 && <MalakanJewels_App />}
+            {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
           </>
         )
       }

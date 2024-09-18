@@ -16,23 +16,33 @@ const FaqSecData = () => {
     return (
         <div className="hoq_main_FaqSection">
             <FAQComponent
-                data={productfaqData}
+                // data={productfaqData}
+                data={returnsExchangeFAQ}
                 title={
                     "orem . Aliquam dicta beatae praesentiumx odit?" ||
                     "Product & Diamond FAQ"
                 }
             />
             <FAQComponent
-                data={ordersPaymentsFAQ}
+                // data={ordersPaymentsFAQ}
+                data={returnsExchangeFAQ}
                 title={
                     "orem . Aliquam dicta beatae praesentiumx odit?" ||
                     "Orders & Payments"
                 }
             />
             <FAQComponent
-                data={careRepairFAQ}
+                // data={careRepairFAQ}
+                data={returnsExchangeFAQ}
                 title={
                     "orem . Aliquam dicta beatae praesentiumx odit?" || "Care & Repair"
+                }
+            />
+            <FAQComponent
+                data={returnsExchangeFAQ}
+                title={
+                    "orem . Aliquam dicta beatae praesentiumx odit?" ||
+                    "Returns & Exchange"
                 }
             />
             <FAQComponent
