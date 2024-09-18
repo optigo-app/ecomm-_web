@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './DesignSet.modul.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -10,22 +10,76 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { smrMA_loginState } from '../../../Recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 
 const DesignSet = () => {
+
+    const designSetRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [designSetList, setDesignSetList] = useState([]);
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smrMA_loginState);
-
+    const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
     const [swiper, setSwiper] = useState(null);
 
-    useEffect(() => {
 
+    useEffect(() => {
+        setLoadingHome(true);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAPI();
+                        console.log("visble")
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
+
+        if (designSetRef.current) {
+            observer.observe(designSetRef.current);
+        }
+        return () => {
+            if (designSetRef.current) {
+                observer.unobserve(designSetRef.current);
+            }
+        };
+        // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+        // const visiterID = Cookies.get('visiterId');
+        // let finalID;
+        // if (storeInit?.IsB2BWebsite == 0) {
+        //   finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+        // } else {
+        //   finalID = loginUserDetail?.id || '0';
+        // }
+
+        // let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
+        // setStoreInit(storeinit);
+
+        // let data = JSON.parse(sessionStorage.getItem('storeInit'));
+        // setImageUrl(data?.DesignSetImageFol);
+        // setImageUrlDesignSet(data?.DesignImageFol);
+
+        // Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
+        //   .then((response) => {
+        //     if (response?.Data?.rd) {
+        //       setDesignSetList(response?.Data?.rd);
+        //     }
+        //   })
+        //   .catch((err) => console.log(err));
+    }, []);
+
+    const callAPI = () => {
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
@@ -39,18 +93,17 @@ const DesignSet = () => {
 
         let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInit(storeinit);
-
-        let data = JSON.parse(sessionStorage.getItem('storeInit'));
-        setImageUrl(data?.DesignSetImageFol);
+        setImageUrl(storeinit?.DesignSetImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album('GETDesignSet', finalID)
             .then((response) => {
                 if (response?.Data?.rd) {
                     setDesignSetList(response?.Data?.rd);
+                    setLoadingHome(false);
                 }
             })
             .catch((err) => console.log(err));
-    }, []);
+    }
 
     const ProdCardImageFunc = (pd) => {
         let finalprodListimg;
@@ -114,7 +167,6 @@ const DesignSet = () => {
         setShowAll(true);
     };
 
-    // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 5);
 
     return (

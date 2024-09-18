@@ -205,9 +205,10 @@ export default function Account() {
                 {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
               </Box>
             </div>
-            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount" style={{paddingTop:'1%'}}>
+            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
               <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
                     marginTop: "5px", // This changes the underline color to black
+                    display: "flex", alignItems: "center", justifyContent: "center",
                   },
                 }}
                 style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >

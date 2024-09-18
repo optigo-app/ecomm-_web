@@ -371,9 +371,11 @@ const ManageAddress = () => {
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    className='radioGroupAddressAcc'
                 >
                     {
-                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
+                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
                             {
                                 addressData?.map((item, index) => {
                                     return <Box className="AddressSec" key={index}>

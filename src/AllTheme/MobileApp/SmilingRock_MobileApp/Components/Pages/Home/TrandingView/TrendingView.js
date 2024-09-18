@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './TrendingView.modul.scss'
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 import 'swiper/css';
@@ -13,25 +13,21 @@ import pako from "pako";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
-import { useRecoilValue } from 'recoil';
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { smrMA_homeLoading, smrMA_loginState } from '../../../Recoil/atom';
 
 
 const TrendingView = () => {
 
+    const trendingRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const [trandingViewData, setTrandingViewData] = useState([]);
-    const [imageUrl, setImageUrl] = useState();
-
-    const [ring1ImageChange, setRing1ImageChange] = useState(false);
-    const [ring1ImageChangeOdd, setRing1ImageChangeOdd] = useState(false);
-    const [ring3ImageChange, setRing3ImageChange] = useState(false);
-    const [ring4ImageChange, setRing4ImageChange] = useState(false);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
     const islogin = useRecoilValue(smrMA_loginState);
     const [imageUrls, setImageUrls] = useState([]);
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const setLoadingHome = useSetRecoilState(smrMA_homeLoading);
 
     const settings = {
         dots: true,
@@ -44,12 +40,41 @@ const TrendingView = () => {
         // nextArrow: false,
     };
 
+
     useEffect(() => {
+        setLoadingHome(true);
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        callAPI();
+                        console.log("visble")
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0.5,
+            }
+        );
+
+        if (trendingRef.current) {
+            observer.observe(trendingRef.current);
+        }
+        return () => {
+            if (trendingRef.current) {
+                observer.unobserve(trendingRef.current);
+            }
+        };
+    }, [])
+
+
+    const callAPI = () => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeinit)
-
         let storeInitData = JSON.parse(sessionStorage.getItem('storeInit'))
-        setImageUrl(storeInitData?.DesignImageFol);
         const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
         const { IsB2BWebsite } = storeInit;
@@ -70,11 +95,12 @@ const TrendingView = () => {
                     const available = await checkImageAvailability(url);
                     return available ? url : imageNotFound;
                 }));
+                setLoadingHome(false);
                 setTrandingViewData(data);
                 setImageUrls(urls);
             }
         }).catch((err) => console.log(err));
-    }, [])
+    }
 
     const checkImageAvailability = (url) => {
         return new Promise((resolve) => {
@@ -181,7 +207,7 @@ const TrendingView = () => {
     };
 
     return (
-        <div className='smrMA_trendingViewTopMain'>
+        <div className='smrMA_trendingViewTopMain' ref={trendingRef}>
             <div className='smr_trendingViewTopMain_div'>
                 <div className='smr_trendingViewTopMain_Imgdiv'>
                     <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' />

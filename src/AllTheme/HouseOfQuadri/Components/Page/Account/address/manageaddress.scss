@@ -133,6 +133,13 @@
 
     .addressMainSec{
         gap: 0;
+        width: 100%;
+    }
+    .radioGroupAddressAcc{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
     .smilingAddressPopupMain {
         height: 80vh !important;

@@ -296,7 +296,7 @@ const NewOrderHistoryHOQ = () => {
                             {/* { max400px && <span className="fs_head_acc   mx_4_noh_acc" style={{color:'black', display:'flex', justifyContent:'flex-end', alignItems:'center'}}><span style={{color:'grey', paddingRight:'2px'}}>Total : </span> <span style={{fontWeight:'bold', paddingRight:'5px'}} dangerouslySetInnerHTML={{__html: e?.Country_CurrencyCode}}></span> <span style={{fontWeight:'bold'}}>{formatAmount2(e?.orderAmountwithvat)}</span></span>} */}
                           </div>
                         </Box>
-                        <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", padding:'0px', padding:'0px 15px' }} className="fs_head_acc " >
+                        <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", padding:'0px', padding:'0px 15px', borderBottom:'1px solid #e8e8e8' }} className="fs_head_acc " >
                           { !max400px && <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", }} className="fs_head_acc minH_box_acc" >                           
                             <Box sx={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }} className="fs_head_acc w_20_noh_acc" >
                                <Typography style={{display:'flex', alignItems:'center', justifyContent:'flex-start', width:'100%'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc`}>
