@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { proCat_CartCount, proCat_WishCount, proCat_cartB2CDrawer, proCat_companyLogo, proCat_loginState } from '../../../Recoil/atom';
+import { proCat_CartCount, proCat_WishCount, proCat_cartB2CDrawer, proCat_companyLogo, proCat_companyLogoM, proCat_loginState } from '../../../Recoil/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -22,6 +22,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
   const compnyLogo = useRecoilValue(proCat_companyLogo);
+  const compnyLogoM = useRecoilValue(proCat_companyLogoM);
   const [islogin, setislogin] = useRecoilState(proCat_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -36,8 +37,8 @@ const Header = () => {
 
   let navigate = useNavigate();
   let cookie = Cookies.get('visiterId')
-  
-    const countdown = useCountdown();
+
+  const countdown = useCountdown();
 
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
@@ -155,7 +156,6 @@ const Header = () => {
     sessionStorage.removeItem("allproductlist");
     sessionStorage.removeItem("AllFilter");
     sessionStorage.removeItem("ColorStoneQualityColorCombo");
-    sessionStorage.removeItem("CompanyInfoData");
     sessionStorage.removeItem("MetalColorCombo");
     sessionStorage.removeItem("metalTypeCombo");
     sessionStorage.removeItem("myAccountFlags");
@@ -340,7 +340,6 @@ const Header = () => {
 
   return (
     <div className='ProCat_headerMain_div'>
-
       {serachsShowOverlay && (
         <>
           <div className="smr_smlingSearchoverlay">
@@ -604,9 +603,14 @@ const Header = () => {
 
       <div className='smiling_Top_header'>
         <div className='smiling_Top_header_sub'>
-          <div className='smiling_Top_header_div2'>
+          <div className='smiling_Top_header_div2_web'>
             <a href="/">
               <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+            </a>
+          </div>
+          <div className='smiling_Top_header_div2_mobile'>
+            <a href="/">
+              <img src={compnyLogoM} loading='lazy' className='smr_logo_header' />
             </a>
           </div>
           <div className='smiling_Top_header_div3'>
@@ -768,9 +772,14 @@ const Header = () => {
           className={`Smining-Top-Header-fixed-main ${isHeaderFixed ? "fixed" : ""}  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className='smiling_Top_header_sub' style={{ width: '100%' }}>
-            <div className='smiling_Top_header_div2'>
+            <div className='smiling_Top_header_div2_web'>
               <a href="/">
                 <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed' />
+              </a>
+            </div>
+            <div className='smiling_Top_header_div2_mobile'>
+              <a href="/">
+                <img src={compnyLogoM} loading='lazy' className='smr_logo_header_Fixed' />
               </a>
             </div>
             <div className='smiling_Top_header_div3'>

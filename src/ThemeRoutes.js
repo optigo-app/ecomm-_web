@@ -27,17 +27,18 @@ import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
 import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
 import SEO from "./utils/Seo/Seo";
+import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(3)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
-
-
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
+  const [proCatM_companyTitleLogo, proCatM_setCompanyTitleLogo] = useRecoilState(proCat_companyLogoM)
+  const [proCat_companyTitleLogo, proCat_setCompanyTitleLogo] = useRecoilState(proCat_companyLogo)
 
   const [title, setTitle] = useState();
 
@@ -84,7 +85,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -122,6 +123,11 @@ export default function ThemeRoutes() {
               el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
             }
 
+            if (response?.data?.Data?.rd[0]?.Themeno === 6) {
+              proCat_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+              proCatM_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companyMlogo);
+            }
+
             if (response?.data?.Data?.rd[0]?.Themeno === 4) {
               smrMA_setCompanyTitleLogo(
                 response?.data?.Data?.rd[0]?.companylogo
@@ -147,7 +153,6 @@ export default function ThemeRoutes() {
         .catch((err) => console.log(err));
     } else {
       setThemeNo(SessionData?.Themeno);
-      setThemeNo(3);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
@@ -263,7 +268,7 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}.
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
             {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
