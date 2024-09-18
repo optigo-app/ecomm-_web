@@ -37,18 +37,18 @@ const sliderData = [
   {
     imageUrl: "/images/HomePage/Gallery/GalleryImg10.jpg",
   },
-  {
-    imageUrl: "/images/HomePage/Gallery/GalleryImg11.jpg",
-  },
-  {
-    imageUrl: "/images/HomePage/Gallery/GalleryImg12.jpg",
-  },
-  {
-    imageUrl: "/images/HomePage/Gallery/GalleryImg13.jpg",
-  },
-  {
-    imageUrl: "/images/HomePage/Gallery/GalleryImg14.jpg",
-  },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg11.jpg",
+  // },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg12.jpg",
+  // },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg13.jpg",
+  // },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg14.jpg",
+  // },
 ];
 
 export default function GaleryView() {
@@ -85,7 +85,7 @@ export default function GaleryView() {
       >
         {sliderData.map((slide, index) => (
           <SwiperSlide key={index} style={{ marginRight: '0px', padding: '20px' }}>
-            <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%'}} />
+            <img loading="lazy" src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ objectFit: 'contain', width: '100%' }} />
           </SwiperSlide>
         ))}
       </Swiper>

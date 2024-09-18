@@ -48,7 +48,7 @@ const Career = () => {
         // </div>
         <div className="elev_career_page">
             <div className="elvee_banner_i">
-                <img src="https://i.ibb.co/sHkHQNb/Career.jpg" alt="" />
+                <img src={`${storImagePath()}/images/HomePage/Careers/Career.jpg`} alt="" />
             </div>
             <div className="elev_career_content">
                 <h1>CAREER</h1>
