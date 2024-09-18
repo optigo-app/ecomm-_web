@@ -8,21 +8,20 @@ import { homeLoading, loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
+
 const ProductGrid = () => {
+
     const bestSallerRef = useRef(null);
     const [imageUrl, setImageUrl] = useState();
     const [bestSellerData, setBestSellerData] = useState('')
     const [storeInit, setStoreInit] = useState({});
     const [isLoding, setIsLoding] = useState(true);
-
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const islogin = useRecoilValue(loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
-
-
-    // console.log('best saller...');
+    
     const settings = {
         dots: true,
         infinite: true,
