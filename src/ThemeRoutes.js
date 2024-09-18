@@ -84,7 +84,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -230,26 +230,28 @@ export default function ThemeRoutes() {
           <link rel="icon" sizes="512x512" href={favicon} />
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <meta name="description" content={title} />
-          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon-32x32.png`} type="image/x-icon" />
+          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon1.png`} type="image/x-icon" />
 
           {/* Apple Touch Icon */}
           <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
 
           {/* Android Chrome Icons */}
-          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/android-chrome-192x192`} />
-          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/android-chrome-512x512`} />
-
-          {/* Microsoft Tile Icons */}
-          {/* <meta name="msapplication-TileColor" content="#ffffff" /> */}
-          {/* <meta name="msapplication-TileImage" content="/mstile-150x150.png" /> */}
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/androidCh1.png`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/androidCh2.png`} />
 
           {/* Safari Pinned Tab Icon */}
           <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
+
+          {/* Microsoft Tile Icons */}
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta name="msapplication-TileImage" content={`${storImagePath()}/logo-icon/androidCh2.png`} />
+
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
         </Helmet>
+
       </div>
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 &&
