@@ -69,7 +69,9 @@ const AffiliationData = () => {
                         slidesPerView={1}
                         spaceBetween={10}
                         loop={true}
+                        loopAdditionalSlides={3} 
                         breakpoints={{
+                            375: { slidesPerView: 1, spaceBetween: 0 },
                             425: { slidesPerView: 1, spaceBetween: 0 },
                             640: { slidesPerView: 2, spaceBetween: 0 },
                             768: { slidesPerView: 4, spaceBetween: 0 },
@@ -78,10 +80,9 @@ const AffiliationData = () => {
                         }}
                         modules={[Pagination]}
                         className="mySwiper_affli"
-                    // Pass swiper instance to handleSlideChange
                     >
                         {sliderData.map((slide, index) => (
-                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }} onSlideChange={(swiper) => handleSlideChange(swiper)}>
+                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }}>
                                 <div className='elv_affi_cards'>
                                     <img
                                         loading="lazy"

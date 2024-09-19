@@ -11,9 +11,7 @@ import { el_loginState } from '../../../Recoil/atom';
 const Footer = () => {
 
     const [companyInfoData, setCompanuInfoData] = useState();
-    console.log('companyInfoData: ', companyInfoData);
     const [socialMediaData, setSocialMediaData] = useState([]);
-    console.log('socialMediaData: ', socialMediaData);
     const [email, setEmail] = useState();
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
@@ -86,8 +84,20 @@ const Footer = () => {
         setEmail(event.target.value);
     };
 
-    const handleNavigte = (navigateUrl) => {
-        navigation(navigateUrl)
+    const handleNavigte = (navigateUrl, event) => {
+        if (
+            event?.ctrlKey ||     // Ctrl key
+            event?.shiftKey ||    // Shift key
+            event?.metaKey ||     // Meta key (Command key on macOS)
+            (event?.button && event?.button === 1) // Middle mouse button
+        ) {
+            // Let the default behavior of the <a> tag handle the new tab opening
+            return;
+        }
+        else {
+            event.preventDefault();
+            navigation(navigateUrl)
+        }
     }
 
     return (
@@ -114,18 +124,18 @@ const Footer = () => {
                 {/* )} */}
                 <div className={'ElveFooter2'}>
                     <p className='ElevFooterBoxTitle'>Our Company</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/aboutUs')}>About Us</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/careers')}>Careers</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/history')}>History</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/contact-us')}>Contact Us</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/term&condition')}>Terms and Conditions</p>
+                    <a href={'/aboutUs'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/aboutUs', e)}>About Us</a>
+                    <a href={'/careers'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/careers', e)}>Careers</a>
+                    <a href={'/history'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/history', e)}>History</a>
+                    <a href={'/contact-us'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/contact-us', e)}>Contact Us</a>
+                    <a href={'/term&condition'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/term&condition', e)}>Terms and Conditions</a>
                 </div>
                 <div className={'ElveFooter3'}>
                     <p className='ElevFooterBoxTitle'>Customer Care</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/customerServices')}>Customer Services</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/appointment')}>Book an Appoinment</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/customize')}>Customize</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/faqs')}>FAQ</p>
+                    <a href={'/customerServices'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/customerServices', e)}>Customer Services</a>
+                    <a href={'/appointment'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/appointment', e)}>Book an Appoinment</a>
+                    <a href={'/customize'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/customize', e)}>Customize</a>
+                    <a href={'/faqs'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/faqs', e)}>FAQ</a>
                     {/* <p className='ElveFooterDesc' onClick={() => handleNavigte('/Lookbook')}>Lookbook</p> */}
                 </div>
                 <div className={'ElveFooter4'}>

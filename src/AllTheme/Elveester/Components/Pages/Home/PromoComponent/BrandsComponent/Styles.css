@@ -87,7 +87,7 @@
         overflow: auto;
         display: flex !important;
         justify-content: start !important;
-        
+
         &::-webkit-scrollbar {
             display: none;
         }
@@ -120,6 +120,16 @@
 
     .brandsCompoents {
         font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    .brandsComponentClass {
+        width: fit-content;
+    }
+
+    .affilitionImg {
+        margin-right: 50px !important;
     }
 }
 
