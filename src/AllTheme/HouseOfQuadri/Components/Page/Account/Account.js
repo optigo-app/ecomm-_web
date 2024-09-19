@@ -301,7 +301,8 @@ export default function Account() {
                         {e?.id === 1164 && ( <CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel> )}
                         {e?.id === 1157 && ( <CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel> )}
                         {e?.id === 1314 && ( <CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel> )}
-                        {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>} {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
+                        {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
+                         {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
                         {e?.id === 1159 && ( <CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel> )} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
                                                 <PendingMemo />
                                             </CustomTabPanel>} */}
