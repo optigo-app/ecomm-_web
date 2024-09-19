@@ -7,7 +7,7 @@
     width: 500px;
   }
 
-  .plm_title{
+  .plm_title_elvee{
     color: #989898 !important;
     font-size: 20px;
     margin: 20px 0 20px 0 !important;
@@ -32,6 +32,12 @@
   .smr_plmPreviewImgage{
     width: 100%;
     max-height: 55px;
+  }
+
+  @media screen and (max-width:1086px){
+    .plm_title_elvee{
+      display: none !important;
+    }
   }
   
   

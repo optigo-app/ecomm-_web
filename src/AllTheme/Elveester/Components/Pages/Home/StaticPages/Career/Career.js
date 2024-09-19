@@ -52,13 +52,12 @@ const Career = () => {
             </div>
             <div className="elev_career_content">
                 <h1>CAREER</h1>
-                <p>A LARGE RANGE OF POSITIONS AND OPPORTUNITIES</p>
+                <p>A LARGE VARIETY OF POSITIONS AND SPECIALITIES</p>
                 <section className="about-section">
                     <p>
-                        We recruit talented professionals who share our values and vision.
-                        We offer a dynamic work environment that encourages personal growth
-                        and development opportunities. Join us to be part of an innovative
-                        team that values creativity and excellence.
+                        We recruit for our boutiques and offices located in the India & International.
+                        ELVEE offers professional development opportunities for both experienced employees and beginners,
+                        working together in an environment of excellence.
                     </p>
                 </section>
             </div>
@@ -71,30 +70,23 @@ const Career = () => {
                 <div className="join-team-content">
                     <h2>JOIN OUR TEAM</h2>
                     <p>
-                        Becoming a team member means becoming part of a diverse and dynamic
-                        team. We value and nurture talent, entrepreneurship and creativity.
-                        We're looking for individuals who can contribute to our growth and
-                        success. <br />
-                        As a human-sized luxury Maison, we hire talented people with
-                        strategic business minds and vision who still remain close tothe
-                        ground and <br /> result-oriented. We consider our employees as a
-                        key resource and strongly believe in the importance of individual
-                        performance to achieve <br /> collective performance. We provide our
-                        diversified talents with professional development, contributing to
-                        the growth of the Maison.
+                        Becoming The Elvee team member means becoming part of a universe of passion where women and men use their entrepreneurial spirit and creativity,
+                        looking for the pursuit of the requirement of tradition. <br />
+                        As a human-sized luxury Maison, we hire talented people with strategic business minds and vision who still remain close to the ground and
+                        result-oriented. <br /> We consider our employees as a key resource and strongly believe in the importance of individual performance to achieve
+                        collective performance. <br />  We provide our diversified talents with professional development, contributing to the growth of the Maison.
                     </p>
                 </div>
             </div>
             <div className="bar_elvee_sec">
                 <p>
-                    view all of our job Offers , internship and apprenticeships on the
-                    Elvee Website in the "Talenets" Section.
+                    View all of our job offers, internship and apprenticeships on the Elvee website in the "Talents" section.
                 </p>
                 <button
                     onClick={() => setfromshow(!showfrom)}
                     className="elvee_cta_button"
                 >
-                    Discover Our Job Offers{" "}
+                    Discover our Job view{" "}
                     <IoMdArrowDropdown color="darkblue" style={showfrom && {
                         rotate: "180deg"
                     }} size={26} />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { proCat_loginState } from '../../Recoil/atom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 
 const useCountdown = () => {
@@ -12,21 +12,23 @@ const useCountdown = () => {
     const setIsLoginState = useSetRecoilState(proCat_loginState);
     const [showTimer, setShowTimer] = useState(true);
     const storedData = JSON.parse(sessionStorage.getItem('loginUserDetail')) || {};
-    const timerStatus = storedData?.IsTimeShow
+    const timerStatus = storedData?.IsTimeShow;
     const entryDate = storedData.adhoc_startdate1;
     const expiryDate = storedData.adhoc_enddate1;
 
-    // const entryDate = "2024-09-16T14:45:40.383";  
-    // const expiryDate = "2024-09-16T15:59:59.383";
+    // const entryDate = "2024-09-19T10:27:01.95";  
+    // const expiryDate = "2024-09-19T11:15:02.95";
 
     useEffect(() => {
-        let timerID
-        if (timerStatus != 0 && isloginStatus == 'true') {
+        let timerID;
+
+        if (timerStatus != 0 && isloginStatus === 'true') {
             timerID = setInterval(() => tick(entryDate, expiryDate), 1000);
             setCountDownStatus(true);
         }
+
         return () => clearInterval(timerID);
-    }, [entryDate, expiryDate]);
+    }, [entryDate, expiryDate, timerStatus, isloginStatus]);
 
     function calculateCountdown(startDate, endDate) {
         const startTimestamp = new Date(startDate).getTime();
@@ -56,14 +58,12 @@ const useCountdown = () => {
     function tick(startDate, endDate) {
         const newCountdown = calculateCountdown(startDate, endDate);
         setCountdown(newCountdown);
-
-        if (countDownStatus == true) {
-            if (newCountdown.days == 0 && newCountdown.hours == 0 && newCountdown.minutes == 0) {
-                setShowTimer(false);
+            if (newCountdown.days === 0 && newCountdown.hours === 0 && newCountdown.minutes === 0) {
                 handleLogout();
+                setShowTimer(false);
             }
-        }
     }
+
 
     console.log("countdown", countdown, countDownStatus)
     const handleLogout = () => {
@@ -72,6 +72,7 @@ const useCountdown = () => {
         sessionStorage.setItem("LoginUser", false);
         window.location.reload();
         Cookies.remove("userLoginCookie");
+        sessionStorage.removeItem("storeInit");
         sessionStorage.removeItem("loginUserDetail");
         sessionStorage.removeItem("remarks");
         sessionStorage.removeItem("selectedAddressId");

@@ -36,6 +36,9 @@ const CustomSortIcon = ({ order }) => {
 
 const QuotationJob = () => {
 
+  const storedData = sessionStorage.getItem('loginUserDetail');
+  const loginDetails = JSON.parse(storedData);
+
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
   const [fromDate, setFromDate] = useState(null);
@@ -1078,14 +1081,11 @@ const scrollToTop = () => {
                               <TableCell key={column?.id} align={column?.align}>
                               {column.id === 'Sr#' ? serialNumber : 
                                 column?.id === 'checkbox' ? 
-                                  <Checkbox 
-                                    checked={row?.isJobSelected} 
-                                    onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
-                                  /> 
+                                  <Checkbox checked={row?.isJobSelected} onChange={(event) => handleCheckboxChange(event, rowIndex, row)} /> 
                                   : 
                                   column?.format && typeof value === 'number'
                                     ? column.format(value)
-                                    : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                                    : column?.id === 'FinalAmount' ? <>  <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span> {formatAmount(value)}</> : value}
                             </TableCell>
                             );
                           })}
