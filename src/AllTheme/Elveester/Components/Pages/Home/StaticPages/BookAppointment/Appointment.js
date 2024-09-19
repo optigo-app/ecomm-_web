@@ -73,7 +73,7 @@ const Appointment = () => {
                 </div>
                 <div className="grid_layout_card">
                     <div className="service_bar">
-                        <span>selecte A service</span>
+                        <span>Select a service</span>
                     </div>
                     <div className="layout_elvee_grid">
                         {appointment?.map((val, i) => {

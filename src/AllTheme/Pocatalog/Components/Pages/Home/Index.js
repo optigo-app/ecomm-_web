@@ -41,23 +41,8 @@ function Home() {
           {localData?.IsHomeBestSeller === 1 && <BestSellerSection />}
           {localData?.IsHomeDesignSet === 1 && <DesignSet />} */}
         {/* <BottomBanner /> */}
-        <Footer />
       </div>
-      <div>
-        <p style={{
-          paddingBlock: '30px',
-          margin: '0px',
-          textAlign: 'center',
-          color: 'black',
-          cursor: 'pointer',
-          fontSize: '13px',
-          fontWeight: 500,
-          letterSpacing: '1px'
-        }} onClick={() => window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })}>BACK TO TOP</p>
-      </div>
+     
     </div>
   )
 }
