@@ -241,6 +241,10 @@ EnhancedTableHead.propTypes = {
 };
 
 const SalesReport = () => {
+
+  const storedData = sessionStorage.getItem('loginUserDetail');
+  const loginDetails = JSON.parse(storedData);
+
   const isSmallScreen = useMediaQuery('(max-width:500px)');
   const [searchVal, setSearchVal] = useState("");
   const [fromDate, setFromDate] = useState(null);
@@ -659,19 +663,19 @@ const SalesReport = () => {
               </tr>
               <tr>
                 <td className="fw_bold">
-                  {NumberWithCommas(total?.MetalAmount, 2)}
+                  { total?.MetalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.MetalAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                { total?.DiamondAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.DiamondAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                { total?.ColorStoneAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.ColorStoneAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                  {NumberWithCommas(total?.LabourAmount, 2)}
+                { total?.LabourAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.LabourAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                  {NumberWithCommas(total?.OtherAmount, 2)}
+                { total?.OtherAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.OtherAmount, 2)}
                 </td>
                 <td className="fw_bold">1</td>
               </tr>
@@ -681,7 +685,7 @@ const SalesReport = () => {
         <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
-            {NumberWithCommas(total?.TotalAmount, 2)}
+          {total?.TotalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box>
         <Box
@@ -1048,12 +1052,8 @@ const SalesReport = () => {
                         tabIndex={-1}
                         key={row.id}
                         sx={{ cursor: "pointer" }}
-                        onMouseEnter={(eve) =>
-                          handleimageShow(eve, row?.imgsrc)
-                        }
-                        onMouseLeave={(eve) =>
-                          handleimageShow(eve, row?.imgsrc)
-                        }
+                        onMouseEnter={(eve) => handleimageShow(eve, row?.imgsrc) }
+                        onMouseLeave={(eve) => handleimageShow(eve, row?.imgsrc) }
                       >
                         <TableCell id={labelId} scope="row" align="center">
                           {" "}
@@ -1066,16 +1066,18 @@ const SalesReport = () => {
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{formatAmount(row.MetalAmount)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
                         <TableCell align="center">
+                        <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;
                           {formatAmount(row.DiamondAmount)}
                         </TableCell>
                         <TableCell align="center">
+                        <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;
                           {formatAmount(row.ColorStoneAmount)}
                         </TableCell>
-                        <TableCell align="center">{formatAmount(row.LabourAmount)}</TableCell>
-                        <TableCell align="center">{formatAmount(row.OtherAmount)}</TableCell>
-                        <TableCell align="center">{formatAmount(row.UnitCost)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>

@@ -145,72 +145,23 @@ export default function Account() {
                     <div className='sticky_header_web_sm_elvee'>
                         <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
                         <div className='smlingAccountTabWebView_elvee yourAccount d_none_acc_elvee'>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                                    <Tab label="Your Profile" {...a11yProps(0)} />
-                                    <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                    {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                    <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                    {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                    {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                    <Tab label="Log Out" onClick={handleLogout} />
-                                </Tabs>
-                                {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                            </Box>
-                        </div>
-                        <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount' style={{ display: 'none' }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   {/*  indicatorColor="#7d7f85" */}
-                                    <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                    <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                    {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                    <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                    {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                    {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                    <Tab label="Log Out" onClick={handleLogout} />
-                                </Tabs>
-                                {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-                            </Box>
-
-                        </div>
-                        <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc_elvee" style={{ paddingTop: '1%', display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{
-                                style: {
-                                    backgroundColor: "black",
-                                    marginTop: "5px", // This changes the underline color to black
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                },
-                            }}
-                                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
-                                <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                                <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                                <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                                {accountValidation() && (<Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />)}
-                                <Tab icon={<LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} />} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                                {loginUSerDeatil?.IsPLWOn && (<Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />)}
-                            </Tabs>
-                        </div>
-                    </div>
-                    <div className='smling-AccountTabMain_elvee'>
-                        <Box sx={{ width: '100%', padding: '0px' }}>
-                            {/* <div className='smlingAccountTabWebView'>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >  
+                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
                                         <Tab label="Your Profile" {...a11yProps(0)} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
                                         {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
                                         <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                        {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                                         { loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(5)} />}
                                         <Tab label="Log Out" onClick={handleLogout} />
                                     </Tabs>
+                                    {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
-                            </div>
-                            <div className='smlingAccountTabMobileView YourAccountPageTabs'>
+                        </div>
+                        {/* <div className='smlingAccountTabMobileView YourAccountPageTabs yourAccount' style={{display:'none'}}>
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >  
+                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} > 
                                         <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
                                         <Tab label="ORDER HISTORY" {...a11yProps(1)} />
                                         <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
@@ -221,7 +172,25 @@ export default function Account() {
                                     </Tabs>
                                 </Box>
                                
-                            </div> */}
+                        </div> */}
+                        <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc_elvee" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
+              <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
+                    marginTop: "5px", // This changes the underline color to black
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  },
+                }}
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
+                <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                {accountValidation() && ( <Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
+                <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                {loginUSerDeatil?.IsPLWOn && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(5)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
+              </Tabs>
+            </div>
+                    </div>
+                    <div className='smling-AccountTabMain_elvee'>
+                        <Box sx={{ width: '100%', padding:'0px' }}>
 
                             <CustomTabPanel value={value} index={0}>
                                 <div>
@@ -231,8 +200,7 @@ export default function Account() {
 
                             <CustomTabPanel value={value} index={1}>
                                 <div>
-                                    {/* <OrderHistory /> */}
-                                    {/* <OrderHistoryGroup /> */}
+                            
                                     <NewOrderHistoryElvee />
                                 </div>
                             </CustomTabPanel>
@@ -285,14 +253,15 @@ export default function Account() {
                                     <ChangePassword />
                                 </div>
                             </CustomTabPanel>
-                            {loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
+                             <CustomTabPanel value={value} index={5}>
                                 <div>
                                     <Plm />
                                 </div>
-                            </CustomTabPanel>}
+                            </CustomTabPanel>
+
+
                         </Box>
                     </div>
-
                 </div>
             </div>
         </div>
