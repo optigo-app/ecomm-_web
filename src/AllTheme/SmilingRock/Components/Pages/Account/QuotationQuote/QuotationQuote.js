@@ -153,6 +153,9 @@ const QuotationQuote = () => {
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
 
+    const storedData = sessionStorage.getItem('loginUserDetail');
+    const loginDetails = JSON.parse(storedData);
+    console.log(loginDetails);
     const isSmallScreen = useMediaQuery('(max-width:500px)');
 
     const handleRequestSort = (event, property) => {
@@ -622,7 +625,7 @@ const QuotationQuote = () => {
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.SKUNo}</TableCell>
                                             <TableCell align="center">{row.TotalDesign}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="right"><span  dangerouslySetInnerHTML={{__html: loginDetails?.Currencysymbol }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
                                             <TableCell align="center">
                                                 
                                                
