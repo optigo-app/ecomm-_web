@@ -76,19 +76,23 @@
 
   .elvee_banner_i {
     width: 100%;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     @media screen and (max-width: 1300px) {
       width: 100%;
       height: auto;
+
       img {
         object-fit: contain;
       }
     }
   }
+
   .elev_career_content {
     width: 50%;
     margin: 0 auto;
@@ -96,23 +100,28 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    text-align: center;
+    text-align: justify;
     padding-top: 15px;
+
     @media screen and (max-width: 1300px) {
       width: 80%;
     }
+
     @media screen and (max-width: 864px) {
       width: 97%;
     }
+
     h1 {
       font-size: 24px;
       text-transform: uppercase;
     }
+
     p {
       font-size: 17px;
       text-transform: uppercase;
       font-weight: 400;
     }
+
     .about-section {
       p {
         font-size: 15px;
@@ -121,19 +130,31 @@
       }
     }
   }
+
+  .elv_career_desc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
   .elvee_join_team_section {
     display: flex;
     justify-content: center;
+    text-align: justify;
     padding: 0 13rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
+
     @media screen and (max-width: 1400px) {
       padding: 0 2rem;
+
       .join-team-content {
         h2 {
           font-weight: 700;
           font-size: 20px;
         }
+
         p {
           text-transform: capitalize;
           font-size: 13px !important;
@@ -141,17 +162,21 @@
         }
       }
     }
+
     @media screen and (max-width: 1010px) {
       padding: 0 0rem;
       flex-direction: column;
+
       .join-team-content {
         padding: 0 2px !important;
         text-align: center;
+
         h2 {
           font-weight: 700;
           font-size: 19px;
           margin-top: 25px;
         }
+
         p {
           text-transform: capitalize;
           font-size: 14.5px !important;
@@ -159,19 +184,23 @@
         }
       }
     }
+
     img {
       flex: 1;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .join-team-content {
       flex: 1;
       padding: 0 35px;
+
       h2 {
         font-weight: 700;
         font-size: 20px;
       }
+
       p {
         text-transform: capitalize;
         font-size: 17px;
@@ -179,11 +208,13 @@
       }
     }
   }
+
   .bar_elvee_sec {
     @media screen and (max-width: 864px) {
       width: 92%;
     }
-    text-align: center;
+
+    text-align: justify;
     width: 50%;
     margin: 0 auto;
     display: flex;
@@ -191,10 +222,12 @@
     justify-content: center;
     flex-direction: column;
     margin-bottom: 1rem;
+
     p {
       font-weight: 400;
       font-size: 16px;
     }
+
     .elvee_cta_button {
       padding: 1px 25px;
       display: flex;
@@ -205,30 +238,36 @@
       gap: 1rem;
       border: 1px solid rgb(1, 1, 15);
       background-color: transparent;
+
       @media screen and (max-width: 864px) {
         width: 92%;
       }
     }
   }
+
   .form_det_grid {
     margin-bottom: 3rem;
     width: 60%;
     margin: 0 auto;
+
     @media screen and (max-width: 864px) {
       width: 92%;
       margin: 0 auto;
     }
+
     @media screen and (max-width: 500px) {
       width: 98%;
       margin: 0 auto;
     }
+
     form {
       display: grid;
       gap: 1.4rem;
       margin-bottom: 2rem;
       margin-top: 5rem;
-    transition: 0.3s ease-in;
+      transition: 0.3s ease-in;
       grid-template-columns: repeat(auto-fit, minmax(2, 1fr));
+
       @media screen and (max-width: 520px) {
         display: flex;
         flex-direction: column;
@@ -243,12 +282,15 @@
         padding: 0.5rem;
         outline: none;
         width: 85%;
+
         @media screen and (max-width: 768px) {
           width: 95%;
         }
+
         @media screen and (max-width: 1000px) {
           width: 82%;
         }
+
         @media screen and (max-width: 1420px) {
           width: 87%;
         }
@@ -270,33 +312,41 @@
         cursor: pointer;
         margin-bottom: 2rem;
       }
+
       .input_box_elvee {
         display: flex;
         align-items: center;
         border-bottom: 1px solid #ddd;
         width: 85%;
+
         @media screen and (max-width: 768px) {
           width: 95%;
         }
+
         @media screen and (max-width: 1000px) {
           width: 82%;
         }
+
         @media screen and (max-width: 1420px) {
           width: 87%;
         }
+
         @media screen and (max-width: 706px) {
           justify-content: space-between;
         }
+
         input {
           border: none;
           outline: none;
           background: transparent;
           padding: 0 8px;
+
           @media screen and (max-width: 800px) {
             padding: 0 8px;
             width: 50%;
           }
         }
+
         label {
           width: 100%;
           height: 100%;
@@ -308,6 +358,7 @@
           font-size: 18px;
           font-weight: 400 !important;
           flex: 1;
+
           @media screen and (max-width: 800px) {
             justify-content: space-between;
             font-size: 14px;
