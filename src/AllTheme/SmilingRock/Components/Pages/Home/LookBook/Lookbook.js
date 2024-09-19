@@ -126,8 +126,8 @@ const Lookbook = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
-  
+
+
   const handlePrevious = () => {
     if (swiper !== null) {
       swiper.slidePrev();
@@ -527,7 +527,8 @@ const Lookbook = () => {
   //   setSelectedValue(event.target.value);
   // };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event) => {
+    const newValue = parseInt(event.target.value);
     if (newValue !== null) {
       setSelectedValue(newValue);
       setThumbsSwiper(null);
@@ -567,29 +568,29 @@ const Lookbook = () => {
 
   const [imageSources, setImageSources] = React.useState({});
 
-  useEffect(() => {
-    if (filteredDesignSetLstData) {
-      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-          const isAvailable = await checkImageAvailability(designImageUrl);
-          return {
-            designno: detail?.designno,
-            src: isAvailable ? designImageUrl : imageNotFound
-          };
-        })
-      );
+  // useEffect(() => {
+  //   if (filteredDesignSetLstData) {
+  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+  //         const isAvailable = await checkImageAvailability(designImageUrl);
+  //         return {
+  //           designno: detail?.designno,
+  //           src: isAvailable ? designImageUrl : imageNotFound
+  //         };
+  //       })
+  //     );
 
-      Promise.all(imagePromises).then((results) => {
-        // Update state with the resolved image sources
-        const newImageSources = results.reduce((acc, { designno, src }) => {
-          acc[designno] = src;
-          return acc;
-        }, {});
-        setImageSources(newImageSources);
-      });
-    }
-  }, [filteredDesignSetLstData, imageUrlDesignSet]);
+  //     Promise.all(imagePromises).then((results) => {
+  //       // Update state with the resolved image sources
+  //       const newImageSources = results.reduce((acc, { designno, src }) => {
+  //         acc[designno] = src;
+  //         return acc;
+  //       }, {});
+  //       setImageSources(newImageSources);
+  //     });
+  //   }
+  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
     <div className="smr_LookBookMain">
@@ -1010,40 +1011,37 @@ const Lookbook = () => {
                   Set View
                 </button>
               </HtmlTooltip>
-              <ToggleButtonGroup
-                size="medium"
-                value={selectedValue}
-                exclusive
-                onChange={handleChange}
-                aria-label="text alignment"
-                sx={{
-                  height: "35px",
-                  borderRadius: '0px',
-                  '.Mui-selected': {
-                    backgroundColor: '#7d7f856e',
-                    color: '#fff',
-                  },
-                  '.MuiToggleButton-root': {
-                    borderRadius: '0px',
-                    '&:not(.Mui-selected)': {
-                      backgroundColor: 'transparent',
-                      color: '#000',
-                    }
-                  }
-                }}
-              >
-                <ToggleButton value={1} aria-label="left aligned">
-                  {/* <RxGrid /> */}|
-                </ToggleButton>
-                <ToggleButton value={2} aria-label="centered">
-                  {/* <TfiLayoutGrid2 /> */}
-                  ||
-                </ToggleButton>
-                <ToggleButton value={3} aria-label="right aligned">
-                  {/* <TfiLayoutGrid3 /> */}
-                  |||
-                </ToggleButton>
-              </ToggleButtonGroup>
+              <div className="lb-switch-field">
+                <input
+                  type="radio"
+                  id="lb-radio-three"
+                  name="switch-two"
+                  value={1}
+                  checked={selectedValue === 1}
+                  onChange={handleChange}
+                />
+                <label htmlFor="lb-radio-three">|</label>
+
+                <input
+                  type="radio"
+                  id="lb-radio-four"
+                  name="switch-two"
+                  value={2}
+                  checked={selectedValue === 2}
+                  onChange={handleChange}
+                />
+                <label htmlFor="lb-radio-four">||</label>
+
+                <input
+                  type="radio"
+                  id="lb-radio-five"
+                  name="switch-two"
+                  value={3}
+                  checked={selectedValue === 3}
+                  onChange={handleChange}
+                />
+                <label htmlFor="lb-radio-five">|||</label>
+              </div>
             </div>
           </div>
           <div className="smr_SubDiv_LookBookSubMainDiv">
