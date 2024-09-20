@@ -122,6 +122,10 @@ function EnhancedTableHead(props) {
 }
 
 const Sales = () => {
+
+    const storedData = sessionStorage.getItem('loginUserDetail');
+    const loginDetails = JSON.parse(storedData);
+
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
@@ -575,10 +579,8 @@ const Sales = () => {
                                                 </TableCell>
                                                 <TableCell align="center">{row.Date}</TableCell>
                                                 <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                                <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                                <PrintIcon   />
-                                                            </div></TableCell>
+                                                <TableCell align="right"><span dangerouslySetInnerHTML={{__html: loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
+                                                <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}> <PrintIcon   /> </div> </TableCell>
                                             </TableRow>
                                         );
                                     }) : <TableCell colSpan={headCells?.length} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}

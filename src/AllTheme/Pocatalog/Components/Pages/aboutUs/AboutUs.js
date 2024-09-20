@@ -24,13 +24,6 @@ export default function AboutUs() {
                 <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                 </div>
-                <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                })}>BACK TO TOP</p>
             </div>
         </div>
     )

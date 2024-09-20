@@ -216,9 +216,9 @@ const Header = () => {
         f: {},
       };
 
-      let encodeObj = compressAndEncode(JSON.stringify(obj));
+      let encodeObj = btoa(JSON.stringify(obj))
 
-      navigate(`/d/${inputValue}?p=${encodeObj}`);
+      navigate(`/p/${inputValue}?S=${encodeObj}`);
       setInputValue("");
       setShowBtn(false);
       setSearchOpen(false);
@@ -227,6 +227,7 @@ const Header = () => {
       // }
     }
   };
+
 
   const handleButtonClick = () => {
     if (showBtn) {

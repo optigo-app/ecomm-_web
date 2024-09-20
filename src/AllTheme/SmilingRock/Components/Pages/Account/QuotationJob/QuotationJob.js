@@ -36,6 +36,9 @@ const CustomSortIcon = ({ order }) => {
 
 const QuotationJob = () => {
 
+  const storedData = sessionStorage.getItem('loginUserDetail');
+  const loginDetails = JSON.parse(storedData);
+
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
   const [fromDate, setFromDate] = useState(null);
@@ -140,7 +143,8 @@ const QuotationJob = () => {
         if (e?.["Sr#"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["Date"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["SKUNO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          e?.["PO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+          // e?.["PO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+          e?.["lineid"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["JobNo"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["DesignNo"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["Category"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
@@ -339,6 +343,7 @@ const QuotationJob = () => {
 
 
   function getComparator(order, orderBy) {
+
     return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
@@ -409,7 +414,7 @@ const QuotationJob = () => {
 
       return 0;
 
-    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
+    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo' || orderBy?.toLowerCase() === 'lineid')) {
       // Handle sorting for SKU# column
       return customComparator_Col(a[orderBy], b[orderBy]);
   }  else {
@@ -472,6 +477,7 @@ const QuotationJob = () => {
             allMetalPurity?.push({ id: allMetalPurity?.length, label: e?.MetalType, value: e?.MetalType, });
           }
         });
+        console.log(response?.Data);
         // allStatus?.unshift({ id: allStatus?.length, label: "ALL", value: "ALL" });
         allCategory?.unshift({ id: allCategory?.length, label: "ALL", value: "ALL" });
         allMetalColor?.unshift({ id: allMetalColor?.length, label: "ALL", value: "ALL" });
@@ -1050,10 +1056,11 @@ const scrollToTop = () => {
                       <TableCell
                         key={column?.id}
                         align={column.align}
-                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
-                        onClick={() => handleRequestSort(column?.id)}
+                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f"}}
+                        onClick={() => handleRequestSort((column?.id))}
                       >
-                        {column.label}
+                        {column.label === 'PO' ? 'LineId' : column.label}
+                        {/* {column.label} */}
                         {orderBy === column.id ? (
                           <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
                             {orderBy === column?.id && (<CustomSortIcon order={order} />)}
@@ -1065,27 +1072,24 @@ const scrollToTop = () => {
                 </TableHead>
                 <TableBody>
            
-
-                  { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
+                  { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy === 'PO' ? 'lineid' : orderBy))
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((row, rowIndex) => {
                       let serialNumber = page * rowsPerPage + rowIndex + 1;
                       return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                           {columns.map((column, index) => {
-                            const value = row[column?.id];
+                            // const value = row[column?.id];
+                            const value =  column?.id === 'PO' ? row?.lineid : row[column?.id];
                             return (
                               <TableCell key={column?.id} align={column?.align}>
                               {column.id === 'Sr#' ? serialNumber : 
                                 column?.id === 'checkbox' ? 
-                                  <Checkbox 
-                                    checked={row?.isJobSelected} 
-                                    onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
-                                  /> 
+                                  <Checkbox checked={row?.isJobSelected} onChange={(event) => handleCheckboxChange(event, rowIndex, row)} /> 
                                   : 
                                   column?.format && typeof value === 'number'
                                     ? column.format(value)
-                                    : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                                    : column?.id === 'FinalAmount' ? <>  <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span> {formatAmount(value)}</> : value}
                             </TableCell>
                             );
                           })}

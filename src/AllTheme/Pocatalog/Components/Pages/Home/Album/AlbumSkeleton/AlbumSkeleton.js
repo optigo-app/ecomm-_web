@@ -9,7 +9,7 @@ const AlbumSkeleton = ({ fromPage }) => {
 
     return (
         <div className='album_SkeltenShow'>
-            <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center', width: '100% !important' }}>
+            <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center', width: '100% !important' , marginTop: '40px'}}>
                 {/* <CardMedia style={{ width: '100%', height: '30vh' }} className='cardMainSkeleton'>
                     <Skeleton animation="wave" variant="rect" width={'100%'} height='10vh' style={{ backgroundColor: '#e8e8e86e' }} />
                 </CardMedia> */}

@@ -170,12 +170,7 @@ export default function Account() {
           <div className={` ${!isSticky ? 'sticky_header_web_sm_hoq_isSticky' : 'sticky_header_web_sm_hoq'}`} style={{
             top  : !isSticky && '0px' ,
           }}>
-            <p
-              className="hoqAccountTitle youraccountpagesec"
-              style={{ height: "40px", margin: "0px", padding: "0px" }}
-            >
-              Your Account
-            </p>
+            <p className="hoqAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
             <div className="hoqAccountTabWebView hoq_main_head_none" style={{paddingTop:'1%'}}>
               <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
@@ -306,7 +301,8 @@ export default function Account() {
                         {e?.id === 1164 && ( <CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel> )}
                         {e?.id === 1157 && ( <CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel> )}
                         {e?.id === 1314 && ( <CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel> )}
-                        {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>} {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
+                        {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
+                         {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
                         {e?.id === 1159 && ( <CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel> )} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
                                                 <PendingMemo />
                                             </CustomTabPanel>} */}

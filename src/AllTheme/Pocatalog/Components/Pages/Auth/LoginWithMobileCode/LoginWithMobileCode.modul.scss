@@ -96,6 +96,12 @@
     }
 
 
+    @media screen and (max-width: 1200px) {
+        .smling-forgot-main {
+            margin-inline: 1% !important;
+        }
+    }
+
     @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
             font-size: 25px !important;

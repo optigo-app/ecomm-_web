@@ -1,6 +1,6 @@
 import { CommonAPI } from "../../CommonAPI/CommonAPI";
 
-export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filterObj = {}) => {
+export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filterObj = {}, currentPage, itemsPerPage) => {
     let response;
     try {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
@@ -36,6 +36,8 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             FilPrice: filterObj?.Price,
             IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${userData?.CurrencyRate ?? storeInit?.CurrencyRate}`,
+            PageNo: `${currentPage ?? "1"}`,
+            PageSize: `${itemsPerPage ?? "20"}`
         })
 
         const combinedValueLogin = JSON.stringify({
@@ -67,6 +69,8 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             FilPrice: filterObj?.Price,
             IsPLW: storeInit?.IsPLW,
             CurrencyRate: `${userData?.CurrencyRate ?? storeInit?.CurrencyRate}`,
+            PageNo: `${currentPage ?? "1"}`,
+            PageSize: `${itemsPerPage ?? "20"}`
         })
 
 

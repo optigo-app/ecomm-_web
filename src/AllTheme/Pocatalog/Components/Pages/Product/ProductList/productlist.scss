@@ -6,11 +6,10 @@
   width: 100%;
 }
 
-.smr_outerContain {
+.proCat_outerContain {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 15px;
 }
 
 .proCat_backtotop {
@@ -498,7 +497,7 @@
 @media screen and (max-width: 1200px) {
 
   .proCat_whiteInnerContain {
-    margin-inline: 0.5% !important;
+    margin-inline: 1% !important;
   }
 
 

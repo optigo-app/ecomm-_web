@@ -183,7 +183,7 @@
         padding: 10px;
     }
 }
-@media(max-width: 425px){
+@media(max-width: 425px), (max-width: 430px){
     .smilingAddressPopupMain {
         height: 80vh !important;
         width: 100% !important;
@@ -193,6 +193,13 @@
     .mt_5_ad_elvee{
         margin-top: 5.5px !important;
         margin-bottom: 5.5px !important;
+    }
+    .elveeMAddresscenter{
+        width: 100%;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
     }
 }
 @media(max-width: 375px){
@@ -211,7 +218,11 @@
         min-width: 250px;
     }
 }
-
+@media screen and (max-width:1086px){
+    .none_addTitleAcc_elvee{
+        display: none !important;
+    }
+}
 // .muiSmilingRocksBtnManage{
 //     /* border: 1px solid #7d7f85 !important; */
 //     font-family: "PT Sans", sans-serif !important;
