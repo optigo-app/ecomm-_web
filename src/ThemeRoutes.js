@@ -47,12 +47,12 @@ export default function ThemeRoutes() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
+    console.log('jsonDatajsonData',`${storImagePath()}/Store_Init.txt`);
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
       .then((text) => {
         try {
           const jsonData = JSON?.parse(text);
-          console.log(jsonData, "hoq")
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);

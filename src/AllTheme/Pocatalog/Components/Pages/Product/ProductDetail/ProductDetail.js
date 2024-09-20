@@ -943,6 +943,20 @@ const ProductDetail = () => {
   //   });
   // }
 
+  const metalColorName = () => {
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.colorcode == selectMtColor
+        )[0]
+    }
+
+    return mcArr?.metalcolorname
+  }
+
   const handleMetalWiseColorImg = async (e) => {
 
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -1259,7 +1273,7 @@ const ProductDetail = () => {
         <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
       </Helmet>
       <div className="proCat_prodDetail_bodyContain">
-        <div className="smr_prodDetail_outerContain">
+        <div className="proCat_prodDetail_outerContain">
           <div className="smr_prodDetail_whiteInnerContain">
             {isDataFound ? (
               <div
@@ -1392,7 +1406,7 @@ const ProductDetail = () => {
                             <span className="smr_prod_short_key">
                               Metal Color :{" "}
                               <span className="smr_prod_short_val">
-                                {selectMtColor}
+                                {metalColorName()}
                               </span>
                             </span>
                             {(storeInit?.IsDiamondCustomization === 1 &&
@@ -1405,7 +1419,7 @@ const ProductDetail = () => {
                             <span className="smr_prod_short_key">
                               Net Wt :{" "}
                               <span className="smr_prod_short_val">
-                                {singleProd1?.Nwt ?? singleProd?.Nwt}
+                                {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
                           </div>
@@ -1487,13 +1501,13 @@ const ProductDetail = () => {
                                   <label className="menuItemTimeEleveDeatil">
                                     DIAMOND :
                                   </label>
-                                  {singleProd?.IsMrpBase == 1 ? 
-                                  (
-                                    <span className="menuitemSelectoreMain">
-                                      {singleProd?.DiaQuaCol}
-                                    </span>
-                                  ) 
-                                  :
+                                  {singleProd?.IsMrpBase == 1 ?
+                                    (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.DiaQuaCol}
+                                      </span>
+                                    )
+                                    :
                                     <select
                                       className="menuitemSelectoreMain"
                                       value={selectDiaQc}
@@ -1518,26 +1532,26 @@ const ProductDetail = () => {
                                   <label className="menuItemTimeEleveDeatil">
                                     COLOR STONE :
                                   </label>
-                                  { singleProd?.IsMrpBase == 1 ? (
-                                      <span className="menuitemSelectoreMain">
-                                        {singleProd?.CsQuaCol}
-                                      </span>
-                                    ):
+                                  {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {singleProd?.CsQuaCol}
+                                    </span>
+                                  ) :
                                     <select
-                                    className="menuitemSelectoreMain"
-                                    value={selectCsQc}
-                                    // onChange={(e) => setSelectCsQc(e.target.value)}
-                                    onChange={(e) =>
-                                      handleCustomChange(e, "cs")
-                                    }
-                                  >
-                                    {csQcCombo.map((ele) => (
-                                      <option
-                                        key={ele?.QualityId}
-                                        value={`${ele?.Quality},${ele?.color}`}
-                                      >{`${ele?.Quality},${ele?.color}`}</option>
-                                    ))}
-                                  </select>}
+                                      className="menuitemSelectoreMain"
+                                      value={selectCsQc}
+                                      // onChange={(e) => setSelectCsQc(e.target.value)}
+                                      onChange={(e) =>
+                                        handleCustomChange(e, "cs")
+                                      }
+                                    >
+                                      {csQcCombo.map((ele) => (
+                                        <option
+                                          key={ele?.QualityId}
+                                          value={`${ele?.Quality},${ele?.color}`}
+                                        >{`${ele?.Quality},${ele?.color}`}</option>
+                                      ))}
+                                    </select>}
                                 </div>
                               ) : null}
                               {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
@@ -1923,7 +1937,7 @@ const ProductDetail = () => {
                     </div>
                   )}
 
-{csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                  {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
@@ -2070,7 +2084,7 @@ const ProductDetail = () => {
                               </div>
 
                               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }} className="smr_stockItem_price_type_mt">
-                                {storeInit?.IsMetalTypeWithColor == 1 ? `${ele?.MetalColorName}-${ele?.metaltypename}${ele?.metalPurity}`: ""}
+                                {storeInit?.IsMetalTypeWithColor == 1 ? `${ele?.MetalColorName}-${ele?.metaltypename}${ele?.metalPurity}` : ""}
                                 {" "}/{" "}
                                 {
                                   storeInit?.IsPriceShow == 1 && (
@@ -2342,7 +2356,7 @@ const ProductDetail = () => {
                                       </spam>
                                       <span>{
                                         formatter.format(
-                                        ele?.UnitCostWithMarkUp
+                                          ele?.UnitCostWithMarkUp
                                         )
                                       }</span>
                                     </>
@@ -2466,23 +2480,23 @@ const ProductDetail = () => {
                                           }}
                                           className="srthelook_prodinfo_inner"
                                         >
-                                          
-                                            <p>
-                                              {ele?.designno} - {ele?.CategoryName}
-                                              <br />
-                                              {storeInit?.IsPriceShow == 1 &&
-                                                <span className="smr_currencyFont">
-                                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                                </span>
-                                              }
-                                              &nbsp;
-                                              {storeInit?.IsPriceShow == 1 &&
-                                                formatter.format(
+
+                                          <p>
+                                            {ele?.designno} - {ele?.CategoryName}
+                                            <br />
+                                            {storeInit?.IsPriceShow == 1 &&
+                                              <span className="smr_currencyFont">
+                                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                              </span>
+                                            }
+                                            &nbsp;
+                                            {storeInit?.IsPriceShow == 1 &&
+                                              formatter.format(
                                                 ele?.UnitCostWithMarkUp
-                                                )
-                                              }
-                                            </p>
-                                          
+                                              )
+                                            }
+                                          </p>
+
                                         </div>
                                         {/* <div>
                           <span style={{ fontSize: "30px", color: "#7d7f85",padding:'5px'}} className=''>

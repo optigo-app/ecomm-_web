@@ -14,21 +14,19 @@
         margin-inline: 6%;
     }
 
-    .Fo-contactBoxMain {
+    .smr_contactPage_BoxMain {
         display: flex;
         margin-inline: 10%;
     }
 
-    .Fo-contactBox1 {
-
+    .smr_Fo_contactBox1 {
         width: 50%;
-        padding-left: 230px;
-        margin-top: 50px;
         border-right: 1px solid #e1e1e1;
+        display: flex;
+        justify-content: center;
     }
 
     .Fo-contactBox1Title {
-
         margin: 0px 0px 10px;
         letter-spacing: 1px;
         color: #7d7f85;
@@ -43,9 +41,9 @@
         padding: 0px 5px;
     }
 
-    .Fo-contactBox2 {
-        width: 35%;
-        margin: 60px 130px 130px 130px;
+    .smr_Fo_contactBox2_main {
+        width: 50%;
+        margin: 0px;
     }
 
     .Fo-contactBox2Title {
@@ -106,12 +104,12 @@
     }
 
     @media screen and (max-width:1440px) {
-        .Fo-contactBox1 {
+        .smr_Fo_contactBox1 {
             padding-left: 0px;
 
         }
 
-        .Fo-contactBox2 {
+        .smr_Fo_contactBox2_main {
             width: 40%;
             margin: 0px;
             margin-top: 15%;
@@ -134,13 +132,13 @@
     @media screen and (max-width:1000px) {
         padding-top: 10px !important;
 
-        .Fo-contactBoxMain {
+        .smr_contactPage_BoxMain {
             display: flex;
             margin-inline: 10%;
             flex-direction: column;
         }
 
-        .Fo-contactBox1 {
+        .smr_Fo_contactBox1 {
             width: 100%;
             padding-left: 0px;
             margin-top: 50px;
@@ -153,7 +151,7 @@
             border: 1px solid #e1e1e1;
         }
 
-        .Fo-contactBox2 {
+        .smr_Fo_contactBox2_main {
             width: 100%;
             margin: 10px;
             margin-top: 30px;

@@ -16,12 +16,12 @@
     .footerIconMain {
         display: flex;
         width: 33.33%;
-
     }
 
-    .footerOfficeDesc{
+    .footerOfficeDesc {
         font-size: 14px;
     }
+
     .footerMoreOption {
         display: flex;
         width: 100%;
@@ -86,9 +86,12 @@
         width: 100%;
     }
 
-
+    @media screen and (max-width: 1200px) {
+        margin-inline: 1% !important;
+    }
 
     @media screen and (max-width: 1024px) {
+
 
         .proCat_AddresMain {
             margin-left: 0px !important;

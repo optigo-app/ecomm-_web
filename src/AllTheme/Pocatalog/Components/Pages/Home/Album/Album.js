@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import "./Album.modul.scss";
 import { Get_Procatalog } from "../../../../../../utils/API/Home/Get_Procatalog/Get_Procatalog";
@@ -129,19 +130,20 @@ const Album = () => {
       const Newdata = JSON.parse(data?.AlbumDetail || '[]');
       let finalNewData = Newdata?.map((data) => {
         if (data?.AlbumImageName) {
-          return { ...data, imageKey: data?.AlbumImageName }
+          let imgLink = storeinit?.AlbumImageFol + data?.AlbumImageFol + '/' + data?.AlbumImageName;
+          return { ...data, imageKey: imgLink }
         } else {
           let data1 = JSON.parse(data?.Designdetail);
 
           let finalImg = data1?.map((data) => {
             if (data?.ImageCount > 0 && data?.ImageExtension !== '') {
               let imgLink = storeinit?.DesignImageFol + data?.designno + "_" + '1' + "." + data?.ImageExtension;
-              if(checkImageAvailability(imgLink)){
+              if (checkImageAvailability(imgLink)) {
                 return imgLink
               }
             }
           })?.find(item => item !== undefined);
-          let finalImgData =  finalImg ?? imageNotFound;
+          let finalImgData = finalImg ?? imageNotFound;
           return { ...data, imageKey: finalImgData }
         }
       })
@@ -149,7 +151,7 @@ const Album = () => {
       setDesignSubData(finalNewData);
       setOpenAlbumName(data?.AlbumName);
     } else {
-      sessionStorage.setItem('redirectURL' , url)
+      sessionStorage.setItem('redirectURL', url)
       navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
     }
   };
@@ -157,14 +159,14 @@ const Album = () => {
   const handleNavigateSub = (data) => {
     const url = `/p/${data?.AlbumName}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
-    sessionStorage.setItem('redirectURL' , url)
+    sessionStorage.setItem('redirectURL', url)
     navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
   };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log('designSubDatadesignSubData',designSubData);
+  console.log('designSubDatadesignSubData', designSubData);
   if (!imagesReady) {
     return <AlbumSkeleton />;
   }
@@ -237,7 +239,9 @@ const Album = () => {
                       className="proCat_AlbumImageMainPopup_img"
                       alt={openAlbumName}
                     />
-                    {data.AlbumSecurityId != 0 && (
+                    {islogin || data?.AlbumSecurityId === 0 ? (
+                      ""
+                    ) : (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -261,7 +265,7 @@ const Album = () => {
       <p className="proCat_albumTitle">ALBUMS</p>
       <div className="proCat_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
         {albumData.map((data, index) => {
-          let imgSrc = imageNotFound; // Default to imageNotFound
+          let imgSrc = imageNotFound;
           if (data.AlbumImageName) {
             const imageUrlI = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
             imgSrc = imageStatus[imageUrlI] ? imageUrlI : fallbackImages[imageUrlI] || imageNotFound;
@@ -275,7 +279,7 @@ const Album = () => {
                   if (design.ImageCount > 0) {
                     const fallbackImage = `${storeinit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
                     imgSrc = fallbackImage;
-                    return true; // Stop searching after finding the first valid image
+                    return true;
                   }
                   return false;
                 });

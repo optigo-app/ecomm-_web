@@ -3093,7 +3093,7 @@ const ProductList = () => {
                                           <LocalMallOutlinedIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "#7d7f85",
+                                              color: "red",
                                               opacity: ".7",
                                             }}
                                           />
@@ -3102,7 +3102,7 @@ const ProductList = () => {
                                           <LocalMallIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "#009500",
+                                              color: "red",
                                             }}
                                           />
                                         }
