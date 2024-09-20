@@ -475,6 +475,7 @@ const QuotationJob = () => {
             allMetalPurity?.push({ id: allMetalPurity?.length, label: e?.MetalType, value: e?.MetalType, });
           }
         });
+        console.log(response?.Data);
         // allStatus?.unshift({ id: allStatus?.length, label: "ALL", value: "ALL" });
         allCategory?.unshift({ id: allCategory?.length, label: "ALL", value: "ALL" });
         allMetalColor?.unshift({ id: allMetalColor?.length, label: "ALL", value: "ALL" });
@@ -1053,9 +1054,10 @@ const scrollToTop = () => {
                       <TableCell
                         key={column?.id}
                         align={column.align}
-                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
+                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f"}}
                         onClick={() => handleRequestSort(column?.id)}
                       >
+                        {/* {column.label === 'PO' ? 'LineId' : column.label} */}
                         {column.label}
                         {orderBy === column.id ? (
                           <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>

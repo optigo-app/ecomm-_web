@@ -338,7 +338,6 @@ const QuotationQuote = () => {
             // const response = await CommonAPI(body);
             let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
-            console.log(storeInit, response?.Data?.rd);
             
             if (response?.Data?.rd) {
                 let rows = [];
