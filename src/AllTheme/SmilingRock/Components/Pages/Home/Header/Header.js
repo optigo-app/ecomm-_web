@@ -59,7 +59,6 @@ const Header = () => {
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
-
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
@@ -519,10 +518,20 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="smr_mobileHeader_top_div2">
+              <div className="smr_mobileHeader_top_div2_web">
                 <a href="/">
                   <img
                     src={compnyLogo}
+                    loading="lazy"
+                    className="smr_logo_header"
+                  />
+                </a>
+              </div>
+
+              <div className="smr_mobileHeader_top_div2_mobile">
+                <a href="/">
+                  <img
+                    src={compnyLogoM}
                     loading="lazy"
                     className="smr_logo_header"
                   />
