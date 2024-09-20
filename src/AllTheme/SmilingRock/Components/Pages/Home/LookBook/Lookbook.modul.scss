@@ -26,6 +26,7 @@
     top: 0;
     height: 80vh;
     width: 20%;
+    overflow: auto;
   }
 
   .smr_lookBookViveBoxSet {
@@ -51,6 +52,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-bottom: 40px;
     }
   }
 

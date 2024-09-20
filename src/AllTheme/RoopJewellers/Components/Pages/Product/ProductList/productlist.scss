@@ -1,10 +1,10 @@
 @import "../../../scss/variable";
 
-.stam_bodyContain {
+.roop_bodyContain {
   height: 100%;
   width: 100%;
 
-  .smr_outerContain {
+  .roop_outerContain {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@
     top: 0;
   }
 
-  .stam_whiteInnerContain {
+  .roop_whiteInnerContain {
     background-color: #fff;
     width: 100%;
     position: sticky;
@@ -23,14 +23,14 @@
 
   }
 
-  .smr_prodSorting {
+  .roop_prodSorting {
     display: flex;
     //   justify-content: flex-end;
     font-family: "Rubik", sans-serif;
     width: 100%;
   }
 
-  .smr_mobile_prodSorting {
+  .roop_mobile_prodSorting {
     display: flex;
     justify-content: flex-end;
     font-family: "Rubik", sans-serif;
@@ -47,7 +47,7 @@
 
   }
 
-  .smr_main_sorting_div {
+  .roop_main_sorting_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,12 +94,12 @@
 
   // main portion of product and filter
 
-  .smr_mainPortion {
+  .roop_mainPortion {
     width: 100%;
     display: flex;
   }
 
-  .smr_filter_portion {
+  .roop_filter_portion {
     top: 25px !important;
     position: sticky !important;
     width: 25%;
@@ -107,7 +107,7 @@
     height: 100%;
   }
 
-  .smr_backtotop {
+  .roop_backtotop {
     color: white;
     font-family: $primaryFontFamily;
     display: flex;
@@ -119,27 +119,27 @@
     cursor: pointer;
   }
 
-  // .smr_filterDrawer .MuiPaper-root{
+  // .roop_filterDrawer .MuiPaper-root{
   //   // width: 400px !important;
   //   display: flex;
   //   flex-direction: column-reverse;
   // }
 
-  .smr_mobile_filter_portion {
+  .roop_mobile_filter_portion {
     min-width: 300px;
     font-family: $primaryFontFamily;
   }
 
-  .smr_filter_portion_outter {
+  .roop_filter_portion_outter {
     // padding: 6% 18%;
     padding: 6% 12% 6% 18% !important;
   }
 
-  .smr_mobile_filter_portion_outter {
+  .roop_mobile_filter_portion_outter {
     padding: 6% 6%;
   }
 
-  .smr_filter_text {
+  .roop_filter_text {
     font-weight: bold;
     font-family: $primaryFontFamily;
     color: $primaryfontcolor;
@@ -147,7 +147,7 @@
     justify-content: space-between;
   }
 
-  .smr_productList {
+  .roop_productList {
     width: 75%;
     display: flex;
     align-items: baseline;
@@ -162,19 +162,19 @@
     // scrollbar-width: none;
   }
 
-  .smr_productList::-webkit-scrollbar {
+  .roop_productList::-webkit-scrollbar {
     display: none;
     /* Hide scrollbar for Webkit browsers */
   }
 
-  .smr_outer_portion {
+  .roop_outer_portion {
     position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
   }
 
-  .smr_breadcums_port {
+  .roop_breadcums_port {
     // position: absolute;
     // top: -40px;
     // z-index: 999;
@@ -186,7 +186,7 @@
     cursor: pointer;
   }
 
-  .smr_inner_portion {
+  .roop_inner_portion {
     width: 100%;
     display: flex;
     align-items: center;
@@ -194,7 +194,7 @@
     // justify-content: end;
   }
 
-  .stam_productCard {
+  .roop_productCard {
     width: 20%;
     text-align: center;
     margin: 15px;
@@ -205,7 +205,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .stam_productCard:hover{
+  .roop_productCard:hover{
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
   }
 
@@ -224,14 +224,14 @@
   }
 
   .roop_prod_card_info {
-    height: 90px;
-    padding-bottom: 10px;
     background-color: #EDF2F6;
+    height: max-content;
+    padding-block: 5px;
   }
 
   .roop_prod_Title {
     display: flex;
-    font-family: $primaryFontFamily;
+    justify-content: center;
   }
 
   .roop1_prod_title_with_width {
@@ -255,7 +255,7 @@
   }
 
   .roop1_prod_title_with_no_width {
-    font-size: 14px;
+    font-size: 12px;
     text-transform: uppercase;
     font-weight: 400;
     cursor: pointer;
@@ -264,15 +264,13 @@
     white-space: nowrap;
     padding: 0 2px;
     min-height: 19.5px;
-    /* width:300px; */
-    // margin: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
     letter-spacing: 0.5px;
   }
 
-  .smr_prod_designno {
+  .roop_prod_designno {
     font-size: 14px;
     font-weight: 400;
     padding: 0px 5px;
@@ -282,41 +280,38 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    font-family: $primaryFontFamily;
     margin-inline: 2px;
+    justify-content: center;
   }
 
-  .smr_por {
+  .roop_por {
     display: flex;
     // align-items: center;
     flex-direction: column;
   }
 
-  .smr_prod_wt {
+  .roop_prod_wt {
     display: flex;
     gap: 2px;
   }
 
   .roop_main_keys {
-    font-size: 14px;
+    font-size: 11px;
   }
 
   .roop_main_val {
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 11px;
   }
 
   .roop_prod_mtcolr_price {
     display: flex;
     justify-content: center;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
     gap: 3px;
-    font-family: $primaryFontFamily;
     align-items: baseline;
   }
 
-  .smr_price {
+  .roop_price {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -325,15 +320,15 @@
     font-size: 14px;
     // font-weight: 600;
 
-    // .smr_currencyFont{
+    // .roop_currencyFont{
 
     // }
-    // .smr_pricePort{
+    // .roop_pricePort{
 
     // }
   }
 
-  .smr_mui_checkbox_label {
+  .roop_mui_checkbox_label {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -347,7 +342,7 @@
     // font-size: 12px;
   }
 
-  .smr_prod_datanotfound {
+  .roop_prod_datanotfound {
     font-family: $primaryFontFamilyMedium;
     color: $primaryfontcolor;
     font-size: 28px;
@@ -358,14 +353,14 @@
     border-radius: 0;
   }
 
-  .smr_metal_custom {
+  .roop_metal_custom {
     border-bottom: 1px solid #e1e1e1;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .smr_dia_custom {
+  .roop_dia_custom {
     border-bottom: 1px solid #e1e1e1;
     display: flex;
     align-items: center;
@@ -373,7 +368,7 @@
   }
 
 
-  .smr_cs_custom {
+  .roop_cs_custom {
     border-bottom: 1px solid #e1e1e1;
     display: flex;
     align-items: center;
@@ -413,7 +408,7 @@
     font-size: 10px;
   }
 
-  .smr_intrending {
+  .roop_intrending {
     // background-color: khaki;
     // color: black;
     padding: 0px 5px;
@@ -425,7 +420,7 @@
     margin-left: 5px;
   }
 
-  .smr_app_newarrival {
+  .roop_app_newarrival {
     background-color: darkblue;
     color: white;
     text-transform: uppercase;
@@ -456,13 +451,13 @@
     font-size: 10px;
   }
 
-  // .smr_shorcutCustomization{
+  // .roop_shorcutCustomization{
   //     border:1px solid #d9d9d9;
   //     // margin-inline:5%;
   //     width: 98.7%;
   // }
 
-  .smr_productCard_video {
+  .roop_productCard_video {
     object-fit: contain;
     height: 412px;
     min-height: 412px;
@@ -470,7 +465,7 @@
     // min-width:399px;
   }
 
-  // .smr_backtotop{
+  // .roop_backtotop{
   //   width:100%;
   //   display: flex;
   //   justify-content: center;
@@ -485,7 +480,7 @@
   }
 
   @media screen and (max-width: 1441px) {
-    .smr_filter_portion_outter {
+    .roop_filter_portion_outter {
       // padding: 6% 14%;
       padding: 6% 12% 6% 14%;
     }
@@ -500,22 +495,22 @@
       min-height: 350px;
     }
 
-    .smr_productCard_video {
+    .roop_productCard_video {
       height: 350px;
       min-height: 350px;
     }
   }
 
   @media screen and (max-width: 1200px) {
-    .smr_filter_portion_outter {
+    .roop_filter_portion_outter {
       display: none;
     }
 
-    .smr_filter_portion {
+    .roop_filter_portion {
       width: 0
     }
 
-    .smr_productList {
+    .roop_productList {
       width: 100%;
       margin: 00px 0px 0px 18px;
       // display: flex;
@@ -524,7 +519,7 @@
     }
 
 
-    // .smr_prodSorting{
+    // .roop_prodSorting{
     //   display: none;
     // }
 
@@ -534,12 +529,12 @@
       min-height: 312px;
     }
 
-    .smr_productCard_video {
+    .roop_productCard_video {
       height: 312px;
       min-height: 312px;
     }
 
-    .smr_main_sorting_div {
+    .roop_main_sorting_div {
       display: none !important;
     }
 
@@ -554,11 +549,11 @@
       font-size: 12px;
     }
 
-    .smr_product_label {
+    .roop_product_label {
       font-size: 12px;
     }
 
-    .smr_price {
+    .roop_price {
       font-size: 12px;
     }
 
@@ -566,7 +561,7 @@
       font-size: 12px;
     }
 
-    .smr_prod_designno {
+    .roop_prod_designno {
       font-size: 12px !important;
     }
 
@@ -585,7 +580,7 @@
 
 
   @media screen and (max-width: 768px) {
-    .stam_productCard {
+    .roop_productCard {
       width: 49%;
     }
 
@@ -599,7 +594,7 @@
       min-height: 250px;
     }
 
-    .smr_productCard_video {
+    .roop_productCard_video {
       height: 250px;
       min-height: 250px;
     }
@@ -608,11 +603,11 @@
       font-size: 10px;
     }
 
-    .smr_product_label {
+    .roop_product_label {
       font-size: 10px;
     }
 
-    .smr_price {
+    .roop_price {
       font-size: 10px;
     }
 
@@ -620,7 +615,7 @@
       font-size: 10px;
     }
 
-    .smr_prod_designno {
+    .roop_prod_designno {
       font-size: 10px !important;
     }
 
@@ -681,19 +676,19 @@
       min-height: 200px;
     }
 
-    .smr_productCard_video {
+    .roop_productCard_video {
       height: 200px;
       min-height: 200px;
     }
 
-    .smr_productList {
+    .roop_productList {
       width: 100%;
       margin: 0px 0px 0px 7px !important;
     }
   }
 
   @media screen and (max-width:900px) {
-    .smr_productList {
+    .roop_productList {
       width: 100%;
       margin: 0px 0px 0px 13px;
     }

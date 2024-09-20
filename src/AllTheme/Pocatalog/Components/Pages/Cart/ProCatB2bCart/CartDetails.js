@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './procat_cartPage.scss';
+import './proCat_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 

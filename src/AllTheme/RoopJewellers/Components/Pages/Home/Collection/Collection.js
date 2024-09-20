@@ -24,7 +24,7 @@ function Collection() {
       <p className='roop_whyshop_title'>WHY SHOP WITH ROOP JEWELLERS?</p>
 
       <div className="roop_col_shop_div_main">
-      <div className="roop_col_shop_div">
+        <div className="roop_col_shop_div">
           <div className="imageDiv">
             <img
               className="roop_whyshop_jewelImg"
@@ -48,10 +48,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop2.png`}
               alt="Certified Jewellery"
             />
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>TRADITIONAL RETAIL SPACE</h5>
           </div>
           <div className="onhover_show">
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>TRADITIONAL RETAIL SPACE</h5>
             <p>Indulge in Quality Certified Jewellery, a testament to the excellence of our craftsmanship.</p>
           </div>
         </div>
@@ -64,10 +64,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop3.png`}
               alt="Certified Jewellery"
             />
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>PEACE OF MIND PROMISE</h5>
           </div>
           <div className="onhover_show">
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>PEACE OF MIND PROMISE</h5>
             <p>Indulge in Quality Certified Jewellery, a testament to the excellence of our craftsmanship.</p>
           </div>
         </div>
@@ -80,10 +80,10 @@ function Collection() {
               src={`${storImagePath()}/images/HomePage/Shop/shop4.png`}
               alt="Certified Jewellery"
             />
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>RISK-FREE ASSURANCE</h5>
           </div>
           <div className="onhover_show">
-            <h5>QUALITY CERTIFIED JEWELLERY</h5>
+            <h5>RISK-FREE ASSURANCE</h5>
             <p>Indulge in Quality Certified Jewellery, a testament to the excellence of our craftsmanship.</p>
           </div>
         </div>

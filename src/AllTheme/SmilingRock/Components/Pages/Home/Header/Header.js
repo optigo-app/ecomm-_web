@@ -59,7 +59,6 @@ const Header = () => {
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
 
-
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
@@ -519,10 +518,20 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="smr_mobileHeader_top_div2">
+              <div className="smr_mobileHeader_top_div2_web">
                 <a href="/">
                   <img
                     src={compnyLogo}
+                    loading="lazy"
+                    className="smr_logo_header"
+                  />
+                </a>
+              </div>
+
+              <div className="smr_mobileHeader_top_div2_mobile">
+                <a href="/">
+                  <img
+                    src={compnyLogoM}
                     loading="lazy"
                     className="smr_logo_header"
                   />
@@ -1610,7 +1619,7 @@ const Header = () => {
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <List className="smr_listMain">
+                    <div className="smr_listMain">
                       {menuItem.param1.map((subMenuItem) => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
@@ -1723,7 +1732,7 @@ const Header = () => {
                       >
                         view all
                       </button>
-                    </List>
+                    </div>
                   </>
                 </div>
               ))}

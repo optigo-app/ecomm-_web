@@ -54,6 +54,13 @@
   .dt_LookBookSubMainDiv {
     padding-inline: 6%;
     background-color: white;
+    
+    .lpDiv {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 40px;
+    }
   }
 
   .dt_LookBookSubMainDiv {

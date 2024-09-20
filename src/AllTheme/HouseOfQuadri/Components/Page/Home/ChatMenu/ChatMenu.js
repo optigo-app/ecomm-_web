@@ -2,10 +2,10 @@ import { useMediaQuery } from "@mui/material";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import "./ChatMenu.modul.scss";
 
-const ChatMenu = () => {
-  const whatsappUrl = `https://web.whatsapp.com/send?phone=9099889962&text=Hello, Talk to a Jewellery expert now!`;
-  const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=9099889962&text=Hello,%20Talk%20to%20a%20Jewellery%20expert%20now!`;
-  const isTablet = useMediaQuery("(min-width:600px) and (max-width:899px)");
+const ChatMenu = ({ message = "Hello, Talk to a Jewellery expert now!" }) => {
+  const whatsappUrl = `https://web.whatsapp.com/send?phone=9099889962&text=${encodeURIComponent(message)}`;
+  const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=9099889962&text=${encodeURIComponent(message)}`;
+   const isTablet = useMediaQuery("(min-width:600px) and (max-width:899px)");
 
   function detectOS() {
     const userAgent = window.navigator.userAgent;
