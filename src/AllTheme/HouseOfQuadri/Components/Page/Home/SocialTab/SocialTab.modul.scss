@@ -31,8 +31,8 @@
     margin: 0 auto;
     transition: 0.3s ease-in-out;
     width: 75%;
-    @media screen and (max-width: 768px) {
-      grid-template-columns: repeat(2, minmax(40%, 1fr));
+    @media screen and (max-width: 625px) {
+      grid-template-columns: repeat(2, minmax(auto, 1fr));
       width: 90%;
     }
     @media screen and (max-width: 420px) {
@@ -42,6 +42,8 @@
     }
     .social_card {
       position: relative;
+      width: 100%;
+      height: 100%;
       &:hover {
         .icon_overlayer {
           display: flex;
@@ -71,44 +73,4 @@
       }
     }
   }
-  // @media screen and (max-width: 1200px) {
-  //   .social_row {
-  //     gap: 0.5rem;
-  //     width: 100%;
-  //     .social_card {
-  //       max-width: 220px;
-  //       min-width: 220px;
-  //     }
-  //   }
-  // }
-  // @media screen and (max-width: 940px) {
-  //   .social_row {
-  //     gap: 0.5rem;
-  //     .social_card {
-  //       max-width: 190px;
-  //       min-width: 190px;
-  //     }
-  //   }
-  // }
-  // @media screen and (max-width: 768px) {
-  //   .social_row {
-  //     gap: 0.5rem;
-  //     .social_card {
-  //       max-width: 150px;
-  //       min-width: 150px;
-  //       height: 160px;
-  //     }
-  //   }
-  // }
-  // @media screen and (max-width: 430px) {
-  //   .social_row {
-  //     gap: 0.5rem;
-  //     padding: 0 8px;
-  //     .social_card {
-  //       max-width: 130px;
-  //       min-width: 130px;
-  //       height: 150px;
-  //     }
-  //   }
-  // }
 }
