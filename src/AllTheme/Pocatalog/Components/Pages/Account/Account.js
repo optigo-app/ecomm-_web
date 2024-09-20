@@ -109,7 +109,7 @@ export default function Account() {
         // sessionStorage.removeItem("CompanyInfoData");
         sessionStorage.removeItem("MetalColorCombo");
         sessionStorage.removeItem("metalTypeCombo");
-        sessionStorage.removeItem("myAccountFlags");
+        // sessionStorage.removeItem("myAccountFlags");
         sessionStorage.removeItem("registerEmail");
         sessionStorage.removeItem("selectedAddressId");
     };
@@ -254,7 +254,6 @@ export default function Account() {
 
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }

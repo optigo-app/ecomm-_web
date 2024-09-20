@@ -136,9 +136,9 @@ const Album1 = () => {
     }
 
     return (
-        <>
+        <div ref={albumRef}>
             {albumData?.length != 0 &&
-                <div className="album-container" ref={albumRef}>
+                <div className="album-container" >
                     <div className='smr_ablbumtitleDiv'>
                         <span className='smr_albumtitle'>ALBUM</span>
                         {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
@@ -229,7 +229,7 @@ const Album1 = () => {
                     </div>
                 </div>
             }
-        </>
+        </div>
     );
 };
 
