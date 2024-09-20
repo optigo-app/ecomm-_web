@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './proCat_cartPage.scss';
+import './procat_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -245,14 +245,6 @@ const Customization = ({
                 <div className="proCat_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
-                      {/* <span
-                        className="proCat_currencyFont"
-                        dangerouslySetInnerHTML={{
-                          __html: decodeEntities(
-                            CurrencyData?.Currencysymbol
-                          ),
-                        }}
-                      /> */}
                       <span className="proCat_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>
