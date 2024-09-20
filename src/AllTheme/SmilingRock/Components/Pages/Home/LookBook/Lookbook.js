@@ -98,7 +98,6 @@ const Lookbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
-
   const updateSize = () => {
     if (SwiperSlideRef.current) {
       const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
@@ -112,10 +111,12 @@ const Lookbook = () => {
   };
   const handleKeyDown = (e) => {
     if (e.key === 'F12') {
-      handleResize(); 
+      handleResize(); // Call handleResize function when F12 is pressed
     }
   };
-
+  const handleImageLoad = () => {
+    updateSize();
+  };
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -127,13 +128,13 @@ const Lookbook = () => {
 
     if (SwiperSlideRef.current) {
       resizeObserver.observe(SwiperSlideRef.current);
-      updateSize(); 
+      updateSize();
     }
 
-   
+
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
-    
+
     return () => {
       resizeObserver.disconnect();
       window.removeEventListener("keydown", handleKeyDown);
@@ -141,12 +142,10 @@ const Lookbook = () => {
     };
   }, []);
 
-  const handleImageLoad = () => {
-    updateSize(); 
-  };
 
-  
-  
+
+
+
   const handlePrevious = () => {
     if (swiper !== null) {
       swiper.slidePrev();
@@ -1356,9 +1355,10 @@ const Lookbook = () => {
               )}
             </div>
             <div className="smr_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
-              {!isPgLoading ? (
+
+              {selectedValue == 2 && (
                 <>
-                  {selectedValue == 2 && (
+                  {!isPgLoading ? (
                     <div className="smr_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
@@ -1541,15 +1541,16 @@ const Lookbook = () => {
                         ))
                       )}
                     </div>
-                  )}
+                  ) :
+                    <LookbookSkelton param={selectedValue} />
+                  }
                 </>
-              ) :
-                <LookbookSkelton param={selectedValue} />
-              }
+              )}
 
-              {!isPgLoading ? (
+
+              {selectedValue == 3 && (
                 <>
-                  {selectedValue == 3 && (
+                  {!isPgLoading ? (
                     <div className="smr_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
@@ -1852,15 +1853,16 @@ const Lookbook = () => {
                         </>
                       )}
                     </div>
-                  )}
+                  ) :
+                    <LookbookSkelton param={selectedValue} />
+                  }
                 </>
-              ) :
+              )}
 
-                <LookbookSkelton param={selectedValue} />
-              }
-              {!isPgLoading ? (
+
+              {selectedValue == 1 && (
                 <>
-                  {selectedValue == 1 && (
+                  {!isPgLoading ? (
                     <div className="smr_lookbook3MainDiv">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
@@ -2163,39 +2165,45 @@ const Lookbook = () => {
                                 {filteredDesignSetLstData?.map((slide, index) => (
                                   <SwiperSlide key={index}>
 
-                                {ProdCardImageFunc(slide) ? (
-                                  <img
-                                    src={ProdCardImageFunc(slide)}
-                                    alt=""
-                                    className="ctl_Paginationimg"
-                                    ref={SwiperSlideRef}
-                                    onLoad={handleImageLoad}
-                                  />
-                                ) : (
-                                  <div
-                                    style={{
-                                      ...getRandomBgColor(index),
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      height: DynamicSize.h,
-                                      width: DynamicSize.w,
-                                      cursor: "pointer",
-                                      margin : 0
-                                    }}
-                                    className="smr_lb3ctl_img_new"
-                                  >
-                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
-                                  </div>
-                                )}
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
+                                    {ProdCardImageFunc(slide) ? (
+                                      <img
+                                        src={ProdCardImageFunc(slide)}
+                                        alt=""
+                                        className="ctl_Paginationimg"
+                                        ref={SwiperSlideRef}
+                                        onLoad={handleImageLoad}
+                                      />
+                                    ) : (
+                                      <div
+                                        style={{
+                                          height: "100%",
+                                          width: "100%",
+                                          ...getRandomBgColor(index),
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          height: DynamicSize.h,
+                                          width: DynamicSize.w,
+                                          cursor: "pointer",
+                                          margin: 0
+                                        }}
+                                        className="smr_lb3ctl_img_new"
+                                      >
+                                        {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                      </div>
+                                    )}
+                                  </SwiperSlide>
+                                ))}
+                              </Swiper>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) :
+                    <LookbookSkelton param={selectedValue} />
+                  }
+                </>
               )}
 
             </div>
