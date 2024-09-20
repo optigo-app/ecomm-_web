@@ -372,6 +372,7 @@ const ManageAddress = () => {
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    className='elveeMAddresscenter'
                 >
                     {
                         isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
