@@ -1610,7 +1610,7 @@ const Header = () => {
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <List className="smr_listMain">
+                    <div className="smr_listMain">
                       {menuItem.param1.map((subMenuItem) => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
@@ -1723,7 +1723,7 @@ const Header = () => {
                       >
                         view all
                       </button>
-                    </List>
+                    </div>
                   </>
                 </div>
               ))}
