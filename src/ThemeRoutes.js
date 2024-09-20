@@ -34,8 +34,10 @@ export default function ThemeRoutes() {
   const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
+
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
   const [proCatM_companyTitleLogo, proCatM_setCompanyTitleLogo] = useRecoilState(proCat_companyLogoM)
   const [proCat_companyTitleLogo, proCat_setCompanyTitleLogo] = useRecoilState(proCat_companyLogo)
@@ -111,8 +113,8 @@ export default function ThemeRoutes() {
             }
 
             if (response?.data?.Data?.rd[0]?.Themeno === 1) {
-              setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
               setCompanyTitleLogoM(response?.data?.Data?.rd[0]?.companyMlogo);
+              setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
             }
 
             if (response?.data?.Data?.rd[0]?.Themeno === 2) {

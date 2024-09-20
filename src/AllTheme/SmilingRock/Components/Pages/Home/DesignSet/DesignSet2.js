@@ -287,14 +287,14 @@ const DesignSet2 = () => {
                                   /> {formatter(detail?.UnitCostWithMarkUp)}
                                 </p>
                               </div>
-                              <div className="fs3 centerall"
+                              {/* <div className="fs3 centerall"
                                 onClick={() =>
                                   handleNavigation(
                                     detail?.designno,
                                     detail?.autocode,
                                     detail?.TitleLine ? detail?.TitleLine : ""
                                   )
-                                }>View Details</div>
+                                }>View Details</div> */}
                             </SwiperSlide>
                           ))}
                         </>
