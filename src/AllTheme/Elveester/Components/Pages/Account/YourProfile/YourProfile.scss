@@ -42,6 +42,8 @@
             margin: 5px !important;
         }
     }
+
+
 }
 
 .smr_SmilingAddEditAddrwess {
@@ -84,4 +86,12 @@
     opacity: .8;
     padding: 6px 10px;
     width: 100px;
+}
+
+@media screen and (max-height:360px),(max-height:500px){
+    .elveeYPPopup{
+        max-height: 300px !important;
+        overflow: scroll;
+        height: 100% !important;
+    }
 }

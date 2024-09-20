@@ -531,7 +531,7 @@ const DesignWiseSalesReport = () => {
             inputTo.placeholder = 'Date To';
         }
     }, []);
-
+    console.log(filterData);
     return (
         <Box className="designWiseSalesReport">
 
@@ -1038,59 +1038,44 @@ const DesignWiseSalesReport = () => {
                                 position: "relative",
                                 zIndex: 0,
                                 background: "#c0bbb133",
+                                display:'flex',
+                                flexDirection:'column',
+                                justifyContent:'space-between'
                             }}
                             className="smilingProductImageBox designWiseSalesReportProduct"
                         >
-                            <Box sx={{
-                                paddingBottom: "10px"
-                            }}>
-                              
+                            <Box sx={{ paddingBottom: "10px" }}>
                                 <Box sx={{ minheight: "271px" }}>
                                     {products?.imgsrc ? (
                                         <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
                                     ) : (
-                                        <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                        <Skeleton variant="rectangular" width={"100%"}  style={{marginBottom:'76px', height:'310px'}} />
                                     )}
                                 </Box>
-
                             </Box>
-                            <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography
-                                    style={{
-                                        fontSize: "13px",
-                                        textTransform: "uppercase",
-                                        cursor: "pointer",
-                                        fontWeight: "bold",
-                                        textAlign: "start"
-                                    }}
-                                >
-                                    {products?.designno}
-                                </Typography>
-                                <Typography
-                                    style={{
-                                        fontSize: "13px",
-                                        textTransform: "uppercase",
-                                        cursor: "pointer",
-                                        fontWeight: "bold",
-                                        textAlign: "start"
-                                    }}
-                                >
-                                    NetWt: {products?.DesignNetWt?.toFixed(3)}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
-                                </Typography>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Purchase Count: {NumberWithCommas(products?.salescount, 0)}
-                                </Typography>
-                               
+                            <Box>
+                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography style={{ fontSize: "13px", textTransform: "uppercase", cursor: "pointer", fontWeight: "bold", textAlign: "start" }} >
+                                        {products?.designno}
+                                    </Typography>
+                                    <Typography style={{ fontSize: "13px", textTransform: "uppercase", cursor: "pointer", fontWeight: "bold", textAlign: "start" }} >
+                                        NetWt: {products?.DesignNetWt?.toFixed(3)}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
+                                    </Typography>
+                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Purchase Count: {NumberWithCommas(products?.salescount, 0)}
+                                    </Typography>
+                                
+                                </Box>
                             </Box>
 
                         </div>

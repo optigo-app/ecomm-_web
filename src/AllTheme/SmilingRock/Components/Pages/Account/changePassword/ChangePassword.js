@@ -151,7 +151,12 @@ export default function ChangePassword() {
                     style={{ margin: '15px' }}
                     value={oldPassword}
                     // onChange={(e) => handleInputChange(e, setOldPassword, 'oldPassword')}
-                    onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
+                    // onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
+                    // error={!!errors.oldPassword}
+                    // helperText={errors.oldPassword}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'oldPassword', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!errors.oldPassword}
                     helperText={errors.oldPassword}
                     InputProps={{
@@ -178,10 +183,15 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={password}
-                    onChange={handlePasswordChange}
+                    // onChange={handlePasswordChange}
                     // onChange={(e) => handlePasswordInputChangeAcc(e, 'password', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
-                    error={!!passwordError}
-                    helperText={passwordError}
+                    // error={!!passwordError}
+                    // helperText={passwordError}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'password', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
+                    error={!!errors.password}
+                    helperText={errors.password}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -207,7 +217,12 @@ export default function ChangePassword() {
                     style={{ margin: '15px' }}
                     value={confirmPassword}
                     // onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
-                    onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
+                    // onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
+                    // error={!!errors.confirmPassword}
+                    // helperText={errors.confirmPassword}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'confirmPassword', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
                     InputProps={{ // Set InputProps for icon
