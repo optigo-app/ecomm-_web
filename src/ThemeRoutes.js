@@ -191,7 +191,8 @@ export default function ThemeRoutes() {
           // sessionStorage.setItem("diamondQualityColorCombo", data);
           sessionStorage.setItem("diamondQualityColorCombo", data);
         }
-      })
+      }
+    )
       .catch((err) => console.log(err));
 
 

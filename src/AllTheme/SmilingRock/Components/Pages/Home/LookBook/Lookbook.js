@@ -98,7 +98,6 @@ const Lookbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
-
   const updateSize = () => {
     if (SwiperSlideRef.current) {
       const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
@@ -107,13 +106,18 @@ const Lookbook = () => {
     }
   };
 
+  const handleResize = () => {
+    updateSize();
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'F12') {
+      handleResize(); // Call handleResize function when F12 is pressed
+    }
+  };
+  const handleImageLoad = () => {
+    updateSize();
+  };
   useEffect(() => {
-    const handleResize = () => {
-      if (SwiperSlideRef?.current) {
-        const { offsetWidth, offsetHeight } = SwiperSlideRef?.current;
-        setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      }
-    };
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
@@ -127,14 +131,19 @@ const Lookbook = () => {
       updateSize();
     }
 
-    handleResize();
+
+    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
 
     return () => {
       resizeObserver.disconnect();
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+
+
 
 
   const handlePrevious = () => {
@@ -1343,9 +1352,10 @@ const Lookbook = () => {
               )}
             </div>
             <div className="smr_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
-              {!isPgLoading ? (
+
+              {selectedValue == 2 && (
                 <>
-                  {selectedValue == 2 && (
+                  {!isPgLoading ? (
                     <div className="smr_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
@@ -1528,15 +1538,16 @@ const Lookbook = () => {
                         ))
                       )}
                     </div>
-                  )}
+                  ) :
+                    <LookbookSkelton param={selectedValue} />
+                  }
                 </>
-              ) :
-                <LookbookSkelton param={selectedValue} />
-              }
+              )}
 
-              {!isPgLoading ? (
+
+              {selectedValue == 3 && (
                 <>
-                  {selectedValue == 3 && (
+                  {!isPgLoading ? (
                     <div className="smr_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
@@ -1839,15 +1850,16 @@ const Lookbook = () => {
                         </>
                       )}
                     </div>
-                  )}
+                  ) :
+                    <LookbookSkelton param={selectedValue} />
+                  }
                 </>
-              ) :
+              )}
 
-                <LookbookSkelton param={selectedValue} />
-              }
-              {!isPgLoading ? (
+
+              {selectedValue == 1 && (
                 <>
-                  {selectedValue == 1 && (
+                  {!isPgLoading ? (
                     <div className="smr_lookbook3MainDiv">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="smr_noProductFoundLookBookDiv">
@@ -2156,6 +2168,7 @@ const Lookbook = () => {
                                         alt=""
                                         className="ctl_Paginationimg"
                                         ref={SwiperSlideRef}
+                                        onLoad={handleImageLoad}
                                       />
                                     ) : (
                                       <div
@@ -2169,6 +2182,7 @@ const Lookbook = () => {
                                           height: DynamicSize.h,
                                           width: DynamicSize.w,
                                           cursor: "pointer",
+                                          margin: 0
                                         }}
                                         className="smr_lb3ctl_img_new"
                                       >
@@ -2183,11 +2197,12 @@ const Lookbook = () => {
                         </>
                       )}
                     </div>
-                  )}
+                  ) :
+                    <LookbookSkelton param={selectedValue} />
+                  }
                 </>
-              ) :
-                <LookbookSkelton param={selectedValue} />
-              }
+              )}
+
             </div>
           </div>
           <div className="lpDiv">
