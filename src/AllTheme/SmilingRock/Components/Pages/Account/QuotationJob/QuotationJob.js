@@ -1054,7 +1054,7 @@ const scrollToTop = () => {
                       <TableCell
                         key={column?.id}
                         align={column.align}
-                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
+                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f"}}
                         onClick={() => handleRequestSort(column?.id)}
                       >
                         {/* {column.label === 'PO' ? 'LineId' : column.label} */}
