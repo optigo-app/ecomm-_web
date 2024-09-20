@@ -90,7 +90,7 @@ export default function ThemeRoutes() {
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
             setFavIcon(favIcon);
-            console.log(response.data.Data.rd1);
+            console.log(response.data.Data.rd1, response.data.Data.rd[0]);
             let visiterId = response?.data.Data?.rd2[0]?.VisitorId;
             sessionStorage.setItem("storeInit", JSON.stringify(response.data.Data.rd[0]));
             sessionStorage.setItem("myAccountFlags", JSON.stringify(response.data.Data.rd1));
