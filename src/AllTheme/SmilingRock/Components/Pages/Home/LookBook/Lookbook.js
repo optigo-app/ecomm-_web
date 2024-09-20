@@ -2176,14 +2176,14 @@ const Lookbook = () => {
                                     ) : (
                                       <div
                                         style={{
-                                          height: "100%",
-                                          width: "100%",
+                                          // height: "100%",
+                                          // width: "100%",
                                           ...getRandomBgColor(index),
                                           display: "flex",
                                           alignItems: "center",
                                           justifyContent: "center",
-                                          height: DynamicSize.h,
-                                          width: DynamicSize.w,
+                                          height: DynamicSize.h ?? "100%",
+                                          width: DynamicSize.w ?? "100%",
                                           cursor: "pointer",
                                           margin: 0
                                         }}
