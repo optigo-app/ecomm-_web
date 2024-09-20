@@ -65,7 +65,6 @@ const useCountdown = () => {
     }
 
 
-    console.log("countdown", countdown, countDownStatus)
     const handleLogout = () => {
         navigation("/");
         setIsLoginState(false);

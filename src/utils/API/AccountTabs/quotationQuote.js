@@ -17,7 +17,6 @@ export const getQuotationQuoteData = async(data, CurrencyRate, FrontEnd_RegNo, c
             };
 
             const response = await CommonAPI(body);
-
             return response
 
     } catch (error) {
