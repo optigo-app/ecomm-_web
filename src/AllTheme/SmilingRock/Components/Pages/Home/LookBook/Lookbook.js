@@ -98,13 +98,16 @@ const Lookbook = () => {
     }
   };
 
+  const handleResize = () => {
+    updateSize();
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'F12') {
+      handleResize(); 
+    }
+  };
+
   useEffect(() => {
-    const handleResize = () => {
-      if (SwiperSlideRef?.current) {
-        const { offsetWidth, offsetHeight } = SwiperSlideRef?.current;
-        setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      }
-    };
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
@@ -115,17 +118,24 @@ const Lookbook = () => {
 
     if (SwiperSlideRef.current) {
       resizeObserver.observe(SwiperSlideRef.current);
-      updateSize();
+      updateSize(); 
     }
 
-    handleResize();
+   
+    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
-
+    
     return () => {
       resizeObserver.disconnect();
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleImageLoad = () => {
+    updateSize(); 
+  };
+
   
   
   const handlePrevious = () => {
@@ -2127,12 +2137,11 @@ const Lookbook = () => {
                                     alt=""
                                     className="ctl_Paginationimg"
                                     ref={SwiperSlideRef}
+                                    onLoad={handleImageLoad}
                                   />
                                 ) : (
                                   <div
                                     style={{
-                                      height: "100%",
-                                      width: "100%",
                                       ...getRandomBgColor(index),
                                       display: "flex",
                                       alignItems: "center",
@@ -2140,6 +2149,7 @@ const Lookbook = () => {
                                       height: DynamicSize.h,
                                       width: DynamicSize.w,
                                       cursor: "pointer",
+                                      margin : 0
                                     }}
                                     className="smr_lb3ctl_img_new"
                                   >

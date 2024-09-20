@@ -184,7 +184,8 @@ export default function ThemeRoutes() {
           // sessionStorage.setItem("diamondQualityColorCombo", data);
           sessionStorage.setItem("diamondQualityColorCombo", data);
         }
-      })
+      }
+    )
       .catch((err) => console.log(err));
 
 
@@ -263,7 +264,7 @@ export default function ThemeRoutes() {
 
             {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}.
+            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
             {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
