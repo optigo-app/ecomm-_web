@@ -76,7 +76,12 @@
         margin: 10px;
     }
 
-    @media screen and (max-width: 950px) {
+    @media screen and (max-width: 1200px) {
+        .smling-forgot-main {
+            margin-inline: 1% !important;
+        }
+    }
+        @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
             font-size: 25px !important;
             padding-bottom: 50px !important;
@@ -87,9 +92,7 @@
             margin-inline: 15%;
         }
 
-        .smling-forgot-main {
-            margin-inline: 2% !important;
-        }
+     
 
 
     }

@@ -45,6 +45,7 @@ import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import Footer from "./Components/Pages/Home/Footer/Footer";
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -79,8 +80,8 @@ const Procatalog_App = () => {
     if (htmlContent) {
       setLocalData((prevData) => ({
         ...prevData,
-        Headerno: htmlContent?.rd[0]?.Headerno, 
-        BrowserTitle: htmlContent.BrowserTitle, 
+        Headerno: htmlContent?.rd[0]?.Headerno,
+        BrowserTitle: htmlContent.BrowserTitle,
       }));
     }
   }, [htmlContent]);
@@ -90,13 +91,13 @@ const Procatalog_App = () => {
     setLocalData(localD);
     let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     if (Logindata) {
-        setCompanyTitleLogo(localD?.companylogo);
-        setCompanyTitleLogoM(localD?.companyMlogo);
+      setCompanyTitleLogo(localD?.companylogo);
+      setCompanyTitleLogoM(localD?.companyMlogo);
     } else {
       setCompanyTitleLogo(localD?.companylogo);
       setCompanyTitleLogoM(localD?.companyMlogo);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
@@ -104,7 +105,7 @@ const Procatalog_App = () => {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token,{ path: "/", expires: 30 });
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
             setIsLoginState(true);
             // sessionStorage.setItem("LoginUser", true);
             // sessionStorage.setItem(
@@ -153,94 +154,112 @@ const Procatalog_App = () => {
         {/* <Header2 /> */}
       </div>
       <ConnectionManager />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/LoginOption"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginOption />
-            </div>
-          }
-        />
-        <Route
-          path="/ContinueWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <ContinueWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/ContimueWithMobile"
-          element={
-            <div className="authFlowBakcColor">
-              <ContimueWithMobile />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmailCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmailCode />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithMobileCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithMobileCode />
-            </div>
-          }
-        />
-        <Route
-          path="/ForgotPass"
-          element={
-            <div className="authFlowBakcColor">
-              <ForgotPass />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <div className="authFlowBakcColor">
-              <Register />
-            </div>
-          }
-        />
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/servicePolicy" element={<ServicePolicy />} />
-        <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-        <Route path="/FunFact" element={<FunFact />} />
-        <Route path="/Lookbook" element={<Lookbook />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
-        <Route
-          path="/"
-          element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
-        >
-          <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-        </Route>
+      <div style={{backgroundColor: '#f1e9dd'}}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/LoginOption"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginOption />
+              </div>
+            }
+          />
+          <Route
+            path="/ContinueWithEmail"
+            element={
+              <div className="authFlowBakcColor">
+                <ContinueWithEmail />
+              </div>
+            }
+          />
+          <Route
+            path="/ContimueWithMobile"
+            element={
+              <div className="authFlowBakcColor">
+                <ContimueWithMobile />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithEmailCode"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithEmailCode />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithMobileCode"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithMobileCode />
+              </div>
+            }
+          />
+          <Route
+            path="/ForgotPass"
+            element={
+              <div className="authFlowBakcColor">
+                <ForgotPass />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithEmail"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithEmail />
+              </div>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <div className="authFlowBakcColor">
+                <Register />
+              </div>
+            }
+          />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/servicePolicy" element={<ServicePolicy />} />
+          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+          <Route path="/FunFact" element={<FunFact />} />
+          <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route
+            path="/"
+            element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
+          >
+            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/d/*" element={<ProductDetail />} />
+            <Route path="/cartPage" element={<Cart />} />
+            <Route path="/myWishList" element={<Wishlist />} />
+            <Route path="/Delivery" element={<Delivery />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/account" element={<Account />} />
+          </Route>
 
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        <Footer />
+        <div>
+          <p style={{
+            paddingBlock: '30px',
+            margin: '0px',
+            textAlign: 'center',
+            color: 'black',
+            cursor: 'pointer',
+            fontSize: '13px',
+            fontWeight: 500,
+            letterSpacing: '1px'
+          }} onClick={() => window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })}>BACK TO TOP</p>
+        </div>
+      </div>
     </>
   );
 };

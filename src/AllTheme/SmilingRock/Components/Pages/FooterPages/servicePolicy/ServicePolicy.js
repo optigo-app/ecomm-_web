@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Footer from '../../Home/Footer/Footer';
+import './ServicePolicy.modul.scss'
 
 const ServicePolicy = () => {
 
@@ -23,7 +24,7 @@ const ServicePolicy = () => {
   }, []);
 
   return (
-    <div className='contactMain'>
+    <div className='smr_Services_mainDiv'>
       <div className='daimondsEveryAbout'>
         <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />

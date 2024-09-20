@@ -16,6 +16,7 @@ export const Storeinit = async (param) => {
     || window.location.hostname === 'hdstore.mapp'
     || window.location.hostname === 'hdstore.pro'
     || window.location.hostname === 'hdstore.plw'
+    || window.location.hostname === 'mddesignworld.web'
 
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'
