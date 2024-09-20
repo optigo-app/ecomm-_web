@@ -14,8 +14,14 @@ import Swal from 'sweetalert2';
 import { getDesignWiseSalesReport } from '../../../../../../utils/API/AccountTabs/designWiseSalesReport';
 import { Box, Button, MenuItem, Select, Slider, TextField, Typography, Accordion, AccordionDetails, AccordionSummary, Checkbox, RadioGroup, FormControlLabel, Radio, CircularProgress, Stack, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PrintIcon from '@mui/icons-material/Print';
+import DWSRprintComp from '../DWSRprintComp/DWSRprintComp';
+import { useNavigate } from 'react-router-dom';
 const DesignWiseSalesReport = () => {
     const isSmallScreen = useMediaQuery('(max-width:500px)');
+
+    const navigate = useNavigate();
+
     const [offset, setOffset] = useState(0);
     const [perPage, setPerPage] = useState(10);
     const [data, setData] = useState([]);
@@ -531,7 +537,18 @@ const DesignWiseSalesReport = () => {
             inputTo.placeholder = 'Date To';
         }
     }, []);
-    console.log(filterData);
+
+
+    const handleDWSRprint = (data) => {
+        // navigate("/accountdwsr");
+        // navigate('/accountdwsr', { state: { bigData: data } });
+
+            
+            sessionStorage.setItem('dwsrdata', JSON.stringify(data));
+            // Open the route in a new tab
+            window.open('/accountdwsr', '_blank');
+    }
+
     return (
         <Box className="designWiseSalesReport">
 
@@ -617,7 +634,6 @@ const DesignWiseSalesReport = () => {
                         min={(netWtLimit?.min)}
                         max={(netWtLimit?.max)}
                     />
-                    {console.log(netWtSlider)}
                     
                     <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                         <Typography sx={{ maxWidth: "50px" }}>
@@ -775,6 +791,11 @@ const DesignWiseSalesReport = () => {
                         })}
                     </Select>
                 </Box>
+
+                <Box sx={{ paddingRight: "15px", paddingBottom: "0px"}}>
+                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={() => handleDWSRprint(filterData)}><PrintIcon titleAccess='click here for print' /></Button>
+                </Box>
+
             </Box>}
 
             { isSmallScreen &&
@@ -1077,7 +1098,7 @@ const DesignWiseSalesReport = () => {
                                 
                                 </Box>
                             </Box>
-
+                                        
                         </div>
                     ))}
                 </Box> : <div style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey', fontWeight:'bold', marginTop:'3%'}}>Data Not Present</div>}

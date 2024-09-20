@@ -39,6 +39,7 @@ import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(loginState);
@@ -118,12 +119,11 @@ const SmilingRock_App = () => {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem(
-              "loginUserDetail",
-              JSON.stringify(response.Data.rd[0])
-            );
+            sessionStorage.setItem( "loginUserDetail", JSON.stringify(response.Data.rd[0]) );
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
+            } else if(location.pathname.startsWith('/accountdwsr')) {
+              navigation("/accountdwsr");
             } else {
               navigation("/");
             }
@@ -158,10 +158,10 @@ const SmilingRock_App = () => {
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      <div>
+      { !location.pathname.startsWith('/accountdwsr') && <div>
         {localData?.Headerno == 1 && <Header />}
         {localData?.Headerno == 2 && <Header2 />}
-      </div>
+      </div>}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -243,7 +243,9 @@ const SmilingRock_App = () => {
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
+          {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
         </Route>
+          <Route path="/accountdwsr" element={<DWSRprintComp />} />
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
