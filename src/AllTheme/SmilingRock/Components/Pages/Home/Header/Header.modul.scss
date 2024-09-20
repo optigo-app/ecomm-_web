@@ -367,9 +367,10 @@
         color: white;
     }
 
-    .smr_headerOptionSingleDiv{
+    .smr_headerOptionSingleDiv {
         width: max-content;
     }
+
     @media screen and (max-width:1700px) {
         .smiling_Top_header_div1 {
             width: 40% !important;
@@ -511,18 +512,28 @@
 
     }
 
-    @media screen and (min-width:1001px) {
+    @media screen and (min-width:426px) {
         .smiling_Top_header_div2_Mobile {
-            display: none;
+            display: none !important;
+        }
+
+        .smr_mobileHeader_top_div2_mobile{
+            display: none !important;
+        }
+    }
+
+    @media screen and (max-width: 425px) {
+        .smiling_Top_header_div2_web {
+            display: none !important;
+        }
+
+        .smr_mobileHeader_top_div2_web{
+            display: none !important;
         }
     }
 
     @media screen and (max-width:1000px) {
-        .smiling_Top_header_div2_web {
-            display: none;
-        }
-
-        .smiling_Top_header_div2_Mobile{
+        .smiling_Top_header_div2_Mobile {
             display: flex;
             align-items: center;
         }
