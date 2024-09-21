@@ -1,4 +1,7 @@
+@import '../../../../scss/elvee_modules.scss';
+
 .elv_customer_mainDiv {
+    font-family: $fontSansSerif !important;
     .elv_customer_div {
         .elv_customer_image_1 {
             max-height: 780px;

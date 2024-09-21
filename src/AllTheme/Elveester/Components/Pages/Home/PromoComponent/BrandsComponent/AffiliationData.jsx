@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Styles.css'
+import './Styles.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';

@@ -1247,7 +1247,7 @@ const ProductList = () => {
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
-        fontFamily: "PT Sans, sans-serif",
+        fontFamily: 'sans-serif',
         fontSize: {
           xs: '14px !important',  // Mobile screens
           sm: '14px !important',  // Tablets
@@ -1269,7 +1269,7 @@ const ProductList = () => {
     alignItems: 'center',
     marginInline: '20px',
     fontSize: '16px',
-    fontFamily: '"TT Commons", sans-serif',
+    fontFamily: 'sans-serif',
     color: 'rgb(127, 125, 133)',
     paddingBlock: '5px',
     flexDirection: 'row-reverse',

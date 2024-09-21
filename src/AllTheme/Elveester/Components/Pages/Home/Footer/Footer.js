@@ -106,7 +106,7 @@ const Footer = () => {
                 {/* {isLogin[0] === false && ( */}
                 <div className='ElveFooter1'>
                     <p className='elveBox1Title'>Sign up for our updates</p>
-                    <p style={{ margin: '0px', maxWidth: '350px', fontSize: '15px' }}>Sign up for our updates
+                    <p className='elvBox1TitDesc'>Sign up for our updates
                         Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
                     <div className='ElveFooter1Input' style={{ marginTop: '20px', display: 'flex' }}>
                         <input type="email" placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />

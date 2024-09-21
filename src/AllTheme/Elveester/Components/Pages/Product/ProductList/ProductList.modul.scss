@@ -1,4 +1,8 @@
+@import '../../../scss/elvee_modules.scss';
+
 .elv_Productlists_Main_div {
+  font-family: $fontSansSerif !important;
+
   .elv_Productlists_lists_div {
     height: 100%;
     width: 100%;
@@ -43,12 +47,15 @@
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 1px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;        
+    font-family: $fontSansSerif !important;
     color: #AF8238;
   }
 
   .elv_Productlists_details_1 {
     text-transform: uppercase;
+    font-weight: 500;
+    font-family: $fontSansSerif !important;
   }
 
   .elv_Productlists_details_2 {
@@ -126,7 +133,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -136,7 +144,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -147,7 +156,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -157,7 +167,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -167,7 +178,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     padding-left: 10px;
@@ -395,7 +407,8 @@
   }
 
   .elv_category_names {
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 14px;
@@ -410,7 +423,8 @@
     align-items: center;
     margin-inline: 20px;
     font-size: 14px;
-    font-family: "TT Commons", sans-serif;
+    // font-family: "TT Commons", sans-serif;
+    font-family: $fontSansSerif !important;
     color: rgb(127, 125, 133);
     padding-block: 9px;
   }
@@ -421,7 +435,8 @@
     align-items: center;
     margin-inline: 20px;
     font-size: 14px;
-    font-family: "TT Commons", sans-serif;
+    // font-family: "TT Commons", sans-serif;
+    font-family: $fontSansSerif !important;
     color: rgb(127, 125, 133);
     padding-block: 4px;
     flex-direction: row-reverse;
@@ -436,7 +451,8 @@
     justify-content: space-between;
     width: 100%;
     flex-direction: row;
-    font-family: "TT Commons Regular";
+    // font-family: "TT Commons Regular";
+    font-family: $fontSansSerif !important;
   }
 
   .css-15v22id-MuiAccordionDetails-root {
@@ -904,7 +920,8 @@
 
   .elv_prod_titleline_visible {
     color: #1f1919;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     font-size: 14px;
     visibility: visible;
     width: 100%;
@@ -918,7 +935,8 @@
 
   .elv_prod_titleline_invisible {
     color: #1f1919;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     font-size: 14px;
     visibility: hidden;
     width: 100%;
@@ -944,7 +962,8 @@
         color: #8E7B8E;
         font-weight: 500;
         font-size: 15px;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
       }
     }
   }
@@ -975,7 +994,8 @@
         color: #8E7B8E;
         font-size: 15px;
         font-weight: 500;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
       }
     }
   }
@@ -994,7 +1014,8 @@
         color: #8E7B8E;
         font-weight: 500;
         font-size: 15px;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
       }
     }
   }
@@ -1003,7 +1024,8 @@
     display: flex;
     margin-left: 10px;
     flex-direction: column;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     // font-size: 11px;
     font-size: 9px;
   }
@@ -1029,7 +1051,8 @@
 
     .elv_price_div {
       text-align: left;
-      font-family: "PT Sans", sans-serif;
+      // font-family: "PT Sans", sans-serif;
+      font-family: $fontSansSerif !important;
       // font-size: 14px;
       font-size: 13px;
     }
@@ -1045,7 +1068,8 @@
     justify-content: space-between;
     width: 100%;
     flex-direction: row-reverse;
-    font-family: "TT Commons Regular";
+    // font-family: "TT Commons Regular";
+    font-family: $fontSansSerif !important;
   }
 
   .pagination-container {

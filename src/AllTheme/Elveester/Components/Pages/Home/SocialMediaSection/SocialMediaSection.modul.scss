@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .mainSocialMediaConatiner {
     margin-top: 20px;
     margin-bottom: 0.5rem;
@@ -12,10 +14,11 @@
         color: rgba(29, 50, 88, 0.8) !important;
         text-align: center;
         font-size: 28px;
-        font-weight: 500;
+        font-weight: 600;
         text-transform: capitalize;
         line-height: 2px;
         margin: 50px 0px 50px 0px !important;
+        font-family: $fontSansSerif;
     }
 
     .galeryComponents {

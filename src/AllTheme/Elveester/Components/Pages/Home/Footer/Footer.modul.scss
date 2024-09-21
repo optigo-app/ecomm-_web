@@ -18,6 +18,14 @@
         font-size: 19px;
         font-weight: bold;
         margin: 0px;
+        font-family: $fontSansSerif;
+    }
+
+    .elvBox1TitDesc {
+        margin: 0;
+        max-width: 350px;
+        font-size: 15px;
+        font-family: $fontSansSerif;
     }
 
     .eleBox1InputBox {
@@ -36,9 +44,10 @@
         width: 90px;
         border: none;
         background-color: #ebdcc3;
-        font-weight: 500;
-        font-size: 15px;
-
+        font-weight: 600;
+        font-size: 16px;
+        padding-top: 4px;
+        font-family: $fontSansSerif;
     }
 
     .ElveFooter2 {
@@ -167,6 +176,7 @@
     .elv_copyrights_text {
         font-weight: 600;
         font-size: 14px;
+        font-family: $fontSansSerif;
     }
 
     @media screen and (max-width:1500px) {

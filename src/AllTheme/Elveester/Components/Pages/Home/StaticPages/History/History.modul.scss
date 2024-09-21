@@ -1,4 +1,7 @@
+@import '../../../../scss/elvee_modules.scss';
+
 .elv_history_maindiv {
+    font-family: $fontSansSerif !important;
     .elv_history_div {
         .elv_history_mainImg {
             max-height: 750px;

@@ -1,13 +1,25 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_LoginWithCodeEmailMain {
+
+    font-family: $fontSansSerif !important;
 
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
 
-    
     .labgrowRegister {
         width: 28rem;
         margin: 10px;
+        font-family: $fontSansSerif !important;
+    }
+
+    .elv_cancel_lec {
+        font-family: $fontSansSerif !important;
+        margin-top: 10px;
+        color: gray;
+        margin-bottom: 40px;
+        font-weight: 500;
     }
 
     .submitBtnForgot {
@@ -20,7 +32,8 @@
         font-weight: 600 !important;
         letter-spacing: 1px;
         transition: all 0.5s ease;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
         cursor: pointer;
         background-color: white;
     }
@@ -28,14 +41,15 @@
     .submitBtnForgot:hover {
         background-color: rgba(66, 66, 66, 0.05);
     }
-  
-    .el_LoginEmailMainDiv{
+
+    .el_LoginEmailMainDiv {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 6% 0px 6% 0px;
     }
-    .el_LoginSubDivMain {    
+
+    .el_LoginSubDivMain {
         background-color: white;
         width: 30%;
     }
@@ -66,6 +80,7 @@
 
         }
     }
+
     @media screen and (max-width: 1500px) {
         .el_LoginSubDivMain {
             width: 50%;
