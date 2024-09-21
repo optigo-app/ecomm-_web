@@ -1,7 +1,10 @@
+@import "./../../../scss/elvee_modules.scss"; 
 .orderHistory_acc{
     // border: 1px solid black;
     padding: 10px;
- 
+    
+    // font-family: $fontPTSans !important;
+    font-family: $fontSansSerif !important;
     
     .orderImgAcc{
         height: 100%;
