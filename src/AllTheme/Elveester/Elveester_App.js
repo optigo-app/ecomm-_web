@@ -3,8 +3,8 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import CartDetails from './Components/Pages/Cart/Cart'
 import Header from './Components/Pages/Home/Header/Header'
-import { useRecoilValue } from 'recoil'
-import { el_loginState } from './Components/Recoil/atom'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { el_loginState, redirectModal, timerExpiredState } from './Components/Recoil/atom'
 import Footer from './Components/Pages/Home/Footer/Footer'
 import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
@@ -34,6 +34,8 @@ import Faqs from './Components/Pages/Home/StaticPages/Faqs/Faqs'
 import New1 from './Components/Pages/Product/ProductDetail/New.1'
 import History from './Components/Pages/Home/StaticPages/History/History'
 import Appointment from './Components/Pages/Home/StaticPages/BookAppointment/Appointment'
+import CountdownTimerFnc from './Components/Pages/Home/CountdownTimer/CountdownTimerFnc'
+import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal'
 
 const Elveester_app = () => {
 
@@ -41,6 +43,21 @@ const Elveester_app = () => {
   const islogin = useRecoilValue(el_loginState)
   const [showHeader, setShowHeader] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
+  const timerData = useSetRecoilState(timerExpiredState);
+  const getRedModal = useRecoilValue(redirectModal);
+  const setRedModal = useSetRecoilState(redirectModal);
+  const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+
+  const timer = CountdownTimerFnc();
+  if (timer) {
+    if (loginData?.IsTimeShow == 1) {
+      timerData(timer)
+      setRedModal(false)
+    }
+    else {
+      setRedModal(false)
+    }
+  }
 
   useEffect(() => {
     if (
@@ -56,6 +73,7 @@ const Elveester_app = () => {
 
   return (
     <div>
+      {getRedModal == true && <RedirectModal />}
       {showHeader && <Header />}
       <Routes>
         {/* Auth Flow  */}

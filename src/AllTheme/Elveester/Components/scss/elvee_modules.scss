@@ -33,6 +33,26 @@
     src: url('../Assets/font/Butler_Ultra_Light.otf') format('opentype');
 }
 
+@font-face {
+    font-family: 'PT-Sans-bold';
+    src: url('../Assets/font/PTSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PT-Sans-boldItalic';
+    src: url('../Assets/font/PTSans-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PT-Sans-Italic';
+    src: url('../Assets/font/PTSans-Italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PT-Sans-Regular';
+    src: url('../Assets/font/PTSans-Regular.ttf') format('truetype');
+}
+
 //backgroundcolors
 
 $backgroundColor: var(--background-color);
@@ -51,9 +71,9 @@ $btn1hoverColor: #7d7f85;
 $btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
 
-// Elvee font-colors
+// Elvee bulter font-family
 $fontBlack: 'butler-black', sans-serif;
-$fontBold:'butler-bold', sans-serif;
+$fontBold: 'butler-bold', sans-serif;
 $fontExtraBold: 'butler-extraBold', sans-serif;
 $fontLight: 'butler-light', sans-serif;
 $fontMedium: 'butler-medium', sans-serif;
@@ -73,6 +93,15 @@ $fontCrimsonTextMedium: "CrimsonText Medium", serif;
 $fontCrimsonTextBold: "CrimsonText Bold", serif;
 $fontDmSans: "DM Sans", Arial;
 $fontTenorSans: "Tenor Sans", sans-serif;
+
+// Elvee PT-Sans font-family
+$fontPTSansBold: 'PT-Sans-bold', sans-serif;
+$fontPTSansBoldItalic: 'PT-Sans-boldItalic', sans-serif;
+$fontPTSansItalic: 'PT-Sans-Italic', sans-serif;
+$fontPTSansRegular: 'PT-Sans-Regular', sans-serif;
+
+// Elvee sans-serif Font-family
+$fontSansSerif: sans-serif;
 
 //fontSize
 $fontSize0: 10px;

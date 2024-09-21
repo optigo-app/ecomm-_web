@@ -3,7 +3,8 @@
   text-align: center;
   font-size: 22px;
   background: rgb(242, 242, 242);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 19px 38px, rgba(0, 0, 0, 0.01) 0px 15px 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 10px, rgba(0, 0, 0, 0.01) 0px 10px 10px;
+  // box-shadow: rgba(0, 0, 0, 0.1) 0px 19px 38px, rgba(0, 0, 0, 0.01) 0px 15px 12px;
 
   .banner-stats {
     display: flex;
@@ -30,7 +31,7 @@
   }
 
   .firstSpanData {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
   }
 
@@ -40,8 +41,8 @@
   }
 
   .ptag {
-    font-size: 30px;
-    margin-top: 30px;
+    font-size: 22px;
+    // margin-top: 30px;
   }
 
   @media (min-width: 446px) and (max-width: 768px) {

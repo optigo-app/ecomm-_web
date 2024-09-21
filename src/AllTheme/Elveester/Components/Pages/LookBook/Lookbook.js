@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Lookbook.modul.scss";
 import gradientColors from "./color.json"
 import {
@@ -87,6 +87,51 @@ const Lookbook = () => {
   const [swiper, setSwiper] = useState(null);
   const [isShowfilter, setIsShowFilter] = useState(false);
   const [imageSources, setImageSources] = React.useState({});
+  const SwiperSlideRef = useRef();
+  const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
+
+  const updateSize = () => {
+    if (SwiperSlideRef.current) {
+      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      console.log("Size updated:", offsetWidth, offsetHeight);
+    }
+  };
+  const handleResize = () => {
+    updateSize();
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'F12') {
+      handleResize(); // Call handleResize function when F12 is pressed
+    }
+  };
+  const handleImageLoad = () => {
+    updateSize();
+  };
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDynamicSize({ w: `${width}px`, h: `${height}px` });
+        console.log("Resized:", width, height);
+      }
+    });
+
+    if (SwiperSlideRef.current) {
+      resizeObserver.observe(SwiperSlideRef.current);
+      updateSize();
+    }
+
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handlePrevious = () => {
     if (swiper !== null) {
@@ -536,29 +581,31 @@ const Lookbook = () => {
     });
   }
 
-  useEffect(() => {
-    if (filteredDesignSetLstData) {
-      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-          const isAvailable = await checkImageAvailability(designImageUrl);
-          return {
-            designno: detail?.designno,
-            src: isAvailable ? designImageUrl : imageNotFound
-          };
-        })
-      );
+  const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
 
-      Promise.all(imagePromises).then((results) => {
-        // Update state with the resolved image sources
-        const newImageSources = results.reduce((acc, { designno, src }) => {
-          acc[designno] = src;
-          return acc;
-        }, {});
-        setImageSources(newImageSources);
-      });
-    }
-  }, [filteredDesignSetLstData, imageUrlDesignSet]);
+  // useEffect(() => {
+  //   if (filteredDesignSetLstData) {
+  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+  //         const isAvailable = await checkImageAvailability(designImageUrl);
+  //         return {
+  //           designno: detail?.designno,
+  //           src: isAvailable ? designImageUrl : imageNotFound
+  //         };
+  //       })
+  //     );
+
+  //     Promise.all(imagePromises).then((results) => {
+  //       // Update state with the resolved image sources
+  //       const newImageSources = results.reduce((acc, { designno, src }) => {
+  //         acc[designno] = src;
+  //         return acc;
+  //       }, {});
+  //       setImageSources(newImageSources);
+  //     });
+  //   }
+  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
     <div className="smr_LookBookMain">
@@ -947,24 +994,28 @@ const Lookbook = () => {
           <div
             className="smr_lookBookMobileTopLine"
           >
-            <div className="smr_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)} style={{ fontSize: '12px' }}>
-              {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
-              <FilterListIcon style={{ color: 'white' }} />
-            </div>
-            <div className="elv_lookbook_resp_head">
-              <div>
-                <FilterAltIcon
-                  fontSize="large"
-                  style={{ color: "#c0bbb1" }}
-                  className="smr_lookBookMobileFilter"
-                  onClick={() => setIsDrawerOpen(true)}
-                />
+            {filterData?.length > 0 && (
+              <div className="smr_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)} style={{ fontSize: '12px' }}>
+                {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
+                <FilterListIcon style={{ color: 'white' }} />
               </div>
+            )}
+            <div className="elv_lookbook_resp_head">
+              {filterData?.length > 0 && (
+                <div>
+                  <FilterAltIcon
+                    fontSize="large"
+                    style={{ color: "#c0bbb1" }}
+                    className="smr_lookBookMobileFilter"
+                    onClick={() => setIsDrawerOpen(true)}
+                  />
+                </div>
+              )}
               <div>
                 {/* <HtmlTooltip
                   title={selectedCategories?.length != 0 && <CustomTooltipContent categories={selectedCategories} />}
                 > */}
-                <button
+                {isCategoryPresent && <button
                   onClick={handleOpen}
                   className="smr_lookBookSelectViewBtn"
                   style={{
@@ -974,7 +1025,7 @@ const Lookbook = () => {
                   }}
                 >
                   Set View
-                </button>
+                </button>}
                 {/* </HtmlTooltip> */}
                 <ToggleButtonGroup
                   size="medium"
@@ -2128,12 +2179,15 @@ const Lookbook = () => {
                                     src={ProdCardImageFunc(slide)}
                                     alt=""
                                     className="ctl_Paginationimg"
+                                    ref={SwiperSlideRef}
+                                    onLoad={handleImageLoad}
                                   />
                                 ) : (
                                   <div
                                     style={{
-                                      height: "100%",
-                                      width: "100%",
+                                      height: DynamicSize.h,
+                                      width: DynamicSize.w,
+                                      margin: 0,
                                       ...getRandomBgColor(index),
                                       display: "flex",
                                       alignItems: "center",

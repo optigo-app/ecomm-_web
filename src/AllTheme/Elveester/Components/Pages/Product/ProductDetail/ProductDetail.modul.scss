@@ -101,6 +101,10 @@
             padding-inline: 3%;
             position: relative;
             left: 6rem;
+
+            &.hidden {
+                visibility: none;
+            }
         }
     }
 

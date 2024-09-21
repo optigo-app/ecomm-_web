@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Account.scss'
-import { Box,  Tab, Tabs,  Typography } from '@mui/material'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Home/Footer/Footer';
 import { el_loginState, loginState } from '../../Recoil/atom';
@@ -54,7 +54,7 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0" style={{marginTop:'10px !important'}}>
+                <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0" style={{ marginTop: '10px !important' }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -136,7 +136,7 @@ export default function Account() {
         sessionStorage.clear();
         navigation('/')
         window.location.reload();
-      }
+    }
 
     return (
         <div className='accountPagTabSection'>
@@ -208,10 +208,10 @@ export default function Account() {
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage" style={{padding:'0px'}}>
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider', padding:'0px !important' }}>
-                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
-                                    sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage" style={{ padding: '0px' }}>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider', padding: '0px !important' }}>
+                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example"
+                                        sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
                                                 return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
@@ -247,7 +247,7 @@ export default function Account() {
                                     })
                                 }
                             </CustomTabPanel>}
-                            
+
                             <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
                                 <div>
                                     <ChangePassword />
