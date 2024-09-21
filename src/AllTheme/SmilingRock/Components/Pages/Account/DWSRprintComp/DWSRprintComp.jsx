@@ -9,12 +9,14 @@ const DWSRprintComp = () => {
     // const bigData = location.state?.bigData;
 
     const [bigData, setBigData] = useState([]);
+    const [companyHeader, setCompanyHeader] = useState('');
 
     // Retrieve bigData from sessionStorage
     useEffect(() => {
         const storedData = JSON.parse(sessionStorage.getItem('dwsrdata'));
         if (storedData) {
-            setBigData(storedData);
+            setBigData(storedData?.data);
+            setCompanyHeader(storedData?.headerData)
         }
     }, []);
 
@@ -24,12 +26,12 @@ const DWSRprintComp = () => {
         <div className='print_btn_none_dsr' style={{display:'flex', justifyContent:'flex-end', paddingBottom:'10px'}}><button className='printBtnDSR'  onClick={() => window.print()}>Print</button></div>
         <div className='dsr_headtitle'>DESIGN WISE SALES PRINT</div>
         <div>
-            <div style={{fontSize:'16px', fontWeight:'bold'}} className='header_content_dsr2'>Optigo</div>
-            <div className='header_content_dsr'>57 Bansant lok, opposite to dmart-mall</div>
-            <div className='header_content_dsr'>Vasant vihar12 , Near park , main ring road</div>
-            <div className='header_content_dsr'>New Delhi - 605001 , GUJARAT(India)</div>
-            <div className='header_content_dsr'>T 9510213589</div>
-            <div className='header_content_dsr'>darren@orail.co.in | www.optigoapps.com</div>
+            <div style={{fontSize:'16px', fontWeight:'bold'}} className='pd_dwse header_content_dsr2'>{companyHeader?.CompanyFullName}</div>
+            <div className='pd_dwse header_content_dsr'>{companyHeader?.CompanyAddress}</div>
+            <div className='pd_dwse header_content_dsr'>{companyHeader?.CompanyAddress2}</div>
+            <div className='pd_dwse header_content_dsr'>{companyHeader?.CompanyAddress2} - {companyHeader?.CompanyPinCode} , {companyHeader?.CompanyState}({companyHeader?.CompanyCountry})</div>
+            <div className='pd_dwse header_content_dsr'>T {companyHeader?.CompanyTellNo}</div>
+            <div className='pd_dwse header_content_dsr'>{companyHeader?.CompanyEmail} | {companyHeader?.CompanyWebsite}</div>
         </div>
         <div className='card_loop_dsr'>
             {

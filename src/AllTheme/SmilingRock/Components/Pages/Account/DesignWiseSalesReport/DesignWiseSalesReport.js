@@ -16,11 +16,10 @@ import { Box, Button, MenuItem, Select, Slider, TextField, Typography, Accordion
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PrintIcon from '@mui/icons-material/Print';
 import DWSRprintComp from '../DWSRprintComp/DWSRprintComp';
-import { useNavigate } from 'react-router-dom';
 const DesignWiseSalesReport = () => {
     const isSmallScreen = useMediaQuery('(max-width:500px)');
 
-    const navigate = useNavigate();
+    const [headerDetailsDWSR, setHeaderDetailsDWSER] = useState('');
 
     const [offset, setOffset] = useState(0);
     const [perPage, setPerPage] = useState(10);
@@ -400,7 +399,9 @@ const DesignWiseSalesReport = () => {
             let currencyRate = storeInit?.CurrencyRate;
   
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
-            
+            if(response?.Data?.rd2?.length > 0){
+                setHeaderDetailsDWSER(response?.Data?.rd2[0])
+            }
             if (response?.Data?.rd) {
                 resetAllFilters();
                 let datass = [];
@@ -542,9 +543,12 @@ const DesignWiseSalesReport = () => {
     const handleDWSRprint = (data) => {
         // navigate("/accountdwsr");
         // navigate('/accountdwsr', { state: { bigData: data } });
-
+        let dataObj = {
+            data : data,
+            headerData : headerDetailsDWSR
+        }
             
-            sessionStorage.setItem('dwsrdata', JSON.stringify(data));
+            sessionStorage.setItem('dwsrdata', JSON.stringify(dataObj));
             // Open the route in a new tab
             window.open('/accountdwsr', '_blank');
     }
