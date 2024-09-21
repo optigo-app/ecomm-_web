@@ -31,7 +31,7 @@ import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Co
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState(3)
+  const [themeNo, setThemeNo] = useState()
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM)
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
@@ -85,7 +85,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -152,8 +152,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      // setThemeNo(SessionData?.Themeno);
-      setThemeNo(3);
+      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(3);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;

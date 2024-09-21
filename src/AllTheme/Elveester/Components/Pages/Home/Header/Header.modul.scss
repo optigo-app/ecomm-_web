@@ -57,7 +57,7 @@
         padding: 0px;
         margin: 0;
         height: 80px;
-        margin-bottom: 0.3rem;
+        // margin-bottom: 0.3rem;
     }
 
     .el_withoutL_ul_Main_side {
@@ -72,9 +72,10 @@
     .el_whioutL_headerDiv1 {
         width: 44%;
         display: flex;
-        align-items: flex-end;
+        align-items: center;
+        // align-items: flex-end;
         justify-content: flex-end;
-        margin-bottom: 0.7rem;
+        // margin-bottom: 0.7rem;
     }
 
     .el_whioutL_headerDiv2 {
@@ -83,7 +84,7 @@
         justify-content: center;
         align-items: center;
         // margin-inline: 2%;
-        margin-bottom: 0.5rem;
+        // margin-bottom: 0.5rem;
     }
 
     .el_whioutL_headerDiv2_side {
@@ -97,8 +98,9 @@
         width: 44%;
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: 0.7rem;
+        align-items: center;
+        // align-items: flex-end;
+        // margin-bottom: 0.7rem;
     }
 
     .el_whioutL_headerDiv3_side {

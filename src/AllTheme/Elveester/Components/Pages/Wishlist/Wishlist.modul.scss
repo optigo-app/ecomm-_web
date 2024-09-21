@@ -201,7 +201,7 @@
     align-items: center;
     margin-top: 2rem;
     gap: 1rem;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
 
     .elv_wishlist_clearAll_btn {
         background-color: transparent;
@@ -217,7 +217,7 @@
         letter-spacing: 0.02857em;
         text-transform: uppercase;
         min-width: 64px;
-        padding: 16px 30px;
+        padding: 10px 25px;
         border-radius: 4px;
         border: 1px solid gray;
         color: #7d7f85;
@@ -243,7 +243,7 @@
         letter-spacing: 0.02857em;
         text-transform: uppercase;
         min-width: 64px;
-        padding: 16px 16px;
+        padding: 10px 16px;
         border-radius: 4px;
         border: 1px solid gray;
         color: #7d7f85;
@@ -309,9 +309,9 @@
     margin-bottom: -8%;
 }
 
-.WlBtnGroupMainDiv {
+.elv_WlBtnGroupMainDiv {
     text-align: center;
-    padding-top: 40px;
+    padding-top: 10px;
 
     .elv_Wl-title {
         color: $titleColor;
@@ -391,7 +391,7 @@
 }
 
 .elv_WlListData {
-    padding: 60px 0px 200px 0px;
+    padding: 30px 0px 200px 0px;
     margin-bottom: -8%;
 }
 
@@ -516,12 +516,22 @@
     margin-right: 30px;
 }
 
-.elv_wishlist_card_weights_1,
+.elv_cardContent {
+    padding: 5px !important;
+}
+
+.elv_wishlist_card_weights_1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    // font-weight: 600;
+}
+
 .elv_wishlist_card_weights_2 {
     display: flex;
     flex-direction: column;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    text-align: right;
 }
 
 @media (max-width: 1750px) {
@@ -541,14 +551,6 @@
             display: flex;
             justify-content: space-between;
             font-family: "PT Sans", sans-serif;
-        }
-
-        .elv_wishlist_card_weights_1,
-        .elv_wishlist_card_weights_2 {
-            display: flex;
-            flex-direction: column;
-            font-size: 11px;
-            font-weight: 600;
         }
 
         .elv_wishlist_card_weights_1 {
@@ -643,7 +645,7 @@
 
 @media (max-width: 768px) {
     .elv_WlListData {
-        padding: 10px 2px 100px 2px;
+        padding: 30px 2px 100px 2px;
         margin-bottom: -8%;
     }
 
@@ -654,7 +656,7 @@
 
 @media (max-width: 600px) {
     .elv_WlListData {
-        padding: 10px 2px 100px 2px;
+        padding: 30px 2px 100px 2px;
         margin-bottom: -8%;
     }
 
@@ -734,7 +736,7 @@
 @media (max-width: 320px) {
 
     .elv_WlListData {
-        padding: 10px 10px 100px 10px;
+        padding: 30px 10px 100px 10px;
         margin-bottom: -8%;
     }
 

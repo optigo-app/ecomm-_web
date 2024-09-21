@@ -155,7 +155,7 @@ const Footer = () => {
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
                                     <IoMdCall style={{ width: '18px', height: '18px', marginLeft: '6px' }} />
                                     <span style={{ marginLeft: '5px' }}>
-                                        <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
+                                        <a style={{ color: 'rgba(29, 50, 88, 0.8)' }} href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                                             {companyInfoData?.FrontEndContactno1}
                                         </a>
                                     </span>
@@ -163,7 +163,7 @@ const Footer = () => {
                                 <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
                                     <IoMdMail style={{ width: '18px', height: '18px', marginLeft: '8px' }} />
                                     <span style={{ marginLeft: '5px' }}>
-                                        <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+                                        <a style={{ color: 'rgba(29, 50, 88, 0.8)' }} href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                                             {companyInfoData?.FrontEndEmail1}
                                         </a>
                                     </span>
@@ -172,14 +172,14 @@ const Footer = () => {
                             :
                             <div>
                                 <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
-                                    <IoLocationOutline style={{ width: '22px', height: '22px' }} />
+                                    <IoLocationOutline style={{ width: '22px', height: '22px', color: 'rgba(29, 50, 88, 0.8)' }} />
                                     <span>1177 6th Avenue, Suite 5099, New York,NY 10036.</span>
                                 </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', color: 'rgba(29, 50, 88, 0.8)' }}>
                                     <IoMdCall />
                                     (646) 284-4466
                                 </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', color: 'rgba(29, 50, 88, 0.8)' }}>
                                     <IoMdMail />
                                     <span style={{ marginLeft: '5px' }}>Contact.usa@elveepromise.com</span>
                                 </p>
