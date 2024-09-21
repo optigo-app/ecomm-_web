@@ -1,5 +1,10 @@
-.smr_yourProfile {
 
+.smr_yourProfile {
+    $fontPTSans: "PT Sans", sans-serif;
+
+    .elvee_fs_pt {
+        font-family: $fontPTSans !important; // Use the variable with the $ symbol
+    }
     .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
         -webkit-text-fill-color: black !important;
     }

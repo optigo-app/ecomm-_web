@@ -352,7 +352,7 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-            <div>
+            <div className='manage_address_elvee_fs'>
             <HeadTitleAcc title="Saved Addresses" />
             <p style={{
                     textAlign: 'center',
@@ -389,12 +389,12 @@ const ManageAddress = () => {
                                                 </Box>
                                             </Box>
                                             <Box>
-                                                <Typography sx={{ paddingBottom: "15px" }}>
+                                                <div style={{ paddingBottom: "15px" }}>
                                                     {item?.street !== undefined && item?.street},
                                                     {item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},
                                                     {item?.state !== undefined && item?.state},
                                                     {item?.country !== undefined && item?.country}
-                                                </Typography>
+                                                </div>
                                             </Box>
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
