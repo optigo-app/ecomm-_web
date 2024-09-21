@@ -67,7 +67,18 @@ const ProductDetail = () => {
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
+  console.log('imageSrc: ', imageSrc);
   console.log('saveLastView: ', saveLastView);
+
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPlaceholder(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   let cookie = Cookies.get('visiterId')
 
@@ -433,12 +444,19 @@ const ProductDetail = () => {
   // }, [location?.key])
 
   useEffect(() => {
-    if (selectedThumbImg) {
-      setImageSrc(selectedThumbImg.link);
-    } else {
-      // Set a default image if no thumbnail is selected
-      setImageSrc(pdVideoArr?.length > 0 ? noImageFound : 'p.png');
+    try {
+      if (selectedThumbImg == undefined) return;
+
+      if (selectedThumbImg) {
+        setImageSrc(selectedThumbImg.link);
+      } else {
+        // Set a default image if no thumbnail is selected
+        setImageSrc(pdVideoArr?.length > 0 ? noImageFound : 'p.png');
+      }
+    } catch (error) {
+      console.log("Error in fetching image", error)
     }
+
   }, [selectedThumbImg, pdVideoArr]);
 
   const handleError = (e) => {
@@ -1329,14 +1347,14 @@ const ProductDetail = () => {
                     ) : (
                       <>
                         <div className='elv_ProductDet_prod_img'>
-                          {selectedThumbImg?.length > 0 ? (
+                          {imageSrc ? (
                             selectedThumbImg.type === "img" ? (
                               <img
                                 src={imageSrc}
-                                onError={handleError}
+                                onError={handleError} // Pass the error handler
                                 alt=""
                                 onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image"
+                                className={`elv_ProductDet_prod_image`}
                               />
                             ) : (
                               <video
@@ -1355,13 +1373,18 @@ const ProductDetail = () => {
                               />
                             )
                           ) : (
-                            <img
-                              src={imageSrc}
-                              onError={handleError}
-                              alt=""
-                              onLoad={() => setIsImageLoad(false)}
-                              className="elv_ProductDet_prod_image"
-                            />
+                            showPlaceholder == true && (
+                              <img
+                                src={imageSrc || 'p.png'}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = noImageFound;
+                                }}
+                                alt=""
+                                onLoad={() => setIsImageLoad(false)}
+                                className={`elv_ProductDet_prod_image`}
+                              />
+                            )
                           )}
                         </div>
                       </>
@@ -1896,8 +1919,8 @@ const ProductDetail = () => {
                           />
                         </div>
                       </div>
-                      {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                      {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
                     </div>
                   </div>
                 </div>
@@ -2326,8 +2349,8 @@ const ProductDetail = () => {
                         />
                       </div>
                     </div>
-                    {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                    {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
                   </div>
                 </div>
               </>

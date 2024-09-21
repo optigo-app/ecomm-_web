@@ -102,9 +102,9 @@ const DesignSet2 = () => {
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
       .then((response) => {
+        setLoadingHome(false);
         if (response?.Data?.rd) {
           setDesignSetList(response?.Data?.rd);
-          setLoadingHome(false);
         }
       })
       .catch((err) => console.log(err));

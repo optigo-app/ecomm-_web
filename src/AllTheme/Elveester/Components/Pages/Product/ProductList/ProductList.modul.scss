@@ -347,7 +347,7 @@
     width: 20%;
     transition: width 1s ease-in-out;
   }
-  
+
   .elv_filtered_data_category_other {
     width: 0;
     overflow: hidden;
@@ -604,10 +604,10 @@
   }
 
   .elv_filtered_image_1 {
-    max-width: 100%;
-    height: 100%;
+    // max-width: 100%;
+    // height: 100%;
     width: 100%;
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
     animation: enlarge_image_1 1s forwards;
   }
@@ -625,10 +625,10 @@
   }
 
   .elv_filtered_image_1_filter_click {
-    max-width: 100%;
-    height: 100%;
+    // max-width: 100%;
+    // height: 100%;
     width: 100%;
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
     animation: enlarge_image_1_filter 1s forwards;
   }
@@ -650,30 +650,40 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    // height: 100%;
     overflow: hidden;
     position: relative;
 
-    .elv_rollup_video,
+    .elv_rollup_video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      // height: 100%;
+      z-index: 1;
+      object-fit: contain;
+
+      video {
+        width: 100%;
+        // height: 100%;
+        // background-size: cover;
+        object-fit: contain;
+      }
+    }
+
     .elv_rollup_img {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      // height: 100%;
       z-index: 1;
-
-      video {
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        object-fit: contain;
-      }
+      object-fit: contain;
 
       img {
         width: 100%;
-        height: 100%;
-        background-size: cover;
+        // height: 100%;
+        // background-size: cover;
         object-fit: contain;
         // object-fit: scale-down;
       }
@@ -748,9 +758,9 @@
 
   .elv_filtered_image_2 {
     width: 100%;
-    min-height: 412px;
+    // min-height: 412px;
     object-fit: contain;
-    background-size: cover;
+    // background-size: cover;
     transition: all 0.7s ease;
     animation: enlarge_image_2 1s forwards;
   }
@@ -769,9 +779,9 @@
 
   .elv_filtered_image_2_filter_click {
     width: 100%;
-    height: 500px;
+    // height: 500px;
     object-fit: contain;
-    background-size: cover;
+    // background-size: cover;
     transition: all 0.7s ease;
     animation: enlarge_image_2_filter 1s forwards;
     transition: all 0.7s ease;
@@ -790,11 +800,11 @@
   }
 
   .elv_filtered_image_3 {
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
     // object-fit: contain;
-    max-width: 100%;
-    min-height: 250px;
+    // max-width: 100%;
+    // min-height: 250px;
     width: 100%;
     animation: enlarge_image_3 1s forwards;
   }
@@ -812,10 +822,10 @@
   }
 
   .elv_filtered_image_3_filter_click {
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
-    max-width: 100%;
-    height: 350px;
+    // max-width: 100%;
+    // height: 350px;
     width: 100%;
     animation: enlarge_image_3_filter 1s forwards;
     transition: all 0.7s ease;
@@ -834,10 +844,10 @@
   }
 
   .elv_filtered_image_4 {
-    max-width: 100%;
-    max-height: 300px;
-    min-height: 300px;
-    background-size: cover;
+    // max-width: 100%;
+    // max-height: 300px;
+    // min-height: 300px;
+    // background-size: cover;
     object-fit: contain;
     width: 100%;
     animation: enlarge_image_4 1s forwards;
@@ -856,9 +866,9 @@
   }
 
   .elv_filtered_image_5 {
-    max-height: 200px;
-    min-height: 200px;
-    background-size: cover;
+    // max-height: 200px;
+    // min-height: 200px;
+    // background-size: cover;
     object-fit: contain;
     width: 100%;
     animation: enlarge_image_5 1s forwards;
@@ -994,7 +1004,8 @@
     margin-left: 10px;
     flex-direction: column;
     font-family: "PT Sans", sans-serif;
-    font-size: 11px;
+    // font-size: 11px;
+    font-size: 9px;
   }
 
   .elv_prod_weight_span_1 {
@@ -1002,7 +1013,8 @@
   }
 
   .elv_prod_weight_span_1_design {
-    font-size: 14px;
+    // font-size: 14px;
+    font-size: 11px;
   }
 
   .elv_prod_weight_span_2 {
@@ -1018,7 +1030,8 @@
     .elv_price_div {
       text-align: left;
       font-family: "PT Sans", sans-serif;
-      font-size: 14px;
+      // font-size: 14px;
+      font-size: 13px;
     }
 
     .elv_price_tags {
@@ -1163,10 +1176,10 @@
     }
 
     .elv_filtered_image_1 {
-      max-width: 100%;
-      height: 360px;
+      // max-width: 100%;
+      // height: 360px;
       width: 100%;
-      background-size: cover;
+      // background-size: cover;
       object-fit: contain;
       animation: enlarge_image_1 1s forwards;
     }
@@ -1185,9 +1198,9 @@
 
     .elv_filtered_image_2 {
       width: 100%;
-      min-height: 350px;
+      // min-height: 350px;
       object-fit: contain;
-      background-size: cover;
+      // background-size: cover;
       transition: all 0.7s ease;
       animation: enlarge_image_2 1s forwards;
     }
