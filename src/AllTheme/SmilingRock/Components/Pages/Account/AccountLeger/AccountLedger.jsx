@@ -3,7 +3,7 @@ import "./accountledger.scss"
 import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { checkMonth, formatAmount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { checkMonth, formatAmount, sortByDate } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
@@ -75,14 +75,15 @@ const AccountLedger = () => {
 
                     const mainData = response?.response2?.Data?.rd;
 
-                    mainData?.sort((a, b) => {
-                        const dateA = new Date(a?.EntryDate);
-                        const dateB = new Date(b?.EntryDate);
-                        return dateA - dateB;
-                    })
-                    setResultArray(mainData)
-                    getFormatedArrayData(mainData)
-                    setFilterArray(mainData)
+                    // mainData?.sort((a, b) => {
+                    //     const dateA = new Date(a?.EntryDate);
+                    //     const dateB = new Date(b?.EntryDate);
+                    //     return dateA - dateB;
+                    // })
+                    const sortedRows = sortByDate(mainData, 'EntryDate');
+                    setResultArray(sortedRows)
+                    getFormatedArrayData(sortedRows)
+                    setFilterArray(sortedRows)
                     setLoaderAC(false)
                 }else{
                     setResultArray(['Data Not Present'])
