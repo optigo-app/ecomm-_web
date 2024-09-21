@@ -208,8 +208,8 @@ console.log(StoreData,"000")
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
-        </Route>
         <Route path="/Lookbook" element={<Lookbook />} />
+        </Route>
         {/* static Page */}
         <Route path="/Shipping-Policy" element={<ShippingPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />

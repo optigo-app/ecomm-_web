@@ -99,10 +99,9 @@ const ProductGrid = () => {
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
-
+        setLoadingHome(false);
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
-                setLoadingHome(false);
                 setIsLoding(false);
                 setBestSellerData(response?.Data?.rd);
             }

@@ -102,9 +102,9 @@ const DesignSet2 = () => {
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
       .then((response) => {
+        setLoadingHome(false);
         if (response?.Data?.rd) {
           setDesignSetList(response?.Data?.rd);
-          setLoadingHome(false);
         }
       })
       .catch((err) => console.log(err));
@@ -287,14 +287,14 @@ const DesignSet2 = () => {
                                   /> {formatter(detail?.UnitCostWithMarkUp)}
                                 </p>
                               </div>
-                              <div className="fs3 centerall"
+                              {/* <div className="fs3 centerall"
                                 onClick={() =>
                                   handleNavigation(
                                     detail?.designno,
                                     detail?.autocode,
                                     detail?.TitleLine ? detail?.TitleLine : ""
                                   )
-                                }>View Details</div>
+                                }>View Details</div> */}
                             </SwiperSlide>
                           ))}
                         </>

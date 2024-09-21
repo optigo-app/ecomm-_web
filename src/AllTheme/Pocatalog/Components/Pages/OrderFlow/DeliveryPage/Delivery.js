@@ -89,10 +89,6 @@ const AddressManagement = () => {
                         <button className='proCat_AddNewAddrbtn' onClick={() => handleOpen(null)}>Add New Address</button>
                     </div>
                 </div>
-                <Footer />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
             </div>
         </div>
     );

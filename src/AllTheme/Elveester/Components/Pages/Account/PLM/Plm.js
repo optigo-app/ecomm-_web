@@ -77,6 +77,7 @@ const Plm = () => {
                 // style={{ minWidth: "400px", maxWidth: "400px" }}
                 className="FieldWidthPLM"
                 required
+                disabled
               />
             </Grid>
             <Grid item xs={12} className="margin_plm">
@@ -93,6 +94,7 @@ const Plm = () => {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    disabled
                     variant="outlined"
                     InputProps={{
                       endAdornment: (
@@ -163,10 +165,11 @@ const Plm = () => {
                   min: 0,
                   max: 100,
                 }}
+                disabled
               />
             </Grid>
             <Grid item xs={12} sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                <button  className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Save</button>
+                <button  className='SmilingAddEditAddrwess' disabled style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Save</button>
             </Grid>
           </Grid>
         </form>

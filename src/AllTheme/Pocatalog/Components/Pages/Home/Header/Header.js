@@ -158,7 +158,7 @@ const Header = () => {
     sessionStorage.removeItem("ColorStoneQualityColorCombo");
     sessionStorage.removeItem("MetalColorCombo");
     sessionStorage.removeItem("metalTypeCombo");
-    sessionStorage.removeItem("myAccountFlags");
+    // sessionStorage.removeItem("myAccountFlags");
     sessionStorage.removeItem("registerEmail");
     sessionStorage.removeItem("selectedAddressId");
   };

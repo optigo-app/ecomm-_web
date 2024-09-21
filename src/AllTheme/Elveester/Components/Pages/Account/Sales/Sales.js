@@ -691,7 +691,7 @@ const Sales = () => {
             }
             {
                 isSmallScreen && <>
-                <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
+                <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
                     <AccordionDetails style={{padding:'0px'}}>
                         <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
@@ -709,7 +709,7 @@ const Sales = () => {
                             </Box>
                         </Box>
                         <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
-                            <Box style={{ boxSizing:'border-box'}}>
+                            <Box style={{ boxSizing:'border-box', width:'45%'}}>
                                 {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>Date: </p> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
@@ -738,12 +738,12 @@ const Sales = () => {
                                                 }
                                             
                                             }}
-                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee_job'
+                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee_job elvee_date_width'
                                             ref={fromDateRef}
                                         />
                                     </LocalizationProvider>
                             </Box>
-                            <Box style={{ boxSizing:'border-box'}}>
+                            <Box style={{ boxSizing:'border-box', width:'45%'}}>
                                 {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>To: </p> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
@@ -753,7 +753,7 @@ const Sales = () => {
                                             format="DD MM YYYY"
                                             placeholder="DD MM YYYY"
                                     
-                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee_job'
+                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee_job elvee_date_width'
                                             ref={toDateRef}
                                             inputProps={{ readOnly: true }}
                                             onChange={(newValue) => {

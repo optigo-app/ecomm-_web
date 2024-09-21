@@ -20,7 +20,7 @@ const NewArrival = () => {
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
     const islogin = useRecoilValue(loginState);
-    const setLoadingHome =  useSetRecoilState(homeLoading);
+    const setLoadingHome = useSetRecoilState(homeLoading);
 
     useEffect(() => {
         setLoadingHome(true);
@@ -34,8 +34,8 @@ const NewArrival = () => {
                 });
             },
             {
-                root: null, 
-                threshold: 0.5, 
+                root: null,
+                threshold: 0.5,
             }
         );
 
@@ -87,9 +87,9 @@ const NewArrival = () => {
         setImageUrl(data?.DesignImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
+            setLoadingHome(false);
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
-                setLoadingHome(false);
             }
         }).catch((err) => console.log(err))
     }

@@ -245,14 +245,6 @@ const Customization = ({
                 <div className="proCat_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
-                      {/* <span
-                        className="proCat_currencyFont"
-                        dangerouslySetInnerHTML={{
-                          __html: decodeEntities(
-                            CurrencyData?.Currencysymbol
-                          ),
-                        }}
-                      /> */}
                       <span className="proCat_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>

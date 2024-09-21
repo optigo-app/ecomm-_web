@@ -29,6 +29,7 @@ import Cookies from "js-cookie";
 import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -48,6 +49,7 @@ const Header = () => {
   const [searchText, setSearchText] = useState("");
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+  const [htmlContent, setHtmlContent] = useState("");
   const location = useLocation();
 
 
@@ -56,6 +58,22 @@ const Header = () => {
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
 
   useEffect(() => {
     const visiterID = Cookies.get("visiterId");
@@ -500,10 +518,20 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="smr_mobileHeader_top_div2">
+              <div className="smr_mobileHeader_top_div2_web">
                 <a href="/">
                   <img
                     src={compnyLogo}
+                    loading="lazy"
+                    className="smr_logo_header"
+                  />
+                </a>
+              </div>
+
+              <div className="smr_mobileHeader_top_div2_mobile">
+                <a href="/">
+                  <img
+                    src={compnyLogoM}
                     loading="lazy"
                     className="smr_logo_header"
                   />
@@ -725,7 +753,7 @@ const Header = () => {
             </div>
             <div>
               <p className="smr_menuStaicMobilePage"
-                 onClick={() => {
+                onClick={() => {
                   setDrawerShowOverlay(false);
                   navigation("/aboutUs");
                 }}>About us</p>
@@ -909,27 +937,31 @@ const Header = () => {
                   SERVICE POLICY
                 </a>
               </li>
+              {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+                (
+                  htmlContent?.rd[0]?.ExtraMenu == 1 &&
+                  <>
+                    <li
+                      className="nav_li_smining nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
+                    >
+                      <a href="/ExpertAdvice" className="smr_A_link">
+                        EXPERT ADVICE
+                      </a>
+                    </li>
 
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
-              >
-                <a href="/ExpertAdvice" className="smr_A_link">
-                  EXPERT ADVICE
-                </a>
-              </li>
-
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-              >
-                <a href="/FunFact" className="smr_A_link">
-                  FUN FACT
-                </a>
-              </li>
-
+                    <li
+                      className="nav_li_smining nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
+                    >
+                      <a href="/FunFact" className="smr_A_link">
+                        FUN FACT
+                      </a>
+                    </li>
+                  </>
+                )}
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <>
@@ -1243,26 +1275,31 @@ const Header = () => {
                   </a>
                 </li>
 
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
-                >
-                  <a href="/ExpertAdvice" className="smr_A_linkFixed">
-                    EXPERT ADVICE
-                  </a>
-                </li>
+                {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+                  (
+                    htmlContent?.rd[0]?.ExtraMenu == 1 &&
+                    <>
+                      <li
+                        className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
+                      >
+                        <a href="/ExpertAdvice" className="smr_A_linkFixed">
+                          EXPERT ADVICE
+                        </a>
+                      </li>
 
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-                >
-                  <a href="/FunFact" className="smr_A_linkFixed">
-                    FUN FACT
-                  </a>
-                </li>
-
+                      <li
+                        className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
+                      >
+                        <a href="/FunFact" className="smr_A_linkFixed">
+                          FUN FACT
+                        </a>
+                      </li>
+                    </>
+                  )}
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
                     <>
@@ -1582,7 +1619,7 @@ const Header = () => {
                         <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <List className="smr_listMain">
+                    <div className="smr_listMain">
                       {menuItem.param1.map((subMenuItem) => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
@@ -1695,7 +1732,7 @@ const Header = () => {
                       >
                         view all
                       </button>
-                    </List>
+                    </div>
                   </>
                 </div>
               ))}
