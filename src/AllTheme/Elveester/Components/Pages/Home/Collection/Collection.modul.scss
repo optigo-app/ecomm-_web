@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_Collection_main {
     .gorGiftMain {
         display: flex;
@@ -33,7 +35,7 @@
         margin: 0px;
         font-weight: 300;
         line-height: 1.25;
-        font-family: "PT Sans", sans-serif;
+        font-family: $fontSansSerif;
     }
 
     .gorViewLookBookimg {
@@ -57,7 +59,7 @@
     .gorGiftBoxMainTitleWeb {
         font-size: 31px;
         font-weight: 300;
-        font-family: "PT Sans, sans-serif";
+        font-family: $fontSansSerif;
         line-height: 1.25;
         margin: 0px;
     }
@@ -127,7 +129,7 @@
         .gorGiftBoxMainTitleMobile {
             font-size: 31px;
             font-weight: 300;
-            font-family: "PT Sans, sans-serif";
+            font-family: $fontSansSerif;
             line-height: 1.25px;
             margin: 30px;
         }

@@ -1,5 +1,7 @@
-.el_display_background {
+@import '../../../scss/elvee_modules.scss';
 
+.el_display_background {
+  font-family: $fontSansSerif !important;
   .el_login_header_menu_main {
     position: fixed;
     width: 100%;

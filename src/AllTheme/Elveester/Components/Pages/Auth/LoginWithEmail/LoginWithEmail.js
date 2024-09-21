@@ -128,7 +128,7 @@ export default function LoginWithEmail() {
                             paddingBlock: '60px',
                             marginBlock: '10px',
                             fontSize: '25px',
-                            fontFamily: 'PT Sans, sans-serif'
+                            // fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenMainTitle'
                         >Login With Password</p>
@@ -137,7 +137,7 @@ export default function LoginWithEmail() {
                             marginTop: '-60px',
                             fontSize: '15px',
                             color: '#7d7f85',
-                            fontFamily: 'PT Sans, sans-serif'
+                            // fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenSubTitle'
                         >using {email}</p>
@@ -177,7 +177,7 @@ export default function LoginWithEmail() {
                             />
 
                             <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                            <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <Button className='elv_cancel_le_btn'  onClick={() => navigation('/LoginOption')}>CANCEL</Button>
 
                             <button type='submit' className='submitBtnForgot' onClick={handleNavigation}>Login With a Code instead on email</button>
                             <p style={{ textAlign: 'center', marginTop: '1rem' }}>Go passwordless! we'll send you an email.</p>

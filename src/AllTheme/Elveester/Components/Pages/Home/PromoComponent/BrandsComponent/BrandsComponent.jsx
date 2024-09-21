@@ -1,5 +1,5 @@
 import React from 'react'
-import './Styles.css'
+import './Styles.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 
 const BrandsComponent = () => {
