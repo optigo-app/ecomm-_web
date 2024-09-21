@@ -1,6 +1,8 @@
 @import "../../scss/elvee_modules.scss";
 
 .elev_modal {
+    font-family: $fontSansSerif !important;
+
     .elv_product-remark {
         display: flex;
         flex-direction: column;
@@ -68,7 +70,8 @@
 }
 
 .elv_remarktext {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    // font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: $fontSansSerif !important;
     font-size: 12px !important;
     color: black !important;
     letter-spacing: 0.5px !important;
@@ -96,14 +99,16 @@
         font-size: 20px;
         font-weight: 500;
         letter-spacing: 1px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: $fontSansSerif !important;
         color: #AF8238;
     }
 
     .elv_Productlists_details_1 {
         text-transform: uppercase;
         font-size: 30px;
-        font-family: "Segoe UI", "Noto Sans", sans-serif;
+        // font-family: "Segoe UI", "Noto Sans", sans-serif;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_Productlists_details_3 {
@@ -163,7 +168,8 @@
             display: flex;
             color: #7b7b7b;
             font-size: 16px;
-            font-family: "PT Sans", sans-serif;
+            // font-family: "PT Sans", sans-serif;
+            font-family: $fontSansSerif !important;
         }
     }
 
@@ -180,7 +186,8 @@
             color: rgb(125, 127, 133);
             font-weight: 600;
             font-size: 16px;
-            font-family: "PT Sans", sans-serif;
+            // font-family: "PT Sans", sans-serif;
+            font-family: $fontSansSerif !important;
         }
     }
 
@@ -200,7 +207,8 @@
             display: flex;
             color: #7b7b7b;
             font-size: 13px;
-            font-family: "PT Sans", sans-serif;
+            // font-family: "PT Sans", sans-serif;
+            font-family: $fontSansSerif !important;
         }
     }
 
@@ -218,7 +226,8 @@
             font-weight: 600;
             text-decoration: underline;
             font-size: 16px;
-            font-family: "PT Sans", sans-serif;
+            // font-family: "PT Sans", sans-serif;
+            font-family: $fontSansSerif !important;
             cursor: pointer;
         }
     }
@@ -239,7 +248,8 @@
             font-weight: 600;
             text-decoration: underline;
             font-size: 16px;
-            font-family: "PT Sans", sans-serif;
+            // font-family: "PT Sans", sans-serif;
+            font-family: $fontSansSerif !important;
             cursor: pointer;
         }
 
@@ -266,7 +276,8 @@
             display: flex;
             text-transform: uppercase;
             font-size: 16px;
-            font-family: "PT Sans", sans-serif;
+            // font-family: "PT Sans", sans-serif;
+            font-family: $fontSansSerif !important;
             cursor: pointer;
         }
     }
@@ -324,7 +335,8 @@
                             display: flex;
                             justify-content: space-between;
                             padding-inline: 5px;
-                            font-family: $fontRegular;
+                            // font-family: $fontRegular;
+                            font-family: $fontSansSerif !important;
 
                             .elv_ProdWt1_div {
                                 display: flex;
@@ -450,7 +462,8 @@
                 flex: 1 1 45%;
                 display: flex;
                 flex-direction: column;
-                font-family: 'TT Commons Regular' !important;
+                // font-family: 'TT Commons Regular' !important;
+                font-family: $fontSansSerif !important;
 
                 label {
                     font-size: 15px;
@@ -464,7 +477,7 @@
                     border: none;
                     outline: none;
                     background: #F4F4F4;
-                    font-size: 16px;
+                    font-size: 14px;
                     color: #7d7f85;
                 }
             }
@@ -705,13 +718,15 @@
             color: #7d7f85;
             font-weight: bold;
             font-size: 12px;
-            font-family: 'TT Commons Regular' !important;
+            // font-family: 'TT Commons Regular' !important;
+            font-family: $fontSansSerif !important;
         }
 
         .elv_card-ContentData {
             color: #7d7f85;
             font-size: 10px !important;
-            font-family: 'TT Commons Regular';
+            // font-family: 'TT Commons Regular';
+            font-family: $fontSansSerif !important;
             display: flex !important;
             justify-content: start I !important;
             padding-right: 10px;
@@ -822,20 +837,23 @@
             color: #7d7f85;
             font-weight: 500;
             font-size: 18px;
-            font-family: 'TT Commons Regular';
+            // font-family: 'TT Commons Regular';
+            font-family: $fontSansSerif !important;
         }
 
         .elv_filterAccordianDeatilTitle {
             color: #7d7f85;
             font-size: 16px;
-            font-family: 'TT Commons Regular';
+            // font-family: 'TT Commons Regular';
+            font-family: $fontSansSerif !important;
             padding-left: 10px;
         }
 
         .elv_filterCheckbox {
             color: #7d7f85;
             font-size: 16px;
-            font-family: 'TT Commons Regular';
+            // font-family: 'TT Commons Regular';
+            font-family: $fontSansSerif !important;
         }
     }
 
@@ -914,13 +932,15 @@
             color: #7d7f85;
             font-weight: bold;
             font-size: 12px;
-            font-family: "TT Commons Regular" !important;
+            // font-family: "TT Commons Regular" !important;
+            font-family: $fontSansSerif !important;
         }
 
         .elv_card-ContentsData {
             color: #7d7f85;
             font-size: 12px;
-            font-family: "TT Commons Regular";
+            // font-family: "TT Commons Regular";
+            font-family: $fontSansSerif !important;
             display: flex !important;
             justify-content: start I !important;
             margin-right: 5px !important;
@@ -1200,7 +1220,7 @@
             }
         }
 
-        .elv_Cartblock_rows_5{
+        .elv_Cartblock_rows_5 {
             position: fixed;
             bottom: 0;
             width: 100%;

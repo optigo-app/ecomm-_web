@@ -1,4 +1,8 @@
+@import '../../../../scss/elvee_modules.scss';
+
 .elv_customize_maindiv {
+    font-family: $fontSansSerif !important;
+
     .elv_customize_div {
         .elv_customize_image_1 {
             max-height: 750px;
@@ -91,7 +95,7 @@
 
 @media (max-width: 768px) {
 
-    .elv_customize_title_para{
+    .elv_customize_title_para {
         padding-inline: 2%;
     }
 

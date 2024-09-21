@@ -10,6 +10,7 @@
     z-index: 11;
     background-color: white;
     height: auto; //chnages    80px
+    font-family: $fontSansSerif !important;
 
     .el_withoutL_Header_Main {
         display: flex;
@@ -127,14 +128,14 @@
     }
 
     .el_whioutL_li {
-        font-family: $fontLight;
+        // font-family: $fontLight;
         margin-inline: 20px;
         font-size: 15px;
     }
 
     .elv_withoutL_login {
         font-size: 14px;
-        font-family: $fontLight;
+        // font-family: $fontLight;
         text-transform: capitalize;
         margin: 0px 20px 0px 0px;
         cursor: pointer;
@@ -392,7 +393,9 @@
     }
 
     .go-lookbook {
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 14px;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_login_header_logo_center {

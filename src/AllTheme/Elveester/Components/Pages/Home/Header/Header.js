@@ -666,7 +666,7 @@ const Header = () => {
                         to={"/Lookbook"}
                         className="el_Login_header_li go-lookbook"
                         style={{
-                          marginLeft: " 20px",
+                          marginLeft: " 22px",
                           cursor: "pointer",
                           textDecoration: "none",
                           position: "relative",
@@ -1031,7 +1031,7 @@ const Header = () => {
                         fontSize: "14px",
                         textDecoration: "underline",
                         marginBottom: "10px",
-                        fontFamily: '"PT Sans", sans-serif',
+                        // fontFamily: '"PT Sans", sans-serif',
                         color: "black",
                         textAlign: "start",
                         letterSpacing: 1,
@@ -1089,7 +1089,7 @@ const Header = () => {
                             style={{
                               fontSize: "14px",
                               margin: "3px 15px 3px 0px",
-                              fontFamily: '"PT Sans", sans-serif',
+                              // fontFamily: '"PT Sans", sans-serif',
                               letterSpacing: 0.4,
                               textAlign: "start",
                               cursor: "pointer",

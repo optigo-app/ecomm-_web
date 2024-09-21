@@ -132,7 +132,7 @@ export default function LoginWithEmailCode() {
                             textAlign: 'center',
                             paddingBlock: '60px',
                             fontSize: '25px',
-                            fontFamily: 'PT Sans, sans-serif'
+                            // fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenMainTitle'
                         >Login With Code</p>
@@ -141,7 +141,7 @@ export default function LoginWithEmailCode() {
                             marginTop: '-60px',
                             fontSize: '15px',
                             color: '#7d7f85',
-                            fontFamily: 'PT Sans, sans-serif'
+                            // fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenSubTitle'
                         >Last step! To secure your account, enter the code we just sent to {email}.</p>
@@ -167,7 +167,7 @@ export default function LoginWithEmailCode() {
 
                             <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                             <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <Button className='elv_cancel_lec' style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
                         </div>
                     </div>
                 </div>

@@ -372,7 +372,7 @@ export default function Register() {
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-              <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '20px' }} onClick={() => navigation('/LoginOption')}>BACK</Button>
+              <Button className='elv_back_btn_l' onClick={() => navigation('/LoginOption')}>BACK</Button>
             </div>
           </div>
         </div>

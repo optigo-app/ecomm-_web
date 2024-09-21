@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 // .el_LoginWithMobileCodeMain {
 
 //     .css-1wc848c-MuiFormHelperText-root {
@@ -83,6 +85,8 @@
 ////jwegerghrieguiergui
 .el_LoginWithMobileCodeMain {
 
+    font-family: $fontSansSerif !important;
+
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
         margin-left: 0px !important;
@@ -103,11 +107,21 @@
     .labGrowForgot {
         width: 430px;
         margin: 10px;
+        font-family: $fontSansSerif !important;
     }
 
     .labgrowRegister {
         width: 28rem;
         margin: 10px;
+        font-family: $fontSansSerif !important;
+    }
+
+    .elv_cancel_lec {
+        font-family: $fontSansSerif !important;
+        margin-top: 10px;
+        color: gray;
+        margin-bottom: 40px;
+        font-weight: 500;
     }
 
     .submitBtnForgot {
@@ -120,7 +134,7 @@
         font-weight: 600 !important;
         letter-spacing: 1px;
         transition: all 0.5s ease;
-        font-family: "Poppins", sans-serif;
+        // font-family: "Poppins", sans-serif;
         cursor: pointer;
         background-color: white;
     }

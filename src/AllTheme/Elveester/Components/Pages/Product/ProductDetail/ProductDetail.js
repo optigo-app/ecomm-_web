@@ -64,6 +64,7 @@ const ProductDetail = () => {
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [isDataFound, setIsDataFound] = useState(false)
+  const [pdLoadImage, setPdLoadImage] = useState(false);
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
@@ -811,6 +812,7 @@ const ProductDetail = () => {
         setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
         setPdThumbImg(pdImgList)
         setThumbImgIndex(thumbImgIndex)
+        setPdLoadImage(false)
       }
     }
 
@@ -932,13 +934,14 @@ const ProductDetail = () => {
         setSelectedThumbImg({ "link": pdvideoList[0], "type": 'vid' });
       }
     }
-
+    setPdLoadImage(false);
     return finalprodListimg;
 
 
   };
 
   useEffect(() => {
+    setPdLoadImage(true)
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
 
@@ -1342,7 +1345,7 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-                    {loadingdata ? (
+                    {loadingdata || pdLoadImage ? (
                       <Skeleton className='elv_prod_det_default' variant="rectangular" />
                     ) : (
                       <>
@@ -1767,73 +1770,73 @@ const ProductDetail = () => {
                                 >
 
                                   {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Metal</Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Metal</Typography>
                                     <span style={{ display: 'flex' }}>
                                       <Typography>
                                         {
-                                          <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                          <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                             {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }
                                       </Typography>
                                       &nbsp;
-                                      <Typography sx={{ fontFamily: "PT Sans, sans-serif" }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                      <Typography sx={{ fontFamily: 'sans-serif' }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Diamond </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Diamond </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Stone </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Stone </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>MISC </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>MISC </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Labour </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Labour </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span style={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span style={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1850,16 +1853,16 @@ const ProductDetail = () => {
                                     ) !== 0 ?
 
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Other </Typography>
+                                        <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Other </Typography>
 
                                         <span style={{ display: 'flex' }}>
                                           <Typography>{
-                                            <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                            <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                               {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                             </span>
                                           }</Typography>
                                           &nbsp;
-                                          <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{
+                                          <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{
                                             formatter((
 
                                               (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1919,8 +1922,8 @@ const ProductDetail = () => {
                           />
                         </div>
                       </div>
-                      {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
+                      {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
                     </div>
                   </div>
                 </div>
@@ -2198,73 +2201,73 @@ const ProductDetail = () => {
                               >
 
                                 {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Metal</Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Metal</Typography>
                                   <span style={{ display: 'flex' }}>
                                     <Typography>
                                       {
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }
                                     </Typography>
                                     &nbsp;
-                                    <Typography sx={{ fontFamily: "PT Sans, sans-serif" }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                    <Typography sx={{ fontFamily: 'sans-serif' }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Diamond </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Diamond </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="elv_currencyFont" style={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span className="elv_currencyFont" style={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Stone </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Stone </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>MISC </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>MISC </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Labour </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Labour </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span sx={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -2281,16 +2284,16 @@ const ProductDetail = () => {
                                   ) !== 0 ?
 
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                      <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Other </Typography>
+                                      <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Other </Typography>
 
                                       <span style={{ display: 'flex' }}>
                                         <Typography>{
-                                          <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                          <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                             {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }</Typography>
                                         &nbsp;
-                                        <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{
+                                        <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{
                                           formatter((
 
                                             (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -2349,8 +2352,8 @@ const ProductDetail = () => {
                         />
                       </div>
                     </div>
-                    {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
+                    {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
                   </div>
                 </div>
               </>
@@ -2396,6 +2399,7 @@ const ProductDetail = () => {
             storeInit={storeInit}
             loginInfo={loginData}
             cartArr={cartArr}
+            check={storeInit?.IsPriceShow === 1}
             handleCartandWish={handleCartandWish}
           />
         )}

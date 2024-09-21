@@ -995,7 +995,7 @@ const Lookbook = () => {
             className="smr_lookBookMobileTopLine"
           >
             {filterData?.length > 0 && (
-              <div className="smr_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)} style={{ fontSize: '12px' }}>
+              <div className="elv_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)}>
                 {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
                 <FilterListIcon style={{ color: 'white' }} />
               </div>
@@ -1137,8 +1137,11 @@ const Lookbook = () => {
                                     "&.MuiAccordionSummary-root": {
                                       padding: 0,
                                     },
+                                    textTransform: 'uppercase',
+                                    fontSize: '15px',
+                                    fontFamily: 'sans-serif',
                                   }}
-                                // className="filtercategoryLable"
+                                  className="elv_filtercategoryLable"
                                 >
                                   {/* <span> */}
                                   {ele.Name}
@@ -1249,6 +1252,9 @@ const Lookbook = () => {
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,
                                   },
+                                  textTransform: 'uppercase',
+                                  fontSize: '15px',
+                                  fontFamily: 'sans-serif',
                                 }}
                               // className="filtercategoryLable"
                               >
@@ -1444,12 +1450,12 @@ const Lookbook = () => {
                             >
                               {" "}
                               <span
-                                className="smr_currencyFont"
+                                className="elv_currencyFont"
                               >
                                 {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                               </span>
                               {/* <span
-                              className="smr_currencyFont"
+                              className="elv_currencyFont"
                               dangerouslySetInnerHTML={{
                                 __html: decodeEntities(
                                   storeInit?.Currencysymbol
@@ -1668,7 +1674,7 @@ const Lookbook = () => {
                                 >
                                   {" "}
                                   {/* <span
-                                  className="smr_currencyFont"
+                                  className="elv_currencyFont"
                                   dangerouslySetInnerHTML={{
                                     __html: decodeEntities(
                                       storeInit?.Currencysymbol
@@ -1676,7 +1682,7 @@ const Lookbook = () => {
                                   }}
                                 /> */}
                                   <span
-                                    className="smr_currencyFont"
+                                    className="elv_currencyFont"
                                   >
                                     {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                   </span>
@@ -2051,7 +2057,7 @@ const Lookbook = () => {
                                                 }
                                                 <br />
                                                 {/* <span
-                                              className="smr_currencyFont"
+                                              className="elv_currencyFont"
                                               dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
                                                   storeInit?.Currencysymbol
@@ -2059,7 +2065,7 @@ const Lookbook = () => {
                                               }}
                                             /> */}
                                                 <span
-                                                  className="smr_currencyFont"
+                                                  className="elv_currencyFont"
                                                 >
                                                   {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
@@ -2103,7 +2109,7 @@ const Lookbook = () => {
                                     <div className="smr_lb3TotalPrice">
                                       <span>
                                         <span
-                                          className="smr_currencyFont"
+                                          className="elv_currencyFont"
                                         >
                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
