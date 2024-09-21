@@ -1,7 +1,8 @@
-$fontPTSans: "PT Sans", sans-serif;
+@import "../../scss/elvee_modules.scss";
 
 .elvee_fs_pt {
-    font-family: $fontPTSans !important; // Use the variable with the $ symbol
+    // font-family: $fontPTSans !important; // Use the variable with the $ symbol
+    font-family: $fontSansSerif !important; // Use the variable with the $ symbol
 }
 .Smiling-AccountMain_elvee {
     background-color: white;

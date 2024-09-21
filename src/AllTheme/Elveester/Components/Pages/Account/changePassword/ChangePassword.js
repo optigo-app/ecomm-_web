@@ -135,7 +135,7 @@ export default function ChangePassword() {
     return (
         <>
         <ToastContainer />
-        <div>
+        <div className='fonts_elvee_acoount_cp'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
