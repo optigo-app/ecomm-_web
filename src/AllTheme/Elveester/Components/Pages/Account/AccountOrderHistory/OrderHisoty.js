@@ -328,7 +328,7 @@ const OrderHistory = () => {
                             </div>
                 
                       <div className="py-1 w-100 d_flex_oh fs_price_oh _color fw-bold center_price px_change ps-4 order_none d-flex align-items-center justify-content-end">
-                           { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+                           {/* { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />} */}
                           {/* { e?.OrderStatusId === 1 ? */}
                           {/* //  <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div> */}
                            {/* { e?.IsPLW === 1 && <Chip size="small" className={`${getStatusColor2(e?.OrderStatusName)}`} label={e?.OrderStatusName === '' ? 'Approval Pending' : e?.OrderStatusName} />} */}
@@ -386,7 +386,7 @@ const OrderHistory = () => {
                             </div>
                 
                           <div className="d-flex align-items-center justify-content-end">
-                              { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />}
+                              {/* { e?.IsPLW === 1 && <Chip size="small"  className={`${getStatusColor2(e?.OrderStatusName)} fw-normal`} label={e?.OrderStatusName} />} */}
                               {/* { e?.OrderStatusId === 1 ? */}
                               {/* //  <div className={`p-1 ${getStatusColor2(e?.OrderStatusName)} rounded px-2`}>{e?.OrderStatusName}</div> */}
                               {/* { e?.IsPLW === 1 && <Chip size="small" className={`${getStatusColor2(e?.OrderStatusName)}`} label={e?.OrderStatusName === '' ? 'Approval Pending' : e?.OrderStatusName} />} */}
