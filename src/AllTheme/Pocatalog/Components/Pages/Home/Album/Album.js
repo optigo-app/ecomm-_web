@@ -77,14 +77,12 @@ const Album = () => {
       const response = await Get_Procatalog("GETProcatalog", finalID, value);
       if (response?.Data?.rd) {
         const albums = response.Data.rd;
-
         const status = {};
         const fallbackImages = {};
 
         for (const data of albums) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
           const imageAvailable = await checkImageAvailability(fullImageUrl);
-
           if (!imageAvailable && data?.AlbumDetail) {
             const albumDetails = JSON.parse(data.AlbumDetail);
             albumDetails.forEach((detail) => {
@@ -123,7 +121,7 @@ const Album = () => {
   }
 
   const handleNavigate = (data) => {
-    const url = `/p/${data?.AlbumName}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
 
     if (data?.IsDual === 1) {
@@ -157,7 +155,7 @@ const Album = () => {
   };
 
   const handleNavigateSub = (data) => {
-    const url = `/p/${data?.AlbumName}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     sessionStorage.setItem('redirectURL', url)
     navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
@@ -166,7 +164,6 @@ const Album = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log('designSubDatadesignSubData', designSubData);
   if (!imagesReady) {
     return <AlbumSkeleton />;
   }

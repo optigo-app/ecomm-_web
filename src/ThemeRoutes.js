@@ -28,6 +28,7 @@ import { storImagePath } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
 import SEO from "./utils/Seo/Seo";
 import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
+import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
 
 export default function ThemeRoutes() {
 
@@ -42,6 +43,9 @@ export default function ThemeRoutes() {
   const [proCatM_companyTitleLogo, proCatM_setCompanyTitleLogo] = useRecoilState(proCat_companyLogoM)
   const [proCat_companyTitleLogo, proCat_setCompanyTitleLogo] = useRecoilState(proCat_companyLogo)
 
+  const [roopWebLogo, setRoopWebLogo] = useRecoilState(roop_companyLogo);
+  const [roopMobileLogo, setRoopMobileLogo] = useRecoilState(roop_companyLogoM);
+
   const [title, setTitle] = useState();
 
   const [favicon, setFavIcon] = useState();
@@ -49,7 +53,13 @@ export default function ThemeRoutes() {
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    console.log('jsonDatajsonData',`${storImagePath()}/Store_Init.txt`);
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    
+    setRoopWebLogo(webLogo);
+    setRoopMobileLogo(mobileLogo);
+
+
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
       .then((text) => {
@@ -239,21 +249,21 @@ export default function ThemeRoutes() {
           <link rel="icon" sizes="512x512" href={favicon} />
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
           <meta name="description" content={title} />
-          <link rel="icon" href={`${storImagePath()}/logo-icon/favicon1.png`} type="image/x-icon" />
+          <link rel="icon" href={`${storImagePath()}/logoIcon/favicon1.png`} type="image/x-icon" />
 
           {/* Apple Touch Icon */}
-          <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
+          <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
 
           {/* Android Chrome Icons */}
-          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logo-icon/androidCh1.png`} />
-          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logo-icon/androidCh2.png`} />
+          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logoIcon/androidCh1.png`} />
+          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logoIcon/androidCh2.png`} />
 
           {/* Safari Pinned Tab Icon */}
-          <link rel="mask-icon" href={`${storImagePath()}/logo-icon/apple-touch-icon.png`} />
+          <link rel="mask-icon" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
 
           {/* Microsoft Tile Icons */}
           <meta name="msapplication-TileColor" content="#ffffff" />
-          <meta name="msapplication-TileImage" content={`${storImagePath()}/logo-icon/androidCh2.png`} />
+          <meta name="msapplication-TileImage" content={`${storImagePath()}/logoIcon/androidCh2.png`} />
 
           <meta
             name="viewport"
