@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
 import { useRecoilValue } from "recoil";
-import { smrMA_loginState } from "../../../Recoil/atom";
+import { PC_ApploginState } from "../../../Recoil/atom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,7 +19,7 @@ const NewArrival = () => {
   const navigation = useNavigate();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [storeInit, setStoreInit] = useState({});
-  const islogin = useRecoilValue(smrMA_loginState);
+  const islogin = useRecoilValue(PC_ApploginState);
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   function checkImageAvailability(imageUrl) {
@@ -115,7 +115,7 @@ const NewArrival = () => {
   return (
     <div style={{ marginBottom: newArrivalData?.length == 0 && '5px' }}>
       {newArrivalData?.length != 0 &&
-        <div className="smrMA_NewArrivalMain">
+        <div className="PC_AppNewArrivalMain">
           <Swiper {...swiperParams}
             className="smaMA_newArrivalBoxcMain"
           >
