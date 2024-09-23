@@ -84,7 +84,7 @@ export default function ContinueWithEmail() {
                         textAlign: 'center',
                         paddingBlock: '50px',
                         fontSize: '25px',
-                        fontFamily: 'PT Sans, sans-serif'
+                        // fontFamily: 'PT Sans, sans-serif'
                     }}
                         className='AuthScreenMainTitle'
                     >Continue With Email</p>
@@ -93,7 +93,7 @@ export default function ContinueWithEmail() {
                         marginTop: '-70px',
                         fontSize: '15px',
                         // color: '#7d7f85',
-                        fontFamily: 'PT Sans, sans-serif'
+                        // fontFamily: 'PT Sans, sans-serif'
                     }}
 
                         className='AuthScreenSubTitle'
@@ -119,7 +119,7 @@ export default function ContinueWithEmail() {
                         />
 
                         <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='elv_cancel_mb_btn' onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

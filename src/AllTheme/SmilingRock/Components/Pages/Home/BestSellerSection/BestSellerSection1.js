@@ -4,7 +4,7 @@ import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
-import { homeLoading, loginState } from '../../../Recoil/atom';
+import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
@@ -18,7 +18,7 @@ const ProductGrid = () => {
     const [isLoding, setIsLoding] = useState(true);
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(smr_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
     
@@ -99,10 +99,9 @@ const ProductGrid = () => {
 
         let data = JSON.parse(sessionStorage.getItem('storeInit'))
         setImageUrl(data?.DesignImageFol);
-
+        setLoadingHome(false);
         Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
             if (response?.Data?.rd) {
-                setLoadingHome(false);
                 setIsLoding(false);
                 setBestSellerData(response?.Data?.rd);
             }

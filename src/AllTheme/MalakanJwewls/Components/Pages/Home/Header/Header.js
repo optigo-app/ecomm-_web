@@ -353,13 +353,8 @@ const Header = () => {
   const searchDataFucn = (e) => {
     if (e.key === "Enter") {
       if (searchText) {
-        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-
-        // const handleMoveToDetail = () => {
-
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-
         let obj = {
           a: "",
           b: searchText,
@@ -368,15 +363,10 @@ const Header = () => {
           c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
           f: {},
         };
-
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-        navigate(`/d/${searchText}?p=${encodeObj}`);
+        let encodeObj = btoa(JSON.stringify(obj))
+        navigate(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
         setSearchText("")
-        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-
-        // }
       }
     }
   };

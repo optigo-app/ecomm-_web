@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .mainSocialMediaConatiner {
     margin-top: 20px;
     margin-bottom: 0.5rem;
@@ -11,10 +13,12 @@
     .socialmediaptag {
         color: rgba(29, 50, 88, 0.8) !important;
         text-align: center;
-        font-size: 22px;
+        font-size: 28px;
+        font-weight: 600;
         text-transform: capitalize;
         line-height: 2px;
-        margin: 50px 0px 15px 0px !important;
+        margin: 50px 0px 50px 0px !important;
+        font-family: $fontSansSerif;
     }
 
     .galeryComponents {
@@ -37,6 +41,19 @@
 
 
     @media (min-width: 445px) and (max-width: 768px) {}
+
+    @media (min-width: 768px) and (max-width: 1200px) {
+        .elv_social_div {
+            padding: 5px;
+        }
+
+        .elv_social_icon {
+            position: relative;
+            bottom: 1px;
+            height: 18px;
+            width: 18px;
+        }
+    }
 
     @media (max-width: 445px) {}
 }

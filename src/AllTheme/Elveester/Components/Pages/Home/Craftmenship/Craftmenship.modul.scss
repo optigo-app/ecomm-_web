@@ -1,4 +1,8 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_craftmenshipId_main {
+    font-family: $fontSansSerif;
+
     .mainSocialMediaConatiner {
         margin-top: 20px;
     }
@@ -6,15 +10,16 @@
     .craftmenship {
         color: rgba(29, 50, 88, 0.8) !important;
         text-align: center;
-        font-size: 22px;
+        font-size: 28px;
+        font-weight: 600;
         text-transform: capitalize;
         line-height: 2px;
         margin: 80px 0px 80px 0px !important;
     }
 }
 
-@media (max-width: 768px){
-    .swiper{
+@media (max-width: 768px) {
+    .swiper {
         padding-top: 0;
     }
 }

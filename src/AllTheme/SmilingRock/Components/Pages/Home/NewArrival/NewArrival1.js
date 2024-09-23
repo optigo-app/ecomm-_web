@@ -5,7 +5,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { homeLoading, loginState } from '../../../Recoil/atom';
+import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import noImageFound from "../../../Assets/image-not-found.jpg"
@@ -19,8 +19,8 @@ const NewArrival = () => {
     const [storeInit, setStoreInit] = useState({});
     const [ring1ImageChange, setRing1ImageChange] = useState(false);
     const [ring2ImageChange, setRing2ImageChange] = useState(false);
-    const islogin = useRecoilValue(loginState);
-    const setLoadingHome =  useSetRecoilState(homeLoading);
+    const islogin = useRecoilValue(smr_loginState);
+    const setLoadingHome = useSetRecoilState(homeLoading);
 
     useEffect(() => {
         setLoadingHome(true);
@@ -34,8 +34,8 @@ const NewArrival = () => {
                 });
             },
             {
-                root: null, 
-                threshold: 0.5, 
+                root: null,
+                threshold: 0.5,
             }
         );
 
@@ -87,9 +87,9 @@ const NewArrival = () => {
         setImageUrl(data?.DesignImageFol);
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID).then((response) => {
+            setLoadingHome(false);
             if (response?.Data?.rd) {
                 setNewArrivalData(response?.Data?.rd);
-                setLoadingHome(false);
             }
         }).catch((err) => console.log(err))
     }

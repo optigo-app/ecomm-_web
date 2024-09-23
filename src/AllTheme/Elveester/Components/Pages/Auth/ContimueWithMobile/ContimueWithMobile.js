@@ -79,7 +79,7 @@ export default function ContimueWithMobile() {
                             textAlign: 'center',
                             paddingBlock: '60px',
                             fontSize: '25px',
-                            fontFamily: 'PT Sans, sans-serif'
+                            // fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenMainTitle'
                         >Continue With Mobile</p>
@@ -88,7 +88,7 @@ export default function ContimueWithMobile() {
                             marginTop: '-70px',
                             fontSize: '15px',
                             // color: '#7d7f85',
-                            fontFamily: 'PT Sans, sans-serif'
+                            // fontFamily: 'PT Sans, sans-serif'
                         }}
                             className='AuthScreenSubTitle'
                         >We'll check if you have an account, and help create one if you don't.</p>
@@ -115,7 +115,7 @@ export default function ContimueWithMobile() {
                             <button className='submitBtnForgot' onClick={handleSubmit}>
                                 SUBMIT
                             </button>
-                            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <Button className='elv_cancel_mb_btn' onClick={() => navigation('/LoginOption')}>CANCEL</Button>
                         </div>
                     </div>
                 </div>

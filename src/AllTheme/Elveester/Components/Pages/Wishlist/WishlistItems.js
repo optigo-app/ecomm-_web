@@ -127,8 +127,15 @@ const WishlistItems = ({
                                 </div>
                             </div>
                         </CardContent>
-                        <div className='elv_wishlist_atc_button' onClick={() => handleWishlistToCartFun(item)}>
-                            <button className='elv_wishlist_btn'>{(item?.IsInCart != 1 ? "Add to cart +" : "in cart")}</button>
+                        <div className='elv_wishlist_atc_button'>
+                            <button
+                                className='elv_wishlist_btn'
+                                onClick={() => handleWishlistToCartFun(item)}
+                                disabled={item?.IsInCart === 1}
+                                style={{ backgroundColor: item?.IsInCart === 1 ? '#fafafa' : 'initial'}}
+                            >
+                                {item?.IsInCart !== 1 ? "Add to cart +" : "In cart"}
+                            </button>
                         </div>
                     </div>
                     <div className='closeWlIconDiv' onClick={(e) => handleRemoveItemFun(item)}>

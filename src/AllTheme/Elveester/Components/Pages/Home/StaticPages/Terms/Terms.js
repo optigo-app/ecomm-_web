@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Suspense } from 'react';
 import './Terms.modul.scss';
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Terms = () => {
+
+    const [firstImageLaod, setFirstImageLoad] = useState(false);
+
     const termsArr = [
         { title: 'PRODUCT AVAILABILITY', desc: "All of our jewelry is designed and manufactured on-site. We develop new designs by brand wise such as modern jewellerires, high fashion jewelleries occassional orianted jewellery, plain gold jewelleries at every months. These new designs will appeare on our website also we present new products on gem and jewellery exhibitions at india and international sectors." },
         { title: 'INFORMATION ON OUR SITE', desc: "We make every effort to ensure that our online catalog is as accurate and complete as possible. To allow you to view our pieces in full detail, some pieces may appear larger or smaller than their actual size and weight in our product images; and since every computer monitor is set differently, size may vary slightly." },
@@ -10,21 +14,27 @@ const Terms = () => {
         { title: 'SHIPPING POLICY', desc: "All of our shipments will be delivered using Indian Courier as well as international couriors. All custom orders will be shipped the following day when your order is completed." },
         { title: 'LIMITED WARRANTY', desc: "Our guarantee is simple and straightforward. If something is wrong due to faulty workmanship, we take care of it. It's a fair way of doing business. That being said, precious metals erode and stones can become damaged over time. When normal wear occurs, repairs can be done in house by our expert staff at the normal repair fee. Any work performed by a jeweler other than Elvee automatically voids the warranty. It is the responsibility of the customer to maintain insurance against loss or damage not covered by the warranty." },
     ]
-    
+
     useEffect(() => {
         window.scroll({
             top: 0,
             behavior: "smooth",
-          });
-    },[])
+        });
+    }, [])
     return (
         <div className="elv_terms_main_div">
             <div className="elv_terms_div">
                 <div className='elv_terms_image_div'>
-                    <img className='elv_terms_image_1' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/TermConditionMainBanner.jpg`} alt="terms.jpg" />
-                    <div>
-                        <img className='elv_terms_image_2' src="https://www.elvee.in/static/media/Logo1.4e98fceb0f4280d06296.png" alt="" />
-                    </div>
+                    <Suspense fallback="">
+                        <img className='elv_terms_image_1' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/TermConditionMainBanner.jpg`} alt="terms.jpg" onLoad={() => setFirstImageLoad(true)} />
+                    </Suspense>
+                    {firstImageLaod && (
+                        <div>
+                            <Suspense fallback="">
+                                <img className='elv_terms_image_2' src={`${storImagePath()}/images/HomePage/Terms-and-Condtions/trans-logo.png`} alt="" />
+                            </Suspense>
+                        </div>
+                    )}
                 </div>
                 <div className='elv_terms_descriptions_div'>
                     <h3 className='elv_terms_head_title'>TERMS AND CONDITIONS</h3>

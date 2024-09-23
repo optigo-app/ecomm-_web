@@ -33,7 +33,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import { FaBullseye } from "react-icons/fa";
-import { NumberWithCommas, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -597,8 +597,9 @@ const PendingMemo = () => {
           hoverImg === "" && e?.imgsrc !== "" && setHoverImg(e?.imgsrc);
         });
         totals.uniqueDesigns = designLists?.length;
-        setData(datass);
-        setFilterData(datass);
+        const sortedRows = sortByDate(datass, 'EntryDate');
+        setData(sortedRows);
+        setFilterData(sortedRows);
         setTotal(totals);
       }else{
         setData([]);

@@ -355,13 +355,8 @@ const Header = () => {
   const searchDataFucn = (e) => {
     if (e.key === "Enter") {
       if (searchText) {
-        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-
-        // const handleMoveToDetail = () => {
-
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-
         let obj = {
           a: "",
           b: searchText,
@@ -371,14 +366,9 @@ const Header = () => {
           f: {},
         };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-        navigate(`/d/${searchText}?p=${encodeObj}`);
-        toggleOverlay();
+        let encodeObj = btoa(JSON.stringify(obj))
+        navigation(`/p/${searchText}?S=${encodeObj}`);
         setSearchText("")
-        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-
-        // }
       }
     }
   };
@@ -913,13 +903,7 @@ const Header = () => {
 
 
             </ul>
-            <ul className="nav_ul_shop_menu_Mobile">
-              <MenuIcon
-                style={{ fontSize: "35px", color: "white" }}
-                className="muIconeMobileHeader"
-                onClick={toggleDrawerOverlay}
-              />
-            </ul>
+
             <ul className="nav_ul_shop">
               {IsB2BWebsiteChek == 0 ? (
                 <>
@@ -1052,6 +1036,13 @@ const Header = () => {
           </div>
         </div>
         <div className="roop_top_header3">
+          <ul className="nav_ul_shop_menu_Mobile">
+            <MenuIcon
+              style={{ fontSize: "35px", color: "black" }}
+              className="muIconeMobileHeader"
+              onClick={toggleDrawerOverlay}
+            />
+          </ul>
           {IsB2BWebsiteChek == 1 ? (
             islogin == true ? (
               <li

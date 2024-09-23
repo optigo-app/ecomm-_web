@@ -25,7 +25,7 @@ const sliderData = [
   },
   {
     imageUrl: "/images/HomePage/SocialMedia/socialMedia4.jpg",
-    link: 'https://www.linkedin.com/feed/update/urn:li:share:7118470948286009344/?actorCompanyId=3118775',
+    link: 'https://www.linkedin.com/feed/update/urn:li:share:7118470948286009344/?actorCompanyId=31187751',
     icon: `${storImagePath()}/images/HomePage/SocialLinks/linkedin.png`
   },
 ];
