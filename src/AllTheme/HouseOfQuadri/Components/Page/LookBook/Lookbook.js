@@ -99,7 +99,12 @@ const Lookbook = () => {
   const [isPgLoading, setIsPgLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
-  let maxwidth464px = useMediaQuery('(max-width:464px)')
+  let maxwidth464px = useMediaQuery('(max-width:464px)');
+  const [imageLoadError, setImageLoadError] = useState({});
+
+  const handleImageError = (index) => {
+    setImageLoadError((prev) => ({ ...prev, [index]: true }));
+  };
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
@@ -331,7 +336,7 @@ const Lookbook = () => {
       finalprodListimg =
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
-      finalprodListimg = null;
+      finalprodListimg = 'a.jpg';
     }
     return finalprodListimg;
   };
@@ -1203,7 +1208,7 @@ const Lookbook = () => {
                             position: "relative",
                           }}
                         >
-                          {ProdCardImageFunc(slide) ? (
+                           {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                             <img
                               className="hoq_lookBookImg"
                               loading="lazy"
@@ -1211,9 +1216,11 @@ const Lookbook = () => {
                               alt={`Slide ${index}`}
                               onMouseEnter={() => handleHoverImages(index)}
                               onMouseLeave={() => seyDataKey(null)}
+                              onError={() => handleImageError(index)}
                               style={{
                                 height: dataKey == index ? "100%" : "250px",
                                 cursor: "pointer",
+                                backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                               }}
                             />
                           ) : (
@@ -1226,6 +1233,7 @@ const Lookbook = () => {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 cursor: "pointer",
+                                backgroundColor: "rgb(191, 200, 255)",
                               }}
                             >
                               <p
@@ -1444,17 +1452,19 @@ const Lookbook = () => {
                             }}
                             className="hoq_designSetDiv2_sub1"
                           >
-                            {ProdCardImageFunc(slide) ? (
+                            {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                               <img
                                 className="hoq_lookBookImg"
                                 loading="lazy"
                                 src={ProdCardImageFunc(slide)}
                                 alt={`Slide ${index}`}
+                                onError={() => handleImageError(index)}
                                 // onMouseEnter={() => handleHoverImages(index)}
                                 // onMouseLeave={() => seyDataKey(null)}
                                 style={{
                                   height: "100%",
                                   cursor: "pointer",
+                                  backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                 }}
                               />
                             ) : (
@@ -1467,6 +1477,7 @@ const Lookbook = () => {
                                   alignItems: "center",
                                   justifyContent: "center",
                                   cursor: "pointer",
+                                  backgroundColor: "rgb(191, 200, 255)",
                                 }}
                               >
                                 <p
@@ -1799,11 +1810,15 @@ const Lookbook = () => {
                             <div>
                               <div className="hoq1_lb3compeletethelook_cont">
                                 <div className="hoq1_lb3ctlImg_containe">
-                                  {ProdCardImageFunc(slide) ? (
+                                {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                     <img
                                       src={ProdCardImageFunc(slide)}
                                       alt=""
                                       className="hoq_lb3ctl_img_new "
+                                      onError={() => handleImageError(index)}
+                                      style={{
+                                        backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                      }}
                                     />
                                   ) : (
                                     <div
@@ -1815,6 +1830,7 @@ const Lookbook = () => {
                                         alignItems: "center",
                                         justifyContent: "center",
                                         cursor: "pointer",
+                                        backgroundColor: "rgb(191, 200, 255)",
                                       }}
                                       className="hoq_lb3ctl_img_new"
                                     >
@@ -2139,7 +2155,7 @@ const Lookbook = () => {
                           >
                             {filteredDesignSetLstData?.map((slide, index) => (
                               <SwiperSlide key={index}>
-                                {ProdCardImageFunc(slide) ? (
+                                 {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                   <>
                                     <img
                                       ref={SwiperSlideRef}
@@ -2147,19 +2163,26 @@ const Lookbook = () => {
                                       onLoad={handleImageLoad}
                                       alt=""
                                       className="ctl_Paginationimg"
+                                      onError={() => handleImageError(index)}
+                                      style={{
+                                        height: DynamicSize.h || "66.5px",
+                                        width: DynamicSize.w || "66.5x",
+                                        backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                      }}
                                     />
                                   </>
                                 ) : (
                                   <div
                                     style={{
-                                      height: DynamicSize.h,
-                                      width: DynamicSize.w,
+                                      height: DynamicSize.h || "66.5px",
+                                      width: DynamicSize.w || "66.5x",
                                       ...getRandomBgColor(index),
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
                                       cursor: "pointer",
                                       margin: 0,
+                                      backgroundColor: "rgb(191, 200, 255)",
                                     }}
                                     className="hoq_lb3ctl_img_new"
                                   >
@@ -2185,8 +2208,8 @@ const Lookbook = () => {
               shape="circular"
               onChange={handelPageChange}
               page={currentPage}
-              showFirstButton
-              showLastButton
+              // showFirstButton
+              // showLastButton
             />
           </div>
         </div>

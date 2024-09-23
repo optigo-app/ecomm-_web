@@ -100,7 +100,7 @@ const RoopJewellers_App = () => {
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
             } else {
-              navigation("/");
+              // navigation("/");
             }
           }
         })
