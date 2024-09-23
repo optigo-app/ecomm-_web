@@ -60,7 +60,7 @@ const FAQComponent = ({ data = [], title }) => {
         <h1>{title}</h1>
       </div>
       {data.map((faqItem, index) => (
-        <div className="custom-accordian">
+        <div className="custom-accordian" key={index}>
           <Accordion
             key={index}
             expanded={expandedAccordion === `panel-${index}`}

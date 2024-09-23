@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import Cookies from 'js-cookie';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { homeLoading, loginState } from '../../../Recoil/atom';
+import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
 import gradientColors from "../LookBook/color.json"
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
@@ -25,7 +25,7 @@ const DesignSet2 = () => {
   const [designSetList, setDesignSetList] = useState([]);
   const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
   const [storeInit, setStoreInit] = useState({});
-  const islogin = useRecoilValue(loginState);
+  const islogin = useRecoilValue(smr_loginState);
   const [swiper, setSwiper] = useState(null);
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const setLoadingHome = useSetRecoilState(homeLoading);

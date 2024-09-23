@@ -8,6 +8,9 @@ import {
   companyLogo,
   companyLogoM,
   loginState,
+  smr_companyLogo,
+  smr_companyLogoM,
+  smr_loginState,
 } from "../../../Recoil/atom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -37,9 +40,9 @@ const Header = () => {
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
-  const compnyLogo = useRecoilValue(companyLogo);
-  const compnyLogoM = useRecoilValue(companyLogoM);
-  const [islogin, setislogin] = useRecoilState(loginState);
+  const compnyLogo = useRecoilValue(smr_companyLogo);
+  const compnyLogoM = useRecoilValue(smr_companyLogoM);
+  const [islogin, setislogin] = useRecoilState(smr_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
 
@@ -375,13 +378,8 @@ const Header = () => {
   const searchDataFucn = (e) => {
     if (e.key === "Enter") {
       if (searchText) {
-        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-
-        // const handleMoveToDetail = () => {
-
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-
         let obj = {
           a: "",
           b: searchText,
@@ -391,20 +389,13 @@ const Header = () => {
           f: {},
         };
 
-        // let encodeObj = compressAndEncode(JSON.stringify(obj));
         let encodeObj = btoa(JSON.stringify(obj))
-
-        navigate(`/p/${searchText}?S=${encodeObj}`);
-        toggleOverlay();
+        navigation(`/p/${searchText}?S=${encodeObj}`);
         setSearchText("")
-        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-
-        // }
       }
     }
   };
 
-  // for cart drawer
 
   const toggleCartDrawer = () => {
     setIsCartOpen((prevState) => !prevState);

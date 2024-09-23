@@ -115,8 +115,9 @@ const MobileFooter = ({ socialLinkStr, companyInfoData }) => {
                 >
                   {socialLinkStr?.map((val, i) => {
                     return (
-                      <>
+                      <React.Fragment key={i}>
                         <Link
+                        key={i}
                           to={val?.SLink}
                           style={{
                             display: "flex",
@@ -138,7 +139,7 @@ const MobileFooter = ({ socialLinkStr, companyInfoData }) => {
                           />
                           {val?.SName}
                         </Link>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </div>

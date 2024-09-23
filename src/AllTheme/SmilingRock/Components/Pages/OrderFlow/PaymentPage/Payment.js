@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, loginState } from '../../../Recoil/atom';
+import { CartCount, loginState, smr_loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
@@ -31,7 +31,7 @@ const Payment = () => {
     const [open, setOpen] = useState(false);
     const [orderRemark, setOrderRemark] = useState();
     const [orderRemakdata, setOrderRemarkData] = useState();
-    const islogin = useRecoilValue(loginState)
+    const islogin = useRecoilValue(smr_loginState)
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

@@ -117,8 +117,7 @@
     font-family: $fontSansSerif !important;
   }
 
-  .smr_filterDrawer{
-  }
+  .smr_filterDrawer {}
 
   .smr_lb3TotalBtnGroups {
     display: flex;
@@ -200,14 +199,21 @@
     overflow-y: auto;
     position: relative;
 
-
-    .smr_filter_text {
+    .elv_filter_text {
       font-weight: bold;
       font-family: $fontSansSerif !important;
       color: rgba(143, 140, 139, 0.9019607843);
       display: flex;
       justify-content: space-between;
     }
+
+    // .smr_filter_text {
+    //   font-weight: bold;
+    //   font-family: $fontSansSerif !important;
+    //   color: rgba(143, 140, 139, 0.9019607843);
+    //   display: flex;
+    //   justify-content: space-between;
+    // }
 
     .elv_filtercategoryLable {
       font-family: $fontSansSerif !important;
@@ -230,6 +236,13 @@
   .smr_lookBookSubImgMain {
     display: flex;
     // overflow: auto;
+  }
+
+  .elv_lpDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 40px;
   }
 
   .smr_lookBookSubImgMain::-webkit-scrollbar {

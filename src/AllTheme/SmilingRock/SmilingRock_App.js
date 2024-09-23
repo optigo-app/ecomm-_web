@@ -7,7 +7,7 @@ import LoginOption from "./Components/Pages/Auth/LoginOption/LoginOption";
 import ContinueWithEmail from "./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail";
 import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { companyLogo, companyLogoM, loginState } from "./Components/Recoil/atom";
+import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./Components/Recoil/atom";
 import ProductList from "./Components/Pages/Product/ProductList/ProductList";
 import ProductDetail from "./Components/Pages/Product/ProductDetail/ProductDetail";
 import ContactUs from "./Components/Pages/FooterPages/contactUs/ContactUs";
@@ -19,11 +19,6 @@ import ContimueWithMobile from "./Components/Pages/Auth/ContimueWithMobile/Conti
 import LoginWithEmailCode from "./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode";
 import LoginWithMobileCode from "./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode";
 import AboutUs from "./Components/Pages/aboutUs/AboutUs";
-import { MetalTypeComboAPI } from "../../utils/API/Combo/MetalTypeComboAPI";
-import { ColorStoneQualityColorComboAPI } from "../../utils/API/Combo/ColorStoneQualityColorComboAPI";
-import { CurrencyComboAPI } from "../../utils/API/Combo/CurrencyComboAPI";
-import { DiamondQualityColorComboAPI } from "../../utils/API/Combo/DiamondQualityColorComboAPI";
-import { MetalColorCombo } from "../../utils/API/Combo/MetalColorCombo";
 import Wishlist from "./Components/Pages/Wishlist/Wishlist";
 import PageNotFound from "./Components/Pages/404Page/PageNotFound";
 import PrivateRoutes from "./PrivateRoutes";
@@ -42,16 +37,16 @@ import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
 
 const SmilingRock_App = () => {
-  const islogin = useRecoilValue(loginState);
+  const islogin = useRecoilValue(smr_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
-  const setIsLoginState = useSetRecoilState(loginState);
+  const setIsLoginState = useSetRecoilState(smr_loginState);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo);
-  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(companyLogoM);
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smr_companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(smr_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
 
   const setCSSVariable = () => {
@@ -92,22 +87,23 @@ const SmilingRock_App = () => {
 
   useEffect(() => {
     setCSSVariable();
-
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-        setCompanyTitleLogoM()
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-        setCompanyTitleLogoM(logo?.companyMlogo)
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-      setCompanyTitleLogoM(logo?.companyMlogo)
-    }
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    
+    setCompanyTitleLogo(webLogo);
+    setCompanyTitleLogoM(mobileLogo);
+    // if (Logindata) {
+    //   if (Logindata?.IsPLWOn == 1) {
+    //     setCompanyTitleLogo(Logindata?.Private_label_logo);
+    //     setCompanyTitleLogoM()
+    //   } else {
+    //     setCompanyTitleLogo(logo?.companylogo);
+    //     setCompanyTitleLogoM(logo?.companyMlogo)
+    //   }
+    // } else {
+    //   setCompanyTitleLogo(logo?.companylogo);
+    //   setCompanyTitleLogoM(logo?.companyMlogo)
+    // }
   });
 
   useEffect(() => {

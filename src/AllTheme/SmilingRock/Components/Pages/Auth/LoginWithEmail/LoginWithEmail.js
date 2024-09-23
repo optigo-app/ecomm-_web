@@ -13,7 +13,7 @@ import './LoginWithEmail.modul.scss'
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 // import { CommonAPI } from '../../../../../../utils/API/CommonAPI/CommonAPI';
-import { CartCount, WishCount, loginState } from '../../../Recoil/atom';
+import { CartCount, WishCount, loginState, smr_loginState } from '../../../Recoil/atom';
 import { ForgotPasswordEmailAPI } from '../../../../../../utils/API/Auth/ForgotPasswordEmailAPI';
 import Cookies from 'js-cookie';
 import { CurrencyComboAPI } from '../../../../../../utils/API/Combo/CurrencyComboAPI';
@@ -40,7 +40,7 @@ export default function LoginWithEmail() {
 
 
     // const setPdData = useSetRecoilState(productDataNew)
-    const setIsLoginState = useSetRecoilState(loginState)
+    const setIsLoginState = useSetRecoilState(smr_loginState)
     // const setDesignList = useSetRecoilState(designSet)
 
     // const setCartCount = useSetRecoilState(CartListCounts)

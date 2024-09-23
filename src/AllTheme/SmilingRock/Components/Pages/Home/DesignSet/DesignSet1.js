@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { loginState, smr_loginState } from '../../../Recoil/atom';
 import { Link } from '@mui/material';
 
 const DesignSet = () => {
@@ -21,7 +21,7 @@ const DesignSet = () => {
     const [designSetList, setDesignSetList] = useState([]);
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const [storeInit, setStoreInit] = useState({});
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(smr_loginState);
     const [swiper, setSwiper] = useState(null);
 
     useEffect(() => {

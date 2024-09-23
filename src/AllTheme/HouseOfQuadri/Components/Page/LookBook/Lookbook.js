@@ -658,7 +658,11 @@ const Lookbook = () => {
         }}
         className="hoq_filterDrawer"
         sx={{
-          zIndex  :9999999
+          zIndex: 9999999,
+          '& .MuiBackdrop-root': {
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(4px)',
+          },
         }}
       >
         {filterData?.length > 0 && (
