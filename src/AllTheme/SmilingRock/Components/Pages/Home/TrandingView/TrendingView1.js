@@ -6,7 +6,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API
 import { useNavigate } from 'react-router-dom';
 import pako from "pako";
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { homeLoading, loginState } from '../../../Recoil/atom';
+import { homeLoading, loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 
 
@@ -27,7 +27,7 @@ const TrendingView1 = () => {
 
     const [oddNumberObjects, setOddNumberObjects] = useState([]);
     const [evenNumberObjects, setEvenNumberObjects] = useState([]);
-    const islogin = useRecoilValue(loginState);
+    const islogin = useRecoilValue(smr_loginState);
     const [hoveredItem, setHoveredItem] = useState(null);
     const setLoadingHome = useSetRecoilState(homeLoading);
 

@@ -87,16 +87,11 @@ const Procatalog_App = () => {
   }, [htmlContent]);
 
   useEffect(() => {
-    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localD);
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    if (Logindata) {
-      setCompanyTitleLogo(localD?.companylogo);
-      setCompanyTitleLogoM(localD?.companyMlogo);
-    } else {
-      setCompanyTitleLogo(localD?.companylogo);
-      setCompanyTitleLogoM(localD?.companyMlogo);
-    }
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+
+    setCompanyTitleLogo(webLogo);
+    setCompanyTitleLogoM(mobileLogo);
   }, []);
 
   useEffect(() => {

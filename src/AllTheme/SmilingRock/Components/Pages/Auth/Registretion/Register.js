@@ -37,9 +37,6 @@ export default function Register() {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
   const singupRedirectUrl = `/LoginOption/${search}`;
-
-  const setIsLoginState = useSetRecoilState(loginState)
-
   const handleKeyDown = (event, nextRef) => {
     if (event.key === 'Enter') {
       event.preventDefault();
