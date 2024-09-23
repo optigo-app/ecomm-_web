@@ -491,8 +491,7 @@ const AccountLedger = () => {
     const handleDirectUrl = (dataObject, args) => {
         // console.log('hello');
         // console.log(dataObject, dataObject?.PrintUrl, args);
-
-        window.open(dataObject?.PrintUrl);
+        window.open(dataObject?.PrintUrl, "_blank");
     }
 
   return (
@@ -873,33 +872,31 @@ const AccountLedger = () => {
 
                                     return(
                                      <>
-                                     {
+                                    {
                                         e === 'Data Not Present' ? <tr><td colSpan={14} align='center'>Data Not Present</td></tr> :    <tr className='border_Acc' key={e?.id}>
-                                        <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? '' : e?.EntryDate}</td>
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{ e?.IsDebit === 0 ? '' : e?.particular}</td>
-                                        {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{cursor:'pointer', textDecoration:'underline', color:'blue'}} onClick={() => handleDirectUrl(e, 'debit')} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td> */}
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{cursor:'pointer'}}  >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
-                              
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
-                                        <td className='border_end_acc p_1_acc text_center_acc'></td>
-                                        <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
-                                        {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{cursor:'pointer', textDecoration:'underline', color:'blue'}} onClick={() => handleDirectUrl(e, 'credit')}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td> */}
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{cursor:'pointer'}} >{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
+                                                <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? '' : e?.EntryDate}</td>
+                                                <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{ e?.IsDebit === 0 ? '' : e?.particular}</td>
+                                                <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{cursor:'pointer', textDecoration:'underline', color:'blue'}} onClick={() => handleDirectUrl(e, 'debit')} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
+                                    
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
+                                                <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                                <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
+                                                <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
+                                                <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{cursor:'pointer', textDecoration:'underline', color:'blue'}} onClick={() => handleDirectUrl(e, 'credit')}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
 
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
-      
-                                        <td className=' p_1_acc text_center_acc'>{doneIcon}{closeIcon}</td>
-                                    </tr>
-                                     }
-                                     </>
-                                    )
-                                }) : <tr><td align='center' colSpan={18} style={{ color:'grey', fontWeight:'bold'}}> Data No Present</td></tr>
-                            }
+                                                <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
+            
+                                                <td className=' p_1_acc text_center_acc'>{doneIcon}{closeIcon}</td>
+                                            </tr>
+                                            }
+                                            </>
+                                            )
+                                        }) : <tr><td align='center' colSpan={18} style={{ color:'grey', fontWeight:'bold'}}> Data No Present</td></tr>
+                                    }
                                         <tr className='border_Acc fw_bold_acc'>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
