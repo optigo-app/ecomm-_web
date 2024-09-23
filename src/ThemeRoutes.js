@@ -42,7 +42,6 @@ export default function ThemeRoutes() {
 
   const [roopWebLogo, setRoopWebLogo] = useRecoilState(roop_companyLogo);
   const [roopMobileLogo, setRoopMobileLogo] = useRecoilState(roop_companyLogoM);
-  
 
   const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
@@ -50,16 +49,15 @@ export default function ThemeRoutes() {
 
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
-  const islogin = useRecoilValue(smr_loginState);
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
     let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
     let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
-    
+
     smr_SetCompanyTitleLogo(webLogo);
     smr_SetCompanyTitleLogoM(mobileLogo);
-    
+
     setRoopWebLogo(webLogo);
     setRoopMobileLogo(mobileLogo);
 
@@ -151,11 +149,12 @@ export default function ThemeRoutes() {
 
   const callAllApi = (Data) => {
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
     const { IsB2BWebsite } = Data;
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (IsB2BWebsite == 0) {
-      finalID = islogin === false ? visiterID : loginUserDetail?.id || "0";
+      finalID = (LoginUser === false) ? visiterID : loginUserDetail?.id || "0";
     } else {
       finalID = loginUserDetail?.id || "0";
     }
@@ -164,7 +163,6 @@ export default function ThemeRoutes() {
       .then((response) => {
         if (response?.Data?.rd) {
           let data = JSON.stringify(response?.Data?.rd);
-          // sessionStorage.setItem("metalTypeCombo", data);
           sessionStorage.setItem("metalTypeCombo", data);
         }
       })
@@ -174,18 +172,16 @@ export default function ThemeRoutes() {
       .then((response) => {
         if (response?.Data?.rd) {
           let data = JSON.stringify(response?.Data?.rd);
-          // sessionStorage.setItem("diamondQualityColorCombo", data);
           sessionStorage.setItem("diamondQualityColorCombo", data);
         }
       }
-    )
+      )
       .catch((err) => console.log(err));
 
 
     MetalColorCombo(finalID).then((response) => {
       if (response?.Data?.rd) {
         let data = JSON.stringify(response?.Data?.rd)
-        // sessionStorage.setItem('MetalColorCombo', data)
         sessionStorage.setItem('MetalColorCombo', data)
       }
     }).catch((err) => console.log(err))
@@ -194,7 +190,6 @@ export default function ThemeRoutes() {
       .then((response) => {
         if (response?.Data?.rd) {
           let data = JSON.stringify(response?.Data?.rd);
-          // sessionStorage.setItem("ColorStoneQualityColorCombo", data);
           sessionStorage.setItem("ColorStoneQualityColorCombo", data);
         }
       })
@@ -204,7 +199,6 @@ export default function ThemeRoutes() {
       .then((response) => {
         if (response?.Data?.rd) {
           let data = JSON.stringify(response?.Data?.rd);
-          // sessionStorage.setItem("CurrencyCombo", data);
           sessionStorage.setItem("CurrencyCombo", data);
         }
       })
