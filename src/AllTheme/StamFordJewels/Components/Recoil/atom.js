@@ -1,8 +1,13 @@
 import { atom } from "recoil";
 
 export const stam_companyLogo = atom({
-    key:'companyLogo',
-    default:[]
+  key: 'companyLogo',
+  default: []
+})
+
+export const stam_companyLogoM = atom({
+  key: 'stam_companyLogoM',
+  default: []
 })
 
 export const stam_loginState = atom({

@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {checkMonth, customComparator_Col, formatAmount, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import {checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Swal from 'sweetalert2';
 
@@ -477,7 +477,6 @@ const QuotationJob = () => {
             allMetalPurity?.push({ id: allMetalPurity?.length, label: e?.MetalType, value: e?.MetalType, });
           }
         });
-        console.log(response?.Data);
         // allStatus?.unshift({ id: allStatus?.length, label: "ALL", value: "ALL" });
         allCategory?.unshift({ id: allCategory?.length, label: "ALL", value: "ALL" });
         allMetalColor?.unshift({ id: allMetalColor?.length, label: "ALL", value: "ALL" });
@@ -491,9 +490,9 @@ const QuotationJob = () => {
         setCategory(allCategory[0]?.value);
         setMetalColor(allMetalColor[0]?.value);
         setMetalPurity(allMetalPurity[0]?.value);
-
-        setData(datass);
-        setFilterData(datass);
+        const sortedRows = sortByDate(datass, 'Date');
+        setData(sortedRows);
+        setFilterData(sortedRows);
       } else {
         // alert('nodata')
         setData([]);

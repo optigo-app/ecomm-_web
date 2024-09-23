@@ -30,7 +30,7 @@ import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListA
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { CartCount, loginState } from "../../../Recoil/atom";
+import { CartCount, loginState, smr_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
@@ -83,7 +83,7 @@ const Lookbook = () => {
   );
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
-  const islogin = useRecoilValue(loginState);
+  const islogin = useRecoilValue(smr_loginState);
   const setCartCountVal = useSetRecoilState(CartCount);
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
@@ -98,6 +98,12 @@ const Lookbook = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
+  const [imageLoadError, setImageLoadError] = useState({});
+
+  const handleImageError = (index) => {
+    setImageLoadError((prev) => ({ ...prev, [index]: true }));
+  };
+
   const updateSize = () => {
     if (SwiperSlideRef.current) {
       const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
@@ -323,7 +329,7 @@ const Lookbook = () => {
       finalprodListimg =
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
-      finalprodListimg = null;
+      finalprodListimg = 'a.jpg';
     }
     return finalprodListimg;
   };
@@ -1076,11 +1082,14 @@ const Lookbook = () => {
             </div>
           </div>
           <div className="smr_SubDiv_LookBookSubMainDiv">
-            <div className="smr_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '9', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
+            <div className="smr_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
+
               {filterData?.length > 0 && (
                 <div className="smr1_lookBookFilterSubDiv">
                   <span className="smr_filter_text">
                     <span>Filters</span>
+
+
                     {/* <span>
                                         {Object.values(filterChecked).filter(
                                             (ele) => ele.checked
@@ -1371,17 +1380,19 @@ const Lookbook = () => {
                                 position: 'relative'
                               }}
                             >
-                              {ProdCardImageFunc(slide) ? (
+                              {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                 <img
                                   className="smr_lookBookImg"
                                   loading="lazy"
                                   src={ProdCardImageFunc(slide)}
                                   alt={`Slide ${index}`}
+                                  onError={() => handleImageError(index)}
                                   onMouseEnter={() => handleHoverImages(index)}
                                   onMouseLeave={() => seyDataKey(null)}
                                   style={{
                                     height: dataKey == index ? "100%" : "250px",
                                     cursor: "pointer",
+                                    backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                   }}
                                 />
                               ) : (
@@ -1393,6 +1404,7 @@ const Lookbook = () => {
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
+                                    backgroundColor: "rgb(191, 200, 255)",
                                     cursor: "pointer",
                                   }}
                                 >
@@ -1566,17 +1578,19 @@ const Lookbook = () => {
                                 }}
                                 className="smr_designSetDiv2_sub1"
                               >
-                                {ProdCardImageFunc(slide) ? (
+                                {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                   <img
                                     className="smr_lookBookImg"
                                     loading="lazy"
                                     src={ProdCardImageFunc(slide)}
                                     alt={`Slide ${index}`}
+                                    onError={() => handleImageError(index)}
                                     // onMouseEnter={() => handleHoverImages(index)}
                                     // onMouseLeave={() => seyDataKey(null)}
                                     style={{
                                       height: "100%",
                                       cursor: "pointer",
+                                      backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                     }}
                                   />
                                 ) : (
@@ -1589,6 +1603,7 @@ const Lookbook = () => {
                                       alignItems: "center",
                                       justifyContent: "center",
                                       cursor: "pointer",
+                                      backgroundColor: "rgb(191, 200, 255)",
                                     }}
                                   >
                                     {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
@@ -1868,6 +1883,7 @@ const Lookbook = () => {
                       ) : (
                         <>
                           <Swiper
+                            initialSlide={0}
                             slidesPerView={1}
                             spaceBetween={10}
                             navigation={true}
@@ -1883,11 +1899,15 @@ const Lookbook = () => {
                                 <div>
                                   <div className="smr1_lb3compeletethelook_cont">
                                     <div className="smr1_lb3ctlImg_containe">
-                                      {ProdCardImageFunc(slide) ? (
+                                      {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                         <img
                                           src={ProdCardImageFunc(slide)}
-                                          alt=""
+                                          alt={`Slide ${index}`}
+                                          onError={() => handleImageError(index)}
                                           className="smr_lb3ctl_img_new"
+                                          style={{
+                                            backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                          }}
                                         />
                                       ) : (
                                         <div
@@ -1899,6 +1919,7 @@ const Lookbook = () => {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             cursor: "pointer",
+                                            backgroundColor: "rgb(191, 200, 255)",
                                           }}
                                           className="smr_lb3ctl_img_new"
                                         >
@@ -2123,6 +2144,7 @@ const Lookbook = () => {
                           <div className="smr_lookbook3thumbMainDiv">
                             {filteredDesignSetLstData?.length != 0 && (
                               <Swiper
+                                initialSlide={0}
                                 onSwiper={setThumbsSwiper}
                                 spaceBetween={10}
                                 slidesPerView={20}
@@ -2162,13 +2184,21 @@ const Lookbook = () => {
                                 {filteredDesignSetLstData?.map((slide, index) => (
                                   <SwiperSlide key={index}>
 
-                                    {ProdCardImageFunc(slide) ? (
+                                    {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="ctl_Paginationimg"
                                         ref={SwiperSlideRef}
-                                        onLoad={handleImageLoad}
+                                        onLoad={() => {
+                                          handleImageLoad();
+                                        }}
+                                        onError={() => handleImageError(index)}
+                                        style={{
+                                          height: DynamicSize.h || "66.5px",
+                                          width: DynamicSize.w || "66.5x",
+                                          backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                        }}
                                       />
                                     ) : (
                                       <div
@@ -2179,10 +2209,12 @@ const Lookbook = () => {
                                           display: "flex",
                                           alignItems: "center",
                                           justifyContent: "center",
-                                          height: DynamicSize.h ?? "100%",
-                                          width: DynamicSize.w ?? "100%",
+                                          height: DynamicSize.h || "66.5px",
+                                          width: DynamicSize.w || "66.5x",
+                                          backgroundColor: "rgb(191, 200, 255)",
                                           cursor: "pointer",
-                                          margin: 0
+                                          margin: 0,
+                                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px"
                                         }}
                                         className="smr_lb3ctl_img_new"
                                       >
@@ -2212,8 +2244,8 @@ const Lookbook = () => {
               shape="circular"
               onChange={handelPageChange}
               page={currentPage}
-              showFirstButton
-              showLastButton
+            // showFirstButton
+            // showLastButton
             />
           </div>
         </div>

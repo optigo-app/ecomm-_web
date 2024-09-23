@@ -1,55 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
+import { useNavigate } from 'react-router-dom'
 
 const TheDifference = () => {
-    
+    const navigate = useNavigate();
+    const [htmlContent, setHtmlContent] = useState('');
+
+    useEffect(() => {
+        fetch(`${storImagePath()}/html/smrTheDeffrence.html`)
+            .then((response) => response.text())
+            .then((html) => {
+                setHtmlContent(html);
+            })
+            .catch((error) => {
+                console.error('Error fetching the HTML file:', error);
+            });
+    }, []);
+
     return (
-        <div style={{ paddingBlock: '3%' }} className='stam_smilingPAgeMain'>
-            <p className='stam_smilingTitle'>The Sonasons Difference</p>
-            <div className='smilingRock'>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img className="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference1.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-                        <p className='smilingBoxName'>Natural Diamond & jewellery</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-                </div>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference2.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-
-                        <p className='smilingBoxName'>1% of each purchase goes to your choice of charity</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-
-                </div>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference3.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-
-                        <p className='smilingBoxName'>Laser inscribed diamonds with Sonasons logo</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-
-                </div>
-                <div className='smilingRockBox'>
-                    <div className='smilingRockBoxSub1'>
-                        <img class="simple-card__img "src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference4.webp`} alt="" />
-                    </div>
-                    <div className='smilingRockBoxSub2'>
-                        <p className='smilingBoxName'>ECG+ Certified Brand Butterfly Mark</p>
-                        <p className='learnMore'>LEARN MORE</p>
-                    </div>
-
-                </div>
-            </div>
+        <div style={{marginBlock: '10px'}}>
+            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
     )
 }

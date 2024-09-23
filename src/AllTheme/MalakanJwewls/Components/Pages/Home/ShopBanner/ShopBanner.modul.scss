@@ -88,6 +88,17 @@
 
 
 
+    @media screen and (max-width: 1600px) {
+
+        .mala_shop_div1 {
+            padding: 50px 150px 0px 150px !important;
+        }
+
+        .mala_shop_div2 {
+            padding: 0px 150px 50px 150px !important;
+        }
+    }
+
     @media screen and (max-width: 1200px) {
         .mala_shopifyImg {
             min-height: auto !important;
@@ -95,6 +106,15 @@
     }
 
     @media screen and (max-width: 1000px) {
+
+        .mala_shop_div1 {
+            padding: 20px 50px 0px 50px !important;
+        }
+
+        .mala_shop_div2 {
+            padding: 0px 50px 20px 50px !important;
+        }
+
         .shopifyMain {
             display: flex;
             flex-direction: column;
@@ -126,6 +146,35 @@
         .shopifyDescription {
             font-size: 12px !important;
         }
+
+    }
+
+    @media screen and (max-width: 550px) {
+        .mala_shop_div1 {
+            padding: 10px 10px 0px 10px !important;
+        }
+
+        .mala_shop_div2 {
+            padding: 0px 10px 10px 10px !important;
+        }
+
+        .mala_shop_div1_1 {
+            margin: 5px !important;
+        }
+
+        .mala_shop_div1_2 {
+            margin: 5px !important;
+        }
+
+        .mala_shop_div2_1 {
+            margin: 5px !important;
+        }
+
+        .mala_shop_div2_2 {
+            margin: 5px !important;
+        }
+
+        
 
     }
 }
