@@ -528,4 +528,79 @@ export function sortByDate(arr, key) {
       // Sort in descending order: Newest first
       return dateB - dateA;
     });
-  }
+}
+
+//Quotation createData function
+export const quotationCreateData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl, Currencycode, CurrencyExchRate) => {
+    return {
+        SrNo,
+        Date,
+        SKUNo,
+        TotalDesign,
+        Amount,
+        PrintUrl,
+        Currencycode, CurrencyExchRate
+    };
+}
+
+//sales createData function
+export const salesCreateData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl, Currencycode, CurrencyExchRate) => {
+    return {
+        SrNo,
+        Date,
+        StockDocumentNo,
+        TotalDesign,
+        Amount,
+        PrintUrl,
+        Currencycode, CurrencyExchRate
+    };
+}
+
+//salesreport createData function
+export function salesReportCreateData(
+    SrNo,
+    EntryDate,
+    StockDocumentNo,
+    SKUNo,
+    designno,
+    MetalType,
+    MetalAmount,
+    DiamondAmount,
+    ColorStoneAmount,
+    LabourAmount,
+    OtherAmount,
+    UnitCost,
+    Category,
+    GrossWt,
+    NetWt,
+    DiaPcs,
+    DiaWt,
+    CsPcs,
+    CsWt,
+    imgsrc,
+    Netwt_24k
+  ) {
+    return {
+      SrNo,
+      EntryDate,
+      StockDocumentNo,
+      SKUNo,
+      designno,
+      MetalType,
+      MetalAmount,
+      DiamondAmount,
+      ColorStoneAmount,
+      LabourAmount,
+      OtherAmount,
+      UnitCost,
+      Category,
+      GrossWt,
+      NetWt,
+      DiaPcs,
+      DiaWt,
+      CsPcs,
+      CsWt,
+      imgsrc,
+      Netwt_24k,
+    };
+}

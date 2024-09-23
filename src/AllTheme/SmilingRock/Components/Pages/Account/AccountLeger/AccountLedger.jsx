@@ -627,8 +627,7 @@ const AccountLedger = () => {
                         </div>}
                         
                     </div>
-
-                    {
+                        {
                             isSmallScreen && <>
                             <Accordion>
                                 <AccordionSummary  expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
