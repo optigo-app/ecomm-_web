@@ -1,6 +1,6 @@
 @import '../../../scss/variable';
 
-.smr_header2_mainDiv {
+.stam_header2_mainDiv {
 
     .smiling_Top_header {
         height: 80px;
@@ -24,7 +24,7 @@
         display: flex;
     }
 
-    .smr_logo_header {
+    .stam_logo_header {
         object-fit: contain;
         max-width: 110px;
     }
@@ -123,7 +123,7 @@
         transition: width 0.3s ease-out;
     }
 
-    .smr_logo_header_Fixed {
+    .stam_logo_header_Fixed {
         object-fit: contain;
         max-width: 60px;
     }
@@ -189,7 +189,7 @@
         text-decoration: underline;
     }
 
-    .smr_menuSubTitle {
+    .stam_menuSubTitle {
         font-size: 13px;
         text-decoration: none;
     }
@@ -205,7 +205,7 @@
 
     }
 
-    .smr_underline_button {
+    .stam_underline_button {
         background-color: transparent;
         border: none;
         outline: none;
@@ -216,7 +216,7 @@
         margin-top: 15px;
     }
 
-    .smr_listMain {
+    .stam_listMain {
         display: flex;
         flex-flow: column wrap;
         height: 350px;
@@ -238,7 +238,7 @@
 
 
     //search box styling......
-    .smr_smlingSearchoverlay {
+    .stam_smlingSearchoverlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -249,7 +249,7 @@
         z-index: 999;
     }
 
-    .smr_smlingTopSerachOver {
+    .stam_smlingTopSerachOver {
         height: 70px;
         background-color: white;
         width: 100%;
@@ -259,7 +259,7 @@
         align-items: center;
     }
 
-    .smr_serachinputBoxOverly {
+    .stam_serachinputBoxOverly {
         width: 95%;
         height: 50px;
         border: none;
@@ -268,7 +268,7 @@
 
 
 
-    .smr_smlingTopSerachOver-Fixed {
+    .stam_smlingTopSerachOver-Fixed {
         height: 60px;
         background-color: white;
         width: 100%;
@@ -277,7 +277,7 @@
         align-items: center;
     }
 
-    .smr_smlingSearchoverlayNew {
+    .stam_smlingSearchoverlayNew {
         position: relative;
         transform: translateY(-200px);
         top: 0;
@@ -289,7 +289,7 @@
         z-index: 999;
     }
 
-    .smr_smlingSearchoverlayNew.fixed {
+    .stam_smlingSearchoverlayNew.fixed {
         position: fixed;
         top: 0;
         left: 0;
@@ -347,27 +347,27 @@
             padding: 0px;
         }
 
-        .smr_menuStaicMobile {
+        .stam_menuStaicMobile {
             margin: 0px;
             color: white;
             padding: 5px 0px 5px 15px;
         }
 
-        .smr_menuStaicMobilePage {
+        .stam_menuStaicMobilePage {
             margin: 0px;
             border-bottom: 1px solid white;
             color: white;
             padding: 5px 0px 5px 20px;
         }
 
-        .smr_menuStaicMobilePageLink {
+        .stam_menuStaicMobilePageLink {
             margin: 0px;
             color: white;
             font-weight: 500;
             padding: 5px 0px 5px 20px;
         }
 
-        .smr_ListMenuSiderMobile {
+        .stam_ListMenuSiderMobile {
             margin-top: 0px !important;
         }
 

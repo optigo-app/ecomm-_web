@@ -1,7 +1,7 @@
 @import '../../../scss/variable';
 
-.smr_newwArr1MainDiv {
-    .smr_NewArr1Title {
+.stam_newwArr1MainDiv {
+    .stam_NewArr1Title {
         text-align: center;
         color: $titleColor;
         font-family: $homePageFontFamily;
@@ -9,7 +9,7 @@
         padding-block: 3%;
     }
 
-    .smr_NewArrival1product-list {
+    .stam_NewArrival1product-list {
         padding: 0px 10px;
         display: flex;
         flex-wrap: wrap;
@@ -17,7 +17,7 @@
         align-items: stretch;
     }
 
-    .smr_NewArrproduct-card {
+    .stam_NewArrproduct-card {
         background: #fff;
         border: none;
         border-radius: 5px;
@@ -30,11 +30,11 @@
             box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 0px 1px;
         }
 
-        .smr_newArr1Image {
+        .stam_newArr1Image {
             padding: 50px;
             background-color: #f1f1f1;
 
-            .smr_newArrImage {
+            .stam_newArrImage {
                 max-width: 100%;
                 height: auto;
                 display: block;
@@ -42,10 +42,10 @@
         }
 
 
-        .smr_newarrproduct-info {
+        .stam_newarrproduct-info {
             padding: 0px 10px;
 
-            .smr_newArrPrice {
+            .stam_newArrPrice {
                 font-size: $fontSize2 !important;
                 color: $titleColor !important;
                 font-family: $primaryFontFamily;
@@ -53,7 +53,7 @@
                 letter-spacing: .5px;
             }
 
-            .smr_newArrTitle {
+            .stam_newArrTitle {
                 font-size: $fontSize2;
                 color: $titleColor;
                 font-family: $primaryFontFamily;
@@ -71,20 +71,20 @@
     }
 
     @media (max-width: 768px) {
-        .smr_newwArr1MainDiv {
-            .smr_NewArr1Title {
+        .stam_newwArr1MainDiv {
+            .stam_NewArr1Title {
                 padding-block: 6%;
             }
         }
 
-        .smr_NewArrproduct-card {
-            .smr_newArr1Image {
+        .stam_NewArrproduct-card {
+            .stam_newArr1Image {
                 padding: 10px !important;
             }
         }
 
-        .smr_newarrproduct-info {
-            .smr_newArrTitle{
+        .stam_newarrproduct-info {
+            .stam_newArrTitle{
                 font-size: $fontSize1 !important;
             }
             p {
