@@ -109,6 +109,7 @@ const Collection = () => {
         {designSetList?.slice(0, 4)?.map((val, i) => {
           return (
             <div
+            key={i}
               className="c_card"
               onClick={() =>
                 handleNavigation(
@@ -183,6 +184,7 @@ const MobileCollection = ({
         {designSetList?.slice(0, 4)?.map((val, i) => {
           return (
             <div
+            key={i}
               className="c_card"
               onClick={() =>
                 handleNavigation(

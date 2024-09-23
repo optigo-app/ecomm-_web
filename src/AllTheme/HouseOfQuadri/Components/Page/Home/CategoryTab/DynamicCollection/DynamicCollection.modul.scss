@@ -434,6 +434,7 @@ $settedcOLOR  : rgba(112, 128, 144, 0.096) ;
             align-items: center;
             color: #7d7f85;
             font-size: 0px !important;
+          font-family: $fontCrimsonTextRegular !important;
             &:has(span) {
               display: flex;
               align-items: center;

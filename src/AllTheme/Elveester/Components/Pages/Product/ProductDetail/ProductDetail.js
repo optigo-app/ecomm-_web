@@ -46,6 +46,7 @@ const ProductDetail = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([])
   const [metalType, setMetalType] = useState();
   const [isImageload, setIsImageLoad] = useState(true);
+  const [IIIisImageload, setIIIIsImageLoad] = useState(false);
   const [metalColor, setMetalColor] = useState();
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [showtDiaQc, setShowDiaQc] = useState();

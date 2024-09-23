@@ -29,7 +29,7 @@ const ScrollTriggerTab = () => {
     <>
       <div className="hoq_main_ScrollTriggerTab">
         {ScrollImageList.map((val, i) => {
-          return <ScrollImageCard img={val?.img} details={val} />;
+          return <ScrollImageCard key={i} img={val?.img} details={val} />;
         })}
       </div>
     </>
