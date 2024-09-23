@@ -46,6 +46,7 @@ const ProductDetail = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([])
   const [metalType, setMetalType] = useState();
   const [isImageload, setIsImageLoad] = useState(true);
+  const [IIIisImageload, setIIIIsImageLoad] = useState(false);
   const [metalColor, setMetalColor] = useState();
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [showtDiaQc, setShowDiaQc] = useState();
@@ -1329,11 +1330,11 @@ const ProductDetail = () => {
                     ) : (
                       <>
                         <div className='elv_ProductDet_prod_img'>
-                          {selectedThumbImg?.length > 0 ? (
+                          {selectedThumbImg ? (
                             selectedThumbImg.type === "img" ? (
                               <img
                                 src={imageSrc}
-                                onError={handleError}
+                                // onError={handleError}
                                 alt=""
                                 onLoad={() => setIsImageLoad(false)}
                                 className="elv_ProductDet_prod_image"
@@ -1355,13 +1356,14 @@ const ProductDetail = () => {
                               />
                             )
                           ) : (
-                            <img
-                              src={imageSrc}
-                              onError={handleError}
-                              alt=""
-                              onLoad={() => setIsImageLoad(false)}
-                              className="elv_ProductDet_prod_image"
-                            />
+                            // <img
+                            //   src={ selectedThumbImg ? selectedThumbImg?.link : "a.jpg"}
+                            //   // onError={handleError}
+                            //   alt=""
+                            //   // onLoad={() => setIsImageLoad(false)}
+                            //   className="elv_ProductDet_prod_image"
+                            // />
+                            <Skeleton className='elv_prod_det_default' variant="rectangular" width={"100%"}/>
                           )}
                         </div>
                       </>
