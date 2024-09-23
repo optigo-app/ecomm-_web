@@ -316,7 +316,7 @@ const QuotationJob = () => {
     setSearchVal("");
   }
 
-
+  let is_asc = '';
   const handleRequestSort = (property) => {
     if(property?.toLowerCase() === 'sr#') return null
     else{
@@ -324,8 +324,10 @@ const QuotationJob = () => {
       let isAsc = ((orderBy === property) && (order === 'asc'));
       if(isAsc){
         setOrder('desc');
+        is_asc = false;
       }else{
         setOrder('asc');
+        is_asc = true;
       }
       
       setOrderBy(property);
@@ -414,21 +416,56 @@ const QuotationJob = () => {
 
       return 0;
 
-    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo' || orderBy?.toLowerCase() === 'lineid')) {
+    // }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo' || orderBy?.toLowerCase() === 'lineid')) {
+    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
       // Handle sorting for SKU# column
       return customComparator_Col(a[orderBy], b[orderBy]);
-  }  else {
-        const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
-        const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
 
-        if (valueB < valueA) {
-            return -1;
-        }
-        if (valueB > valueA) {
-            return 1;
-        }
-        return 0;
-    }
+    } else if (orderBy?.toLowerCase() === 'lineid') {
+      // Custom sorting for 'lineid' - prioritize numbers first, then strings
+      const valueA = a[orderBy]?.toString() || '';
+      const valueB = b[orderBy]?.toString() || '';
+
+      const numA = parseFloat(valueA);  // Try to convert to number
+      const numB = parseFloat(valueB);
+
+      // Check if both are numbers
+      if (!isNaN(numA) && !isNaN(numB)) {
+          return is_asc ? numA - numB : numB - numA; // Sort numerically
+      }
+
+      // Check if one is a number and the other is a string
+      if (!isNaN(numA) && isNaN(numB)) {
+          return -1; // Numbers come before strings
+      }
+      if (isNaN(numA) && !isNaN(numB)) {
+          return 1; // Numbers come before strings
+      }
+
+      // If both are strings, perform a standard lexicographical sort
+      const lowerA = valueA.toLowerCase();
+      const lowerB = valueB.toLowerCase();
+
+      if (lowerA < lowerB) {
+          return is_asc ? -1 : 1;
+      }
+      if (lowerA > lowerB) {
+          return is_asc ? 1 : -1;
+      }
+      return 0;
+
+    } else {
+          const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+          const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+
+          if (valueB < valueA) {
+              return -1;
+          }
+          if (valueB > valueA) {
+              return 1;
+          }
+          return 0;
+      }
   }
 
   const fetchData = async () => {

@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import { Divider, Button } from '@mui/material';
-import { smrMA_CartCount, smrMA_loginState } from '../../../Recoil/atom';
+import { PC_AppCartCount, PC_ApploginState } from '../../../Recoil/atom';
 import { IoArrowBack } from 'react-icons/io5';
 import { fetchEstimateTax } from '../../../../../../../utils/API/OrderFlow/GetTax';
 import Cookies from "js-cookie";
@@ -33,8 +33,8 @@ const Payment = () => {
     const [storeInitData, setStoreInitData] = useState();
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    const setCartCountVal = useSetRecoilState(smrMA_CartCount);
-    const islogin = useRecoilValue(smrMA_loginState);
+    const setCartCountVal = useSetRecoilState(PC_AppCartCount);
+    const islogin = useRecoilValue(PC_ApploginState);
 
     const [taxAmmount, setTaxAmount] = useState();
 
@@ -204,7 +204,7 @@ const Payment = () => {
                             <div className='smrMo_orderSummary'>
                                 <h3>Order Summary</h3>
                                 <div className='smr_paymenttotalpricesummary'>
-                                    <p className='smrMA_TotlaText'>Subtotal</p>
+                                    <p className='PC_AppTotlaText'>Subtotal</p>
                                     <p className='smrNA_PriceShow'>
                                         <span
                                             className="smr_currencyFont"
@@ -218,7 +218,7 @@ const Payment = () => {
                                     </p>
                                 </div>
                                 <div className='smr_paymenttotalpricesummary'>
-                                    <p className='smrMA_TotlaText'>Estimated Tax</p>
+                                    <p className='PC_AppTotlaText'>Estimated Tax</p>
                                     <p className='smrNA_PriceShow'>
                                         <span
                                             className="smr_currencyFont"
@@ -233,7 +233,7 @@ const Payment = () => {
                                 </div>
                                 <Divider className='smrMo_Divider' />
                                 <div className='smr_paymenttotalpricesummary'>
-                                    <p className='smrMA_TotlaText'>Estimated Total</p>
+                                    <p className='PC_AppTotlaText'>Estimated Total</p>
                                     <p className='smrNA_PriceShow'>
                                         <span
                                             className="smr_currencyFont"

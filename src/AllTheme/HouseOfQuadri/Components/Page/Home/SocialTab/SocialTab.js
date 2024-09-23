@@ -12,7 +12,7 @@ const SocialTab = () => {
       <div className="social_row">
         {socialLink?.map(({ img, icon }, i) => {
           return (
-            <div className="social_card" style={{filter  : i % 2 ? "grayscale(50)" : ""}}>
+            <div key={i} className="social_card" style={{filter  : i % 2 ? "grayscale(50)" : ""}}>
               <img src={img} alt={img} />
               <div className="icon_overlayer">
                 <a

@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import CartItem from './CartItemMo';
 import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { PC_ApploginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 
 const CartList = ({
@@ -29,7 +29,7 @@ const CartList = ({
   const [totalPrice, setTotalPrice] = useState();
   const navigate = useNavigate();
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const islogin = useRecoilValue(smrMA_loginState);
+  const islogin = useRecoilValue(PC_ApploginState);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));

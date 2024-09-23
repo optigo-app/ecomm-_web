@@ -61,8 +61,7 @@ const TabSection = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
-    // IsPriceShow
-    // IsPriceBreakUp
+
   }, []);
 
   useEffect(() => {
@@ -152,6 +151,7 @@ const TabSection = () => {
         {newArrivalData?.slice(0, 4)?.map((val, i) => {
           return (
             <div
+            key={i}
               className="TabCard_main"
               style={{ backgroundColor: " #b8b4b823", cursor: "pointer" }}
               onClick={() => handleMoveToDetail(val)}

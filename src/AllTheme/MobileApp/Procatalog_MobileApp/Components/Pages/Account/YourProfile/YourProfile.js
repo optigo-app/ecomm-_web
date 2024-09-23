@@ -4,7 +4,7 @@ import { TextField, Modal, CircularProgress, Snackbar } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../../utils/API/AccountTabs/YourProfile';
 import MobViewHeader from '../MobViewHeader/MobViewHeader';
-import { smrMA_defaultAddressState } from '../../../Recoil/atom';
+import { PC_AppdefaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 import { validateChangeYPAccount, validateUserDataYPAccount } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
@@ -15,7 +15,7 @@ export default function YourProfile() {
     const [editedUserData, setEditedUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-    const defaultAddress = useRecoilValue(smrMA_defaultAddressState);
+    const defaultAddress = useRecoilValue(PC_AppdefaultAddressState);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
 
     const [state, setState] = useState({

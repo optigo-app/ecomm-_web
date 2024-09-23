@@ -70,6 +70,7 @@ const ProductPage = () => {
   const location = useLocation();
   const previousPath = "Previous Page";
   const [ShowMangifier, setShowMangifier] = useState(false);
+  const [PdImageLoader ,setPdImageLoader] =useState(false)
   const sliderRef = useRef(null);
   const [decodeUrl, setDecodeUrl] = useState({});
   const [loginInfo, setLoginInfo] = useState();
@@ -333,7 +334,7 @@ const ProductPage = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
-              setloadingdata(false);
+              // setloadingdata(false);
             }
 
             if (!res?.pdList[0]) {
@@ -396,7 +397,8 @@ const ProductPage = () => {
               .catch((err) => console.log("designsetErr", err));
           }
         })
-        .catch((err) => console.log("err", err));
+        .catch((err) => console.log("err", err))
+        .finally(()=>setloadingdata(false))
     };
 
     FetchProductData();
@@ -809,10 +811,12 @@ const ProductPage = () => {
       SETvideoArr(VideoMap);
       setPdImageArr((prev) => [...prev, ...VideoMap]);
     }
+    setPdImageLoader(false)
     return finalprodListimg;
   };
 
   useEffect(() => {
+    setPdImageLoader(true)
     ProdCardImageFunc();
   }, [singleProd]);
 
@@ -1008,6 +1012,7 @@ const ProductPage = () => {
           return { src: val, type: "img" };
         });
         setPdImageArr([...imageMap, ...videoArr]);
+        setPdImageLoader(false)
       }
     }
 
@@ -1136,7 +1141,7 @@ const ProductPage = () => {
       <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
         <main>
           <div className="images_slider">
-            {loadingdata ? (
+            {(loadingdata || PdImageLoader)  ? (
               <>
                 <div className="slider">
                   {Array.from({ length: 3 })?.map((val, i) => {
@@ -1231,7 +1236,6 @@ const ProductPage = () => {
                 <div className="main_image">
                   {PdImageArr?.length > 1 ? (
                     <>
-                      {" "}
                       <Slider
                         {...settings}
                         ref={sliderRef}
@@ -1299,14 +1303,12 @@ const ProductPage = () => {
                       </Slider>
                     </>
                   ) : (
-                    <>
+                    PdImageArr.length === 1 ? (
                       <div className="slider_card">
                         <div className="image">
                           <img
-                            src={
-                              PdImageArr[0]?.src ? PdImageArr[0]?.src : "a.jpg"
-                            }
-                            alt="ddwd"
+                            src={PdImageArr[0]?.src || noimage}
+                            alt=""
                             onError={(e) => {
                               e.target.onerror = null;
                               e.target.src = noimage;
@@ -1314,7 +1316,18 @@ const ProductPage = () => {
                           />
                         </div>
                       </div>
-                    </>
+                    ) :( <div className="slider_card">
+                      <div className="image">
+                        <img
+                          src={ noimage}
+                          alt=""
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noimage;
+                          }}
+                        />
+                      </div>
+                    </div>)
                   )}
                 </div>
               </>

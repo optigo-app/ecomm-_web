@@ -352,7 +352,7 @@ const ProductList = () => {
 
       let UrlVal = location?.search.slice(1).split("/");
 
-      // console.log("URLVal", UrlVal);
+      console.log("URLVal", UrlVal);
 
       let MenuVal = "";
       let MenuKey = "";
@@ -842,7 +842,6 @@ const ProductList = () => {
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    console.log('aaaaaaaa', decodeURI(extractedPart));
     let prodObj = {
       autocode: ele?.autocode,
       Metalid: selectedMetalId ?? ele?.MetalPurityid,
@@ -854,7 +853,8 @@ const ProductList = () => {
       markup: ele?.DesignMarkUp,
       UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
       Remark: "",
-      AlbumName: decodeURI(extractedPart) ?? ""
+      // AlbumName: decodeURI(extractedPart) ?? ""
+      AlbumName: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ?? ""
     };
 
     if (e.target.checked == true) {
@@ -996,7 +996,8 @@ const ProductList = () => {
         selectedDiaId ?? logininfoDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
       c: selectedCsId ?? logininfoDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: output,
-      n: decodeURI(extractedPart)
+      // n: decodeURI(extractedPart)
+      n: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])
     };
 
     console.log("selectedMetalId", obj);
@@ -1580,7 +1581,7 @@ const ProductList = () => {
   const pathname = location?.pathname;
 
   // Extract the part after '/p/' and before the trailing '/'
-  const extractedPart = pathname?.split("/p/")[1].split("/")[0].replace("%20", " ");
+  // const extractedPart = pathname?.split("/p/")[1].split("/")[0]?.replace("%20", " ");
   return (
     <>
       <Helmet>
@@ -2469,7 +2470,8 @@ const ProductList = () => {
                         </div>
                         <p className="proCat_NameTopShow">
                           {/* {decodeURI(extractedPart)} */}
-                          {decodeURI(atob(extractedPart))}
+                          {/* {decodeURI(atob(extractedPart))} */}
+                          {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
                         </p>
                       </div>
                       }
@@ -3000,7 +3002,8 @@ const ProductList = () => {
                                     color: "rgba(143, 140, 139, 0.9019607843)",
                                   }}
                                 >
-                                  {decodeURI(extractedPart)}
+                                  {/* {decodeURI(extractedPart)} */}
+                                  {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
                                 </p>
                               </div>
                               <div className={filterData?.length <= 0 ? "smr_sorting_custom_NoData" : "smr_sorting_custom"}
@@ -3021,7 +3024,8 @@ const ProductList = () => {
                                     />
                                   </div>
                                   <p className="proCat_NameTopShow">
-                                    {decodeURI(extractedPart)}
+                                    {/* {decodeURI(extractedPart)} */}
+                                    {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
                                   </p>
                                 </div>
                                 }
