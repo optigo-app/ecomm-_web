@@ -10,7 +10,7 @@ const InfoSection = () => {
       <div className="main_content">
         {aboutUsContent.map((val, i) => {
           return (
-            <div className="about_card">
+            <div className="about_card" key={i}>
               <h3>
                 {"orem . Aliquam dicta beatae praesentium temporibus ex odit?" ||
                   val?.title}
@@ -29,7 +29,7 @@ const InfoSection = () => {
             <h1>Our Collections</h1>
             {collections.map((val, i) => {
               return (
-                <div className="about_card_2">
+                <div className="about_card_2" key={i}>
                   <a href="#">
                     {`"orem . Aliquam dicta beatae praesentium ex odit?"` ||
                       val?.title}

@@ -1332,7 +1332,11 @@ const DynamicCollection = () => {
           className="hoq_filterDrawer"
           style={{ zIndex: "99999999" }}
           sx={{
-            fontFamily: "",
+            zIndex: 9999999,
+            '& .MuiBackdrop-root': {
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              backdropFilter: 'blur(4px)',
+            },
           }}
         >
           <div
@@ -2445,15 +2449,16 @@ const C_Card = ({
             <>
               <span className="smr_prod_wt">
                 <span className="smr_keys">GWT:</span>
-                <span className="smr_val">{productData?.Gwt?.toFixed(3)}| </span>
+                <span className="smr_val">{productData?.Gwt?.toFixed(3)}</span>
               </span>
             </>
           )}
           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
             <>
+            {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && <span>|</span>}
               <span className="smr_prod_wt">
                 <span className="smr_keys">NWT:</span>
-                <span className="smr_val">{productData?.Nwt?.toFixed(3)}| </span>
+                <span className="smr_val">{productData?.Nwt?.toFixed(3)} </span>
               </span>
             </>
           )}
@@ -2463,7 +2468,7 @@ const C_Card = ({
           {storeInit?.IsDiamondWeight == 1 &&
             Number(productData?.Dwt) !== 0 && (
               <>
-                <span>|</span>
+              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 &&  <span>|</span>}
                 <span className="smr_prod_wt">
                   <span className="smr_keys">DWT:</span>
                   <span className="smr_val">
@@ -2471,13 +2476,14 @@ const C_Card = ({
                     {storeInit?.IsDiamondPcs === 1
                       ? `/${productData?.Dpcs?.toFixed(0)}`
                       : null}
-                  | </span>
+                  </span>
                 </span>
               </>
             )}
           {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
             <>
-              <span>|</span>
+             { storeInit?.IsDiamondWeight == 1 &&
+            Number(productData?.Dwt) !== 0 && <span>|</span>}
               <span className="smr_prod_wt">
                 <span className="smr_keys">CWT:</span>
                 <span className="smr_val">
@@ -2485,7 +2491,7 @@ const C_Card = ({
                   {storeInit?.IsStonePcs === 1
                     ? `/${productData?.CSpcs?.toFixed(0)}`
                     : null}
-                | </span>
+                 </span>
               </span>
             </>
           )}

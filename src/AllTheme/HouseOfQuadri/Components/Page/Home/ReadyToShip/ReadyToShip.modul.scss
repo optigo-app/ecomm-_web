@@ -1,7 +1,5 @@
 @import "../../../scss/Variable.scss";
 
-@import "../../../scss/Variable.scss";
-
 .hoq_main_TabSection {
   width: 100%;
   height: auto;
@@ -10,6 +8,11 @@
   text-align: center;
   flex-direction: column;
   margin-bottom: 3rem;
+  img{
+    object-fit: contain !important;
+    width: 100%;
+    height: 100%;
+  }
   .header {
     display: flex;
     align-items: center;
@@ -42,7 +45,6 @@
   }
   .TabCard_main {
     position: relative;
-
     .new {
       position: absolute;
       margin: 15px;
@@ -87,11 +89,6 @@
         box-shadow: none;
         position: relative;
 
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 2px;
-        }
         &:hover .overlay_img {
           display: block;
         }
@@ -174,9 +171,7 @@
         width: 260px;
         height: 350px;
         img{
-          object-fit: cover;
-          width: 100%;
-          height: 100%;
+          object-fit: contain;
         }
       }
     }
@@ -237,7 +232,7 @@
       height: 270px;
       max-width: 100%;
       img {
-        object-fit: cover;
+        object-fit: contain;
       }
     }
   }

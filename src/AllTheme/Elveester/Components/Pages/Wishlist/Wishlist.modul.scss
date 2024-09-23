@@ -296,10 +296,9 @@
 }
 
 .elv_MainWlDiv {
-    background-color: $backgroundColor;
+    background-color: $defaultBgColor;
     // font-family: 'PT Sans', sans-serif;
     font-family: $fontSansSerif !important;
-    ;
 }
 
 .elv_WlMainPageDiv {
@@ -490,7 +489,7 @@
 .elv_Productlists_lists_header_breadcrumb {
     display: flex;
     justify-content: space-between;
-    background: #D4DBE7;
+    background: $backgroundColor;
     padding: 20px 0px 20px 40px;
     margin-top: 3rem;
 }
