@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import "./Sales.scss";
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -15,26 +15,14 @@ import { visuallyHidden } from '@mui/utils';
 import SearchIcon from '@mui/icons-material/Search';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { checkMonth, customComparator_Col, formatAmount, salesCreateData, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
 import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { headCells_Sales as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
-
-const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
-    return {
-        SrNo,
-        Date,
-        StockDocumentNo,
-        TotalDesign,
-        Amount,
-        PrintUrl
-    };
-}
 
 const descendingComparator = (a, b, orderBy) => {
     if (orderBy === 'Date') {
@@ -320,7 +308,8 @@ const Sales = () => {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, printUrl);
+                    // let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, printUrl, e?.Currencycode, e?.CurrencyExchRate);
+                    let dataa = salesCreateData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, printUrl, e?.Currencycode, e?.CurrencyExchRate);
                     rows?.push(dataa)
                 });
                 const sortedRows = sortByDate(rows, 'Date');
@@ -537,7 +526,6 @@ const Sales = () => {
                 </Accordion>
                 </>
             }
-
                 {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <>
                     {  <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
@@ -580,7 +568,7 @@ const Sales = () => {
                                                 </TableCell>
                                                 <TableCell align="center">{row.Date}</TableCell>
                                                 <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                                <TableCell align="right"><span dangerouslySetInnerHTML={{__html: loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
+                                                <TableCell align="right"><span dangerouslySetInnerHTML={{__html: row?.Currencycode}}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
                                                 <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}> <PrintIcon   /> </div> </TableCell>
                                             </TableRow>
                                         );

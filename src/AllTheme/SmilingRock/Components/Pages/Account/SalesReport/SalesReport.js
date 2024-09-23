@@ -54,7 +54,9 @@ function createData(
   CsPcs,
   CsWt,
   imgsrc,
-  Netwt_24k
+  Netwt_24k,
+  Currencycode,
+  CurrencyExchRate
 ) {
   return {
     SrNo,
@@ -78,6 +80,8 @@ function createData(
     CsWt,
     imgsrc,
     Netwt_24k,
+    Currencycode,
+    CurrencyExchRate
   };
 }
 
@@ -542,7 +546,9 @@ const SalesReport = () => {
             e?.CsPcs,
             e?.CsWt,
             e?.imgsrc,
-            e?.Netwt_24k
+            e?.Netwt_24k,
+            e?.Currencycode,
+            e?.CurrencyExchRate
           );
           totals.GrossWt += e?.GrossWt;
           totals.NetWt += e?.NetWt;
@@ -557,11 +563,14 @@ const SalesReport = () => {
           totals.OtherAmount += e?.OtherAmount;
           totals.TotalAmount += e?.UnitCost;
           totals.Netwt_24k += e?.Netwt_24k;
+
           let findUniqueDesign = designLists?.findIndex( (ele) => ele === e?.designno );
           if (findUniqueDesign === -1) { designLists?.push(e?.designno); }
           datass?.push(dataObj);
           hoverImg === "" && e?.imgsrc !== "" && setHoverImg(e?.imgsrc);
+
         });
+
         totals.uniqueDesigns = designLists?.length;
         const sortedRows = sortByDate(datass, 'EntryDate');
         setData(sortedRows);
@@ -601,7 +610,7 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
-
+console.log(filterData);
   return (
     <Box>
       <Box
@@ -1030,12 +1039,12 @@ const SalesReport = () => {
             <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
-                  numSelected={selected.length}
+                  numSelected={selected?.length}
                   order={order}
                   orderBy={orderBy}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={filterData.length}
+                  rowCount={filterData?.length}
                 />
                 <TableBody>
                   { filterData?.length > 0 ? visibleRows?.map((row, index) => {
@@ -1054,24 +1063,16 @@ const SalesReport = () => {
                           {index + 1}{" "}
                         </TableCell>
                         <TableCell align="center">{row.EntryDate}</TableCell>
-                        <TableCell align="center">
-                          {row.StockDocumentNo}
-                        </TableCell>
+                        <TableCell align="center">{row.StockDocumentNo} </TableCell>
                         <TableCell align="center">{row.SKUNo}</TableCell>
                         <TableCell align="center">{row.designno}</TableCell>
                         <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
-                        <TableCell align="center">
-                        <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;
-                          {formatAmount(row.DiamondAmount)}
-                        </TableCell>
-                        <TableCell align="center">
-                        <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;
-                          {formatAmount(row.ColorStoneAmount)}
-                        </TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp; {formatAmount(row.DiamondAmount)} </TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp; {formatAmount(row.ColorStoneAmount)} </TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
+                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
                         <TableCell align="center">{row.Category}</TableCell>
                         <TableCell align="center">{row.GrossWt}</TableCell>
                         <TableCell align="center">{row.NetWt}</TableCell>
@@ -1088,7 +1089,7 @@ const SalesReport = () => {
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
-              count={filterData.length}
+              count={filterData?.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
