@@ -343,7 +343,6 @@ const QuotationJob = () => {
      
   };
 
-
   function getComparator(order, orderBy) {
 
     return order === 'desc'
@@ -490,7 +489,6 @@ const QuotationJob = () => {
         let allCategory = [];
         let allMetalColor = [];
         let allMetalPurity = [];
-        
         response?.Data?.rd?.forEach((e, i) => {
           let obj = { ...e };
           obj["checkbox"] = <Checkbox />;
@@ -1107,7 +1105,6 @@ const scrollToTop = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-           
                   { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy === 'PO' ? 'lineid' : orderBy))
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((row, rowIndex) => {
@@ -1125,7 +1122,7 @@ const scrollToTop = () => {
                                   : 
                                   column?.format && typeof value === 'number'
                                     ? column.format(value)
-                                    : column?.id === 'FinalAmount' ? <>  <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span> {formatAmount(value)}</> : value}
+                                    : column?.id === 'FinalAmount' ? <>  <span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span> {formatAmount(value)}</> : value}
                             </TableCell>
                             );
                           })}
