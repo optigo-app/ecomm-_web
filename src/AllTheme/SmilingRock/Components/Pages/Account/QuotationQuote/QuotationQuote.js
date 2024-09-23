@@ -13,7 +13,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
-import { formatAmount, checkMonth, customComparator_Col, stableSort, sortByDate } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { formatAmount, checkMonth, customComparator_Col, stableSort, sortByDate, quotationCreateData } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { visuallyHidden } from '@mui/utils';
 import { addYears, subYears } from 'date-fns';
 import moment from 'moment';
@@ -27,16 +27,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { headCells_Quotation as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
-const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
-    return {
-        SrNo,
-        Date,
-        SKUNo,
-        TotalDesign,
-        Amount,
-        PrintUrl
-    };
-}
 
 const descendingComparator = (a, b, orderBy) => {
     if (orderBy === 'Date') {
@@ -343,7 +333,8 @@ const QuotationQuote = () => {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
+                    // let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl, e?.Currencycode, e?.CurrencyExchRate);
+                    let dataa = quotationCreateData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl, e?.Currencycode, e?.CurrencyExchRate);
                     rows?.push(dataa)
                 });
                 const sortedRows = sortByDate(rows, 'Date');
@@ -625,15 +616,11 @@ const QuotationQuote = () => {
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.SKUNo}</TableCell>
                                             <TableCell align="center">{row.TotalDesign}</TableCell>
-                                            <TableCell align="right"><span  dangerouslySetInnerHTML={{__html: loginDetails?.Currencysymbol }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="right"><span  dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
                                             <TableCell align="center">
-                                                
-                                               
-                                                        <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                            <PrintIcon   />
-                                                        </div>
-                                                    
-                                               
+                                                                        <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                                                    <PrintIcon   />
+                                                                        </div>
                                             </TableCell>
                                             
                                         </TableRow>
