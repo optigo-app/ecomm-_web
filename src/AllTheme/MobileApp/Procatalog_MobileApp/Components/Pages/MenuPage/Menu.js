@@ -10,14 +10,14 @@ import { Box, ButtonBase, List, ListItem, ListItemText, Tab, Tabs, Typography } 
 import { TabContext, TabPanel } from '@mui/lab';
 import SwipeableViews from 'react-swipeable-views';
 import { toast } from 'react-toastify';
-import { smrMA_loginState } from '../../Recoil/atom';
+import { PC_ApploginState } from '../../Recoil/atom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import Cookies from 'js-cookie';
 
 const Menu = () => {
 
     const navigation = useNavigate();
-    const [islogin, setislogin] = useRecoilState(smrMA_loginState);
+    const [islogin, setislogin] = useRecoilState(PC_ApploginState);
     const [isB2bFlag, setIsB2BFlaf] = useState('');
     const [menuData, setMenuData] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
@@ -178,7 +178,7 @@ const Menu = () => {
     }
 
     return (
-        <div className='smrMA_menuPageMain'>
+        <div className='PC_AppmenuPageMain'>
 
             {isB2bFlag == 1 ?
                 islogin == false ?
@@ -223,7 +223,7 @@ const Menu = () => {
                         onChangeIndex={handleChangeIndex}
                         enableMouseEvents
                         animateTransitions
-                        className='smrMA_menuMainSwipe'
+                        className='PC_AppmenuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
                             <TabPanel value={value} index={0} style={{ margin: '20px 10% 20px 10%', padding: '0px' }}>
@@ -235,7 +235,7 @@ const Menu = () => {
                                             style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                         >
                                             <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                                                <button class="smrMA_menuVieAllLink">View All</button>
+                                                <button class="PC_AppmenuVieAllLink">View All</button>
                                             </div>
                                         </ButtonBase>
                                         <List>
@@ -246,7 +246,7 @@ const Menu = () => {
                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                         style={{ width: '100%' }}
                                                     >
-                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
+                                                        <p className='PC_AppmenuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
                                                     </ButtonBase>
                                                     {selectedMenu === menuItem.menuname && (
                                                         <>
@@ -257,7 +257,7 @@ const Menu = () => {
                                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                         style={{ width: '100%', height: '30px' }}
                                                                     >
-                                                                        <p className="smrMA_SuMenuTitle">
+                                                                        <p className="PC_AppSuMenuTitle">
                                                                             {subSubMenuItem.param2dataname}
                                                                         </p>
                                                                     </ButtonBase>
@@ -307,7 +307,7 @@ const Menu = () => {
                         onChangeIndex={handleChangeIndex}
                         enableMouseEvents
                         animateTransitions
-                        className='smrMA_menuMainSwipe'
+                        className='PC_AppmenuMainSwipe'
                     >
                         {menuItems.map(menuItem => (
                             <TabPanel value={value} index={0} style={{ marginInline: value == 0 ? '' : '15%', padding: '0px', marginBottom: '20px' }}>
@@ -319,7 +319,7 @@ const Menu = () => {
                                             style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                         >
                                             <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                                                <button class="smrMA_menuVieAllLink">View All</button>
+                                                <button class="PC_AppmenuVieAllLink">View All</button>
                                             </div>
                                         </ButtonBase>
                                         <List>
@@ -330,7 +330,7 @@ const Menu = () => {
                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                         style={{ width: '100%' }}
                                                     >
-                                                        <p className='smrMA_menuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
+                                                        <p className='PC_AppmenuMainTitle' style={{ margin: '0px 0px 0px 15px',fontSize: '18px', width: '100%', fontWeight: 600, height: '38px', display: 'flex', alignItems: 'center' }}>{subMenuItem.param1dataname}</p>
                                                     </ButtonBase>
                                                     {selectedMenu === menuItem.menuname && (
                                                         <>
@@ -341,7 +341,7 @@ const Menu = () => {
                                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                         style={{ width: '100%', height: '30px' }}
                                                                     >
-                                                                        <p className="smrMA_SuMenuTitle">
+                                                                        <p className="PC_AppSuMenuTitle">
                                                                             {subSubMenuItem.param2dataname}
                                                                         </p>
                                                                     </ButtonBase>

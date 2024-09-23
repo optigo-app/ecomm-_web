@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { PC_ApploginState } from '../../../Recoil/atom';
 import './PromotionBaner1.modul.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/
 const PromotionBaner1 = () => {
 
 
-    const islogin = useRecoilValue(smrMA_loginState);
+    const islogin = useRecoilValue(PC_ApploginState);
     const navigation = useNavigate();
     const [newArrivalData, setNewArrivalData] = useState([]);
 
@@ -50,7 +50,7 @@ const PromotionBaner1 = () => {
     return (
         <>
             {newArrivalData?.length != 0 &&
-                <div className='smrMA_PromoMain'>
+                <div className='PC_AppPromoMain'>
 
                     <div className='FestiveMainImage'>
                         <img src={`${storImagePath()}/images/HomePage/NewArrival/banner2.webp`} style={{ width: '100%', minHeight: '450px' }} className='smr_promotion1' alt={"#promoBanner1"} />

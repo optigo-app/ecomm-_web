@@ -8,7 +8,7 @@ import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import DesignSet from "./DesignSet/DesignSet";
 import BottomBanner from "./BottomBanner/BottomBanner";
 import "./Home.modul.scss";
-import { smrMA_CartCount, smrMA_loginState, smrMA_WishCount } from "../../Recoil/atom";
+import { PC_AppCartCount, PC_ApploginState, PC_AppWishCount } from "../../Recoil/atom";
 import { useRecoilState } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 import { WebLoginWithMobileToken } from "../../../../../../utils/API/Auth/WebLoginWithMobileToken";
@@ -22,7 +22,7 @@ import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeCo
 
 const Home = () => {
   const [localData, setLocalData] = useState();
-  const [islogin, setislogin] = useRecoilState(smrMA_loginState);
+  const [islogin, setislogin] = useRecoilState(PC_ApploginState);
   const navigation = useNavigate();
   const location = useLocation();
   const search = location?.search;
@@ -30,8 +30,8 @@ const Home = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const cancelRedireactUrl = `/LoginOption/${search}`;
 
-  const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
-  const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
+  const [cartCountNum, setCartCountNum] = useRecoilState(PC_AppCartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(PC_AppWishCount)
 
   useEffect(() => {
     const UserToken = localStorage.getItem('userLoginTokenProCatApp');
@@ -212,7 +212,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="smrMA_Home_main">
+    <div className="PC_AppHome_main">
       <TopSection />
       {/* {localData?.IsHomeBestSeller === 1 && <BestSellerSection />} */}
       {/* {localData?.IsHomeAlbum === 1 && */}

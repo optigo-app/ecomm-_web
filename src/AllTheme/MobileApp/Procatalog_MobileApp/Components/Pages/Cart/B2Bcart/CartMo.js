@@ -10,7 +10,7 @@ import CartPageSkeleton from './CartSkeltonMo';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetailsMo"
-import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
+import { PC_AppShowSnackBar } from '../../../Recoil/atom';
 
 const CartPage = () => {
   const {
@@ -59,8 +59,8 @@ const CartPage = () => {
   const handleRedirect = () => {
     handelMenu();
   }
-  const snackbarOpenValue = useRecoilValue(smrMA_ShowSnackBar);
-  const [snackbarOpen, setSnackbarOpen] = useRecoilState(smrMA_ShowSnackBar);
+  const snackbarOpenValue = useRecoilValue(PC_AppShowSnackBar);
+  const [snackbarOpen, setSnackbarOpen] = useRecoilState(PC_AppShowSnackBar);
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {

@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../Assets/image-not-found.jpg"
-import { smrMA_CartCount, smrMA_WishCount } from '../../Recoil/atom';
+import { PC_AppCartCount, PC_AppWishCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 
 const WishlistItems = (
@@ -26,8 +26,8 @@ const WishlistItems = (
         handleMoveToDetail
     }) => {
     const [imageSrc, setImageSrc] = useState(noImageFound);
-    const setWishCountVal = useSetRecoilState(smrMA_WishCount)
-    const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+    const setWishCountVal = useSetRecoilState(PC_AppWishCount)
+    const setCartCountVal = useSetRecoilState(PC_AppCartCount)
     const visiterId = "";
 
     const handleWishlistToCartFun = async (item) => {

@@ -6,13 +6,13 @@ import { LuBox } from "react-icons/lu";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoArrowBack, IoGiftOutline } from "react-icons/io5";
 import { FaHeadset } from "react-icons/fa6";
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { PC_ApploginState } from '../../../Recoil/atom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 const MobViewHeader = (props) => {
 
     const naviagation = useNavigate();
-    const setIsLoginState = useSetRecoilState(smrMA_loginState)
+    const setIsLoginState = useSetRecoilState(PC_ApploginState)
 
     // const [fName, setFname] = useState('');
     // const [lastNamr, setLasnane] = useState('');

@@ -8,7 +8,7 @@ import { Button, Grid, Snackbar, useMediaQuery } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { GetCountAPI } from '../../../../../../../utils/API/GetCount/GetCountAPI';
-import { smrMA_CartCount } from '../../../Recoil/atom';
+import { PC_AppCartCount } from '../../../Recoil/atom';
 import Cookies from "js-cookie";
 import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import ConfirmationDialog from '../../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
@@ -25,7 +25,7 @@ const CartItem = ({
 }) => {
   const [imageSrc, setImageSrc] = useState(noImageFound);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+  const setCartCountVal = useSetRecoilState(PC_AppCartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));

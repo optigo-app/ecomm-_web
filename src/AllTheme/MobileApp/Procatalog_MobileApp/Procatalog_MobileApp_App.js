@@ -20,7 +20,7 @@ import YourProfile from './Components/Pages/Account/YourProfile/YourProfile';
 import OrderHistory from './Components/Pages/Account/AccountOrderHistory/OrderHisoty';
 import ChangePassword from './Components/Pages/Account/changePassword/ChangePassword';
 import SearchPage from './Components/Pages/SearchPage/SearchPage'
-import { smrMA_companyLogo, smrMA_loginState } from './Components/Recoil/atom'
+import { PC_AppcompanyLogo, PC_ApploginState } from './Components/Recoil/atom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
 import MobileViewComp from './Components/Pages/Account/MobileViewComps/MobileViewComp';
@@ -44,8 +44,8 @@ import ConnectionManager from '../../../utils/SoketConnection/ConnectionManager'
 const Procatalog_MobileApp_App = () => {
 
   const location = useLocation();
-  const islogin = useRecoilValue(smrMA_loginState)
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo);
+  const islogin = useRecoilValue(PC_ApploginState)
+  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(PC_AppcompanyLogo);
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");

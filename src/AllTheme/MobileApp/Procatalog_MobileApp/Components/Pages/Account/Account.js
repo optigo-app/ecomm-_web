@@ -8,7 +8,7 @@ import { LuBox } from "react-icons/lu";
 import { MdContactEmergency, MdFavoriteBorder } from "react-icons/md";
 import { IoGiftOutline } from "react-icons/io5";
 import { FaHeadset } from "react-icons/fa6";
-import { smrMA_loginState } from '../../Recoil/atom';
+import { PC_ApploginState } from '../../Recoil/atom';
 import { accountDetailPages, accountValidation } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 
 function CustomTabPanel(props) {
@@ -62,7 +62,7 @@ export default function Account() {
     const [value, setValue] = useState(3);
     const [value1, setValue1] = useState(0);
     const naviagation = useNavigate();
-    const setIsLoginState = useSetRecoilState(smrMA_loginState)
+    const setIsLoginState = useSetRecoilState(PC_ApploginState)
     const navigation = useNavigate();
     const [accountInner, setAccountInner] = useState(accountDetailPages());
     const [fName, setFname] = useState('');
@@ -105,7 +105,7 @@ export default function Account() {
     }
 
     return (
-        <div className='smrMA_Smiling_AccountMain'>
+        <div className='PC_AppSmiling_AccountMain'>
             <div className='titleMain'>
                 <div style={{ width: '100%' }}>
                     <p style={{ margin: '0px', fontSize: '25px', fontWeight: 600, paddingInline: '10px' }}>{fName + ' ' + lastNamr}</p>
