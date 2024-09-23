@@ -25,7 +25,7 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
-import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, sortByKeyDescendingJS, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -572,7 +572,8 @@ const SalesReport = () => {
         });
 
         totals.uniqueDesigns = designLists?.length;
-        const sortedRows = sortByDate(datass, 'EntryDate');
+        const sortedRows = sortByKeyDescendingJS(datass, 'StockDocumentNo');
+        // const sortedRows = sortByDate(datass, 'EntryDate');
         setData(sortedRows);
         setFilterData(sortedRows);
         setTotal(totals);
@@ -610,7 +611,6 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
-console.log(filterData);
   return (
     <Box>
       <Box

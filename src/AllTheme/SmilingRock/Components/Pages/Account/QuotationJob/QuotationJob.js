@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import {checkMonth, customComparator_Col, formatAmount, sortByDate, sortByKeyDescendingJobno, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Swal from 'sweetalert2';
 
@@ -525,7 +525,7 @@ const QuotationJob = () => {
         setCategory(allCategory[0]?.value);
         setMetalColor(allMetalColor[0]?.value);
         setMetalPurity(allMetalPurity[0]?.value);
-        const sortedRows = sortByDate(datass, 'Date');
+        const sortedRows = sortByKeyDescendingJobno(datass, 'JobNo');
         setData(sortedRows);
         setFilterData(sortedRows);
       } else {

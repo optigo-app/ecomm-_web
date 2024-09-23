@@ -15,7 +15,7 @@ import { visuallyHidden } from '@mui/utils';
 import SearchIcon from '@mui/icons-material/Search';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { checkMonth, customComparator_Col, formatAmount, salesCreateData, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { checkMonth, customComparator_Col, formatAmount, salesCreateData, sortByDate, sortByKeyDescendingJS, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
@@ -312,7 +312,8 @@ const Sales = () => {
                     let dataa = salesCreateData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, printUrl, e?.Currencycode, e?.CurrencyExchRate);
                     rows?.push(dataa)
                 });
-                const sortedRows = sortByDate(rows, 'Date');
+                // const sortedRows = sortByDate(rows, 'Date');
+                const sortedRows = sortByKeyDescendingJS(rows, 'StockDocumentNo');
                 setData(sortedRows);
                 setFilterData(sortedRows);
             } else {

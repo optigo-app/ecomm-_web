@@ -20,8 +20,8 @@ export const getAccountLedgerData = async(storeinit, loginInfo, UserEmail) => {
           
           
           const CurrencyRate = response?.Data?.rd[0]?.CurrencyRate;
-          const CurrencySymbol = response?.Data?.rd[0]?.Currencysymbol;
-
+          // const CurrencySymbol = response?.Data?.rd[0]?.Currencysymbol;
+          const CurrencySymbol = response?.Data?.rd[0]?.Currencycode;
           const forendcode = {"CurrencyRate":`${CurrencyRate}`,"FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,"Customerid":`${loginInfo?.id}`};
 
           const encodedCombinedValue2 = btoa(JSON.stringify(forendcode));
