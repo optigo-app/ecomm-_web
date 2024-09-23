@@ -14,9 +14,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
 import PropTypes from "prop-types";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -25,10 +23,9 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
-import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -560,18 +557,15 @@ const SalesReport = () => {
           totals.OtherAmount += e?.OtherAmount;
           totals.TotalAmount += e?.UnitCost;
           totals.Netwt_24k += e?.Netwt_24k;
-          let findUniqueDesign = designLists?.findIndex(
-            (ele) => ele === e?.designno
-          );
-          if (findUniqueDesign === -1) {
-            designLists?.push(e?.designno);
-          }
+          let findUniqueDesign = designLists?.findIndex( (ele) => ele === e?.designno );
+          if (findUniqueDesign === -1) { designLists?.push(e?.designno); }
           datass?.push(dataObj);
           hoverImg === "" && e?.imgsrc !== "" && setHoverImg(e?.imgsrc);
         });
         totals.uniqueDesigns = designLists?.length;
-        setData(datass);
-        setFilterData(datass);
+        const sortedRows = sortByDate(datass, 'EntryDate');
+        setData(sortedRows);
+        setFilterData(sortedRows);
         setTotal(totals);
       }else{
         setData([]);

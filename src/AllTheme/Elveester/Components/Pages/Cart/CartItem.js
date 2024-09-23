@@ -18,6 +18,7 @@ import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
 import { Link } from 'react-router-dom';
 import RemarkDialog from './OrderRemarkDialog';
 import ItemRemarkDialog from './ItemRemarkDialog';
+import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const CartItem = ({
   item,
@@ -51,10 +52,13 @@ const CartItem = ({
   const [storeInitData, setStoreInitData] = useState();
   const [open1, setOpen1] = useState(false);
   const visiterId = Cookies.get('visiterId');
+  const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(noImageFound);
 
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -104,6 +108,11 @@ const CartItem = ({
         setCartCountVal(res?.cartcount);
       })
     }
+  }
+
+  const handleConfirm = () => {
+    handleRemoveItem(item, index);
+    handleClose();
   }
 
   const [pressing, setPressing] = useState(false);
@@ -188,14 +197,14 @@ const CartItem = ({
               <div className='elv_ProdWeights_div'>
                 <div className='elv_ProdWt1_div'>
                   <div>
-                    {(Number(item?.Nwt)) !== 0 && (<><span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span style={{ fontWeight: '500', fontSize: '11px' }}>&nbsp;{(item?.Nwt || 0).toFixed(3)}{' '}</span></>)}
+                    {(Number(item?.Nwt)) !== 0 && (<><span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span style={{ fontWeight: '500', fontSize: '12px' }}>&nbsp;{(item?.Nwt || 0).toFixed(3)}{' '}</span></>)}
                   </div>
                   <div>
                     {storeInitData?.IsDiamondWeight == 1 &&
                       <>
                         {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                           <>
-                            <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span style={{ fontWeight: '500', wordSpacing: '2px', fontSize: '11px' }}>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                            <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span style={{ fontWeight: '500', wordSpacing: '2px', fontSize: '12px' }}>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
                           </>
                         }
                       </>
@@ -208,7 +217,7 @@ const CartItem = ({
                       <>
                         {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                           <>
-                            <span className='elv_prodWeights_label'>CWT: </span> <span style={{ fontWeight: '500', fontSize: '11px' }}>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                            <span className='elv_prodWeights_label'>CWT: </span> <span style={{ fontWeight: '500', fontSize: '12px' }}>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
                           </>
                         }
                       </>
@@ -219,7 +228,7 @@ const CartItem = ({
                       <>
                         {(item?.Gwt != 0) &&
                           <>
-                            <span className='elv_prodWeights_label'>GWT: </span> <span style={{ fontWeight: '500', fontSize: '11px' }}>{(item?.Gwt || 0).toFixed(3)}</span>
+                            <span className='elv_prodWeights_label'>GWT: </span> <span style={{ fontWeight: '500', fontSize: '12px' }}>{(item?.Gwt || 0).toFixed(3)}</span>
                           </>
                         }
                       </>
@@ -236,7 +245,7 @@ const CartItem = ({
                 )}
                 <div className='elv_remarks_remove_div'>
                   <span className='elv_remark_modal_title' onClick={handleOpen1}>{item?.Remarks ? 'Edit Remark' : 'Add Remark'}</span>
-                  <span className='elv_remove_items' onClick={() => handleRemoveItem(item, index)}>Remove</span>
+                  <span className='elv_remove_items' onClick={handleOpen}>Remove</span>
                 </div>
               </div>
             </div>
@@ -248,6 +257,13 @@ const CartItem = ({
           remark={remark}
           onRemarkChange={handleRemarkChangeInternal}
           onSave={handleSaveInternal}
+        />
+        <ConfirmationDialog
+          open={open}
+          onClose={handleClose}
+          onConfirm={handleConfirm}
+          title={"Confirm"}
+          content={"Are You Sure to Delete this items?"}
         />
       </div>
     </>

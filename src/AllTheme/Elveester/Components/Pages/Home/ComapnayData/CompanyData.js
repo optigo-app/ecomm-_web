@@ -3,7 +3,7 @@ import './CompanyData.modul.scss';
 
 function CompanyData() {
   return (
-    <div className="mt-4 el_companyData_main">
+    <div className="el_companyData_main" style={{ marginBlock: '1rem' }}>
       <div className="banner-stats">
         <div className="stat">
           <div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Lookbook.modul.scss";
 import gradientColors from "./color.json"
 import {
@@ -20,6 +20,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import MuiPagination from '@mui/material/Pagination';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
@@ -52,6 +53,7 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { dt_CartCount, dt_loginState, lookBookDrawer } from "../../../Recoil/atom";
 import Footer from "../Footer/Footer";
+import LookbookSkeleton from "./lookbookSkelton";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -59,9 +61,11 @@ const Lookbook = () => {
   const [imageUrl, setImageUrl] = useState();
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const isMobileScreen = useMediaQuery('(max-width:800px)');
+  let maxwidth464px = useMediaQuery('(max-width:464px)')
 
   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
+  const [dstCount, setDstCount] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -81,10 +85,60 @@ const Lookbook = () => {
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
+  const [isPgLoading, setIsPgLoading] = useState(false);
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [swiper, setSwiper] = useState(null);
-  const [draweopen, setDrawerOpen] = useRecoilState(lookBookDrawer)
+  const [draweopen, setDrawerOpen] = useRecoilState(lookBookDrawer);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
+  const SwiperSlideRef = useRef();
+
+
+  const updateSize = () => {
+    if (SwiperSlideRef.current) {
+      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      console.log("Size updated:", offsetWidth, offsetHeight);
+    }
+  };
+
+  const handleResize = () => {
+    updateSize();
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'F12') {
+      handleResize(); // Call handleResize function when F12 is pressed
+    }
+  };
+  const handleImageLoad = () => {
+    updateSize();
+  };
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDynamicSize({ w: `${width}px`, h: `${height}px` });
+        console.log("Resized:", width, height);
+      }
+    });
+
+    if (SwiperSlideRef.current) {
+      resizeObserver.observe(SwiperSlideRef.current);
+      updateSize();
+    }
+
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
 
   const handlePrevious = () => {
@@ -118,11 +172,11 @@ const Lookbook = () => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, {}, currentPage, itemsPerPage)
       .then((response) => {
         if (response?.Data?.rd) {
           setDesignSetListData(response?.Data?.rd);
-
+          setDstCount(response?.Data?.rd1[0]?.TotalCount);
           const initialCartItems = response?.Data?.rd.flatMap((slide) =>
             parseDesignDetails(slide?.Designdetail)
               .filter((detail) => detail?.IsInCart === 1)
@@ -233,10 +287,11 @@ const Lookbook = () => {
 
     let output = FilterValueWithCheckedOnly();
     if (Object.keys(filterChecked)?.length >= 0) {
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output)
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
         .then((response) => {
           if (response?.Data?.rd) {
             setDesignSetListData(response?.Data?.rd);
+            setDstCount(response?.Data?.rd1[0]?.TotalCount)
             const initialCartItems = response?.Data?.rd.flatMap((slide) =>
               parseDesignDetails(slide?.Designdetail)
                 .filter((detail) => detail?.IsInCart === 1)
@@ -244,12 +299,14 @@ const Lookbook = () => {
             );
             setCartItems((prevCartItems) => [
               ...new Set([...prevCartItems, ...initialCartItems]),
-            ]); // Use Set to avoid duplicates
+            ]);
+            setIsProdLoading(false);
+            setIsPgLoading(false);
           }
         })
         .catch((err) => console.log(err));
     }
-  }, [filterChecked]);
+  }, [filterChecked, currentPage]);
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -527,6 +584,17 @@ const Lookbook = () => {
     selectedCategories
   );
 
+
+  const handelPageChange = (event, value) => {
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
+    setCurrentPage(value);
+    setThumbsSwiper(null);
+    setIsPgLoading(true);
+  };
+
   return (
     <div className="dt_LookBookMain">
       <Drawer
@@ -675,7 +743,7 @@ const Lookbook = () => {
                         </AccordionDetails>
                       </Accordion>
                     )}
-                 
+
 
 
 
@@ -1279,282 +1347,61 @@ const Lookbook = () => {
             </div>
 
             {selectedValue == 2 && (
-              <div className="dt_lookBookImgDivMain">
-                {filteredDesignSetLstData?.length == 0 ? (
-                  <div className="dt_noProductFoundLookBookDiv">
-                    <p>No Product Found!</p>
-                  </div>
-                ) : (
-                  filteredDesignSetLstData?.map((slide, index) => (
-                    <div className="dt_designSetDiv" key={index}>
-                      <div
-                        style={{
-                          display: "flex",
-                          height: dataKey == index && "100%",
-                          position: 'relative'
-                        }}
-                      >
-                        {ProdCardImageFunc(slide) ? (
-                          <img
-                            className="dt_lookBookImg"
-                            loading="lazy"
-                            src={ProdCardImageFunc(slide)}
-                            alt={`Slide ${index}`}
-                            onMouseEnter={() => handleHoverImages(index)}
-                            onMouseLeave={() => seyDataKey(null)}
-                            style={{
-                              height: dataKey == index ? "100%" : "250px",
-                              cursor: "pointer",
-                            }}
-                          />
-                        ) : (
+              <>
+                {!isPgLoading ? (
+                  <div className="dt_lookBookImgDivMain">
+                    {filteredDesignSetLstData?.length == 0 ? (
+                      <div className="dt_noProductFoundLookBookDiv">
+                        <p>No Product Found!</p>
+                      </div>
+                    ) : (
+                      filteredDesignSetLstData?.map((slide, index) => (
+                        <div className="dt_designSetDiv" key={index}>
                           <div
                             style={{
-                              height: dataKey == index ? "100%" : "250px",
-                              width: "100%",
-                              ...getRandomBgColor(index),
                               display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
+                              height: dataKey == index && "100%",
+                              position: 'relative'
                             }}
                           >
-                            <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
-                          </div>
-                        )}
-                        <p className="dt_lb2designList_title">
-                          {slide?.designsetno}
-                        </p>
-                      </div>
-                      <div
-                        className="dt_lookBookImgDeatil"
-                        style={{
-                          display: dataKey == index ? "none" : "flex",
-                          justifyContent: "space-between",
-                          alignItems: 'center',
-                          margin: "5px",
-                        }}
-                      >
-                        <p className="dt_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
-                          DWT:{" "}
-                          {calculateTotalUnitCostWithMarkUpDwt(
-                            JSON?.parse(slide.Designdetail)
-                          ).toFixed(3)}{" "}
-                          | GWT:{" "}
-                          {calculateTotalUnitCostWithMarkUpGWt(
-                            JSON?.parse(slide.Designdetail)
-                          ).toFixed(3)}{" "}
-                          | NWT:{" "}
-                          {calculateTotalUnitCostWithMarkUpNwt(
-                            JSON?.parse(slide.Designdetail)
-                          ).toFixed(3)}{" "}
-                        </p>
-                        <div
-                          className="dt_lookBookImgDeatilSub"
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <p
-                            style={{
-                              margin: "0px 10px 0px 0px",
-                              fontSize: "15px",
-                              fontWeight: 600,
-                            }}
-                            className="dt_lookBookPriceShow"
-                          >
-                            {" "}
-                            <span
-                              className="dt_currencyFont"
-                            >
-                              {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                            </span>
-                            {/* <span
-                              className="dt_currencyFont"
-                              dangerouslySetInnerHTML={{
-                                __html: decodeEntities(
-                                  storeInit?.Currencysymbol
-                                ),
-                              }}
-                            /> */}
-                            &nbsp;
-                            {formatter(calculateTotalUnitCostWithMarkUp(
-                              JSON?.parse(slide.Designdetail)
-                            ))}
-                          </p>
-                          <button
-                            className="dt_lookBookBuyBtn"
-                            onClick={() =>
-                              handleByCombo(
-                                parseDesignDetails(slide?.Designdetail, "Cart")
-                              )
-                            }
-                          >
-                            Buy Combo
-                          </button>
-                        </div>
-                      </div>
-                      <div
-                        className="dt_lookBookSubImgMain"
-                        style={{ display: dataKey == index && "none" }}
-                      >
-                        <Swiper
-                          slidesPerView={4}
-                          spaceBetween={10}
-                          navigation={true}
-                          // pagination={{ clickable: true }}
-                          loop={false}
-                          modules={[Pagination, Navigation]}
-                          className="dt_LookBookmySwiper"
-                          breakpoints={{
-                            320: {
-                              slidesPerView: 1,
-                              spaceBetween: 10,
-                            },
-                            480: {
-                              slidesPerView: 2,
-                              spaceBetween: 20,
-                            },
-                            640: {
-                              slidesPerView: 3,
-                              spaceBetween: 30,
-                            },
-                          }}
-                        >
-                          {sortDesignDetailsBySrNo(
-                            parseDesignDetails(slide?.Designdetail)
-                          )?.map((detail, subIndex) => (
-                            <div
-                              className="dt_lookBookSubImageDiv"
-                              key={subIndex}
-                            >
-                              <SwiperSlide
-                                className="dt_lookBookSliderSubDiv"
+                            {ProdCardImageFunc(slide) ? (
+                              <img
+                                className="dt_lookBookImg"
+                                loading="lazy"
+                                src={ProdCardImageFunc(slide)}
+                                alt={`Slide ${index}`}
+                                onMouseEnter={() => handleHoverImages(index)}
+                                onMouseLeave={() => seyDataKey(null)}
                                 style={{
-                                  marginRight: "0px",
+                                  height: dataKey == index ? "100%" : "250px",
+                                  cursor: "pointer",
+                                }}
+                              />
+                            ) : (
+                              <div
+                                style={{
+                                  height: dataKey == index ? "100%" : "250px",
+                                  width: "100%",
+                                  ...getRandomBgColor(index),
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
                                   cursor: "pointer",
                                 }}
                               >
-                                {detail?.IsInReadyStock == 1 && (
-                                  <span className="dt_LookBookinstock">
-                                    In Stock
-                                  </span>
-                                )}
-                                <img
-                                  className="dt_lookBookSubImage"
-                                  loading="lazy"
-                                  src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                  alt={`Sub image ${subIndex} for slide ${index}`}
-                                  onClick={() =>
-                                    handleNavigation(
-                                      detail?.designno,
-                                      detail?.autocode,
-                                      detail?.TitleLine ? detail?.TitleLine : ""
-                                    )
-                                  }
-                                />
-                                {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    marginBottom: "5px",
-                                  }}
-                                >
-                                  {cartItems.includes(detail?.autocode) ? (
-                                    <button
-                                      className="dt_lookBookINCartBtn"
-                                      onClick={() => handleRemoveCart(detail)}
-                                    >
-                                      REMOVE CART
-                                    </button>
-                                  ) : (
-                                    <button
-                                      className="dt_lookBookAddtoCartBtn"
-                                      onClick={() => handleAddToCart(detail)}
-                                    >
-                                      ADD TO CART +
-                                    </button>
-                                  )}
-                                </div>
-                              </SwiperSlide>
-                            </div>
-                          ))}
-                        </Swiper>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
-
-            {selectedValue == 3 && (
-              <div className="dt_lookBookImgDivMain">
-                {filteredDesignSetLstData?.length == 0 ? (
-                  <div className="dt_noProductFoundLookBookDiv">
-                    <p>No Product Found!</p>
-                  </div>
-                ) : (
-                  <>
-                    {filteredDesignSetLstData?.map((slide, index) => (
-                      <div className="dt_designSetDiv2" key={index}>
-                        <div
-                          style={{
-                            display: "flex",
-                            width: "30%",
-                            height: "300px",
-                            position: 'relative'
-                          }}
-                          className="dt_designSetDiv2_sub1"
-                        >
-                          {ProdCardImageFunc(slide) ? (
-                            <img
-                              className="dt_lookBookImg"
-                              loading="lazy"
-                              src={ProdCardImageFunc(slide)}
-                              alt={`Slide ${index}`}
-                              // onMouseEnter={() => handleHoverImages(index)}
-                              // onMouseLeave={() => seyDataKey(null)}
-                              style={{
-                                height: "100%",
-                                cursor: "pointer",
-                              }}
-                            />
-                          ) : (
-                            <div
-                              style={{
-                                height: "100%",
-                                width: "100%",
-                                ...getRandomBgColor(index),
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                cursor: "pointer",
-                              }}
-                            >
-                              <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
-                            </div>
-                          )}
-                          <p className="dt_lb1designList_title">{slide?.designsetno}</p>
-                        </div>
-
-                        <div
-                          style={{
-                            display: dataKey == index && "none",
-                            display: "flex",
-                            width: "70%",
-                            justifyContent: "space-around",
-                            alignItems: "center",
-                            flexDirection: "column",
-                          }}
-                          className="dt_designSetDiv2_sub2"
-                        >
+                                <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                              </div>
+                            )}
+                            <p className="dt_lb2designList_title">
+                              {slide?.designsetno}
+                            </p>
+                          </div>
                           <div
                             className="dt_lookBookImgDeatil"
                             style={{
                               display: dataKey == index ? "none" : "flex",
                               justifyContent: "space-between",
                               alignItems: 'center',
-                              width: "100%",
-                              padding: "0px 15px",
                               margin: "5px",
                             }}
                           >
@@ -1585,19 +1432,19 @@ const Lookbook = () => {
                                 className="dt_lookBookPriceShow"
                               >
                                 {" "}
-                                {/* <span
-                                  className="dt_currencyFont"
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(
-                                      storeInit?.Currencysymbol
-                                    ),
-                                  }}
-                                /> */}
                                 <span
                                   className="dt_currencyFont"
                                 >
                                   {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                 </span>
+                                {/* <span
+                              className="dt_currencyFont"
+                              dangerouslySetInnerHTML={{
+                                __html: decodeEntities(
+                                  storeInit?.Currencysymbol
+                                ),
+                              }}
+                            /> */}
                                 &nbsp;
                                 {formatter(calculateTotalUnitCostWithMarkUp(
                                   JSON?.parse(slide.Designdetail)
@@ -1607,10 +1454,7 @@ const Lookbook = () => {
                                 className="dt_lookBookBuyBtn"
                                 onClick={() =>
                                   handleByCombo(
-                                    parseDesignDetails(
-                                      slide?.Designdetail,
-                                      "Cart"
-                                    )
+                                    parseDesignDetails(slide?.Designdetail, "Cart")
                                   )
                                 }
                               >
@@ -1618,101 +1462,259 @@ const Lookbook = () => {
                               </button>
                             </div>
                           </div>
-                          <Swiper
-                            slidesPerView={4}
-                            spaceBetween={10}
-                            navigation={true}
-                            loop={false}
-                            modules={[Pagination, Navigation]}
-                            className="dt_LookBookmySwiper dt_lookBookThirdViewWeb"
-                            breakpoints={{
-                              320: {
-                                slidesPerView: 1,
-                                spaceBetween: 10,
-                              },
-                              480: {
-                                slidesPerView: 2,
-                                spaceBetween: 20,
-                              },
-                              640: {
-                                slidesPerView: 3,
-                                spaceBetween: 30,
-                              },
-                            }}
+                          <div
+                            className="dt_lookBookSubImgMain"
+                            style={{ display: dataKey == index && "none" }}
                           >
-                            {sortDesignDetailsBySrNo(
-                              parseDesignDetails(slide?.Designdetail)
-                            )?.map((detail, subIndex) => (
-                              <div
-                                className="dt_lookBookSubImageDiv"
-                                key={subIndex}
-                              >
-                                <SwiperSlide
-                                  className="dt_lookBookSliderSubDiv"
+                            <Swiper
+                              slidesPerView={4}
+                              spaceBetween={10}
+                              navigation={true}
+                              // pagination={{ clickable: true }}
+                              loop={false}
+                              modules={[Pagination, Navigation]}
+                              className="dt_LookBookmySwiper"
+                              breakpoints={{
+                                320: {
+                                  slidesPerView: 1,
+                                  spaceBetween: 10,
+                                },
+                                480: {
+                                  slidesPerView: 2,
+                                  spaceBetween: 20,
+                                },
+                                640: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 30,
+                                },
+                              }}
+                            >
+                              {sortDesignDetailsBySrNo(
+                                parseDesignDetails(slide?.Designdetail)
+                              )?.map((detail, subIndex) => (
+                                <div
+                                  className="dt_lookBookSubImageDiv"
+                                  key={subIndex}
+                                >
+                                  <SwiperSlide
+                                    className="dt_lookBookSliderSubDiv"
+                                    style={{
+                                      marginRight: "0px",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    {detail?.IsInReadyStock == 1 && (
+                                      <span className="dt_LookBookinstock">
+                                        In Stock
+                                      </span>
+                                    )}
+                                    <img
+                                      className="dt_lookBookSubImage"
+                                      loading="lazy"
+                                      src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                      alt={`Sub image ${subIndex} for slide ${index}`}
+                                      onClick={() =>
+                                        handleNavigation(
+                                          detail?.designno,
+                                          detail?.autocode,
+                                          detail?.TitleLine ? detail?.TitleLine : ""
+                                        )
+                                      }
+                                    />
+                                    {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginBottom: "5px",
+                                      }}
+                                    >
+                                      {cartItems.includes(detail?.autocode) ? (
+                                        <button
+                                          className="dt_lookBookINCartBtn"
+                                          onClick={() => handleRemoveCart(detail)}
+                                        >
+                                          REMOVE CART
+                                        </button>
+                                      ) : (
+                                        <button
+                                          className="dt_lookBookAddtoCartBtn"
+                                          onClick={() => handleAddToCart(detail)}
+                                        >
+                                          ADD TO CART +
+                                        </button>
+                                      )}
+                                    </div>
+                                  </SwiperSlide>
+                                </div>
+                              ))}
+                            </Swiper>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                ) :
+                  <LookbookSkeleton param={selectedValue} />
+                }
+              </>
+            )}
+
+            {selectedValue == 3 && (
+              <>
+                {!isPgLoading ? (
+                  <div className="dt_lookBookImgDivMain">
+                    {filteredDesignSetLstData?.length == 0 ? (
+                      <div className="dt_noProductFoundLookBookDiv">
+                        <p>No Product Found!</p>
+                      </div>
+                    ) : (
+                      <>
+                        {filteredDesignSetLstData?.map((slide, index) => (
+                          <div className="dt_designSetDiv2" key={index}>
+                            <div
+                              style={{
+                                display: "flex",
+                                width: "30%",
+                                height: "300px",
+                                position: 'relative'
+                              }}
+                              className="dt_designSetDiv2_sub1"
+                            >
+                              {ProdCardImageFunc(slide) ? (
+                                <img
+                                  className="dt_lookBookImg"
+                                  loading="lazy"
+                                  src={ProdCardImageFunc(slide)}
+                                  alt={`Slide ${index}`}
+                                  // onMouseEnter={() => handleHoverImages(index)}
+                                  // onMouseLeave={() => seyDataKey(null)}
                                   style={{
-                                    marginRight: "0px",
+                                    height: "100%",
+                                    cursor: "pointer",
+                                  }}
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    height: "100%",
+                                    width: "100%",
+                                    ...getRandomBgColor(index),
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                     cursor: "pointer",
                                   }}
                                 >
-                                  {detail?.IsInReadyStock == 1 && (
-                                    <span className="dt_LookBookinstock">
-                                      In Stock
+                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                </div>
+                              )}
+                              <p className="dt_lb1designList_title">{slide?.designsetno}</p>
+                            </div>
+
+                            <div
+                              style={{
+                                display: dataKey == index && "none",
+                                display: "flex",
+                                width: "70%",
+                                justifyContent: "space-around",
+                                alignItems: "center",
+                                flexDirection: "column",
+                              }}
+                              className="dt_designSetDiv2_sub2"
+                            >
+                              <div
+                                className="dt_lookBookImgDeatil"
+                                style={{
+                                  display: dataKey == index ? "none" : "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: 'center',
+                                  width: "100%",
+                                  padding: "0px 15px",
+                                  margin: "5px",
+                                }}
+                              >
+                                <p className="dt_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
+                                  DWT:{" "}
+                                  {calculateTotalUnitCostWithMarkUpDwt(
+                                    JSON?.parse(slide.Designdetail)
+                                  ).toFixed(3)}{" "}
+                                  | GWT:{" "}
+                                  {calculateTotalUnitCostWithMarkUpGWt(
+                                    JSON?.parse(slide.Designdetail)
+                                  ).toFixed(3)}{" "}
+                                  | NWT:{" "}
+                                  {calculateTotalUnitCostWithMarkUpNwt(
+                                    JSON?.parse(slide.Designdetail)
+                                  ).toFixed(3)}{" "}
+                                </p>
+                                <div
+                                  className="dt_lookBookImgDeatilSub"
+                                  style={{ display: "flex", alignItems: "center" }}
+                                >
+                                  <p
+                                    style={{
+                                      margin: "0px 10px 0px 0px",
+                                      fontSize: "15px",
+                                      fontWeight: 600,
+                                    }}
+                                    className="dt_lookBookPriceShow"
+                                  >
+                                    {" "}
+                                    {/* <span
+                                  className="dt_currencyFont"
+                                  dangerouslySetInnerHTML={{
+                                    __html: decodeEntities(
+                                      storeInit?.Currencysymbol
+                                    ),
+                                  }}
+                                /> */}
+                                    <span
+                                      className="dt_currencyFont"
+                                    >
+                                      {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
-                                  )}
-                                  <img
-                                    className="dt_lookBookSubImage"
-                                    loading="lazy"
-                                    src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                    alt={`Sub image ${subIndex} for slide ${index}`}
+                                    &nbsp;
+                                    {formatter(calculateTotalUnitCostWithMarkUp(
+                                      JSON?.parse(slide.Designdetail)
+                                    ))}
+                                  </p>
+                                  <button
+                                    className="dt_lookBookBuyBtn"
                                     onClick={() =>
-                                      handleNavigation(
-                                        detail?.designno,
-                                        detail?.autocode,
-                                        detail?.TitleLine
-                                          ? detail?.TitleLine
-                                          : ""
+                                      handleByCombo(
+                                        parseDesignDetails(
+                                          slide?.Designdetail,
+                                          "Cart"
+                                        )
                                       )
                                     }
-                                  />
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      marginBottom: "5px",
-                                    }}
                                   >
-                                    {cartItems.includes(detail?.autocode) ? (
-                                      <button
-                                        className="dt_lookBookINCartBtn"
-                                        onClick={() => handleRemoveCart(detail)}
-                                      >
-                                        REMOVE CART
-                                      </button>
-                                    ) : (
-                                      <button
-                                        className="dt_lookBookAddtoCartBtn"
-                                        onClick={() => handleAddToCart(detail)}
-                                      >
-                                        ADD TO CART +
-                                      </button>
-                                    )}
-                                  </div>
-                                </SwiperSlide>
+                                    Buy Combo
+                                  </button>
+                                </div>
                               </div>
-                            ))}
-                          </Swiper>
-
-
-                          <div className="dt_LookBookMobileThridViewMain">
-                            <div className="card">
                               <Swiper
-                                className="dt_LookBookMobileThridViewMain_swiper_w"
-                                spaceBetween={5}
-                                slidesPerView={1}
-                                speed={1000}
-                                onSwiper={setSwiper}
-                                navigation
-                                pagination
+                                slidesPerView={4}
+                                spaceBetween={10}
+                                navigation={true}
+                                loop={false}
+                                modules={[Pagination, Navigation]}
+                                className="dt_LookBookmySwiper dt_lookBookThirdViewWeb"
+                                breakpoints={{
+                                  320: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 10,
+                                  },
+                                  480: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 20,
+                                  },
+                                  640: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 30,
+                                  },
+                                }}
                               >
                                 {sortDesignDetailsBySrNo(
                                   parseDesignDetails(slide?.Designdetail)
@@ -1722,7 +1724,7 @@ const Lookbook = () => {
                                     key={subIndex}
                                   >
                                     <SwiperSlide
-                                      key={`detail-${detail?.id}`}
+                                      className="dt_lookBookSliderSubDiv"
                                       style={{
                                         marginRight: "0px",
                                         cursor: "pointer",
@@ -1775,69 +1777,149 @@ const Lookbook = () => {
                                   </div>
                                 ))}
                               </Swiper>
-                            </div>
-                            {/* <div className="btnflex">
+
+
+                              <div className="dt_LookBookMobileThridViewMain">
+                                <div className="card">
+                                  <Swiper
+                                    className="dt_LookBookMobileThridViewMain_swiper_w"
+                                    spaceBetween={5}
+                                    slidesPerView={1}
+                                    speed={1000}
+                                    onSwiper={setSwiper}
+                                    navigation
+                                    pagination
+                                  >
+                                    {sortDesignDetailsBySrNo(
+                                      parseDesignDetails(slide?.Designdetail)
+                                    )?.map((detail, subIndex) => (
+                                      <div
+                                        className="dt_lookBookSubImageDiv"
+                                        key={subIndex}
+                                      >
+                                        <SwiperSlide
+                                          key={`detail-${detail?.id}`}
+                                          style={{
+                                            marginRight: "0px",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          {detail?.IsInReadyStock == 1 && (
+                                            <span className="dt_LookBookinstock">
+                                              In Stock
+                                            </span>
+                                          )}
+                                          <img
+                                            className="dt_lookBookSubImage"
+                                            loading="lazy"
+                                            src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                            alt={`Sub image ${subIndex} for slide ${index}`}
+                                            onClick={() =>
+                                              handleNavigation(
+                                                detail?.designno,
+                                                detail?.autocode,
+                                                detail?.TitleLine
+                                                  ? detail?.TitleLine
+                                                  : ""
+                                              )
+                                            }
+                                          />
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              marginBottom: "5px",
+                                            }}
+                                          >
+                                            {cartItems.includes(detail?.autocode) ? (
+                                              <button
+                                                className="dt_lookBookINCartBtn"
+                                                onClick={() => handleRemoveCart(detail)}
+                                              >
+                                                REMOVE CART
+                                              </button>
+                                            ) : (
+                                              <button
+                                                className="dt_lookBookAddtoCartBtn"
+                                                onClick={() => handleAddToCart(detail)}
+                                              >
+                                                ADD TO CART +
+                                              </button>
+                                            )}
+                                          </div>
+                                        </SwiperSlide>
+                                      </div>
+                                    ))}
+                                  </Swiper>
+                                </div>
+                                {/* <div className="btnflex">
                               <button className="btncst" onClick={handlePrevious}>&lt;</button>
                               <button className="btncst" onClick={handleNext}>&gt;</button>
                             </div> */}
-                          </div>
+                              </div>
 
-                          {/* } */}
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
+                              {/* } */}
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                ) :
+                  <LookbookSkeleton param={selectedValue} />
+                }
+              </>
             )}
 
             {selectedValue == 1 && (
-              <div className="dt_lookbook3MainDiv">
-                {filteredDesignSetLstData?.length == 0 ? (
-                  <div className="dt_noProductFoundLookBookDiv">
-                    <p>No Product Found!</p>
-                  </div>
-                ) : (
-                  <>
-                    <Swiper
-                      slidesPerView={1}
-                      spaceBetween={10}
-                      navigation={true}
-                      loop={true}
-                      thumbs={{ swiper: thumbsSwiper }}
-                      modules={[Keyboard, FreeMode, Navigation, Thumbs, Scrollbar]}
-                      keyboard={{ enabled: true }}
-                      mousewheel={true}
-                      className="dt_LookBookmySwiper mySwiper2"
-                    >
-                      {filteredDesignSetLstData?.map((slide, index) => (
-                        <SwiperSlide key={index}>
-                          <div>
-                            <div className="dt_lb3compeletethelook_cont">
-                              <div className="dt_lb3ctlImg_containe">
-                                {ProdCardImageFunc(slide) ? (
-                                  <img
-                                    src={ProdCardImageFunc(slide)}
-                                    alt=""
-                                    className="dt_lb3ctl_img"
-                                  />
-                                ) : (
-                                  <div
-                                    style={{
-                                      height: "100%",
-                                      width: "100%",
-                                      ...getRandomBgColor(index),
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      cursor: "pointer",
-                                    }}
-                                    className="dt_lb3ctl_img"
-                                  >
-                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
-                                  </div>
-                                )}
-                                {/* <div className="dt_lb3BuyComboDiv" onClick={() =>
+              <>
+                {!isPgLoading ? (
+                  <div className="dt_lookbook3MainDiv">
+                    {filteredDesignSetLstData?.length == 0 ? (
+                      <div className="dt_noProductFoundLookBookDiv">
+                        <p>No Product Found!</p>
+                      </div>
+                    ) : (
+                      <>
+                        <Swiper
+                          slidesPerView={1}
+                          spaceBetween={10}
+                          navigation={true}
+                          loop={true}
+                          thumbs={{ swiper: thumbsSwiper }}
+                          modules={[Keyboard, FreeMode, Navigation, Thumbs, Scrollbar]}
+                          keyboard={{ enabled: true }}
+                          mousewheel={true}
+                          className="dt_LookBookmySwiper mySwiper2"
+                        >
+                          {filteredDesignSetLstData?.map((slide, index) => (
+                            <SwiperSlide key={index}>
+                              <div>
+                                <div className="dt_lb3compeletethelook_cont">
+                                  <div className="dt_lb3ctlImg_containe">
+                                    {ProdCardImageFunc(slide) ? (
+                                      <img
+                                        src={ProdCardImageFunc(slide)}
+                                        alt=""
+                                        className="dt_lb3ctl_img"
+                                      />
+                                    ) : (
+                                      <div
+                                        style={{
+                                          height: "100%",
+                                          width: "100%",
+                                          ...getRandomBgColor(index),
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          cursor: "pointer",
+                                        }}
+                                        className="dt_lb3ctl_img"
+                                      >
+                                        {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                      </div>
+                                    )}
+                                    {/* <div className="dt_lb3BuyComboDiv" onClick={() =>
                                   handleByCombo(
                                     parseDesignDetails(
                                       slide?.Designdetail,
@@ -1850,53 +1932,64 @@ const Lookbook = () => {
                                   </button>
                                 </div> */}
 
-                              </div>
-                              <div
-                                className={
-                                  (slide?.Designdetail == undefined
-                                    ? []
-                                    : sortDesignDetailsBySrNo(
-                                      parseDesignDetails(slide?.Designdetail)
-                                    )
-                                  )?.length > 3
-                                    ? "dt_lb3compeletethelook_prodt_for_3"
-                                    : "dt_lb3compeletethelook_prodt"
-                                }
-                              >
-                                <p className="dt_lb3designList_title" >{slide?.designsetno}</p>
-                                <div className="dt_lb3_prodtDiv2">
-                                  {sortDesignDetailsBySrNo(
-                                    parseDesignDetails(slide?.Designdetail)
-                                  )?.map((ele, subIndex) => (
-                                    <div
-                                      key={subIndex}
-                                      className="dt_lb3completethelook_outer"
-                                      style={{
-                                        borderTop: subIndex !== 0 ? "none" : "",
-                                        width: "513px",
-                                        padding: "5px",
-                                        border: "1px solid #e1e1e1",
-                                        backgroundColor: "#fff",
-                                      }}
-                                    >
-                                      <div
-                                        className="dt_lookbookMainDivdata"
-                                        style={{
-                                          display: "flex",
-                                          gap: "40px",
-                                          justifyContent: "space-around",
-                                        }}
-                                      >
-                                        <div className="dt_lb3ImageDiv" style={{ marginLeft: "12px" }}>
-                                          <img
-                                            src={
-                                              ele?.ImageCount > 0
-                                                ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
-                                                : imageNotFound
-                                            }
-                                            alt=""
-                                            className="dt_lb3srthelook_img"
-                                            onClick={() =>
+                                  </div>
+                                  <div
+                                    className={
+                                      (slide?.Designdetail == undefined
+                                        ? []
+                                        : sortDesignDetailsBySrNo(
+                                          parseDesignDetails(slide?.Designdetail)
+                                        )
+                                      )?.length > 3
+                                        ? "dt_lb3compeletethelook_prodt_for_3"
+                                        : "dt_lb3compeletethelook_prodt"
+                                    }
+                                  >
+                                    <p className="dt_lb3designList_title" >{slide?.designsetno}</p>
+                                    <div className="dt_lb3_prodtDiv2">
+                                      {sortDesignDetailsBySrNo(
+                                        parseDesignDetails(slide?.Designdetail)
+                                      )?.map((ele, subIndex) => (
+                                        <div
+                                          key={subIndex}
+                                          className="dt_lb3completethelook_outer"
+                                          style={{
+                                            borderTop: subIndex !== 0 ? "none" : "",
+                                            width: "513px",
+                                            padding: "5px",
+                                            border: "1px solid #e1e1e1",
+                                            backgroundColor: "#fff",
+                                          }}
+                                        >
+                                          <div
+                                            className="dt_lookbookMainDivdata"
+                                            style={{
+                                              display: "flex",
+                                              gap: "40px",
+                                              justifyContent: "space-around",
+                                            }}
+                                          >
+                                            <div className="dt_lb3ImageDiv" style={{ marginLeft: "12px" }}>
+                                              <img
+                                                src={
+                                                  ele?.ImageCount > 0
+                                                    ? `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`
+                                                    : imageNotFound
+                                                }
+                                                alt=""
+                                                className="dt_lb3srthelook_img"
+                                                onClick={() =>
+                                                  handleNavigation(
+                                                    ele?.designno,
+                                                    ele?.autocode,
+                                                    ele?.TitleLine
+                                                      ? ele?.TitleLine
+                                                      : ""
+                                                  )
+                                                }
+                                              />
+                                            </div>
+                                            <div className="dt_lb3srthelook_prodinfo" onClick={() =>
                                               handleNavigation(
                                                 ele?.designno,
                                                 ele?.autocode,
@@ -1904,70 +1997,59 @@ const Lookbook = () => {
                                                   ? ele?.TitleLine
                                                   : ""
                                               )
-                                            }
-                                          />
-                                        </div>
-                                        <div className="dt_lb3srthelook_prodinfo" onClick={() =>
-                                          handleNavigation(
-                                            ele?.designno,
-                                            ele?.autocode,
-                                            ele?.TitleLine
-                                              ? ele?.TitleLine
-                                              : ""
-                                          )
-                                        }>
-                                          <div
-                                            style={{
-                                              fontSize: "14px",
-                                              textTransform: "uppercase",
-                                            }}
-                                            className="dt_lb3srthelook_prodinfo_inner"
-                                          >
-                                            <p className="dt_titlline">
-                                              <span>
-                                                {ele?.designno} - {ele?.CategoryName}
-                                              </span>
-                                              <br />
+                                            }>
+                                              <div
+                                                style={{
+                                                  fontSize: "14px",
+                                                  textTransform: "uppercase",
+                                                }}
+                                                className="dt_lb3srthelook_prodinfo_inner"
+                                              >
+                                                <p className="dt_titlline">
+                                                  <span>
+                                                    {ele?.designno} - {ele?.CategoryName}
+                                                  </span>
+                                                  <br />
 
-                                              {storeInit?.IsGrossWeight == 1 &&
-                                                <>
-                                                  <span className='dt_lb3detailDT'>GWT: </span>
-                                                  <span className='dt_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                              }
-
-                                              {Number(ele?.Nwt) !== 0 && (
-                                                <>
-                                                  <span className='dt_lb3pipe'> | </span>
-                                                  <span className='dt_lb3detailDT'>NWT : </span>
-                                                  <span className='dt_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
-                                                </>
-                                              )}
-
-                                              {storeInit?.IsGrossWeight == 1 &&
-                                                <>
-                                                  {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
+                                                  {storeInit?.IsGrossWeight == 1 &&
                                                     <>
-                                                      <span className='dt_lb3pipe'> | </span>
-                                                      <span className='dt_lb3detailDT'>DWT: </span>
-                                                      <span className='dt_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                      <span className='dt_lb3detailDT'>GWT: </span>
+                                                      <span className='dt_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
                                                     </>
                                                   }
-                                                </>
-                                              }
-                                              {storeInit?.IsStoneWeight == 1 &&
-                                                <>
-                                                  {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+
+                                                  {Number(ele?.Nwt) !== 0 && (
                                                     <>
                                                       <span className='dt_lb3pipe'> | </span>
-                                                      <span className='dt_lb3detailDT'>CWT: </span>
-                                                      <span className='dt_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                      <span className='dt_lb3detailDT'>NWT : </span>
+                                                      <span className='dt_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                    </>
+                                                  )}
+
+                                                  {storeInit?.IsGrossWeight == 1 &&
+                                                    <>
+                                                      {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
+                                                        <>
+                                                          <span className='dt_lb3pipe'> | </span>
+                                                          <span className='dt_lb3detailDT'>DWT: </span>
+                                                          <span className='dt_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                        </>
+                                                      }
                                                     </>
                                                   }
-                                                </>
-                                              }
-                                              <br />
-                                              {/* <span
+                                                  {storeInit?.IsStoneWeight == 1 &&
+                                                    <>
+                                                      {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
+                                                        <>
+                                                          <span className='dt_lb3pipe'> | </span>
+                                                          <span className='dt_lb3detailDT'>CWT: </span>
+                                                          <span className='dt_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                        </>
+                                                      }
+                                                    </>
+                                                  }
+                                                  <br />
+                                                  {/* <span
                                               className="dt_currencyFont"
                                               dangerouslySetInnerHTML={{
                                                 __html: decodeEntities(
@@ -1975,154 +2057,174 @@ const Lookbook = () => {
                                                 ),
                                               }}
                                             /> */}
-                                              <span
-                                                className="dt_currencyFont"
-                                              >
-                                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                              </span>
-                                              &nbsp;
-                                              {formatter(ele?.UnitCostWithMarkUp)}
-                                            </p>
+                                                  <span
+                                                    className="dt_currencyFont"
+                                                  >
+                                                    {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                  </span>
+                                                  &nbsp;
+                                                  {formatter(ele?.UnitCostWithMarkUp)}
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                justifyContent: "end",
+                                                alignItems: "center",
+                                                marginBottom: "5px",
+                                              }}
+                                              className="dt_lb3cartIconBtnDiv"
+                                            >
+                                              {cartItems.includes(ele?.autocode) ? (
+                                                <IconButton
+                                                  onClick={() => handleRemoveCart(ele)}
+                                                >
+                                                  <LocalMallIcon className="dt_lookBookINCartIconBtn" />
+                                                </IconButton>
+                                              ) : (
+                                                <IconButton
+                                                  onClick={() => handleAddToCart(ele)}
+                                                >
+                                                  <LocalMallOutlinedIcon className="dt_lookBookAddtoCartIconBtn" />
+                                                </IconButton>
+                                              )}
+
+
+                                            </div>
                                           </div>
                                         </div>
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "end",
-                                            alignItems: "center",
-                                            marginBottom: "5px",
-                                          }}
-                                          className="dt_lb3cartIconBtnDiv"
-                                        >
-                                          {cartItems.includes(ele?.autocode) ? (
-                                            <IconButton
-                                              onClick={() => handleRemoveCart(ele)}
-                                            >
-                                              <LocalMallIcon className="dt_lookBookINCartIconBtn" />
-                                            </IconButton>
-                                          ) : (
-                                            <IconButton
-                                              onClick={() => handleAddToCart(ele)}
-                                            >
-                                              <LocalMallOutlinedIcon className="dt_lookBookAddtoCartIconBtn" />
-                                            </IconButton>
-                                          )}
-
-
-                                        </div>
+                                      ))}
+                                    </div>
+                                    <div
+                                      className="dt_lb3TotalBtnGroup"
+                                    >
+                                      <div className="dt_lb3TotalPrice">
+                                        <span>
+                                          <span
+                                            className="dt_currencyFont"
+                                          >
+                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                          </span>
+                                          &nbsp;
+                                          {formatter(calculateTotalUnitCostWithMarkUp(
+                                            JSON?.parse(slide.Designdetail)
+                                          ))}
+                                        </span>
+                                      </div>
+                                      <div className="dt_lb3BuyComboDiv" onClick={() =>
+                                        handleByCombo(
+                                          parseDesignDetails(
+                                            slide?.Designdetail,
+                                            "Cart"
+                                          )
+                                        )
+                                      }>
+                                        <span>
+                                          Buy Combo
+                                        </span>
                                       </div>
                                     </div>
-                                  ))}
-                                </div>
-                                <div
-                                  className="dt_lb3TotalBtnGroup"
-                                >
-                                  <div className="dt_lb3TotalPrice">
-                                    <span>
-                                      <span
-                                        className="dt_currencyFont"
-                                      >
-                                        {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                      </span>
-                                      &nbsp;
-                                      {formatter(calculateTotalUnitCostWithMarkUp(
-                                        JSON?.parse(slide.Designdetail)
-                                      ))}
-                                    </span>
-                                  </div>
-                                  <div className="dt_lb3BuyComboDiv" onClick={() =>
-                                    handleByCombo(
-                                      parseDesignDetails(
-                                        slide?.Designdetail,
-                                        "Cart"
-                                      )
-                                    )
-                                  }>
-                                    <span>
-                                      Buy Combo
-                                    </span>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                    <div className="dt_lookbook3thumbMainDiv">
-                      {filteredDesignSetLstData?.length != 0 && (
-                        <Swiper
-                          onSwiper={setThumbsSwiper}
-                          spaceBetween={10}
-                          slidesPerView={20}
-                          freeMode={true}
-                          watchSlidesProgress={true}
-                          modules={[Keyboard, FreeMode, Navigation, Thumbs]}
-                          keyboard={{ enabled: true }}
-                          mousewheel={true}
-                          className="mySwiper"
-                          breakpoints={{
-                            320: {
-                              slidesPerView: 2,
-                              spaceBetween: 10,
-                            },
-                            480: {
-                              slidesPerView: 3,
-                              spaceBetween: 10,
-                            },
-                            640: {
-                              slidesPerView: 4,
-                              spaceBetween: 10,
-                            },
-                            768: {
-                              slidesPerView: 5,
-                              spaceBetween: 10,
-                            },
-                            1024: {
-                              slidesPerView: 10,
-                              spaceBetween: 10,
-                            },
-                            1280: {
-                              slidesPerView: 20,
-                              spaceBetween: 10,
-                            },
-                          }}
-                        >
-                          {filteredDesignSetLstData?.map((slide, index) => (
-                            <SwiperSlide key={index}>
-
-                              {ProdCardImageFunc(slide) ? (
-                                <img
-                                  src={ProdCardImageFunc(slide)}
-                                  alt=""
-                                  className="ctl_Paginationimg"
-                                />
-                              ) : (
-                                <div
-                                  style={{
-                                    height: "100%",
-                                    width: "100%",
-                                    ...getRandomBgColor(index),
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    cursor: "pointer",
-                                  }}
-                                  className="dt_lb3ctl_img"
-                                >
-                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
-                                </div>
-                              )}
                             </SwiperSlide>
                           ))}
                         </Swiper>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
+                        <div className="dt_lookbook3thumbMainDiv">
+                          {filteredDesignSetLstData?.length != 0 && (
+                            <Swiper
+                              onSwiper={setThumbsSwiper}
+                              spaceBetween={10}
+                              slidesPerView={20}
+                              freeMode={true}
+                              watchSlidesProgress={true}
+                              modules={[Keyboard, FreeMode, Navigation, Thumbs]}
+                              keyboard={{ enabled: true }}
+                              mousewheel={true}
+                              className="mySwiper"
+                              breakpoints={{
+                                320: {
+                                  slidesPerView: 2,
+                                  spaceBetween: 10,
+                                },
+                                480: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 10,
+                                },
+                                640: {
+                                  slidesPerView: 4,
+                                  spaceBetween: 10,
+                                },
+                                768: {
+                                  slidesPerView: 5,
+                                  spaceBetween: 10,
+                                },
+                                1024: {
+                                  slidesPerView: 10,
+                                  spaceBetween: 10,
+                                },
+                                1280: {
+                                  slidesPerView: 20,
+                                  spaceBetween: 10,
+                                },
+                              }}
+                            >
+                              {filteredDesignSetLstData?.map((slide, index) => (
+                                <SwiperSlide key={index}>
+
+                                  {ProdCardImageFunc(slide) ? (
+                                    <img
+                                      src={ProdCardImageFunc(slide)}
+                                      alt=""
+                                      className="ctl_Paginationimg"
+                                      ref={SwiperSlideRef}
+                                        onLoad={handleImageLoad}
+                                    />
+                                  ) : (
+                                    <div
+                                      style={{
+                                        // height: "100%",
+                                        // width: "100%",
+                                        ...getRandomBgColor(index),
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        cursor: "pointer",
+                                        height: DynamicSize.h ?? "100%",
+                                        width: DynamicSize.w ?? "100%",
+                                        margin:'0'
+                                      }}
+                                      className="dt_lb3ctl_img"
+                                    >
+                                      {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                    </div>
+                                  )}
+                                </SwiperSlide>
+                              ))}
+                            </Swiper>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ) :
+                  <LookbookSkeleton param={selectedValue} />
+                }
+              </>
             )}
 
+            <div className="lpDiv">
+              <MuiPagination
+                count={Math.ceil(dstCount / itemsPerPage)}
+                size={maxwidth464px ? "small" : "large"}
+                shape="circular"
+                onChange={handelPageChange}
+                page={currentPage}
+                // showFirstButton
+                // showLastButton
+              />
+            </div>
           </div>
         </div>
       )}

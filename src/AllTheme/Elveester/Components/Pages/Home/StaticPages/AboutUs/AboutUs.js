@@ -70,7 +70,11 @@ const AboutUs = () => {
                                         </TabList>
                                     </Box>
                                     {tabArr.map((_, index) => (
-                                        <TabPanel key={index} value={(index + 1).toString()}>
+                                        <TabPanel key={index} value={(index + 1).toString()} sx={{
+                                            '@media screen and (max-width: 425px)': {
+                                                padding: '24px !important'
+                                            },
+                                        }}>
                                             {(index === 0 ? (
                                                 <Aboutpara />
                                             ) : index === 1 ? (

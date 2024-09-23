@@ -532,7 +532,7 @@ const DesignWiseSalesReport = () => {
     }, []);
 
     return (
-        <Box className="designWiseSalesReport">
+        <Box className="designWiseSalesReport fs_elvee_dwsr">
             {/* { !isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                     <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
@@ -1022,7 +1022,7 @@ const DesignWiseSalesReport = () => {
             } */}
             { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
                 </Box>
            
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
@@ -1032,7 +1032,7 @@ const DesignWiseSalesReport = () => {
                             value={fromDate}
                             ref={fromDateRef}
                             format="DD MM YYYY"
-                            className='quotationFilterDates'
+                            className='quotationFilterDates fs_elvee_dwsr'
                             onChange={(newValue) => {
                                 if (newValue === null) {
                                     setFromDate(null)
@@ -1060,7 +1060,7 @@ const DesignWiseSalesReport = () => {
                             value={toDate}
                             ref={toDateRef}
                             format="DD MM YYYY"
-                            className='quotationFilterDates'
+                            className='quotationFilterDates fs_elvee_dwsr'
                             onChange={(newValue) => {
                                 if (newValue === null) {
                                     setToDate(null)
@@ -1083,14 +1083,14 @@ const DesignWiseSalesReport = () => {
                 </Box>
 
                 <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
-                    <Button variant='contained' className='muiSmilingRocksBtn'
+                    <Button variant='contained' className='muiSmilingRocksBtn fs_elvee_dwsr'
                         sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
                         onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
                         <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
 
                 <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                    <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                     <Slider
                         className='netWtSecSlider'
                         getAriaLabel={() => 'NetWt(gm)'}
@@ -1102,13 +1102,13 @@ const DesignWiseSalesReport = () => {
                         min={(netWtLimit?.min)}
                         max={(netWtLimit?.max)}
                     />
-                    {console.log(netWtSlider)}
                     
                     <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                         <Typography sx={{ maxWidth: "50px" }}>
                             <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                 onChange={handleNetWtSliderCustom(0)}
                                 onBlur={handleBlurNetWt(0)}
+                                className='fs_elvee_dwsr'
                                 inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
                             />
                         </Typography>
@@ -1118,13 +1118,14 @@ const DesignWiseSalesReport = () => {
                                 inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
                                 onChange={handleNetWtSliderCustom(1)}
                                 onBlur={handleBlurNetWt(1)}
+                                className='fs_elvee_dwsr'
                             />
                         </Typography>
                     </Box>
                 </Box>
 
                 <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                    <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
                     <Slider
                         className='netWtSecSlider'
                         getAriaLabel={() => 'GrossWt'}
@@ -1140,6 +1141,7 @@ const DesignWiseSalesReport = () => {
                             <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                 onChange={handleGrossWtSliderCustom(0)}
                                 onBlur={handleBlurGrossWt(0)}
+                                className='fs_elvee_dwsr'
                                 inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
                             />
                         </Typography>
@@ -1149,13 +1151,14 @@ const DesignWiseSalesReport = () => {
                                 inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
                                 onChange={handleGrossWtSliderCustom(1)}
                                 onBlur={handleBlurGrossWt(1)}
+                                className='fs_elvee_dwsr'
                             />
                         </Typography>
                     </Box>
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
                     <Box
                     >
                         <Select
@@ -1167,22 +1170,22 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "80px" }}
                         >
                             {purchaseCountList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography>DesignNo</Typography>
+                    <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
                     <TextField type='text' value={designNo} onChange={eve => {
                         setDesignNo(eve?.target?.value);
                         handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                    }} className='design_No' placeholder='#DesignNo' />
+                    }} className='design_No fs_elvee_dwsr' placeholder='#DesignNo' />
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -1192,13 +1195,13 @@ const DesignWiseSalesReport = () => {
                         sx={{ width: "200px" }}
                     >
                         {metalList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                         })}
                     </Select>
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -1208,13 +1211,13 @@ const DesignWiseSalesReport = () => {
                         sx={{ width: "200px" }}
                     >
                         {productTypeList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                         })}
                     </Select>
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
                     <Select
                         labelId="metalColor"
                         id="demo-simple-select"
@@ -1224,13 +1227,13 @@ const DesignWiseSalesReport = () => {
                         sx={{ width: "200px" }}
                     >
                         {metalColorList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                         })}
                     </Select>
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
                     <Select
                         labelId="metalColor"
                         id="demo-simple-select"
@@ -1240,13 +1243,13 @@ const DesignWiseSalesReport = () => {
                         sx={{ width: "200px" }}
                     >
                         {categorylist?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                         })}
                     </Select>
                 </Box>
 
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
                     <Select
                         labelId="SubCategory"
                         id="demo-simple-select"
@@ -1256,7 +1259,7 @@ const DesignWiseSalesReport = () => {
                         sx={{ width: "200px" }}
                     >
                         {subCategoryList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                         })}
                     </Select>
                 </Box>
@@ -1265,7 +1268,7 @@ const DesignWiseSalesReport = () => {
             <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
                 <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingTop:'7px'}}>
                     <Box sx={{ paddingRight: "15px", }}>
-                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
                     </Box>
                     <Box sx={{display:'flex', alignItems:'center'}}>
                         <Box sx={{ paddingRight: "15px", }}>
@@ -1275,7 +1278,7 @@ const DesignWiseSalesReport = () => {
                                     value={fromDate}
                                     ref={fromDateRef}
                                     format="DD MM YYYY"
-                                    className='quotationFilterDates'
+                                    className='quotationFilterDates fs_elvee_dwsr'
                                     onChange={(newValue) => {
                                         if (newValue === null) {
                                             setFromDate(null)
@@ -1303,7 +1306,7 @@ const DesignWiseSalesReport = () => {
                                     value={toDate}
                                     ref={toDateRef}
                                     format="DD MM YYYY"
-                                    className='quotationFilterDates'
+                                    className='quotationFilterDates fs_elvee_dwsr'
                                     onChange={(newValue) => {
                                         if (newValue === null) {
                                             setToDate(null)
@@ -1325,14 +1328,14 @@ const DesignWiseSalesReport = () => {
                             </LocalizationProvider>
                         </Box>
                         <Box sx={{ paddingRight: "15px", }} className="searchDesignWiseSalesReport">
-                            <Button variant='contained' className='muiSmilingRocksBtn'
+                            <Button variant='contained' className='muiSmilingRocksBtn fs_elvee_dwsr'
                                 sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
                                 onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
                                 <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                         </Box>
                     </Box>
                     <Box sx={{ paddingRight: "0px" }}>
-                        <Typography>DesignNo</Typography>
+                        <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
                         <TextField type='text' value={designNo} onChange={eve => {
                             setDesignNo(eve?.target?.value);
                             handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
@@ -1341,7 +1344,7 @@ const DesignWiseSalesReport = () => {
                 </Box>
                 <Box style={{display:'flex',justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingBottom:'10px'}}>
                     <Box sx={{ paddingRight: "10px", paddingLeft:'10px', paddingBottom: "0px", width: '24%' }}>
-                    <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                     <Slider
                         className='netWtSecSlider'
                         getAriaLabel={() => 'NetWt(gm)'}
@@ -1359,6 +1362,7 @@ const DesignWiseSalesReport = () => {
                                 onChange={handleNetWtSliderCustom(0)}
                                 onBlur={handleBlurNetWt(0)}
                                 inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                className='fs_elvee_dwsr'
                             />
                         </Typography>
                         <Typography sx={{ maxWidth: "50px" }}>
@@ -1367,12 +1371,13 @@ const DesignWiseSalesReport = () => {
                                 inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
                                 onChange={handleNetWtSliderCustom(1)}
                                 onBlur={handleBlurNetWt(1)}
+                                className='fs_elvee_dwsr'
                             />
                         </Typography>
                     </Box>
                     </Box>
                     <Box sx={{ paddingRight: "10px", paddingLeft:'10px', paddingBottom: "0px", width: '24%' }}>
-                        <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
                         <Slider
                             className='netWtSecSlider'
                             getAriaLabel={() => 'GrossWt'}
@@ -1389,6 +1394,7 @@ const DesignWiseSalesReport = () => {
                                     onChange={handleGrossWtSliderCustom(0)}
                                     onBlur={handleBlurGrossWt(0)}
                                     inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                    className='fs_elvee_dwsr'
                                 />
                             </Typography>
                             <Typography sx={{ maxWidth: "50px" }}>
@@ -1397,12 +1403,13 @@ const DesignWiseSalesReport = () => {
                                     inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
                                     onChange={handleGrossWtSliderCustom(1)}
                                     onBlur={handleBlurGrossWt(1)}
+                                    className='fs_elvee_dwsr'
                                 />
                             </Typography>
                         </Box>
                     </Box>
                     <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
                         <Box >
                             <Select
                                 labelId="demo-simple-select-label"
@@ -1413,13 +1420,13 @@ const DesignWiseSalesReport = () => {
                                 sx={{ width: "100%" }}
                             >
                                 {purchaseCountList?.map((ele, ind) => {
-                                    return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
                                 })}
                             </Select>
                         </Box>
                     </Box>
                     <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -1429,7 +1436,7 @@ const DesignWiseSalesReport = () => {
                         sx={{ width: "100%" }}
                     >
                         {metalList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                         })}
                     </Select>
                 </Box>
@@ -1437,7 +1444,7 @@ const DesignWiseSalesReport = () => {
 
                 <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingBottom:'10px'}}>
                     <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -1447,13 +1454,13 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {productTypeList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
 
                     <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                        <Typography  sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
@@ -1463,13 +1470,13 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {metalColorList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
 
                     <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
@@ -1479,13 +1486,13 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {categorylist?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
 
                     <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
                         <Select
                             labelId="SubCategory"
                             id="demo-simple-select"
@@ -1495,7 +1502,7 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {subCategoryList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
@@ -1505,14 +1512,14 @@ const DesignWiseSalesReport = () => {
             { isSmallScreen &&
             <>
              <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'20px', marginTop:'20px'}} className='accordion_Account_Head'>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
+                <AccordionSummary className='fs_elvee_dwsr' expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
                 <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
                     <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                         <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
-                            <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                            <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
                         </Box>
                         <Box sx={{  paddingBottom: "10px" }}>
-                            <Typography>DesignNo</Typography>
+                            <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
                             <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
                                 setDesignNo(eve?.target?.value);
                                 handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
@@ -1527,7 +1534,7 @@ const DesignWiseSalesReport = () => {
                                     value={fromDate}
                                     ref={fromDateRef}
                                     format="DD MM YYYY"
-                                    className='quotationFilterDates w100_dwsr'
+                                    className='quotationFilterDates w100_dwsr fs_elvee_dwsr'
                                     onChange={(newValue) => {
                                         if (newValue === null) {
                                             setFromDate(null)
@@ -1555,7 +1562,7 @@ const DesignWiseSalesReport = () => {
                                     value={toDate}
                                     ref={toDateRef}
                                     format="DD MM YYYY"
-                                    className='quotationFilterDates w100_dwsr'
+                                    className='quotationFilterDates w100_dwsr fs_elvee_dwsr'
                                     onChange={(newValue) => {
                                         if (newValue === null) {
                                             setToDate(null)
@@ -1587,7 +1594,7 @@ const DesignWiseSalesReport = () => {
                 <div className='toggleRange_dsr2'>
                     <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}} className='mr10_slider1_acc'>
                         <Box sx={{  paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
-                            <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                             <Slider
                                 className='netWtSecSlider'
                                 getAriaLabel={() => 'NetWt(gm)'}
@@ -1605,6 +1612,7 @@ const DesignWiseSalesReport = () => {
                                         onChange={handleNetWtSliderCustom(0)}
                                         onBlur={handleBlurNetWt(0)}
                                         inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                                 <Typography sx={{ maxWidth: "50px" }}>
@@ -1613,6 +1621,7 @@ const DesignWiseSalesReport = () => {
                                         inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
                                         onChange={handleNetWtSliderCustom(1)}
                                         onBlur={handleBlurNetWt(1)}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                             </Box>
@@ -1620,7 +1629,7 @@ const DesignWiseSalesReport = () => {
                     </Box>
                     <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}}>
                         <Box sx={{ paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
-                            <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
                             <Slider
                                 className='netWtSecSlider'
                                 getAriaLabel={() => 'GrossWt'}
@@ -1637,6 +1646,7 @@ const DesignWiseSalesReport = () => {
                                         onChange={handleGrossWtSliderCustom(0)}
                                         onBlur={handleBlurGrossWt(0)}
                                         inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                                 <Typography sx={{ maxWidth: "50px" }}>
@@ -1645,6 +1655,7 @@ const DesignWiseSalesReport = () => {
                                         inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
                                         onChange={handleGrossWtSliderCustom(1)}
                                         onBlur={handleBlurGrossWt(1)}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                             </Box>
@@ -1654,7 +1665,7 @@ const DesignWiseSalesReport = () => {
                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0px 14px'}} className='toggleRange_dsr'>
                     <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                         <Box sx={{  paddingBottom: "10px", width: 190 }}>
-                            <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                             <Slider
                                 className='netWtSecSlider'
                                 getAriaLabel={() => 'NetWt(gm)'}
@@ -1672,6 +1683,7 @@ const DesignWiseSalesReport = () => {
                                         onChange={handleNetWtSliderCustom(0)}
                                         onBlur={handleBlurNetWt(0)}
                                         inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                                 <Typography sx={{ maxWidth: "50px" }}>
@@ -1680,6 +1692,7 @@ const DesignWiseSalesReport = () => {
                                         inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
                                         onChange={handleNetWtSliderCustom(1)}
                                         onBlur={handleBlurNetWt(1)}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                             </Box>
@@ -1687,7 +1700,7 @@ const DesignWiseSalesReport = () => {
                     </Box>
                     <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                         <Box sx={{ paddingBottom: "10px", width: 190 }}>
-                            <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
                             <Slider
                                 className='netWtSecSlider'
                                 getAriaLabel={() => 'GrossWt'}
@@ -1704,6 +1717,7 @@ const DesignWiseSalesReport = () => {
                                         onChange={handleGrossWtSliderCustom(0)}
                                         onBlur={handleBlurGrossWt(0)}
                                         inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                                 <Typography sx={{ maxWidth: "50px" }}>
@@ -1712,6 +1726,7 @@ const DesignWiseSalesReport = () => {
                                         inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
                                         onChange={handleGrossWtSliderCustom(1)}
                                         onBlur={handleBlurGrossWt(1)}
+                                        className='fs_elvee_dwsr'
                                     />
                                 </Typography>
                             </Box>
@@ -1721,7 +1736,7 @@ const DesignWiseSalesReport = () => {
                 
                 <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
                     <Box sx={{  paddingBottom: "10px", width:'49%' }}>
-                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
                         <Box style={{width:'100%'}}>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -1732,13 +1747,13 @@ const DesignWiseSalesReport = () => {
                                 sx={{ width: "100%" }}
                             >
                                 {purchaseCountList?.map((ele, ind) => {
-                                    return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
                                 })}
                             </Select>
                         </Box>
                     </Box>
                     <Box sx={{  paddingBottom: "10px", width:'49%' }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -1748,7 +1763,7 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {metalList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
@@ -1756,7 +1771,7 @@ const DesignWiseSalesReport = () => {
 
                 <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
                     <Box sx={{  paddingBottom: "10px", width:'49%' }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -1766,13 +1781,13 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {productTypeList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
 
                     <Box sx={{  paddingBottom: "10px", width:'49%'}}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
@@ -1782,7 +1797,7 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {metalColorList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
@@ -1790,7 +1805,7 @@ const DesignWiseSalesReport = () => {
                 
                 <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                     <Box sx={{  paddingBottom: "10px", width:'49%'}}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
@@ -1800,13 +1815,13 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {categorylist?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
 
                     <Box sx={{  paddingBottom: "10px", width:'49%'}}>
-                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
                         <Select
                             labelId="SubCategory"
                             id="demo-simple-select"
@@ -1816,7 +1831,7 @@ const DesignWiseSalesReport = () => {
                             sx={{ width: "100%" }}
                         >
                             {subCategoryList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
@@ -1870,6 +1885,7 @@ const DesignWiseSalesReport = () => {
                                         fontWeight: "bold",
                                         textAlign: "start"
                                     }}
+                                    className='fs_elvee_dwsr'
                                 >
                                     {products?.designno}
                                 </Typography>
@@ -1881,20 +1897,21 @@ const DesignWiseSalesReport = () => {
                                         fontWeight: "bold",
                                         textAlign: "start"
                                     }}
+                                    className='fs_elvee_dwsr'
                                 >
                                     NetWt: {products?.DesignNetWt?.toFixed(3)}
                                 </Typography>
                             </Box>
                             <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
                                     Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
                                 </Typography>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
                                     Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
                                 </Typography>
                             </Box>
                             <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
                                     Purchase Count: {NumberWithCommas(products?.salescount, 0)}
                                 </Typography>
                                

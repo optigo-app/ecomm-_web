@@ -1,3 +1,5 @@
+@import "../../../../scss/elvee_modules.scss";
+
 .mainAffiliDiv {
     display: flex;
     justify-content: center;
@@ -7,29 +9,40 @@
 .brandsCompoents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
-    font-size: 22px;
+    font-size: 28px;
+    font-weight: 600;
     text-transform: capitalize;
     line-height: 2px;
-    margin: 50px 0px 50px 0px !important;
+    margin: 50px 0px 65px 0px !important;
+    font-family: $fontSansSerif;
 }
 
 .brandsComponentClass {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 6rem;
+    margin-block: 4rem;
 }
 
-.AffiliationComponents {
+.affilitionImg {
+    object-fit: contain;
+    width: 10%;
+}
+
+.elv_AffiliationComponents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
-    font-size: 22px;
+    font-size: 28px;
+    font-weight: 600;
     text-transform: capitalize;
     line-height: 2px;
-    margin: 50px 0px 50px 0px !important;
+    margin: 80px 0px 60px 0px !important;
+    font-family: $fontSansSerif;
 }
 
 .elv_affi_cards {
-    width: 18rem;
+    /* width: 18rem; */
     height: 10rem;
     display: flex;
     justify-content: center;
@@ -75,9 +88,9 @@
         font-size: 16px;
     }
 
-    .elv_affi_cards {
+    /* .elv_affi_cards {
         width: 21rem;
-    }
+    } */
 }
 
 
@@ -87,15 +100,15 @@
         overflow: auto;
         display: flex !important;
         justify-content: start !important;
-        
+
         &::-webkit-scrollbar {
             display: none;
         }
     }
 
-    .elv_affi_cards {
+    /* .elv_affi_cards {
         width: 2rem;
-    }
+    } */
 
     .AffiliationClassComponents {
         width: 100%;
@@ -123,15 +136,25 @@
     }
 }
 
+@media (min-width: 768px) and (max-width: 1200px) {
+    .brandsComponentClass {
+        width: fit-content;
+    }
+
+    .affilitionImg {
+        margin-right: 50px !important;
+    }
+}
+
 @media (max-width: 375px) {
     .elv_affi_cards {
-        width: 13rem;
+        width: 100%;
     }
 }
 
 @media (max-width: 320px) {
     .elv_affi_cards {
-        width: 22rem;
+        width: 100%;
     }
 }
 

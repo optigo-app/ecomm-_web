@@ -1,4 +1,10 @@
+@import "./../../../scss/elvee_modules.scss";
+.elvee_profile{
+    font-family: $fontSansSerif !important;
+} 
 .smr_yourProfile {
+    // $fontPTSans: "PT Sans", sans-serif;
+    $fontSansSerif: sans-serif !important;
 
     .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
         -webkit-text-fill-color: black !important;
@@ -49,7 +55,6 @@
 .smr_SmilingAddEditAddrwess {
     height: 40px;
     width: 160px;
-    font-family: "PT Sans", sans-serif !important;
     font-weight: 700 !important;
     opacity: .9;
     background: #f6efe6 !important;
@@ -68,7 +73,6 @@
     border: none;
     border-radius: 5px;
     color: rgba(31, 25, 25, .7);
-    font-family: PT Sans, sans-serif !important;
     font-weight: 600;
     margin-inline: 5px;
     opacity: .8;
@@ -80,7 +84,6 @@
     border: none;
     border-radius: 5px;
     color: rgba(31, 25, 25, .7);
-    font-family: PT Sans, sans-serif !important;
     font-weight: 600;
     margin-inline: 5px;
     opacity: .8;

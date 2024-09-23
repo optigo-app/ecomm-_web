@@ -387,6 +387,7 @@ const QuotationQuote = () => {
 
 
     return (
+        <div className="elvee_fs_quote">
         <Box className='smilingSavedAddressMain salesApiSectionQWebElvee fs_elvee_quote' sx={{ padding: "20px", }}>
             {/* { !isSmallScreen && <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
@@ -931,6 +932,7 @@ const QuotationQuote = () => {
                 </Paper>}
 
         </Box>
+        </div>
     )
 }
 

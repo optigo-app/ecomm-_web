@@ -1,6 +1,8 @@
 @import '../../../scss/elvee_modules.scss';
 
 .elv_payment_Main_div {
+    font-family: $fontSansSerif !important;
+
     .elv_payment_lists_div {
         height: 100%;
         width: 100%;
@@ -24,14 +26,16 @@
         font-size: 20px;
         font-weight: 500;
         letter-spacing: 1px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: $fontSansSerif !important;
         color: #AF8238;
     }
 
     .elv_payment_details_1 {
         text-transform: uppercase;
         font-size: 30px;
-        font-family: "Segoe UI", "Noto Sans", sans-serif;
+        // font-family: "Segoe UI", "Noto Sans", sans-serif;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_payment_details_3 {

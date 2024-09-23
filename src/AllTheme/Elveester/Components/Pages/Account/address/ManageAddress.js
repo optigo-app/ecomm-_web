@@ -352,7 +352,7 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-            <div>
+            <div className='manage_address_elvee_fs'>
             <HeadTitleAcc title="Saved Addresses" />
             <p style={{
                     textAlign: 'center',
@@ -361,12 +361,11 @@ const ManageAddress = () => {
                     fontSize: '20px',
                     background: '#f6efe6',
                     color: "rgba(31, 25, 25, 0.7)",
-                    fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
                 }} className='savedAddress none_addTitleAcc_elvee'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn manage_address_elvee_fs' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
@@ -389,12 +388,12 @@ const ManageAddress = () => {
                                                 </Box>
                                             </Box>
                                             <Box>
-                                                <Typography sx={{ paddingBottom: "15px" }}>
+                                                <div style={{ paddingBottom: "15px" }}>
                                                     {item?.street !== undefined && item?.street},
                                                     {item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},
                                                     {item?.state !== undefined && item?.state},
                                                     {item?.country !== undefined && item?.country}
-                                                </Typography>
+                                                </div>
                                             </Box>
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
@@ -413,7 +412,7 @@ const ManageAddress = () => {
                                                     id={`default-${item.id}`}
                                                     name="manageAddressInputRadio"
                                                 />
-                                                <label htmlFor={`default-${item.id}`}><Typography>Default</Typography></label>
+                                                <label htmlFor={`default-${item.id}`}><div>Default</div></label>
                                             </Box>
                                             
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>

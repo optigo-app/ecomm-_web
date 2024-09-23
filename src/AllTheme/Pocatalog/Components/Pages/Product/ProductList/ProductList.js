@@ -2468,7 +2468,8 @@ const ProductList = () => {
                           />
                         </div>
                         <p className="proCat_NameTopShow">
-                          {decodeURI(extractedPart)}
+                          {/* {decodeURI(extractedPart)} */}
+                          {decodeURI(atob(extractedPart))}
                         </p>
                       </div>
                       }

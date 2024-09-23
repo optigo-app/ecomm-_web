@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Account.scss'
-import { Box,  Tab, Tabs,  Typography } from '@mui/material'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Home/Footer/Footer';
 import { el_loginState, loginState } from '../../Recoil/atom';
@@ -54,7 +54,7 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0" style={{marginTop:'10px !important'}}>
+                <Box sx={{ p: 3 }} className="acc_hoq_tab_p_0" style={{ marginTop: '10px !important' }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -136,25 +136,25 @@ export default function Account() {
         sessionStorage.clear();
         navigation('/')
         window.location.reload();
-      }
+    }
 
     return (
-        <div className='accountPagTabSection'>
+        <div className='accountPagTabSection elvee_fs_pt'>
             <div>
                 <div className='Smiling-AccountMain_elvee'>
                     <div className='sticky_header_web_sm_elvee'>
-                        <p className='SmilingAccountTitle youraccountpagesec'>Your Account</p>
+                        <p className='SmilingAccountTitle youraccountpagesec elvee_fs_pt'>Your Account</p>
                         <div className='smlingAccountTabWebView_elvee yourAccount d_none_acc_elvee'>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >   {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                                        <Tab label="Your Profile" {...a11yProps(0)} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                        <Tab label="Your Profile" className='elvee_fs_pt' {...a11yProps(0)} />
+                                        <Tab label="ORDER HISTORY" className='elvee_fs_pt' {...a11yProps(1)} />
+                                        <Tab label="MANAGE ADDRESSES" className='elvee_fs_pt' {...a11yProps(2)} />
+                                        {accountValidation() && <Tab label="ACCOUNT" className='elvee_fs_pt' {...a11yProps(3)} />}
+                                        <Tab label="CHANGE PASSWORD" className='elvee_fs_pt' {...a11yProps(accountValidation() ? 4 : 3)} />
                                         {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                                         { loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(5)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
+                                         { loginUSerDeatil?.IsPLWOn && <Tab label="PLM" className='elvee_fs_pt' {...a11yProps(5)} />}
+                                        <Tab label="Log Out" className='elvee_fs_pt' onClick={handleLogout} />
                                     </Tabs>
                                     {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
                                 </Box>
@@ -174,7 +174,7 @@ export default function Account() {
                                
                         </div> */}
                         <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc_elvee" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
-              <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
+              <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} className='elvee_fs_pt' TabIndicatorProps={{ style: { backgroundColor: "black",
                     marginTop: "5px", // This changes the underline color to black
                     display: "flex", alignItems: "center", justifyContent: "center",
                   },
@@ -204,17 +204,18 @@ export default function Account() {
                                     <NewOrderHistoryElvee />
                                 </div>
                             </CustomTabPanel>
+                            
                             <CustomTabPanel value={value} index={2} className="manageAddressSec">
                                 <ManageAddress />
                             </CustomTabPanel>
 
-                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage" style={{padding:'0px'}}>
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider', padding:'0px !important' }}>
-                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example" 
-                                    sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
+                            {accountValidation() && <CustomTabPanel value={value} index={3} className="accountSalesPage" style={{ padding: '0px' }}>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider', padding: '0px !important' }}>
+                                    <Tabs value={value1} className='accountTabSection' variant="scrollable" onChange={handleChangeSub} aria-label="basic tabs example"
+                                        sx={{ background: "#7d7f8529", ...tabIndicator }} scrollButtons="auto">
                                         {
                                             accountInner?.map((e, i) => {
-                                                return <Tab label={e?.tabLabel} {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
+                                                return <Tab label={e?.tabLabel} className='elvee_fs_pt' {...a11yProps(i)} sx={{ color: "#7d7f85" }} key={i} />
                                             })
                                         }
                                     </Tabs>
@@ -247,18 +248,18 @@ export default function Account() {
                                     })
                                 }
                             </CustomTabPanel>}
-                            
+
                             <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
                                 <div>
                                     <ChangePassword />
                                 </div>
                             </CustomTabPanel>
+
                              <CustomTabPanel value={value} index={5}>
                                 <div>
                                     <Plm />
                                 </div>
                             </CustomTabPanel>
-
 
                         </Box>
                     </div>

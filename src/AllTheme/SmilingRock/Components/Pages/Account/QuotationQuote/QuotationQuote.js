@@ -13,7 +13,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
-import { formatAmount, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { formatAmount, checkMonth, customComparator_Col, stableSort, sortByDate } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { visuallyHidden } from '@mui/utils';
 import { addYears, subYears } from 'date-fns';
 import moment from 'moment';
@@ -134,6 +134,7 @@ function EnhancedTableHead(props) {
     );
 }
 
+
 const QuotationQuote = () => {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
@@ -149,13 +150,12 @@ const QuotationQuote = () => {
     const [isLoading, setIsLoading] = useState(false);
     const maxYear = addYears(new Date(), 1); // Set maximum year to the next year
     const minYear = subYears(new Date(), 1);
-
+    
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
-
+    
     const storedData = sessionStorage.getItem('loginUserDetail');
     const loginDetails = JSON.parse(storedData);
-    console.log(loginDetails);
     const isSmallScreen = useMediaQuery('(max-width:500px)');
 
     const handleRequestSort = (event, property) => {
@@ -346,9 +346,9 @@ const QuotationQuote = () => {
                     let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
                     rows?.push(dataa)
                 });
-            
-                setData(rows);
-                setFilterData(rows);
+                const sortedRows = sortByDate(rows, 'Date');
+                setData(sortedRows);
+                setFilterData(sortedRows);
                 
             } else {
                 // alert('nodata')
@@ -364,6 +364,7 @@ const QuotationQuote = () => {
             setIsLoading(false);
         }
     };
+
 
     useEffect(() => {
         fetchData();

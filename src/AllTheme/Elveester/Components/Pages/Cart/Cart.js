@@ -19,6 +19,7 @@ import { OrderFlowCrumbs } from './OrderFlowCrumbs';
 import { formatter, storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import { handleOrderRemark } from '../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import MobileCartDetails from './MobileCartDetails';
+import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const CartPage = () => {
   const {
@@ -171,7 +172,7 @@ const CartPage = () => {
   }, []);
 
   const handleMoveToOrder = () => {
-    navigate('/Delivery',{replace  :true});
+    navigate('/Delivery', { replace: true });
     sessionStorage.setItem('iscartData', randomNumber);
   }
 
@@ -324,7 +325,14 @@ const CartPage = () => {
                         Clear All
                       </span>
                     }
-                    <Modal
+                    <ConfirmationDialog
+                      open={open}
+                      onClose={handleClose}
+                      onConfirm={handleCloseRemove}
+                      title={"Confirm"}
+                      content={"Are You Sure to Delete All these items?"}
+                    />
+                    {/* <Modal
                       open={open}
                       onClose={handleClose}
                       aria-labelledby="modal-modal-title"
@@ -339,7 +347,7 @@ const CartPage = () => {
                           <Button className="elv_del_button no-button" onClick={handleClose}>No</Button>
                         </div>
                       </Box>
-                    </Modal>
+                    </Modal> */}
                   </div>
                   <div className="elv_Cartblock_rows_4" >
                     {cartData?.length ? (

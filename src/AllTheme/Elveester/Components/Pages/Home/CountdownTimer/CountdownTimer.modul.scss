@@ -1,7 +1,13 @@
+@import '../../../scss/elvee_modules.scss';
+
 .elv_CountdownTimerMain_div {
 
+    font-family: $fontSansSerif !important;
+
     .elv_CountdownTimer_container {
-        font-family: "PT Sans", sans-serif !important;
+        // font-family: "PT Sans", sans-serif !important;
+        font-family: $fontSansSerif !important;
+
         width: 100%;
         background: rgb(205, 209, 217);
         padding: 0px 40px 0px 40px;
@@ -15,8 +21,9 @@
     }
 
     .elv_CountdownTimer_titles {
-        font-family: "PT Sans", sans-serif !important;
+        // font-family: "PT Sans", sans-serif !important;
         flex: 1;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_CountdownTimer_title1 {

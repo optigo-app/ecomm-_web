@@ -25,3 +25,13 @@ export const defaultAddressState = atom({
   key: 'defaultAddressState',
   default: null,
 });
+
+export const timerExpiredState = atom({
+  key: 'timerExpiredState',
+  default: false,
+});
+
+export const redirectModal = atom({
+  key: 'redirectModal',
+  default: false,
+});

@@ -1,6 +1,13 @@
 .mala_topVideoMain {
+    @media screen and (max-width:1850px) {
+        min-height: 800px !important;
+    }
 
-    @media screen and (max-width:1200px) {
-        min-height: auto !important;
+    @media screen and (max-width:1800px) {
+        min-height: 600px !important;
+    }
+
+    @media screen and (max-width:1400px) {
+        min-height: 450px !important;
     }
 }

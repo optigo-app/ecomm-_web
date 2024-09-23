@@ -29,6 +29,15 @@ const Footer = ({ fromPage }) => {
   }, []);
 
   useEffect(() => {
+    if (htmlContent) {
+      setLocalData((prevData) => ({
+        ...prevData,
+        Footerno: htmlContent?.rd[0]?.Footerno, 
+      }));
+    }
+  }, [htmlContent]);
+
+  useEffect(() => {
     let localD = JSON?.parse(sessionStorage?.getItem('storeInit'));
     setLocalData(localD);
   }, [])
