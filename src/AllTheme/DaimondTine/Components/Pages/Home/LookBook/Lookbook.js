@@ -94,6 +94,12 @@ const Lookbook = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
   const SwiperSlideRef = useRef();
+  const [imageLoadError, setImageLoadError] = useState({});
+
+  const handleImageError = (index) => {
+    setImageLoadError((prev) => ({ ...prev, [index]: true }));
+  };
+
 
 
   const updateSize = () => {
@@ -314,7 +320,7 @@ const Lookbook = () => {
       finalprodListimg =
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
-      finalprodListimg = null;
+      finalprodListimg = 'a.jpg';
     }
     return finalprodListimg;
   };
@@ -1364,7 +1370,7 @@ const Lookbook = () => {
                               position: 'relative'
                             }}
                           >
-                            {ProdCardImageFunc(slide) ? (
+                             {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                               <img
                                 className="dt_lookBookImg"
                                 loading="lazy"
@@ -1372,9 +1378,11 @@ const Lookbook = () => {
                                 alt={`Slide ${index}`}
                                 onMouseEnter={() => handleHoverImages(index)}
                                 onMouseLeave={() => seyDataKey(null)}
+                                onError={() => handleImageError(index)}
                                 style={{
                                   height: dataKey == index ? "100%" : "250px",
                                   cursor: "pointer",
+                                  backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                 }}
                               />
                             ) : (
@@ -1387,6 +1395,7 @@ const Lookbook = () => {
                                   alignItems: "center",
                                   justifyContent: "center",
                                   cursor: "pointer",
+                                  backgroundColor: "rgb(191, 200, 255)",
                                 }}
                               >
                                 <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
@@ -1581,17 +1590,19 @@ const Lookbook = () => {
                               }}
                               className="dt_designSetDiv2_sub1"
                             >
-                              {ProdCardImageFunc(slide) ? (
+                               {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                 <img
                                   className="dt_lookBookImg"
                                   loading="lazy"
                                   src={ProdCardImageFunc(slide)}
                                   alt={`Slide ${index}`}
+                                  onError={() => handleImageError(index)}
                                   // onMouseEnter={() => handleHoverImages(index)}
                                   // onMouseLeave={() => seyDataKey(null)}
                                   style={{
                                     height: "100%",
                                     cursor: "pointer",
+                                    backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                   }}
                                 />
                               ) : (
@@ -1604,6 +1615,7 @@ const Lookbook = () => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     cursor: "pointer",
+                                    backgroundColor: "rgb(191, 200, 255)",
                                   }}
                                 >
                                   <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
@@ -1897,11 +1909,15 @@ const Lookbook = () => {
                               <div>
                                 <div className="dt_lb3compeletethelook_cont">
                                   <div className="dt_lb3ctlImg_containe">
-                                    {ProdCardImageFunc(slide) ? (
+                                  {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="dt_lb3ctl_img"
+                                        onError={() => handleImageError(index)}
+                                        style={{
+                                          backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                        }}
                                       />
                                     ) : (
                                       <div
@@ -1913,6 +1929,7 @@ const Lookbook = () => {
                                           alignItems: "center",
                                           justifyContent: "center",
                                           cursor: "pointer",
+                                          backgroundColor: "rgb(191, 200, 255)",
                                         }}
                                         className="dt_lb3ctl_img"
                                       >
@@ -2173,13 +2190,20 @@ const Lookbook = () => {
                               {filteredDesignSetLstData?.map((slide, index) => (
                                 <SwiperSlide key={index}>
 
-                                  {ProdCardImageFunc(slide) ? (
+
+                                  {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                     <img
                                       src={ProdCardImageFunc(slide)}
                                       alt=""
                                       className="ctl_Paginationimg"
                                       ref={SwiperSlideRef}
-                                        onLoad={handleImageLoad}
+                                      onLoad={handleImageLoad}
+                                      onError={() => handleImageError(index)}
+                                      style={{
+                                        height: DynamicSize.h || "66.5px",
+                                        width: DynamicSize.w || "66.5x",
+                                        backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                      }}
                                     />
                                   ) : (
                                     <div
@@ -2191,9 +2215,10 @@ const Lookbook = () => {
                                         alignItems: "center",
                                         justifyContent: "center",
                                         cursor: "pointer",
-                                        height: DynamicSize.h ?? "100%",
-                                        width: DynamicSize.w ?? "100%",
-                                        margin:'0'
+                                        height: DynamicSize.h || "66.5px",
+                                        width: DynamicSize.w || "66.5x",
+                                        margin: 0,
+                                        backgroundColor: "rgb(191, 200, 255)",
                                       }}
                                       className="dt_lb3ctl_img"
                                     >
@@ -2221,8 +2246,8 @@ const Lookbook = () => {
                 shape="circular"
                 onChange={handelPageChange}
                 page={currentPage}
-                // showFirstButton
-                // showLastButton
+              // showFirstButton
+              // showLastButton
               />
             </div>
           </div>
