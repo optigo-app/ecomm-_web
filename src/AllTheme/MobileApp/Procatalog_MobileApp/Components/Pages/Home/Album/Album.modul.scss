@@ -2,14 +2,14 @@
 
 
 .proCatApp_AlbumImageMainPopup {
-    width: 50%;
+    width: 19%;
     padding: 5px;
-    margin: 0px;
+    margin: 5px;
     cursor: pointer;
     box-shadow: rgba(125, 125, 125, 0.2) 0px 0px 5px;
 }
 
-.proCat_AlbumLockIcone_popup {
+.proCatApp_AlbumLockIcone_popup {
     height: 25px;
     position: absolute;
     right: 40%;
@@ -19,6 +19,7 @@
 .proCatApp_AlbumImageMainPopup_img {
     width: 100%;
     object-fit: contain;
+    min-height: 200px;
 }
 
 .lock_icon {
@@ -30,6 +31,56 @@
     border-radius: 50%;
     height: 50px;
     object-fit: contain;
+}
+
+.proCatApp_model_overFlow {
+    scrollbar-width: none;
+}
+
+.proCatApp_model_overFlow::-webkit-scrollbar {
+    width: 0px !important;
+}
+
+.proCatApp_albumName {
+    color: $homePageFontColor;
+    font-family: $homePageFontFamily;
+    margin: 0px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.proCatApp_album_box_main {
+    width: 70%;
+}
+
+@media screen and (max-width: 1200px) {
+    .smr_AlbumImageMain {
+        width: 24% !important;
+        margin: 3px !important;
+        cursor: pointer;
+    }
+
+    .proCatApp_album_box_main {
+        width: 96% !important;
+    }
+}
+
+@media screen and (max-width: 900px) {
+
+    .proCatApp_AlbumImageMainPopup {
+        width: 50% !important;
+        margin: 0px !important;
+    }
+
+    .pro_pressESCClose {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .proCatApp_albumName {
+        font-size: 12px !important;
+    }
 }
 
 .proCatApp_alubmMainDiv {
@@ -45,35 +96,29 @@
         height: fit-content;
     }
 
-    .smr_albumTitle {
+    .proCatApp_albumTitle {
         color: $homePageFontColor;
         font-family: $homePageFontFamily;
         font-size: $fontSize5;
         text-align: center;
-        margin-top: 50px;
+        margin: 15px 0px 15px 0px;
     }
 
-    .smr_albumName {
-        color: $homePageFontColor;
-        font-family: $homePageFontFamily;
-        margin: 0px;
-        word-break: break-word;
-        text-align: center;
-    }
 
     .smr_AlbumImageMain_img {
         width: 100%;
+        min-height: 150px;
         object-fit: contain;
     }
 
-    .proCat_albumALL_div {
+    .proCatApp_albumALL_div {
         display: flex;
         flex-wrap: wrap;
-        flex-flow: wrap;
         justify-content: center;
+        margin-bottom: 70px;
     }
 
-    .proCat_AlbumLockIcone {
+    .proCatApp_AlbumLockIcone {
         height: 25px;
         position: absolute;
         right: 40%;
@@ -91,18 +136,20 @@
         object-fit: contain;
     }
 
-    @media screen and (max-width: 1200px) {
-        .smr_AlbumImageMain_img {
-            height: auto !important;
-        }
+    .proCatApp_album_box_main {
+        width: 70%;
+    }
 
+    @media screen and (max-width: 1200px) {
         .smr_AlbumImageMain {
             width: 24% !important;
             margin: 3px !important;
             cursor: pointer;
         }
 
-
+        .proCatApp_album_box_main {
+            width: 96% !important;
+        }
     }
 
     @media screen and (max-width: 1000px) {
@@ -121,11 +168,11 @@
     @media screen and (max-width: 650px) {
         margin-inline: 2px !important;
 
-        .smr_albumTitle {
+        .proCatApp_albumTitle {
             display: none;
         }
 
-        .proCat_albumALL_div {
+        .proCatApp_albumALL_div {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
@@ -142,15 +189,7 @@
 
     @media screen and (max-width: 450px) {
         .smr_AlbumImageMain {
-            width: 49% !important;
-        }
-    }
-
-
-    @media screen and (max-width: 408px) {
-        .smr_AlbumImageMain {
             width: 48% !important;
         }
     }
-
 }

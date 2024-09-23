@@ -25,7 +25,7 @@ import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCom
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import CloseIcon from '@mui/icons-material/Close';
-import { smrMA_CartCount, smrMA_WishCount, soketProductData_ProCatApp } from "../../Recoil/atom";
+import { PC_AppCartCount, PC_AppWishCount, soketProductData_ProCatApp } from "../../Recoil/atom";
 import { FaEye, FaFilter } from "react-icons/fa";
 import { BsFilterLeft } from "react-icons/bs";
 import Cookies from 'js-cookie'
@@ -73,8 +73,8 @@ const ProductList = () => {
   const [isDoubleView, setIsDoubleView] = useState(true);
   const [locationKey, setLocationKey] = useState()
   const [prodListType, setprodListType] = useState();
-  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
-  const setWishCountVal = useSetRecoilState(smrMA_WishCount)
+  const setCartCountVal = useSetRecoilState(PC_AppCartCount)
+  const setWishCountVal = useSetRecoilState(PC_AppWishCount)
   let cookie = Cookies.get('visiterId')
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);

@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
-import { smrMA_defaultAddressState } from '../../../Recoil/atom';
+import { PC_AppdefaultAddressState } from '../../../Recoil/atom';
 import MobViewHeader from '../MobViewHeader/MobViewHeader';
 import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import ConfirmationDialog from '../../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
@@ -36,7 +36,7 @@ const ManageAddressMAPP = () => {
         mobileNo: ''
     });
 
-    const setDefaultAddress = useSetRecoilState(smrMA_defaultAddressState);
+    const setDefaultAddress = useSetRecoilState(PC_AppdefaultAddressState);
 
     const [toastMsg, setToastMsg] = useState('');
     const [showToast, setShowToast] = useState(false);
