@@ -9,6 +9,7 @@ $cartUpdateBtncolor: #b1b1b1;
   .cartMainPageDiv {
     background-color: #fff;
     margin-inline: 6%;
+    min-height: 51.8vh;
   }
 
   .proCat_cartmainRowDiv {
@@ -136,8 +137,10 @@ $cartUpdateBtncolor: #b1b1b1;
 
   .proCat_noCartlistData {
     text-align: center;
-    height: 100%;
-    // margin-bottom: 327px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     .proCat_title {
       color: $titleColor;
