@@ -129,7 +129,7 @@
     .elv_Productlists_lists_header_breadcrumb {
         display: flex;
         justify-content: space-between;
-        background: #D4DBE7;
+        background: $backgroundColor;
         padding: 20px 0px 20px 40px;
     }
 
@@ -699,7 +699,7 @@
 
         .elv_inStockbadgeSpan {
             background-color: #0BDA51;
-            color: black;
+            color: #fff;
             font-size: 12px;
             border-radius: 5px;
             padding: 5px;

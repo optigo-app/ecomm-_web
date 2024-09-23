@@ -76,7 +76,7 @@ const AffiliationData = () => {
                         breakpoints={{
                             375: { slidesPerView: 1, spaceBetween: 0, loopAdditionalSlides: 3, centeredSlides: true },
                             425: { slidesPerView: 1, spaceBetween: 0, loopAdditionalSlides: 3, centeredSlides: true },
-                            640: { slidesPerView: 2, spaceBetween: 0 },
+                            640: { slidesPerView: 3, spaceBetween: 0, loopAdditionalSlides: 4 },
                             768: { slidesPerView: 3, spaceBetween: 10 },
                             1024: { slidesPerView: 4, spaceBetween: 10 },
                             1280: { slidesPerView: 6, spaceBetween: 10 },
