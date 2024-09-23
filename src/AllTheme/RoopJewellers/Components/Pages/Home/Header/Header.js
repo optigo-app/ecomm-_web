@@ -913,13 +913,7 @@ const Header = () => {
 
 
             </ul>
-            <ul className="nav_ul_shop_menu_Mobile">
-              <MenuIcon
-                style={{ fontSize: "35px", color: "white" }}
-                className="muIconeMobileHeader"
-                onClick={toggleDrawerOverlay}
-              />
-            </ul>
+
             <ul className="nav_ul_shop">
               {IsB2BWebsiteChek == 0 ? (
                 <>
@@ -1052,6 +1046,13 @@ const Header = () => {
           </div>
         </div>
         <div className="roop_top_header3">
+          <ul className="nav_ul_shop_menu_Mobile">
+            <MenuIcon
+              style={{ fontSize: "35px", color: "black" }}
+              className="muIconeMobileHeader"
+              onClick={toggleDrawerOverlay}
+            />
+          </ul>
           {IsB2BWebsiteChek == 1 ? (
             islogin == true ? (
               <li

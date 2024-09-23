@@ -63,9 +63,9 @@ const PromotionBaner1 = () => {
                     <img src={`${storImagePath()}/images/HomePage/ring.jpg`} className='mala_promo_secton2_img' />
                 </div>
                 <div className='mala_promo2_main2_2'>
-                    <p className='' style={{fontSize: '25px'}}>Every piece of Malakan custom jewelry is the result of exquisite craftsmanship. Dedicated to time-honored traditions, Malakan is the workshop that has been trusted by jewelers for more than 80 years to create extraordinary pieces of jewelry for their customers.</p>
+                    <p className='mala_promo2_main2_2_p' style={{fontSize: '25px'}}>Every piece of Malakan custom jewelry is the result of exquisite craftsmanship. Dedicated to time-honored traditions, Malakan is the workshop that has been trusted by jewelers for more than 80 years to create extraordinary pieces of jewelry for their customers.</p>
 
-                    <p style={{fontSize: '25px'}}>Your clients dare to dream – and they don’t dream of the status quo. They dream of greatness – shattered ceilings and forged opportunities. Your clients deserve custom jewelry that stands out as much as they do. You can feel confident creating exactly what they desire knowing the Malakan team is behind you.</p>
+                    <p className='mala_promo2_main2_2_p' style={{fontSize: '25px'}}>Your clients dare to dream – and they don’t dream of the status quo. They dream of greatness – shattered ceilings and forged opportunities. Your clients deserve custom jewelry that stands out as much as they do. You can feel confident creating exactly what they desire knowing the Malakan team is behind you.</p>
                 </div>
             </div>
 

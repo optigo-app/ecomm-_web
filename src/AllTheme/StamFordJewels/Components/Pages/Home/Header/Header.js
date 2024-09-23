@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
-import { stam_cartB2CDrawer, stam_CartCount, stam_CartNo, stam_companyLogo, stam_loginState, stam_WishCount } from "../../../Recoil/atom";
+import { stam_cartB2CDrawer, stam_CartCount, stam_CartNo, stam_companyLogo, stam_companyLogoM, stam_loginState, stam_WishCount } from "../../../Recoil/atom";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -30,6 +30,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
   const compnyLogo = useRecoilValue(stam_companyLogo);
+  const compnyLogoM = useRecoilValue(stam_companyLogoM);
   const [islogin, setislogin] = useRecoilState(stam_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -424,8 +425,8 @@ const Header = () => {
     <div className="stam_headerMain_div">
       {serachsShowOverlay && (
         <>
-          <div className="smr_smlingSearchoverlay">
-            <div className="smr_smlingTopSerachOver">
+          <div className="stam_smlingSearchoverlay">
+            <div className="stam_smlingTopSerachOver">
               <IoSearchOutline
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
@@ -435,7 +436,7 @@ const Header = () => {
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
-                className="smr_serachinputBoxOverly"
+                className="stam_serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
               />
               <IoClose
@@ -451,10 +452,10 @@ const Header = () => {
           </div>
 
           <div
-            className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
+            className={`stam_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
               }`}
           >
-            <div className="smr_smlingTopSerachOver-Fixed">
+            <div className="stam_smlingTopSerachOver-Fixed">
               <IoSearchOutline
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
@@ -464,7 +465,7 @@ const Header = () => {
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
-                className="smr_serachinputBoxOverly"
+                className="stam_serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
               />
               <IoClose
@@ -491,7 +492,7 @@ const Header = () => {
                 justifyContent: "space-between",
               }}
             >
-              <div className="smr_mobileHeader_top_div1">
+              <div className="stam_mobileHeader_top_div1">
                 <IoClose
                   style={{
                     height: "30px",
@@ -502,17 +503,27 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="smr_mobileHeader_top_div2">
+              <div className="stam_mobileHeader_top_div2_web">
                 <a href="/">
                   <img
                     src={compnyLogo}
                     loading="lazy"
-                    className="smr_logo_header"
+                    className="stam_logo_header"
                   />
                 </a>
               </div>
 
-              <div className="smr_mobileHeader_top_div3">
+              <div className="stam_mobileHeader_top_div2_mobile">
+                <a href="/">
+                  <img
+                    src={compnyLogoM}
+                    loading="lazy"
+                    className="stam_logo_header"
+                  />
+                </a>
+              </div>
+
+              <div className="stam_mobileHeader_top_div3">
                 {islogin && (
                   <>
                     <Badge
@@ -520,7 +531,7 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix smr_mobileHideIcone"
+                      className="badgeColorFix stam_mobileHideIcone"
                       style={{ marginInline: "15px" }}
                     >
                       <Tooltip title="WishList">
@@ -539,7 +550,7 @@ const Header = () => {
                       </Tooltip>
                     </Badge>
                     <li
-                      className="nav_li_smining_Icone smr_mobileHideIcone"
+                      className="nav_li_smining_Icone stam_mobileHideIcone"
                       onClick={toggleOverlay}
                       style={{}}
                     >
@@ -576,9 +587,9 @@ const Header = () => {
                 )}
               </div>
             </div>
-            <div className="smr_mobileMenuSubDivMain">
+            <div className="stam_mobileMenuSubDivMain">
               <List
-                className="smr_ListMenuSiderMobile"
+                className="stam_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
               >
                 {menuItems.map((menuItem) => (
@@ -601,7 +612,7 @@ const Header = () => {
                           borderBottom: "1px solid white",
                         }}
                       >
-                        <p className="smr_menuStaicMobile">
+                        <p className="stam_menuStaicMobile">
                           {menuItem.menuname}
                         </p>
                       </ListItem>
@@ -630,12 +641,12 @@ const Header = () => {
                               marginTop: "5px",
                             }}
                           >
-                            <button className="smr_mobile_viewAllBtn">
+                            <button className="stam_mobile_viewAllBtn">
                               View All
                             </button>
                           </div>
                         </ButtonBase>
-                        <List className="smr_mobileMenuScroll">
+                        <List className="stam_mobileMenuScroll">
                           {menuItem.param1.map((subMenuItem) => (
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
@@ -707,7 +718,7 @@ const Header = () => {
                                             justifyContent: "start",
                                           }}
                                         >
-                                          <p className="smr_mobile_subMenu">
+                                          <p className="stam_mobile_subMenu">
                                             {subSubMenuItem.param2dataname}
                                           </p>
                                         </ButtonBase>
@@ -726,12 +737,12 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="smr_menuStaicMobilePage">About us</p>
+              <p className="stam_menuStaicMobilePage">About us</p>
             </div>
 
             <div>
               <p
-                className="smr_menuStaicMobilePageLink"
+                className="stam_menuStaicMobilePageLink"
                 style={{ marginTop: "10px" }}
                 onClick={() => {
                   setDrawerShowOverlay(false);
@@ -747,7 +758,7 @@ const Header = () => {
                 <>
                   {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
-                      className="smr_menuStaicMobilePageLink"
+                      className="stam_menuStaicMobilePageLink"
                       style={{ marginTop: "10px" }}
                       onClick={() => {
                         setDrawerShowOverlay(false);
@@ -766,7 +777,7 @@ const Header = () => {
               <>
                 {storeinit?.IsDesignSetInMenu == 1 &&
                   <p
-                    className="smr_menuStaicMobilePageLink"
+                    className="stam_menuStaicMobilePageLink"
                     style={{ marginTop: "10px" }}
                     onClick={() => {
                       setDrawerShowOverlay(false);
@@ -783,7 +794,7 @@ const Header = () => {
             {
               islogin && <div>
                 <p
-                  className="smr_menuStaicMobilePageLink"
+                  className="stam_menuStaicMobilePageLink"
                   onClick={() => {
                     setDrawerShowOverlay(false);
                     navigation("/account");
@@ -796,7 +807,7 @@ const Header = () => {
 
             <div>
               <p
-                className="smr_menuStaicMobilePageLink"
+                className="stam_menuStaicMobilePageLink"
                 onClick={() => {
                   setDrawerShowOverlay(false);
                   handleLogout();
@@ -848,16 +859,26 @@ const Header = () => {
 
       <div className="stam_Top_header">
         <div className="stam_Top_header_sub">
-          <div className="smiling_Top_header_div2">
+          <div className="stam_Top_header_div2_web">
             <a href="/">
               <img
                 src={compnyLogo}
                 loading="lazy"
-                className="smr_logo_header"
+                className="stam_logo_header"
               />
             </a>
           </div>
-          <div className="smiling_Top_header_div1">
+
+          <div className="stam_Top_header_div2_mobile">
+            <a href="/">
+              <img
+                src={compnyLogoM}
+                loading="lazy"
+                className="stam_logo_header"
+              />
+            </a>
+          </div>
+          <div className="stam_Top_header_div1">
             <ul className="nav_ul_shop">
               {IsB2BWebsiteChek == 1 ? (
                 islogin == true ? (
@@ -915,26 +936,6 @@ const Header = () => {
                 </a>
               </li>
 
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
-              >
-                <a href="/ExpertAdvice" className="stam_A_link">
-                  EXPERT ADVICE
-                </a>
-              </li>
-
-              <li
-                className="nav_li_smining nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-              >
-                <a href="/FunFact" className="stam_A_link">
-                  FUN FACT
-                </a>
-              </li>
-
               {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <>
@@ -944,10 +945,7 @@ const Header = () => {
                         style={{ cursor: "pointer" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
-                        {/* <a href="/Lookbook" className="stam_A_link"> */}
                         {storeinit?.DesignSetInMenu}
-                        {/* LOOKBOOK */}
-                        {/* </a> */}
                       </li>
                     }
                   </>
@@ -962,24 +960,15 @@ const Header = () => {
                       style={{ cursor: "pointer" }}
                       onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                     >
-                      {/* <a href="/Lookbook" className="stam_A_link"> */}
                       {storeinit?.DesignSetInMenu}
-                      {/* LOOKBOOK */}
-                      {/* </a> */}
                     </li>
                   }
                 </>
               )}
             </ul>
-            <ul className="nav_ul_shop_menu_Mobile">
-              <MenuIcon
-                style={{ fontSize: "35px", color: "white" }}
-                className="muIconeMobileHeader"
-                onClick={toggleDrawerOverlay}
-              />
-            </ul>
+
           </div>
-          <div className="smiling_Top_header_div3">
+          <div className="stam_Top_header_div3">
             <ul className="nav_ul_shop">
               <li
                 className="nav_li_smining nav_li_smining_Mobile"
@@ -990,6 +979,7 @@ const Header = () => {
                   ABOUT US
                 </a>
               </li>
+
               {IsB2BWebsiteChek == 0 ? (
                 storeinit?.IsPLW ? (
                   ""
@@ -1001,9 +991,7 @@ const Header = () => {
                         style={{ cursor: "pointer" }}
                         onClick={() => navigation("/account")}
                       >
-                        {/* <a href="/account" className="stam_A_link"> */}
                         ACCOUNT
-                        {/* </a> */}
                       </li>
                     }
                   </>
@@ -1018,9 +1006,7 @@ const Header = () => {
                       style={{ cursor: "pointer" }}
                       onClick={() => navigation("/account")}
                     >
-                      {/* <a href="/account" className="stam_A_link"> */}
                       ACCOUNT
-                      {/* </a> */}
                     </li>
                   }
                 </>
@@ -1050,7 +1036,7 @@ const Header = () => {
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
-                    className="badgeColorFix smr_mobileHideIcone"
+                    className="badgeColorFix stam_mobileHideIcone"
                   >
                     <Tooltip title="WishList">
                       <li
@@ -1068,7 +1054,7 @@ const Header = () => {
                     </Tooltip>
                   </Badge>
                   <li
-                    className="nav_li_smining_Icone smr_mobileHideIcone"
+                    className="nav_li_smining_Icone stam_mobileHideIcone"
                     onClick={toggleOverlay}
                     style={{}}
                   >
@@ -1107,7 +1093,7 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix smr_mobileHideIcone"
+                      className="badgeColorFix stam_mobileHideIcone"
                     >
                       <Tooltip title="WishList">
                         <li
@@ -1125,7 +1111,7 @@ const Header = () => {
                       </Tooltip>
                     </Badge>
                     <li
-                      className="nav_li_smining_Icone smr_mobileHideIcone"
+                      className="nav_li_smining_Icone stam_mobileHideIcone"
                       onClick={toggleOverlay}
                       style={{}}
                     >
@@ -1160,6 +1146,14 @@ const Header = () => {
                   </>
                 )
               )}
+
+              <ul className="nav_ul_shop_menu_Mobile">
+                <MenuIcon
+                  style={{ fontSize: "35px", color: "black" }}
+                  className="muIconeMobileHeader"
+                  onClick={toggleDrawerOverlay}
+                />
+              </ul>
             </ul>
           </div>
         </div>
@@ -1169,18 +1163,26 @@ const Header = () => {
             }  ${serachsShowOverlay ? "searchoverly" : ""}`}
         >
           <div className="stam_Top_header_sub" style={{ width: "100%" }}>
-            <div className="smiling_Top_header_div2">
+            <div className="stam_Top_header_div2_web">
               <a href="/">
                 <img
                   src={compnyLogo}
                   loading="lazy"
-                  className="smr_logo_header_Fixed"
+                  className="stam_logo_header_Fixed"
                 />
               </a>
             </div>
-            <div className="smiling_Top_header_div1">
+            <div className="stam_Top_header_div2_mobile">
+              <a href="/">
+                <img
+                  src={compnyLogoM}
+                  loading="lazy"
+                  className="stam_logo_header_Fixed"
+                />
+              </a>
+            </div>
+            <div className="stam_Top_header_div1">
               <ul className="nav_ul_shop">
-                {/* {islogin && */}
                 {IsB2BWebsiteChek == 1 ? (
                   islogin == true ? (
                     <li
@@ -1240,9 +1242,8 @@ const Header = () => {
                           style={{ cursor: "pointer" }}
                           onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                         >
-                          <a href="/Lookbook" className="smr_A_linkFixed">
+                          <a href="/Lookbook" className="stam_A_linkFixed">
                             {storeinit?.DesignSetInMenu}
-                            {/* LOOKBOOK */}
                           </a>
                         </li>
                       }
@@ -1258,9 +1259,8 @@ const Header = () => {
                         style={{ cursor: "pointer" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
-                        <a href="/Lookbook" className="smr_A_linkFixed">
+                        <a href="/Lookbook" className="stam_A_linkFixed">
                           {storeinit?.DesignSetInMenu}
-                          {/* LOOKBOOK */}
                         </a>
                       </li>
                     }
@@ -1272,50 +1272,21 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
                 >
-                  <a href="/servicePolicy" className="smr_A_linkFixed">
+                  <a href="/servicePolicy" className="stam_A_linkFixed">
                     SERVICE POLICY
                   </a>
                 </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
-                >
-                  <a href="/ExpertAdvice" className="smr_A_linkFixed">
-                    EXPERT ADVICE
-                  </a>
-                </li>
-
-                <li
-                  className="nav_li_smining_Fixed nav_li_smining_Mobile"
-                  style={{ cursor: "pointer" }}
-                  onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-                >
-                  <a href="/FunFact" className="smr_A_linkFixed">
-                    FUN FACT
-                  </a>
-                </li>
-
-                <ul className="nav_ul_shop_menu_Mobile">
-                  <MenuIcon
-                    style={{ fontSize: "35px", color: "#7d7f85" }}
-                    className="muIconeMobileHeader"
-                    onClick={toggleDrawerOverlay}
-                  />
-                </ul>
-                {/* } */}
               </ul>
             </div>
 
-            <div className="smiling_Top_header_div3">
+            <div className="stam_Top_header_div3">
               <ul className="nav_ul_shop">
                 <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
                 >
-                  <a href="/aboutUs" className="smr_A_linkFixed">
+                  <a href="/aboutUs" className="stam_A_linkFixed">
                     ABOUT US
                   </a>
                 </li>
@@ -1329,7 +1300,7 @@ const Header = () => {
                         // onClick={() => navigation("/LoginOption")}
                         onClick={() => navigation("/account")}
                       >
-                        {/* <a href="/account" className="smr_A_linkFixed"> */}
+                        {/* <a href="/account" className="stam_A_linkFixed"> */}
                         ACCOUNT
                         {/* </a> */}
                       </li>
@@ -1343,7 +1314,7 @@ const Header = () => {
                       // onClick={() => navigation("/LoginOption")}
                       onClick={() => navigation("/account")}
                     >
-                      {/* <a href="/account" className="smr_A_linkFixed"> */}
+                      {/* <a href="/account" className="stam_A_linkFixed"> */}
                       ACCOUNT
                       {/* </a> */}
                     </li>
@@ -1375,11 +1346,11 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColor smr_mobileHideIcone"
+                      className="badgeColor stam_mobileHideIcone"
                     >
                       <Tooltip title="WishList">
                         <li
-                          className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                          className="nav_li_smining_Fixed_Icone stam_mobileHideIcone"
                           onClick={() => navigation("/myWishList")}
                         >
                           <PiStarThin
@@ -1393,7 +1364,7 @@ const Header = () => {
                       </Tooltip>
                     </Badge>
                     <li
-                      className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                      className="nav_li_smining_Fixed_Icone stam_mobileHideIcone"
                       onClick={toggleOverlay}
                       style={{}}
                     >
@@ -1432,11 +1403,11 @@ const Header = () => {
                         max={1000}
                         overlap={"rectangular"}
                         color="secondary"
-                        className="badgeColor smr_mobileHideIcone"
+                        className="badgeColor stam_mobileHideIcone"
                       >
                         <Tooltip title="WishList">
                           <li
-                            className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                            className="nav_li_smining_Fixed_Icone stam_mobileHideIcone"
                             onClick={() => navigation("/myWishList")}
                           >
                             <PiStarThin
@@ -1450,7 +1421,7 @@ const Header = () => {
                         </Tooltip>
                       </Badge>
                       <li
-                        className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                        className="nav_li_smining_Fixed_Icone stam_mobileHideIcone"
                         onClick={toggleOverlay}
                         style={{}}
                       >
@@ -1485,6 +1456,13 @@ const Header = () => {
                     </>
                   )
                 )}
+                <ul className="nav_ul_shop_menu_Mobile">
+                  <MenuIcon
+                    style={{ fontSize: "35px", color: "#7d7f85" }}
+                    className="muIconeMobileHeader"
+                    onClick={toggleDrawerOverlay}
+                  />
+                </ul>
               </ul>
             </div>
           </div>
@@ -1508,7 +1486,7 @@ const Header = () => {
               justifyContent: "space-between",
               // marginTop: isHeaderFixed && "20px",
             }}
-            className="smr_showDropOptionMainDiv"
+            className="stam_showDropOptionMainDiv"
             onMouseEnter={handleDropdownOpen}
             onMouseLeave={handleDropdownClose}
           >
@@ -1516,7 +1494,7 @@ const Header = () => {
               {menuItems.map((menuItem) => (
                 <div
                   key={menuItem.menuid}
-                  className="smr_headerOptionSingleDiv"
+                  className="stam_headerOptionSingleDiv"
                   style={{
                     minWidth: "fitContent",
                     borderRight: "1px solid lightgray",
@@ -1541,7 +1519,7 @@ const Header = () => {
                       href={`/p/${menuItem?.menuname}/?M=${btoa(
                         `${menuItem?.param0dataname}/${menuItem?.param0name}`
                       )}`}
-                      className="smr_menuSubTitle"
+                      className="stam_menuSubTitle"
                     // onClick={() =>
                     //   handelMenu({
                     //     menuname: menuItem?.menuname,
@@ -1559,10 +1537,10 @@ const Header = () => {
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
+                        <button className="stam_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <List className="smr_listMain">
+                    <List className="stam_listMain">
                       {menuItem.param1.map((subMenuItem) => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
@@ -1575,13 +1553,13 @@ const Header = () => {
                             }}
                             onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e)}
                           >
-                            {/* <a href='#' className='smr_menuSubTitle'> */}
+                            {/* <a href='#' className='stam_menuSubTitle'> */}
                             <a
                               href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
                                 }/?M=${btoa(
                                   `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
                                 )}`}
-                              className="smr_menuSubTitle"
+                              className="stam_menuSubTitle"
 
                             // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                             >
@@ -1632,7 +1610,7 @@ const Header = () => {
                                       }/?M=${btoa(
                                         `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
                                       )}`}
-                                    className="smr_menuSubTitle"
+                                    className="stam_menuSubTitle"
                                   // onClick={() =>
                                   //   handelMenu(
                                   //     {
@@ -1664,7 +1642,7 @@ const Header = () => {
                         </div>
                       ))}
                       <button
-                        className="smr_underline_button"
+                        className="stam_underline_button"
                         onClick={() =>
                           handelMenu({
                             menuname: menuItem?.menuname,
