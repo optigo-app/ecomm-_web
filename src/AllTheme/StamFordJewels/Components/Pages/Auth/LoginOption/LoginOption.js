@@ -18,7 +18,7 @@ const LoginOption = () => {
     const redirectMobileUrl = `/ContimueWithMobile/${search}`;
 
     return (
-        <div className='smr_Loginoption'>
+        <div className='stam_Loginoption'>
             <div className='loginDailog'>
                 <div>
                     <p className='loginDiTile'>Log in or sign up in seconds</p>

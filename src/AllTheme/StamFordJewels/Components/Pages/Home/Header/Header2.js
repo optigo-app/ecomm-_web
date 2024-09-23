@@ -345,12 +345,12 @@ const Header2 = () => {
 
 
     return (
-        <div className='smr_header2_mainDiv'>
+        <div className='stam_header2_mainDiv'>
 
             {serachsShowOverlay && (
                 <>
-                    <div className="smr_smlingSearchoverlay">
-                        <div className="smr_smlingTopSerachOver">
+                    <div className="stam_smlingSearchoverlay">
+                        <div className="stam_smlingTopSerachOver">
                             <IoSearchOutline style={{ height: "15px", width: "15px", marginRight: "10px" }} />
                             <input
                                 type="text"
@@ -358,7 +358,7 @@ const Header2 = () => {
                                 // value={searchText}
                                 autoFocus
                                 // onChange={(e) => setSearchText(e.target.value)}
-                                className="smr_serachinputBoxOverly"
+                                className="stam_serachinputBoxOverly"
                             // onKeyDown={searchDataFucn}
                             />
                             <IoClose
@@ -373,8 +373,8 @@ const Header2 = () => {
                         </div>
                     </div>
 
-                    <div className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""}`}>
-                        <div className="smr_smlingTopSerachOver-Fixed">
+                    <div className={`stam_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""}`}>
+                        <div className="stam_smlingTopSerachOver-Fixed">
                             <IoSearchOutline style={{ height: "15px", width: "15px", marginRight: "10px" }} />
                             <input
                                 type="text"
@@ -382,7 +382,7 @@ const Header2 = () => {
                                 // value={searchText}
                                 autoFocus
                                 // onChange={(e) => setSearchText(e.target.value)}
-                                className="smr_serachinputBoxOverly"
+                                className="stam_serachinputBoxOverly"
                             // onKeyDown={searchDataFucn}
                             />
                             <IoClose
@@ -414,7 +414,7 @@ const Header2 = () => {
                             />
                         </div>
                         <div>
-                            <List className='smr_ListMenuSiderMobile' sx={{ paddingTop: '0', marginBottom: '0px', marginTop: '15px' }}>
+                            <List className='stam_ListMenuSiderMobile' sx={{ paddingTop: '0', marginBottom: '0px', marginTop: '15px' }}>
                                 {menuItems.map(menuItem => (
                                     <div key={menuItem.menuid}>
                                         <ButtonBase
@@ -423,7 +423,7 @@ const Header2 = () => {
                                             style={{ width: '100%' }}
                                         >
                                             <ListItem style={{ padding: '5px', borderBottom: '1px solid white' }}>
-                                                <p className='smr_menuStaicMobile'>{menuItem.menuname}</p>
+                                                <p className='stam_menuStaicMobile'>{menuItem.menuname}</p>
                                             </ListItem>
                                         </ButtonBase>
                                         {selectedMenu === menuItem.menuname && (
@@ -478,15 +478,15 @@ const Header2 = () => {
                             </List>
                         </div>
                         <div>
-                            <p className='smr_menuStaicMobilePage'>About us</p>
+                            <p className='stam_menuStaicMobilePage'>About us</p>
                         </div>
 
                         <div>
-                            <p className='smr_menuStaicMobilePageLink' style={{ marginTop: '10px' }}>WishList</p>
+                            <p className='stam_menuStaicMobilePageLink' style={{ marginTop: '10px' }}>WishList</p>
                         </div>
 
                         <div>
-                            <p className='smr_menuStaicMobilePageLink'>Account</p>
+                            <p className='stam_menuStaicMobilePageLink'>Account</p>
                         </div>
                     </div>
                 </>
@@ -496,7 +496,7 @@ const Header2 = () => {
                 <div className='smiling_Top_header_sub'>
                     <div className='smiling_Top_header_div2'>
                         <a href="/">
-                            <img src={compnyLogo} loading='lazy' className='smr_logo_header' />
+                            <img src={compnyLogo} loading='lazy' className='stam_logo_header' />
                         </a>
                     </div>
                     <div className='smiling_Top_header_div1'>
@@ -655,7 +655,7 @@ const Header2 = () => {
                     <div className='smiling_Top_header_sub' style={{ width: '100%' }}>
                         <div className='smiling_Top_header_div2'>
                             <a href="/">
-                                <img src={compnyLogo} loading='lazy' className='smr_logo_header_Fixed' />
+                                <img src={compnyLogo} loading='lazy' className='stam_logo_header_Fixed' />
                             </a>
                         </div>
                         <div className='smiling_Top_header_div1'>
@@ -844,7 +844,7 @@ const Header2 = () => {
                                         </ListItem>
                                     </ButtonBase>
                                     <>
-                                        <List className='smr_listMain'>
+                                        <List className='stam_listMain'>
                                             {menuItem.param1.map(subMenuItem => (
                                                 <div key={subMenuItem.param1dataid}>
                                                     <ButtonBase
@@ -852,9 +852,9 @@ const Header2 = () => {
                                                         style={{ width: '100%', display: 'flex', justifyContent: 'start', height: '25px' }}
                                                         onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                     >
-                                                        {/* <a href='#' className='smr_menuSubTitle'> */}
+                                                        {/* <a href='#' className='stam_menuSubTitle'> */}
                                                         {/* <a href='/productlist' onContextMenu={handleContextMenu}> */}
-                                                        <p className='smr_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
+                                                        <p className='stam_menuSubTitle' style={{ margin: '0px 0px 0px 6px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                                                         {/* </a> */}
                                                         {/* </a> */}
                                                     </ButtonBase>
@@ -876,7 +876,7 @@ const Header2 = () => {
                                                     </>
                                                 </div>
                                             ))}
-                                            <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
+                                            <button className="stam_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                                         </List>
 
 

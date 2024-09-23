@@ -13,18 +13,18 @@ const TrendingView1 = () => {
 
     return (
         <div className='stam_mainTrending1Div'>
-            <div className='smr_trending1TitleDiv'>
-                <span className='smr_trending1Title'>Trending</span>
+            <div className='stam_trending1TitleDiv'>
+                <span className='stam_trending1Title'>Trending</span>
             </div>
             <div className="stam_trendingProduct-grid">
-                <div className='smr_leftSideBestTR'>
+                <div className='stam_leftSideBestTR'>
                     <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.webp`} alt="modalimages" />
-                    <div className="smr_lookbookImageRightDT">
+                    <div className="stam_lookbookImageRightDT">
                         <p>SHORESIDE COLLECTION</p>
                         <h2>FOR LOVE OF SUN & SEA</h2>
                     </div>
                 </div>
-                <div className='smr_rightSideTR'>
+                <div className='stam_rightSideTR'>
 
                     {trandingViewData.slice(0, 4).map((imagePath, index) => (
                         <div key={index} className="product-card">
