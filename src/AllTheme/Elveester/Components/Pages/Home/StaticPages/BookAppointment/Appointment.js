@@ -54,7 +54,7 @@ const Appointment = () => {
                     <div className="service_bar">
                         <span>Select a service</span>
                     </div>
-                    <div className="layout_elvee_grid">
+                    {/* <div className="layout_elvee_grid">
                         {appointment.map((val, i) => (
                             <div
                                 key={i}
@@ -68,7 +68,7 @@ const Appointment = () => {
                                 <div className="det_elvee_card">{val.alt}</div>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                     <div className="from_elvee_appointmnet">
                         <div className="service_bar">
                             <span>Your Appointment</span>

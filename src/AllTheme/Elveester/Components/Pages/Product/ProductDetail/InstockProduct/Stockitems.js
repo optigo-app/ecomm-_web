@@ -1,16 +1,26 @@
+import { useEffect, useState } from "react";
 import "./Stockitems.scss";
 import { Checkbox } from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import Skeleton from "@mui/material/Skeleton";
 import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
+
 const Stockitems = ({
   stockItemArr,
   storeInit,
   loginInfo,
   cartArr,
   handleCartandWish,
+  check,
 }) => {
+
+  const [storeData, setStoreData] = useState();
+
+  useEffect(() => {
+    const data = JSON.parse(sessionStorage?.getItem('storeInit'));
+    setStoreData(data);
+  }, []);
   return (
     <div className="elv_Stockitems">
       {/* {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && ( */}
@@ -31,7 +41,7 @@ const Stockitems = ({
                 Gross Wt/Net Wt/Dia Wt/CS Wt
               </th>
               <th className="elv_stockItem_table_td">Metal Color-Purity</th>
-              {storeInit?.isPriceShow == 1 && <th className="elv_stockItem_table_td">Price</th>}
+              {check && <th className="elv_stockItem_table_td">Price</th>}
               <th className="elv_stockItem_table_td">Add To Cart</th>
             </tr>
             {stockItemArr?.map((ele, i) => (
@@ -141,7 +151,7 @@ const Stockitems = ({
                   </span>
                   {/* </div> */}
                 </td>
-                {storeInit?.isPriceShow == 1 && <td className="elv_stockItem_table_td">
+                {check && <td className="elv_stockItem_table_td">
                   <span>
                     <span className="elv_currencyFont">
                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}

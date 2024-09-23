@@ -1,4 +1,8 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_loginoptionMain {
+
+    font-family: $fontSansSerif !important;
 
     .optionLoginMain {
         background-color: white;
@@ -24,7 +28,7 @@
         font-weight: 500;
         margin-top: 25px;
         text-align: center;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
     }
 
     .loginMail {

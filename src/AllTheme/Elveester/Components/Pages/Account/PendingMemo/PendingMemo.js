@@ -638,6 +638,7 @@ const PendingMemo = () => {
   };
 
   return (
+    <div className="memo_fs_elvee">
     <Box>
       <Box
         sx={{
@@ -1504,34 +1505,34 @@ const PendingMemo = () => {
                           handleimageShow(eve, row?.imgsrc)
                         }
                       >
-                        <TableCell id={labelId} scope="row" align="center">
+                        <TableCell id={labelId} scope="row" align="center" className="memo_fs_elvee">
                           {" "}
                           {index + 1}{" "}
                         </TableCell>
-                        <TableCell align="center">{row.EntryDate}</TableCell>
-                        <TableCell align="center">
+                        <TableCell className="memo_fs_elvee" align="center">{row.EntryDate}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">
                           {row.StockDocumentNo}
                         </TableCell>
-                        <TableCell align="center">{row.SKUNo}</TableCell>
-                        <TableCell align="center">{row.designno}</TableCell>
-                        <TableCell align="center">{row.MetalType}</TableCell>
-                        {/* <TableCell align="center">{row.MetalAmount}</TableCell>
-                        <TableCell align="center">
+                        <TableCell className="memo_fs_elvee" align="center">{row.SKUNo}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.designno}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.MetalType}</TableCell>
+                        {/* <TableCell className="memo_fs_elvee" align="center">{row.MetalAmount}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">
                           {row.DiamondAmount}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell className="memo_fs_elvee" align="center">
                           {row.ColorStoneAmount}
                         </TableCell>
-                        <TableCell align="center">{row.LabourAmount}</TableCell>
-                        <TableCell align="center">{row.OtherAmount}</TableCell>
-                        <TableCell align="center">{row.UnitCost}</TableCell> */}
-                        <TableCell align="center">{row.Category}</TableCell>
-                        <TableCell align="center">{row.GrossWt}</TableCell>
-                        <TableCell align="center">{row.NetWt}</TableCell>
-                        <TableCell align="center">{row.DiaPcs}</TableCell>
-                        <TableCell align="center">{row.DiaWt}</TableCell>
-                        <TableCell align="center">{row.CsPcs}</TableCell>
-                        <TableCell align="center">{row.CsWt}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.LabourAmount}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.OtherAmount}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.UnitCost}</TableCell> */}
+                        <TableCell className="memo_fs_elvee" align="center">{row.Category}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.GrossWt}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.NetWt}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.DiaPcs}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.DiaWt}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.CsPcs}</TableCell>
+                        <TableCell className="memo_fs_elvee" align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -1551,18 +1552,8 @@ const PendingMemo = () => {
         </>
       )}
     </Box>
+    </div>
   );
 };
 
 export default PendingMemo;
-
-// import "./PendingMemo.scss"
-// const PendingMemo = () => {
-//   return (
-//     <>
-
-//     </>
-//   )
-// }
-
-// export default PendingMemo

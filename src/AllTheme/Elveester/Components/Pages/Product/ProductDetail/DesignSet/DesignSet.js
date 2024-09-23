@@ -28,7 +28,8 @@ const DesignSet = ({
           >
             <p
               style={{
-                fontFamily: "FreightDisp Pro Medium",
+                // fontFamily: "FreightDisp Pro Medium",
+                fontFamily: 'sans-serif',
                 color: "#7d7f85",
                 fontSize: "30px",
                 // display:'none'
@@ -60,9 +61,9 @@ const DesignSet = ({
                       src={
                         designSetList?.DefaultImageName
                           ? storeInit?.DesignSetImageFol +
-                            designSetList?.designsetuniqueno +
-                            "/" +
-                            designSetList?.DefaultImageName
+                          designSetList?.designsetuniqueno +
+                          "/" +
+                          designSetList?.DefaultImageName
                           : imageNotFound
                       }
                       alt={""}
@@ -82,7 +83,8 @@ const DesignSet = ({
                   >
                     <p
                       style={{
-                        fontFamily: "FreightDisp Pro Medium",
+                        // fontFamily: "FreightDisp Pro Medium",
+                        fontFamily: 'sans-serif',
                         color: "#7d7f85",
                         fontSize: "30px",
                         display: "none",
@@ -106,11 +108,11 @@ const DesignSet = ({
                               src={
                                 ele?.ImageCount > 0
                                   ? storeInit?.DesignImageFol +
-                                    ele?.designno +
-                                    "_" +
-                                    "1" +
-                                    "." +
-                                    ele?.ImageExtension
+                                  ele?.designno +
+                                  "_" +
+                                  "1" +
+                                  "." +
+                                  ele?.ImageExtension
                                   : imageNotFound
                               }
                               alt={""}
@@ -141,7 +143,7 @@ const DesignSet = ({
                                 &nbsp;
                                 {
                                   formatter(
-                                  ele?.UnitCostWithMarkUp
+                                    ele?.UnitCostWithMarkUp
                                   )
                                 }
                               </p>

@@ -606,6 +606,7 @@ const SalesReport = () => {
   };
 
   return (
+    <div className="elvee_fs_pt">
     <Box>
       <Box
         sx={{
@@ -619,7 +620,7 @@ const SalesReport = () => {
           className="salesReporttableWeb"
           sx={{ paddingBottom: "5px", paddingRight: "15px", paddingTop:'5px' }}
         >
-          <table style={{minWidth:'710px'}}>
+          <table style={{minWidth:'710px'}} className="">
             <tbody>
               <tr>
                 <td>Total Gross Wt</td>
@@ -680,8 +681,8 @@ const SalesReport = () => {
           </table>
         </Box>
         <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
-          <Typography>Total Amount</Typography>
-          <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
+          <Typography className="">Total Amount</Typography>
+          <Typography className="" sx={{ fontWeight: 700, textAlign: "center" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box>
@@ -949,7 +950,7 @@ const SalesReport = () => {
       } */}
             { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "15px", }} >
-          <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
+          <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn " onClick={(eve) => resetAllFilters(eve)} >
             All
           </Button>
         </Box>
@@ -964,7 +965,7 @@ const SalesReport = () => {
               value={fromDate}
               ref={fromDateRef}
               format="DD MM YYYY"
-              className="quotationFilterDates"
+              className="quotationFilterDates "
               onChange={(newValue) => {
                 if (newValue === null) {
                   setFromDate(null)
@@ -993,7 +994,7 @@ const SalesReport = () => {
               value={toDate}
               ref={toDateRef}
               format="DD MM YYYY"
-              className="quotationFilterDates"
+              className="quotationFilterDates "
               onChange={(newValue) => {
                 if (newValue === null) {
                   setToDate(null);
@@ -1021,7 +1022,7 @@ const SalesReport = () => {
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <Button
             variant="contained"
-            className="muiSmilingRocksBtn"
+            className="muiSmilingRocksBtn "
             sx={{
               padding: "7px 10px",
               minWidth: "max-content",
@@ -1049,7 +1050,7 @@ const SalesReport = () => {
             placeholder="From"
             name="from"
             sx={{ maxWidth: "150px" }}
-            className="grossWtinputSecSalesReport"
+            className="grossWtinputSecSalesReport "
             value={grossWtInput?.from}
             onChange={(eve) => handleChangegrossWt(eve)}
           />
@@ -1059,7 +1060,7 @@ const SalesReport = () => {
             placeholder="To"
             name="to"
             sx={{ maxWidth: "150px" }}
-            className="grossWtinputSecSalesReport"
+            className="grossWtinputSecSalesReport "
             value={grossWtInput?.to}
             onChange={(eve) => handleChangegrossWt(eve)}
           />
@@ -1067,7 +1068,7 @@ const SalesReport = () => {
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <Button
             variant="contained"
-            className="muiSmilingRocksBtn"
+            className="muiSmilingRocksBtn "
             sx={{
               padding: "7px 10px",
               minWidth: "max-content",
@@ -1092,7 +1093,7 @@ const SalesReport = () => {
         (!isSmallScreen && isTabletScreen) && <Box>
           <Box style={{display:'flex', alignItems:'center'}}>
             <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "5px", }} >
-              <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
+              <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn " onClick={(eve) => resetAllFilters(eve)} >
                 All
               </Button>
             </Box>
@@ -1107,7 +1108,7 @@ const SalesReport = () => {
               value={fromDate}
               ref={fromDateRef}
               format="DD MM YYYY"
-              className="quotationFilterDates"
+              className="quotationFilterDates "
               onChange={(newValue) => {
                 if (newValue === null) {
                   setFromDate(null)
@@ -1136,7 +1137,7 @@ const SalesReport = () => {
                   value={toDate}
                   ref={toDateRef}
                   format="DD MM YYYY"
-                  className="quotationFilterDates"
+                  className="quotationFilterDates "
                   onChange={(newValue) => {
                     if (newValue === null) {
                       setToDate(null);
@@ -1164,7 +1165,7 @@ const SalesReport = () => {
             <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
               <Button
                 variant="contained"
-                className="muiSmilingRocksBtn"
+                className="muiSmilingRocksBtn "
                 sx={{
                   padding: "7px 10px",
                   minWidth: "max-content",
@@ -1186,7 +1187,7 @@ const SalesReport = () => {
             </Box>
             <Box style={{position:'relative'}}>
               <div style={{position:'absolute', top:'-15px'}}>
-                  <div>Gross Wt : </div>
+                  <div className="">Gross Wt : </div>
               </div>
               <div style={{display:'flex', alignItems:'center'}}>
                 <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
@@ -1194,7 +1195,7 @@ const SalesReport = () => {
                     placeholder="From"
                     name="from"
                     sx={{ maxWidth: "150px" }}
-                    className="grossWtinputSecSalesReport"
+                    className="grossWtinputSecSalesReport "
                     value={grossWtInput?.from}
                     onChange={(eve) => handleChangegrossWt(eve)}
                   />
@@ -1204,7 +1205,7 @@ const SalesReport = () => {
                     placeholder="To"
                     name="to"
                     sx={{ maxWidth: "150px" }}
-                    className="grossWtinputSecSalesReport"
+                    className="grossWtinputSecSalesReport "
                     value={grossWtInput?.to}
                     onChange={(eve) => handleChangegrossWt(eve)}
                   />
@@ -1212,7 +1213,7 @@ const SalesReport = () => {
                 <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
                   <Button
                     variant="contained"
-                    className="muiSmilingRocksBtn"
+                    className="muiSmilingRocksBtn "
                     sx={{
                       padding: "7px 10px",
                       minWidth: "max-content",
@@ -1240,10 +1241,10 @@ const SalesReport = () => {
       {
         isSmallScreen && <>
         <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
+          <AccordionSummary className="" expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
           <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
             <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
-              <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
+              <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn " style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
                 All
               </Button>
               <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "0px",}} className="searchbox" >
@@ -1466,6 +1467,7 @@ const SalesReport = () => {
         </>
       )}
     </Box>
+    </div>
   );
 };
 

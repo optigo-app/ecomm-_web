@@ -1,4 +1,4 @@
-@import "../../../Components/scss/elvee_modules.scss";
+@import "../../scss/elvee_modules.scss";
 
 
 .smr_lookSubCtSaveBtn {
@@ -70,7 +70,7 @@
   //   margin-top: 55px;
   // }
 
-  .smr_lookBook_FilterIconeDiv {
+  .elv_lookBook_FilterIconeDiv {
     color: white;
     background-color: #7b7b7b;
     cursor: pointer;
@@ -79,6 +79,8 @@
     justify-content: center;
     align-items: center;
     font-weight: 500;
+    font-size: 11px;
+    font-family: $fontSansSerif !important;
   }
 
 
@@ -90,7 +92,8 @@
     font-size: $fontSize6;
     color: #fff;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   .smr_lb1designList_title {
@@ -101,7 +104,8 @@
     font-size: $fontSize4;
     color: #fff;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   .smr_lb3designList_title {
@@ -109,7 +113,11 @@
     font-size: $fontSize6;
     color: $titleColor;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
+  }
+
+  .smr_filterDrawer{
   }
 
   .smr_lb3TotalBtnGroups {
@@ -178,11 +186,33 @@
     background: none;
   }
 
+  .elv_mui_checkbox_label {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+    font-family: $fontSansSerif !important;
+  }
+
   .elv_lookBookFilterSubDiv {
     margin: 10px 10px 0px 10px;
     height: 100%;
     overflow-y: auto;
     position: relative;
+
+
+    .smr_filter_text {
+      font-weight: bold;
+      font-family: $fontSansSerif !important;
+      color: rgba(143, 140, 139, 0.9019607843);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .elv_filtercategoryLable {
+      font-family: $fontSansSerif !important;
+      text-transform: uppercase;
+    }
   }
 
   .smr_lookBookImgDivMain {
@@ -368,7 +398,7 @@
       display: none !important;
     }
 
-    .smr_lookBook_FilterIconeDiv {
+    .elv_lookBook_FilterIconeDiv {
       display: none !important;
     }
 
@@ -533,7 +563,14 @@
   }
 
   .smr_lb3srthelook_prodinfo_inner {
-    font-family: $primaryFontFamilyMedium;
+    //font-family: $primaryFontFamilyMedium;
+    font-family: $fontSansSerif !important;
+  }
+
+  .elv_currencyFont {
+    font-family: $fontSansSerif !important;
+    font-size: 15px;
+    font-weight: bold;
   }
 
   .smr1_lb3ctlImg_containe {

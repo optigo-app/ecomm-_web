@@ -1,6 +1,8 @@
 @import "../../../../scss/elvee_modules.scss";
 
 .elv_design_Set {
+    font-family: $fontSansSerif !important;
+
     .elv_prodDetail_bodyContain {
         background-color: $backgroundColor;
         height: 100%;
@@ -98,7 +100,8 @@
     .elv_prod_titleLine {
         text-align: start !important;
         font-size: 35px;
-        font-family: $homePageFontFamily;
+        // font-family: $homePageFontFamily;
+        font-family: $fontSansSerif !important;
         font-weight: 400;
         font-style: normal;
         color: $primaryfontcolor2;
@@ -131,7 +134,8 @@
     }
 
     .elv_prod_short_val {
-        font-family: $primaryFontFamilyMedium;
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontSansSerif !important;
         letter-spacing: 2px;
     }
 
@@ -164,7 +168,8 @@
         font-size: 13px;
         color: $primaryfontcolor;
         letter-spacing: 1px;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
     .menuitemSelectoreMain {
@@ -172,7 +177,8 @@
         outline: none;
         font-size: 15px;
         color: $primaryfontcolor2;
-        font-family: $primaryFontFamily !important;
+        // font-family: $primaryFontFamily !important;
+        font-family: $fontSansSerif !important;
         // font-weight: bold;
         letter-spacing: 2.2px;
         height: 30px;
@@ -183,7 +189,8 @@
         font-size: 24px;
         display: flex;
         letter-spacing: 2.2px;
-        font-family: $primaryFontFamilyMedium;
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontSansSerif !important;
         margin-left: 5px;
         color: $primaryfontcolor2;
         margin-top: 12px;
@@ -227,7 +234,8 @@
     }
 
     .elv_addtocart_btn_txt {
-        font-family: $primaryFontFamilyMedium;
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontSansSerif !important;
         font-size: 15px;
         letter-spacing: 1.5px;
         position: relative;
@@ -250,14 +258,16 @@
         font-weight: 600;
         color: $primaryfontcolor2;
         text-decoration: underline;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_proDeatilList1 {
         width: 25%;
         color: #808080;
         font-size: 14px;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
 
@@ -282,7 +292,8 @@
 
     .elv_details_title {
         font-size: 30px;
-        font-family: $homePageFontFamily;
+        // font-family: $homePageFontFamily;
+        font-family: $fontSansSerif !important;
         color: $primaryfontcolor2;
     }
 
@@ -347,14 +358,16 @@
         align-items: center;
         padding-inline: 30px;
         gap: 3px;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
         color: $primaryfontcolor2;
     }
 
     .elv_prod_wt {
         display: flex;
         gap: 2px;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
 
     }
 
@@ -377,11 +390,13 @@
     .elv_stockItem_price_type_mt {
         color: $primaryfontcolor;
         font-size: 14px;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_prodd_datanotfound {
-        font-family: $primaryFontFamilyMedium;
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontSansSerif !important;
         color: $primaryfontcolor;
         font-size: 42px;
     }
@@ -401,7 +416,8 @@
     .Smr_stockItem_table {
         border-collapse: collapse;
         width: 70%;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
         border: 1px solid #dddddd;
     }
 
@@ -412,20 +428,24 @@
     .elv_Price_breakup_label {
         width: 70px;
         color: #7d7f85;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_currencyFont {
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_PriceBreakup_Price {
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_prodDetail_backtotop {
         color: white;
-        font-family: $primaryFontFamily;
+        // font-family: $primaryFontFamily;
+        font-family: $fontSansSerif !important;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -649,7 +669,8 @@
     }
 
     .srthelook_prodinfo_inner {
-        font-family: $primaryFontFamilyMedium;
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_ctlImg_containe {
@@ -773,6 +794,7 @@
             width: 100%;
         }
     }
+
     @media (max-width: 320px) {
         .my_Product_Swiper {
             width: 100vw;

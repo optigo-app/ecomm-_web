@@ -1,6 +1,9 @@
 @import "../../../../scss/elvee_modules.scss";
 
 .elv_main_RelatedProduct {
+
+  font-family: $fontSansSerif !important;
+
   .heading {
     margin-top: 2rem;
     display: flex;
@@ -10,7 +13,8 @@
     justify-content: center;
     flex-direction: column;
     font-size: 30px;
-    font-family: "FreightDisp Pro Medium";
+    // font-family: "FreightDisp Pro Medium";
+    font-family: $fontSansSerif !important;
     color: #7d7f85;
 
     h1 {
@@ -25,7 +29,8 @@
     justify-content: center;
     flex-wrap: wrap;
     padding: 10px 15px;
-    font-family: 'TT Commons Regular';
+    // font-family: 'TT Commons Regular';
+    font-family: $fontSansSerif !important;
     gap: 1.5rem;
 
     position: relative;
@@ -157,7 +162,8 @@
 
             a {
               text-decoration: none;
-              font-family: 'TT Commons Regular';
+              // font-family: 'TT Commons Regular';
+              font-family: $fontSansSerif !important;
               color: rgb(5, 5, 5);
             }
           }
