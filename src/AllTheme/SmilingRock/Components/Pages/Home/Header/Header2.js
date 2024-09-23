@@ -31,12 +31,6 @@ const Header2 = () => {
     const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
     const navigation = useNavigate();
 
-    const getMenuApi = async () => {
-        await GetMenuAPI().then((response) => {
-            setMenuData(response?.Data?.rd)
-        }).catch((err) => console.log(err))
-    }
-
     useEffect(() => {
         const uniqueMenuIds = [...new Set(menuData?.map(item => item?.menuid))];
 
@@ -81,6 +75,12 @@ const Header2 = () => {
         setislogin(value);
     };
 
+    
+    const getMenuApi = async () => {
+        await GetMenuAPI().then((response) => {
+            setMenuData(response?.Data?.rd)
+        }).catch((err) => console.log(err))
+    }
 
     useEffect(() => {
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));

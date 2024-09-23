@@ -92,12 +92,10 @@ const Album1 = () => {
         return txt.value;
     }
 
-    console.log('albumDataalbumData', albumData);
-
     return (
-        <>
+        <div>
             {albumData?.length != 0 &&
-                <div className="album-container">
+                <div className="mala_album-container">
                     <div className='mala_ablbumtitleDiv'>
                         <span className='mala_albumtitle'>Album</span>
                         {/* <Link className='mala_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
@@ -188,7 +186,7 @@ const Album1 = () => {
                     </div>
                 </div>
             }
-        </>
+        </div>
     );
 };
 
