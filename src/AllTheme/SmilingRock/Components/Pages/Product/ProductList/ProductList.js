@@ -669,7 +669,7 @@ const ProductList = () => {
         //    }
         //    return res
         //  })
-        .catch((err) => console.log("err", err)).finally(() => { setIsOnlyProdLoading(false) })
+        .catch((err) => console.log("err", err)).finally(() => { setTimeout(()=>setIsOnlyProdLoading(false),1000) })
     }
     // .then(async(res)=>{
     //   if(res){
@@ -1382,7 +1382,7 @@ const ProductList = () => {
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+    const result = Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
@@ -1390,6 +1390,7 @@ const ProductList = () => {
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
+    result  = result || {}
     result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
 
     return result
@@ -1611,7 +1612,7 @@ const ProductList = () => {
               <div className="smr_mobile_filter_portion_outter">
                 <span className="smr_filter_text">
                   <span>
-                    {Object.values(filterChecked).filter((ele) => ele.checked)
+                    {Object.values(filterChecked)?.filter((ele) => ele.checked)
                       ?.length === 0
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
                       ? "Filters"
@@ -1730,10 +1731,10 @@ const ProductList = () => {
                                             : filterChecked[`${ele?.id}${opt?.id}`]
                                               ?.checked
                                         }
-                                        style={{
-                                          color: "#7f7d85",
+                                        sx={{
+                                          color:"#7f7d85 !important",
                                           padding: 0,
-                                          width: "10px",
+                                          width:"10px",
                                         }}
                                         onClick={(e) =>
                                           handleCheckboxChange(
