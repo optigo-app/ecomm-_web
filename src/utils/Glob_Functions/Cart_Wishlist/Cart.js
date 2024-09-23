@@ -632,7 +632,7 @@ const useCart = () => {
   // browse our collection
   const handelMenu = () => {
     let menudata = JSON.parse(sessionStorage.getItem('menuparams'));
-    let redirectURL = JSON.parse(sessionStorage.getItem('redirectURL'));
+    let redirectURL = sessionStorage.getItem('redirectURL');
     if (redirectURL) {
       return navigate(redirectURL);
     }
