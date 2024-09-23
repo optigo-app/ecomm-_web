@@ -94,7 +94,7 @@ const Header = () => {
           setCompanyTitleLogo(parsedData?.companylogo);
           setMobileLogo(parsedData?.companyMlogo)
           window.scroll({ behavior: "smooth", top: 0 });
-          console.log(parsedData,"avaiable");
+          console.log(parsedData, "avaiable");
 
           if (interval) {
             clearInterval(interval);
@@ -110,7 +110,7 @@ const Header = () => {
     };
 
     checkStoreInit();
-    interval = setInterval(checkStoreInit, 1000); 
+    interval = setInterval(checkStoreInit, 1000);
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -216,9 +216,9 @@ const Header = () => {
         f: {},
       };
 
-      let encodeObj = compressAndEncode(JSON.stringify(obj));
+      let encodeObj = btoa(JSON.stringify(obj))
 
-      navigate(`/d/${inputValue}?p=${encodeObj}`);
+      navigate(`/p/${inputValue}?S=${encodeObj}`);
       setInputValue("");
       setShowBtn(false);
       setSearchOpen(false);
@@ -227,6 +227,7 @@ const Header = () => {
       // }
     }
   };
+
 
   const handleButtonClick = () => {
     if (showBtn) {
@@ -519,12 +520,7 @@ const Header = () => {
                   <div className="el_whioutL_headerDiv3_side">
                     <div className="el_whioutL_headerDiv3_sub2">
                       <p
-                        style={{
-                          fontSize: "14px",
-                          textTransform: "capitalize",
-                          margin: "0px 20px 0px 0px",
-                          cursor: "pointer",
-                        }}
+                        className="elv_withoutL_login"
                         onClick={() => navigation("/LoginOption")}
                       >
                         Log In
@@ -598,12 +594,7 @@ const Header = () => {
                     </div>
                     <div className="el_whioutL_headerDiv3_sub2">
                       <p
-                        style={{
-                          fontSize: "14px",
-                          textTransform: "capitalize",
-                          margin: "0px 20px 0px 0px",
-                          cursor: "pointer",
-                        }}
+                        className="elv_withoutL_login"
                         onClick={() => navigation("/LoginOption")}
                       >
                         Log In
@@ -675,7 +666,7 @@ const Header = () => {
                         to={"/Lookbook"}
                         className="el_Login_header_li go-lookbook"
                         style={{
-                          marginLeft: " 20px",
+                          marginLeft: " 22px",
                           cursor: "pointer",
                           textDecoration: "none",
                           position: "relative",
@@ -686,7 +677,7 @@ const Header = () => {
                           style={{
                             backgroundColor: "#9C27B0",
                             position: "absolute",
-                            marginTop: "-35px",
+                            marginTop: "-30px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -695,7 +686,7 @@ const Header = () => {
                             padding: "0 5px",
                             fontSize: "10px",
                             borderRadius: " 3px",
-                            marginLeft: "-15px",
+                            marginLeft: "-10px",
                             color: 'white'
                           }}
                         >
@@ -1040,7 +1031,7 @@ const Header = () => {
                         fontSize: "14px",
                         textDecoration: "underline",
                         marginBottom: "10px",
-                        fontFamily: '"PT Sans", sans-serif',
+                        // fontFamily: '"PT Sans", sans-serif',
                         color: "black",
                         textAlign: "start",
                         letterSpacing: 1,
@@ -1098,7 +1089,7 @@ const Header = () => {
                             style={{
                               fontSize: "14px",
                               margin: "3px 15px 3px 0px",
-                              fontFamily: '"PT Sans", sans-serif',
+                              // fontFamily: '"PT Sans", sans-serif',
                               letterSpacing: 0.4,
                               textAlign: "start",
                               cursor: "pointer",

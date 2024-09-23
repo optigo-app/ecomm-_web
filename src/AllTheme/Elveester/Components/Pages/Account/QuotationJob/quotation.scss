@@ -1,3 +1,8 @@
+@import "../../../scss/elvee_modules.scss";
+.elvee_fs_jobs {
+    // font-family: $fontPTSans !important; // Use the variable with the $ symbol
+    font-family: $fontSansSerif !important;
+}
 .quotationFilterDatesElvee>div>input {
     padding: 9.5px 10px;
     max-width: 96px;
@@ -323,5 +328,13 @@
     }
      .pd_right_elvee_job .MuiInputBase-root{
         padding-right: 0px !important;
+    }
+}
+@media screen and (max-width:320px){
+    .pd_r_0_acc_elvee{
+        padding-right: 10px !important;
+    }
+    .mr_left_acc_elvee{
+        margin-left: 0px !important;
     }
 }

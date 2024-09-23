@@ -1,4 +1,10 @@
-.Smiling-AccountMain {
+@import "../../scss/elvee_modules.scss";
+
+.elvee_fs_pt {
+    // font-family: $fontPTSans !important; // Use the variable with the $ symbol
+    font-family: $fontSansSerif !important; // Use the variable with the $ symbol
+}
+.Smiling-AccountMain_elvee {
     background-color: white;
     margin-inline: 6%;
 }
@@ -13,7 +19,7 @@
     padding-top: 80px;
 }
 
-.smling-AccountTabMain {
+.smling-AccountTabMain_elvee {
     margin-inline: 10%;
 }
 
@@ -105,12 +111,12 @@
     border-bottom: 1px solid black;
 }
 
-.smlingAccountTabWebView button.Mui-selected{
+.smlingAccountTabWebView_elvee button.Mui-selected{
     color: #3b3c3d;
     /* text-decoration: underline; */
 }
 
-.smlingAccountTabWebView span.MuiTabs-indicator{
+.smlingAccountTabWebView_elvee span.MuiTabs-indicator{
     background-color: #3b3c3d;
 }
 
@@ -130,16 +136,18 @@
     z-index: 10; /* Adjust z-index as needed */
     padding: 10px 0 !important;
 }
-
+.iconsTabAcc_elvee{
+    display: none !important;
+}
 
 @media screen and (max-width: 1441px) {
 
-    .Smiling-AccountMain {
+    .Smiling-AccountMain_elvee {
     margin-inline: 2%;
 
     }
 
-    .smling-AccountTabMain {
+    .smling-AccountTabMain_elvee {
     margin-inline: 5%;
 
     }
@@ -157,6 +165,7 @@
         padding: 10px 0 !important;
     }
 }
+
 @media screen and (min-width: 1050px) {
     .smlingAccountTabMobileView{
         display: none;
@@ -169,11 +178,39 @@
         z-index: 10; /* Adjust z-index as needed */
         padding: 10px 0 !important;
     }
+
+}
+
+@media screen and (max-width:1085px){
+    .d_none_acc_elvee{
+        display: none !important;
+    }
+    .smlingAccountTabWebView_elvee{
+        display: none !important;
+    }
+ 
+    .iconsTabAcc_elvee{
+        display: unset !important;
+    }
+    .iconsTabAcc_elvee .MuiTabs-flexContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2%;
+    }
+    .smling-AccountTabMain_elvee {
+        margin-inline: 0%;
+    
+    }
+    .acc_hoq_tab_p_0{
+        padding: 0px !important;
+    }
 }
 
 @media screen and (max-width: 1049px) {
 
-    .smlingAccountTabWebView{
+    .smlingAccountTabWebView_elvee{
         display: none;
     }
 
@@ -207,8 +244,11 @@
         z-index: 10; /* Adjust z-index as needed */
         padding: 10px 0 !important;
     }
+    .d_none_acc_elvee{
+        display: none !important;
+    }
 }
-@media screen and (max-width:1024px){
+@media screen and (max-width:1024px), (max-width:1085px){
     .yourAccount .MuiButtonBase-root{
         padding: 0px !important;
         min-height: auto !important;
@@ -216,6 +256,33 @@
     }
     .d_none_acc_elvee{
         display: none !important;
+    }
+
+    .iconsTabAcc_elvee{
+        display: unset !important;
+    }
+    .iconsTabAcc_elvee .MuiTabs-flexContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2%;
+    }
+    .d_none_acc_elvee{
+        display: none !important;
+    }
+    .smlingAccountTabWebView_elvee{
+        display: none;
+    }
+    .iconsTabAcc_elvee{
+        display: unset !important;
+    }
+    .iconsTabAcc_elvee .MuiTabs-flexContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2%;
     }
 }
 
@@ -258,6 +325,22 @@
     background-color: white !important;
     z-index: 10; /* Adjust z-index as needed */
     padding: 10px 0 !important;
+    }
+.d_none_acc_elvee{
+    display: none !important;
+}
+.smlingAccountTabWebView_elvee{
+    display: none;
+}
+.iconsTabAcc_elvee{
+    display: unset !important;
+}
+.iconsTabAcc_elvee .MuiTabs-flexContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 2%;
 }
 }
 

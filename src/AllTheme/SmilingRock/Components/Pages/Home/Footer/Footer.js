@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Footer.modul.scss'
 import { useNavigate } from 'react-router';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const Footer = ({ fromPage }) => {
 
@@ -9,6 +10,32 @@ const Footer = ({ fromPage }) => {
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
   let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const jsonData = JSON.parse(text);
+          setHtmlContent(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (htmlContent) {
+      setLocalData((prevData) => ({
+        ...prevData,
+        Footerno: htmlContent?.rd[0]?.Footerno, 
+      }));
+    }
+  }, [htmlContent]);
 
   useEffect(() => {
     let localD = JSON?.parse(sessionStorage?.getItem('storeInit'));
@@ -49,8 +76,14 @@ const Footer = ({ fromPage }) => {
                 <div className='footerMoreOption'>
                   <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
                   <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
-                  <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
-                  <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                  {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+                    (
+                      htmlContent?.rd[0]?.ExtraMenu == 1 &&
+                      <>
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                      </>
+                    )}
                 </div>
                 <div className='footerMoreText'>
                   <p style={{
@@ -58,8 +91,8 @@ const Footer = ({ fromPage }) => {
                     fontSize: '12px',
                     fontWeight: 500,
                     marginInline: '15px'
-                    // }}>© 2024, optigoapps</p>
-                  }}>© 2024, KayraCreation</p>
+                  }}>© {new Date()?.getFullYear()}, {localData?.companyname}</p>
+                  {/* // }}>© 2024, optigoapps</p> */}
 
                   <p style={{
                     color: '#7d7f85',
@@ -83,8 +116,14 @@ const Footer = ({ fromPage }) => {
                   <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
                   {/* <p className='footerMoreOptionData' onClick={() => {navigation('/faq'); window.scrollTo(0, 0); }}>FAQ</p> */}
                   <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
-                  <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
-                  <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                  {htmlContent?.rd && htmlContent?.rd.length > 0 &&
+                    (
+                      htmlContent?.rd[0]?.ExtraMenu == 1 &&
+                      <>
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
+                      </>
+                    )}
                   <p className='footerMoreOptionData' onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p>
                   {/* <p className='footerMoreOptionData' onClick={() => navigation('/press')}>PRESS</p> */}
                 </div>

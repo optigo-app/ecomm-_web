@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_footer_main {
     .ElveFooterMain {
         color: rgba(29, 50, 88, 0.8) !important;
@@ -16,6 +18,14 @@
         font-size: 19px;
         font-weight: bold;
         margin: 0px;
+        font-family: $fontSansSerif;
+    }
+
+    .elvBox1TitDesc {
+        margin: 0;
+        max-width: 350px;
+        font-size: 15px;
+        font-family: $fontSansSerif;
     }
 
     .eleBox1InputBox {
@@ -26,6 +36,7 @@
         border: 1px solid #ebdcc3;
         outline: none;
         padding: 0px 5px;
+        font-family: $fontSansSerif;
     }
 
     .elevBox1Btn {
@@ -33,13 +44,17 @@
         width: 90px;
         border: none;
         background-color: #ebdcc3;
-        font-weight: 500;
-        font-size: 15px;
-
+        font-weight: 600;
+        font-size: 16px;
+        padding-top: 4px;
+        font-family: $fontSansSerif;
     }
 
     .ElveFooter2 {
         width: 25%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
         padding-left: 1%;
     }
 
@@ -50,6 +65,9 @@
 
     .ElveFooter3 {
         width: 25%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
         padding-left: 1%;
     }
 
@@ -71,21 +89,23 @@
     .ElevFooterBoxTitle {
         font-size: 20px;
         font-weight: bold;
-        font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif;
     }
 
     .ElveFooterDesc {
         font-size: 15px;
-        font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif;
         cursor: pointer;
         margin-bottom: 9px;
         width: fit-content;
+        color: #1d3258cc;
+        text-decoration: none;
     }
 
     .ElevBox4Title {
         font-size: 14px;
         font-weight: bold;
-        font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif;
         cursor: pointer;
     }
 
@@ -142,16 +162,21 @@
         margin-top: 1rem;
     }
 
+    .elv_copy_hr {
+        margin-block: 0.5rem;
+    }
+
     .elv_coprights {
         max-width: 80rem;
         margin-inline: auto;
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-block: 0.5rem;
     }
 
     .elv_copyrights_text {
         font-weight: 600;
-        font-size: 17px;
+        font-size: 14px;
+        font-family: $fontSansSerif;
     }
 
     @media screen and (max-width:1500px) {

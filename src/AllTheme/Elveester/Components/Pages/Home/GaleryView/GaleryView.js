@@ -37,6 +37,18 @@ const sliderData = [
   {
     imageUrl: "/images/HomePage/Gallery/GalleryImg10.jpg",
   },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg11.jpg",
+  // },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg12.jpg",
+  // },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg13.jpg",
+  // },
+  // {
+  //   imageUrl: "/images/HomePage/Gallery/GalleryImg14.jpg",
+  // },
 ];
 
 export default function GaleryView() {

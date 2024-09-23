@@ -5,7 +5,7 @@ import { el_loginState } from '../../../Recoil/atom';
 import { Skeleton } from '@mui/material';
 import ReactPlayer from 'react-player';
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import CountdownTimer from '../CountdownTimer/CountdownTimer';
+import CountdownTimer from '../CountdownTimer/CountdownUI';
 
 const TopSection = () => {
     const islogin = useRecoilValue(el_loginState);

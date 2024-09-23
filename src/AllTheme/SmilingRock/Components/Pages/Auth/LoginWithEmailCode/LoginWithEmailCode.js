@@ -6,7 +6,7 @@ import { LoginWithEmailCodeAPI } from '../../../../../../utils/API/Auth/LoginWit
 import Footer from '../../Home/Footer/Footer';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import { useSetRecoilState } from 'recoil';
-import { loginState } from '../../../Recoil/atom';
+import { loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import OTP from './OTP'; // Make sure the path is correct
 
@@ -17,7 +17,7 @@ export default function LoginWithEmailCode() {
     const [isLoading, setIsLoading] = useState(false);
     const [resendTimer, setResendTimer] = useState(120);
     const navigation = useNavigate();
-    const setIsLoginState = useSetRecoilState(loginState);
+    const setIsLoginState = useSetRecoilState(smr_loginState);
     const location = useLocation();
     const inputsRef = useRef([]);
 

@@ -1,3 +1,8 @@
+@import "../../../scss/elvee_modules.scss";
+.elvee_fs_sales {
+    // font-family: $fontPTSans !important; // Use the variable with the $ symbol
+    font-family: $fontSansSerif !important;
+}
 .salesPagePagBtn:has(.muiSmilingRocksBtn) {
     padding-bottom: 20px !important;
     margin-top: -3px;
@@ -179,5 +184,11 @@
     }
      .pd_right_elvee_job .MuiInputBase-root{
         padding-right: 0px !important;
+    }
+}
+
+@media screen and (max-width:575px){
+    .elvee_date_width{
+        width: 95% !important;
     }
 }

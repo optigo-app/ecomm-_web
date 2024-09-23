@@ -11,9 +11,7 @@ import { el_loginState } from '../../../Recoil/atom';
 const Footer = () => {
 
     const [companyInfoData, setCompanuInfoData] = useState();
-    console.log('companyInfoData: ', companyInfoData);
     const [socialMediaData, setSocialMediaData] = useState([]);
-    console.log('socialMediaData: ', socialMediaData);
     const [email, setEmail] = useState();
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
@@ -86,8 +84,20 @@ const Footer = () => {
         setEmail(event.target.value);
     };
 
-    const handleNavigte = (navigateUrl) => {
-        navigation(navigateUrl)
+    const handleNavigte = (navigateUrl, event) => {
+        if (
+            event?.ctrlKey ||     // Ctrl key
+            event?.shiftKey ||    // Shift key
+            event?.metaKey ||     // Meta key (Command key on macOS)
+            (event?.button && event?.button === 1) // Middle mouse button
+        ) {
+            // Let the default behavior of the <a> tag handle the new tab opening
+            return;
+        }
+        else {
+            event.preventDefault();
+            navigation(navigateUrl)
+        }
     }
 
     return (
@@ -96,7 +106,7 @@ const Footer = () => {
                 {/* {isLogin[0] === false && ( */}
                 <div className='ElveFooter1'>
                     <p className='elveBox1Title'>Sign up for our updates</p>
-                    <p style={{ margin: '0px', maxWidth: '350px', fontSize: '15px' }}>Sign up for our updates
+                    <p className='elvBox1TitDesc'>Sign up for our updates
                         Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
                     <div className='ElveFooter1Input' style={{ marginTop: '20px', display: 'flex' }}>
                         <input type="email" placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
@@ -114,18 +124,18 @@ const Footer = () => {
                 {/* )} */}
                 <div className={'ElveFooter2'}>
                     <p className='ElevFooterBoxTitle'>Our Company</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/aboutUs')}>About Us</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/careers')}>Careers</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/history')}>History</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/contact-us')}>Contact Us</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/term&condition')}>Terms and Conditions</p>
+                    <a href={'/aboutUs'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/aboutUs', e)}>About Us</a>
+                    <a href={'/careers'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/careers', e)}>Careers</a>
+                    <a href={'/history'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/history', e)}>History</a>
+                    <a href={'/contact-us'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/contact-us', e)}>Contact Us</a>
+                    <a href={'/term&condition'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/term&condition', e)}>Terms and Conditions</a>
                 </div>
                 <div className={'ElveFooter3'}>
                     <p className='ElevFooterBoxTitle'>Customer Care</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/customerServices')}>Customer Services</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/appointment')}>Book an Appoinment</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/customize')}>Customize</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/faqs')}>FAQ</p>
+                    <a href={'/customerServices'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/customerServices', e)}>Customer Services</a>
+                    <a href={'/appointment'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/appointment', e)}>Book an Appoinment</a>
+                    <a href={'/customize'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/customize', e)}>Customize</a>
+                    <a href={'/faqs'} className='ElveFooterDesc' onClick={(e) => handleNavigte('/faqs', e)}>FAQ</a>
                     {/* <p className='ElveFooterDesc' onClick={() => handleNavigte('/Lookbook')}>Lookbook</p> */}
                 </div>
                 <div className={'ElveFooter4'}>
@@ -145,7 +155,7 @@ const Footer = () => {
                                 <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
                                     <IoMdCall style={{ width: '18px', height: '18px', marginLeft: '6px' }} />
                                     <span style={{ marginLeft: '5px' }}>
-                                        <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
+                                        <a style={{ color: 'rgba(29, 50, 88, 0.8)' }} href={`tel:${companyInfoData?.FrontEndContactno1}`}>
                                             {companyInfoData?.FrontEndContactno1}
                                         </a>
                                     </span>
@@ -153,7 +163,7 @@ const Footer = () => {
                                 <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
                                     <IoMdMail style={{ width: '18px', height: '18px', marginLeft: '8px' }} />
                                     <span style={{ marginLeft: '5px' }}>
-                                        <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+                                        <a style={{ color: 'rgba(29, 50, 88, 0.8)' }} href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                                             {companyInfoData?.FrontEndEmail1}
                                         </a>
                                     </span>
@@ -162,14 +172,14 @@ const Footer = () => {
                             :
                             <div>
                                 <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
-                                    <IoLocationOutline style={{ width: '22px', height: '22px' }} />
+                                    <IoLocationOutline style={{ width: '22px', height: '22px', color: 'rgba(29, 50, 88, 0.8)' }} />
                                     <span>1177 6th Avenue, Suite 5099, New York,NY 10036.</span>
                                 </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', color: 'rgba(29, 50, 88, 0.8)' }}>
                                     <IoMdCall />
                                     (646) 284-4466
                                 </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', color: 'rgba(29, 50, 88, 0.8)' }}>
                                     <IoMdMail />
                                     <span style={{ marginLeft: '5px' }}>Contact.usa@elveepromise.com</span>
                                 </p>
@@ -179,7 +189,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className='elv_copyrights_div'>
-                <hr />
+                <hr className='elv_copy_hr' />
                 <div className='elv_coprights'>
                     <span className='elv_copyrights_text'>Copyright &#169; 2024 Elvee. All Rights Reserved.</span>
                 </div>

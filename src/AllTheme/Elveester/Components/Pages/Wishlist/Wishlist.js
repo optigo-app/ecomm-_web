@@ -11,6 +11,7 @@ import { Box, Button, CircularProgress, Modal, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 const Wishlist = () => {
   const {
@@ -179,7 +180,7 @@ const Wishlist = () => {
               </span>
             </div>
           </div>
-          <div className="WlBtnGroupMainDiv">
+          <div className="elv_WlBtnGroupMainDiv">
             {/* <div className="elv_Wl-title">My Wishlist</div> */}
             {wishlistData.length ? (
               <div className='elv_wishlist_buttons'>
@@ -211,7 +212,7 @@ const Wishlist = () => {
           )}
           {dialogOpen && (
             <>
-              <Modal
+              {/* <Modal
                 open={dialogOpen}
                 onClose={handleCloseDialog}
                 aria-labelledby="modal-modal-title"
@@ -226,7 +227,14 @@ const Wishlist = () => {
                     <Button className="elv_del_button no-button" onClick={handleCloseDialog}>No</Button>
                   </div>
                 </Box>
-              </Modal>
+              </Modal> */}
+              <ConfirmationDialog
+                open={dialogOpen}
+                onClose={handleCloseDialog}
+                onConfirm={handleConfirmRemoveAll}
+                title={"Confirm"}
+                content={"Are You Sure to Clear All these items?"}
+              />
             </>
           )}
 

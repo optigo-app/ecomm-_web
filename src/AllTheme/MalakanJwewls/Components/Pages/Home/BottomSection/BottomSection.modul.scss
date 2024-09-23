@@ -1,15 +1,14 @@
-
-.mala_bottom_main_div{
+.mala_bottom_main_div {
 
     background-color: #17372F;
 
-    .mala_bottom_title{
+    .mala_bottom_title {
         color: white;
         font-size: 60px;
         text-align: center;
     }
 
-    .mala_bottom_main_div_sub{
+    .mala_bottom_main_div_sub {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -17,20 +16,20 @@
         padding-block: 50px;
     }
 
-    .mala_bottom_main_div_sub1{
+    .mala_bottom_main_div_sub1 {
         width: 30%;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    
-    .mala_bottom_title_sub{
+
+    .mala_bottom_title_sub {
         color: white;
         font-size: 25px;
         text-align: center;
     }
 
-    .mala_bottom_btn{
+    .mala_bottom_btn {
         height: 45px;
         width: 130px;
         background-color: #F6C2B5;
@@ -38,9 +37,20 @@
         font-weight: 500;
     }
 
-    .mala_bottom_btn:hover{
+    .mala_bottom_btn:hover {
         border: 1px solid #F6C2B5;
         background-color: transparent;
         color: white;
+    }
+
+    @media screen and (max-width:1200px) {
+        .mala_bottom_title {
+            font-size: 35px !important;
+        }
+
+        .mala_bottom_main_div_sub1 {
+            width: 90% !important;
+        }
+
     }
 }

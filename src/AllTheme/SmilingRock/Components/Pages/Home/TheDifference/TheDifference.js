@@ -1,16 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 import { useNavigate } from 'react-router-dom'
 
 const TheDifference = () => {
-
     const navigate = useNavigate();
+    const [htmlContent, setHtmlContent] = useState('');
+
+    useEffect(() => {
+        fetch(`${storImagePath()}/html/smrTheDeffrence.html`)
+            .then((response) => response.text())
+            .then((html) => {
+                setHtmlContent(html);
+                setTimeout(() => {
+                    const learnMoreElements = document.querySelectorAll('.smr_learnMore');
+                    learnMoreElements.forEach((element) => {
+                        element.addEventListener('click', handleLearnMoreClick);
+                    });
+                }, 0);
+            })
+            .catch((error) => {
+                console.error('Error fetching the HTML file:', error);
+            });
+
+        return () => {
+            const learnMoreElements = document.querySelectorAll('.smr_learnMore');
+            learnMoreElements.forEach((element) => {
+                element.removeEventListener('click', handleLearnMoreClick);
+            });
+        };
+    }, []);
+
+    const handleLearnMoreClick = () => {
+        navigate('/natural-diamond');
+    };
+
 
     return (
-        <div style={{ paddingBlock: '5%' }} className='smilingPAgeMain'>
-            <p className='smilingTitle'>The KayraCreation Difference</p>
-            <div className='smilingRock'>
+        <div style={{marginBlock: '10px'}}>
+            {/* <p className='smilingTitle'>The KayraCreation Difference</p> */}
+            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+            {/* <div className='smilingRock'>
                 <div className='smilingRockBox'>
                     <div className='smilingRockBoxSub1'>
                         <img className="simple-card__img " src={`${storImagePath()}/images/HomePage/TheDifference/TheDifference1.webp`} alt="" />
@@ -52,7 +82,7 @@ const TheDifference = () => {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

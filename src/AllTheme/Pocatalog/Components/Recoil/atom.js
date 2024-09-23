@@ -1,8 +1,14 @@
 import { atom } from "recoil";
 
 export const proCat_companyLogo = atom({
-    key:'companyLogo',
-    default:[]
+  key:'companyLogo',
+  default:[]
+})
+
+
+export const proCat_companyLogoM = atom({
+  key:'companyLogoM',
+  default:[]
 })
 
 export const proCat_loginState = atom({

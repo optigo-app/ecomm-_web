@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  font-family: $fontSansSerif !important;
 
   .elv_stockItem_div {
     display: flex;
@@ -18,7 +19,8 @@
 
   .elv_details_title {
     font-size: 30px;
-    font-family: "FreightDisp Pro Medium";
+    // font-family: "FreightDisp Pro Medium";
+    font-family: $fontSansSerif !important;
     color: $primaryfontcolor2;
   }
 
@@ -83,14 +85,16 @@
     align-items: center;
     padding-inline: 30px;
     gap: 3px;
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
     color: $primaryfontcolor2;
   }
 
   .elv_prod_wt {
     display: flex;
     gap: 2px;
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   .elv_d_keys {
@@ -112,11 +116,13 @@
   .elv_stockItem_price_type_mt {
     color: $primaryfontcolor;
     font-size: 14px;
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   .elv_prodd_datanotfound {
-    font-family: $primaryFontFamilyMedium;
+    // font-family: $primaryFontFamilyMedium;
+    font-family: $fontSansSerif !important;
     color: $primaryfontcolor;
     font-size: 42px;
   }
@@ -136,7 +142,8 @@
   .elv_stockItem_table {
     border-collapse: collapse;
     width: 70%;
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
     border: 1px solid #dddddd;
   }
 
@@ -147,15 +154,18 @@
   .elv_Price_breakup_label {
     width: 70px;
     color: #7d7f85;
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   .elv_currencyFont {
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   .elv_PriceBreakup_Price {
-    font-family: $primaryFontFamily;
+    // font-family: $primaryFontFamily;
+    font-family: $fontSansSerif !important;
   }
 
   @media screen and (max-width: 768px) {

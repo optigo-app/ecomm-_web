@@ -2192,7 +2192,7 @@ const ProductList = () => {
           </div>
         </Drawer>
         <div className="proCat_bodyContain">
-          <div className="smr_outerContain">
+          <div className="proCat_outerContain">
             <div className="proCat_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
@@ -2468,7 +2468,8 @@ const ProductList = () => {
                           />
                         </div>
                         <p className="proCat_NameTopShow">
-                          {decodeURI(extractedPart)}
+                          {/* {decodeURI(extractedPart)} */}
+                          {decodeURI(atob(extractedPart))}
                         </p>
                       </div>
                       }
@@ -3093,7 +3094,7 @@ const ProductList = () => {
                                           <LocalMallOutlinedIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "#7d7f85",
+                                              color: "red",
                                               opacity: ".7",
                                             }}
                                           />
@@ -3102,7 +3103,7 @@ const ProductList = () => {
                                           <LocalMallIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "#009500",
+                                              color: "red",
                                             }}
                                           />
                                         }
@@ -3429,25 +3430,12 @@ const ProductList = () => {
                   </div>
                 </>
               )}
-
-              <Footer fromPage={"ProdList"} />
             </div>
           </div>
           {/* <div className="smr_backtotop">
               BACK TO TOP
         </div> */}
         </div>
-      </div>
-      <div
-        className="proCat_backtotop"
-        onClick={() => {
-          window.scroll({
-            top: 0,
-            behavior: "auto",
-          });
-        }}
-      >
-        BACK TO TOP
       </div>
     </>
   );

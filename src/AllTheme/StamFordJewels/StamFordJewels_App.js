@@ -31,7 +31,7 @@ import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import { stam_CartNo, stam_companyLogo, stam_loginState } from "./Components/Recoil/atom";
+import { stam_CartNo, stam_companyLogo, stam_companyLogoM, stam_loginState } from "./Components/Recoil/atom";
 import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
@@ -48,6 +48,7 @@ const StamFordJewels_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(stam_companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(stam_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
@@ -82,16 +83,10 @@ const StamFordJewels_App = () => {
 
   useEffect(() => {
     let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
+    if (logo) {
       setCompanyTitleLogo(logo?.companylogo);
+      setCompanyTitleLogoM(logo?.companyMlogo);
     }
   });
 

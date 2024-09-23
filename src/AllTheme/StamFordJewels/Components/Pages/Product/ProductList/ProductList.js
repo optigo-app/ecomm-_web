@@ -1017,7 +1017,7 @@ const ProductList = () => {
   }
 
   // useEffect(()=>{
-  // let element =  document.getElementById("smr_outer_portion")
+  // let element =  document.getElementById("stam_outer_portion")
   // if(element){
   //   console.log("scroll",element)
   // }
@@ -1031,7 +1031,7 @@ const ProductList = () => {
 
   //   if(UrlVal == "M"){
   //     Compo = (
-  //       <div className="smr_breadcums_port">
+  //       <div className="stam_breadcums_port">
   //                         {menuParams?.menuname && (
   //                           <span
   //                             onClick={() =>
@@ -1087,7 +1087,7 @@ const ProductList = () => {
   // console.log("showBreadCumsValue",showBreadCumsValue())
 
   const handleScrollHeight = () => {
-    // const element = document.getElementsByClassName("smr_filter_portion_outter")
+    // const element = document.getElementsByClassName("stam_filter_portion_outter")
     // const clientHeight = element?.clientHeight;
     // console.log('ClientHeight', clientHeight);
   }
@@ -1431,7 +1431,7 @@ const ProductList = () => {
           onClose={() => {
             setIsDrawerOpen(false);
           }}
-          className="smr_filterDrawer"
+          className="stam_filterDrawer"
         >
           <div
             style={{
@@ -1468,7 +1468,7 @@ const ProductList = () => {
               Customization
             </Typography>
             {storeInit?.IsMetalCustComb === 1 && <div
-            // className="smr_metal_custom"
+            // className="stam_metal_custom"
             >
               <Typography
                 className="label"
@@ -1506,7 +1506,7 @@ const ProductList = () => {
 
             {storeInit?.IsDiamondCustComb === 1 && (
               <div
-              // className="smr_dia_custom"
+              // className="stam_dia_custom"
               >
                 <Typography
                   className="label"
@@ -1544,7 +1544,7 @@ const ProductList = () => {
 
             {storeInit?.IsCsCustomization === 1 && (
               <div
-              // className="smr_cs_custom"
+              // className="stam_cs_custom"
               >
                 <Typography
                   className="label"
@@ -1581,7 +1581,7 @@ const ProductList = () => {
             )}
 
             <div
-            // className="smr_sorting_custom"
+            // className="stam_sorting_custom"
             >
               <div
               // className="container"
@@ -1628,10 +1628,10 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-          <div className="smr_mobile_filter_portion">
+          <div className="stam_mobile_filter_portion">
             {filterData?.length > 0 && (
-              <div className="smr_mobile_filter_portion_outter">
-                <span className="smr_filter_text">
+              <div className="stam_mobile_filter_portion_outter">
+                <span className="stam_filter_text">
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0
@@ -1774,7 +1774,7 @@ const ProductList = () => {
                                     //   flexDirection: "row-reverse", // Align items to the right
                                     //   fontFamily:'TT Commons Regular'
                                     // }}
-                                    className="smr_mui_checkbox_label"
+                                    className="stam_mui_checkbox_label"
                                     label={opt.Name}
                                   />
                                 </div>
@@ -1890,7 +1890,7 @@ const ProductList = () => {
                                     //   flexDirection: "row-reverse", // Align items to the right
                                     //   fontFamily:'TT Commons Regular'
                                     // }}
-                                    className="smr_mui_checkbox_label"
+                                    className="stam_mui_checkbox_label"
                                     label={
                                       opt?.Minval == 0
                                         ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
@@ -2084,7 +2084,7 @@ const ProductList = () => {
           </div>
         </Drawer>
         <div className="stam_bodyContain">
-          <div className="smr_outerContain">
+          <div className="stam_outerContain">
             <div className="stam_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
@@ -2092,7 +2092,7 @@ const ProductList = () => {
               ) : (
                 <>
                   {!minwidth1201px ? (
-                    <div className="smr_mobile_prodSorting">
+                    <div className="stam_mobile_prodSorting">
                       <Checkbox
                         sx={{ padding: "0px 9px 0px 9px" }}
                         icon={<FilterAltIcon fontSize="large" />}
@@ -2108,10 +2108,10 @@ const ProductList = () => {
                     </div>
                   ) : (
                     null
-                    // <div className="smr_prodSorting">
+                    // <div className="stam_prodSorting">
                     //   <div className="empty_sorting_div">
                     //     <span
-                    //       className="smr_breadcums_port "
+                    //       className="stam_breadcums_port "
                     //       style={{ marginLeft: "72px" }}
                     //       onClick={() => {
                     //         navigate("/");
@@ -2122,7 +2122,7 @@ const ProductList = () => {
 
                     //     {location?.search.charAt(1) == "A" && (
                     //       <div
-                    //         className="smr_breadcums_port"
+                    //         className="stam_breadcums_port"
                     //         style={{ marginLeft: "3px" }}
                     //       >
                     //         <span>{"Album"}</span>
@@ -2131,7 +2131,7 @@ const ProductList = () => {
 
                     //     {location?.search.charAt(1) == "T" && (
                     //       <div
-                    //         className="smr_breadcums_port"
+                    //         className="stam_breadcums_port"
                     //         style={{ marginLeft: "3px" }}
                     //       >
                     //         <span>{"Trending"}</span>
@@ -2140,7 +2140,7 @@ const ProductList = () => {
 
                     //     {location?.search.charAt(1) == "B" && (
                     //       <div
-                    //         className="smr_breadcums_port"
+                    //         className="stam_breadcums_port"
                     //         style={{ marginLeft: "3px" }}
                     //       >
                     //         <span>{"Best Seller"}</span>
@@ -2149,7 +2149,7 @@ const ProductList = () => {
 
                     //     {location?.search.charAt(1) == "N" && (
                     //       <div
-                    //         className="smr_breadcums_port"
+                    //         className="stam_breadcums_port"
                     //         style={{ marginLeft: "3px" }}
                     //       >
                     //         <span>{"New Arrival"}</span>
@@ -2158,7 +2158,7 @@ const ProductList = () => {
 
                     //     {IsBreadCumShow && (
                     //       <div
-                    //         className="smr_breadcums_port"
+                    //         className="stam_breadcums_port"
                     //         style={{ marginLeft: "3px" }}
                     //       >
                     //         {menuParams?.menuname && (
@@ -2224,8 +2224,8 @@ const ProductList = () => {
                     //     )}
                     //   </div>
 
-                    // <div className="smr_main_sorting_div">
-                    //   <div className="smr_metal_custom">
+                    // <div className="stam_main_sorting_div">
+                    //   <div className="stam_metal_custom">
                     //     <label className="label">Metal:&nbsp;</label>
                     //     <select
                     //       className="select"
@@ -2245,7 +2245,7 @@ const ProductList = () => {
                     //   </div>
 
                     //   {storeInit?.IsDiamondCustomization === 1 && (
-                    //     <div className="smr_dia_custom">
+                    //     <div className="stam_dia_custom">
                     //       <label className="label">Diamond:&nbsp;</label>
                     //       <select
                     //         className="select"
@@ -2267,7 +2267,7 @@ const ProductList = () => {
                     //   )}
 
                     //   {storeInit?.IsCsCustomization === 1 && (
-                    //     <div className="smr_cs_custom">
+                    //     <div className="stam_cs_custom">
                     //       <label className="label">color stone:&nbsp;</label>
                     //       <select
                     //         className="select"
@@ -2288,7 +2288,7 @@ const ProductList = () => {
                     //     </div>
                     //   )}
 
-                    //   <div className="smr_sorting_custom">
+                    //   <div className="stam_sorting_custom">
                     //     <div className="container">
                     //       <label className="label">Sort By:&nbsp;</label>
                     //       <select
@@ -2327,11 +2327,11 @@ const ProductList = () => {
                     // </div>
                   )}
 
-                  <div className="smr_mainPortion">
-                    <div className="smr_filter_portion" style={{ marginTop: '20px' }}>
+                  <div className="stam_mainPortion">
+                    <div className="stam_filter_portion" style={{ marginTop: '20px' }}>
                       <div className="empty_sorting_div">
                         <span
-                          className="smr_breadcums_port "
+                          className="stam_breadcums_port "
                           // style={{ marginLeft: "72px" }}
                           onClick={() => {
                             navigate("/");
@@ -2342,7 +2342,7 @@ const ProductList = () => {
 
                         {location?.search.charAt(1) == "A" && (
                           <div
-                            className="smr_breadcums_port"
+                            className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"Album"}</span>
@@ -2351,7 +2351,7 @@ const ProductList = () => {
 
                         {location?.search.charAt(1) == "T" && (
                           <div
-                            className="smr_breadcums_port"
+                            className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"Trending"}</span>
@@ -2360,7 +2360,7 @@ const ProductList = () => {
 
                         {location?.search.charAt(1) == "B" && (
                           <div
-                            className="smr_breadcums_port"
+                            className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"Best Seller"}</span>
@@ -2369,7 +2369,7 @@ const ProductList = () => {
 
                         {location?.search.charAt(1) == "N" && (
                           <div
-                            className="smr_breadcums_port"
+                            className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             <span>{"New Arrival"}</span>
@@ -2378,7 +2378,7 @@ const ProductList = () => {
 
                         {IsBreadCumShow && (
                           <div
-                            className="smr_breadcums_port"
+                            className="stam_breadcums_port"
                             style={{ marginLeft: "3px" }}
                           >
                             {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
@@ -2430,8 +2430,8 @@ const ProductList = () => {
                         )}
                       </div>
                       {filterData?.length > 0 && (
-                        <div className="smr_filter_portion_outter">
-                          <span className="smr_filter_text">
+                        <div className="stam_filter_portion_outter">
+                          <span className="stam_filter_text">
                             <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
@@ -2585,7 +2585,7 @@ const ProductList = () => {
                                                 //   flexDirection: "row-reverse", // Align items to the right
                                                 //   fontFamily:'TT Commons Regular'
                                                 // }}
-                                                className="smr_mui_checkbox_label"
+                                                className="stam_mui_checkbox_label"
                                                 label={opt.Name}
                                               />
                                             </div>
@@ -2702,7 +2702,7 @@ const ProductList = () => {
                                               //   flexDirection: "row-reverse", // Align items to the right
                                               //   fontFamily:'TT Commons Regular'
                                               // }}
-                                              className="smr_mui_checkbox_label"
+                                              className="stam_mui_checkbox_label"
                                               label={
                                                 opt?.Minval == 0
                                                   ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
@@ -2903,18 +2903,18 @@ const ProductList = () => {
                           height: "500px",
                         }}
                       >
-                        <span className="smr_prod_datanotfound">
+                        <span className="stam_prod_datanotfound">
                           Products Not found !!!
                         </span>
                       </div>
                     ) : (
-                      <div className="smr_productList">
+                      <div className="stam_productList">
                         {isOnlyProdLoading ? (
                           <ProductListSkeleton fromPage={"Prodlist"} className="pSkelton" />
                         ) : (
                           <>
-                            <div className="smr_main_sorting_div">
-                              {storeInit?.IsMetalCustComb === 1 && <div className="smr_metal_custom">
+                            <div className="stam_main_sorting_div">
+                              {storeInit?.IsMetalCustComb === 1 && <div className="stam_metal_custom">
                                 <label className="label">Metal:&nbsp;</label>
                                 <select
                                   className="select"
@@ -2934,7 +2934,7 @@ const ProductList = () => {
                               </div>
                               }
                               {storeInit?.IsDiamondCustComb === 1 && (
-                                <div className="smr_dia_custom">
+                                <div className="stam_dia_custom">
                                   <label className="label">Diamond:&nbsp;</label>
                                   <select
                                     className="select"
@@ -2956,7 +2956,7 @@ const ProductList = () => {
                               )}
 
                               {storeInit?.IsCsCustomization === 1 && (
-                                <div className="smr_cs_custom">
+                                <div className="stam_cs_custom">
                                   <label className="label">Color Stone:&nbsp;</label>
                                   <select
                                     className="select"
@@ -2977,7 +2977,7 @@ const ProductList = () => {
                                 </div>
                               )}
 
-                              <div className="smr_sorting_custom">
+                              <div className="stam_sorting_custom">
                                 <div className="container">
                                   <label className="label">Sort By:&nbsp;</label>
                                   <select
@@ -3015,13 +3015,13 @@ const ProductList = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="smr_outer_portion" id="smr_outer_portion">
-                              {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                              <div className="smr_inner_portion">
+                            <div className="stam_outer_portion" id="stam_outer_portion">
+                              {/* <div className="stam_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
+                              <div className="stam_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
                                   <div className="stam_productCard">
                                     <div className="cart_and_wishlist_icon">
-                                      {/* <Button className="smr_cart-icon"> */}
+                                      {/* <Button className="stam_cart-icon"> */}
                                       <Checkbox
                                         icon={
                                           <LocalMallOutlinedIcon
@@ -3054,7 +3054,7 @@ const ProductList = () => {
                                       />
                                       {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
                                       {/* </Button> */}
-                                      {/* <Button className="smr_wish-icon"> */}
+                                      {/* <Button className="stam_wish-icon"> */}
                                       <Checkbox
                                         icon={
                                           <StarBorderIcon
@@ -3115,7 +3115,7 @@ const ProductList = () => {
                                         handleLeaveImgRolloverImg(productData);
                                         setIsRollOverVideo({ [productData?.autocode]: false })
                                       }}
-                                      className="smr_ImgandVideoContainer"
+                                      className="stam_ImgandVideoContainer"
                                     >
                                       {
                                         isRollOverVideo[productData?.autocode] == true ?
@@ -3131,13 +3131,13 @@ const ProductList = () => {
                                               productData?.VideoExtension : ""}
                                             loop={true}
                                             autoPlay={true}
-                                            className="smr_productCard_video"
+                                            className="stam_productCard_video"
                                           // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                           />
                                           :
                                           <img
-                                            className="smr_productListCard_Image"
-                                            id={`smr_productListCard_Image${productData?.autocode}`}
+                                            className="stam_productListCard_Image"
+                                            id={`stam_productListCard_Image${productData?.autocode}`}
                                             // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
                                             // src={ ProdCardImageFunc(productData,0)}
                                             src={
@@ -3161,8 +3161,8 @@ const ProductList = () => {
 
                                       }
                                     </div>
-                                    <div className="smr_prod_card_info">
-                                      <div className="smr_prod_Title">
+                                    <div className="stam_prod_card_info">
+                                      <div className="stam_prod_Title">
                                         <span
                                           className={
                                             (productData?.TitleLine?.length > 30)
@@ -3177,11 +3177,11 @@ const ProductList = () => {
                                           {productData?.TitleLine}{" "} */}
                                           {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
-                                        {/* <span className="smr_prod_designno">
+                                        {/* <span className="stam_prod_designno">
                                           {productData?.designno}
                                         </span> */}
                                       </div>
-                                      <div className="smr_prod_Allwt">
+                                      <div className="stam_prod_Allwt">
                                         <div
                                           style={{
                                             display: "flex",
@@ -3194,41 +3194,41 @@ const ProductList = () => {
                                             flexWrap: "wrap",
                                           }}
                                         >
-                                          {/* <span className="smr_por"> */}
+                                          {/* <span className="stam_por"> */}
 
                                           {storeInit?.IsGrossWeight == 1 &&
                                             Number(productData?.Gwt) !== 0 && (
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_main_keys">
+                                              <span className="stam_prod_wt">
+                                                <span className="stam_main_keys">
                                                   GWT:
                                                 </span>
-                                                <span className="smr_main_val">
+                                                <span className="stam_main_val">
                                                   {(productData?.Gwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{fontSize:'0.9vw'}}>|</span>
-                                              <span className="smr_prod_wt">
-                                                <span className="smr_main_keys">NWT:</span>
-                                                <span className="smr_main_val">
+                                              <span style={{fontSize:'14px' , marginInline: '5px'}}>|</span>
+                                              <span className="stam_prod_wt">
+                                                <span className="stam_main_keys">NWT:</span>
+                                                <span className="stam_main_val">
                                                   {(productData?.Nwt)?.toFixed(3)}
                                                 </span>
                                               </span>
                                             </>
                                           )}
                                           {/* </span> */}
-                                          {/* <span className="smr_por"> */}
+                                          {/* <span className="stam_por"> */}
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
-                                                <span className="smr_prod_wt">
-                                                  <span className="smr_main_keys">
+                                                <span style={{fontSize:'14px' , marginInline: '5px'}}>|</span>
+                                                <span className="stam_prod_wt">
+                                                  <span className="stam_main_keys">
                                                     DWT:
                                                   </span>
-                                                  <span className="smr_main_val">
+                                                  <span className="stam_main_val">
                                                     {(productData?.Dwt)?.toFixed(3)}
                                                     {storeInit?.IsDiamondPcs === 1
                                                       ? `/${productData?.Dpcs}`
@@ -3240,12 +3240,12 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
-                                                <span className="smr_prod_wt">
-                                                  <span className="smr_main_keys">
+                                                <span style={{fontSize:'14px' , marginInline: '5px'}}>|</span>
+                                                <span className="stam_prod_wt">
+                                                  <span className="stam_main_keys">
                                                     CWT:
                                                   </span>
-                                                  <span className="smr_main_val">
+                                                  <span className="stam_main_val">
                                                     {(productData?.CSwt)?.toFixed(3)}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
@@ -3257,8 +3257,8 @@ const ProductList = () => {
                                           {/* </span> */}
                                         </div>
                                       </div>
-                                      <div className="smr_prod_mtcolr_price">
-                                        <span className="smr_prod_metal_col">
+                                      <div className="stam_prod_mtcolr_price">
+                                        <span className="stam_prod_metal_col">
                                           {findMetalColor(
                                             productData?.MetalColorid
                                           )?.[0]?.metalcolorname.toUpperCase()}
@@ -3270,19 +3270,19 @@ const ProductList = () => {
                                           }
                                         </span>
                                         <span>/</span>
-                                        <span className="smr_price">
+                                        <span className="stam_price">
                                           {/*  <span
-                                        className="smr_currencyFont"
+                                        className="stam_currencyFont"
                                         dangerouslySetInnerHTML={{
                                           __html: decodeEntities(
                                             storeInit?.Currencysymbol
                                           ),
                                         }}
                                       /> */}
-                                          <span className="smr_currencyFont">
+                                          <span className="stam_currencyFont">
                                             {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
-                                          <span className="smr_pricePort">
+                                          <span className="stam_pricePort">
                                             {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
@@ -3310,7 +3310,7 @@ const ProductList = () => {
                                     marginTop: "5%",
                                     width: '100%'
                                   }}
-                                  className="smr_pagination_portion"
+                                  className="stam_pagination_portion"
                                 >
                                   <Pagination
                                     count={Math.ceil(afterFilterCount / storeInit.PageSize)}
@@ -3333,7 +3333,7 @@ const ProductList = () => {
               )}
             </div>
           </div>
-          {/* <div className="smr_backtotop">
+          {/* <div className="stam_backtotop">
               BACK TO TOP
         </div> */}
         </div>

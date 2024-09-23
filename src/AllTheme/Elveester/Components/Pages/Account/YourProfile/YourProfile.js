@@ -7,6 +7,7 @@ import { defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { validateChangeYPAccount, validateUserDataYPAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 
 export default function YourProfile() {
@@ -100,7 +101,7 @@ export default function YourProfile() {
     }
 
     return (
-        <div className='smr_yourProfile'>
+        <div className='smr_yourProfile elvee_profile'>
             <ToastContainer />
 
             {isLoading && (
@@ -108,6 +109,7 @@ export default function YourProfile() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <div><HeadTitleAcc title="Profile" /></div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
                 {   <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
@@ -118,7 +120,7 @@ export default function YourProfile() {
                                     id="defaddress_shippingfirstname"
                                     label="First Name"
                                     variant="outlined"
-                                    className='labgrowRegister'
+                                    className='labgrowRegister '
                                     style={{ margin: '15px', color: 'black' }}
                                     value={userData?.firstname || ''}
                                     disabled
@@ -128,7 +130,7 @@ export default function YourProfile() {
                                     id="defaddress_shippinglastname"
                                     label="Last Name"
                                     variant="outlined"
-                                    className='labgrowRegister'
+                                    className='labgrowRegister '
                                     style={{ margin: '15px' }}
                                     value={userData?.lastname || ''}
                                     disabled
@@ -140,7 +142,7 @@ export default function YourProfile() {
                                     id="userid"
                                     label="Email"
                                     variant="outlined"
-                                    className='labgrowRegister'
+                                    className='labgrowRegister '
                                     style={{ margin: '15px' }}
                                     value={userData?.userid || ''}
                                     disabled
@@ -150,7 +152,7 @@ export default function YourProfile() {
                                     id="defaddress_shippingmobile"
                                     label="Mobile No."
                                     variant="outlined"
-                                    className='labgrowRegister'
+                                    className='labgrowRegister '
                                     style={{ margin: '15px' }}
                                     value={userData?.mobileno || ''}
                                     disabled
@@ -162,7 +164,7 @@ export default function YourProfile() {
                                     id="defaddress_street"
                                     label="Address"
                                     variant="outlined"
-                                    className='labgrowRegister'
+                                    className='labgrowRegister '
                                     style={{ margin: '15px' }}
                                     value={userData?.street || ''}
                                     disabled
@@ -178,7 +180,7 @@ export default function YourProfile() {
                     )}
                 </div>}
                 {   <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='SmilingAddEditAddrwess ' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                 </div>}
             </div>
 
@@ -186,9 +188,9 @@ export default function YourProfile() {
                 open={editMode}
                 onClose={handleClose}
             >
-                <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
+                <div className='smilingEditProfilePopup elveeYPPopup ' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
                     <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                        <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
+                        <h2 className='' style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
                             <>
                                 <TextField
@@ -200,6 +202,7 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.firstname}
                                     helperText={errors.firstname}
+                                    className=''
                                 />
                                 <TextField
                                     id="lastname"
@@ -210,6 +213,7 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.lastname}
                                     helperText={errors.lastname}
+                                    className=''
                                 />
                                 <TextField
                                     id="userid"
@@ -221,6 +225,7 @@ export default function YourProfile() {
                                     error={!!errors.userid}
                                     helperText={errors.userid}
                                     disabled
+                                    className=''
                                 />
                                 <TextField
                                     id="mobileno"
@@ -231,6 +236,7 @@ export default function YourProfile() {
                                     onChange={handleInputChange}
                                     error={!!errors.mobileno}
                                     helperText={errors.mobileno}
+                                    className=''
                                 />
                                 <TextField
                                     id="street"
@@ -246,12 +252,13 @@ export default function YourProfile() {
                                     }}}
                                     multiline
                                     rows={2}
+                                    className=''
                                 />
                             </>
                         )}
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        <button type='submit' className='smilingDeleveryformSaveBtn' >Save</button>
-                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_elvee' >Cancel</button>
+                        <button type='submit' className='smilingDeleveryformSaveBtn ' >Save</button>
+                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_elvee ' >Cancel</button>
                     </div>
                     </form>
                 </div>

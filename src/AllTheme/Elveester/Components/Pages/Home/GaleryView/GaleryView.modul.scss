@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_mainGalleryConatinerID {
   margin-bottom: 1.3rem;
 
@@ -5,11 +7,11 @@
     margin-top: 20px;
   }
 
-  .galeryComponents {
-    color: rgba(29, 50, 88, 0.8) !important;
-    text-align: center;
-    font-size: 22px;
-  }
+  // .galeryComponents {
+  //   color: rgba(29, 50, 88, 0.8) !important;
+  //   text-align: center;
+  //   font-size: 22px;
+  // }
 
   .socialmediaptag {
     color: rgba(29, 50, 88, 0.8) !important;
@@ -23,10 +25,12 @@
   .galeryComponents {
     color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
-    font-size: 22px;
+    font-size: 28px;
+    font-weight: 600;
     text-transform: capitalize;
     line-height: 2px;
-    margin: 65px 0px 35px 0px !important
+    margin: 65px 0px 50px 0px !important;
+    font-family: $fontSansSerif;
   }
 
 

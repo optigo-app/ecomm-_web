@@ -12,10 +12,7 @@ function App() {
       <RecoilRoot>
         <BrowserRouter>
           <ThemeRoutes />
-          <ToastContainer
-            autoClose={2000}
-            style={{ zIndex: "99999999999999" }}
-          />
+          <ToastContainer autoClose={2000} style={{ zIndex: "99999999999999" }} />
         </BrowserRouter>
       </RecoilRoot>
     </>

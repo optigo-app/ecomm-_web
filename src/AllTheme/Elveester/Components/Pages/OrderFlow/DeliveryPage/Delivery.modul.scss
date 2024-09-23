@@ -1,6 +1,8 @@
 @import '../../../scss/elvee_modules.scss';
 
 .elv_delivery_Main_div {
+    font-family: $fontSansSerif !important;
+
     .elv_delivery_lists_div {
         height: 100%;
         width: 100%;
@@ -16,7 +18,7 @@
     .elv_delivery_lists_header_breadcrumb {
         display: flex;
         justify-content: space-between;
-        background: #D4DBE7;
+        background: $backgroundColor;
         padding: 20px 0px 20px 40px;
     }
 
@@ -24,14 +26,16 @@
         font-size: 20px;
         font-weight: 500;
         letter-spacing: 1px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: $fontSansSerif !important;
         color: #AF8238;
     }
 
     .elv_delivery_details_1 {
         text-transform: uppercase;
         font-size: 30px;
-        font-family: "Segoe UI", "Noto Sans", sans-serif;
+        // font-family: "Segoe UI", "Noto Sans", sans-serif;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_delivery_details_3 {
@@ -226,11 +230,13 @@
         color: #7d7f85;
         text-transform: capitalize;
         margin-bottom: 0.3rem;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_addrTypo {
         color: #7d7f85;
         text-transform: capitalize;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_editDeleteBtngroup {
@@ -258,7 +264,7 @@
         color: black;
         background: #E1E1E1;
         border-radius: 6px;
-        font-weight: 600;
+        font-weight: bold;
         border: none;
         cursor: pointer;
         position: absolute;
@@ -289,6 +295,7 @@
             font-weight: bold;
             padding: 13px 21px 35px 21px;
             text-decoration: underline;
+            font-family: $fontSansSerif !important;
         }
 
         .elv_add-remarkTextArea {
@@ -310,6 +317,7 @@
         display: flex;
         margin-top: 2rem;
         justify-content: center;
+        font-family: $fontSansSerif !important;
 
         .elv_add_remarksave-btn {
             height: 38px;
@@ -321,7 +329,7 @@
             border-radius: 4px;
             background-color: #F8F2EB;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             transition: 0.2s ease-in;
 
             &:hover {
@@ -342,7 +350,7 @@
             border-radius: 4px;
             font-size: 16px;
             background-color: #F8F2EB;
-            font-weight: 500;
+            font-weight: 600;
             transition: 0.2s ease-in;
 
             &:hover {

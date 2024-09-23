@@ -1254,7 +1254,6 @@ const DynamicCollection = () => {
       }));
     }
   };
-
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
 
@@ -1275,6 +1274,7 @@ const DynamicCollection = () => {
       },
       {}
     );
+
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
@@ -1308,11 +1308,11 @@ const DynamicCollection = () => {
       sx={{
         fontFamily: "Tenor Sans , sans-serif !important",
         fontSize: {
-          xs: "14.2px !important", // Mobile screens
-          sm: "16px !important", // Tablets
-          md: "15.2px !important", // Desktop screens
-          lg: "16px !important", // Large desktops
-          xl: "16.4px !important", // Extra large screens
+          xs: "13.2px !important", // Mobile screens
+          sm: "13.5px !important", // Tablets
+          md: "13.6px !important", // Desktop screens
+          lg: "13.7px !important", // Large desktops
+          xl: "14.3px !important", // Extra large screens
         },
       }}
     >
@@ -1332,7 +1332,11 @@ const DynamicCollection = () => {
           className="hoq_filterDrawer"
           style={{ zIndex: "99999999" }}
           sx={{
-            fontFamily: "",
+            zIndex: 9999999,
+            '& .MuiBackdrop-root': {
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              backdropFilter: 'blur(4px)',
+            },
           }}
         >
           <div
@@ -1365,6 +1369,8 @@ const DynamicCollection = () => {
                 fontSize: "16px",
                 fontFamily: "Tenor Sans , sans-serif",
                 marginTop: "12px",
+                padding  :"4px 0"
+
               }}
             >
               Customization
@@ -1379,6 +1385,8 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
+                    padding  :"4px 0"
+
                   }}
                 >
                   Metal:&nbsp;
@@ -1386,8 +1394,9 @@ const DynamicCollection = () => {
                 <select
                   style={{
                     border: "1px solid #e1e1e1",
-                    borderRadius: "8px",
+                    borderRadius: "2px",
                     minWidth: "270px",
+                    textTransform: "uppercase",
                   }}
                   className="select"
                   value={selectedMetalId}
@@ -1418,6 +1427,7 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
+                    padding  :"4px 0"
                   }}
                 >
                   Diamond:&nbsp;
@@ -1425,9 +1435,10 @@ const DynamicCollection = () => {
                 <select
                   style={{
                     border: "1px solid #e1e1e1",
-                    borderRadius: "8px",
+                    borderRadius: "2px",
                     minWidth: "270px",
                     textTransform: "uppercase",
+                    fontWeight : "500",
                   }}
                   className="select"
                   value={selectedDiaId}
@@ -1438,7 +1449,8 @@ const DynamicCollection = () => {
                       className="option"
                       key={diaQc?.QualityId}
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                      style={{ textTransform: "uppercase" }}
+                      style={{ textTransform: "uppercase",
+                       }}
                     >
                       {" "}
                       {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
@@ -1458,6 +1470,8 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
+                    padding  :"4px 0"
+
                   }}
                 >
                   color stone:&nbsp;
@@ -1465,7 +1479,7 @@ const DynamicCollection = () => {
                 <select
                   style={{
                     border: "1px solid #e1e1e1",
-                    borderRadius: "8px",
+                    borderRadius: "2px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif",
                     textTransform: "uppercase",
@@ -1479,7 +1493,9 @@ const DynamicCollection = () => {
                       className="option"
                       key={csCombo?.QualityId}
                       value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                      style={{ textTransform: "uppercase" }}
+                      style={{ textTransform: "uppercase" , 
+                        fontWeight :"500"
+                       }}
                     >
                       {" "}
                       {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
@@ -1501,6 +1517,8 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
+                    padding  :"4px 0"
+
                   }}
                 >
                   Sort By:&nbsp;
@@ -1508,12 +1526,9 @@ const DynamicCollection = () => {
                 <select
                   style={{
                     border: "1px solid #e1e1e1",
-                    borderRadius: "8px",
+                    borderRadius: "2px",
                     minWidth: "270px",
                     fontFamily: "Tenor Sans , sans-serif ",
-                    option: {
-                      fontFamily: "sans-serif ",
-                    },
                   }}
                   className="select"
                   value={sortBySelect}
@@ -1639,6 +1654,7 @@ const DynamicCollection = () => {
                                 color: "gray",
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
+                                fontWeight :"500 !important",
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
@@ -1646,7 +1662,12 @@ const DynamicCollection = () => {
                               className="filtercategoryLable"
                             >
                               {/* <span> */}
-                              {ele.Name}
+                            <Typography sx={{
+                                color: "gray",
+                                borderRadius: 0,
+                                fontFamily: "Tenor Sans , sans-serif",
+                                fontWeight :"500 !important",
+                              }}>  {ele.Name}</Typography>
                               {/* </span> */}
                             </AccordionSummary>
                             <AccordionDetails
@@ -1757,7 +1778,12 @@ const DynamicCollection = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            <Typography sx={{
+                                color: "gray",
+                                borderRadius: 0,
+                                fontFamily: "Tenor Sans , sans-serif",
+                                fontWeight :"500 !important",
+                              }}>  {ele.Name}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1898,7 +1924,12 @@ const DynamicCollection = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            <Typography sx={{
+                                color: "gray",
+                                borderRadius: 0,
+                                fontFamily: "Tenor Sans , sans-serif",
+                                fontWeight :"500 !important",
+                              }}>  {ele.Name}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1957,7 +1988,12 @@ const DynamicCollection = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            <Typography sx={{
+                                color: "gray",
+                                borderRadius: 0,
+                                fontFamily: "Tenor Sans , sans-serif",
+                                fontWeight :"500 !important",
+                              }}>  {ele.Name}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2016,7 +2052,12 @@ const DynamicCollection = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            <Typography sx={{
+                                color: "gray",
+                                borderRadius: 0,
+                                fontFamily: "Tenor Sans , sans-serif",
+                                fontWeight :"500 !important",
+                              }}>  {ele.Name}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2082,6 +2123,7 @@ const DynamicCollection = () => {
           <div className="fb_btn">
             <Checkbox
               icon={<MdOutlineFilterList size={32} />}
+              // disabled
               checkedIcon={
                 <MdOutlineFilterListOff
                   size={32}
@@ -2413,10 +2455,10 @@ const C_Card = ({
           )}
           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
             <>
-              <span>|</span>
+            {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && <span>|</span>}
               <span className="smr_prod_wt">
                 <span className="smr_keys">NWT:</span>
-                <span className="smr_val">{productData?.Nwt?.toFixed(3)}</span>
+                <span className="smr_val">{productData?.Nwt?.toFixed(3)} </span>
               </span>
             </>
           )}
@@ -2426,7 +2468,7 @@ const C_Card = ({
           {storeInit?.IsDiamondWeight == 1 &&
             Number(productData?.Dwt) !== 0 && (
               <>
-                <span>|</span>
+              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 &&  <span>|</span>}
                 <span className="smr_prod_wt">
                   <span className="smr_keys">DWT:</span>
                   <span className="smr_val">
@@ -2440,7 +2482,8 @@ const C_Card = ({
             )}
           {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
             <>
-              <span>|</span>
+             { storeInit?.IsDiamondWeight == 1 &&
+            Number(productData?.Dwt) !== 0 && <span>|</span>}
               <span className="smr_prod_wt">
                 <span className="smr_keys">CWT:</span>
                 <span className="smr_val">
@@ -2448,7 +2491,7 @@ const C_Card = ({
                   {storeInit?.IsStonePcs === 1
                     ? `/${productData?.CSpcs?.toFixed(0)}`
                     : null}
-                </span>
+                 </span>
               </span>
             </>
           )}

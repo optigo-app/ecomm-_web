@@ -35,6 +35,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { ExpandLess } from "@mui/icons-material";
 import { formatAmount, formatAmount2 } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from "../HeadTitleAcc";
 const NewOrderHistoryElvee = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -276,6 +277,7 @@ const NewOrderHistoryElvee = () => {
           </Box>
         ) : (
           <div>
+            <HeadTitleAcc title="Order History" />
             <div style={{ width: "100%" }}>
               {orderHistoryData?.length > 0
                 ? orderHistoryData?.map((e, i) => {
@@ -297,10 +299,10 @@ const NewOrderHistoryElvee = () => {
                         <CardContent sx={{ boxShadow: "none", paddingTop: "5px", paddingBottom: "10px", padding:'0px', padding:'0px 15px' }} className="fs_head_acc " >
                           { !max400px && <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", }} className="fs_head_acc minH_box_acc" >                           
                             <Box sx={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }} className="fs_head_acc w_20_noh_acc" >
-                               <Typography style={{display:'flex', alignItems:'center', justifyContent:'flex-start', width:'100%'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc`}>
+                               <div style={{display:'flex', alignItems:'center', justifyContent:'flex-start', width:'100%'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc`}>
                                 <CircleIcon sx={{ fontSize:'7px !important', marginRight: "5px" }} />
                                 {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
-                              </Typography>
+                              </div>
                             </Box>
                            { <Box sx={{  display: "flex", flexDirection:'column', justifyContent: "center", alignItems: "flex-end", }} className="fs_head_acc w_80_noh_acc" > 
                             <>
@@ -354,10 +356,10 @@ const NewOrderHistoryElvee = () => {
                           </Box>}
                           { max400px && <Box className="fs_head_acc minH_box_acc" >                           
                             <Box sx={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding:'5px 0px' }} className="fs_head_acc w_100_noh_acc" >
-                               <Typography style={{display:'flex', alignItems:'center', justifyContent:'flex-start', width:'100%'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc`}>
+                               <div style={{display:'flex', alignItems:'center', justifyContent:'flex-start', width:'100%'}}  className={` ${getStatusColor( e?.b2c_MasterManagement_ProgressStatusId )} fs_head_acc start_noh_acc`}>
                                 <CircleIcon sx={{ fontSize:'7px !important', marginRight: "5px" }} />
                                 {e?.b2c_MasterManagement_ProgressStatusName?.toUpperCase()}
-                              </Typography>
+                              </div>
                             </Box>
                            { <Box sx={{  display: "flex", flexDirection:'column', justifyContent: "center", alignItems: "flex-start", paddingBottom:'10px' }} className="fs_head_acc w_100_noh_acc" > 
                             <>

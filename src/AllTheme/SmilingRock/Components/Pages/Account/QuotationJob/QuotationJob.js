@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {checkMonth, customComparator_Col, formatAmount, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import {checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Swal from 'sweetalert2';
 
@@ -35,6 +35,9 @@ const CustomSortIcon = ({ order }) => {
 };
 
 const QuotationJob = () => {
+
+  const storedData = sessionStorage.getItem('loginUserDetail');
+  const loginDetails = JSON.parse(storedData);
 
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
@@ -140,7 +143,8 @@ const QuotationJob = () => {
         if (e?.["Sr#"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["Date"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["SKUNO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          e?.["PO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+          // e?.["PO"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+          e?.["lineid"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["JobNo"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["DesignNo"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["Category"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
@@ -312,7 +316,7 @@ const QuotationJob = () => {
     setSearchVal("");
   }
 
-
+let is_asc = '';
   const handleRequestSort = (property) => {
     if(property?.toLowerCase() === 'sr#') return null
     else{
@@ -320,8 +324,10 @@ const QuotationJob = () => {
       let isAsc = ((orderBy === property) && (order === 'asc'));
       if(isAsc){
         setOrder('desc');
+        is_asc = 'desc';
       }else{
         setOrder('asc');
+        is_asc = 'asc';
       }
       
       setOrderBy(property);
@@ -339,6 +345,7 @@ const QuotationJob = () => {
 
 
   function getComparator(order, orderBy) {
+
     return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
@@ -409,10 +416,46 @@ const QuotationJob = () => {
 
       return 0;
 
+    // }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo' || orderBy?.toLowerCase() === 'lineid')) {
     }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
       // Handle sorting for SKU# column
       return customComparator_Col(a[orderBy], b[orderBy]);
-  }  else {
+
+  } else if (orderBy?.toLowerCase() === 'lineid') {
+    // Custom sorting for 'lineid' - prioritize numbers first, then strings
+    const valueA = a[orderBy]?.toString() || '';
+    const valueB = b[orderBy]?.toString() || '';
+
+    const numA = parseFloat(valueA);  // Try to convert to number
+    const numB = parseFloat(valueB);
+
+    // Check if both are numbers
+    if (!isNaN(numA) && !isNaN(numB)) {
+        return is_asc ? numA - numB : numB - numA; // Sort numerically
+    }
+
+    // Check if one is a number and the other is a string
+    if (!isNaN(numA) && isNaN(numB)) {
+        return -1; // Numbers come before strings
+    }
+    if (isNaN(numA) && !isNaN(numB)) {
+        return 1; // Numbers come before strings
+    }
+
+    // If both are strings, perform a standard lexicographical sort
+    const lowerA = valueA.toLowerCase();
+    const lowerB = valueB.toLowerCase();
+
+    if (lowerA < lowerB) {
+        return is_asc ? -1 : 1;
+    }
+    if (lowerA > lowerB) {
+        return is_asc ? 1 : -1;
+    }
+    return 0;
+
+  } 
+  else {
         const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
         const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
 
@@ -485,9 +528,9 @@ const QuotationJob = () => {
         setCategory(allCategory[0]?.value);
         setMetalColor(allMetalColor[0]?.value);
         setMetalPurity(allMetalPurity[0]?.value);
-
-        setData(datass);
-        setFilterData(datass);
+        const sortedRows = sortByDate(datass, 'Date');
+        setData(sortedRows);
+        setFilterData(sortedRows);
       } else {
         // alert('nodata')
         setData([]);
@@ -1050,10 +1093,11 @@ const scrollToTop = () => {
                       <TableCell
                         key={column?.id}
                         align={column.align}
-                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
-                        onClick={() => handleRequestSort(column?.id)}
+                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f"}}
+                        onClick={() => handleRequestSort((column?.id))}
                       >
-                        {column.label}
+                        {column.label === 'PO' ? 'LineId' : column.label}
+                        {/* {column.label} */}
                         {orderBy === column.id ? (
                           <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
                             {orderBy === column?.id && (<CustomSortIcon order={order} />)}
@@ -1065,27 +1109,24 @@ const scrollToTop = () => {
                 </TableHead>
                 <TableBody>
            
-
-                  { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
+                  { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy === 'PO' ? 'lineid' : orderBy))
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((row, rowIndex) => {
                       let serialNumber = page * rowsPerPage + rowIndex + 1;
                       return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                           {columns.map((column, index) => {
-                            const value = row[column?.id];
+                            // const value = row[column?.id];
+                            const value =  column?.id === 'PO' ? row?.lineid : row[column?.id];
                             return (
                               <TableCell key={column?.id} align={column?.align}>
                               {column.id === 'Sr#' ? serialNumber : 
                                 column?.id === 'checkbox' ? 
-                                  <Checkbox 
-                                    checked={row?.isJobSelected} 
-                                    onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
-                                  /> 
+                                  <Checkbox checked={row?.isJobSelected} onChange={(event) => handleCheckboxChange(event, rowIndex, row)} /> 
                                   : 
                                   column?.format && typeof value === 'number'
                                     ? column.format(value)
-                                    : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                                    : column?.id === 'FinalAmount' ? <>  <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span> {formatAmount(value)}</> : value}
                             </TableCell>
                             );
                           })}

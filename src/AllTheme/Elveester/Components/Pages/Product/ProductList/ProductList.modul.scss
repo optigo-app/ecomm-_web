@@ -1,4 +1,8 @@
+@import '../../../scss/elvee_modules.scss';
+
 .elv_Productlists_Main_div {
+  font-family: $fontSansSerif !important;
+
   .elv_Productlists_lists_div {
     height: 100%;
     width: 100%;
@@ -9,6 +13,7 @@
     background-color: transparent;
     box-shadow: none;
     border: none;
+    padding-inline: 0;
     border-radius: 0;
 
     &:not(:last-child) {
@@ -42,12 +47,15 @@
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 1px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;        
+    font-family: $fontSansSerif !important;
     color: #AF8238;
   }
 
   .elv_Productlists_details_1 {
     text-transform: uppercase;
+    font-weight: 500;
+    font-family: $fontSansSerif !important;
   }
 
   .elv_Productlists_details_2 {
@@ -77,7 +85,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #D4DBE7;
+    background: $backgroundColor;
     padding: 20px 0px 20px 40px;
   }
 
@@ -125,7 +133,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -135,7 +144,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -146,7 +156,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -156,7 +167,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
@@ -166,7 +178,8 @@
     display: flex;
     color: #7b7b7b;
     font-size: 12px;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     align-items: center;
     cursor: pointer;
     padding-left: 10px;
@@ -190,7 +203,7 @@
 
   .elv_trend_drp {
     font-size: 14px;
-    background-color: #F4F4F4;
+    background-color: $dropdownBgColor;
     color: #8E7B8E;
     font-weight: 400;
     cursor: pointer;
@@ -220,7 +233,7 @@
   // }
   .elv_metal_drp {
     font-size: 14px;
-    background-color: #F4F4F4;
+    background-color: $dropdownBgColor;
     color: #8E7B8E;
     font-weight: 400;
     cursor: pointer;
@@ -240,7 +253,7 @@
 
   .elv_diamond_drp {
     font-size: 14px;
-    background-color: #F4F4F4;
+    background-color: $dropdownBgColor;
     color: #8E7B8E;
     font-weight: 400;
     cursor: pointer;
@@ -311,7 +324,7 @@
     flex: 1 1 16.67%;
     // border-right: 1px solid #D9D9D9;
     padding: 8px;
-    display: none;
+    // display: none;
   }
 
   .elv_grid_view {
@@ -338,16 +351,26 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    flex: 1 1 20%;
+    // flex: 1 1 20%;
     position: sticky;
     top: 5rem;
     height: 100vh;
     overflow-y: auto;
     width: 20%;
+    transition: width 1s ease-in-out;
   }
 
   .elv_filtered_data_category_other {
-    display: none;
+    width: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0.5;
+    transition: width 1s ease-in-out;
+  }
+
+  .elv_filtered_category_div {
+    height: 100%;
+    margin-right: 12px;
   }
 
   .elv_filtered_data_div_filter {
@@ -383,13 +406,9 @@
     }
   }
 
-  .elv_filtered_category_div {
-    height: 100%;
-    margin-right: 12px;
-  }
-
   .elv_category_names {
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 14px;
@@ -404,7 +423,8 @@
     align-items: center;
     margin-inline: 20px;
     font-size: 14px;
-    font-family: "TT Commons", sans-serif;
+    // font-family: "TT Commons", sans-serif;
+    font-family: $fontSansSerif !important;
     color: rgb(127, 125, 133);
     padding-block: 9px;
   }
@@ -415,7 +435,8 @@
     align-items: center;
     margin-inline: 20px;
     font-size: 14px;
-    font-family: "TT Commons", sans-serif;
+    // font-family: "TT Commons", sans-serif;
+    font-family: $fontSansSerif !important;
     color: rgb(127, 125, 133);
     padding-block: 4px;
     flex-direction: row-reverse;
@@ -430,7 +451,8 @@
     justify-content: space-between;
     width: 100%;
     flex-direction: row;
-    font-family: "TT Commons Regular";
+    // font-family: "TT Commons Regular";
+    font-family: $fontSansSerif !important;
   }
 
   .css-15v22id-MuiAccordionDetails-root {
@@ -439,9 +461,10 @@
 
   .elv_filtered_data_by_grid {
     display: flex;
-    flex: 1 1 80%;
+    flex: 1 80%;
     height: fit-content;
     flex-direction: row;
+    transition: all 0.8s ease-in-out;
   }
 
   .elv_filtered_data_by_grid_other {
@@ -449,6 +472,7 @@
     flex: 1 100%;
     height: fit-content;
     flex-direction: row;
+    transition: all 0.8s ease-in-out;
   }
 
   .elv_filtered_data_by_grid_other_1 {
@@ -457,6 +481,7 @@
     height: fit-content;
     width: 100%;
     flex-direction: row;
+    transition: all 0.8s ease-in-out;
   }
 
   .elv_filtered_data_grid_div {
@@ -472,7 +497,7 @@
   .elv_filtered_prodlists_1 {
     width: 50%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -480,7 +505,7 @@
   .elv_filtered_prodlists_2 {
     width: 33.33%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -489,7 +514,7 @@
     width: 25%;
     // width: 24.47%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -498,7 +523,7 @@
     width: 100%;
     // max-width: fit-content;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -506,7 +531,7 @@
   .elv_filtered_prodlists_5 {
     width: 50%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -595,10 +620,10 @@
   }
 
   .elv_filtered_image_1 {
-    max-width: 100%;
-    height: 100%;
+    // max-width: 100%;
+    // height: 100%;
     width: 100%;
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
     animation: enlarge_image_1 1s forwards;
   }
@@ -616,10 +641,10 @@
   }
 
   .elv_filtered_image_1_filter_click {
-    max-width: 100%;
-    height: 100%;
+    // max-width: 100%;
+    // height: 100%;
     width: 100%;
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
     animation: enlarge_image_1_filter 1s forwards;
   }
@@ -641,30 +666,40 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    // height: 100%;
     overflow: hidden;
     position: relative;
 
-    .elv_rollup_video,
+    .elv_rollup_video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      // height: 100%;
+      z-index: 1;
+      object-fit: contain;
+
+      video {
+        width: 100%;
+        // height: 100%;
+        // background-size: cover;
+        object-fit: contain;
+      }
+    }
+
     .elv_rollup_img {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      // height: 100%;
       z-index: 1;
-
-      video {
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        object-fit: contain;
-      }
+      object-fit: contain;
 
       img {
         width: 100%;
-        height: 100%;
-        background-size: cover;
+        // height: 100%;
+        // background-size: cover;
         object-fit: contain;
         // object-fit: scale-down;
       }
@@ -739,9 +774,9 @@
 
   .elv_filtered_image_2 {
     width: 100%;
-    min-height: 412px;
+    // min-height: 412px;
     object-fit: contain;
-    background-size: cover;
+    // background-size: cover;
     transition: all 0.7s ease;
     animation: enlarge_image_2 1s forwards;
   }
@@ -760,9 +795,9 @@
 
   .elv_filtered_image_2_filter_click {
     width: 100%;
-    height: 500px;
+    // height: 500px;
     object-fit: contain;
-    background-size: cover;
+    // background-size: cover;
     transition: all 0.7s ease;
     animation: enlarge_image_2_filter 1s forwards;
     transition: all 0.7s ease;
@@ -781,11 +816,11 @@
   }
 
   .elv_filtered_image_3 {
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
     // object-fit: contain;
-    max-width: 100%;
-    min-height: 250px;
+    // max-width: 100%;
+    // min-height: 250px;
     width: 100%;
     animation: enlarge_image_3 1s forwards;
   }
@@ -803,10 +838,10 @@
   }
 
   .elv_filtered_image_3_filter_click {
-    background-size: cover;
+    // background-size: cover;
     object-fit: contain;
-    max-width: 100%;
-    height: 350px;
+    // max-width: 100%;
+    // height: 350px;
     width: 100%;
     animation: enlarge_image_3_filter 1s forwards;
     transition: all 0.7s ease;
@@ -825,10 +860,10 @@
   }
 
   .elv_filtered_image_4 {
-    max-width: 100%;
-    max-height: 300px;
-    min-height: 300px;
-    background-size: cover;
+    // max-width: 100%;
+    // max-height: 300px;
+    // min-height: 300px;
+    // background-size: cover;
     object-fit: contain;
     width: 100%;
     animation: enlarge_image_4 1s forwards;
@@ -847,9 +882,9 @@
   }
 
   .elv_filtered_image_5 {
-    max-height: 200px;
-    min-height: 200px;
-    background-size: cover;
+    // max-height: 200px;
+    // min-height: 200px;
+    // background-size: cover;
     object-fit: contain;
     width: 100%;
     animation: enlarge_image_5 1s forwards;
@@ -885,7 +920,8 @@
 
   .elv_prod_titleline_visible {
     color: #1f1919;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     font-size: 14px;
     visibility: visible;
     width: 100%;
@@ -899,7 +935,8 @@
 
   .elv_prod_titleline_invisible {
     color: #1f1919;
-    font-family: "PT Sans", sans-serif;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
     font-size: 14px;
     visibility: hidden;
     width: 100%;
@@ -925,7 +962,8 @@
         color: #8E7B8E;
         font-weight: 500;
         font-size: 15px;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
       }
     }
   }
@@ -956,7 +994,8 @@
         color: #8E7B8E;
         font-size: 15px;
         font-weight: 500;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
       }
     }
   }
@@ -975,7 +1014,8 @@
         color: #8E7B8E;
         font-weight: 500;
         font-size: 15px;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
       }
     }
   }
@@ -984,8 +1024,10 @@
     display: flex;
     margin-left: 10px;
     flex-direction: column;
-    font-family: "PT Sans", sans-serif;
-    font-size: 11px;
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
+    // font-size: 11px;
+    font-size: 9px;
   }
 
   .elv_prod_weight_span_1 {
@@ -993,7 +1035,8 @@
   }
 
   .elv_prod_weight_span_1_design {
-    font-size: 14px;
+    // font-size: 14px;
+    font-size: 11px;
   }
 
   .elv_prod_weight_span_2 {
@@ -1008,8 +1051,10 @@
 
     .elv_price_div {
       text-align: left;
-      font-family: "PT Sans", sans-serif;
-      font-size: 14px;
+      // font-family: "PT Sans", sans-serif;
+      font-family: $fontSansSerif !important;
+      // font-size: 14px;
+      font-size: 13px;
     }
 
     .elv_price_tags {
@@ -1023,7 +1068,8 @@
     justify-content: space-between;
     width: 100%;
     flex-direction: row-reverse;
-    font-family: "TT Commons Regular";
+    // font-family: "TT Commons Regular";
+    font-family: $fontSansSerif !important;
   }
 
   .pagination-container {
@@ -1154,10 +1200,10 @@
     }
 
     .elv_filtered_image_1 {
-      max-width: 100%;
-      height: 360px;
+      // max-width: 100%;
+      // height: 360px;
       width: 100%;
-      background-size: cover;
+      // background-size: cover;
       object-fit: contain;
       animation: enlarge_image_1 1s forwards;
     }
@@ -1176,9 +1222,9 @@
 
     .elv_filtered_image_2 {
       width: 100%;
-      min-height: 350px;
+      // min-height: 350px;
       object-fit: contain;
-      background-size: cover;
+      // background-size: cover;
       transition: all 0.7s ease;
       animation: enlarge_image_2 1s forwards;
     }
@@ -1202,6 +1248,7 @@
       padding: 0;
       justify-content: center;
       border-right: none;
+      border-right: 1px solid #D9D9D9;
     }
 
     .elv_filteration_rows_1_filter {

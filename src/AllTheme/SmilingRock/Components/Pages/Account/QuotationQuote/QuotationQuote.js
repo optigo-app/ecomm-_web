@@ -13,7 +13,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
-import { formatAmount, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { formatAmount, checkMonth, customComparator_Col, stableSort, sortByDate } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { visuallyHidden } from '@mui/utils';
 import { addYears, subYears } from 'date-fns';
 import moment from 'moment';
@@ -134,6 +134,7 @@ function EnhancedTableHead(props) {
     );
 }
 
+
 const QuotationQuote = () => {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
@@ -149,10 +150,12 @@ const QuotationQuote = () => {
     const [isLoading, setIsLoading] = useState(false);
     const maxYear = addYears(new Date(), 1); // Set maximum year to the next year
     const minYear = subYears(new Date(), 1);
-
+    
     const fromDateRef = useRef(null);
     const toDateRef = useRef(null);
-
+    
+    const storedData = sessionStorage.getItem('loginUserDetail');
+    const loginDetails = JSON.parse(storedData);
     const isSmallScreen = useMediaQuery('(max-width:500px)');
 
     const handleRequestSort = (event, property) => {
@@ -335,7 +338,6 @@ const QuotationQuote = () => {
             // const response = await CommonAPI(body);
             let currencyRate = storeInit?.CurrencyRate;
             const response = await getQuotationQuoteData(data, currencyRate, FrontEnd_RegNo, customerid);
-            console.log(storeInit, response?.Data?.rd);
             
             if (response?.Data?.rd) {
                 let rows = [];
@@ -344,9 +346,9 @@ const QuotationQuote = () => {
                     let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
                     rows?.push(dataa)
                 });
-            
-                setData(rows);
-                setFilterData(rows);
+                const sortedRows = sortByDate(rows, 'Date');
+                setData(sortedRows);
+                setFilterData(sortedRows);
                 
             } else {
                 // alert('nodata')
@@ -362,6 +364,7 @@ const QuotationQuote = () => {
             setIsLoading(false);
         }
     };
+
 
     useEffect(() => {
         fetchData();
@@ -622,7 +625,7 @@ const QuotationQuote = () => {
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.SKUNo}</TableCell>
                                             <TableCell align="center">{row.TotalDesign}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="right"><span  dangerouslySetInnerHTML={{__html: loginDetails?.Currencysymbol }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
                                             <TableCell align="center">
                                                 
                                                

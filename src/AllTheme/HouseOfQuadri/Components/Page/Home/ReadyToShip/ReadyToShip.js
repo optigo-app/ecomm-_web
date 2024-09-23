@@ -101,6 +101,7 @@ const ReadyToShip = () => {
         {bestSellerData?.slice(0,4)?.map((data, i) => {
           return (
             <CARD
+            key={i}
               imgurl={ImageUrl(data?.designno, data?.ImageExtension)}
               data={data}
               i={i} 

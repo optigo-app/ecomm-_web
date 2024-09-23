@@ -36,8 +36,8 @@ const CustomSortIcon = ({ order }) => {
 
 const QuotationJob = () => {
 
-  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:530px)');
-  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1070px)');
+  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:530px),(max-width:575px)');
+  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1070px), (max-width:1105px)');
 
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');

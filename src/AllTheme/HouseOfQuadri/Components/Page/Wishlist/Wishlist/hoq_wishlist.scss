@@ -1,5 +1,9 @@
 @import "../../../scss/variable.scss";
-
+.cust_hoq_toast{
+  font-family: $fontDmSans;
+  font-size: 16px;
+  font-weight: 500;
+}
 .hoq_WlListCard {
   display: flex;
   flex-direction: column;

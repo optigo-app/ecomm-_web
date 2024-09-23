@@ -14,8 +14,13 @@ import Swal from 'sweetalert2';
 import { getDesignWiseSalesReport } from '../../../../../../utils/API/AccountTabs/designWiseSalesReport';
 import { Box, Button, MenuItem, Select, Slider, TextField, Typography, Accordion, AccordionDetails, AccordionSummary, Checkbox, RadioGroup, FormControlLabel, Radio, CircularProgress, Stack, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PrintIcon from '@mui/icons-material/Print';
+import DWSRprintComp from '../DWSRprintComp/DWSRprintComp';
 const DesignWiseSalesReport = () => {
     const isSmallScreen = useMediaQuery('(max-width:500px)');
+
+    const [headerDetailsDWSR, setHeaderDetailsDWSER] = useState('');
+
     const [offset, setOffset] = useState(0);
     const [perPage, setPerPage] = useState(10);
     const [data, setData] = useState([]);
@@ -394,7 +399,9 @@ const DesignWiseSalesReport = () => {
             let currencyRate = storeInit?.CurrencyRate;
   
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
-            
+            if(response?.Data?.rd2?.length > 0){
+                setHeaderDetailsDWSER(response?.Data?.rd2[0])
+            }
             if (response?.Data?.rd) {
                 resetAllFilters();
                 let datass = [];
@@ -532,6 +539,20 @@ const DesignWiseSalesReport = () => {
         }
     }, []);
 
+
+    const handleDWSRprint = (data) => {
+        // navigate("/accountdwsr");
+        // navigate('/accountdwsr', { state: { bigData: data } });
+        let dataObj = {
+            data : data,
+            headerData : headerDetailsDWSR
+        }
+            
+            sessionStorage.setItem('dwsrdata', JSON.stringify(dataObj));
+            // Open the route in a new tab
+            window.open('/accountdwsr', '_blank');
+    }
+
     return (
         <Box className="designWiseSalesReport">
 
@@ -617,7 +638,6 @@ const DesignWiseSalesReport = () => {
                         min={(netWtLimit?.min)}
                         max={(netWtLimit?.max)}
                     />
-                    {console.log(netWtSlider)}
                     
                     <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                         <Typography sx={{ maxWidth: "50px" }}>
@@ -775,6 +795,11 @@ const DesignWiseSalesReport = () => {
                         })}
                     </Select>
                 </Box>
+
+                <Box sx={{ paddingRight: "15px", paddingBottom: "0px"}}>
+                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={() => handleDWSRprint(filterData)}><PrintIcon titleAccess='click here for print' /></Button>
+                </Box>
+
             </Box>}
 
             { isSmallScreen &&
@@ -1038,61 +1063,46 @@ const DesignWiseSalesReport = () => {
                                 position: "relative",
                                 zIndex: 0,
                                 background: "#c0bbb133",
+                                display:'flex',
+                                flexDirection:'column',
+                                justifyContent:'space-between'
                             }}
                             className="smilingProductImageBox designWiseSalesReportProduct"
                         >
-                            <Box sx={{
-                                paddingBottom: "10px"
-                            }}>
-                              
+                            <Box sx={{ paddingBottom: "10px" }}>
                                 <Box sx={{ minheight: "271px" }}>
                                     {products?.imgsrc ? (
                                         <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
                                     ) : (
-                                        <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                        <Skeleton variant="rectangular" width={"100%"}  style={{marginBottom:'76px', height:'310px'}} />
                                     )}
                                 </Box>
-
                             </Box>
-                            <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography
-                                    style={{
-                                        fontSize: "13px",
-                                        textTransform: "uppercase",
-                                        cursor: "pointer",
-                                        fontWeight: "bold",
-                                        textAlign: "start"
-                                    }}
-                                >
-                                    {products?.designno}
-                                </Typography>
-                                <Typography
-                                    style={{
-                                        fontSize: "13px",
-                                        textTransform: "uppercase",
-                                        cursor: "pointer",
-                                        fontWeight: "bold",
-                                        textAlign: "start"
-                                    }}
-                                >
-                                    NetWt: {products?.DesignNetWt?.toFixed(3)}
-                                </Typography>
+                            <Box>
+                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography style={{ fontSize: "13px", textTransform: "uppercase", cursor: "pointer", fontWeight: "bold", textAlign: "start" }} >
+                                        {products?.designno}
+                                    </Typography>
+                                    <Typography style={{ fontSize: "13px", textTransform: "uppercase", cursor: "pointer", fontWeight: "bold", textAlign: "start" }} >
+                                        NetWt: {products?.DesignNetWt?.toFixed(3)}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
+                                    </Typography>
+                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Purchase Count: {NumberWithCommas(products?.salescount, 0)}
+                                    </Typography>
+                                
+                                </Box>
                             </Box>
-                            <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
-                                </Typography>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Purchase Count: {NumberWithCommas(products?.salescount, 0)}
-                                </Typography>
-                               
-                            </Box>
-
+                                        
                         </div>
                     ))}
                 </Box> : <div style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey', fontWeight:'bold', marginTop:'3%'}}>Data Not Present</div>}

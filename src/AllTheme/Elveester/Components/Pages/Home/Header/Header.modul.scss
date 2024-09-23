@@ -1,3 +1,5 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_header_main {
 
     // homePageFontFamily
@@ -8,6 +10,7 @@
     z-index: 11;
     background-color: white;
     height: auto; //chnages    80px
+    font-family: $fontSansSerif !important;
 
     .el_withoutL_Header_Main {
         display: flex;
@@ -55,7 +58,7 @@
         padding: 0px;
         margin: 0;
         height: 80px;
-        margin-bottom: 0.3rem;
+        // margin-bottom: 0.3rem;
     }
 
     .el_withoutL_ul_Main_side {
@@ -70,9 +73,10 @@
     .el_whioutL_headerDiv1 {
         width: 44%;
         display: flex;
-        align-items: flex-end;
+        align-items: center;
+        // align-items: flex-end;
         justify-content: flex-end;
-        margin-bottom: 0.7rem;
+        // margin-bottom: 0.7rem;
     }
 
     .el_whioutL_headerDiv2 {
@@ -81,7 +85,7 @@
         justify-content: center;
         align-items: center;
         // margin-inline: 2%;
-        margin-bottom: 0.5rem;
+        // margin-bottom: 0.5rem;
     }
 
     .el_whioutL_headerDiv2_side {
@@ -95,8 +99,9 @@
         width: 44%;
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: 0.7rem;
+        align-items: center;
+        // align-items: flex-end;
+        // margin-bottom: 0.7rem;
     }
 
     .el_whioutL_headerDiv3_side {
@@ -123,8 +128,17 @@
     }
 
     .el_whioutL_li {
+        // font-family: $fontLight;
         margin-inline: 20px;
         font-size: 15px;
+    }
+
+    .elv_withoutL_login {
+        font-size: 14px;
+        // font-family: $fontLight;
+        text-transform: capitalize;
+        margin: 0px 20px 0px 0px;
+        cursor: pointer;
     }
 
     .el_login_header_main {
@@ -379,7 +393,9 @@
     }
 
     .go-lookbook {
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 14px;
+        font-family: $fontSansSerif !important;
     }
 
     .elv_login_header_logo_center {

@@ -80,18 +80,8 @@ const RoopJewellers_App = () => {
   }, []);
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-    }
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    setCompanyTitleLogo(webLogo);
   });
 
   useEffect(() => {
@@ -142,7 +132,7 @@ const RoopJewellers_App = () => {
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      <div style={{minHeight: '700px'}}>
+      <div style={{ minHeight: '700px' }}>
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
         <Routes>

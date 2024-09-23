@@ -1,4 +1,8 @@
+@import '../../../scss/elvee_modules.scss';
+
 .el_ContinueEmailMain {
+
+    font-family: $fontSansSerif !important;
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -27,6 +31,15 @@
     .labGrowForgot {
         width: 28rem;
         margin: 10px;
+        font-family: $fontSansSerif !important;
+    }
+
+    .elv_cancel_mb_btn {
+        font-family: $fontSansSerif !important;
+        margin-top: 10px;
+        color: gray;
+        margin-bottom: 50px;
+        font-weight: 500;
     }
 
     .submitBtnForgot {
@@ -39,7 +52,8 @@
         font-weight: 600 !important;
         letter-spacing: 1px;
         transition: all 0.5s ease;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
         cursor: pointer;
         background-color: white;
     }

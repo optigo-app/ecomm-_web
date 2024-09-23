@@ -10,6 +10,7 @@ const FeaturedBrand = () => {
         {FeaturedBrandList?.map((val, i) => {
           return (
             <div
+            key={i}
               className="brand_card"
               onClick={() => (window.location = val?.link)}
             >

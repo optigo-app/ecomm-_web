@@ -46,6 +46,7 @@ const ProductDetail = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([])
   const [metalType, setMetalType] = useState();
   const [isImageload, setIsImageLoad] = useState(true);
+  const [IIIisImageload, setIIIIsImageLoad] = useState(false);
   const [metalColor, setMetalColor] = useState();
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [showtDiaQc, setShowDiaQc] = useState();
@@ -64,9 +65,22 @@ const ProductDetail = () => {
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [isDataFound, setIsDataFound] = useState(false)
+  const [pdLoadImage, setPdLoadImage] = useState(false);
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
+  const [imageSrc, setImageSrc] = useState();
+  console.log('imageSrc: ', imageSrc);
   console.log('saveLastView: ', saveLastView);
+
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPlaceholder(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   let cookie = Cookies.get('visiterId')
 
@@ -432,6 +446,27 @@ const ProductDetail = () => {
   // }, [location?.key])
 
   useEffect(() => {
+    try {
+      if (selectedThumbImg == undefined) return;
+
+      if (selectedThumbImg) {
+        setImageSrc(selectedThumbImg.link);
+      } else {
+        // Set a default image if no thumbnail is selected
+        setImageSrc(pdVideoArr?.length > 0 ? noImageFound : 'p.png');
+      }
+    } catch (error) {
+      console.log("Error in fetching image", error)
+    }
+
+  }, [selectedThumbImg, pdVideoArr]);
+
+  const handleError = (e) => {
+    e.target.onerror = null; // Prevent looping
+    e.target.src = noImageFound; // Fallback image
+  };
+
+  useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
@@ -778,6 +813,7 @@ const ProductDetail = () => {
         setSelectedThumbImg({ "link": pdImgList[thumbImgIndex], "type": 'img' });
         setPdThumbImg(pdImgList)
         setThumbImgIndex(thumbImgIndex)
+        setPdLoadImage(false)
       }
     }
 
@@ -899,13 +935,14 @@ const ProductDetail = () => {
         setSelectedThumbImg({ "link": pdvideoList[0], "type": 'vid' });
       }
     }
-
+    setPdLoadImage(false);
     return finalprodListimg;
 
 
   };
 
   useEffect(() => {
+    setPdLoadImage(true)
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
 
@@ -1147,17 +1184,17 @@ const ProductDetail = () => {
           <>
             {maxWidth1400 ? (
               <>
-                {loadingdata ? (
+                {loadingdata || pdLoadImage ? (
                   <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                 ) : (
                   <div className='elv_ProductDet_max1400'>
                     <div className='elv_ProductDet_prod_img_max1400'>
-                      {selectedThumbImg !== undefined ? (
+                      {selectedThumbImg || imageSrc ? (
                         selectedThumbImg?.type == "img" ? (
                           <img
                             // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            src={imageSrc}
+                            onError={handleError}
                             alt={""}
                             onLoad={() => setIsImageLoad(false)}
                             className="elv_ProductDet_prod_image_max1400"
@@ -1180,31 +1217,17 @@ const ProductDetail = () => {
                           </div>
                         )
                       ) : (
-                        pdVideoArr?.length > 0 ? (
-                          <div>
-                            <video
-                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                              loop
-                              autoPlay
-                              playsInline
-                              muted // Add this attribute to ensure autoplay works
-                              style={{
-                                width: "100%",
-                                objectFit: "cover",
-                                height: "100%",
-                                borderRadius: "8px",
-                              }}
-                            />
-                          </div>) : (
-                          <img
-                            src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                            alt={""}
-                            onLoad={() => setIsImageLoad(false)}
-                            className="elv_ProductDet_prod_image_max1400"
-                          />
-                        )
-
+                        // showPlaceholder == true && (
+                        <img
+                          src={imageSrc || 'p.png'}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noImageFound;
+                          }}
+                          alt={""}
+                          className="elv_ProductDet_prod_image_max1400"
+                        />
+                        // )
                       )
                       }
                     </div>
@@ -1271,7 +1294,7 @@ const ProductDetail = () => {
             ) : (
               <>
                 {!maxWidth1000 && (
-                  <>{loadingdata ? (
+                  <>{loadingdata || pdLoadImage ? (
                     <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                   ) : (
                     <div className='elv_ProductDet_prod_img_list'>
@@ -1327,102 +1350,71 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   )}
-
-                    {loadingdata ? (
+                    {loadingdata || pdLoadImage ? (
                       <Skeleton className='elv_prod_det_default' variant="rectangular" />
                     ) : (
                       <>
                         <div className='elv_ProductDet_prod_img'>
-                          {selectedThumbImg !== undefined ? (
-                            selectedThumbImg?.type == "img" ? (
+                          {imageSrc || selectedThumbImg ? (
+                            selectedThumbImg.type === "img" ? (
                               <img
-                                // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                                alt={""}
+                                src={imageSrc}
+                                onError={handleError} // Pass the error handler
+                                alt=""
                                 onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image"
+                                className={`elv_ProductDet_prod_image`}
                               />
                             ) : (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    position: 'relative',
-                                    left: '6rem',
-                                    // height: "90%",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
+                              <video
+                                src={pdVideoArr.length > 0 ? selectedThumbImg.link : imageNotFound}
+                                loop
+                                autoPlay
+                                playsInline
+                                muted
+                                style={{
+                                  width: "100%",
+                                  objectFit: "cover",
+                                  position: 'relative',
+                                  left: '6rem',
+                                  borderRadius: "8px",
+                                }}
+                              />
                             )
                           ) : (
-                            pdVideoArr?.length > 0 ? (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    position: 'relative',
-                                    left: '6rem',
-                                    // height: "90%",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <img
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                }}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image"
-                              />
-                            )
-                          )
-                          }
+                            // showPlaceholder == true && (
+                            <img
+                              src={imageSrc || 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                              }}
+                              alt=""
+                              className={`elv_ProductDet_prod_image`}
+                            />
+                            // )
+                          )}
                         </div>
                       </>
                     )}
                   </>
                 )}
-
               </>
             )}
             {maxWidth1000 ? (
               <>
                 <div className='elv_ProductDet_max1000'>
-                  {loadingdata ? (
+                  {loadingdata || pdLoadImage ? (
                     <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
                   ) : (
                     <>
                       <div>
                         <div className='elv_ProductDet_prod_img_max1000'>
-                          {selectedThumbImg !== undefined ? (
+                          {selectedThumbImg || imageSrc ? (
                             selectedThumbImg?.type == "img" ? (
                               <img
                                 // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                src={imageSrc}
+                                onError={handleError}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
                                 className="elv_ProductDet_prod_image_max1000"
@@ -1447,33 +1439,17 @@ const ProductDetail = () => {
                               </div>
                             )
                           ) : (
-                            pdVideoArr?.length > 0 ? (
-                              <div>
-                                <video
-                                  src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                  muted // Add this attribute to ensure autoplay works
-                                  style={{
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    marginTop: '40px',
-                                    height: "100%",
-                                    maxHeight: "40.625rem",
-                                    borderRadius: "8px",
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <img
-                                src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="elv_ProductDet_prod_image_max1000"
-                              />
-                            )
+                            // showPlaceholder == true && (
+                            <img
+                              src={imageSrc || 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                              }}
+                              alt={""}
+                              className="elv_ProductDet_prod_image_max1000"
+                            />
+                            // )
                           )
                           }
                         </div>
@@ -1802,73 +1778,73 @@ const ProductDetail = () => {
                                 >
 
                                   {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Metal</Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Metal</Typography>
                                     <span style={{ display: 'flex' }}>
                                       <Typography>
                                         {
-                                          <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                          <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                             {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }
                                       </Typography>
                                       &nbsp;
-                                      <Typography sx={{ fontFamily: "PT Sans, sans-serif" }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                      <Typography sx={{ fontFamily: 'sans-serif' }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Diamond </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Diamond </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Stone </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Stone </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>MISC </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>MISC </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Labour </Typography>
+                                    <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Labour </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span style={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span style={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1885,16 +1861,16 @@ const ProductDetail = () => {
                                     ) !== 0 ?
 
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Other </Typography>
+                                        <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Other </Typography>
 
                                         <span style={{ display: 'flex' }}>
                                           <Typography>{
-                                            <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                            <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                               {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                             </span>
                                           }</Typography>
                                           &nbsp;
-                                          <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{
+                                          <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{
                                             formatter((
 
                                               (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1954,8 +1930,8 @@ const ProductDetail = () => {
                           />
                         </div>
                       </div>
-                      {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                      {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 1rem 0px 1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                      {singleProd?.MakeOrderDays != 0 && <p style={{ marginInline: '1rem', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
                     </div>
                   </div>
                 </div>
@@ -2233,73 +2209,73 @@ const ProductDetail = () => {
                               >
 
                                 {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Metal</Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Metal</Typography>
                                   <span style={{ display: 'flex' }}>
                                     <Typography>
                                       {
-                                        <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                        <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                           {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }
                                     </Typography>
                                     &nbsp;
-                                    <Typography sx={{ fontFamily: "PT Sans, sans-serif" }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                    <Typography sx={{ fontFamily: 'sans-serif' }} className="elv_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Diamond </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Diamond </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="elv_currencyFont" style={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span className="elv_currencyFont" style={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Stone </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Stone </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>MISC </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>MISC </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
                                 {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Labour </Typography>
+                                  <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Labour </Typography>
 
                                   <span style={{ display: 'flex' }}>
                                     <Typography>{
-                                      <span sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                      <span sx={{ fontFamily: 'sans-serif' }}>
                                         {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -2316,16 +2292,16 @@ const ProductDetail = () => {
                                   ) !== 0 ?
 
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                      <Typography className="elv_Price_breakup_label" sx={{ fontFamily: "PT Sans, sans-serif" }}>Other </Typography>
+                                      <Typography className="elv_Price_breakup_label" sx={{ fontFamily: 'sans-serif' }}>Other </Typography>
 
                                       <span style={{ display: 'flex' }}>
                                         <Typography>{
-                                          <span className="elv_currencyFont" sx={{ fontFamily: "PT Sans, sans-serif" }}>
+                                          <span className="elv_currencyFont" sx={{ fontFamily: 'sans-serif' }}>
                                             {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }</Typography>
                                         &nbsp;
-                                        <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: "PT Sans, sans-serif" }}>{
+                                        <Typography className="elv_PriceBreakup_Price" sx={{ fontFamily: 'sans-serif' }}>{
                                           formatter((
 
                                             (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -2384,8 +2360,8 @@ const ProductDetail = () => {
                         />
                       </div>
                     </div>
-                    {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'PT Sans, sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                    {/* {singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                    {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'sans-serif', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>} */}
                   </div>
                 </div>
               </>
@@ -2431,6 +2407,7 @@ const ProductDetail = () => {
             storeInit={storeInit}
             loginInfo={loginData}
             cartArr={cartArr}
+            check={storeInit?.IsPriceShow === 1}
             handleCartandWish={handleCartandWish}
           />
         )}
@@ -2596,3 +2573,37 @@ const TableComponentsMISC = ({ list, details }) => {
   );
 
 }
+
+
+
+// pdVideoArr?.length > 0 ? (
+//   <div>
+//     <video
+//       src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+//       loop
+//       autoPlay
+//       playsInline
+//       muted // Add this attribute to ensure autoplay works
+//       style={{
+//         width: "100%",
+//         objectFit: "cover",
+//         position: 'relative',
+//         left: '6rem',
+//         // height: "90%",
+//         borderRadius: "8px",
+//       }}
+//     />
+//   </div>
+// ) : (
+//   <img
+//     src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : 'p.png'}
+//     onError={(e) => {
+//       e.target.onerror = null;
+//       e.target.src =
+//         "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+//     }}
+//     alt={""}
+//     onLoad={() => setIsImageLoad(false)}
+//     className="elv_ProductDet_prod_image"
+//   />
+// )

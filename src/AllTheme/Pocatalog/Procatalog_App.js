@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   companyLogo,
   proCat_companyLogo,
+  proCat_companyLogoM,
   proCat_loginState,
 } from "./Components/Recoil/atom";
 import { Storeinit } from "../../utils/API/Home/Storeinit/Storeinit";
@@ -44,6 +45,7 @@ import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import Footer from "./Components/Pages/Home/Footer/Footer";
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -54,6 +56,7 @@ const Procatalog_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(proCat_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
 
@@ -77,26 +80,19 @@ const Procatalog_App = () => {
     if (htmlContent) {
       setLocalData((prevData) => ({
         ...prevData,
-        Headerno: htmlContent?.rd[0]?.Headerno, 
-        BrowserTitle: htmlContent.BrowserTitle, 
+        Headerno: htmlContent?.rd[0]?.Headerno,
+        BrowserTitle: htmlContent.BrowserTitle,
       }));
     }
   }, [htmlContent]);
 
   useEffect(() => {
-    let localD = JSON.parse(sessionStorage.getItem("storeInit"));
-    setLocalData(localD);
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(localD?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(localD?.companylogo);
-    }
-  },[]);
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+
+    setCompanyTitleLogo(webLogo);
+    setCompanyTitleLogoM(mobileLogo);
+  }, []);
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
@@ -104,7 +100,7 @@ const Procatalog_App = () => {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token,{ path: "/", expires: 30 });
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
             setIsLoginState(true);
             // sessionStorage.setItem("LoginUser", true);
             // sessionStorage.setItem(
@@ -153,94 +149,112 @@ const Procatalog_App = () => {
         {/* <Header2 /> */}
       </div>
       <ConnectionManager />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/LoginOption"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginOption />
-            </div>
-          }
-        />
-        <Route
-          path="/ContinueWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <ContinueWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/ContimueWithMobile"
-          element={
-            <div className="authFlowBakcColor">
-              <ContimueWithMobile />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmailCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmailCode />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithMobileCode"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithMobileCode />
-            </div>
-          }
-        />
-        <Route
-          path="/ForgotPass"
-          element={
-            <div className="authFlowBakcColor">
-              <ForgotPass />
-            </div>
-          }
-        />
-        <Route
-          path="/LoginWithEmail"
-          element={
-            <div className="authFlowBakcColor">
-              <LoginWithEmail />
-            </div>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <div className="authFlowBakcColor">
-              <Register />
-            </div>
-          }
-        />
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/servicePolicy" element={<ServicePolicy />} />
-        <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-        <Route path="/FunFact" element={<FunFact />} />
-        <Route path="/Lookbook" element={<Lookbook />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
-        <Route
-          path="/"
-          element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
-        >
-          <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/cartPage" element={<Cart />} />
-          <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
-        </Route>
+      <div style={{backgroundColor: '#f1e9dd'}}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/LoginOption"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginOption />
+              </div>
+            }
+          />
+          <Route
+            path="/ContinueWithEmail"
+            element={
+              <div className="authFlowBakcColor">
+                <ContinueWithEmail />
+              </div>
+            }
+          />
+          <Route
+            path="/ContimueWithMobile"
+            element={
+              <div className="authFlowBakcColor">
+                <ContimueWithMobile />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithEmailCode"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithEmailCode />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithMobileCode"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithMobileCode />
+              </div>
+            }
+          />
+          <Route
+            path="/ForgotPass"
+            element={
+              <div className="authFlowBakcColor">
+                <ForgotPass />
+              </div>
+            }
+          />
+          <Route
+            path="/LoginWithEmail"
+            element={
+              <div className="authFlowBakcColor">
+                <LoginWithEmail />
+              </div>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <div className="authFlowBakcColor">
+                <Register />
+              </div>
+            }
+          />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/servicePolicy" element={<ServicePolicy />} />
+          <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
+          <Route path="/FunFact" element={<FunFact />} />
+          <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route
+            path="/"
+            element={<ProCat_PrivateRoutes isLoginStatus={islogin} />}
+          >
+            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/d/*" element={<ProductDetail />} />
+            <Route path="/cartPage" element={<Cart />} />
+            <Route path="/myWishList" element={<Wishlist />} />
+            <Route path="/Delivery" element={<Delivery />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/Confirmation" element={<Confirmation />} />
+            <Route path="/account" element={<Account />} />
+          </Route>
 
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        <Footer />
+        <div>
+          <p style={{
+            paddingBlock: '30px',
+            margin: '0px',
+            textAlign: 'center',
+            color: 'black',
+            cursor: 'pointer',
+            fontSize: '13px',
+            fontWeight: 500,
+            letterSpacing: '1px'
+          }} onClick={() => window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })}>BACK TO TOP</p>
+        </div>
+      </div>
     </>
   );
 };

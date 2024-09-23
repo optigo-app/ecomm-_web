@@ -7,6 +7,7 @@ import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';
 import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 export default function ChangePassword() {
 
@@ -74,6 +75,7 @@ export default function ChangePassword() {
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
         const { errors, isValid } = validateChangePassword({ oldPassword, password, confirmPassword });
 
@@ -133,12 +135,13 @@ export default function ChangePassword() {
     return (
         <>
         <ToastContainer />
-        <div>
+        <div className='fonts_elvee_acoount_cp'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <HeadTitleAcc title="Change Password" />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
                 <TextField
                     id="outlined-confirm-password-input"
@@ -148,7 +151,12 @@ export default function ChangePassword() {
                     className='labgrowRegisterCP'
                     style={{ margin: '15px' }}
                     value={oldPassword}
-                    onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
+                    // onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
+                    // error={!!errors.oldPassword}
+                    // helperText={errors.oldPassword}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'oldPassword', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!errors.oldPassword}
                     helperText={errors.oldPassword}
                     InputProps={{
@@ -175,9 +183,16 @@ export default function ChangePassword() {
                     className='labgrowRegisterCP'
                     style={{ margin: '15px' }}
                     value={password}
-                    onChange={handlePasswordChange}
-                    error={!!passwordError}
-                    helperText={passwordError}
+                    // onChange={handlePasswordChange}
+                    // error={!!errors.password}
+                    // helperText={errors.password}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'password', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
+                    error={!!errors.password}
+                    helperText={errors.password}
+                    // error={!!passwordError}
+                    // helperText={passwordError}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -202,7 +217,12 @@ export default function ChangePassword() {
                     className='labgrowRegisterCP'
                     style={{ margin: '15px' }}
                     value={confirmPassword}
-                    onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
+                    // onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
+                    // error={!!errors.confirmPassword}
+                    // helperText={errors.confirmPassword}
+                    onChange={(e) =>
+                        handlePasswordInputChangeAcc(e, 'confirmPassword', { password, confirmPassword, oldPassword, setPassword, setConfirmPassword, setOldPassword }, setErrors)
+                    }
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
                     InputProps={{ // Set InputProps for icon
@@ -228,14 +248,3 @@ export default function ChangePassword() {
         </>
     )
 }
-
-// import React from 'react'
-// import "./changepassword.scss"
-
-// const ChangePassword = () => {
-//   return (
-//     <div>ChangePassword</div>
-//   )
-// }
-
-// export default ChangePassword

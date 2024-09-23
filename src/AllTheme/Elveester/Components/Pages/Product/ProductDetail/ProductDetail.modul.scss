@@ -1,6 +1,8 @@
 @import '../../../scss/elvee_modules.scss';
 
 .elv_ProductDetMain_div {
+    font-family: $fontSansSerif !important;
+
     .elv_ProductDet_prod_div {
         display: flex;
         justify-content: space-between;
@@ -101,6 +103,10 @@
             padding-inline: 3%;
             position: relative;
             left: 6rem;
+
+            &.hidden {
+                visibility: none;
+            }
         }
     }
 
@@ -115,7 +121,8 @@
 
             .elv_ProductDet_prod_title {
                 color: #424242;
-                font-family: 'PT Sans', sans-serif;
+                // font-family: 'PT Sans', sans-serif;
+                font-family: $fontSansSerif !important;
                 font-size: 30px;
                 font-style: normal;
                 font-weight: 400;
@@ -219,7 +226,8 @@
             outline: none;
             font-size: 17px;
             color: #7d7f85;
-            font-family: "TT Commons Medium";
+            // font-family: "TT Commons Medium";
+            font-family: $fontSansSerif !important;
             letter-spacing: 2.2px;
         }
 
@@ -232,7 +240,8 @@
             height: 30px;
             outline: none;
             text-transform: uppercase;
-            font-family: 'PT Sans', sans-serif;
+            // font-family: 'PT Sans', sans-serif;
+            font-family: $fontSansSerif !important;
             font-weight: 700;
             letter-spacing: 2.2px;
 
@@ -254,7 +263,8 @@
         font-size: 13px;
         height: 30px;
         outline: none;
-        font-family: 'PT Sans', sans-serif;
+        // font-family: 'PT Sans', sans-serif;
+        font-family: $fontSansSerif !important;
         font-weight: 700;
         letter-spacing: 2.2px;
 
@@ -272,7 +282,8 @@
         padding: 5px;
         outline: none;
         text-transform: uppercase;
-        font-family: "PT Sans", sans-serif;
+        // font-family: "PT Sans", sans-serif;
+        font-family: $fontSansSerif !important;
         font-weight: 500;
     }
 
@@ -331,7 +342,8 @@
             outline: none;
             font-size: 17px;
             color: #7d7f85;
-            font-family: "TT Commons Medium";
+            // font-family: "TT Commons Medium";
+            font-family: $fontSansSerif !important;
             letter-spacing: 2.2px;
         }
 
@@ -344,7 +356,8 @@
             height: 30px;
             outline: none;
             text-transform: uppercase;
-            font-family: 'PT Sans', sans-serif;
+            // font-family: 'PT Sans', sans-serif;
+            font-family: $fontSansSerif !important;
             font-weight: 700;
             letter-spacing: 2.2px;
 
@@ -432,7 +445,8 @@
     }
 
     .elv_prodd_datanotfound {
-        font-family: $primaryFontFamilyMedium;
+        // font-family: $primaryFontFamilyMedium;
+        font-family: $fontSansSerif !important;
         color: $primaryfontcolor;
         font-size: 42px;
     }
@@ -446,7 +460,8 @@
             text-align: center;
             font-size: 30px;
             padding-top: 1rem;
-            font-family: "FreightDisp Pro Medium";
+            // font-family: "FreightDisp Pro Medium";
+            font-family: $fontSansSerif !important;
             color: rgb(125, 127, 133);
         }
 
@@ -482,7 +497,8 @@
 
                 .elv_ProductDet_prod_title {
                     color: #424242;
-                    font-family: "PT Sans", sans-serif;
+                    // font-family: "PT Sans", sans-serif;
+                    font-family: $fontSansSerif !important;
                     font-size: 25px;
                     font-style: normal;
                     font-weight: 400;

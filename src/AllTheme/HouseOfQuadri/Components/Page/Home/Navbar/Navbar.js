@@ -871,7 +871,7 @@ const Navbar = () => {
         </div>
         <div className="nav_bottom_head">
           <span>
-            <Link to={"/lookbook"}>Explore Our Artful Jewellery Lookbook</Link>
+            <Link to={"/Lookbook"}>Explore Our Artful Jewellery Lookbook</Link>
           </span>
         </div>
       </div>
@@ -1273,7 +1273,6 @@ const NavbarCenter = ({
     </>
   );
 };
-
 const SearchBar = ({
   closeSearch,
   showSearchBar,

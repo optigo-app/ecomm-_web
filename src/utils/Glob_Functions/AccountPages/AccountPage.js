@@ -430,14 +430,53 @@ export const validateChangePassword = ({ oldPassword, password, confirmPassword 
     };
 };
 
-// validation on change password
-export const handlePasswordInputChangeAcc = (e, fieldName, setters, errors, setErrors) => {
+// // validation on change password
+// export const handlePasswordInputChangeAcc = (e, fieldName, setters, errors, setErrors) => {
+//     const { value } = e.target;
+//     const { setPassword, setConfirmPassword, setOldPassword } = setters;
+
+//     switch (fieldName) {
+//         case 'oldPassword':
+//             setOldPassword(value);
+//             if (!value.trim()) {
+//                 setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old Password is required' }));
+//             } else {
+//                 setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
+//             }
+//             break;
+
+//         case 'password':
+//             setPassword(value);
+//             if (!value.trim()) {
+//                 setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required' }));
+//             } else {
+//                 setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+//             }
+//             break;
+
+//         case 'confirmPassword':
+//             setConfirmPassword(value);
+//             if (!value.trim()) {
+//                 setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Confirm Password is required' }));
+//             } else if (value !== setters.password) {
+//                 setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
+//             } else {
+//                 setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
+//             }
+//             break;
+
+//         default:
+//             break;
+//     }
+// };
+
+export const handlePasswordInputChangeAcc = (e, fieldName, values, setErrors) => {
     const { value } = e.target;
-    const { setPassword, setConfirmPassword, setOldPassword } = setters;
+    const { password, confirmPassword } = values;
 
     switch (fieldName) {
         case 'oldPassword':
-            setOldPassword(value);
+            values.setOldPassword(value);
             if (!value.trim()) {
                 setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old Password is required' }));
             } else {
@@ -446,19 +485,26 @@ export const handlePasswordInputChangeAcc = (e, fieldName, setters, errors, setE
             break;
 
         case 'password':
-            setPassword(value);
+            values.setPassword(value);
             if (!value.trim()) {
                 setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, password: '' }));
             }
+
+            // Revalidate confirmPassword since password has changed
+            if (confirmPassword && value !== confirmPassword) {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
+            } else {
+                setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
+            }
             break;
 
         case 'confirmPassword':
-            setConfirmPassword(value);
+            values.setConfirmPassword(value);
             if (!value.trim()) {
                 setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Confirm Password is required' }));
-            } else if (value !== setters.password) {
+            } else if (value !== password) {
                 setErrors(prevErrors => ({ ...prevErrors, confirmPassword: 'Passwords do not match' }));
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
@@ -471,3 +517,15 @@ export const handlePasswordInputChangeAcc = (e, fieldName, setters, errors, setE
 };
 
 
+//Date wise sorting
+export function sortByDate(arr, key) {
+    if (!Array.isArray(arr)) return [];
+    
+    return arr.sort((a, b) => {
+      const dateA = new Date(a[key]);
+      const dateB = new Date(b[key]);
+  
+      // Sort in descending order: Newest first
+      return dateB - dateA;
+    });
+  }

@@ -342,7 +342,7 @@ const Menubar = () => {
                                                         style={{
                                                             backgroundColor: "#9C27B0",
                                                             position: "absolute",
-                                                            marginTop: "-35px",
+                                                            marginTop: "-30px",
                                                             display: "flex",
                                                             alignItems: "center",
                                                             justifyContent: "center",
@@ -351,7 +351,7 @@ const Menubar = () => {
                                                             padding: "0 5px",
                                                             fontSize: "10px",
                                                             borderRadius: " 3px",
-                                                            marginLeft: "-15px",
+                                                            marginLeft: "-10px",
                                                             color: 'white'
                                                         }}
                                                     >
@@ -416,14 +416,14 @@ const Menubar = () => {
                                                                                                     handleToggle();
                                                                                                     navigation(`/p/${selectedData?.param0dataname}/${param1Item.param1dataname}/?M=${btoa(`${selectedData?.param0dataname},${param1Item?.param1dataname}/${selectedData?.param0name},${param1Item?.param1name}`)}`);
                                                                                                 }}
-                                                                                                className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif', color: 'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} >
+                                                                                                className="level1MenuData" key={param1Index} style={{ fontSize: '16px', textDecoration: 'underline', marginBottom: '10px', fontFamily: 'sans-serif', color: 'black', textAlign: 'start', letterSpacing: 1, fontWeight: 500, cursor: 'pointer' }} >
                                                                                                 <span className='elv_param1'>{param1Item?.param1dataname}</span>
                                                                                             </span>
                                                                                             <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', marginLeft: '15px' }}>
                                                                                                 {param1Item?.param2?.map((param2Item, param2Index) => (
                                                                                                     <p className="level2menuData" key={param2Index} onClick={() =>
                                                                                                         handelMenu({ "menuname": selectedData?.menuname, "key": selectedData?.param0name, "value": selectedData?.param0dataname }, { "key": param1Item?.param1name, "value": param1Item?.param1dataname }, { "key": param2Item?.param2name, "value": param2Item?.param2dataname })
-                                                                                                    } style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: '"PT Sans", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                                                                                                    } style={{ fontSize: '15px', margin: '3px 15px 3px 0px', fontFamily: 'sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                                                                                                         <span
                                                                                                             onClick={() => {
                                                                                                                 handleToggle();

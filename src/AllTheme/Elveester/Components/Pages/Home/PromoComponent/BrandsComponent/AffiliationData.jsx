@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import './Styles.css'
+import './Styles.scss'
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import SwiperCore from 'swiper/core';
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 
 
 SwiperCore.use([Pagination]);
@@ -60,7 +60,7 @@ const AffiliationData = () => {
 
     return (
         <div>
-            <p className='AffiliationComponents'>Affiliation</p>
+            <p className='elv_AffiliationComponents'>Affiliation</p>
             <div className='AffiliationClassComponents' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
                 {/* 1st Slider */}
@@ -68,26 +68,33 @@ const AffiliationData = () => {
                     <Swiper
                         slidesPerView={1}
                         spaceBetween={10}
+                        autoplay={{
+                            delay: 2500,
+                            disableOnInteraction: false,
+                        }}
                         loop={true}
                         breakpoints={{
-                            425: { slidesPerView: 1, spaceBetween: 0 },
-                            640: { slidesPerView: 2, spaceBetween: 0 },
-                            768: { slidesPerView: 4, spaceBetween: 0 },
-                            1024: { slidesPerView: 5, spaceBetween: 0 },
-                            1240: { slidesPerView: 6, spaceBetween: 0 },
+                            375: { slidesPerView: 1, spaceBetween: 0, loopAdditionalSlides: 3, centeredSlides: true },
+                            425: { slidesPerView: 1, spaceBetween: 0, loopAdditionalSlides: 3, centeredSlides: true },
+                            640: { slidesPerView: 3, spaceBetween: 0, loopAdditionalSlides: 4 },
+                            768: { slidesPerView: 3, spaceBetween: 10 },
+                            1024: { slidesPerView: 4, spaceBetween: 10 },
+                            1280: { slidesPerView: 6, spaceBetween: 10 },
+                            1440: { slidesPerView: 6, spaceBetween: 20 },
+                            1920: { slidesPerView: 6, spaceBetween: 20 },
+                            2560: { slidesPerView: 7, spaceBetween: 20 },
                         }}
-                        modules={[Pagination]}
+                        modules={[Autoplay, Pagination]}
                         className="mySwiper_affli"
-                    // Pass swiper instance to handleSlideChange
                     >
                         {sliderData.map((slide, index) => (
-                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }} onSlideChange={(swiper) => handleSlideChange(swiper)}>
+                            <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }}>
                                 <div className='elv_affi_cards'>
                                     <img
                                         loading="lazy"
                                         src={storImagePath() + slide.imageUrl}
                                         alt={`Slide ${index}`}
-                                        style={{ maxWidth: '180px', objectFit: 'contain' }}
+                                        style={{ maxWidth: '180px', objectFit: 'contain', height: storImagePath() + slide.imageUrl == 'http://elvee.web/WebSiteStaticImage/images/HomePage/Affiliation/AffiliationLogo12.png' ? '10rem' : '5rem' }}
                                     />
                                 </div>
                             </SwiperSlide>

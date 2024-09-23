@@ -1,8 +1,13 @@
 import { atom } from "recoil";
 
 export const roop_companyLogo = atom({
-    key:'companyLogo',
-    default:[]
+  key:'companyLogo',
+  default:[]
+})
+
+export const roop_companyLogoM = atom({
+  key:'roop_companyLogoM',
+  default:[]
 })
 
 export const roop_loginState = atom({

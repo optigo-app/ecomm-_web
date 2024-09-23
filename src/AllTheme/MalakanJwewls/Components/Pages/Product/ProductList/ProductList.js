@@ -3209,7 +3209,7 @@ const ProductList = () => {
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{fontSize:'0.9vw'}}>|</span>
+                                              <span style={{fontSize:'13px', marginInline: '5px'}}>|</span>
                                               <span className="mala_prod_wt">
                                                 <span className="mala_main_keys">NWT:</span>
                                                 <span className="mala_main_val">
@@ -3223,7 +3223,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
+                                                <span style={{fontSize:'13px', marginInline: '5px'}}>|</span>
                                                 <span className="mala_prod_wt">
                                                   <span className="mala_main_keys">
                                                     DWT:
@@ -3240,7 +3240,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'0.9vw'}}>|</span>
+                                                <span style={{fontSize:'13px', marginInline: '5px'}}>|</span>
                                                 <span className="mala_prod_wt">
                                                   <span className="mala_main_keys">
                                                     CWT:

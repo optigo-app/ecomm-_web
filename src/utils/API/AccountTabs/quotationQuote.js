@@ -10,14 +10,13 @@ export const getQuotationQuoteData = async(data, CurrencyRate, FrontEnd_RegNo, c
             const encodedCombinedValue2 = (combinedValue);
             
             const body = {
-                "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data.userid}\"}`,
+                "con": `{\"id\":\"Store\",\"mode\":\"getquote\",\"appuserid\":\"${data?.userid}\"}`,
                 "f": "zen (cartcount)",
                 p: encodedCombinedValue,
                 dp:encodedCombinedValue2
             };
 
             const response = await CommonAPI(body);
-
             return response
 
     } catch (error) {
