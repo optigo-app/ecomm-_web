@@ -1183,12 +1183,12 @@ const ProductDetail = () => {
           <>
             {maxWidth1400 ? (
               <>
-                {loadingdata ? (
+                {loadingdata || pdLoadImage ? (
                   <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                 ) : (
                   <div className='elv_ProductDet_max1400'>
                     <div className='elv_ProductDet_prod_img_max1400'>
-                      {selectedThumbImg ? (
+                      {selectedThumbImg || imageSrc ? (
                         selectedThumbImg?.type == "img" ? (
                           <img
                             // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
@@ -1216,13 +1216,17 @@ const ProductDetail = () => {
                           </div>
                         )
                       ) : (
+                        // showPlaceholder == true && (
                         <img
-                          src={imageSrc}
-                          onError={handleError}
+                          src={imageSrc || 'p.png'}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noImageFound;
+                          }}
                           alt={""}
-                          onLoad={() => setIsImageLoad(false)}
                           className="elv_ProductDet_prod_image_max1400"
                         />
+                        // )
                       )
                       }
                     </div>
@@ -1289,7 +1293,7 @@ const ProductDetail = () => {
             ) : (
               <>
                 {!maxWidth1000 && (
-                  <>{loadingdata ? (
+                  <>{loadingdata || pdLoadImage ? (
                     <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                   ) : (
                     <div className='elv_ProductDet_prod_img_list'>
@@ -1350,7 +1354,7 @@ const ProductDetail = () => {
                     ) : (
                       <>
                         <div className='elv_ProductDet_prod_img'>
-                          {imageSrc ? (
+                          {imageSrc || selectedThumbImg ? (
                             selectedThumbImg.type === "img" ? (
                               <img
                                 src={imageSrc}
@@ -1376,18 +1380,17 @@ const ProductDetail = () => {
                               />
                             )
                           ) : (
-                            showPlaceholder == true && (
-                              <img
-                                src={imageSrc || 'p.png'}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = noImageFound;
-                                }}
-                                alt=""
-                                onLoad={() => setIsImageLoad(false)}
-                                className={`elv_ProductDet_prod_image`}
-                              />
-                            )
+                            // showPlaceholder == true && (
+                            <img
+                              src={imageSrc || 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                              }}
+                              alt=""
+                              className={`elv_ProductDet_prod_image`}
+                            />
+                            // )
                           )}
                         </div>
                       </>
@@ -1399,13 +1402,13 @@ const ProductDetail = () => {
             {maxWidth1000 ? (
               <>
                 <div className='elv_ProductDet_max1000'>
-                  {loadingdata ? (
+                  {loadingdata || pdLoadImage ? (
                     <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
                   ) : (
                     <>
                       <div>
                         <div className='elv_ProductDet_prod_img_max1000'>
-                          {selectedThumbImg ? (
+                          {selectedThumbImg || imageSrc ? (
                             selectedThumbImg?.type == "img" ? (
                               <img
                                 // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
@@ -1435,13 +1438,17 @@ const ProductDetail = () => {
                               </div>
                             )
                           ) : (
+                            // showPlaceholder == true && (
                             <img
-                              src={imageSrc}
-                              onError={handleError}
+                              src={imageSrc || 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                              }}
                               alt={""}
-                              onLoad={() => setIsImageLoad(false)}
                               className="elv_ProductDet_prod_image_max1000"
                             />
+                            // )
                           )
                           }
                         </div>
