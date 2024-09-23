@@ -291,33 +291,25 @@ const Header = () => {
   };
 
   const searchDataFucn = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       if (searchText) {
-        // navigation(`/p/${searchText}/?S=${btoa(JSON.stringify(searchText))}`)
-        // const handleMoveToDetail = () => {
-
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-
         let obj = {
           a: "",
           b: searchText,
-          m: (loginInfo?.MetalId ?? storeInit?.MetalId),
-          d: (loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid),
-          c: (loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid),
-          f: {}
-        }
+          m: loginInfo?.MetalId ?? storeInit?.MetalId,
+          d: loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+          c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
+          f: {},
+        };
 
-        let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-        navigate(`/d/${searchText}?p=${encodeObj}`)
-        toggleOverlay();
-        // navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${searchText}?p=${encodeObj}`)
-
-        // }
+        let encodeObj = btoa(JSON.stringify(obj))
+        navigation(`/p/${searchText}?S=${encodeObj}`);
+        setSearchText("")
       }
     }
-  }
+  };
 
 
   // for cart drawer

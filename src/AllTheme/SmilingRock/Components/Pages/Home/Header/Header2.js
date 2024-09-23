@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header2.modul.scss'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartCount, WishCount, companyLogo, loginState } from '../../../Recoil/atom';
+import { CartCount, WishCount, companyLogo, loginState, smr_companyLogo, smr_loginState } from '../../../Recoil/atom';
 import { useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Badge, ButtonBase, List, ListItem, ListItemText, Tooltip } from '@mui/material';
@@ -18,8 +18,8 @@ const Header2 = () => {
     const [isHeaderFixed, setIsHeaderFixed] = useState(false);
     const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
-    const compnyLogo = useRecoilValue(companyLogo);
-    const [islogin, setislogin] = useRecoilState(loginState);
+    const compnyLogo = useRecoilValue(smr_companyLogo);
+    const [islogin, setislogin] = useRecoilState(smr_loginState);
     const [menuData, setMenuData] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
 

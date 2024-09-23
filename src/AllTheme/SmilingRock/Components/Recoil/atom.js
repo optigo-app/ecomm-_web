@@ -1,17 +1,17 @@
 import { atom } from "recoil";
 
-export const companyLogo = atom({
-  key: 'companyLogo',
+export const smr_companyLogo = atom({
+  key: 'smr_companyLogo',
   default: []
 })
 
-export const companyLogoM = atom({
-  key: 'companyLogoM',
+export const smr_companyLogoM = atom({
+  key: 'smr_companyLogoM',
   default: []
 })
 
-export const loginState = atom({
-  key: 'loginState',
+export const smr_loginState = atom({
+  key: 'smr_loginState',
   default: false,
 })
 
