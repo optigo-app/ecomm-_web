@@ -86,7 +86,7 @@ const ProductList = () => {
 
   const SoketData = useRecoilValue(soketProductData_ProCatApp);
   const pathname = location?.pathname;
-  const extractedPart = pathname?.split("/p/")[1].split("/")[0].replace("%20", " ");
+  // const extractedPart = pathname?.split("/p/")[1].split("/")[0].replace("%20", " ");
 
   // useEffect(()=>{
 
@@ -751,7 +751,8 @@ const ProductList = () => {
       "markup": ele?.DesignMarkUp,
       "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
       "Remark": "",
-      AlbumName: decodeURI(extractedPart) ?? ""
+      // AlbumName: decodeURI(extractedPart) ?? ""
+      AlbumName: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ?? ""
     }
 
     if (e.target.checked == true) {
