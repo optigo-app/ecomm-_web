@@ -31,15 +31,6 @@ const Album1 = () => {
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
         setStoreInit(data)
-        // const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
-        // const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
-        // const visiterID = Cookies.get('visiterId');
-        // let finalID;
-        // if (storeInit?.IsB2BWebsite == 0) {
-        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-        // } else {
-        //     finalID = loginUserDetail?.id || '0';
-        // }
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -63,15 +54,6 @@ const Album1 = () => {
                 observer.unobserve(albumRef.current);
             }
         };
-
-        // Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
-        //     .then((response) => {
-        //         if (response?.Data?.rd) {
-        //             setAlbumData(response?.Data?.rd);
-        //             setSelectedAlbum(response?.Data?.rd[0]?.AlbumName)
-        //         }
-        //     })
-        //     .catch((err) => console.log(err));
     }, []);
 
     const apiCall = () => {
