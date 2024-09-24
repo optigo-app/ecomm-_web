@@ -12,7 +12,7 @@ import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
-import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
+import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
 import Cookies from "js-cookie";
@@ -32,7 +32,7 @@ import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Co
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(3)
 
   const [companyTitleLogo, smr_SetCompanyTitleLogo] = useRecoilState(smr_companyLogo)
   const [companyTitleLogoM, smr_SetCompanyTitleLogoM] = useRecoilState(smr_companyLogoM)
@@ -43,8 +43,10 @@ export default function ThemeRoutes() {
   const [roopWebLogo, setRoopWebLogo] = useRecoilState(roop_companyLogo);
   const [roopMobileLogo, setRoopMobileLogo] = useRecoilState(roop_companyLogoM);
 
-  const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+  const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
+
+  const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
 
   const [title, setTitle] = useState();
@@ -63,6 +65,9 @@ export default function ThemeRoutes() {
 
     proCat_setCompanyTitleLogo(webLogo);
     proCatM_setCompanyTitleLogo(mobileLogo);
+
+    el_setCompanyTitleLogo(webLogo);
+    el_setCompanyTitleLogoM(mobileLogo);
 
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
@@ -110,20 +115,6 @@ export default function ThemeRoutes() {
               }
             }
 
-            if (response?.data?.Data?.rd[0]?.Themeno === 2) {
-              dt_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-            }
-
-            if (response?.data?.Data?.rd[0]?.Themeno === 3) {
-              el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
-            }
-
-            if (response?.data?.Data?.rd[0]?.Themeno === 4) {
-              smrMA_setCompanyTitleLogo(
-                response?.data?.Data?.rd[0]?.companylogo
-              );
-            }
-
             if (response?.data?.Data) {
               callAllApi(response?.data?.Data);
             }
@@ -139,7 +130,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(3);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;

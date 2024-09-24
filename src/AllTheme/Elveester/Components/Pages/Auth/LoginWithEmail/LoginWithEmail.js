@@ -100,7 +100,7 @@ export default function LoginWithEmail() {
 
     const handleForgotPassword = async () => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        let Domian = `${window.location.protocol}://${storeInit?.domain}`
+        let Domian = `${window.location.protocol}//${window.location.hostname}`
         // let Domian = `https://${storeInit?.domain}`
         setIsLoading(true);
         ForgotPasswordEmailAPI(Domian, email).then((response) => {
@@ -177,7 +177,7 @@ export default function LoginWithEmail() {
                             />
 
                             <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                            <Button className='elv_cancel_le_btn'  onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <Button className='elv_cancel_le_btn' onClick={() => navigation('/LoginOption')}>CANCEL</Button>
 
                             <button type='submit' className='submitBtnForgot' onClick={handleNavigation}>Login With a Code instead on email</button>
                             <p style={{ textAlign: 'center', marginTop: '1rem' }}>Go passwordless! we'll send you an email.</p>

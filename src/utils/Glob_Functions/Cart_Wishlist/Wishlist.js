@@ -155,7 +155,9 @@ const Usewishlist = () => {
         console.error("Error:", error);
       }
     } else {
-      toast.info('Already in cart');
+      toast.info('Already in cart', {
+        hideProgressBar: true
+      });
     }
   };
 
