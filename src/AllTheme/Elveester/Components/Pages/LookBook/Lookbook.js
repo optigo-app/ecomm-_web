@@ -783,14 +783,14 @@ const Lookbook = () => {
                                     size="small"
                                   />
                                 }
-                                // sx={{
-                                //   display: "flex",
-                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                //   width: "100%",
-                                //   flexDirection: "row-reverse", // Align items to the right
-                                //   fontFamily:'TT Commons Regular'
-                                // }}
-                                className="el_mui_checkbox_label"
+                                sx={{
+                                  display: "flex !important",
+                                  justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                  width: "100% !important",
+                                  flexDirection: "row-reverse !important", // Align items to the right
+                                  fontFamily: 'sans-serif'
+                                }}
+                                // className="el_mui_checkbox_label"
                                 label={<CustomLabel text={opt?.Name} />}
                               />
                             </div>
@@ -887,14 +887,14 @@ const Lookbook = () => {
                                   size="small"
                                 />
                               }
-                              // sx={{
-                              //   display: "flex",
-                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                              //   width: "100%",
-                              //   flexDirection: "row-reverse", // Align items to the right
-                              //   fontFamily:'TT Commons Regular'
-                              // }}
-                              className="el_mui_checkbox_label"
+                              sx={{
+                                display: "flex !important",
+                                justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                width: "100% !important",
+                                flexDirection: "row-reverse !important", // Align items to the right
+                                fontFamily: 'sans-serif'
+                              }}
+                              // className="el_mui_checkbox_label"
                               // label={
                               //   opt?.Minval == 0
                               //     ? `Under ${decodeEntities(
@@ -1029,7 +1029,14 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
-                          className="el_mui_checkbox_label"
+                          // className="el_mui_checkbox_label"
+                          sx={{
+                            display: "flex !important",
+                            justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                            width: "100% !important",
+                            flexDirection: "row-reverse !important", // Align items to the right
+                            fontFamily: 'sans-serif'
+                          }}
                           label={<CustomLabel text={opt?.Name} />}
                         />
                       </div>
@@ -1275,14 +1282,14 @@ const Lookbook = () => {
                                             size="small"
                                           />
                                         }
-                                        // sx={{
-                                        //   display: "flex",
-                                        //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                        //   width: "100%",
-                                        //   flexDirection: "row-reverse", // Align items to the right
-                                        //   fontFamily:'TT Commons Regular'
-                                        // }}
-                                        className="el_mui_checkbox_label"
+                                        sx={{
+                                          display: "flex !important",
+                                          justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                          width: "100% !important",
+                                          flexDirection: "row-reverse !important", // Align items to the right
+                                          fontFamily: 'sans-serif'
+                                        }}
+                                        // className="el_mui_checkbox_label"
                                         label={<CustomLabel text={opt?.Name} />}
                                       />
                                     </div>
@@ -1386,14 +1393,14 @@ const Lookbook = () => {
                                             size="small"
                                           />
                                         }
-                                        // sx={{
-                                        //   display: "flex",
-                                        //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                        //   width: "100%",
-                                        //   flexDirection: "row-reverse", // Align items to the right
-                                        //   fontFamily:'TT Commons Regular'
-                                        // }}
-                                        className="el_mui_checkbox_label"
+                                        sx={{
+                                          display: "flex !important",
+                                          justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                          width: "100% !important",
+                                          flexDirection: "row-reverse !important", // Align items to the right
+                                          fontFamily: 'sans-serif'
+                                        }}
+                                        // className="el_mui_checkbox_label"
                                         // label={
                                         //   opt?.Minval == 0
                                         //     ? `Under ${decodeEntities(
@@ -1463,7 +1470,7 @@ const Lookbook = () => {
                                 position: 'relative'
                               }}
                             >
-                               {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                              {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                 <img
                                   className="el_lookBookImg"
                                   loading="lazy"
@@ -1682,7 +1689,7 @@ const Lookbook = () => {
                                 }}
                                 className="el_designSetDiv2_sub1"
                               >
-                                 {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                                {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                   <img
                                     className="el_lookBookImg"
                                     loading="lazy"
@@ -2358,8 +2365,8 @@ const Lookbook = () => {
           shape="circular"
           onChange={handelPageChange}
           page={currentPage}
-          // showFirstButton
-          // showLastButton
+        // showFirstButton
+        // showLastButton
         />
       </div>
     </div>

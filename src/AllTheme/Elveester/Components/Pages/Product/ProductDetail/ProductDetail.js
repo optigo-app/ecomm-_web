@@ -38,7 +38,9 @@ const ProductDetail = () => {
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   const [diaList, setDiaList] = useState([]);
+  console.log('diaList: ', diaList);
   const [csList, setCsList] = useState([]);
+  console.log('csList: ', csList);
   const [netWTData, setnetWTData] = useState([])
   const [SizeCombo, setSizeCombo] = useState([]);
   const [metalTypeCombo, setMetalTypeCombo] = useState([])
@@ -50,6 +52,7 @@ const ProductDetail = () => {
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [showtDiaQc, setShowDiaQc] = useState();
   const [diaQcCombo, setDiaQcCombo] = useState([])
+  console.log('diaQcCombo: ', diaQcCombo);
   const [csQcCombo, setCsQcCombo] = useState([])
   const [selectCsQC, setSelectCsQC] = useState();
   const [metalWiseColorImg, setMetalWiseColorImg] = useState([]);
@@ -1615,7 +1618,7 @@ const ProductDetail = () => {
                                 <hr className='elv_ProductDet_divider_1' />
                               </div>
                             )}
-                            {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0) ? (
+                            {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
                               <>
                                 <div>
                                   <div>
@@ -1653,7 +1656,7 @@ const ProductDetail = () => {
                               </>
                             ) : null}
                             {(storeInit?.IsCsCustomization === 1 &&
-                              selectCsQC?.length > 0) ? (
+                              selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
                               <>
                                 <div>
                                   <div>
@@ -2048,7 +2051,7 @@ const ProductDetail = () => {
                               <hr className='elv_ProductDet_divider_1' />
                             </div>
                           )}
-                          {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0) ? (
+                          {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
                             <>
                               <div>
                                 <div>
@@ -2086,7 +2089,7 @@ const ProductDetail = () => {
                             </>
                           ) : null}
                           {(storeInit?.IsCsCustomization === 1 &&
-                            selectCsQC?.length > 0) ? (
+                            selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
                             <>
                               <div>
                                 <div>
