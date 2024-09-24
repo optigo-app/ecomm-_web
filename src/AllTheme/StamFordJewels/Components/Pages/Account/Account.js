@@ -122,7 +122,7 @@ export default function Account() {
       }
 
     return (
-        <div className='accountPagTabSection'>
+        <div className='accountTabs_Account_SFJ accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
                     <div className='sticky-header_web_sm'>
