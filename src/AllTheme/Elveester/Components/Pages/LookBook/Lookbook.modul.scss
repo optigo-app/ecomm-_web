@@ -83,7 +83,6 @@
     font-family: $fontSansSerif !important;
   }
 
-
   .el_lb2designList_title {
     position: absolute;
     bottom: 0%;
@@ -219,6 +218,16 @@
       font-family: $fontSansSerif !important;
       text-transform: uppercase;
     }
+
+
+    .el_mui_checkbox_label {
+      display: flex !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      flex-direction: row-reverse !important;
+      font-family: $fontSansSerif;
+    }
+
   }
 
   .el_lookBookImgDivMain {

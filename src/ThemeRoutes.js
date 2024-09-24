@@ -32,7 +32,7 @@ import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Co
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(3)
 
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo)
   const smr_SetCompanyTitleLogoM = useSetRecoilState(smr_companyLogoM)
@@ -42,6 +42,9 @@ export default function ThemeRoutes() {
 
   const setRoopWebLogo = useSetRecoilState(roop_companyLogo);
   const setRoopMobileLogo = useSetRecoilState(roop_companyLogoM);
+
+  const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+  const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
 
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
@@ -65,6 +68,9 @@ export default function ThemeRoutes() {
 
     proCat_setCompanyTitleLogo(webLogo);
     proCatM_setCompanyTitleLogo(mobileLogo);
+
+    el_setCompanyTitleLogo(webLogo);
+    el_setCompanyTitleLogoM(mobileLogo);
     
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
@@ -140,7 +146,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(3);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;

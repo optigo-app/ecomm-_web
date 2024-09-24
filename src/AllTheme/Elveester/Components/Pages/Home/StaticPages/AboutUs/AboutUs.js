@@ -40,6 +40,7 @@ const AboutUs = () => {
                                                 margin: 0,
                                                 minHeight: '48px',
                                                 paddingInline: '3%',
+                                                fontFamily: 'sans-serif',
                                             }}
                                         >
                                             {tabArr.map((label, index) => (
@@ -54,6 +55,7 @@ const AboutUs = () => {
                                                         color: "#706c6c",
                                                         borderBottom: '1px solid white',
                                                         zIndex: 1,
+                                                        fontFamily: 'sans-serif',
                                                         '&.Mui-selected': {
                                                             color: '#706c6c',
                                                             fontWeight: '600',
@@ -96,8 +98,8 @@ const AboutUs = () => {
                 <div>
                     <CompanyData />
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 
