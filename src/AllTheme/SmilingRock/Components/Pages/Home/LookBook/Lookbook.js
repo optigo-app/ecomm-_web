@@ -1412,12 +1412,12 @@ const Lookbook = () => {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
-                              {/* <p className="smr_lb2designList_title">
+                              <p className="smr_lb2designList_title">
                             {slide?.designsetno}
-                          </p> */}
+                          </p>
                             </div>
                             <div
                               className="smr_lookBookImgDeatil"
