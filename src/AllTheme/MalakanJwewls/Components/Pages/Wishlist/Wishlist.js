@@ -93,8 +93,8 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="stam_MainWishlist_Div">
-      <div className="stam_wishlist_sub">
+    <div className="mala_MainWishlist_Div">
+      <div className="mala_wishlist_sub">
         <div className="WlBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="mala_Wl-title">My Wishlist</div>

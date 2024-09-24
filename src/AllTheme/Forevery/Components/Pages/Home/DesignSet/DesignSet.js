@@ -115,20 +115,20 @@ const DesignSet = () => {
 
 
     return (
-        <div className="smr_designSetMain">
+        <div className="for_designSetMain">
 
-            <p className='smr_desognSetTitle'>Complete Your Look
-                <Link className='smr_designSetViewmoreBtn' onClick={handleNavigate}>
+            <p className='for_desognSetTitle'>Complete Your Look
+                <Link className='for_designSetViewmoreBtn' onClick={handleNavigate}>
                     View more
                 </Link>
             </p>
-            <div className='smr_designSetMainDiv'>
-                <div className='smr_designSetDiv1'>
-                    <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
+            <div className='for_designSetMainDiv'>
+                <div className='for_designSetDiv1'>
+                    <img className="for_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
                 </div>
-                <div className='smr_designSetDiv2'>
+                <div className='for_designSetDiv2'>
                     {itemsToShow?.map((slide, index) => (
-                        <div className="smr_designSetDiv" key={index}>
+                        <div className="for_designSetDiv" key={index}>
                             <img
                                 className="image"
                                 loading="lazy"
@@ -136,11 +136,11 @@ const DesignSet = () => {
                                 alt={`Slide ${index}`}
                                 onClick={() => handleNavigation(slide?.designno, slide?.autocode, slide?.TitleLine ? slide?.TitleLine : '')}
                             />
-                            <p className="smr_designList_title">{slide?.TitleLine}</p>
+                            <p className="for_designList_title">{slide?.TitleLine}</p>
                         </div>
                     ))}
                     {!showAll && itemsToShow?.length > 6 && (
-                        <p className='smr_designSetImageViewAll' onClick={handleViewAll}>View All</p>
+                        <p className='for_designSetImageViewAll' onClick={handleViewAll}>View All</p>
                     )}
                 </div>
 
@@ -213,7 +213,7 @@ export default DesignSet;
 
 
 //     return (
-//         <div className='smr_designSetMain' style={{ position: 'relative' }}>
+//         <div className='for_designSetMain' style={{ position: 'relative' }}>
 //             <div>
 //                 <p className='designSetTitle'>Design Set</p>
 //             </div>
@@ -249,8 +249,8 @@ export default DesignSet;
 //                 >
 //                     {sliderData.map((slide, index) => (
 //                         <SwiperSlide key={index} className='srm_designSetMain'>
-//                             <div className='smr_designsetDiv'>
-//                                 <div className='smr_designsetDivImg'>
+//                             <div className='for_designsetDiv'>
+//                                 <div className='for_designsetDivImg'>
 //                                     <img loading="lazy" src={imageUrl + slide?.designsetuniqueno + '/' + slide?.DefaultImageName} alt={`Slide ${index}`} />
 //                                 </div>
 //                                 <p className='designsetPrice'>{slide.price}</p>
@@ -262,7 +262,7 @@ export default DesignSet;
 //                 </Swiper>
 //             </div>
 
-//             <p className='smr_designSetShowAll'>View All</p>
+//             <p className='for_designSetShowAll'>View All</p>
 //         </div>
 //     )
 // }

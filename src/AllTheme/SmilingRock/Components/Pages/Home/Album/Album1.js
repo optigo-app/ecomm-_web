@@ -120,7 +120,7 @@ const Album1 = () => {
     return (
         <div ref={albumRef}>
             {albumData?.length != 0 &&
-                <div className="album-container" >
+                <div className="smr_album-container" >
                     <div className='smr_ablbumtitleDiv'>
                         <span className='smr_albumtitle'>ALBUM</span>
                         {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
@@ -153,24 +153,24 @@ const Album1 = () => {
                             ))}
                         </Tabs>
                     </Box>
-                    <div className="swiper-container">
+                    <div className="smr_swiper_container">
                         {albumData?.map((album) =>
                             album?.AlbumName === selectedAlbum ? (
                                 <Swiper
                                     key={album?.Albumid}
                                     spaceBetween={10}
                                     slidesPerView={4}
-                                    // breakpoints={{
-                                    //     1200: {
-                                    //         slidesPerView: 4,
-                                    //     },
-                                    //     992: {
-                                    //         slidesPerView: 3,
-                                    //     },
-                                    //     768: {
-                                    //         slidesPerView: 2,
-                                    //     },
-                                    // }}
+                                    breakpoints={{
+                                        1024: {
+                                            slidesPerView: 4,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        0: {
+                                            slidesPerView: 2,
+                                        }
+                                    }}
                                     lazy={true}
                                     navigation={true}
                                     // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}

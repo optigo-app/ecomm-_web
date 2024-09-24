@@ -1,11 +1,11 @@
 @import "../../../scss/variable";
 
-.album-container {
-    .smr_ablbumtitleDiv {
+.for_album-container {
+    .for_ablbumtitleDiv {
         text-align: center;
         padding-block: 3%;
 
-        .smr_albumtitle {
+        .for_albumtitle {
             font-size: 28px;
             color: #7d7f85;
             font-family: $primaryFontFamily;
@@ -71,7 +71,7 @@
             margin-top: 10px;
             text-align: start;
 
-            .smr_album1Titleline {
+            .for_album1Titleline {
                 font-size: $fontSize1;
                 color: $titleColor;
                 padding: 0;
@@ -83,7 +83,7 @@
                 text-overflow: ellipsis;
             }
 
-            .smr_album1price {
+            .for_album1price {
                 font-size: $fontSize2;
                 font-family: $primaryFontFamily;
                 letter-spacing: .5px;
@@ -146,7 +146,7 @@
             min-width: 180px !important;
         }
 
-        .smr_Albumtab {
+        .for_Albumtab {
             min-height: 35px !important;
         }
 
@@ -155,7 +155,7 @@
         }
 
         .design-info {
-            .smr_album1price {
+            .for_album1price {
                 font-size: $fontSize1 !important;
             }
         }
@@ -177,7 +177,7 @@
         }
 
         .design-info {
-            .smr_album1price {
+            .for_album1price {
                 font-size: $fontSize2 !important;
             }
         }

@@ -121,9 +121,9 @@ const DesignSet = () => {
 
     return (
         <>
-            <div className='smr_DesignSetTitleDiv'>
-                <p className='smr_desognSetTitle'>Complete Your Look
-                    <Link href="/Lookbook" className='smr_designSetViewmoreBtn' onClick={handleNavigate}>
+            <div className='stam_DesignSetTitleDiv'>
+                <p className='stam_desognSetTitle'>Complete Your Look
+                    <Link href="/Lookbook" className='stam_designSetViewmoreBtn' onClick={handleNavigate}>
                         View more
                     </Link>
                 </p>

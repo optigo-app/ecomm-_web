@@ -5,17 +5,14 @@ export const LoginWithEmailAPI = async (email, mobileNo, hashedPassword, ismobil
     let response
     try {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        const { FrontEnd_RegNo } = storeInit;
-
         const combinedValue = JSON.stringify({
-            userid: `${email}`, mobileno: mobileNo, pass: `${hashedPassword}`, mobiletoken: ismobiletoke, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Token: `${userCookie ?? ''}`,
-            IsPLW: `${storeInit?.IsPLW}`, ...(storeInit?.IsB2BWebsite === 0 && { Customerid: visiterId }) ,  DomainForNo: `${storeInit?.DomainForNo ?? ""}`
+            userid: `${email}` ?? '', mobileno: mobileNo ?? '', pass: `${hashedPassword}` ?? '', mobiletoken: ismobiletoke ?? '', FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo ?? ''}`, Token: `${userCookie ?? ''}`,
+            IsPLW: `${storeInit?.IsPLW ?? ''}`, ...(storeInit?.IsB2BWebsite === 0 && { Customerid: visiterId }), DomainForNo: `${storeInit?.DomainForNo ?? ""}`
         });
 
         // const combinedValue = JSON.stringify({
         //     userid: `${email}`, mobileno: mobileNo, pass: `${hashedPassword}`, mobiletoken: ismobiletoke, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Token: `${userCookie ?? ''}`,
         //     IsPLW: `${storeInit?.IsPLW}`
-
         // });
 
         const encodedCombinedValue = btoa(combinedValue);

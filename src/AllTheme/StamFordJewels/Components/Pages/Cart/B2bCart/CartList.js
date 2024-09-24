@@ -23,7 +23,7 @@ const CartList = ({
 }) => {
 
   return (
-    <div className="smr_RightCartList">
+    <div className="stam_RightCartList">
       <Grid container spacing={1}>
         {items.map((item, index) => (
           <CartItem

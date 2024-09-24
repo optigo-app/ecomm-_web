@@ -39,12 +39,12 @@
     }
 }
 
-.stam_MainWishlist_Div {
+.mala_MainWishlist_Div {
     background-color: $backgroundColor;
     font-family: $primaryFontFamily;
 }
 
-.stam_wishlist_sub {
+.mala_wishlist_sub {
     background-color: #fff;
 }
 
@@ -134,7 +134,7 @@
     }
 }
 
-.stam_WlListData {
+.mala_WlListData {
     padding: 60px 14px 10px 15px;
 
     .mala_wlListGrid {
@@ -344,7 +344,7 @@
 
 
 @media (max-width: 768px) {
-    .stam_WlListData {
+    .mala_WlListData {
         padding: 10px 10px 10px 10px;
     }
 
@@ -354,7 +354,7 @@
 }
 
 @media (max-width: 600px) {
-    .stam_WlListData {
+    .mala_WlListData {
         padding: 10px 10px 10px 10px;
     }
 
@@ -403,7 +403,7 @@
 }
 
 @media (max-width: 320px) {
-    .stam_WlListData {
+    .mala_WlListData {
         padding: 6px;
     }
 
@@ -487,7 +487,7 @@
     //     height: 30px !important;
     // }
 
-    .stam_WlListData {
+    .mala_WlListData {
         .mala_wlToggleButtonDiv {
             padding-top: 30px;
         }
