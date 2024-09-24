@@ -7,6 +7,8 @@ import {
   Box,
   Button,
   CircularProgress,
+  MenuItem,
+  Select,
   TextField,
   Typography,
   useMediaQuery,
@@ -25,7 +27,7 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
-import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, sortByKeyDescendingJS, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -263,6 +265,8 @@ const SalesReport = () => {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [custCurrency, setCustCurrency] = useState(loginDetails?.CurrencyCode);
+  const [currencyList, setCurrencyList] = useState([]);
   const [total, setTotal] = useState({
     GrossWt: 0,
     NetWt: 0,
@@ -317,10 +321,26 @@ const SalesReport = () => {
     [order, orderBy, page, rowsPerPage, filterData]
   );
 
-  const handleSearch = ( eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo ) => { 
+  const handleSearch = ( eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo, custCurrency ) => { 
     setPage(0);
+    let designLists = [];
     let datass = [];
     let count = 0;
+    let totals = {
+      GrossWt : 0,
+      NetWt : 0,
+      DiaPcs : 0,
+      DiaWt : 0,
+      CsPcs : 0,
+      CsWt : 0,
+      MetalAmount : 0,
+      DiamondAmount : 0,
+      ColorStoneAmount : 0,
+      LabourAmount : 0,
+      OtherAmount : 0,
+      TotalAmount : 0,
+      Netwt_24k : 0
+    }
     let checkIt = false;
 
     data?.forEach((e, i) => {
@@ -330,6 +350,7 @@ const SalesReport = () => {
         toDate: false,
         grossWtFrom: false,
         grossWtTo: false,
+        custCurrencyFlag:false
       };
 
       let cutDates = e["EntryDate"]?.split(" ");
@@ -396,25 +417,25 @@ const SalesReport = () => {
 
 
 
-      if ( String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.Category)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.GrossWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.NetWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.DiaPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.DiaWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.CsPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.CsWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        if ( String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.Category)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.GrossWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.NetWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.DiaPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.DiaWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.CsPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.CsWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         searchValue?.trim()?.toLowerCase() === ""
       ) {
         flags.searchValue = true;
@@ -445,12 +466,18 @@ const SalesReport = () => {
           confirmButtonText: "ok",
         });
       }
+
+      if(e?.Currencycode?.toLowerCase()?.trim() === custCurrency?.toLowerCase()?.trim()){
+        flags.custCurrencyFlag = true;
+      }
+
       if (
         flags.searchValue === true &&
         flags.fromDate === true &&
         flags.toDate === true &&
         flags.grossWtFrom === true &&
         flags.grossWtTo === true &&
+        flags.custCurrencyFlag === true &&
         count === 0 
       ) {
         let dataObj = createData(
@@ -474,17 +501,72 @@ const SalesReport = () => {
           e?.CsPcs,
           e?.CsWt,
           e?.imgsrc,
-          e?.Netwt_24k
+          e?.Netwt_24k,
+          e?.Currencycode,
+          e?.CurrencyExchRate
         );
         datass?.push(dataObj);
       }
    
     });
+
+
     if (count === 0) {
       setFilterData(datass);
+      
+      datass?.forEach((e) => {
+        totals.GrossWt += e?.GrossWt;
+        totals.NetWt += e?.NetWt;
+        totals.DiaPcs += e?.DiaPcs;
+        totals.DiaWt += e?.DiaWt;
+        totals.CsPcs += e?.CsPcs;
+        totals.CsWt += e?.CsWt;
+        totals.MetalAmount += e?.MetalAmount;
+        totals.DiamondAmount += e?.DiamondAmount;
+        totals.ColorStoneAmount += e?.ColorStoneAmount;
+        totals.LabourAmount += e?.LabourAmount;
+        totals.OtherAmount += e?.OtherAmount;
+        totals.TotalAmount += e?.UnitCost;
+        totals.Netwt_24k += e?.Netwt_24k;
+        let findUniqueDesign = designLists?.findIndex( (ele) => ele === e?.designno );
+        if (findUniqueDesign === -1) { designLists?.push(e?.designno); }
+      })
+
+      totals.uniqueDesigns = designLists?.length;
+
+      setTimeout(() => {
+        setTotal(totals);
+      },10)
+
     } else {
+
       setFilterData(data);
+      data?.forEach((e) => {
+        totals.GrossWt += e?.GrossWt;
+        totals.NetWt += e?.NetWt;
+        totals.DiaPcs += e?.DiaPcs;
+        totals.DiaWt += e?.DiaWt;
+        totals.CsPcs += e?.CsPcs;
+        totals.CsWt += e?.CsWt;
+        totals.MetalAmount += e?.MetalAmount;
+        totals.DiamondAmount += e?.DiamondAmount;
+        totals.ColorStoneAmount += e?.ColorStoneAmount;
+        totals.LabourAmount += e?.LabourAmount;
+        totals.OtherAmount += e?.OtherAmount;
+        totals.TotalAmount += e?.UnitCost;
+        totals.Netwt_24k += e?.Netwt_24k;
+        let findUniqueDesign = designLists?.findIndex( (ele) => ele === e?.designno );
+        if (findUniqueDesign === -1) { designLists?.push(e?.designno); }
+      })
+
+      totals.uniqueDesigns = designLists?.length;
+
+      setTimeout(() => {
+        setTotal(totals);
+      },10)
+
       resetAllFilters();
+
     }
   };
 
@@ -496,6 +578,10 @@ const SalesReport = () => {
     setFilterData(data);
     setPage(0);
     setRowsPerPage(10);
+    setCustCurrency(loginDetails?.CurrencyCode)
+    setTimeout(() => {
+      handleSearch('', '', null, null, '', '', loginDetails?.CurrencyCode);
+    },10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -508,6 +594,11 @@ const SalesReport = () => {
    
   };
 
+  const handleCurrencyChange = (eve) => {
+    setCustCurrency(eve.target.value);
+    handleSearch('', searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, eve.target.value);
+  }
+
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -519,7 +610,6 @@ const SalesReport = () => {
       let currencyRate = storeInit?.CurrencyRate;
 
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -572,7 +662,16 @@ const SalesReport = () => {
         });
 
         totals.uniqueDesigns = designLists?.length;
-        const sortedRows = sortByDate(datass, 'EntryDate');
+        const sortedRows = sortByKeyDescendingJS(datass, 'StockDocumentNo');
+        // const sortedRows = sortByDate(datass, 'EntryDate');
+
+        const arr = sortedRows?.map((e) => e?.Currencycode);
+
+        arr.unshift(loginDetails?.CurrencyCode);
+        // Use Set to get unique values
+        const uniqueCurrencyCodes = [...new Set(arr)];
+
+        setCurrencyList(uniqueCurrencyCodes);
         setData(sortedRows);
         setFilterData(sortedRows);
         setTotal(totals);
@@ -602,7 +701,13 @@ const SalesReport = () => {
     if (inputTo) {
       inputTo.placeholder = "Date To";
     }
+    
   }, []);
+
+useEffect(() => {
+  handleSearch('', searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency);
+},[data]);
+
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -610,7 +715,6 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
-console.log(filterData);
   return (
     <Box>
       <Box
@@ -621,10 +725,7 @@ console.log(filterData);
           justifyContent: "space-between",
         }}
       >
-        <Box
-          className="salesReporttableWeb"
-          sx={{ paddingBottom: "5px", paddingRight: "15px",  paddingTop:'5px' }}
-        >
+        <Box className="salesReporttableWeb" sx={{ paddingBottom: "5px", paddingRight: "15px",  paddingTop:'5px' }} >
           <table style={{minWidth:'710px'}}>
             <tbody>
               <tr>
@@ -666,19 +767,19 @@ console.log(filterData);
               </tr>
               <tr>
                 <td className="fw_bold">
-                  { total?.MetalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.MetalAmount, 2)}
+                  { total?.MetalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.MetalAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                { total?.DiamondAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.DiamondAmount, 2)}
+                { total?.DiamondAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.DiamondAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                { total?.ColorStoneAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.ColorStoneAmount, 2)}
+                { total?.ColorStoneAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.ColorStoneAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                { total?.LabourAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.LabourAmount, 2)}
+                { total?.LabourAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.LabourAmount, 2)}
                 </td>
                 <td className="fw_bold">
-                { total?.OtherAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.OtherAmount, 2)}
+                { total?.OtherAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.OtherAmount, 2)}
                 </td>
                 <td className="fw_bold">1</td>
               </tr>
@@ -688,7 +789,7 @@ console.log(filterData);
         <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
-          {total?.TotalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.TotalAmount, 2)}
+          {total?.TotalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box>
         <Box
@@ -764,7 +865,8 @@ console.log(filterData);
                 fromDate,
                 toDate,
                 grossWtInput?.from,
-                grossWtInput?.to
+                grossWtInput?.to,
+                custCurrency
               );
             }}
           />
@@ -858,7 +960,8 @@ console.log(filterData);
                 fromDate,
                 toDate,
                 grossWtInput?.from,
-                grossWtInput?.to
+                grossWtInput?.to,
+                custCurrency
               )
             }
           >
@@ -904,12 +1007,28 @@ console.log(filterData);
                 fromDate,
                 toDate,
                 grossWtInput?.from,
-                grossWtInput?.to
+                grossWtInput?.to,
+                custCurrency
               )
             }
           >
             <SearchIcon sx={{ color: "#fff !important" }} />
           </Button>
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "18px", position:'relative'}}>
+        <Typography sx={{ paddingBottom: "5px", position:'absolute', top:'-22px' }}>Currency</Typography>
+                    <Select
+                        labelId="SubCategory"
+                        id="demo-simple-select"
+                        value={custCurrency}
+                        label="Product Type"
+                        onChange={handleCurrencyChange}
+                        sx={{ width: "100px" }}
+                    >
+                        {currencyList?.map((ele, ind) => {
+                            return <MenuItem value={ele} key={ind} sx={{ textTransform: 'uppercase' }}>{ele}</MenuItem>
+                        })}
+                    </Select>
         </Box>
       </Box>}
       {
@@ -921,7 +1040,7 @@ console.log(filterData);
               All
             </Button>
             <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", minWidth:'100%'}} className="searchbox" >
-              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency ); }} />
               <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
             </Box>
             <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'1rem', justifyContent:'space-between'}}>
@@ -987,7 +1106,7 @@ console.log(filterData);
               </LocalizationProvider>
               </Box>
               <Box>
-                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency ) } >
                   <SearchIcon sx={{ color: "#fff !important" }} />
                 </Button>
               </Box>
@@ -1017,11 +1136,26 @@ console.log(filterData);
                 />
               </Box>
               <Box sx={{   minWidth:'15%', maxWidth:'15%', width:'100%', boxSizing:'border-box' }}>
-                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency ) } >
                   <SearchIcon sx={{ color: "#fff !important" }} />
-                </Button>import { headCells } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns';
+                </Button>
 
               </Box>
+              <Box sx={{ paddingRight: "15px", paddingBottom: "18px", position:'relative'}}>
+        <Typography sx={{ paddingBottom: "5px", position:'absolute', top:'-22px' }}>Currency</Typography>
+                    <Select
+                        labelId="SubCategory"
+                        id="demo-simple-select"
+                        value={custCurrency}
+                        label="Product Type"
+                        onChange={handleCurrencyChange}
+                        sx={{ width: "100px" }}
+                    >
+                        {currencyList?.map((ele, ind) => {
+                            return <MenuItem value={ele} key={ind} sx={{ textTransform: 'uppercase' }}>{ele}</MenuItem>
+                        })}
+                    </Select>
+        </Box>
             </Box>
           </AccordionDetails>
         </Accordion>

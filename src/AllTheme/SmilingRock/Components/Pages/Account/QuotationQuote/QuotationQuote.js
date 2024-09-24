@@ -13,7 +13,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
 import PrintIcon from '@mui/icons-material/Print';
-import { formatAmount, checkMonth, customComparator_Col, stableSort, sortByDate, quotationCreateData } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { formatAmount, checkMonth, customComparator_Col, stableSort, sortByDate, quotationCreateData, sortByKeyDescending } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import { visuallyHidden } from '@mui/utils';
 import { addYears, subYears } from 'date-fns';
 import moment from 'moment';
@@ -337,7 +337,9 @@ const QuotationQuote = () => {
                     let dataa = quotationCreateData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl, e?.Currencycode, e?.CurrencyExchRate);
                     rows?.push(dataa)
                 });
-                const sortedRows = sortByDate(rows, 'Date');
+                // const sortedRows = sortByDate(rows, 'Date');
+                
+                const sortedRows = sortByKeyDescending(rows, 'SKUNo');
                 setData(sortedRows);
                 setFilterData(sortedRows);
                 
