@@ -626,6 +626,10 @@ const Lookbook = () => {
     setCurrentPage(value);
     setThumbsSwiper(null);
     setIsPgLoading(true);
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
   };
 
   return (
@@ -1408,12 +1412,12 @@ const Lookbook = () => {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
-                              {/* <p className="mala_lb2designList_title">
+                              <p className="mala_lb2designList_title">
                             {slide?.designsetno}
-                          </p> */}
+                          </p>
                             </div>
                             <div
                               className="mala_lookBookImgDeatil"

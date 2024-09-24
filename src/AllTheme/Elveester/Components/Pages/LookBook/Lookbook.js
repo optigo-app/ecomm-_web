@@ -1498,7 +1498,7 @@ const Lookbook = () => {
                                     backgroundColor: "rgb(191, 200, 255)",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
                               <p className="el_lb2designList_title">
@@ -1717,7 +1717,7 @@ const Lookbook = () => {
                                       backgroundColor: "rgb(191, 200, 255)",
                                     }}
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
                                 )}
                                 <p className="el_lb1designList_title">{slide?.designsetno}</p>

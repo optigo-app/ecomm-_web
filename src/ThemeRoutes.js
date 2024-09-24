@@ -9,10 +9,10 @@ import { MetalColorCombo } from "./utils/API/Combo/MetalColorCombo";
 import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
-import { dt_companyLogo } from "./AllTheme/DaimondTine/Components/Recoil/atom";
-import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
+import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
+import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
 import Cookies from "js-cookie";
@@ -34,20 +34,23 @@ export default function ThemeRoutes() {
 
   const [themeNo, setThemeNo] = useState(3)
 
-  const [companyTitleLogo, smr_SetCompanyTitleLogo] = useRecoilState(smr_companyLogo)
-  const [companyTitleLogoM, smr_SetCompanyTitleLogoM] = useRecoilState(smr_companyLogoM)
+  const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo)
+  const smr_SetCompanyTitleLogoM = useSetRecoilState(smr_companyLogoM)
 
-  const [proCat_companyTitleLogo, proCat_setCompanyTitleLogo] = useRecoilState(proCat_companyLogo)
-  const [proCatM_companyTitleLogo, proCatM_setCompanyTitleLogo] = useRecoilState(proCat_companyLogoM)
+  const proCat_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogo)
+  const proCatM_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogoM)
 
-  const [roopWebLogo, setRoopWebLogo] = useRecoilState(roop_companyLogo);
-  const [roopMobileLogo, setRoopMobileLogo] = useRecoilState(roop_companyLogoM);
+  const setRoopWebLogo = useSetRecoilState(roop_companyLogo);
+  const setRoopMobileLogo = useSetRecoilState(roop_companyLogoM);
 
   const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
   const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
 
-  const [dt_companyTitleLogo, dt_setCompanyTitleLogo] = useRecoilState(dt_companyLogo)
+  const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
+  const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
+
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
+  const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
 
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
@@ -68,6 +71,9 @@ export default function ThemeRoutes() {
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
+    
+    dt_setCompanyTitleLogo(webLogo);
+    dt_setCompanyTitleLogoM(mobileLogo);
 
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
@@ -113,6 +119,16 @@ export default function ThemeRoutes() {
               } catch (e) {
                 console.error("Error parsing visiterId cookie:", e);
               }
+            }
+
+            if (response?.data?.Data?.rd[0]?.Themeno === 3) {
+              el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
+            }
+
+            if (response?.data?.Data?.rd[0]?.Themeno === 4) {
+              smrMA_setCompanyTitleLogo(
+                response?.data?.Data?.rd[0]?.companylogo
+              );
             }
 
             if (response?.data?.Data) {
@@ -200,7 +216,7 @@ export default function ThemeRoutes() {
   return (
     <>
       <div>
-        
+
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={title} />
