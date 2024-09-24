@@ -42,7 +42,7 @@ import { IoArrowBack, IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import { smrMA_CartCount, smrMA_loginState } from "../../../Recoil/atom";
+import { PC_AppCartCount, PC_ApploginState } from "../../../Recoil/atom";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { LookBookAPI } from "../../../../../../../utils/API/FilterAPI/LookBookAPI";
 import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
@@ -73,8 +73,8 @@ const Lookbook = () => {
   );
   const [productListData, setProductListData] = useState([]);
   const [locationKey, setLocationKey] = useState();
-  const islogin = useRecoilValue(smrMA_loginState);
-  const setCartCountVal = useSetRecoilState(smrMA_CartCount);
+  const islogin = useRecoilValue(PC_ApploginState);
+  const setCartCountVal = useSetRecoilState(PC_AppCartCount);
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
@@ -611,13 +611,13 @@ const Lookbook = () => {
 
   return (
     <div>
-      <p className="smrMA_SmiCartListTitle" style={{ zIndex: !isDrawerOpen && 11111111111 }}>
+      <p className="PC_AppSmiCartListTitle" style={{ zIndex: !isDrawerOpen && 11111111111 }}>
         <span>
           <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigate(-1)} />
           Look Book
         </span>
       </p>
-      <div className="smrMA_LookBookMain">
+      <div className="PC_AppLookBookMain">
         <Drawer
           open={isDrawerOpen}
           onClose={() => {
@@ -921,7 +921,7 @@ const Lookbook = () => {
                   variant="contained"
                   onClick={handleSelectAll}
                   style={{ marginTop: '10px' }}
-                  className="smrMA_selctAllCategoryBtn"
+                  className="PC_AppselctAllCategoryBtn"
                 >
                   Select All
                 </button>
@@ -1378,7 +1378,7 @@ const Lookbook = () => {
                                   margin: "5px",
                                 }}
                               >
-                                <p className="smrMA_lookbookDeatilShow" style={{ fontSize: "13px", margin: "0px" }}>
+                                <p className="PC_ApplookbookDeatilShow" style={{ fontSize: "13px", margin: "0px" }}>
                                   DWT:{" "}
                                   {calculateTotalUnitCostWithMarkUpDwt(
                                     JSON.parse(slide.Designdetail)

@@ -1203,12 +1203,23 @@
 
 $cartUpdateBtncolor: #b1b1b1;
 
+.cust_hoq_toast{
+  font-family: $fontDmSans;
+  font-size: 16px;
+  font-weight: 500;
+
+}
 .hoq_MainBGDiv {
   background-color: $backgroundColor;
   font-family: $primaryFontFamily;
   margin-bottom: 110px;
   font-family: $fontTenorSans !important;
-
+  .cust_hoq_toast{
+    font-family: $fontDmSans;
+    font-size: 16px;
+    font-weight: 500;
+  
+  }
   .cartMainPageDiv {
     margin-inline: 6%;
   }

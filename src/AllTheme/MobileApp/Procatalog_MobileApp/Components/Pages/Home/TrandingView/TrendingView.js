@@ -14,7 +14,7 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/
 import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
 import { useRecoilValue } from 'recoil';
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { PC_ApploginState } from '../../../Recoil/atom';
 
 
 const TrendingView = () => {
@@ -29,7 +29,7 @@ const TrendingView = () => {
     const [ring4ImageChange, setRing4ImageChange] = useState(false);
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
-    const islogin = useRecoilValue(smrMA_loginState);
+    const islogin = useRecoilValue(PC_ApploginState);
     const [imageUrls, setImageUrls] = useState([]);
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -181,7 +181,7 @@ const TrendingView = () => {
     };
 
     return (
-        <div className='smrMA_trendingViewTopMain'>
+        <div className='PC_ApptrendingViewTopMain'>
             <div className='smr_trendingViewTopMain_div'>
                 <div className='smr_trendingViewTopMain_Imgdiv'>
                     <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.webp`} className='linkingLoveImageDesign' />

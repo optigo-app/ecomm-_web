@@ -59,17 +59,17 @@ const Confirmation = () => {
 
     return (
         <div className='stam_confirMaindiv'>
-            <div className='smr_confirSecondMaindiv'>
+            <div className='stam_confirSecondMaindiv'>
                 <div className="thankYouContainer">
                     <div className="thankYouContent">
                         <div className="thankYouMessage">
-                            <img src={ThankYouImage} className='smr_orderCnfThankyouImage' />
+                            <img src={ThankYouImage} className='stam_orderCnfThankyouImage' />
                         </div>
                         <div className="orderNumber">
                             <p>Your Order number is <span>{orderNo}</span></p>
                         </div>
                         {storeInit?.IsPLW != 0 &&
-                            <div className='smr_plwlPrintDiv'>
+                            <div className='stam_plwlPrintDiv'>
                                 <button className="icon-button">
                                     <FaPrint className="icon" />
                                     Print
@@ -77,7 +77,7 @@ const Confirmation = () => {
                                 <p>Comming soon...</p>
                             </div>
                         }
-                        <button className="smr_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
+                        <button className="stam_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>
             </div>

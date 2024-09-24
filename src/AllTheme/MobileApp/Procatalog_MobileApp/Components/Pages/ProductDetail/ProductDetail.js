@@ -12,7 +12,7 @@ import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Comb
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
-import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
+import { PC_AppCartCount, PC_AppWishCount } from "../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
@@ -74,8 +74,8 @@ const ProductDetail = () => {
   const [csList, setCsList] = useState([]);
 
 
-  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
-  const setWishCountVal = useSetRecoilState(smrMA_WishCount)
+  const setCartCountVal = useSetRecoilState(PC_AppCartCount)
+  const setWishCountVal = useSetRecoilState(PC_AppWishCount)
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 

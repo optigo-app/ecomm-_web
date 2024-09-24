@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { smrMA_CartCount, smrMA_WishCount, smrMA_companyLogo, smrMA_loginState } from '../../../Recoil/atom';
+import { PC_AppCartCount, PC_AppWishCount, PC_AppcompanyLogo, PC_ApploginState } from '../../../Recoil/atom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import './Header.modul.scss'
 import { Badge, Tooltip } from '@mui/material';
@@ -16,15 +16,15 @@ import Pako from 'pako';
 
 const Header = () => {
 
-  const compnyLogo = useRecoilValue(smrMA_companyLogo);
+  const compnyLogo = useRecoilValue(PC_AppcompanyLogo);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [searchText, setSearchText] = useState('');
   const location = useLocation();
   const navigation = useNavigate();
   const [isB2bFlag, setIsB2BFlaf] = useState('');
-  const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
-  const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
-  const [islogin, setislogin] = useRecoilState(smrMA_loginState);
+  const [cartCountNum, setCartCountNum] = useRecoilState(PC_AppCartCount)
+  const [wishCountNum, setWishCountNum] = useRecoilState(PC_AppWishCount)
+  const [islogin, setislogin] = useRecoilState(PC_ApploginState);
 
   let cookie = Cookies.get('visiterId')
 

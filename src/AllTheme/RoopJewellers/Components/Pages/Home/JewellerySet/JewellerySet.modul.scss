@@ -17,7 +17,7 @@
         position: relative;
         width: 50%;
         padding: 20px 20px 20px 0px;
-        
+
     }
 
     .roop_jewls__image_div1 {
@@ -26,7 +26,7 @@
         padding: 20px 0px 20px 20px;
     }
 
-    .roop_jewels_bannerImg_div{
+    .roop_jewels_bannerImg_div {
         margin-top: 20px;
         position: relative;
         width: 100%;
@@ -44,5 +44,28 @@
         width: 100%;
         object-fit: cover;
         height: 100%;
+    }
+
+    @media screen and (max-width:1400px) {
+
+        .roop_jewls_main_sub {
+            padding-inline: 70px !important;
+        }
+
+        .roop_jewl_title {
+            font-size: 20px !important;
+            margin: 5px !important;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+
+        .roop_jewls__image_div {
+            padding: 10px 10px 10px 0px !important;
+        }
+
+        .roop_jewls__image_div1 {
+            padding: 10px 0px 10px 10px !important;
+        }
     }
 }

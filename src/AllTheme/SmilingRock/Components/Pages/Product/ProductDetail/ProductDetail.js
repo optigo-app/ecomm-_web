@@ -901,6 +901,10 @@ const ProductDetail = () => {
       setPdVideoArr([]);
     }
 
+    if(FinalPdImgList?.length == 0 && pdvideoList?.length == 0){
+      setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+    }
+
     if(storeinitInside?.IsVision360 == 1 && storeinitInside?.Vision360URL?.length > 0){
 
       // const CheckUrl = async (url) => {
@@ -923,6 +927,10 @@ const ProductDetail = () => {
 
     return finalprodListimg;
   };
+
+
+  console.log("selectedThumbImg",selectedThumbImg);
+  
 
 
   useEffect(() => {
@@ -1033,10 +1041,22 @@ const ProductDetail = () => {
         setThumbImgIndex(thumbImgIndex)
       }
     }
+  }
 
+  const handleMetalWiseColorImgWithFlag = async (e) => {
 
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
 
-    // console.log("pdImgList",pdImgList,pdImgListCol)
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.colorcode == e.target.value
+        )[0]
+    }
+
+    setSelectMtColor(e.target.value)
+
   }
 
   // useEffect(()=>{
@@ -1363,7 +1383,7 @@ const ProductDetail = () => {
                             >
                               <video
                                 src={data}
-                                autoPlay={true}
+                                autoPlay={false}
                                 loop={true}
                                 className="smr_prod_thumb_img"
                                 style={{ height: "70px", objectFit: "cover" }}
@@ -1434,7 +1454,7 @@ const ProductDetail = () => {
                                           )[0]?.metalcolorname}
                               </span>
                             </span>
-                            {(storeInit?.IsDiamondCustomization === 1 &&
+                            {(storeInit?.IsDiamondCustomization == 1 &&
                               diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
                               Diamond Quality Color :{" "}
                               <span className="smr_prod_short_val">
@@ -1508,7 +1528,9 @@ const ProductDetail = () => {
                                       className="menuitemSelectoreMain"
                                       value={selectMtColor}
                                       onChange={(e) =>
-                                        handleMetalWiseColorImg(e)
+                                        storeInit?.IsColorWiseImages === 1 ? 
+                                        handleMetalWiseColorImg(e) :
+                                        handleMetalWiseColorImgWithFlag(e)
                                       }
                                     >
                                       {metalColorCombo?.map((ele) => (
@@ -1523,7 +1545,7 @@ const ProductDetail = () => {
                                   )}
                                 </div>
                               )}
-                              {(storeInit?.IsDiamondCustomization === 1 &&
+                              {(storeInit?.IsDiamondCustomization == 1 &&
                                 diaQcCombo?.length > 0 && diaList?.length ) ? (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">

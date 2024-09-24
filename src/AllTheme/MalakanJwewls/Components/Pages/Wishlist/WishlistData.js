@@ -50,7 +50,7 @@ const WishlistData = ({
 
 
   return (
-    <div className="stam_WlListData">
+    <div className="mala_WlListData">
       <>
         {items?.length != 0 &&
           <div className='mala_wlToggleButtonDiv'>

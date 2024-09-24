@@ -61,13 +61,21 @@ const Wishlist = () => {
   const handleAddtoCartAllfun = async () => {
     const returnValue = await handleAddtoCartAll();
     if (returnValue?.msg == "success") {
-      toast.success("All wishlist items added in cart")
+      toast.success(<Toast/>,{
+        hideProgressBar: true, 
+        style: {
+          borderRadius: "4px",
+          padding : '-2px 45px' , 
+          boxShadow : `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
+          border  :"2px solid white"
+        },
+      });
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
       })
     }
   }
-
+  // 
 
   useEffect(() =>{
     setCSSVariable();
@@ -169,3 +177,8 @@ const Wishlist = () => {
 };
 
 export default Wishlist;
+const Toast = () => (
+  <div className="cust_hoq_toast">
+    <div className="right">All wishlist items added in Cart.</div>
+  </div>
+);

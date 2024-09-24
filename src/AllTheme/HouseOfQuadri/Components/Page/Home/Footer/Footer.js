@@ -201,8 +201,9 @@ const ContactInformation = ({socialLinkStr ,companyInfoData}) => {
       <div className="social-links">
       {
         socialLinkStr?.map((val,i)=>{
-          return <>
+          return <React.Fragment key={i}>
             <Link
+            key={i}
           to={val?.SLink}
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
           target="_blank"
@@ -212,7 +213,7 @@ const ContactInformation = ({socialLinkStr ,companyInfoData}) => {
           }} />
           {val?.SName}
         </Link>
-          </>
+          </React.Fragment>
         })
       }
       </div>

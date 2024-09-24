@@ -10,7 +10,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { PC_ApploginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
 
@@ -20,7 +20,7 @@ const DesignSet = () => {
     const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     const navigation = useNavigate();
     const [storeInit, setStoreInit] = useState({});
-    const islogin = useRecoilValue(smrMA_loginState);
+    const islogin = useRecoilValue(PC_ApploginState);
 
     const [swiper, setSwiper] = useState(null);
 
@@ -118,7 +118,7 @@ const DesignSet = () => {
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 5);
 
     return (
-        <div className="smrMA_designSetMain">
+        <div className="PC_AppdesignSetMain">
 
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>

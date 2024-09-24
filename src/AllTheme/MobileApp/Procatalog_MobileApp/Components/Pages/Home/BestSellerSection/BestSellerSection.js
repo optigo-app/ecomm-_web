@@ -8,7 +8,7 @@ import Pako from 'pako';
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 import { formatter, storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import Cookies from 'js-cookie';
-import { smrMA_loginState } from '../../../Recoil/atom';
+import { PC_ApploginState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
 
@@ -20,7 +20,7 @@ const BestSellerSection = () => {
     const [imageUrls, setImageUrls] = useState([]);
     const navigation = useNavigate();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    const islogin = useRecoilValue(smrMA_loginState);
+    const islogin = useRecoilValue(PC_ApploginState);
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const settings = {
         dots: true,
@@ -169,7 +169,7 @@ const BestSellerSection = () => {
         return slides;
     };
   return (
-    <div className='smrMA_bestSallerMain'>
+    <div className='PC_AppbestSallerMain'>
       {bestSellerData?.length != 0 &&
           <div className='linkingLoveMain'>
             <div className='linkingLove'>
