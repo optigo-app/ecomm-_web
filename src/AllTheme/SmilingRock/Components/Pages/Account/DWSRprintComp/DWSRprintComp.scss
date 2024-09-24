@@ -121,6 +121,8 @@
         padding: 5px;
         box-sizing: border-box;
         border: 1px solid #e8e8e8;
+        page-break-inside: avoid !important;
+
     }
     .dsr_container{
         margin-bottom: 0px;
