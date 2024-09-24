@@ -108,7 +108,6 @@ const SmilingRock_App = () => {
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
-    console.log('cookieValuecookieValue',cookieValue);
     if (cookieValue) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
