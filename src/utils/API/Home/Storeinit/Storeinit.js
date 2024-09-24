@@ -43,10 +43,8 @@ export const Storeinit = async (param) => {
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'hoq.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'malakan.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'rpjewel.web' : window.location.hostname,
-      //  domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'stamford.web' : window.location.hostname,                      
+    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'stamford.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'demostore' : window.location.hostname,
-    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'developerstore' : window.location.hostname,
-    // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') && param === "astore" ? 'astore.orail.co.in' : window.location.hostname,
     version: 'Live',
     sp: "1",
     sv: 0
