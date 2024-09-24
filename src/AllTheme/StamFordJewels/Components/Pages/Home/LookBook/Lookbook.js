@@ -626,6 +626,10 @@ const Lookbook = () => {
     setCurrentPage(value);
     setThumbsSwiper(null);
     setIsPgLoading(true);
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
   };
 
   return (
