@@ -104,9 +104,9 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
-      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
+      const { offsetWidth} = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
+      console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
 
@@ -2188,7 +2188,7 @@ const Lookbook = () => {
                               }}
                             >
                               {filteredDesignSetLstData?.map((slide, index) => (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index}  ref={SwiperSlideRef}>
 
 
                                   {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
@@ -2196,7 +2196,7 @@ const Lookbook = () => {
                                       src={ProdCardImageFunc(slide)}
                                       alt=""
                                       className="ctl_Paginationimg"
-                                      ref={SwiperSlideRef}
+                                      // ref={SwiperSlideRef}
                                       onLoad={handleImageLoad}
                                       onError={() => handleImageError(index)}
                                       style={{
