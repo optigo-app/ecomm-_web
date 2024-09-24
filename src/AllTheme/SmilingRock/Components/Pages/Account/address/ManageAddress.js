@@ -351,7 +351,7 @@ const ManageAddress = () => {
     return (
         <>
         <ToastContainer />
-            <div>
+            <div className='address_Account_SMR'>
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
