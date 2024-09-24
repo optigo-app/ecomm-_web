@@ -51,21 +51,11 @@ const AffiliationData = () => {
         },
     ];
 
-    const [isInitial, setIsInitial] = useState(true);
-
-    const handleSlideChange = (swiper) => {
-        console.log("slider working")
-        setIsInitial(swiper.realIndex === 0);
-    };
-
     return (
         <div>
             <p className='elv_AffiliationComponents'>Affiliation</p>
             <div className='AffiliationClassComponents' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
-                {/* 1st Slider */}
-                {isInitial && (
-                    <Swiper
+                {/* <Swiper
                         slidesPerView={1}
                         spaceBetween={10}
                         autoplay={{
@@ -99,23 +89,45 @@ const AffiliationData = () => {
                                 </div>
                             </SwiperSlide>
                         ))}
-                    </Swiper>
-                )}
+                    </Swiper> */}
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={10}
+                    loop={true}
+                    autoplay={{
+                        delay: 2500,
+                        disableOnInteraction: false,
+                    }}
+                    breakpoints={{
+                        425: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        640: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 5,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 6,
+                            spaceBetween: 50,
+                        },
+                    }}
+                    modules={[Autoplay]}
+                    className="affli_swiper"
+                >
+                    {sliderData.map((slide, index) => (
+                        <SwiperSlide key={index}>
+                            <img src={storImagePath() + slide?.imageUrl} alt={`Slide ${index}`} style={{ height: '50px' }} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             </div>
         </div>
     )
 }
 
-export default AffiliationData
-{/* {sliderData.slice(6, sliderData?.length - 1).map((slide, index) => (
-                        <SwiperSlide key={index} style={{ maxWidth: '18rem', marginInline: 'auto' }}>
-                            <div style={{ width: '18rem', height: '10rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <img
-                                    loading="lazy"
-                                    src={storImagePath() + slide.imageUrl}
-                                    alt={`Slide ${index}`}
-                                    style={{ maxWidth: '180px', objectFit: 'contain' }}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}  */}
+export default AffiliationData;

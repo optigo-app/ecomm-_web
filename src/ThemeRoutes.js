@@ -10,9 +10,10 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
-import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
+// import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
 import Cookies from "js-cookie";
@@ -32,7 +33,7 @@ import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Co
 
 export default function ThemeRoutes() {
 
-  const [themeNo, setThemeNo] = useState()
+  const [themeNo, setThemeNo] = useState(3)
 
   const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo)
   const smr_SetCompanyTitleLogoM = useSetRecoilState(smr_companyLogoM)
@@ -42,6 +43,8 @@ export default function ThemeRoutes() {
 
   const setRoopWebLogo = useSetRecoilState(roop_companyLogo);
   const setRoopMobileLogo = useSetRecoilState(roop_companyLogoM);
+
+  const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
 
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
@@ -65,6 +68,9 @@ export default function ThemeRoutes() {
 
     proCat_setCompanyTitleLogo(webLogo);
     proCatM_setCompanyTitleLogo(mobileLogo);
+
+    el_setCompanyTitleLogo(webLogo);
+    el_setCompanyTitleLogoM(mobileLogo);
     
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
@@ -140,7 +146,8 @@ export default function ThemeRoutes() {
         })
         .catch((err) => console.log(err));
     } else {
-      setThemeNo(SessionData?.Themeno);
+      // setThemeNo(SessionData?.Themeno);
+      setThemeNo(3);
     }
     let title = SessionData?.companyname;
     let favIcon = SessionData?.favicon;
