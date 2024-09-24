@@ -22,7 +22,6 @@ import PendingMemo from './PendingMemo/PendingMemo';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
-import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 import Cookies from 'js-cookie';
 import NewOrderHistory from './AccountOrderHistory/NewOrderHistory';
 
@@ -128,7 +127,7 @@ export default function Account() {
       }
 
     return (
-        <div className='accountPagTabSection'>
+        <div className='account_AccountTab_SMR accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
                     <div className='sticky-header_web_sm'>

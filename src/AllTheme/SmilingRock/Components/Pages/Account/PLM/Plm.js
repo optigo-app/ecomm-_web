@@ -56,7 +56,7 @@ const Plm = () => {
 
   return (
     <>
-    <div className="plm_container">
+    <div className="plm_Account_SMR plm_container">
     <div className="plm_width">
       <div className="plm_title" style={{cursor:'pointer', textAlign:'center', width:'100%'}}>
         Private Label Setup

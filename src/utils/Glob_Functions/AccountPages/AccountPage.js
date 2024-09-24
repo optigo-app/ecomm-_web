@@ -530,6 +530,35 @@ export function sortByDate(arr, key) {
     });
 }
 
+export function sortByKeyDescending(arr, key) {
+    return arr.sort((a, b) => {
+      // Extract numeric part after 'QT' or other prefixes and compare as numbers
+      const keyA = parseInt(a[key].substring(2), 10); 
+      const keyB = parseInt(b[key].substring(2), 10);
+      
+      return keyB - keyA; // Sort in descending order
+    });
+  }
+  export function sortByKeyDescendingJS(arr, key) {
+    return arr.sort((a, b) => {
+      // Extract numeric part after 'JS' or other prefixes and compare as numbers
+      const keyA = parseInt(a[key].substring(2), 10); 
+      const keyB = parseInt(b[key].substring(2), 10);
+      
+      return keyB - keyA; // Sort in descending order (last entered first)
+    });
+  }
+  export function sortByKeyDescendingJobno(arr, key) {
+    return arr.sort((a, b) => {
+      // Compare jobno as numbers
+      const keyA = parseInt(a[key], 10); 
+      const keyB = parseInt(b[key], 10);
+      
+      return keyB - keyA; // Sort in descending order
+    });
+  }
+  
+  
 //Quotation createData function
 export const quotationCreateData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl, Currencycode, CurrencyExchRate) => {
     return {

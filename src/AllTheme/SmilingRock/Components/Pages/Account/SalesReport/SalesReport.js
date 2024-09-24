@@ -7,6 +7,8 @@ import {
   Box,
   Button,
   CircularProgress,
+  MenuItem,
+  Select,
   TextField,
   Typography,
   useMediaQuery,
@@ -25,7 +27,7 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
-import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, sortByDate, sortByKeyDescendingJS, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
@@ -263,6 +265,8 @@ const SalesReport = () => {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [custCurrency, setCustCurrency] = useState(loginDetails?.CurrencyCode);
+  const [currencyList, setCurrencyList] = useState([]);
   const [total, setTotal] = useState({
     GrossWt: 0,
     NetWt: 0,
@@ -317,10 +321,26 @@ const SalesReport = () => {
     [order, orderBy, page, rowsPerPage, filterData]
   );
 
-  const handleSearch = ( eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo ) => { 
+  const handleSearch = ( eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo, custCurrency ) => { 
     setPage(0);
+    let designLists = [];
     let datass = [];
     let count = 0;
+    let totals = {
+      GrossWt : 0,
+      NetWt : 0,
+      DiaPcs : 0,
+      DiaWt : 0,
+      CsPcs : 0,
+      CsWt : 0,
+      MetalAmount : 0,
+      DiamondAmount : 0,
+      ColorStoneAmount : 0,
+      LabourAmount : 0,
+      OtherAmount : 0,
+      TotalAmount : 0,
+      Netwt_24k : 0
+    }
     let checkIt = false;
 
     data?.forEach((e, i) => {
@@ -330,6 +350,7 @@ const SalesReport = () => {
         toDate: false,
         grossWtFrom: false,
         grossWtTo: false,
+        custCurrencyFlag:false
       };
 
       let cutDates = e["EntryDate"]?.split(" ");
@@ -396,25 +417,25 @@ const SalesReport = () => {
 
 
 
-      if ( String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.Category)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.GrossWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.NetWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.DiaPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.DiaWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.CsPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-        String(e?.CsWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        if ( String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.Category)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.GrossWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.NetWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.DiaPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.DiaWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.CsPcs)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+            String(e?.CsWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         searchValue?.trim()?.toLowerCase() === ""
       ) {
         flags.searchValue = true;
@@ -445,12 +466,18 @@ const SalesReport = () => {
           confirmButtonText: "ok",
         });
       }
+
+      if(e?.Currencycode?.toLowerCase()?.trim() === custCurrency?.toLowerCase()?.trim()){
+        flags.custCurrencyFlag = true;
+      }
+
       if (
         flags.searchValue === true &&
         flags.fromDate === true &&
         flags.toDate === true &&
         flags.grossWtFrom === true &&
         flags.grossWtTo === true &&
+        flags.custCurrencyFlag === true &&
         count === 0 
       ) {
         let dataObj = createData(
@@ -474,17 +501,72 @@ const SalesReport = () => {
           e?.CsPcs,
           e?.CsWt,
           e?.imgsrc,
-          e?.Netwt_24k
+          e?.Netwt_24k,
+          e?.Currencycode,
+          e?.CurrencyExchRate
         );
         datass?.push(dataObj);
       }
    
     });
+
+
     if (count === 0) {
       setFilterData(datass);
+      
+      datass?.forEach((e) => {
+        totals.GrossWt += e?.GrossWt;
+        totals.NetWt += e?.NetWt;
+        totals.DiaPcs += e?.DiaPcs;
+        totals.DiaWt += e?.DiaWt;
+        totals.CsPcs += e?.CsPcs;
+        totals.CsWt += e?.CsWt;
+        totals.MetalAmount += e?.MetalAmount;
+        totals.DiamondAmount += e?.DiamondAmount;
+        totals.ColorStoneAmount += e?.ColorStoneAmount;
+        totals.LabourAmount += e?.LabourAmount;
+        totals.OtherAmount += e?.OtherAmount;
+        totals.TotalAmount += e?.UnitCost;
+        totals.Netwt_24k += e?.Netwt_24k;
+        let findUniqueDesign = designLists?.findIndex( (ele) => ele === e?.designno );
+        if (findUniqueDesign === -1) { designLists?.push(e?.designno); }
+      })
+
+      totals.uniqueDesigns = designLists?.length;
+
+      setTimeout(() => {
+        setTotal(totals);
+      },10)
+
     } else {
+
       setFilterData(data);
+      data?.forEach((e) => {
+        totals.GrossWt += e?.GrossWt;
+        totals.NetWt += e?.NetWt;
+        totals.DiaPcs += e?.DiaPcs;
+        totals.DiaWt += e?.DiaWt;
+        totals.CsPcs += e?.CsPcs;
+        totals.CsWt += e?.CsWt;
+        totals.MetalAmount += e?.MetalAmount;
+        totals.DiamondAmount += e?.DiamondAmount;
+        totals.ColorStoneAmount += e?.ColorStoneAmount;
+        totals.LabourAmount += e?.LabourAmount;
+        totals.OtherAmount += e?.OtherAmount;
+        totals.TotalAmount += e?.UnitCost;
+        totals.Netwt_24k += e?.Netwt_24k;
+        let findUniqueDesign = designLists?.findIndex( (ele) => ele === e?.designno );
+        if (findUniqueDesign === -1) { designLists?.push(e?.designno); }
+      })
+
+      totals.uniqueDesigns = designLists?.length;
+
+      setTimeout(() => {
+        setTotal(totals);
+      },10)
+
       resetAllFilters();
+
     }
   };
 
@@ -496,6 +578,10 @@ const SalesReport = () => {
     setFilterData(data);
     setPage(0);
     setRowsPerPage(10);
+    setCustCurrency(loginDetails?.CurrencyCode)
+    setTimeout(() => {
+      handleSearch('', '', null, null, '', '', loginDetails?.CurrencyCode);
+    },10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -508,6 +594,11 @@ const SalesReport = () => {
    
   };
 
+  const handleCurrencyChange = (eve) => {
+    setCustCurrency(eve.target.value);
+    handleSearch('', searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, eve.target.value);
+  }
+
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -519,7 +610,6 @@ const SalesReport = () => {
       let currencyRate = storeInit?.CurrencyRate;
 
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -572,7 +662,16 @@ const SalesReport = () => {
         });
 
         totals.uniqueDesigns = designLists?.length;
-        const sortedRows = sortByDate(datass, 'EntryDate');
+        const sortedRows = sortByKeyDescendingJS(datass, 'StockDocumentNo');
+        // const sortedRows = sortByDate(datass, 'EntryDate');
+
+        const arr = sortedRows?.map((e) => e?.Currencycode);
+
+        arr.unshift(loginDetails?.CurrencyCode);
+        // Use Set to get unique values
+        const uniqueCurrencyCodes = [...new Set(arr)];
+
+        setCurrencyList(uniqueCurrencyCodes);
         setData(sortedRows);
         setFilterData(sortedRows);
         setTotal(totals);
@@ -602,7 +701,13 @@ const SalesReport = () => {
     if (inputTo) {
       inputTo.placeholder = "Date To";
     }
+    
   }, []);
+
+useEffect(() => {
+  handleSearch('', searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency);
+},[data]);
+
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -610,495 +715,526 @@ const SalesReport = () => {
       tableContainer.scrollTop = 0;
     }
   };
-console.log(filterData);
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          className="salesReporttableWeb"
-          sx={{ paddingBottom: "5px", paddingRight: "15px",  paddingTop:'5px' }}
-        >
-          <table style={{minWidth:'710px'}}>
-            <tbody>
-              <tr>
-                <td>Total Gross Wt</td>
-                <td>Total Net Wt(24k)</td>
-                <td>Total Net Wt</td>
-                <td>Total Diamonds</td>
-                <td>Total Color Stones</td>
-                <td>Unique Designs</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.GrossWt, 3)}
-                </td>
-                <td className="fw_bold">
-                  {" "}
-                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
-                </td>
-                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
-                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
-                  {NumberWithCommas(total?.CsWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.uniqueDesigns, 0)}
-                </td>
-              </tr>
-              <tr>
-                <td>Total Metal Amt</td>
-                <td>Total Dia. Amt</td>
-                <td>Total CST Amt</td>
-                <td>Total Labour Amt</td>
-                <td>Total Other Amt</td>
-                <td>Unique Customers</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  { total?.MetalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.MetalAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                { total?.DiamondAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.DiamondAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                { total?.ColorStoneAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.ColorStoneAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                { total?.LabourAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.LabourAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                { total?.OtherAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.OtherAmount, 2)}
-                </td>
-                <td className="fw_bold">1</td>
-              </tr>
-            </tbody>
-          </table>
-        </Box>
-        <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
-          <Typography>Total Amount</Typography>
-          <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
-          {total?.TotalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:loginDetails?.Currencysymbol}}></span>}&nbsp;{NumberWithCommas(total?.TotalAmount, 2)}
-          </Typography>
-        </Box>
-        <Box
-          className="salesReportImgSec"
-          sx={{
-            width: "135px",
-            height: "135px",
-            paddingBottom: "20px",
-            overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              border: "1px solid #d6d6d6",
-              height: "117px",
-              marginTop: "17px",
-            }}
-          >
-            {hoverImg !== "" && (
-              <img
-                src={hoverImg}
-                alt=""
-                style={{
-                  width: "100%",
-                  objectFit: "contain",
-                  minHeight: "114px",
-                  maxHeight: "114px",
-                }}
-              />
-            )}
-          </Box>
-        </Box>
-      </Box>
-      { !isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-        <Box
-          sx={{
-            paddingBottom: "15px",
-            position: "relative",
-            top: "-2px",
-            paddingRight: "15px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{ background: "#7d7f85" }}
-            className="muiSmilingRocksBtn"
-            onClick={(eve) => resetAllFilters(eve)}
-          >
-            All
-          </Button>
-        </Box>
+    <div className="salesReport_Account_SMR">
+      <Box>
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            position: "relative",
-            maxWidth: "max-content",
-            paddingBottom: "15px",
-            paddingRight: "15px",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
           }}
-          className="searchbox"
         >
-          <TextField
-            id="standard-basic"
-            label="Search"
-            variant="outlined"
-            value={searchVal}
-            onChange={(eve) => {
-              setSearchVal(eve?.target?.value);
-              handleSearch(
-                eve,
-                eve?.target?.value,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              );
-            }}
-          />
-          <Button
+          <Box className="salesReporttableWeb" sx={{ paddingBottom: "5px", paddingRight: "15px",  paddingTop:'5px' }} >
+            <table style={{minWidth:'710px'}}>
+              <tbody>
+                <tr>
+                  <td>Total Gross Wt</td>
+                  <td>Total Net Wt(24k)</td>
+                  <td>Total Net Wt</td>
+                  <td>Total Diamonds</td>
+                  <td>Total Color Stones</td>
+                  <td>Unique Designs</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.GrossWt, 3)}
+                  </td>
+                  <td className="fw_bold">
+                    {" "}
+                    {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                  </td>
+                  <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                    {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                    {NumberWithCommas(total?.CsWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.uniqueDesigns, 0)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Metal Amt</td>
+                  <td>Total Dia. Amt</td>
+                  <td>Total CST Amt</td>
+                  <td>Total Labour Amt</td>
+                  <td>Total Other Amt</td>
+                  <td>Unique Customers</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    { total?.MetalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.MetalAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                  { total?.DiamondAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.DiamondAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                  { total?.ColorStoneAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.ColorStoneAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                  { total?.LabourAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.LabourAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                  { total?.OtherAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.OtherAmount, 2)}
+                  </td>
+                  <td className="fw_bold">1</td>
+                </tr>
+              </tbody>
+            </table>
+          </Box>
+          <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+            <Typography>Total Amount</Typography>
+            <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
+            {total?.TotalAmount >= 0 && <span dangerouslySetInnerHTML={{__html:custCurrency}}></span>}&nbsp;{NumberWithCommas(total?.TotalAmount, 2)}
+            </Typography>
+          </Box>
+          <Box
+            className="salesReportImgSec"
             sx={{
-              padding: 0,
-              maxWidth: "max-content",
-              minWidth: "max-content",
-              position: "absolute",
-              right: "8px",
-              color: "#757575",
+              width: "135px",
+              height: "135px",
+              paddingBottom: "20px",
+              overflow: "hidden",
             }}
           >
-            <SearchIcon />
-          </Button>
+            <Box
+              sx={{
+                border: "1px solid #d6d6d6",
+                height: "117px",
+                marginTop: "17px",
+              }}
+            >
+              {hoverImg !== "" && (
+                <img
+                  src={hoverImg}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    objectFit: "contain",
+                    minHeight: "114px",
+                    maxHeight: "114px",
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
         </Box>
-        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Date From"
-              value={fromDate}
-              ref={fromDateRef}
-              format="DD MM YYYY"
-              className="quotationFilterDates"
-              onChange={(newValue) => {
-                if (newValue === null) {
-                  setFromDate(null)
-                } else {
-                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                        setFromDate(newValue)
+        { !isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+          <Box
+            sx={{
+              paddingBottom: "15px",
+              position: "relative",
+              top: "-2px",
+              paddingRight: "15px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{ background: "#7d7f85" }}
+              className="muiSmilingRocksBtn"
+              onClick={(eve) => resetAllFilters(eve)}
+            >
+              All
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              position: "relative",
+              maxWidth: "max-content",
+              paddingBottom: "15px",
+              paddingRight: "15px",
+            }}
+            className="searchbox"
+          >
+            <TextField
+              id="standard-basic"
+              label="Search"
+              variant="outlined"
+              value={searchVal}
+              onChange={(eve) => {
+                setSearchVal(eve?.target?.value);
+                handleSearch(
+                  eve,
+                  eve?.target?.value,
+                  fromDate,
+                  toDate,
+                  grossWtInput?.from,
+                  grossWtInput?.to,
+                  custCurrency
+                );
+              }}
+            />
+            <Button
+              sx={{
+                padding: 0,
+                maxWidth: "max-content",
+                minWidth: "max-content",
+                position: "absolute",
+                right: "8px",
+                color: "#757575",
+              }}
+            >
+              <SearchIcon />
+            </Button>
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Date From"
+                value={fromDate}
+                ref={fromDateRef}
+                format="DD MM YYYY"
+                className="quotationFilterDates"
+                onChange={(newValue) => {
+                  if (newValue === null) {
+                    setFromDate(null)
+                  } else {
+                      if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                          setFromDate(newValue)
+                      } else {
+                          Swal.fire({
+                              title: "Error !",
+                              text: "Enter Valid Date To",
+                              icon: "error",
+                              confirmButtonText: "ok"
+                          });
+                          resetAllFilters();
+                      }
+                  }
+              }}
+          
+              />
+            </LocalizationProvider>
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Date To"
+                value={toDate}
+                ref={toDateRef}
+                format="DD MM YYYY"
+                className="quotationFilterDates"
+                onChange={(newValue) => {
+                  if (newValue === null) {
+                    setToDate(null);
+                  } else {
+                    if (
+                      (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                      newValue["$y"] < 1000 ||
+                      isNaN(newValue["$y"])
+                    ) {
+                      setToDate(newValue);
                     } else {
-                        Swal.fire({
+                      Swal.fire({
+                        title: "Error !",
+                        text: "Enter Valid Date To",
+                        icon: "error",
+                        confirmButtonText: "ok",
+                      });
+                      resetAllFilters();
+                    }
+                  }
+                }}
+              />
+            </LocalizationProvider>
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <Button
+              variant="contained"
+              className="muiSmilingRocksBtn"
+              sx={{
+                padding: "7px 10px",
+                minWidth: "max-content",
+                background: "#7d7f85",
+              }}
+              onClick={(eve) =>
+                handleSearch(
+                  eve,
+                  searchVal,
+                  fromDate,
+                  toDate,
+                  grossWtInput?.from,
+                  grossWtInput?.to,
+                  custCurrency
+                )
+              }
+            >
+              <SearchIcon sx={{ color: "#fff !important" }} />
+            </Button>
+          </Box>
+          <Box sx={{ paddingRight: "10px", paddingBottom: "20px" }}>
+            <Typography>Gross Wt : </Typography>
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <TextField
+              placeholder="From"
+              name="from"
+              sx={{ maxWidth: "150px" }}
+              className="grossWtinputSecSalesReport"
+              value={grossWtInput?.from}
+              onChange={(eve) => handleChangegrossWt(eve)}
+            />
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <TextField
+              placeholder="To"
+              name="to"
+              sx={{ maxWidth: "150px" }}
+              className="grossWtinputSecSalesReport"
+              value={grossWtInput?.to}
+              onChange={(eve) => handleChangegrossWt(eve)}
+            />
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+            <Button
+              variant="contained"
+              className="muiSmilingRocksBtn"
+              sx={{
+                padding: "7px 10px",
+                minWidth: "max-content",
+                background: "#7d7f85",
+              }}
+              onClick={(eve) =>
+                handleSearch(
+                  eve,
+                  searchVal,
+                  fromDate,
+                  toDate,
+                  grossWtInput?.from,
+                  grossWtInput?.to,
+                  custCurrency
+                )
+              }
+            >
+              <SearchIcon sx={{ color: "#fff !important" }} />
+            </Button>
+          </Box>
+          <Box sx={{ paddingRight: "15px", paddingBottom: "18px", position:'relative'}}>
+          <Typography sx={{ paddingBottom: "5px", position:'absolute', top:'-22px' }}>Currency</Typography>
+                      <Select
+                          labelId="SubCategory"
+                          id="demo-simple-select"
+                          value={custCurrency}
+                          label="Product Type"
+                          onChange={handleCurrencyChange}
+                          sx={{ width: "100px" }}
+                      >
+                          {currencyList?.map((ele, ind) => {
+                              return <MenuItem value={ele} key={ind} sx={{ textTransform: 'uppercase' }}>{ele}</MenuItem>
+                          })}
+                      </Select>
+          </Box>
+        </Box>}
+        {
+          isSmallScreen && <>
+          <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+            <AccordionDetails style={{margin:'0px', padding:'0px'}}>
+              <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
+                All
+              </Button>
+              <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", minWidth:'100%'}} className="searchbox" >
+                <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency ); }} />
+                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+              </Box>
+              <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'1rem', justifyContent:'space-between'}}>
+                <Box>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date From"
+                    value={fromDate}
+                    ref={fromDateRef}
+                    format="DD MM YYYY"
+                    className="quotationFilterDates"
+                    onChange={(newValue) => {
+                      if (newValue === null) {
+                        setFromDate(null)
+                      } else {
+                          if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                              setFromDate(newValue)
+                          } else {
+                              Swal.fire({
+                                  title: "Error !",
+                                  text: "Enter Valid Date To",
+                                  icon: "error",
+                                  confirmButtonText: "ok"
+                              });
+                              resetAllFilters();
+                          }
+                      }
+                  }}
+              
+                  />
+                </LocalizationProvider>
+                </Box>
+                <Box>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date To"
+                    value={toDate}
+                    ref={toDateRef}
+                    format="DD MM YYYY"
+                    className="quotationFilterDates"
+                    onChange={(newValue) => {
+                      if (newValue === null) {
+                        setToDate(null);
+                      } else {
+                        if (
+                          (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                          newValue["$y"] < 1000 ||
+                          isNaN(newValue["$y"])
+                        ) {
+                          setToDate(newValue);
+                        } else {
+                          Swal.fire({
                             title: "Error !",
                             text: "Enter Valid Date To",
                             icon: "error",
-                            confirmButtonText: "ok"
-                        });
-                        resetAllFilters();
-                    }
-                }
-            }}
-         
-            />
-          </LocalizationProvider>
-        </Box>
-        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Date To"
-              value={toDate}
-              ref={toDateRef}
-              format="DD MM YYYY"
-              className="quotationFilterDates"
-              onChange={(newValue) => {
-                if (newValue === null) {
-                  setToDate(null);
-                } else {
-                  if (
-                    (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
-                    newValue["$y"] < 1000 ||
-                    isNaN(newValue["$y"])
-                  ) {
-                    setToDate(newValue);
-                  } else {
-                    Swal.fire({
-                      title: "Error !",
-                      text: "Enter Valid Date To",
-                      icon: "error",
-                      confirmButtonText: "ok",
-                    });
-                    resetAllFilters();
-                  }
-                }
-              }}
-            />
-          </LocalizationProvider>
-        </Box>
-        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-          <Button
-            variant="contained"
-            className="muiSmilingRocksBtn"
-            sx={{
-              padding: "7px 10px",
-              minWidth: "max-content",
-              background: "#7d7f85",
-            }}
-            onClick={(eve) =>
-              handleSearch(
-                eve,
-                searchVal,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              )
-            }
-          >
-            <SearchIcon sx={{ color: "#fff !important" }} />
-          </Button>
-        </Box>
-        <Box sx={{ paddingRight: "10px", paddingBottom: "20px" }}>
-          <Typography>Gross Wt : </Typography>
-        </Box>
-        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-          <TextField
-            placeholder="From"
-            name="from"
-            sx={{ maxWidth: "150px" }}
-            className="grossWtinputSecSalesReport"
-            value={grossWtInput?.from}
-            onChange={(eve) => handleChangegrossWt(eve)}
-          />
-        </Box>
-        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-          <TextField
-            placeholder="To"
-            name="to"
-            sx={{ maxWidth: "150px" }}
-            className="grossWtinputSecSalesReport"
-            value={grossWtInput?.to}
-            onChange={(eve) => handleChangegrossWt(eve)}
-          />
-        </Box>
-        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-          <Button
-            variant="contained"
-            className="muiSmilingRocksBtn"
-            sx={{
-              padding: "7px 10px",
-              minWidth: "max-content",
-              background: "#7d7f85",
-            }}
-            onClick={(eve) =>
-              handleSearch(
-                eve,
-                searchVal,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              )
-            }
-          >
-            <SearchIcon sx={{ color: "#fff !important" }} />
-          </Button>
-        </Box>
-      </Box>}
-      {
-        isSmallScreen && <>
-        <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-          <AccordionDetails style={{margin:'0px', padding:'0px'}}>
-            <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
-              All
-            </Button>
-            <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", minWidth:'100%'}} className="searchbox" >
-              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
-              <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
-            </Box>
-            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'1rem', justifyContent:'space-between'}}>
-              <Box>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Date From"
-                  value={fromDate}
-                  ref={fromDateRef}
-                  format="DD MM YYYY"
-                  className="quotationFilterDates"
-                  onChange={(newValue) => {
-                    if (newValue === null) {
-                      setFromDate(null)
-                    } else {
-                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                            setFromDate(newValue)
-                        } else {
-                            Swal.fire({
-                                title: "Error !",
-                                text: "Enter Valid Date To",
-                                icon: "error",
-                                confirmButtonText: "ok"
-                            });
-                            resetAllFilters();
+                            confirmButtonText: "ok",
+                          });
+                          resetAllFilters();
                         }
-                    }
-                }}
-            
-                />
-              </LocalizationProvider>
-              </Box>
-              <Box>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Date To"
-                  value={toDate}
-                  ref={toDateRef}
-                  format="DD MM YYYY"
-                  className="quotationFilterDates"
-                  onChange={(newValue) => {
-                    if (newValue === null) {
-                      setToDate(null);
-                    } else {
-                      if (
-                        (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
-                        newValue["$y"] < 1000 ||
-                        isNaN(newValue["$y"])
-                      ) {
-                        setToDate(newValue);
-                      } else {
-                        Swal.fire({
-                          title: "Error !",
-                          text: "Enter Valid Date To",
-                          icon: "error",
-                          confirmButtonText: "ok",
-                        });
-                        resetAllFilters();
                       }
-                    }
-                  }}
-                />
-              </LocalizationProvider>
+                    }}
+                  />
+                </LocalizationProvider>
+                </Box>
+                <Box>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
               </Box>
-              <Box>
-                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
-                  <SearchIcon sx={{ color: "#fff !important" }} />
-                </Button>
+              <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}>
+                <Typography>Gross Wt : </Typography>
               </Box>
-            </Box>
-            <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}>
-              <Typography>Gross Wt : </Typography>
-            </Box>
-            <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between'}}>
-              <Box sx={{   minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box' }}>
-                <TextField
-                  placeholder="From"
-                  name="from"
-                  sx={{ minWidth:'100%' }}
-                  className="grossWtinputSecSalesReport"
-                  value={grossWtInput?.from}
-                  onChange={(eve) => handleChangegrossWt(eve)}
-                />
-              </Box>
-              <Box sx={{   minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box' }}>
-                <TextField
-                  placeholder="To"
-                  name="to"
-                  sx={{ minWidth:'100%' }}
-                  className="grossWtinputSecSalesReport"
-                  value={grossWtInput?.to}
-                  onChange={(eve) => handleChangegrossWt(eve)}
-                />
-              </Box>
-              <Box sx={{   minWidth:'15%', maxWidth:'15%', width:'100%', boxSizing:'border-box' }}>
-                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
-                  <SearchIcon sx={{ color: "#fff !important" }} />
-                </Button>import { headCells } from './../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns';
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between'}}>
+                <Box sx={{   minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{   minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{   minWidth:'15%', maxWidth:'15%', width:'100%', boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to, custCurrency ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
 
-              </Box>
-            </Box>
-          </AccordionDetails>
-        </Accordion>
-        </>
-      }
-      {isLoading ? (
-        <Box
-          sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
-        >
-          <CircularProgress className="loadingBarManage" />
-        </Box>
-      ) : (
-        <>
-          {  <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
-            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
-              <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                <EnhancedTableHead
-                  numSelected={selected?.length}
-                  order={order}
-                  orderBy={orderBy}
-                  onSelectAllClick={handleSelectAllClick}
-                  onRequestSort={handleRequestSort}
-                  rowCount={filterData?.length}
-                />
-                <TableBody>
-                  { filterData?.length > 0 ? visibleRows?.map((row, index) => {
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={row.id}
-                        sx={{ cursor: "pointer" }}
-                        onMouseEnter={(eve) => handleimageShow(eve, row?.imgsrc) }
-                        onMouseLeave={(eve) => handleimageShow(eve, row?.imgsrc) }
+                </Box>
+                <Box sx={{ paddingRight: "15px", paddingBottom: "18px", position:'relative'}}>
+          <Typography sx={{ paddingBottom: "5px", position:'absolute', top:'-22px' }}>Currency</Typography>
+                      <Select
+                          labelId="SubCategory"
+                          id="demo-simple-select"
+                          value={custCurrency}
+                          label="Product Type"
+                          onChange={handleCurrencyChange}
+                          sx={{ width: "100px" }}
                       >
-                        <TableCell id={labelId} scope="row" align="center">
-                          {" "}
-                          {index + 1}{" "}
-                        </TableCell>
-                        <TableCell align="center">{row.EntryDate}</TableCell>
-                        <TableCell align="center">{row.StockDocumentNo} </TableCell>
-                        <TableCell align="center">{row.SKUNo}</TableCell>
-                        <TableCell align="center">{row.designno}</TableCell>
-                        <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp; {formatAmount(row.DiamondAmount)} </TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp; {formatAmount(row.ColorStoneAmount)} </TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
-                        <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
-                        <TableCell align="center">{row.Category}</TableCell>
-                        <TableCell align="center">{row.GrossWt}</TableCell>
-                        <TableCell align="center">{row.NetWt}</TableCell>
-                        <TableCell align="center">{row.DiaPcs}</TableCell>
-                        <TableCell align="center">{row.DiaWt}</TableCell>
-                        <TableCell align="center">{row.CsPcs}</TableCell>
-                        <TableCell align="center">{row.CsWt}</TableCell>
-                      </TableRow>
-                    );
-                  }) : <TableCell colSpan={headCells?.length} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={filterData?.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper> }
-        </>
-      )}
-    </Box>
+                          {currencyList?.map((ele, ind) => {
+                              return <MenuItem value={ele} key={ind} sx={{ textTransform: 'uppercase' }}>{ele}</MenuItem>
+                          })}
+                      </Select>
+          </Box>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+          </>
+        }
+        {isLoading ? (
+          <Box
+            sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
+          >
+            <CircularProgress className="loadingBarManage" />
+          </Box>
+        ) : (
+          <>
+            {  <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+              <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
+                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                  <EnhancedTableHead
+                    numSelected={selected?.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    rowCount={filterData?.length}
+                  />
+                  <TableBody>
+                    { filterData?.length > 0 ? visibleRows?.map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      return (
+                        <TableRow
+                          hover
+                          tabIndex={-1}
+                          key={row.id}
+                          sx={{ cursor: "pointer" }}
+                          onMouseEnter={(eve) => handleimageShow(eve, row?.imgsrc) }
+                          onMouseLeave={(eve) => handleimageShow(eve, row?.imgsrc) }
+                        >
+                          <TableCell id={labelId} scope="row" align="center">
+                            {" "}
+                            {index + 1}{" "}
+                          </TableCell>
+                          <TableCell align="center">{row.EntryDate}</TableCell>
+                          <TableCell align="center">{row.StockDocumentNo} </TableCell>
+                          <TableCell align="center">{row.SKUNo}</TableCell>
+                          <TableCell align="center">{row.designno}</TableCell>
+                          <TableCell align="center">{row.MetalType}</TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.MetalAmount)}</TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp; {formatAmount(row.DiamondAmount)} </TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp; {formatAmount(row.ColorStoneAmount)} </TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.LabourAmount)}</TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.OtherAmount)}</TableCell>
+                          <TableCell align="center"><span dangerouslySetInnerHTML={{__html:row?.Currencycode}}></span>&nbsp;{formatAmount(row.UnitCost)}</TableCell>
+                          <TableCell align="center">{row.Category}</TableCell>
+                          <TableCell align="center">{row.GrossWt}</TableCell>
+                          <TableCell align="center">{row.NetWt}</TableCell>
+                          <TableCell align="center">{row.DiaPcs}</TableCell>
+                          <TableCell align="center">{row.DiaWt}</TableCell>
+                          <TableCell align="center">{row.CsPcs}</TableCell>
+                          <TableCell align="center">{row.CsWt}</TableCell>
+                        </TableRow>
+                      );
+                    }) : <TableCell colSpan={headCells?.length} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={filterData?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper> }
+          </>
+        )}
+      </Box>
+    </div>
   );
 };
 

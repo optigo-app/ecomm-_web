@@ -22,7 +22,7 @@ const DWSRprintComp = () => {
 
   return (
     <>
-    <div className='dsr_container'>
+    <div className='dsr_Account_SMR dsr_container'>
         <div className='print_btn_none_dsr' style={{display:'flex', justifyContent:'flex-end', paddingBottom:'10px'}}><button className='printBtnDSR'  onClick={() => window.print()}>Print</button></div>
         <div className='dsr_headtitle'>DESIGN WISE SALES PRINT</div>
         <div>
