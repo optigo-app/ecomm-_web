@@ -1236,19 +1236,19 @@ const Lookbook = () => {
                                 backgroundColor: "rgb(191, 200, 255)",
                               }}
                             >
-                              <p
+                              {/* <p
                                 style={{
                                   fontSize: "30px",
                                   color: getRandomBgColor(index).color,
                                 }}
                               >
                                 {slide?.designsetno}
-                              </p>
+                              </p> */}
                             </div>
                           )}
-                          {/* <p className="hoq_lb2designList_title">
+                          <p className="hoq_lb2designList_title">
                             {slide?.designsetno}
-                          </p> */}
+                          </p>
                         </div>
                         <div
                           className="hoq_lookBookImgDeatil"
@@ -1480,14 +1480,14 @@ const Lookbook = () => {
                                   backgroundColor: "rgb(191, 200, 255)",
                                 }}
                               >
-                                <p
+                                {/* <p
                                   style={{
                                     fontSize: "30px",
                                     color: getRandomBgColor(index).color,
                                   }}
                                 >
                                   {slide?.designsetno}
-                                </p>
+                                </p> */}
                               </div>
                             )}
                             <p className="hoq_lb1designList_title">
