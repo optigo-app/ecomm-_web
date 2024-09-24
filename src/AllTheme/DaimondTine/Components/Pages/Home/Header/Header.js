@@ -4,7 +4,7 @@ import { IoCallOutline } from 'react-icons/io5'
 import { AiFillInstagram } from "react-icons/ai";
 import { Badge, ButtonBase, Drawer, IconButton, List, ListItem, ListItemText, Tooltip, useMediaQuery } from '@mui/material';
 import { VscSearch } from "react-icons/vsc";
-import { dt_CartCount, dt_companyLogo, dt_loginState, dt_WishCount } from '../../../Recoil/atom';
+import { dt_CartCount, dt_companyLogo, dt_companyLogoM, dt_loginState, dt_WishCount } from '../../../Recoil/atom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { GoHeart } from "react-icons/go";
@@ -22,6 +22,7 @@ const Header = () => {
 
     const [searchText, setSearchText] = useState('')
     const titleImg = useRecoilValue(dt_companyLogo);
+    const titleImgM = useRecoilValue(dt_companyLogoM);
     const [storeInit, setStoreInit] = useState();
     const [islogin, setislogin] = useRecoilState(dt_loginState);
     const [menuItems, setMenuItems] = useState([]);
@@ -770,6 +771,11 @@ const Header = () => {
                 <div className="dt_mobileView_div2">
                     <a href="/">
                         {titleImg && <img src={titleImg} className="dt_mobileView_div2_logo" />}
+                    </a>
+                </div>
+                <div className="dt_mobileView_div2_mobile">
+                    <a href="/">
+                        {titleImgM && <img src={titleImgM} className="dt_mobileView_div2_logo" />}
                     </a>
                 </div>
                 <div className="dt_mobileView_div3">

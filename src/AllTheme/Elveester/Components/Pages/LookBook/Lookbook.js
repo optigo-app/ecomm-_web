@@ -322,7 +322,7 @@ const Lookbook = () => {
     let finalprodListimg;
     if (pd?.DefaultImageName) {
       finalprodListimg =
-        imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageNames;
+        imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
       finalprodListimg = 'a.jpg';
     }
@@ -648,13 +648,13 @@ const Lookbook = () => {
   // }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
-    <div className="smr_LookBookMain">
+    <div className="el_LookBookMain">
       <Drawer
         open={isDrawerOpen}
         onClose={() => {
           setIsDrawerOpen(false);
         }}
-        className="smr_filterDrawer"
+        className="el_filterDrawer"
       >
         {filterData?.length > 0 && (
           <div className="elv_lookBookFilterSubDiv" style={{ padding: "20px" }}>
@@ -790,7 +790,7 @@ const Lookbook = () => {
                                 //   flexDirection: "row-reverse", // Align items to the right
                                 //   fontFamily:'TT Commons Regular'
                                 // }}
-                                className="smr_mui_checkbox_label"
+                                className="el_mui_checkbox_label"
                                 label={<CustomLabel text={opt?.Name} />}
                               />
                             </div>
@@ -894,7 +894,7 @@ const Lookbook = () => {
                               //   flexDirection: "row-reverse", // Align items to the right
                               //   fontFamily:'TT Commons Regular'
                               // }}
-                              className="smr_mui_checkbox_label"
+                              className="el_mui_checkbox_label"
                               // label={
                               //   opt?.Minval == 0
                               //     ? `Under ${decodeEntities(
@@ -959,9 +959,9 @@ const Lookbook = () => {
             boxShadow: 24,
             p: 2,
           }}
-          className="smr_lookBookCategoryPoupuBox"
+          className="el_lookBookCategoryPoupuBox"
         >
-          <div onClick={handleClose} className="smr_lookSubCtSaveBtn">
+          <div onClick={handleClose} className="el_lookSubCtSaveBtn">
             <IoClose
               style={{ height: "25px", width: "25px", color: "#000000ab" }}
             />
@@ -1029,7 +1029,7 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
-                          className="smr_mui_checkbox_label"
+                          className="el_mui_checkbox_label"
                           label={<CustomLabel text={opt?.Name} />}
                         />
                       </div>
@@ -1052,7 +1052,7 @@ const Lookbook = () => {
 
         <div className="smr1_LookBookSubMainDiv">
           <div
-            className="smr_lookBookMobileTopLine"
+            className="el_lookBookMobileTopLine"
           >
             {filterData?.length > 0 && (
               <div className="elv_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)}>
@@ -1066,7 +1066,7 @@ const Lookbook = () => {
                   <FilterAltIcon
                     fontSize="large"
                     style={{ color: "#c0bbb1" }}
-                    className="smr_lookBookMobileFilter"
+                    className="el_lookBookMobileFilter"
                     onClick={() => setIsDrawerOpen(true)}
                   />
                 </div>
@@ -1077,7 +1077,7 @@ const Lookbook = () => {
                 > */}
                 {isCategoryPresent && <button
                   onClick={handleOpen}
-                  className="smr_lookBookSelectViewBtn"
+                  className="el_lookBookSelectViewBtn"
                   style={{
                     background: "#7d7f85",
                     color: "#fff",
@@ -1124,8 +1124,8 @@ const Lookbook = () => {
               </div>
             </div>
           </div>
-          <div className="smr_SubDiv_LookBookSubMainDiv">
-            <div className="smr_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', left: '-500%', width: `19%`, position: 'absolute', top: '100px' }}>
+          <div className="el_SubDiv_LookBookSubMainDiv">
+            <div className="el_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', left: '-500%', width: `19%`, position: 'absolute', top: '100px' }}>
               <Drawer
                 PaperProps={{
                   sx: {
@@ -1137,7 +1137,7 @@ const Lookbook = () => {
                 onClose={() => {
                   setIsDrawerOpen1(false);
                 }}
-                className="smr_filterDrawer"
+                className="el_filterDrawer"
               >
                 {filterData?.length > 0 && (
                   <div className="elv_lookBookFilterSubDiv">
@@ -1282,7 +1282,7 @@ const Lookbook = () => {
                                         //   flexDirection: "row-reverse", // Align items to the right
                                         //   fontFamily:'TT Commons Regular'
                                         // }}
-                                        className="smr_mui_checkbox_label"
+                                        className="el_mui_checkbox_label"
                                         label={<CustomLabel text={opt?.Name} />}
                                       />
                                     </div>
@@ -1393,7 +1393,7 @@ const Lookbook = () => {
                                         //   flexDirection: "row-reverse", // Align items to the right
                                         //   fontFamily:'TT Commons Regular'
                                         // }}
-                                        className="smr_mui_checkbox_label"
+                                        className="el_mui_checkbox_label"
                                         // label={
                                         //   opt?.Minval == 0
                                         //     ? `Under ${decodeEntities(
@@ -1442,20 +1442,20 @@ const Lookbook = () => {
                 )}
               </Drawer>
             </div>
-            <div className="smr_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
+            <div className="el_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
 
 
               {selectedValue == 2 && (
                 <>
                   {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
-                    <div className="smr_lookBookImgDivMain">
+                    <div className="el_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
-                        <div className="smr_noProductFoundLookBookDiv">
+                        <div className="el_noProductFoundLookBookDiv">
                           <p>No Product Found!</p>
                         </div>
                       ) : (
                         filteredDesignSetLstData?.map((slide, index) => (
-                          <div className="smr_designSetDiv" key={index}>
+                          <div className="el_designSetDiv" key={index}>
                             <div
                               style={{
                                 display: "flex",
@@ -1465,7 +1465,7 @@ const Lookbook = () => {
                             >
                                {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                 <img
-                                  className="smr_lookBookImg"
+                                  className="el_lookBookImg"
                                   loading="lazy"
                                   src={ProdCardImageFunc(slide)}
                                   alt={`Slide ${index}`}
@@ -1491,15 +1491,15 @@ const Lookbook = () => {
                                     backgroundColor: "rgb(191, 200, 255)",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
-                              <p className="smr_lb2designList_title">
+                              <p className="el_lb2designList_title">
                                 {slide?.designsetno}
                               </p>
                             </div>
                             <div
-                              className="smr_lookBookImgDeatil"
+                              className="el_lookBookImgDeatil"
                               style={{
                                 display: dataKey == index ? "none" : "flex",
                                 justifyContent: "space-between",
@@ -1507,7 +1507,7 @@ const Lookbook = () => {
                                 margin: "5px",
                               }}
                             >
-                              <p className="smr_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
+                              <p className="el_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
                                 DWT:{" "}
                                 {calculateTotalUnitCostWithMarkUpDwt(
                                   JSON?.parse(slide.Designdetail)
@@ -1522,7 +1522,7 @@ const Lookbook = () => {
                                 ).toFixed(3)}{" "}
                               </p>
                               <div
-                                className="smr_lookBookImgDeatilSub"
+                                className="el_lookBookImgDeatilSub"
                                 style={{ display: "flex", alignItems: "center" }}
                               >
                                 <p
@@ -1531,7 +1531,7 @@ const Lookbook = () => {
                                     fontSize: "15px",
                                     fontWeight: 600,
                                   }}
-                                  className="smr_lookBookPriceShow"
+                                  className="el_lookBookPriceShow"
                                 >
                                   {" "}
                                   <span
@@ -1553,7 +1553,7 @@ const Lookbook = () => {
                                   ))}
                                 </p>
                                 <button
-                                  className="smr_lookBookBuyBtn"
+                                  className="el_lookBookBuyBtn"
                                   onClick={() =>
                                     handleByCombo(
                                       parseDesignDetails(slide?.Designdetail, "Cart")
@@ -1565,7 +1565,7 @@ const Lookbook = () => {
                               </div>
                             </div>
                             <div
-                              className="smr_lookBookSubImgMain"
+                              className="el_lookBookSubImgMain"
                               style={{ display: dataKey == index && "none" }}
                             >
                               <Swiper
@@ -1575,7 +1575,7 @@ const Lookbook = () => {
                                 // pagination={{ clickable: true }}
                                 loop={false}
                                 modules={[Pagination, Navigation]}
-                                className="smr_LookBookmySwiper"
+                                className="el_LookBookmySwiper"
                                 breakpoints={{
                                   320: {
                                     slidesPerView: 1,
@@ -1595,23 +1595,23 @@ const Lookbook = () => {
                                   const imageSrc = imageSources[detail?.designno] || imageNotFound;
                                   return (
                                     <div
-                                      className="smr_lookBookSubImageDiv"
+                                      className="el_lookBookSubImageDiv"
                                       key={subIndex}
                                     >
                                       <SwiperSlide
-                                        className="smr_lookBookSliderSubDiv"
+                                        className="el_lookBookSliderSubDiv"
                                         style={{
                                           marginRight: "0px",
                                           cursor: "pointer",
                                         }}
                                       >
                                         {detail?.IsInReadyStock == 1 && (
-                                          <span className="smr_LookBookinstock">
+                                          <span className="el_LookBookinstock">
                                             In Stock
                                           </span>
                                         )}
                                         <img
-                                          className="smr_lookBookSubImage"
+                                          className="el_lookBookSubImage"
                                           loading="lazy"
                                           src={imageSrc}
                                           alt={`Sub image ${subIndex} for slide ${index}`}
@@ -1633,14 +1633,14 @@ const Lookbook = () => {
                                         >
                                           {cartItems.includes(detail?.autocode) ? (
                                             <button
-                                              className="smr_lookBookINCartBtn"
+                                              className="el_lookBookINCartBtn"
                                               onClick={() => handleRemoveCart(detail)}
                                             >
                                               REMOVE CART
                                             </button>
                                           ) : (
                                             <button
-                                              className="smr_lookBookAddtoCartBtn"
+                                              className="el_lookBookAddtoCartBtn"
                                               onClick={() => handleAddToCart(detail)}
                                             >
                                               ADD TO CART +
@@ -1664,15 +1664,15 @@ const Lookbook = () => {
               {selectedValue == 3 && (
                 <>
                   {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
-                    <div className="smr_lookBookImgDivMain">
+                    <div className="el_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
-                        <div className="smr_noProductFoundLookBookDiv">
+                        <div className="el_noProductFoundLookBookDiv">
                           <p>No Product Found!</p>
                         </div>
                       ) : (
                         <>
                           {filteredDesignSetLstData?.map((slide, index) => (
-                            <div className="smr_designSetDiv2" key={index}>
+                            <div className="el_designSetDiv2" key={index}>
                               <div
                                 style={{
                                   display: "flex",
@@ -1680,11 +1680,11 @@ const Lookbook = () => {
                                   height: "300px",
                                   position: 'relative'
                                 }}
-                                className="smr_designSetDiv2_sub1"
+                                className="el_designSetDiv2_sub1"
                               >
                                  {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                   <img
-                                    className="smr_lookBookImg"
+                                    className="el_lookBookImg"
                                     loading="lazy"
                                     src={ProdCardImageFunc(slide)}
                                     alt={`Slide ${index}`}
@@ -1710,10 +1710,10 @@ const Lookbook = () => {
                                       backgroundColor: "rgb(191, 200, 255)",
                                     }}
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
                                 )}
-                                <p className="smr_lb1designList_title">{slide?.designsetno}</p>
+                                <p className="el_lb1designList_title">{slide?.designsetno}</p>
                               </div>
 
                               <div
@@ -1725,10 +1725,10 @@ const Lookbook = () => {
                                   alignItems: "center",
                                   flexDirection: "column",
                                 }}
-                                className="smr_designSetDiv2_sub2"
+                                className="el_designSetDiv2_sub2"
                               >
                                 <div
-                                  className="smr_lookBookImgDeatil"
+                                  className="el_lookBookImgDeatil"
                                   style={{
                                     display: dataKey == index ? "none" : "flex",
                                     justifyContent: "space-between",
@@ -1738,7 +1738,7 @@ const Lookbook = () => {
                                     margin: "5px",
                                   }}
                                 >
-                                  <p className="smr_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
+                                  <p className="el_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
                                     DWT:{" "}
                                     {calculateTotalUnitCostWithMarkUpDwt(
                                       JSON?.parse(slide.Designdetail)
@@ -1753,7 +1753,7 @@ const Lookbook = () => {
                                     ).toFixed(3)}{" "}
                                   </p>
                                   <div
-                                    className="smr_lookBookImgDeatilSub"
+                                    className="el_lookBookImgDeatilSub"
                                     style={{ display: "flex", alignItems: "center" }}
                                   >
                                     <p
@@ -1762,7 +1762,7 @@ const Lookbook = () => {
                                         fontSize: "15px",
                                         fontWeight: 600,
                                       }}
-                                      className="smr_lookBookPriceShow"
+                                      className="el_lookBookPriceShow"
                                     >
                                       {" "}
                                       {/* <span
@@ -1784,7 +1784,7 @@ const Lookbook = () => {
                                       ))}
                                     </p>
                                     <button
-                                      className="smr_lookBookBuyBtn"
+                                      className="el_lookBookBuyBtn"
                                       onClick={() =>
                                         handleByCombo(
                                           parseDesignDetails(
@@ -1804,7 +1804,7 @@ const Lookbook = () => {
                                   navigation={true}
                                   loop={false}
                                   modules={[Pagination, Navigation]}
-                                  className="smr_LookBookmySwiper smr_lookBookThirdViewWeb"
+                                  className="el_LookBookmySwiper el_lookBookThirdViewWeb"
                                   breakpoints={{
                                     320: {
                                       slidesPerView: 1,
@@ -1824,23 +1824,23 @@ const Lookbook = () => {
                                     const imageSrc = imageSources[detail?.designno] || imageNotFound;
                                     return (
                                       <div
-                                        className="smr_lookBookSubImageDiv"
+                                        className="el_lookBookSubImageDiv"
                                         key={subIndex}
                                       >
                                         <SwiperSlide
-                                          className="smr_lookBookSliderSubDiv"
+                                          className="el_lookBookSliderSubDiv"
                                           style={{
                                             marginRight: "0px",
                                             cursor: "pointer",
                                           }}
                                         >
                                           {detail?.IsInReadyStock == 1 && (
-                                            <span className="smr_LookBookinstock">
+                                            <span className="el_LookBookinstock">
                                               In Stock
                                             </span>
                                           )}
                                           <img
-                                            className="smr_lookBookSubImage"
+                                            className="el_lookBookSubImage"
                                             loading="lazy"
                                             src={imageSrc}
                                             alt={`Sub image ${subIndex} for slide ${index}`}
@@ -1863,14 +1863,14 @@ const Lookbook = () => {
                                           >
                                             {cartItems.includes(detail?.autocode) ? (
                                               <button
-                                                className="smr_lookBookINCartBtn"
+                                                className="el_lookBookINCartBtn"
                                                 onClick={() => handleRemoveCart(detail)}
                                               >
                                                 REMOVE CART
                                               </button>
                                             ) : (
                                               <button
-                                                className="smr_lookBookAddtoCartBtn"
+                                                className="el_lookBookAddtoCartBtn"
                                                 onClick={() => handleAddToCart(detail)}
                                               >
                                                 ADD TO CART +
@@ -1884,10 +1884,10 @@ const Lookbook = () => {
                                 </Swiper>
 
 
-                                <div className="smr_LookBookMobileThridViewMain">
+                                <div className="el_LookBookMobileThridViewMain">
                                   <div className="card">
                                     <Swiper
-                                      className="smr_LookBookMobileThridViewMain_swiper_w"
+                                      className="el_LookBookMobileThridViewMain_swiper_w"
                                       spaceBetween={5}
                                       slidesPerView={1}
                                       speed={1000}
@@ -1899,7 +1899,7 @@ const Lookbook = () => {
                                         const imageSrc = imageSources[detail?.designno] || imageNotFound;
                                         return (
                                           <div
-                                            className="smr_lookBookSubImageDiv"
+                                            className="el_lookBookSubImageDiv"
                                             key={subIndex}
                                           >
                                             <SwiperSlide
@@ -1910,12 +1910,12 @@ const Lookbook = () => {
                                               }}
                                             >
                                               {detail?.IsInReadyStock == 1 && (
-                                                <span className="smr_LookBookinstock">
+                                                <span className="el_LookBookinstock">
                                                   In Stock
                                                 </span>
                                               )}
                                               <img
-                                                className="smr_lookBookSubImage"
+                                                className="el_lookBookSubImage"
                                                 loading="lazy"
                                                 src={imageSrc}
                                                 alt={`Sub image ${subIndex} for slide ${index}`}
@@ -1938,14 +1938,14 @@ const Lookbook = () => {
                                               >
                                                 {cartItems.includes(detail?.autocode) ? (
                                                   <button
-                                                    className="smr_lookBookINCartBtn"
+                                                    className="el_lookBookINCartBtn"
                                                     onClick={() => handleRemoveCart(detail)}
                                                   >
                                                     REMOVE CART
                                                   </button>
                                                 ) : (
                                                   <button
-                                                    className="smr_lookBookAddtoCartBtn"
+                                                    className="el_lookBookAddtoCartBtn"
                                                     onClick={() => handleAddToCart(detail)}
                                                   >
                                                     ADD TO CART +
@@ -1978,9 +1978,9 @@ const Lookbook = () => {
               {selectedValue == 1 && (
                 <>
                   {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
-                    <div className="smr_lookbook3MainDiv">
+                    <div className="el_lookbook3MainDiv">
                       {filteredDesignSetLstData?.length == 0 ? (
-                        <div className="smr_noProductFoundLookBookDiv">
+                        <div className="el_noProductFoundLookBookDiv">
                           <p>No Product Found!</p>
                         </div>
                       ) : (
@@ -1994,7 +1994,7 @@ const Lookbook = () => {
                             modules={[Keyboard, FreeMode, Navigation, Thumbs, Scrollbar]}
                             keyboard={{ enabled: true }}
                             mousewheel={true}
-                            className="smr_LookBookmySwiper mySwiper2"
+                            className="el_LookBookmySwiper mySwiper2"
                           >
                             {filteredDesignSetLstData?.map((slide, index) => (
                               <SwiperSlide key={index}>
@@ -2005,7 +2005,7 @@ const Lookbook = () => {
                                         <img
                                           src={ProdCardImageFunc(slide)}
                                           alt=""
-                                          className="smr_lb3ctl_img"
+                                          className="el_lb3ctl_img"
                                           onError={() => handleImageError(index)}
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
@@ -2023,7 +2023,7 @@ const Lookbook = () => {
                                             cursor: "pointer",
                                             backgroundColor: "rgb(191, 200, 255)",
                                           }}
-                                          className="smr_lb3ctl_img"
+                                          className="el_lb3ctl_img"
                                         >
                                           {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                         </div>
@@ -2050,16 +2050,16 @@ const Lookbook = () => {
                                             parseDesignDetails(slide?.Designdetail)
                                           )
                                         )?.length > 3
-                                          ? "smr_lb3compeletethelook_prodt_for_3"
-                                          : "smr_lb3compeletethelook_prodt"
+                                          ? "el_lb3compeletethelook_prodt_for_3"
+                                          : "el_lb3compeletethelook_prodt"
                                       }
                                     >
-                                      <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
-                                      <div className="smr_lb3_prodtDivs2">
+                                      <p className="el_lb3designList_title" >{slide?.designsetno}</p>
+                                      <div className="el_lb3_prodtDivs2">
                                         {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
                                           <div
                                             key={subIndex}
-                                            className="smr_lb3completethelook_outer"
+                                            className="el_lb3completethelook_outer"
                                             style={{
                                               borderTop: subIndex !== 0 ? "none" : "",
                                               width: "513px",
@@ -2069,14 +2069,14 @@ const Lookbook = () => {
                                             }}
                                           >
                                             <div
-                                              className="smr_lookbookMainDivdata"
+                                              className="el_lookbookMainDivdata"
                                               style={{
                                                 display: "flex",
                                                 gap: "40px",
                                                 justifyContent: "space-around",
                                               }}
                                             >
-                                              <div className="smr_lb3ImageDiv" style={{ marginLeft: "12px" }}>
+                                              <div className="el_lb3ImageDiv" style={{ marginLeft: "12px" }}>
                                                 <img
                                                   src={
                                                     ele?.ImageCount > 0
@@ -2084,7 +2084,7 @@ const Lookbook = () => {
                                                       : imageNotFound
                                                   }
                                                   alt=""
-                                                  className="smr_lb3srthelook_img"
+                                                  className="el_lb3srthelook_img"
                                                   onClick={() =>
                                                     handleNavigation(
                                                       ele?.designno,
@@ -2096,7 +2096,7 @@ const Lookbook = () => {
                                                   }
                                                 />
                                               </div>
-                                              <div className="smr_lb3srthelook_prodinfo" onClick={() =>
+                                              <div className="el_lb3srthelook_prodinfo" onClick={() =>
                                                 handleNavigation(
                                                   ele?.designno,
                                                   ele?.autocode,
@@ -2111,7 +2111,7 @@ const Lookbook = () => {
                                                     color: "#7d7f85",
                                                     textTransform: "uppercase",
                                                   }}
-                                                  className="smr_lb3srthelook_prodinfo_inner"
+                                                  className="el_lb3srthelook_prodinfo_inner"
                                                 >
                                                   <p>
                                                     <span>
@@ -2121,16 +2121,16 @@ const Lookbook = () => {
 
                                                     {storeInit?.IsGrossWeight == 1 &&
                                                       <>
-                                                        <span className='smr_lb3detailDT'>GWT: </span>
-                                                        <span className='smr_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
+                                                        <span className='el_lb3detailDT'>GWT: </span>
+                                                        <span className='el_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
                                                       </>
                                                     }
 
                                                     {Number(ele?.Nwt) !== 0 && (
                                                       <>
-                                                        <span className='smr_lb3pipe'> | </span>
-                                                        <span className='smr_lb3detailDT'>NWT : </span>
-                                                        <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+                                                        <span className='el_lb3pipe'> | </span>
+                                                        <span className='el_lb3detailDT'>NWT : </span>
+                                                        <span className='el_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
                                                       </>
                                                     )}
 
@@ -2138,9 +2138,9 @@ const Lookbook = () => {
                                                       <>
                                                         {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
                                                           <>
-                                                            <span className='smr_lb3pipe'> | </span>
-                                                            <span className='smr_lb3detailDT'>DWT: </span>
-                                                            <span className='smr_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+                                                            <span className='el_lb3pipe'> | </span>
+                                                            <span className='el_lb3detailDT'>DWT: </span>
+                                                            <span className='el_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
                                                           </>
                                                         }
                                                       </>
@@ -2149,9 +2149,9 @@ const Lookbook = () => {
                                                       <>
                                                         {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
                                                           <>
-                                                            <span className='smr_lb3pipe'> | </span>
-                                                            <span className='smr_lb3detailDT'>CWT: </span>
-                                                            <span className='smr_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+                                                            <span className='el_lb3pipe'> | </span>
+                                                            <span className='el_lb3detailDT'>CWT: </span>
+                                                            <span className='el_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
                                                           </>
                                                         }
                                                       </>
@@ -2182,19 +2182,19 @@ const Lookbook = () => {
                                                   alignItems: "center",
                                                   marginBottom: "5px",
                                                 }}
-                                                className="smr_lb3cartIconBtnDiv"
+                                                className="el_lb3cartIconBtnDiv"
                                               >
                                                 {cartItems.includes(ele?.autocode) ? (
                                                   <IconButton
                                                     onClick={() => handleRemoveCart(ele)}
                                                   >
-                                                    <LocalMallIcon className="smr_lookBookINCartIconBtn" />
+                                                    <LocalMallIcon className="el_lookBookINCartIconBtn" />
                                                   </IconButton>
                                                 ) : (
                                                   <IconButton
                                                     onClick={() => handleAddToCart(ele)}
                                                   >
-                                                    <LocalMallOutlinedIcon className="smr_lookBookAddtoCartIconBtn" />
+                                                    <LocalMallOutlinedIcon className="el_lookBookAddtoCartIconBtn" />
                                                   </IconButton>
                                                 )}
 
@@ -2205,9 +2205,9 @@ const Lookbook = () => {
                                         ))}
                                       </div>
                                       <div
-                                        className="smr_lb3TotalBtnGroups"
+                                        className="el_lb3TotalBtnGroups"
                                       >
-                                        <div className="smr_lb3TotalPrice">
+                                        <div className="el_lb3TotalPrice">
                                           <span>
                                             <span
                                               className="elv_currencyFont"
@@ -2239,7 +2239,7 @@ const Lookbook = () => {
                               </SwiperSlide>
                             ))}
                           </Swiper>
-                          <div className="smr_lookbook3thumbMainDiv">
+                          <div className="el_lookbook3thumbMainDiv">
                             {filteredDesignSetLstData?.length != 0 && (
                               <Swiper
                                 onSwiper={setThumbsSwiper}
@@ -2308,7 +2308,7 @@ const Lookbook = () => {
                                           cursor: "pointer",
                                           backgroundColor: "rgb(191, 200, 255)",
                                         }}
-                                        className="smr_lb3ctl_img"
+                                        className="el_lb3ctl_img"
                                       >
                                         {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                       </div>

@@ -29,8 +29,8 @@ const TopSection = () => {
   };
 
   return (
-    <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
-        {/* <video
+    <div className="smr_topVideoMain" >
+      {/* <video
           ref={videoRef}
           width="500"
           autoPlay
@@ -48,12 +48,12 @@ const TopSection = () => {
         </video> */}
 
       {/* {localData?.Blockno === 3 && ( */}
-        <div>
-          <img
-            src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
-            style={{ width: "100%" }}
-          />
-        </div>
+      <div>
+        <img
+          src={`${storImagePath()}/images/HomePage/Banner/3.jpg`}
+          style={{ width: "100%" }}
+        />
+      </div>
       {/* )} */}
     </div>
   );
