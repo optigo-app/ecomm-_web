@@ -108,9 +108,9 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
-      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
+      const { offsetWidth} = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
+      console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
 
@@ -2154,11 +2154,11 @@ const Lookbook = () => {
                             }}
                           >
                             {filteredDesignSetLstData?.map((slide, index) => (
-                              <SwiperSlide key={index}>
+                              <SwiperSlide key={index}  ref={SwiperSlideRef}>
                                  {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                   <>
                                     <img
-                                      ref={SwiperSlideRef}
+                                      // ref={SwiperSlideRef}
                                       src={ProdCardImageFunc(slide)}
                                       onLoad={handleImageLoad}
                                       alt=""
