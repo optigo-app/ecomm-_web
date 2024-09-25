@@ -12,7 +12,7 @@ const PromotionBaner1 = () => {
     return (
         <div>
             <div className='FestiveMainImage'>
-                <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner2.webp`} style={{ width: '100%', minHeight: '450px' }} className='smr_promotion1' alt={"#promoBanner1"} />
+                <img src={`${storImagePath()}/images/HomePage/Banner/PromoBanner2.webp`} style={{ width: '100%', minHeight: '450px' }} className='for_promotion1' alt={"#promoBanner1"} />
                 <div className='festiveBox'>
                     <p className='smilingFestiMainTitle1' style={{ color: 'gray' }}>LAB GROWN DIAMONDS</p>
                     <p className='smilingFestiMainTitle2' style={{ color: 'gray', fontSize: '40px', margin: '0px' }}>Festive Finds!</p>

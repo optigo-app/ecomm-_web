@@ -29,7 +29,7 @@ const TopSection = () => {
   };
 
   return (
-    <div className="smr_topVideoMain" style={{ minHeight: "550px" }}>
+    <div className="for_topVideoMain" style={{ minHeight: "550px" }}>
       {localData?.Blockno === 1 && storeInit?.IsPLW == 1 ? (
         <div>
           <img
