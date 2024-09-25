@@ -385,159 +385,161 @@ const Sales = () => {
         }
       };
     return (
-        <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
-                <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
-                    <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
-                        setSearchVal(eve?.target?.value);
-                        handleSearch(eve, eve?.target?.value, fromDate, toDate);
-                    }} />
-                    <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
-                        onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="sal_flexcol">
-                    <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtn date_from_sal">
-                        <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>Date: </p>
-                        <Box>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date From"
-                                    value={fromDate}
-                                    ref={fromDateRef}
-                                    format="DD MM YYYY"
-                                    placeholder="DD MM YYYY"
-                                    className='quotationFilterDates'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setFromDate(null)
-                                        } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setFromDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date From",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
-                                        }
-                                    }}
-                                />
-                            </LocalizationProvider>
-                        </Box>
+        <div className='sales_Account_PCJ'>
+            <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                    <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
+                    <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
+                        <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
+                            setSearchVal(eve?.target?.value);
+                            handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                        }} />
+                        <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtn">
-                        <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>To: </p>
-                        <Box>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date To"
-                                    value={toDate}
-                                    ref={toDateRef}
-                                    format="DD MM YYYY"
-                                    placeholder="DD MM YYYY"
-                                    className='quotationFilterDates'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setToDate(null)
-                                        } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setToDate(newValue)
+                    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="sal_flexcol">
+                        <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtn date_from_sal">
+                            <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>Date: </p>
+                            <Box>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date From"
+                                        value={fromDate}
+                                        ref={fromDateRef}
+                                        format="DD MM YYYY"
+                                        placeholder="DD MM YYYY"
+                                        className='quotationFilterDates'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setFromDate(null)
                                             } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date To",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setFromDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date From",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
                                             }
-                                        }
-                                    }}
-                                />
-                            </LocalizationProvider>
-                        </Box>
-                    </Box>
-                </Box>
-                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtn salePageBtnAlign">
-                    <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
-                </Box>
-            </Box>
-            {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                    <TableContainer className='salesPartTable'>
-                        <Table
-                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
-                            aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
-
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onRequestSort={handleRequestSort}
-                                rowCount={filterData.length}
-                            />
-                            <TableBody>
-                                {filterData?.length > 0 ? visibleRows.map((row, index) => {
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, index)}
-                                   
-                                            tabIndex={-1}
-                                            key={index}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-
-                                            <TableCell
-                                                component="td"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                align="center"
-                                            >
-                                                {page * rowsPerPage + index + 1}
-                                            </TableCell>
-                                            <TableCell align="center">{row.Date}</TableCell>
-                                            <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                            <TableCell align="right">{row.Amount}</TableCell>
-                                            <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                            <PrintIcon   />
-                                                        </div></TableCell>
-                                        </TableRow>
-                                    );
-                                }) : <TableCell colSpan={5} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: (dense ? 33 : 53) * emptyRows,
                                         }}
-                                    >
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={filterData.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>}
+                                    />
+                                </LocalizationProvider>
+                            </Box>
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtn">
+                            <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>To: </p>
+                            <Box>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date To"
+                                        value={toDate}
+                                        ref={toDateRef}
+                                        format="DD MM YYYY"
+                                        placeholder="DD MM YYYY"
+                                        className='quotationFilterDates'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setToDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setToDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date To",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtn salePageBtnAlign">
+                        <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                    </Box>
+                </Box>
+                {isLoading ?
+                    <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
+                        <TableContainer className='salesPartTable'>
+                            <Table
+                                sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                                aria-labelledby="tableTitle"
+                                size={dense ? 'small' : 'medium'}
 
-        </Box>
+                            >
+                                <EnhancedTableHead
+                                    numSelected={selected.length}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={filterData.length}
+                                />
+                                <TableBody>
+                                    {filterData?.length > 0 ? visibleRows.map((row, index) => {
+                                        const labelId = `enhanced-table-checkbox-${index}`;
+
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, index)}
+                                    
+                                                tabIndex={-1}
+                                                key={index}
+                                                sx={{ cursor: 'pointer' }}
+                                            >
+
+                                                <TableCell
+                                                    component="td"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    padding="none"
+                                                    align="center"
+                                                >
+                                                    {page * rowsPerPage + index + 1}
+                                                </TableCell>
+                                                <TableCell align="center">{row.Date}</TableCell>
+                                                <TableCell align="center">{row.StockDocumentNo}</TableCell>
+                                                <TableCell align="right">{row.Amount}</TableCell>
+                                                <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                                <PrintIcon   />
+                                                            </div></TableCell>
+                                            </TableRow>
+                                        );
+                                    }) : <TableCell colSpan={5} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
+                                    {emptyRows > 0 && (
+                                        <TableRow
+                                            style={{
+                                                height: (dense ? 33 : 53) * emptyRows,
+                                            }}
+                                        >
+                                            <TableCell colSpan={6} />
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={filterData.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Paper>}
+
+            </Box>
+        </div>
     )
 }
 
