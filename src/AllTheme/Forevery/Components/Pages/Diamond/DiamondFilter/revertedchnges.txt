@@ -175,8 +175,6 @@ const DiamondFilter = () => {
   };
   const handleSortChange = (value, label, categories) => {
     setSortValue(value);
-    console.log("Selected Sort Value:", value);
-    console.log(label, "eikedekdb", categories);
     setselectedsort({
       title: categories,
       sort: label,
@@ -211,7 +209,6 @@ const DiamondFilter = () => {
     }
   };
   const HandleDiamondRoute = (val) => {
-    console.log("hsahdjash", val);
     const obj = {
       a: val?.stockno,
       b: val?.shapename,
@@ -242,9 +239,6 @@ const DiamondFilter = () => {
 
       data.forEach((item) => {
         const options = JSON?.parse(item.options);
-        console.log(options);
-
-        // Create the base object
         const transformedItem = {
           label: item.Name,
           type: item?.inptype,

@@ -475,7 +475,6 @@ const DiamondFilter = () => {
         ].filter(Boolean);
       });
       setDiamondData(dataWithBanners);
-      console.log("Newmap",dataWithBanners)
       const count = data1?.icount;
       setDiaCount(count);
       const transformedData = {
@@ -619,14 +618,11 @@ const DiamondFilter = () => {
   const handleFilterChange = (filterType, value) => {
     setFiltersData((prevData) => {
       const newFiltersData = { ...prevData };
-      console.log(filterType, value, newFiltersData, "more filter");
-
       if (
         filters[filterType].type === "checkbox" ||
         filters[filterType].type === ""
       ) {
         const currentValues = newFiltersData[filterType] || [];
-        console.log(currentValues, "more filter", "1")
         if (currentValues.includes(value)) {
           newFiltersData[filterType] = currentValues.filter((v) => v !== value);
         } else {
@@ -635,19 +631,15 @@ const DiamondFilter = () => {
       } else if (filters[filterType].type === "range") {
         newFiltersData[filterType] = value;
       }
-      console.log("more filter", newFiltersData);
       return newFiltersData;
     });
     setFiltersData1((prevData) => {
       const newFiltersData = { ...prevData };
-      console.log(filterType, value, newFiltersData, "more filter");
-
       if (
         filters[filterType].type === "checkbox" ||
         filters[filterType].type === ""
       ) {
         const currentValues = newFiltersData[filterType] || [];
-        console.log(currentValues, "more filter", "1")
         if (currentValues.includes(value)) {
           newFiltersData[filterType] = currentValues.filter((v) => v !== value);
         } else {
@@ -656,7 +648,6 @@ const DiamondFilter = () => {
       } else if (filters[filterType].type === "range") {
         newFiltersData[filterType] = value;
       }
-      console.log("more filter", newFiltersData);
       return newFiltersData;
     })
   };
@@ -762,8 +753,6 @@ const DiamondFilter = () => {
       const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""}`;
       const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-
-      console.log("decodedUrl", decodedUrl);
       const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""}`;
       Navigate(newPath);
     }, 600);
@@ -796,7 +785,6 @@ const DiamondFilter = () => {
       try {
         const decodedUrl = decodeAndDecompress(extractedValue);
         const parsedData = parseUrlSegment(decodedUrl);
-        console.log("ljldlas", parsedData)
         fetchData(shape, parsedData);
       } catch (error) {
         console.error("Error decoding and parsing URL:", error);
@@ -806,15 +794,6 @@ const DiamondFilter = () => {
       fetchData(shape);
     }
   }, [location?.pathname]);
-
-  console.log("gh", "slider label", sliderLabels);
-  console.log("sliderstate", sliderState, sliderLabels);
-  console.log("finalArray", finalArray, filtersData);
-  console.log("filtersData", filtersData)
-  console.log("filtersData1", filtersData1)
-  console.log("sliderstate1", sliderState1);
-
-  console.log("gh", "slider label", finalArray);
 
   return (
     <>

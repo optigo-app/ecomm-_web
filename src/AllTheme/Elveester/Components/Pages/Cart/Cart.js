@@ -67,8 +67,6 @@ const CartPage = () => {
     handelMenu
 
   } = useCart();
-  console.log('cartData: ', cartData);
-
   const navigate = useNavigate();
   const visiterId = Cookies.get('visiterId');
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
@@ -87,8 +85,6 @@ const CartPage = () => {
   getTotalPrice?.push({
     total: totalPrice
   })
-  console.log('getTotalPrice: ', getTotalPrice);
-
   useEffect(() => {
     sessionStorage.setItem('totalProdPrice', JSON.stringify(getTotalPrice[0]));
   }, [getTotalPrice])
@@ -99,7 +95,6 @@ const CartPage = () => {
   const [countStatus, setCountStatus] = useState();
   const setCartCountVal = useSetRecoilState(el_CartCount);
   const [orderRemark, setOrderRemark] = useState();
-  console.log('orderRemark: ', orderRemark);
   const [randomNumber, setRandomNumber] = useState('');
   const [openPriceModal, setOpenPriceModal] = useState(false);
 

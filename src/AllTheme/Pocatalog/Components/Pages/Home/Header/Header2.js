@@ -191,13 +191,7 @@ const Header2 = () => {
             `page=${finalData.page ?? 1}`,
             `size=${finalData.size ?? 50}`
         ].join('&');
-
-        console.log('otherparamsUrl--', otherparamUrl);
         const url = `/p/${queryParameters}/${otherparamUrl}/${paginationParam}`;
-
-
-        // let d = new Date();
-        // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
         handleDropdownClose()
         navigate(url)
     }
@@ -213,20 +207,11 @@ const Header2 = () => {
         if (param1Item) {
             const { param1, param2, ...cleanedParam1Item } = param1Item;
             menuDataObj = { ...menuDataObj, ...cleanedParam1Item };
-
-            console.log('Menu Item:', cleanedMenuItem);
-            console.log('Submenu Item:', cleanedParam1Item);
-
             if (param2Item) {
                 menuDataObj = { ...menuDataObj, ...param2Item };
-                console.log('Second Submenu Item:', param2Item);
             }
         } else {
-            console.log('Menu Item:', cleanedMenuItem);
         }
-
-        console.log('Menu Data Object:', menuDataObj);
-
         let finalData = {
             menuname: menuDataObj?.menuname ?? "",
             FilterKey: menuDataObj.param0name ?? "",
@@ -237,17 +222,12 @@ const Header2 = () => {
             FilterVal2: menuDataObj?.param2dataname ?? ""
         }
 
-        console.log('finalData', finalData);
-        // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
-
         navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
-
         // if (finalData) {
         //   let resData;
         //   await productListApiCall(finalData).then((res) => {
         //     if (res) {
         //       resData = res;
-        //       console.log("res", res);
         //       setMenutransData(res)
         //       sessionStorage.setItem("allproductlist", JSON.stringify(res))
         //       sessionStorage.setItem("finalAllData", JSON.stringify(res))
@@ -271,55 +251,8 @@ const Header2 = () => {
         //   await FilterListAPI(finalData)
 
         // }
-
-        console.log('menuData', finalData);
         sessionStorage.setItem('menuparams', JSON.stringify(finalData));
     };
-
-    const handleLoginMenuClick = (menuName, menuItem, iconclicked) => {
-        if (iconclicked == 'iconclicked') {
-            setSelectedMenu(prevMenu => (prevMenu === menuName ? null : menuName));
-            return;
-        }
-        const { param1, ...menuItemWithoutParam1 } = menuItem;
-        handleMenuClick(menuItemWithoutParam1)
-    };
-
-    const handleSubMenuClick = (menuItem, subMenuName, subMenuItem, iconclicked) => {
-        if (iconclicked == 'iconclicked') {
-            return;
-        }
-        const { param1, ...menuItemWithoutParam1 } = menuItem;
-        const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
-        handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2 });
-    };
-
-    const handleSubSubMenuClick = (menuItem, subMenuItem, subSubMenuName, subSubMenuItem) => {
-        console.log('subSubMenuItem--', subSubMenuItem);
-        const { param1, ...menuItemWithoutParam1 } = menuItem;
-        const { param2, ...subMenuItemWithoutParam2 } = subMenuItem;
-        handleMenuClick({ ...menuItemWithoutParam1, ...subMenuItemWithoutParam2, ...subSubMenuItem })
-    };
-
-
-    const handleClick = (event) => {
-        // Prevent default action for the left mouse button click
-        if (event.button === 0) {
-            event.preventDefault();
-        }
-    };
-
-    const handleContextMenu = (event) => {
-        event.preventDefault(); // Prevent default context menu
-        // const url = '/productlist';
-        // const newTab = window.open(url, '_blank'); // Open URL in new tab
-        // if (newTab) {
-        //   newTab.focus(); // Ensure new tab gets focus
-        // }
-    };
-
-
-
     useEffect(() => {
         GetCountAPI().then((res) => {
             if (res) {
@@ -331,7 +264,6 @@ const Header2 = () => {
                 console.log("getCountApiErr", err);
             }
         })
-        console.log("getCount", GetCountAPI());
     }, [])
 
 

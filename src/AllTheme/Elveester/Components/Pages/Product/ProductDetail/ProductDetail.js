@@ -91,7 +91,6 @@ const ProductDetail = () => {
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
   const [designSetList, setDesignSetList] = useState();
   const [stockItemArr, setStockItemArr] = useState([]);
-  console.log('stockItemArr: ', stockItemArr);
   const [cartArr, setCartArr] = useState({});
 
   let maxWidth1400pxAndMinWidth1000px = useMediaQuery('(max-width: 1400px) and (min-width: 1000px)');
@@ -868,7 +867,6 @@ const ProductDetail = () => {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg", IsColImg)
 
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {

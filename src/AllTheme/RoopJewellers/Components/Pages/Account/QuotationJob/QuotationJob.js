@@ -664,281 +664,274 @@ const scrollToTop = () => {
 };
 
   return (
-    <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
-      <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
-        <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
-        <Box sx={{ padding: "0 20px" }}>
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            value={orderProm}
-
-            onChange={handleOrderProms}
-            sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
-          >
-            <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 35px 0", marginRight: "0" }} />
-            <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 35px 0", marginRight: "0" }} />
-          </RadioGroup>
-        </Box>
+    <div className='quotationJob_Account_RPJ'>
+      <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
         <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
-          <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotationJobAllBtnSec">
-    
-            <Box>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Date From"
-                  value={fromDate}
-                  ref={fromDateRef}
-    
-                  format="DD MM YYYY"
-                  className='quotationFilterDates'
-                  onChange={(newValue) => {
-                    if (newValue === null) {
-                      setFromDate(null)
-                    } else {
-                      if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                        setFromDate(newValue)
-                      } else {
+          <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
+          <Box sx={{ padding: "0 20px" }}>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={orderProm}
 
-                        Swal.fire({
-                          title: "Error !",
-                          text: "Enter Valid Date From",
-                          icon: "error",
-                          confirmButtonText: "ok"
-                        });
-                        resetAllFilters();
-                      }
-                    }
-                  }}
-                />
-              </LocalizationProvider>
-            </Box>
+              onChange={handleOrderProms}
+              sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
+            >
+              <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 35px 0", marginRight: "0" }} />
+              <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 35px 0", marginRight: "0" }} />
+            </RadioGroup>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotationJobAllBtnSec">
-    
-            <Box>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Date To"
-                  value={toDate}
-                  ref={toDateRef}
-    
-                  format="DD MM YYYY"
-                  className='quotationFilterDates'
-                  onChange={(newValue) => {
-                    if (newValue === null) {
-                      setToDate(null)
-                    } else {
-                      if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                        setToDate(newValue)
-                      } else {
-                        Swal.fire({
-                          title: "Error !",
-                          text: "Enter Valid Date To",
-                          icon: "error",
-                          confirmButtonText: "ok"
-                        });
-                        resetAllFilters();
-                      }
-                    }
-                  }}
-                />
-              </LocalizationProvider>
-            </Box>
-          </Box>
-        </Box>
-        <Box sx={{ padding: "0 15px 35px 0", }} className="QuotationJobAllBtnSec">
-          {/* <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button> */}
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
-        </Box>
-        <Box sx={{ position: "relative", padding: "0 15px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-        <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
-          
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
-                value={selectedStatus} // Assuming selectedStatus is an array of selected values
-                onChange={handleStatus} // Assuming handleStatus function receives selected values
-                MenuProps={MenuProps}
-                input={<OutlinedInput  />}
-                style={{minHeight:'2.9375em'}}
-                className='statusSelect'
-                size='small'
-                label='ALL'
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em style={{color:'black'}}>Placeholder</em>;
-                  }
+          <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+            <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotationJobAllBtnSec">
       
-                  return '';
-                }}
-                inputProps={{
-                  placeholder: 'Placeholder', // Set placeholder directly on the inputProps
-              }}
-              
-              >
-                
-              {statusList?.map((status) => (
-                <MenuItem key={status.id} value={status.value}>
-                  <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
-                  <ListItemText primary={status.label} />
-                </MenuItem>
-              ))}
-            </Select>
-    
-        </Box>
-        <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-          <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" onChange={handleCategory} >
-            {
-              categoryList?.map((e, i) => {
-                return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
-              })
-            }
-          </Select>
-        </Box>
-        <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-          <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={MetalColor}
-            label="Status"
-            className='MetalColorList'
-            onChange={handleMetalColor}
-          >
-            {
-              metalColorList?.map((e, i) => {
-                return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
-              })
-            }
-          </Select>
-        </Box>
-        <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-          <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={metalPurity}
-            label="Status"
-            className='MetalPurityList'
-            onChange={handleMetalPurity}
-          >
-            {
-              metalPurityList?.map((e, i) => {
-                return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
-              })
-            }
-          </Select>
-        </Box>
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date From"
+                    value={fromDate}
+                    ref={fromDateRef}
+      
+                    format="DD MM YYYY"
+                    className='quotationFilterDates'
+                    onChange={(newValue) => {
+                      if (newValue === null) {
+                        setFromDate(null)
+                      } else {
+                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                          setFromDate(newValue)
+                        } else {
+
+                          Swal.fire({
+                            title: "Error !",
+                            text: "Enter Valid Date From",
+                            icon: "error",
+                            confirmButtonText: "ok"
+                          });
+                          resetAllFilters();
+                        }
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotationJobAllBtnSec">
+      
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date To"
+                    value={toDate}
+                    ref={toDateRef}
+      
+                    format="DD MM YYYY"
+                    className='quotationFilterDates'
+                    onChange={(newValue) => {
+                      if (newValue === null) {
+                        setToDate(null)
+                      } else {
+                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                          setToDate(newValue)
+                        } else {
+                          Swal.fire({
+                            title: "Error !",
+                            text: "Enter Valid Date To",
+                            icon: "error",
+                            confirmButtonText: "ok"
+                          });
+                          resetAllFilters();
+                        }
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              </Box>
+            </Box>
+          </Box>
+          <Box sx={{ padding: "0 15px 35px 0", }} className="QuotationJobAllBtnSec">
+            {/* <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button> */}
+            <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+          </Box>
+          <Box sx={{ position: "relative", padding: "0 15px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+          <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
+            
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={selectedStatus} // Assuming selectedStatus is an array of selected values
+                  onChange={handleStatus} // Assuming handleStatus function receives selected values
+                  MenuProps={MenuProps}
+                  input={<OutlinedInput  />}
+                  style={{minHeight:'2.9375em'}}
+                  className='statusSelect'
+                  size='small'
+                  label='ALL'
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <em style={{color:'black'}}>Placeholder</em>;
+                    }
         
-        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSec">
-          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
-            setSearchVal(eve?.target?.value);
-            setPage(0);
-            // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
-            handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
-          }} />
-          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
-            // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
-            onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
+                    return '';
+                  }}
+                  inputProps={{
+                    placeholder: 'Placeholder', // Set placeholder directly on the inputProps
+                }}
+                
+                >
+                  
+                {statusList?.map((status) => (
+                  <MenuItem key={status.id} value={status.value}>
+                    <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
+                    <ListItemText primary={status.label} />
+                  </MenuItem>
+                ))}
+              </Select>
+      
+          </Box>
+          <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" onChange={handleCategory} >
+              {
+                categoryList?.map((e, i) => {
+                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                })
+              }
+            </Select>
+          </Box>
+          <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={MetalColor}
+              label="Status"
+              className='MetalColorList'
+              onChange={handleMetalColor}
+            >
+              {
+                metalColorList?.map((e, i) => {
+                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                })
+              }
+            </Select>
+          </Box>
+          <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={metalPurity}
+              label="Status"
+              className='MetalPurityList'
+              onChange={handleMetalPurity}
+            >
+              {
+                metalPurityList?.map((e, i) => {
+                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                })
+              }
+            </Select>
+          </Box>
+          
+          <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSec">
+            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
+              setSearchVal(eve?.target?.value);
+              setPage(0);
+              // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+              handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+            }} />
+            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+              // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+              onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
+          </Box>
+          <Box sx={{ padding: "0 0px 40px 0", }} className="QuotationJobAllBtnSec">
+            <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+          </Box>
         </Box>
-        <Box sx={{ padding: "0 0px 40px 0", }} className="QuotationJobAllBtnSec">
-          <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+
+        <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
+          {isLoading ?
+            <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+            <>
+            { <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
+              <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
+                <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
+                  <TableHead className='user-select-none'>
+                    <TableRow>
+                    <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
+                      <Checkbox
+                        checked={allChecked}
+                        onChange={handleMasterCheckboxChange}
+                      />
+                    </TableCell>  
+                      {columns?.slice(1)?.map((column) => (
+                        <TableCell
+                          key={column?.id}
+                          align={column.align}
+                          style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
+                          onClick={() => handleRequestSort(column?.id)}
+                        >
+                          {column.label}
+                          {orderBy === column.id ? (
+                            <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
+                              {orderBy === column?.id && (<CustomSortIcon order={order} />)}
+                            </span>
+                          ) : null}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+            
+
+                    { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
+                      ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      ?.map((row, rowIndex) => {
+                        let serialNumber = page * rowsPerPage + rowIndex + 1;
+                        return (
+                          <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                            {columns.map((column, index) => {
+                              const value = row[column?.id];
+                              return (
+                                <TableCell key={column?.id} align={column?.align}>
+                                {column.id === 'Sr#' ? serialNumber : 
+                                  column?.id === 'checkbox' ? 
+                                    <Checkbox 
+                                      checked={row?.isJobSelected} 
+                                      onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
+                                    /> 
+                                    : 
+                                    column?.format && typeof value === 'number'
+                                      ? column.format(value)
+                                      : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                              </TableCell>
+                              );
+                            })}
+                          </TableRow>
+                        );
+                      }) : <TableCell colSpan={12} align='center' style={{ color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={filterData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper> }
+            </>
+            }
         </Box>
+
+
       </Box>
-
-      <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
-        {isLoading ?
-          <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
-          <>
-          { <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
-            <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
-              <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
-                <TableHead className='user-select-none'>
-                  <TableRow>
-                  <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
-                    <Checkbox
-                      checked={allChecked}
-                      onChange={handleMasterCheckboxChange}
-                    />
-                  </TableCell>  
-                    {columns?.slice(1)?.map((column) => (
-                      <TableCell
-                        key={column?.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
-                        onClick={() => handleRequestSort(column?.id)}
-                      >
-                        {column.label}
-                        {orderBy === column.id ? (
-                          <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
-                            {orderBy === column?.id && (<CustomSortIcon order={order} />)}
-                          </span>
-                        ) : null}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-           
-
-                  { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
-                    ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    ?.map((row, rowIndex) => {
-                      let serialNumber = page * rowsPerPage + rowIndex + 1;
-                      return (
-                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                          {columns.map((column, index) => {
-                            const value = row[column?.id];
-                            return (
-                              <TableCell key={column?.id} align={column?.align}>
-                              {column.id === 'Sr#' ? serialNumber : 
-                                column?.id === 'checkbox' ? 
-                                  <Checkbox 
-                                    checked={row?.isJobSelected} 
-                                    onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
-                                  /> 
-                                  : 
-                                  column?.format && typeof value === 'number'
-                                    ? column.format(value)
-                                    : column?.id === 'FinalAmount' ? formatAmount(value) : value}
-                            </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    }) : <TableCell colSpan={12} align='center' style={{ color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={filterData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper> }
-          </>
-          }
-      </Box>
-
-
-    </Box>
+    </div>
   )
 }
 
 export default QuotationJob
-// import React from 'react'
-
-// const QuotationJob = () => {
-//   return (
-//     <div>QuotationJob</div>
-//   )
-// }
-
-// export default QuotationJob
