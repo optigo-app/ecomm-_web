@@ -170,25 +170,25 @@ const TrendingView1 = () => {
     return (
         <>
             {trandingViewData?.length != 0 &&
-                <div className='smr_mainTrending1Div'>
-                    <div className='smr_trending1TitleDiv'>
-                        <span className='smr_trending1Title'>Trending</span>
+                <div className='for_mainTrending1Div'>
+                    <div className='for_trending1TitleDiv'>
+                        <span className='for_trending1Title'>Trending</span>
                     </div>
-                    <div className="smr_trendingProduct-grid">
-                        <div className='smr_leftSideBestTR'>
+                    <div className="for_trendingProduct-grid">
+                        <div className='for_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
                             <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.webp`} alt="modalimages" />
 
-                            <div className="smr_lookbookImageRightDT">
+                            <div className="for_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>
                                 <button onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</button>
                             </div>
                         </div>
-                        <div className='smr_rightSideTR'>
+                        <div className='for_rightSideTR'>
                             {trandingViewData?.slice(0, 4).map((data, index) => (
                                 <div key={index} className="product-card">
-                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                    <div className='for_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
                                                 `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -202,24 +202,24 @@ const TrendingView1 = () => {
                                         <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
-                                                <span className='smr_btdetailDT'>GWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
+                                                <span className='for_btdetailDT'>GWT: </span>
+                                                <span className='for_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
                                             </>
                                         }
                                         {Number(data?.Nwt) !== 0 && (
                                             <>
-                                                <span className='smr_btpipe'>|</span>
-                                                <span className='smr_btdetailDT'>NWT : </span>
-                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                                <span className='for_btpipe'>|</span>
+                                                <span className='for_btdetailDT'>NWT : </span>
+                                                <span className='for_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
                                             </>
                                         )}
                                         {storeInit?.IsDiamondWeight == 1 &&
                                             <>
                                                 {(data?.Dwt != "0" || data?.Dpcs != "0") &&
                                                     <>
-                                                        <span className='smr_btpipe'>|</span>
-                                                        <span className='smr_btdetailDT'>DWT: </span>
-                                                        <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                        <span className='for_btpipe'>|</span>
+                                                        <span className='for_btdetailDT'>DWT: </span>
+                                                        <span className='for_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
                                                     </>
                                                 }
                                             </>
@@ -228,15 +228,15 @@ const TrendingView1 = () => {
                                             <>
                                                 {(data?.CSwt != "0" || data?.CSpcs != "0") &&
                                                     <>
-                                                        <span className='smr_btpipe'>|</span>
-                                                        <span className='smr_btdetailDT'>CWT: </span>
-                                                        <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                        <span className='for_btpipe'>|</span>
+                                                        <span className='for_btdetailDT'>CWT: </span>
+                                                        <span className='for_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
                                                     </>
                                                 }
                                             </>
                                         }
                                         <p>
-                                            <span className="smr_currencyFont">
+                                            <span className="for_currencyFont">
                                                 {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                             </span>&nbsp;
                                             <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>

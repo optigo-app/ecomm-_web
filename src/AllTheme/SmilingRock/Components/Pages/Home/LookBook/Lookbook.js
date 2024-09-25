@@ -596,29 +596,35 @@ const Lookbook = () => {
 
   const [imageSources, setImageSources] = React.useState({});
 
-  // useEffect(() => {
-  //   if (filteredDesignSetLstData) {
-  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-  //         const isAvailable = await checkImageAvailability(designImageUrl);
-  //         return {
-  //           designno: detail?.designno,
-  //           src: isAvailable ? designImageUrl : imageNotFound
-  //         };
-  //       })
-  //     );
-
-  //     Promise.all(imagePromises).then((results) => {
-  //       // Update state with the resolved image sources
-  //       const newImageSources = results.reduce((acc, { designno, src }) => {
-  //         acc[designno] = src;
-  //         return acc;
-  //       }, {});
-  //       setImageSources(newImageSources);
-  //     });
-  //   }
-  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
+  useEffect(() => {
+    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound,
+          };
+        })
+      );
+  
+      Promise.all(imagePromises).then((results) => {
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
+        
+        setImageSources((prevSources) => {
+          const isDifferent = Object.keys(newImageSources).some(
+            (key) => newImageSources[key] !== prevSources[key]
+          );
+          return isDifferent ? newImageSources : prevSources;
+        });
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
+  
 
 
   // pagination HandleChange Function for change page
