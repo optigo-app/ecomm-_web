@@ -249,7 +249,7 @@ const NewOrderHistoryDT = () => {
     setOpenTaxes(openTaxes === id ? null : id); // Toggle taxes dropdown by item id
   };
   return (
-    <>
+    <div className="orderHistory_Account_DT">
       <div className="orderHistory_acc ">
         {loaderOH ? (
           <Box
@@ -468,7 +468,7 @@ const NewOrderHistoryDT = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

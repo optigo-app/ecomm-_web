@@ -101,10 +101,6 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
   filterArr.Collectionid = collections;
   filterArr.SubCategoryid = subcategories;
   filterArr.Genderid = genders
-
-  console.log('filterArrData----', filterArr);
-
-
   // for Short-combo data
   useEffect(() => {
     const metalTypeData = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
@@ -115,8 +111,6 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
     setColorStoneCombo(CSQtyColorData);
-    console.log('metaltype', diamondQtyColorData);
-
   }, [])
 
   return (

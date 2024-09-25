@@ -52,7 +52,6 @@ const TrendingView1 = () => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         callAPI();
-                        console.log("visble")
                         observer.unobserve(entry.target);
                     }
                 });
@@ -71,36 +70,6 @@ const TrendingView1 = () => {
                 observer.unobserve(trendingRef.current);
             }
         };
-
-
-        // let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-        // setStoreInit(storeinit)
-
-        // let data = JSON.parse(sessionStorage.getItem('storeInit'))
-        // setImageUrl(data?.DesignImageFol);
-        // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        // const visiterID = Cookies.get('visiterId');
-        // let finalID;
-        // if (storeInit?.IsB2BWebsite == 0) {
-        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-        // } else {
-        //     finalID = loginUserDetail?.id || '0';
-        // }
-
-
-        // Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then((response) => {
-        //     if (response?.Data?.rd) {
-        //         setTrandingViewData(response?.Data?.rd);
-
-        //         const oddNumbers = response.Data.rd.filter(obj => isOdd(obj.SrNo));
-        //         const evenNumbers = response.Data.rd.filter(obj => !isOdd(obj.SrNo));
-
-        //         // Setting states with the separated objects
-        //         setOddNumberObjects(oddNumbers);
-        //         setEvenNumberObjects(evenNumbers);
-        //     }
-        // }).catch((err) => console.log(err))
     }, [])
 
     const callAPI = () => {
@@ -167,56 +136,9 @@ const TrendingView1 = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-        // if(IsB2BWebsite === 1){
-        //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }else{
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }
     }
-    const decodeEntities = (html) => {
-        var txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }
-
-
-
-
-    const handleMouseEnterRing1 = (data) => {
-        if (data?.ImageCount > 1) {
-            setHoveredItem(data.SrNo);
-            setRing1ImageChange(true)
-        }
-    }
-    const handleMouseLeaveRing1 = () => {
-        setHoveredItem(null);
-        setRing1ImageChange(false)
-    }
-
-    const handleMouseEnterRing2 = (data) => {
-        if (data?.ImageCount > 1) {
-            setRing1ImageChangeOdd(true)
-        }
-    }
-    const handleMouseLeaveRing2 = () => {
-        setRing1ImageChangeOdd(false)
-    }
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
-    }
-
+  
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {
         chunkedData.push(trandingViewData?.slice(i, i + 3));

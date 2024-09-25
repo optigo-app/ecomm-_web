@@ -133,7 +133,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className='changePassword_Account_elvee'>
         <ToastContainer />
         <div className='fonts_elvee_acoount_cp'>
             {isLoading && (
@@ -245,6 +245,6 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }

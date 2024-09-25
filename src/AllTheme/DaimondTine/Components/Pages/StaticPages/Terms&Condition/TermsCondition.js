@@ -16,7 +16,6 @@ function TermsAndConditions() {
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
-        console.log('htmlssssssss', html);
       })
       .catch((error) => {
         console.error('Error fetching the HTML file:', error);

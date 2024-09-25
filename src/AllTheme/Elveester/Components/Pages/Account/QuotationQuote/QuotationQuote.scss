@@ -1,4 +1,7 @@
 @import "../../../scss/elvee_modules.scss";
+.quotationQuote_Account_elvee{
+
+
 .elvee_fs_quote {
     // font-family: $fontPTSans !important; // Use the variable with the $ symbol
     font-family: $fontSansSerif !important;
@@ -256,4 +259,5 @@
     .pd_right_elvee .MuiInputBase-root{
         padding-right: 0px !important;
     }
+}
 }

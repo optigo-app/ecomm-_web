@@ -41,9 +41,6 @@ const CartDetails = ({
       setImageSrc(noImageFound);
     }
   }, [selectedItem]);
-
-  console.log('selectediTem', diamondData);
-
   const keyToCheck = "stockno"
   return (
     <div className="for_cart-container">

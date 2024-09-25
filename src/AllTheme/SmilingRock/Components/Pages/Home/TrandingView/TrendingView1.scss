@@ -12,6 +12,16 @@
         }
     }
 
+    @media (max-width: 1200px) {
+        .smr1_trending1TitleDiv {
+            padding: 4% 0px 0px 0px !important;
+
+            .smr_trending1Title {
+                font-size: 18px !important;
+                margin-top: 10px;
+            }
+        }
+    }
     .smr_trendingProduct-grid {
         display: flex;
         flex-wrap: wrap;

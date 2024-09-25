@@ -1,4 +1,7 @@
 @import "./../../../scss/elvee_modules.scss";
+.yourProfile_Account_Elvee{
+
+
 .elvee_profile{
     font-family: $fontSansSerif !important;
 } 
@@ -97,4 +100,5 @@
         overflow: scroll;
         height: 100% !important;
     }
+}
 }

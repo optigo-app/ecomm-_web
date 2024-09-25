@@ -178,7 +178,6 @@ const Header = () => {
                 menuDataObj = { ...menuDataObj, ...param2Item };
             }
         } else {
-            console.log('Menu Item:', cleanedMenuItem);
         }
 
         let finalData = {

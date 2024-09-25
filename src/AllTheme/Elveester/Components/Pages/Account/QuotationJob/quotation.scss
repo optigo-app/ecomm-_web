@@ -1,4 +1,7 @@
 @import "../../../scss/elvee_modules.scss";
+.quotationJob_Account_elvee{
+
+
 .elvee_fs_jobs {
     // font-family: $fontPTSans !important; // Use the variable with the $ symbol
     font-family: $fontSansSerif !important;
@@ -337,4 +340,5 @@
     .mr_left_acc_elvee{
         margin-left: 0px !important;
     }
+}
 }

@@ -101,168 +101,170 @@ export default function YourProfile() {
     }
 
     return (
-        <div className='smr_yourProfile elvee_profile'>
-            <ToastContainer />
+        <div className='yourProfile_Account_Elvee'>
+            <div className='smr_yourProfile elvee_profile'>
+                <ToastContainer />
 
-            {isLoading && (
-                <div className="loader-overlay" style={{zIndex:10000}}>
-                    <CircularProgress className='loadingBarManage' />
-                </div>
-            )}
-            <div><HeadTitleAcc title="Profile" /></div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
-                {   <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-                    {userData && (
-                        <>
-                            <div className='mobileEditProfileDiv'>
-                                <TextField
-                                    autoFocus
-                                    id="defaddress_shippingfirstname"
-                                    label="First Name"
-                                    variant="outlined"
-                                    className='labgrowRegister '
-                                    style={{ margin: '15px', color: 'black' }}
-                                    value={userData?.firstname || ''}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                                <TextField
-                                    id="defaddress_shippinglastname"
-                                    label="Last Name"
-                                    variant="outlined"
-                                    className='labgrowRegister '
-                                    style={{ margin: '15px' }}
-                                    value={userData?.lastname || ''}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className='mobileEditProfileDiv'>
-                                <TextField
-                                    id="userid"
-                                    label="Email"
-                                    variant="outlined"
-                                    className='labgrowRegister '
-                                    style={{ margin: '15px' }}
-                                    value={userData?.userid || ''}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                                <TextField
-                                    id="defaddress_shippingmobile"
-                                    label="Mobile No."
-                                    variant="outlined"
-                                    className='labgrowRegister '
-                                    style={{ margin: '15px' }}
-                                    value={userData?.mobileno || ''}
-                                    disabled
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className='mobileEditProfileDiv'>
-                                <TextField
-                                    id="defaddress_street"
-                                    label="Address"
-                                    variant="outlined"
-                                    className='labgrowRegister '
-                                    style={{ margin: '15px' }}
-                                    value={userData?.street || ''}
-                                    disabled
-                                    onChange={handleInputChange}
-                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
-                                        WebkitTextFillColor:'black'
-                                    }}}
-                                    multiline
-                                    rows={2}
-                                />
-                            </div>
-                        </>
-                    )}
-                </div>}
-                {   <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess ' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
-                </div>}
-            </div>
-
-            <Modal
-                open={editMode}
-                onClose={handleClose}
-            >
-                <div className='smilingEditProfilePopup elveeYPPopup ' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
-                    <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                        <h2 className='' style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
-                        {editedUserData && (
+                {isLoading && (
+                    <div className="loader-overlay" style={{zIndex:10000}}>
+                        <CircularProgress className='loadingBarManage' />
+                    </div>
+                )}
+                <div><HeadTitleAcc title="Profile" /></div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
+                    {   <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                        {userData && (
                             <>
-                                <TextField
-                                    id="firstname"
-                                    label="First Name"
-                                    variant="outlined"
-                                    style={{ margin: '15px' }}
-                                    value={editedUserData.firstname !== "undefined" ? editedUserData.firstname : ""}
-                                    onChange={handleInputChange}
-                                    error={!!errors.firstname}
-                                    helperText={errors.firstname}
-                                    className=''
-                                />
-                                <TextField
-                                    id="lastname"
-                                    label="Last Name"
-                                    variant="outlined"
-                                    style={{ margin: '15px' }}
-                                    value={editedUserData.lastname !== "undefined" ? editedUserData.lastname : ""}
-                                    onChange={handleInputChange}
-                                    error={!!errors.lastname}
-                                    helperText={errors.lastname}
-                                    className=''
-                                />
-                                <TextField
-                                    id="userid"
-                                    label="Email"
-                                    variant="outlined"
-                                    style={{ margin: '15px' }}
-                                    value={editedUserData.userid !== "undefined" ? editedUserData.userid : ""}
-                                    onChange={handleInputChange}
-                                    error={!!errors.userid}
-                                    helperText={errors.userid}
-                                    disabled
-                                    className=''
-                                />
-                                <TextField
-                                    id="mobileno"
-                                    label="Mobile No."
-                                    variant="outlined"
-                                    style={{ margin: '15px' }}
-                                    value={editedUserData.mobileno !== "undefined" ? editedUserData.mobileno : ""}
-                                    onChange={handleInputChange}
-                                    error={!!errors.mobileno}
-                                    helperText={errors.mobileno}
-                                    className=''
-                                />
-                                <TextField
-                                    id="street"
-                                    label="Address"
-                                    variant="outlined"
-                                    style={{ margin: '15px' }}
-                                    value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
-                                    onChange={handleInputChange}
-                                    error={!!errors.street}
-                                    helperText={errors.street}
-                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
-                                        WebkitTextFillColor:'black'
-                                    }}}
-                                    multiline
-                                    rows={2}
-                                    className=''
-                                />
+                                <div className='mobileEditProfileDiv'>
+                                    <TextField
+                                        autoFocus
+                                        id="defaddress_shippingfirstname"
+                                        label="First Name"
+                                        variant="outlined"
+                                        className='labgrowRegister '
+                                        style={{ margin: '15px', color: 'black' }}
+                                        value={userData?.firstname || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                    <TextField
+                                        id="defaddress_shippinglastname"
+                                        label="Last Name"
+                                        variant="outlined"
+                                        className='labgrowRegister '
+                                        style={{ margin: '15px' }}
+                                        value={userData?.lastname || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className='mobileEditProfileDiv'>
+                                    <TextField
+                                        id="userid"
+                                        label="Email"
+                                        variant="outlined"
+                                        className='labgrowRegister '
+                                        style={{ margin: '15px' }}
+                                        value={userData?.userid || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                    <TextField
+                                        id="defaddress_shippingmobile"
+                                        label="Mobile No."
+                                        variant="outlined"
+                                        className='labgrowRegister '
+                                        style={{ margin: '15px' }}
+                                        value={userData?.mobileno || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className='mobileEditProfileDiv'>
+                                    <TextField
+                                        id="defaddress_street"
+                                        label="Address"
+                                        variant="outlined"
+                                        className='labgrowRegister '
+                                        style={{ margin: '15px' }}
+                                        value={userData?.street || ''}
+                                        disabled
+                                        onChange={handleInputChange}
+                                        sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                            WebkitTextFillColor:'black'
+                                        }}}
+                                        multiline
+                                        rows={2}
+                                    />
+                                </div>
                             </>
                         )}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        <button type='submit' className='smilingDeleveryformSaveBtn ' >Save</button>
-                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_elvee ' >Cancel</button>
-                    </div>
-                    </form>
+                    </div>}
+                    {   <div>
+                        <button onClick={handleEdit} className='SmilingAddEditAddrwess ' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    </div>}
                 </div>
-            </Modal>
+
+                <Modal
+                    open={editMode}
+                    onClose={handleClose}
+                >
+                    <div className='smilingEditProfilePopup elveeYPPopup ' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
+                        <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                            <h2 className='' style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
+                            {editedUserData && (
+                                <>
+                                    <TextField
+                                        id="firstname"
+                                        label="First Name"
+                                        variant="outlined"
+                                        style={{ margin: '15px' }}
+                                        value={editedUserData.firstname !== "undefined" ? editedUserData.firstname : ""}
+                                        onChange={handleInputChange}
+                                        error={!!errors.firstname}
+                                        helperText={errors.firstname}
+                                        className=''
+                                    />
+                                    <TextField
+                                        id="lastname"
+                                        label="Last Name"
+                                        variant="outlined"
+                                        style={{ margin: '15px' }}
+                                        value={editedUserData.lastname !== "undefined" ? editedUserData.lastname : ""}
+                                        onChange={handleInputChange}
+                                        error={!!errors.lastname}
+                                        helperText={errors.lastname}
+                                        className=''
+                                    />
+                                    <TextField
+                                        id="userid"
+                                        label="Email"
+                                        variant="outlined"
+                                        style={{ margin: '15px' }}
+                                        value={editedUserData.userid !== "undefined" ? editedUserData.userid : ""}
+                                        onChange={handleInputChange}
+                                        error={!!errors.userid}
+                                        helperText={errors.userid}
+                                        disabled
+                                        className=''
+                                    />
+                                    <TextField
+                                        id="mobileno"
+                                        label="Mobile No."
+                                        variant="outlined"
+                                        style={{ margin: '15px' }}
+                                        value={editedUserData.mobileno !== "undefined" ? editedUserData.mobileno : ""}
+                                        onChange={handleInputChange}
+                                        error={!!errors.mobileno}
+                                        helperText={errors.mobileno}
+                                        className=''
+                                    />
+                                    <TextField
+                                        id="street"
+                                        label="Address"
+                                        variant="outlined"
+                                        style={{ margin: '15px' }}
+                                        value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
+                                        onChange={handleInputChange}
+                                        error={!!errors.street}
+                                        helperText={errors.street}
+                                        sx={{ "& .MuiInputBase-input.Mui-disabled" : {
+                                            WebkitTextFillColor:'black'
+                                        }}}
+                                        multiline
+                                        rows={2}
+                                        className=''
+                                    />
+                                </>
+                            )}
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
+                            <button type='submit' className='smilingDeleveryformSaveBtn ' >Save</button>
+                            <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_elvee ' >Cancel</button>
+                        </div>
+                        </form>
+                    </div>
+                </Modal>
+            </div>
         </div>
     );
 }

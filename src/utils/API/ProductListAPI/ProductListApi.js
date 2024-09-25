@@ -1,12 +1,12 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
-const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "") => {
+const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "",dno = "",album = "") => {
   
   let MenuParams = {};
   let serachVar = ""
 
-  console.log("mainData", mainData);
+  console.log("mainData", sortby);
 
 
   if (Array.isArray(mainData)) {
@@ -100,7 +100,7 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     autocode: '',
     FrontEnd_RegNo: `${storeinit?.FrontEnd_RegNo ?? ''}`,
     Customerid: `${customerId ?? 0}`,
-    designno: '',
+    designno: dno ?? '',
     Shape: `${Shape ?? ''}`,
     FilterKey: `${MenuParams?.FilterKey ?? ""}`,
     FilterVal: `${MenuParams?.FilterVal ?? ""}`,
@@ -154,7 +154,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Size: "",
     IsFromDesDet: "",
     IsPLW: `${storeinit?.IsPLW ?? ''}`,
-    DomainForNo: `${storeinit?.DomainForNo ?? ""}`
+    DomainForNo: `${storeinit?.DomainForNo ?? ""}`,
+    AlbumName:album ?? ""
   };
 
   let encData = JSON.stringify(data)

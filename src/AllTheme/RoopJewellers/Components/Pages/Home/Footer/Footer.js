@@ -101,7 +101,7 @@ const Footer = ({ fromPage }) => {
       }
 
       {localData?.Footerno === 2 &&
-        <div className='smr_Footer2_main'>
+        <div className='roop_Footer2_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
 
             <div className='footerMoreOption'>

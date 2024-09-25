@@ -51,9 +51,6 @@ const Payment = () => {
         handleOrderRemarkFun(trimmedRemark);
         handleClose();
     };
-
-    console.log('orderreamrk', orderRemark);
-
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 

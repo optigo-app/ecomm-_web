@@ -134,8 +134,6 @@ const ProductList = () => {
     }
   }, [])
 
-  console.log("selectedMetalId", loginUserDetail)
-
   useEffect(() => {
     const fetchData = async () => {
       let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -329,22 +327,14 @@ const ProductList = () => {
 
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
-
-    console.log("BreadCum", BreadCum)
-
     const values = BreadCum[0]?.split(",");
     const labels = BreadCum[1]?.split(",");
-
 
     const updatedBreadCum = labels?.reduce((acc, label, index) => {
       acc[label] = values[index] || "";
       return acc;
     }, {});
-
-    console.log("labels", labels);
-
     let result = {};
-
     if (updatedBreadCum) {
       result = Object.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
         acc[`FilterKey${index === 0 ? "" : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
@@ -1212,8 +1202,6 @@ const ProductList = () => {
     }
   };
 
-  console.log("BreadCumsObj()", BreadCumsObj())
-
   const handleLabelMenuName = () => {
     switch (location?.search.charAt(1)) {
       case "A":
@@ -1232,8 +1220,6 @@ const ProductList = () => {
         return menuList?.menuname
     }
   }
-
-  console.log("BreadCumsObj()", BreadCumsObj());
 
   return (
     <div>
