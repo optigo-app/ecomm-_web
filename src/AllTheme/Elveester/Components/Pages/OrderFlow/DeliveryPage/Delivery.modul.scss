@@ -404,6 +404,33 @@
     }
 }
 
+@media (max-width: 1000px) {
+    .elv_delblock_rows_5 {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 999;
+        background-color: #7d7f85;
+        color: white;
+        border: 1px solid #d9d9d9;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            background-color: #FFFFFF;
+            color: #7b7b7b;
+        }
+
+        .elv_continue_title {
+            display: flex;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     .elv_delivery_lists_header {
         margin-inline: 2% !important;
@@ -457,7 +484,7 @@
     .elv_delivery_Main_div {
         .elv_delblock_rows_1 {
             .elv_back_title {
-                font-size: 12px;
+                font-size: 15px;
             }
 
         }
@@ -465,7 +492,7 @@
         .elv_delblock_rows_2 {
             .elv_address_title {
                 text-align: center;
-                font-size: 12px;
+                font-size: 15px;
             }
         }
 

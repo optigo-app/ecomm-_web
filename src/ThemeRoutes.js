@@ -44,13 +44,13 @@ export default function ThemeRoutes() {
   const setRoopWebLogo = useSetRecoilState(roop_companyLogo);
   const setRoopMobileLogo = useSetRecoilState(roop_companyLogoM);
 
-  const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
-
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
 
+  const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo)
+  const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM)
+
   const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
-  const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
 
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
@@ -71,7 +71,7 @@ export default function ThemeRoutes() {
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
-    
+
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
 
@@ -96,7 +96,7 @@ export default function ThemeRoutes() {
       Storeinit()
         .then((response) => {
           if (response.status === 200 && response?.data?.Data) {
-            setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
+            // setThemeNo(response?.data?.Data?.rd[0]?.Themeno);
             let title = response?.data?.Data?.rd[0]?.companyname;
             let favIcon = response?.data?.Data?.rd[0]?.favicon;
             setTitle(title);
@@ -119,10 +119,6 @@ export default function ThemeRoutes() {
               } catch (e) {
                 console.error("Error parsing visiterId cookie:", e);
               }
-            }
-
-            if (response?.data?.Data?.rd[0]?.Themeno === 3) {
-              el_setCompanyTitleLogo(response?.data?.Data?.rd[0]?.companylogo);
             }
 
             if (response?.data?.Data?.rd[0]?.Themeno === 4) {

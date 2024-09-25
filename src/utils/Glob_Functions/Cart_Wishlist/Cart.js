@@ -350,7 +350,8 @@ const useCart = () => {
           cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
         );
         setCartData(updatedCartData);
-        setProductRemark(resStatus?.design_remark);
+        // setProductRemark(resStatus?.design_remark);
+        setProductRemark("");
       }
     } catch (error) {
       console.error("Error:", error);

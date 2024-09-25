@@ -88,7 +88,7 @@ const CartItem = ({
   };
 
   const handleSaveInternal = () => {
-    handleSave(item, remark);
+    handleSave(item);
     handleClose1();
   };
 
@@ -245,7 +245,7 @@ const CartItem = ({
                 )}
                 <div className='elv_remarks_remove_div'>
                   <span className='elv_remark_modal_title' onClick={handleOpen1}>{item?.Remarks ? 'Edit Remark' : 'Add Remark'}</span>
-                  <span className='elv_remove_items' onClick={handleOpen}>Remove</span>
+                  <span className='elv_remove_items' onClick={handleClose1}>Remove</span>
                 </div>
               </div>
             </div>

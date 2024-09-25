@@ -821,6 +821,22 @@ const ProductDetail = () => {
     // console.log("pdImgList",pdImgList,pdImgListCol)
   }
 
+  const handleMetalWiseColorImgWithFlag = async (e) => {
+
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.colorcode == e.target.value
+        )[0]
+    }
+
+    setMetalColor(e.target.value)
+
+  }
+
   const ProdCardImageFunc = async () => {
     let finalprodListimg;
     let pdImgList = [];
@@ -1605,7 +1621,11 @@ const ProductDetail = () => {
                                       <select
                                         className="elv_metaltype_drp"
                                         value={metalColor}
-                                        onChange={(e) => handleMetalWiseColorImg(e)}
+                                        onChange={(e) =>
+                                          storeInit?.IsColorWiseImages === 1 ?
+                                            handleMetalWiseColorImg(e) :
+                                            handleMetalWiseColorImgWithFlag(e)
+                                        }
                                       >
                                         {metalColorCombo?.map((ele) => (
                                           <option key={ele?.id} value={ele?.metalcolorname}>
@@ -2038,7 +2058,11 @@ const ProductDetail = () => {
                                     <select
                                       className="elv_metaltype_drp"
                                       value={metalColor}
-                                      onChange={(e) => handleMetalWiseColorImg(e)}
+                                      onChange={(e) =>
+                                        storeInit?.IsColorWiseImages === 1 ?
+                                          handleMetalWiseColorImg(e) :
+                                          handleMetalWiseColorImgWithFlag(e)
+                                      }
                                     >
                                       {metalColorCombo?.map((ele) => (
                                         <option key={ele?.id} value={ele?.metalcolorname}>
