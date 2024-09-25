@@ -1,4 +1,3 @@
-
 @import '../../../scss/variable.scss';
 
 .dai_headerMain {
@@ -21,8 +20,9 @@
     align-items: center;
   }
 
-  .Dt_FontFamilySet{
-    font-family:  "Rosarivo", cursive;;
+  .Dt_FontFamilySet {
+    font-family: "Rosarivo", cursive;
+    ;
   }
 
   .level1MenuData {
@@ -247,6 +247,7 @@
       position: fixed;
       z-index: 1111111111;
       width: 100%;
+      height: 60px;
     }
 
 
@@ -294,8 +295,8 @@
       font-weight: 600;
     }
 
-    .dt_mobile_div3_li3{
-      margin-inline: 2px!important;
+    .dt_mobile_div3_li3 {
+      margin-inline: 2px !important;
     }
 
   }
@@ -313,9 +314,16 @@
     border-radius: 5px;
   }
 
-  // @media screen and (max-width: 450px) {
-  //   .dt_mobile_div3_li3 {
-  //     display: none;
-  //   }
-  // }
+  @media screen and (min-width:426px) {
+    .dt_mobileView_div2_mobile {
+      display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 425px) {
+    .dt_mobileView_div2 {
+      display: none !important;
+    }
+  }
+
 }

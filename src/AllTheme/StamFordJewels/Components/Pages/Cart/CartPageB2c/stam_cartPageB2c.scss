@@ -1,6 +1,6 @@
 @import '../../../scss/variable.scss';
 
-.smr_B2cCart {
+.stam_B2cCart {
   display: flex;
   justify-content: flex-end;
   padding: 0px;
@@ -8,20 +8,20 @@
   font-family: $primaryFontFamily;
 }
 
-.smr_B2C-container {
+.stam_B2C-container {
   padding: 0px;
 }
 
-.smr_b2ccartImage {
+.stam_b2ccartImage {
   max-width: 180px;
   object-fit: cover;
 }
 
-.smr_b2cCartImagetd {
+.stam_b2cCartImagetd {
   max-width: 150px;
 }
 
-.smr_b2cCartPageButonGp {
+.stam_b2cCartPageButonGp {
   position: fixed;
   top: 0px;
   width: 40%;
@@ -29,7 +29,7 @@
   z-index: 11;
   background-color: white;
 
-  .smr_b2ccartCloseIcon {
+  .stam_b2ccartCloseIcon {
     text-align: end;
     margin-right: 10px;
     color: $titleColor;
@@ -37,7 +37,7 @@
     cursor: pointer;
   }
 
-  .smr_cartB2cMainTitleBtn p {
+  .stam_cartB2cMainTitleBtn p {
     color: $titleColor;
     font-size: $fontSize7;
     text-align: center;
@@ -45,13 +45,13 @@
   }
 }
 
-.smr_b2cCartQTRm {
+.stam_b2cCartQTRm {
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 10px;
 
-  .smr_b2cCartRmBtn {
+  .stam_b2cCartRmBtn {
     margin: 0 !important;
     padding: 0 !important;
     color: $titleColor;
@@ -60,7 +60,7 @@
 
 }
 
-.smr_B2cCheckoutBtnDiv {
+.stam_B2cCheckoutBtnDiv {
   position: fixed;
   bottom: 0px;
   width: 40%;
@@ -70,7 +70,7 @@
   font-family: $primaryFontFamily;
   font-size: $fontSize3;
 
-  .smr_B2cCheckoutBtn {
+  .stam_B2cCheckoutBtn {
     border: none;
     background-color: #7d7f85;
     padding: 10px 0px;
@@ -80,43 +80,43 @@
   }
 }
 
-.smr_b2cCartTb {
+.stam_b2cCartTb {
   margin-top: 100px;
   padding: 20px;
 }
 
-.smr_B2C-table {
+.stam_B2C-table {
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
 }
 
-.smr_B2C-table th,
-.smr_B2C-table td {
+.stam_B2C-table th,
+.stam_B2C-table td {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: top;
 }
 
-.smr_b2ccartContentTd {
+.stam_b2ccartContentTd {
   max-width: 240px;
 }
 
 
-.smr_B2C-text-right {
+.stam_B2C-text-right {
   text-align: center;
   font-size: $fontSize2;
   color: $titleColor;
   font-family: $primaryFontFamily;
 }
 
-.smr_b2ccartContentTd {
+.stam_b2ccartContentTd {
   display: flex;
   flex-direction: column;
   font-family: $primaryFontFamily;
 }
 
-.smr_b2ccartContentTitle {
+.stam_b2ccartContentTitle {
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: normal;
@@ -125,30 +125,30 @@
   font-family: $primaryFontFamily;
 }
 
-.smr_b2ccartContentMtDT {
+.stam_b2ccartContentMtDT {
   font-size: $fontSize2;
   color: $titleColor;
   font-family: $primaryFontFamily;
 }
 
-.smr_noB2CcartData {
+.stam_noB2CcartData {
   position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
 
-  .smr_title {
+  .stam_title {
     color: $titleColor;
     font-size: $fontSize5;
   }
 
-  .smr_desc {
+  .stam_desc {
     color: $titleColor;
     font-size: $fontSize2;
   }
 
-  .smr_browseOurCollectionbtn {
+  .stam_browseOurCollectionbtn {
     background-color: #7d7f85;
     border: none;
     color: #fff;
@@ -163,7 +163,7 @@
 
 // for quantity
 
-.smr_cartB2c-quantity {
+.stam_cartB2c-quantity {
   display: flex;
   width: 130px;
   height: 45px;
@@ -199,31 +199,31 @@
 
 @media(max-width:1750px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 45% !important;
   }
 }
 
 @media(max-width:1600px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 48% !important;
   }
 }
 
 @media(max-width:1440px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 50% !important;
   }
 
-  .smr_b2ccartImage {
+  .stam_b2ccartImage {
     max-width: 160px;
     object-fit: cover;
   }
@@ -231,13 +231,13 @@
 
 @media(max-width:1300px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 50% !important;
   }
 
-  .smr_b2ccartImage {
+  .stam_b2ccartImage {
     max-width: 150px;
     object-fit: cover;
   }
@@ -245,13 +245,13 @@
 
 @media(max-width:1200px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 50% !important;
   }
 
-  .smr_b2ccartImage {
+  .stam_b2ccartImage {
     max-width: 120px;
     object-fit: cover;
   }
@@ -259,114 +259,114 @@
 
 @media(max-width:1100px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 55% !important;
   }
 
-  .smr_b2ccartImage {
+  .stam_b2ccartImage {
     max-width: 120px;
     object-fit: cover;
   }
 
-  .smr_b2ccartContentTitle {
+  .stam_b2ccartContentTitle {
     font-size: $fontSize2;
   }
 
-  .smr_b2ccartContentMtDT,
-  .smr_B2C-text-right {
+  .stam_b2ccartContentMtDT,
+  .stam_B2C-text-right {
     font-size: $fontSize1;
   }
 }
 
 @media(max-width:1000px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 68% !important;
   }
 }
 
 @media(max-width:840px) {
 
-  .smr_B2ccartPaperDrawer,
-  .smr_B2cCheckoutBtnDiv,
-  .smr_b2cCartPageButonGp {
+  .stam_B2ccartPaperDrawer,
+  .stam_B2cCheckoutBtnDiv,
+  .stam_b2cCartPageButonGp {
     width: 100% !important;
   }
 }
 
 @media(max-width:554px) {
-  .smr_b2ccartImage {
+  .stam_b2ccartImage {
     max-width: 80px;
     object-fit: cover;
   }
 
-  .smr_b2ccartContentTitle {
+  .stam_b2ccartContentTitle {
     font-size: $fontSize1;
   }
 
-  .smr_b2ccartContentMtDT,
-  .smr_B2C-text-right {
+  .stam_b2ccartContentMtDT,
+  .stam_B2C-text-right {
     font-size: $fontSize0;
   }
 }
 
 @media(max-width:463px) {
-  .smr_b2ccartImage {
+  .stam_b2ccartImage {
     max-width: 80px;
     object-fit: cover;
   }
 
-  .smr_b2ccartContentTitle {
+  .stam_b2ccartContentTitle {
     font-size: $fontSize1;
   }
 
-  .smr_b2ccartContentMtDT,
-  .smr_B2C-text-right {
+  .stam_b2ccartContentMtDT,
+  .stam_B2C-text-right {
     font-size: $fontSize0;
   }
 
-  .smr_B2cCartshippingDay {
+  .stam_B2cCartshippingDay {
     display: none;
   }
 
-  .smr_B2cCartshippingDayMobile {
+  .stam_B2cCartshippingDayMobile {
     display: block;
     font-size: $fontSize0;
     color: $titleColor;
     padding: 8px 0px 8px 0px !important;
   }
 
-  .smr_B2cCartPrice {
+  .stam_B2cCartPrice {
     display: none;
   }
 
-  .smr_B2cCartPriceDayMobile {
+  .stam_B2cCartPriceDayMobile {
     display: block;
     font-size: $fontSize2;
     color: $titleColor;
     padding: 0px !important;
   }
 
-  .smr_b2cCartRmBtn {
+  .stam_b2cCartRmBtn {
     font-size: $fontSize2;
   }
 
-  .smr_cartB2c-quantity {
+  .stam_cartB2c-quantity {
     width: 100px;
     height: 40px;
   }
 }
 
 @media(min-width:463px) {
-  .smr_B2cCartshippingDayMobile {
+  .stam_B2cCartshippingDayMobile {
     display: none;
   }
 
-  .smr_B2cCartPriceDayMobile {
+  .stam_B2cCartPriceDayMobile {
     display: none;
   }
 }

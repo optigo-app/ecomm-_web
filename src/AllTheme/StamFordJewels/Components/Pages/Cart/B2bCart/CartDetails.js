@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './smr_cartPage.scss';
+import './stam_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
@@ -44,13 +44,13 @@ const CartDetails = ({
   }, [selectedItem]);
 
   return (
-    <div className="smr_cart-container">
-      <div className="smr_Cart-imageDiv">
-        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
+    <div className="stam_cart-container">
+      <div className="stam_Cart-imageDiv">
+        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='stam_cartImage' /> */}
         <img 
         src={imageSrc} 
         alt="image" 
-        className='smr_cartDetailImage'  
+        className='stam_cartDetailImage'  
         onClick={() => handleMoveToDetail(selectedItem)}
         />
       </div>

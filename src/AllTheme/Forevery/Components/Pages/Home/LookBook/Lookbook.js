@@ -531,16 +531,16 @@
 //   );
 
 //   return (
-//     <div className="smr_LookBookMain">
+//     <div className="for_LookBookMain">
 //       <Drawer
 //         open={isDrawerOpen}
 //         onClose={() => {
 //           setIsDrawerOpen(false);
 //         }}
-//         className="smr_filterDrawer"
+//         className="for_filterDrawer"
 //       >
 //         {filterData?.length > 0 && (
-//           <div className="smr_lookBookFilterSubDiv" style={{ padding: "20px" }}>
+//           <div className="for_lookBookFilterSubDiv" style={{ padding: "20px" }}>
 //             <div style={{ display: "flex", justifyContent: "flex-end" }}>
 //               <IoClose
 //                 style={{
@@ -551,7 +551,7 @@
 //                 onClick={() => setIsDrawerOpen(false)}
 //               />
 //             </div>
-//             <span className="smr_filter_text">
+//             <span className="for_filter_text">
 //               <span>Filters</span>
 //               <span onClick={() => handelFilterClearAll()}>
 //                 {Object.values(filterChecked).filter((ele) => ele.checked)
@@ -665,7 +665,7 @@
 //                                 //   flexDirection: "row-reverse", // Align items to the right
 //                                 //   fontFamily:'TT Commons Regular'
 //                                 // }}
-//                                 className="smr_mui_checkbox_label"
+//                                 className="for_mui_checkbox_label"
 //                                 label={opt.Name}
 //                               />
 //                             </div>
@@ -769,7 +769,7 @@
 //                               //   flexDirection: "row-reverse", // Align items to the right
 //                               //   fontFamily:'TT Commons Regular'
 //                               // }}
-//                               className="smr_mui_checkbox_label"
+//                               className="for_mui_checkbox_label"
 //                               // label={
 //                               //   opt?.Minval == 0
 //                               //     ? `Under ${decodeEntities(
@@ -822,9 +822,9 @@
 //             boxShadow: 24,
 //             p: 2,
 //           }}
-//           className="smr_lookBookCategoryPoupuBox"
+//           className="for_lookBookCategoryPoupuBox"
 //         >
-//           <div onClick={handleClose} className="smr_lookSubCtSaveBtn">
+//           <div onClick={handleClose} className="for_lookSubCtSaveBtn">
 //             <IoClose
 //               style={{ height: "25px", width: "25px", color: "#000000ab" }}
 //             />
@@ -892,7 +892,7 @@
 //                               size="small"
 //                             />
 //                           }
-//                           className="smr_mui_checkbox_label"
+//                           className="for_mui_checkbox_label"
 //                           label={opt.Name}
 //                         />
 //                       </div>
@@ -910,11 +910,11 @@
 //           <ProductListSkeleton />
 //         </div>
 //       ) : (
-//         <div className="smr_LookBookSubMainDiv">
-//           <div className="smr_lookbookFilterMain">
+//         <div className="for_LookBookSubMainDiv">
+//           <div className="for_lookbookFilterMain">
 //             {filterData?.length > 0 && (
-//               <div className="smr_lookBookFilterSubDiv">
-//                 <span className="smr_filter_text">
+//               <div className="for_lookBookFilterSubDiv">
+//                 <span className="for_filter_text">
 //                   <span>Filters</span>
 
 //                   {/* <span>
@@ -1043,7 +1043,7 @@
 //                                     //   flexDirection: "row-reverse", // Align items to the right
 //                                     //   fontFamily:'TT Commons Regular'
 //                                     // }}
-//                                     className="smr_mui_checkbox_label"
+//                                     className="for_mui_checkbox_label"
 //                                     label={opt.Name}
 //                                   />
 //                                 </div>
@@ -1151,7 +1151,7 @@
 //                                     //   flexDirection: "row-reverse", // Align items to the right
 //                                     //   fontFamily:'TT Commons Regular'
 //                                     // }}
-//                                     className="smr_mui_checkbox_label"
+//                                     className="for_mui_checkbox_label"
 //                                     // label={
 //                                     //   opt?.Minval == 0
 //                                     //     ? `Under ${decodeEntities(
@@ -1187,9 +1187,9 @@
 //               </div>
 //             )}
 //           </div>
-//           <div className="smr_lookBookImgDiv">
+//           <div className="for_lookBookImgDiv">
 //             <div
-//               className="smr_lookBookMobileTopLine"
+//               className="for_lookBookMobileTopLine"
 //               style={{
 //                 display: "flex",
 //                 justifyContent: "end",
@@ -1200,7 +1200,7 @@
 //               <FilterAltIcon
 //                 fontSize="large"
 //                 style={{ color: "#c0bbb1" }}
-//                 className="smr_lookBookMobileFilter"
+//                 className="for_lookBookMobileFilter"
 //                 onClick={() => setIsDrawerOpen(true)}
 //               />
 //               <HtmlTooltip
@@ -1208,7 +1208,7 @@
 //               >
 //                 <button
 //                   onClick={handleOpen}
-//                   className="smr_lookBookSelectViewBtn"
+//                   className="for_lookBookSelectViewBtn"
 //                   style={{
 //                     background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
 //                     color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85"
@@ -1221,7 +1221,7 @@
 //               {/* <select
 //                 value={selectedValue}
 //                 onChange={handleChange}
-//                 className="smr_lookBookViveBoxSet"
+//                 className="for_lookBookViveBoxSet"
 //               >
 //                 <option value="1">Single Block View</option>
 //                 <option value="2">Double Block View</option>
@@ -1265,14 +1265,14 @@
 //             </div>
 
 //             {selectedValue == 2 && (
-//               <div className="smr_lookBookImgDivMain">
+//               <div className="for_lookBookImgDivMain">
 //                 {filteredDesignSetLstData?.length == 0 ? (
-//                   <div className="smr_noProductFoundLookBookDiv">
+//                   <div className="for_noProductFoundLookBookDiv">
 //                     <p>No Product Found!</p>
 //                   </div>
 //                 ) : (
 //                   filteredDesignSetLstData?.map((slide, index) => (
-//                     <div className="smr_designSetDiv" key={index}>
+//                     <div className="for_designSetDiv" key={index}>
 //                       <div
 //                         style={{
 //                           display: "flex",
@@ -1282,7 +1282,7 @@
 //                       >
 //                         {ProdCardImageFunc(slide) ? (
 //                           <img
-//                             className="smr_lookBookImg"
+//                             className="for_lookBookImg"
 //                             loading="lazy"
 //                             src={ProdCardImageFunc(slide)}
 //                             alt={`Slide ${index}`}
@@ -1308,12 +1308,12 @@
 //                             <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
 //                           </div>
 //                         )}
-//                         <p className="smr_lb2designList_title">
+//                         <p className="for_lb2designList_title">
 //                           {slide?.designsetno}
 //                         </p>
 //                       </div>
 //                       <div
-//                         className="smr_lookBookImgDeatil"
+//                         className="for_lookBookImgDeatil"
 //                         style={{
 //                           display: dataKey == index ? "none" : "flex",
 //                           justifyContent: "space-between",
@@ -1321,7 +1321,7 @@
 //                           margin: "5px",
 //                         }}
 //                       >
-//                         <p className="smr_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
+//                         <p className="for_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
 //                           DWT:{" "}
 //                           {calculateTotalUnitCostWithMarkUpDwt(
 //                             JSON.parse(slide.Designdetail)
@@ -1336,7 +1336,7 @@
 //                           ).toFixed(3)}{" "}
 //                         </p>
 //                         <div
-//                           className="smr_lookBookImgDeatilSub"
+//                           className="for_lookBookImgDeatilSub"
 //                           style={{ display: "flex", alignItems: "center" }}
 //                         >
 //                           <p
@@ -1345,16 +1345,16 @@
 //                               fontSize: "15px",
 //                               fontWeight: 600,
 //                             }}
-//                             className="smr_lookBookPriceShow"
+//                             className="for_lookBookPriceShow"
 //                           >
 //                             {" "}
 //                             <span
-//                               className="smr_currencyFont"
+//                               className="for_currencyFont"
 //                             >
 //                               {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                             </span>
 //                             {/* <span
-//                               className="smr_currencyFont"
+//                               className="for_currencyFont"
 //                               dangerouslySetInnerHTML={{
 //                                 __html: decodeEntities(
 //                                   storeInit?.Currencysymbol
@@ -1367,7 +1367,7 @@
 //                             ))}
 //                           </p>
 //                           <button
-//                             className="smr_lookBookBuyBtn"
+//                             className="for_lookBookBuyBtn"
 //                             onClick={() =>
 //                               handleByCombo(
 //                                 parseDesignDetails(slide?.Designdetail, "Cart")
@@ -1379,7 +1379,7 @@
 //                         </div>
 //                       </div>
 //                       <div
-//                         className="smr_lookBookSubImgMain"
+//                         className="for_lookBookSubImgMain"
 //                         style={{ display: dataKey == index && "none" }}
 //                       >
 //                         <Swiper
@@ -1389,7 +1389,7 @@
 //                           // pagination={{ clickable: true }}
 //                           loop={false}
 //                           modules={[Pagination, Navigation]}
-//                           className="smr_LookBookmySwiper"
+//                           className="for_LookBookmySwiper"
 //                           breakpoints={{
 //                             320: {
 //                               slidesPerView: 1,
@@ -1409,23 +1409,23 @@
 //                             parseDesignDetails(slide?.Designdetail)
 //                           )?.map((detail, subIndex) => (
 //                             <div
-//                               className="smr_lookBookSubImageDiv"
+//                               className="for_lookBookSubImageDiv"
 //                               key={subIndex}
 //                             >
 //                               <SwiperSlide
-//                                 className="smr_lookBookSliderSubDiv"
+//                                 className="for_lookBookSliderSubDiv"
 //                                 style={{
 //                                   marginRight: "0px",
 //                                   cursor: "pointer",
 //                                 }}
 //                               >
 //                                 {detail?.IsInReadyStock == 1 && (
-//                                   <span className="smr_LookBookinstock">
+//                                   <span className="for_LookBookinstock">
 //                                     In Stock
 //                                   </span>
 //                                 )}
 //                                 <img
-//                                   className="smr_lookBookSubImage"
+//                                   className="for_lookBookSubImage"
 //                                   loading="lazy"
 //                                   src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
 //                                   alt={`Sub image ${subIndex} for slide ${index}`}
@@ -1447,14 +1447,14 @@
 //                                 >
 //                                   {cartItems.includes(detail?.autocode) ? (
 //                                     <button
-//                                       className="smr_lookBookINCartBtn"
+//                                       className="for_lookBookINCartBtn"
 //                                       onClick={() => handleRemoveCart(detail)}
 //                                     >
 //                                       REMOVE CART
 //                                     </button>
 //                                   ) : (
 //                                     <button
-//                                       className="smr_lookBookAddtoCartBtn"
+//                                       className="for_lookBookAddtoCartBtn"
 //                                       onClick={() => handleAddToCart(detail)}
 //                                     >
 //                                       ADD TO CART +
@@ -1473,15 +1473,15 @@
 //             )}
 
 //             {selectedValue == 3 && (
-//               <div className="smr_lookBookImgDivMain">
+//               <div className="for_lookBookImgDivMain">
 //                 {filteredDesignSetLstData?.length == 0 ? (
-//                   <div className="smr_noProductFoundLookBookDiv">
+//                   <div className="for_noProductFoundLookBookDiv">
 //                     <p>No Product Found!</p>
 //                   </div>
 //                 ) : (
 //                   <>
 //                     {filteredDesignSetLstData?.map((slide, index) => (
-//                       <div className="smr_designSetDiv2" key={index}>
+//                       <div className="for_designSetDiv2" key={index}>
 //                         <div
 //                           style={{
 //                             display: "flex",
@@ -1489,11 +1489,11 @@
 //                             height: "300px",
 //                             position: 'relative'
 //                           }}
-//                           className="smr_designSetDiv2_sub1"
+//                           className="for_designSetDiv2_sub1"
 //                         >
 //                           {ProdCardImageFunc(slide) ? (
 //                             <img
-//                               className="smr_lookBookImg"
+//                               className="for_lookBookImg"
 //                               loading="lazy"
 //                               src={ProdCardImageFunc(slide)}
 //                               alt={`Slide ${index}`}
@@ -1519,7 +1519,7 @@
 //                               <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
 //                             </div>
 //                           )}
-//                           <p className="smr_lb1designList_title">{slide?.designsetno}</p>
+//                           <p className="for_lb1designList_title">{slide?.designsetno}</p>
 //                         </div>
 
 //                         <div
@@ -1531,10 +1531,10 @@
 //                             alignItems: "center",
 //                             flexDirection: "column",
 //                           }}
-//                           className="smr_designSetDiv2_sub2"
+//                           className="for_designSetDiv2_sub2"
 //                         >
 //                           <div
-//                             className="smr_lookBookImgDeatil"
+//                             className="for_lookBookImgDeatil"
 //                             style={{
 //                               display: dataKey == index ? "none" : "flex",
 //                               justifyContent: "space-between",
@@ -1544,7 +1544,7 @@
 //                               margin: "5px",
 //                             }}
 //                           >
-//                             <p className="smr_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
+//                             <p className="for_lookBookDesc" style={{ fontSize: "13px", margin: "2px" }}>
 //                               DWT:{" "}
 //                               {calculateTotalUnitCostWithMarkUpDwt(
 //                                 JSON.parse(slide.Designdetail)
@@ -1559,7 +1559,7 @@
 //                               ).toFixed(3)}{" "}
 //                             </p>
 //                             <div
-//                               className="smr_lookBookImgDeatilSub"
+//                               className="for_lookBookImgDeatilSub"
 //                               style={{ display: "flex", alignItems: "center" }}
 //                             >
 //                               <p
@@ -1568,11 +1568,11 @@
 //                                   fontSize: "15px",
 //                                   fontWeight: 600,
 //                                 }}
-//                                 className="smr_lookBookPriceShow"
+//                                 className="for_lookBookPriceShow"
 //                               >
 //                                 {" "}
 //                                 {/* <span
-//                                   className="smr_currencyFont"
+//                                   className="for_currencyFont"
 //                                   dangerouslySetInnerHTML={{
 //                                     __html: decodeEntities(
 //                                       storeInit?.Currencysymbol
@@ -1580,7 +1580,7 @@
 //                                   }}
 //                                 /> */}
 //                                 <span
-//                                   className="smr_currencyFont"
+//                                   className="for_currencyFont"
 //                                 >
 //                                   {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                 </span>
@@ -1590,7 +1590,7 @@
 //                                 ))}
 //                               </p>
 //                               <button
-//                                 className="smr_lookBookBuyBtn"
+//                                 className="for_lookBookBuyBtn"
 //                                 onClick={() =>
 //                                   handleByCombo(
 //                                     parseDesignDetails(
@@ -1610,7 +1610,7 @@
 //                             navigation={true}
 //                             loop={false}
 //                             modules={[Pagination, Navigation]}
-//                             className="smr_LookBookmySwiper smr_lookBookThirdViewWeb"
+//                             className="for_LookBookmySwiper for_lookBookThirdViewWeb"
 //                             breakpoints={{
 //                               320: {
 //                                 slidesPerView: 1,
@@ -1630,23 +1630,23 @@
 //                               parseDesignDetails(slide?.Designdetail)
 //                             )?.map((detail, subIndex) => (
 //                               <div
-//                                 className="smr_lookBookSubImageDiv"
+//                                 className="for_lookBookSubImageDiv"
 //                                 key={subIndex}
 //                               >
 //                                 <SwiperSlide
-//                                   className="smr_lookBookSliderSubDiv"
+//                                   className="for_lookBookSliderSubDiv"
 //                                   style={{
 //                                     marginRight: "0px",
 //                                     cursor: "pointer",
 //                                   }}
 //                                 >
 //                                   {detail?.IsInReadyStock == 1 && (
-//                                     <span className="smr_LookBookinstock">
+//                                     <span className="for_LookBookinstock">
 //                                       In Stock
 //                                     </span>
 //                                   )}
 //                                   <img
-//                                     className="smr_lookBookSubImage"
+//                                     className="for_lookBookSubImage"
 //                                     loading="lazy"
 //                                     src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
 //                                     alt={`Sub image ${subIndex} for slide ${index}`}
@@ -1669,14 +1669,14 @@
 //                                   >
 //                                     {cartItems.includes(detail?.autocode) ? (
 //                                       <button
-//                                         className="smr_lookBookINCartBtn"
+//                                         className="for_lookBookINCartBtn"
 //                                         onClick={() => handleRemoveCart(detail)}
 //                                       >
 //                                         REMOVE CART
 //                                       </button>
 //                                     ) : (
 //                                       <button
-//                                         className="smr_lookBookAddtoCartBtn"
+//                                         className="for_lookBookAddtoCartBtn"
 //                                         onClick={() => handleAddToCart(detail)}
 //                                       >
 //                                         ADD TO CART +
@@ -1689,10 +1689,10 @@
 //                           </Swiper>
 
 
-//                           <div className="smr_LookBookMobileThridViewMain">
+//                           <div className="for_LookBookMobileThridViewMain">
 //                             <div className="card">
 //                               <Swiper
-//                                 className="smr_LookBookMobileThridViewMain_swiper_w"
+//                                 className="for_LookBookMobileThridViewMain_swiper_w"
 //                                 spaceBetween={5}
 //                                 slidesPerView={1}
 //                                 speed={1000}
@@ -1704,7 +1704,7 @@
 //                                   parseDesignDetails(slide?.Designdetail)
 //                                 )?.map((detail, subIndex) => (
 //                                   <div
-//                                     className="smr_lookBookSubImageDiv"
+//                                     className="for_lookBookSubImageDiv"
 //                                     key={subIndex}
 //                                   >
 //                                     <SwiperSlide
@@ -1715,12 +1715,12 @@
 //                                       }}
 //                                     >
 //                                       {detail?.IsInReadyStock == 1 && (
-//                                         <span className="smr_LookBookinstock">
+//                                         <span className="for_LookBookinstock">
 //                                           In Stock
 //                                         </span>
 //                                       )}
 //                                       <img
-//                                         className="smr_lookBookSubImage"
+//                                         className="for_lookBookSubImage"
 //                                         loading="lazy"
 //                                         src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
 //                                         alt={`Sub image ${subIndex} for slide ${index}`}
@@ -1743,14 +1743,14 @@
 //                                       >
 //                                         {cartItems.includes(detail?.autocode) ? (
 //                                           <button
-//                                             className="smr_lookBookINCartBtn"
+//                                             className="for_lookBookINCartBtn"
 //                                             onClick={() => handleRemoveCart(detail)}
 //                                           >
 //                                             REMOVE CART
 //                                           </button>
 //                                         ) : (
 //                                           <button
-//                                             className="smr_lookBookAddtoCartBtn"
+//                                             className="for_lookBookAddtoCartBtn"
 //                                             onClick={() => handleAddToCart(detail)}
 //                                           >
 //                                             ADD TO CART +
@@ -1778,9 +1778,9 @@
 //             )}
 
 //             {selectedValue == 1 && (
-//               <div className="smr_lookbook3MainDiv">
+//               <div className="for_lookbook3MainDiv">
 //                 {filteredDesignSetLstData?.length == 0 ? (
-//                   <div className="smr_noProductFoundLookBookDiv">
+//                   <div className="for_noProductFoundLookBookDiv">
 //                     <p>No Product Found!</p>
 //                   </div>
 //                 ) : (
@@ -1794,18 +1794,18 @@
 //                       modules={[Keyboard, FreeMode, Navigation, Thumbs, Scrollbar]}
 //                       keyboard={{ enabled: true }}
 //                       mousewheel={true}
-//                       className="smr_LookBookmySwiper mySwiper2"
+//                       className="for_LookBookmySwiper mySwiper2"
 //                     >
 //                       {filteredDesignSetLstData?.map((slide, index) => (
 //                         <SwiperSlide key={index}>
 //                           <div>
-//                             <div className="smr_lb3compeletethelook_cont">
-//                               <div className="smr_lb3ctlImg_containe">
+//                             <div className="for_lb3compeletethelook_cont">
+//                               <div className="for_lb3ctlImg_containe">
 //                                 {ProdCardImageFunc(slide) ? (
 //                                   <img
 //                                     src={ProdCardImageFunc(slide)}
 //                                     alt=""
-//                                     className="smr_lb3ctl_img"
+//                                     className="for_lb3ctl_img"
 //                                   />
 //                                 ) : (
 //                                   <div
@@ -1818,12 +1818,12 @@
 //                                       justifyContent: "center",
 //                                       cursor: "pointer",
 //                                     }}
-//                                     className="smr_lb3ctl_img"
+//                                     className="for_lb3ctl_img"
 //                                   >
 //                                     {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
 //                                   </div>
 //                                 )}
-//                                 {/* <div className="smr_lb3BuyComboDiv" onClick={() =>
+//                                 {/* <div className="for_lb3BuyComboDiv" onClick={() =>
 //                                   handleByCombo(
 //                                     parseDesignDetails(
 //                                       slide?.Designdetail,
@@ -1845,18 +1845,18 @@
 //                                       parseDesignDetails(slide?.Designdetail)
 //                                     )
 //                                   )?.length > 3
-//                                     ? "smr_lb3compeletethelook_prodt_for_3"
-//                                     : "smr_lb3compeletethelook_prodt"
+//                                     ? "for_lb3compeletethelook_prodt_for_3"
+//                                     : "for_lb3compeletethelook_prodt"
 //                                 }
 //                               >
-//                                 <p className="smr_lb3designList_title" >{slide?.designsetno}</p>
-//                                 <div className="smr_lb3_prodtDiv2">
+//                                 <p className="for_lb3designList_title" >{slide?.designsetno}</p>
+//                                 <div className="for_lb3_prodtDiv2">
 //                                   {sortDesignDetailsBySrNo(
 //                                     parseDesignDetails(slide?.Designdetail)
 //                                   )?.map((ele, subIndex) => (
 //                                     <div
 //                                       key={subIndex}
-//                                       className="smr_lb3completethelook_outer"
+//                                       className="for_lb3completethelook_outer"
 //                                       style={{
 //                                         borderTop: subIndex !== 0 ? "none" : "",
 //                                         width: "513px",
@@ -1866,14 +1866,14 @@
 //                                       }}
 //                                     >
 //                                       <div
-//                                         className="smr_lookbookMainDivdata"
+//                                         className="for_lookbookMainDivdata"
 //                                         style={{
 //                                           display: "flex",
 //                                           gap: "40px",
 //                                           justifyContent: "space-around",
 //                                         }}
 //                                       >
-//                                         <div className="smr_lb3ImageDiv" style={{ marginLeft: "12px" }}>
+//                                         <div className="for_lb3ImageDiv" style={{ marginLeft: "12px" }}>
 //                                           <img
 //                                             src={
 //                                               ele?.ImageCount > 0
@@ -1881,7 +1881,7 @@
 //                                                 : imageNotFound
 //                                             }
 //                                             alt=""
-//                                             className="smr_lb3srthelook_img"
+//                                             className="for_lb3srthelook_img"
 //                                             onClick={() =>
 //                                               handleNavigation(
 //                                                 ele?.designno,
@@ -1893,7 +1893,7 @@
 //                                             }
 //                                           />
 //                                         </div>
-//                                         <div className="smr_lb3srthelook_prodinfo" onClick={() =>
+//                                         <div className="for_lb3srthelook_prodinfo" onClick={() =>
 //                                           handleNavigation(
 //                                             ele?.designno,
 //                                             ele?.autocode,
@@ -1908,7 +1908,7 @@
 //                                               color: "#7d7f85",
 //                                               textTransform: "uppercase",
 //                                             }}
-//                                             className="smr_lb3srthelook_prodinfo_inner"
+//                                             className="for_lb3srthelook_prodinfo_inner"
 //                                           >
 //                                             <p>
 //                                               <span>
@@ -1918,16 +1918,16 @@
 
 //                                               {storeInit?.IsGrossWeight == 1 &&
 //                                                 <>
-//                                                   <span className='smr_lb3detailDT'>GWT: </span>
-//                                                   <span className='smr_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
+//                                                   <span className='for_lb3detailDT'>GWT: </span>
+//                                                   <span className='for_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
 //                                                 </>
 //                                               }
 
 //                                               {Number(ele?.Nwt) !== 0 && (
 //                                                 <>
-//                                                   <span className='smr_lb3pipe'> | </span>
-//                                                   <span className='smr_lb3detailDT'>NWT : </span>
-//                                                   <span className='smr_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
+//                                                   <span className='for_lb3pipe'> | </span>
+//                                                   <span className='for_lb3detailDT'>NWT : </span>
+//                                                   <span className='for_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
 //                                                 </>
 //                                               )}
 
@@ -1935,9 +1935,9 @@
 //                                                 <>
 //                                                   {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
 //                                                     <>
-//                                                       <span className='smr_lb3pipe'> | </span>
-//                                                       <span className='smr_lb3detailDT'>DWT: </span>
-//                                                       <span className='smr_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
+//                                                       <span className='for_lb3pipe'> | </span>
+//                                                       <span className='for_lb3detailDT'>DWT: </span>
+//                                                       <span className='for_lb3detailDT'>{(ele?.Dwt || 0)?.toFixed(3)} / {(ele?.Dpcs || 0)}</span>
 //                                                     </>
 //                                                   }
 //                                                 </>
@@ -1946,16 +1946,16 @@
 //                                                 <>
 //                                                   {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
 //                                                     <>
-//                                                       <span className='smr_lb3pipe'> | </span>
-//                                                       <span className='smr_lb3detailDT'>CWT: </span>
-//                                                       <span className='smr_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
+//                                                       <span className='for_lb3pipe'> | </span>
+//                                                       <span className='for_lb3detailDT'>CWT: </span>
+//                                                       <span className='for_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
 //                                                     </>
 //                                                   }
 //                                                 </>
 //                                               }
 //                                               <br />
 //                                               {/* <span
-//                                               className="smr_currencyFont"
+//                                               className="for_currencyFont"
 //                                               dangerouslySetInnerHTML={{
 //                                                 __html: decodeEntities(
 //                                                   storeInit?.Currencysymbol
@@ -1963,7 +1963,7 @@
 //                                               }}
 //                                             /> */}
 //                                               <span
-//                                                 className="smr_currencyFont"
+//                                                 className="for_currencyFont"
 //                                               >
 //                                                 {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                               </span>
@@ -1979,19 +1979,19 @@
 //                                             alignItems: "center",
 //                                             marginBottom: "5px",
 //                                           }}
-//                                           className="smr_lb3cartIconBtnDiv"
+//                                           className="for_lb3cartIconBtnDiv"
 //                                         >
 //                                           {cartItems.includes(ele?.autocode) ? (
 //                                             <IconButton
 //                                               onClick={() => handleRemoveCart(ele)}
 //                                             >
-//                                               <LocalMallIcon className="smr_lookBookINCartIconBtn" />
+//                                               <LocalMallIcon className="for_lookBookINCartIconBtn" />
 //                                             </IconButton>
 //                                           ) : (
 //                                             <IconButton
 //                                               onClick={() => handleAddToCart(ele)}
 //                                             >
-//                                               <LocalMallOutlinedIcon className="smr_lookBookAddtoCartIconBtn" />
+//                                               <LocalMallOutlinedIcon className="for_lookBookAddtoCartIconBtn" />
 //                                             </IconButton>
 //                                           )}
 
@@ -2002,12 +2002,12 @@
 //                                   ))}
 //                                 </div>
 //                                 <div
-//                                   className="smr_lb3TotalBtnGroup"
+//                                   className="for_lb3TotalBtnGroup"
 //                                 >
-//                                   <div className="smr_lb3TotalPrice">
+//                                   <div className="for_lb3TotalPrice">
 //                                     <span>
 //                                       <span
-//                                         className="smr_currencyFont"
+//                                         className="for_currencyFont"
 //                                       >
 //                                         {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
 //                                       </span>
@@ -2017,7 +2017,7 @@
 //                                       ))}
 //                                     </span>
 //                                   </div>
-//                                   <div className="smr_lb3BuyComboDiv" onClick={() =>
+//                                   <div className="for_lb3BuyComboDiv" onClick={() =>
 //                                     handleByCombo(
 //                                       parseDesignDetails(
 //                                         slide?.Designdetail,
@@ -2036,7 +2036,7 @@
 //                         </SwiperSlide>
 //                       ))}
 //                     </Swiper>
-//                     <div className="smr_lookbook3thumbMainDiv">
+//                     <div className="for_lookbook3thumbMainDiv">
 //                       {filteredDesignSetLstData?.length != 0 && (
 //                         <Swiper
 //                           onSwiper={setThumbsSwiper}
@@ -2095,7 +2095,7 @@
 //                                     justifyContent: "center",
 //                                     cursor: "pointer",
 //                                   }}
-//                                   className="smr_lb3ctl_img"
+//                                   className="for_lb3ctl_img"
 //                                 >
 //                                   {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
 //                                 </div>

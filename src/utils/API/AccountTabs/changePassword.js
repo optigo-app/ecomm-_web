@@ -14,7 +14,6 @@ export const handleChangePassword = async(hashedOldPassword, hashedPassword, has
             "dp": encodedCombinedValue
         }
 
-        console.log(body);
         const response = await CommonAPI(body);
         return response;
     } catch (error) {

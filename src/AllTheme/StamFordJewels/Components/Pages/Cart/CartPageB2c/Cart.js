@@ -59,7 +59,7 @@ function Cart(props) {
 
 
   return (
-    <div className="smr_CartPageMainB2cDiv">
+    <div className="stam_CartPageMainB2cDiv">
       <Basket
         isOpen={isOpen}
         closeDrawer={handleCloseDrawer}

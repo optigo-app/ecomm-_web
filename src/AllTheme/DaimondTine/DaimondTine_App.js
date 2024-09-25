@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from './Components/Pages/Home/Header/Header'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Home from './Components/Pages/Home/Index'
 import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
@@ -11,7 +11,7 @@ import Register from './Components/Pages/Auth/Registretion/Register'
 import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'
 import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
 import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
-import { dt_companyLogo, dt_loginState, lookBookDrawer } from './Components/Recoil/atom'
+import { dt_companyLogo, dt_companyLogoM, dt_loginState, lookBookDrawer } from './Components/Recoil/atom'
 import ProductList from './Components/Pages/Product/ProductList/ProductList'
 import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
 import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
@@ -34,33 +34,44 @@ import MaterialCore from './Components/Pages/StaticPages/MaterialCore/MaterialCo
 import ShipingReturn from './Components/Pages/StaticPages/ShipingReturn/ShipingReturn'
 import Exchange from './Components/Pages/StaticPages/Exchange/Exchange'
 import Location from './Components/Pages/StaticPages/Location/Location'
+import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
+import GoogleAnalytics  from 'react-ga4';
+
 
 
 const DaimondTine_App = () => {
 
   const navigation = useNavigate();
   const [islogin, setIsLoginState] = useRecoilState(dt_loginState)
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(dt_companyLogo);
+  const  setCompanyTitleLogo = useSetRecoilState(dt_companyLogo);
+  const  setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM);
   const location = useLocation();
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [localData, setLocalData] = useState();
   const isDrawerLookBook = useRecoilValue(lookBookDrawer);
+  
+
+  const TRACKING_ID = "G-6ETM8Y1KCR";
+  GoogleAnalytics.initialize(TRACKING_ID);
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-    }
+    GoogleAnalytics.set({ page: location.pathname });
+    GoogleAnalytics.send("pageview");
+    GoogleAnalytics.event({
+      category: "Navigation",
+      action: "Visited Route",
+      label: location.pathname,
+    });
+  }, [location]);
+
+  useEffect(() => {
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    
+    setCompanyTitleLogo(webLogo);
+    setCompanyTitleLogoM(mobileLogo);
   });
 
 

@@ -1,6 +1,6 @@
 @import "../../../scss/variable";
 
-.album-container {
+.smr_album-container {
     .smr_ablbumtitleDiv {
         text-align: center;
         padding-block: 2%;
@@ -34,7 +34,7 @@
         }
     }
 
-    .swiper-container {
+    .smr_swiper_container {
         margin-top: 20px;
         display: flex;
         justify-content: center;
@@ -49,9 +49,9 @@
             }
         }
 
-        .swiper-slide-custom {
-            min-width: 320px;
-        }
+        // .swiper-slide-custom {
+        //     min-width: 320px;
+        // }
 
         .design-slide {
             display: flex;
@@ -60,7 +60,7 @@
             justify-content: start;
             padding: 50px;
             background-color: #f1f1f1;
-
+            min-height: 400px;
             img {
                 width: 100%;
                 height: 100%;
@@ -68,7 +68,7 @@
         }
 
         .design-info {
-            margin-top: 10px;
+            margin-top: 2px;
             text-align: start;
 
             .smr_album1Titleline {
@@ -85,9 +85,8 @@
 
             .smr_album1price {
                 font-size: $fontSize2;
-                font-family: $primaryFontFamily;
                 letter-spacing: .5px;
-                color: $titleColor;
+                color: #7d7f85;
                 font-weight: bold;
                 padding: 0;
                 margin: 0;
@@ -107,17 +106,42 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-top: -30px !important;
 
             &:after {
                 font-size: 16px;
             }
         }
+
         .swiper-button-disabled {
             opacity: 0.5;
             cursor: pointer;
             pointer-events: auto;
             background-color: #ababab;
-            margin-top: -30px!important;
+            margin-top: -30px !important;
+        }
+
+
+        @media (max-width: 900px) {
+
+            .swiper-button-prev,
+            .swiper-button-next {
+                background-color: #b7b7b7;
+                color: #fff;
+                padding: 10px;
+                border-radius: 50%;
+                z-index: 12;
+                width: 27px;
+                height: 27px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: -30px !important;
+
+                &:after {
+                    font-size: 16px;
+                }
+            }
         }
     }
 

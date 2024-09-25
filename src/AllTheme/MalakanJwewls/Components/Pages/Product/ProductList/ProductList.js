@@ -2083,9 +2083,9 @@ const ProductList = () => {
             )}
           </div>
         </Drawer>
-        <div className="stam_bodyContain">
+        <div className="mala_bodyContain">
           <div className="mala_outerContain">
-            <div className="stam_whiteInnerContain">
+            <div className="mala_whiteInnerContain">
               {isProdLoading ? (
                 // true ?
                 <ProductListSkeleton className="pSkelton" />
@@ -3019,7 +3019,7 @@ const ProductList = () => {
                               {/* <div className="mala_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="mala_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className="stam_productCard">
+                                  <div className="mala_productCard">
                                     <div className="cart_and_wishlist_icon">
                                       {/* <Button className="mala_cart-icon"> */}
                                       <Checkbox

@@ -313,7 +313,7 @@ export default function LoginWithEmail() {
                 </div>
             )}
             <div>
-                <div className='smr_loginEmailD'>
+                <div className='stam_loginEmailD'>
                     <p style={{
                         textAlign: 'center',
                         paddingBlock: '60px',
@@ -341,7 +341,7 @@ export default function LoginWithEmail() {
                             label="Password"
                             type={showConfirmPassword ? 'text' : 'password'}
                             autoComplete="current-password"
-                            className='smr_loginPasswordBox'
+                            className='stam_loginPasswordBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}

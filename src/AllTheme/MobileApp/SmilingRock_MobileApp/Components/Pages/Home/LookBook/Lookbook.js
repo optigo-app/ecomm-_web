@@ -20,6 +20,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import MuiPagination from '@mui/material/Pagination';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -49,6 +50,7 @@ import { formatter } from "../../../../../../../utils/Glob_Functions/GlobalFunct
 import { CartAndWishListAPI } from "../../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import ProductListSkeleton from "../../ProductList/productlist_skeleton/ProductListSkeleton";
+import LookbookSkeleton from "./lookbookSkelton";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -59,6 +61,7 @@ const Lookbook = () => {
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState([]);
+  const [dstCount, setDstCount] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -78,10 +81,74 @@ const Lookbook = () => {
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
+  const [isPgLoading, setIsPgLoading] = useState(false);
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSelectAll, setShowSelectAll] = useState(false);
-  const imageRef = useRef(null);
+  const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const SwiperSlideRef = useRef();
+  let maxwidth464px = useMediaQuery('(max-width:464px)')
+  const [imageLoadError, setImageLoadError] = useState({});
+
+  const handleImageError = (index) => {
+    setImageLoadError((prev) => ({ ...prev, [index]: true }));
+  };
+
+  const handelPageChange = (event, value) => {
+    setCurrentPage(value);
+    setThumbsSwiper(null);
+    setIsPgLoading(true);
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
+  };
+
+  const updateSize = () => {
+    if (SwiperSlideRef.current) {
+      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
+      console.log("Size updated:", offsetWidth, offsetHeight);
+    }
+  };
+
+  const handleResize = () => {
+    updateSize();
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'F12') {
+      handleResize();
+    }
+  };
+  const handleImageLoad = () => {
+    updateSize();
+  };
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDynamicSize({ w: `${width}px`, h: `${height}px` });
+        console.log("Resized:", width, height);
+      }
+    });
+
+    if (SwiperSlideRef.current) {
+      resizeObserver.observe(SwiperSlideRef.current);
+      updateSize();
+    }
+
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -102,10 +169,11 @@ const Lookbook = () => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, {}, currentPage, itemsPerPage)
       .then((response) => {
         if (response?.Data?.rd) {
           setDesignSetListData(response?.Data?.rd);
+          setDstCount(response?.Data?.rd1[0]?.TotalCount)
 
           const initialCartItems = response?.Data?.rd.flatMap((slide) =>
             parseDesignDetails(slide?.Designdetail)
@@ -113,6 +181,7 @@ const Lookbook = () => {
               .map((detail) => detail.autocode)
           );
           setIsProdLoading(false);
+          setIsPgLoading(false);
           setCartItems((prevCartItems) => [
             ...new Set([...prevCartItems, ...initialCartItems]),
           ]); // Use Set to avoid duplicates
@@ -217,10 +286,11 @@ const Lookbook = () => {
 
     let output = FilterValueWithCheckedOnly();
     if (Object.keys(filterChecked)?.length >= 0) {
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output)
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, output, currentPage, itemsPerPage)
         .then((response) => {
           if (response?.Data?.rd) {
             setDesignSetListData(response?.Data?.rd);
+            setDstCount(response?.Data?.rd1[0]?.TotalCount)
             const initialCartItems = response?.Data?.rd.flatMap((slide) =>
               parseDesignDetails(slide?.Designdetail)
                 .filter((detail) => detail?.IsInCart === 1)
@@ -229,11 +299,14 @@ const Lookbook = () => {
             setCartItems((prevCartItems) => [
               ...new Set([...prevCartItems, ...initialCartItems]),
             ]); // Use Set to avoid duplicates
+
+            setIsProdLoading(false);
+            setIsPgLoading(false);
           }
         })
         .catch((err) => console.log(err));
     }
-  }, [filterChecked]);
+  }, [filterChecked, currentPage]);
 
   const ProdCardImageFunc = (pd) => {
     let finalprodListimg;
@@ -241,7 +314,7 @@ const Lookbook = () => {
       finalprodListimg =
         imageUrl + pd?.designsetuniqueno + "/" + pd?.DefaultImageName;
     } else {
-      finalprodListimg = null;
+      finalprodListimg = 'a.jpg';
     }
     return finalprodListimg;
   };
@@ -450,7 +523,7 @@ const Lookbook = () => {
         try {
           designdetail = JSON.parse(set.Designdetail) || [];
         } catch (e) {
-          designdetail = []; 
+          designdetail = [];
         }
         const filteredDetails = designdetail.filter((detail) =>
           selectedCategories.includes(detail.CategoryName)
@@ -468,7 +541,7 @@ const Lookbook = () => {
         }
       });
   };
-  
+
   const filteredDesignSetLstData = (designSetLstData?.length != 0 && selectedCategories?.length != 0) && filterDesignSetsByCategory(
     designSetLstData,
     selectedCategories
@@ -1320,185 +1393,205 @@ const Lookbook = () => {
                 </div>
 
                 {/* {selectedValue == 2 && ( */}
-                <div className="smr_lookBookImgDivMain">
-                  {filteredDesignSetLstData?.length == 0 ? (
-                    <div className="smr_noProductFoundLookBookDiv">
-                      <p>No Product Found!</p>
-                    </div>
-                  ) : (
-                    filteredDesignSetLstData?.map((slide, index) => (
-                      <div className="smr_designSetDiv" key={index}>
-                        <div
-                          style={{
-                            // display: "flex",
-                            position: 'relative',
-                            // height: dataKey == index ? '250px' : '100%'
-                            height: '100%'
-                          }}
-                        >
-                          {ProdCardImageFunc(slide) ? (
-                            <img
-                              className="smr_lookBookImg"
-                              loading="lazy"
-                              src={ProdCardImageFunc(slide)}
-                              alt={`Slide ${index}`}
-                              ref={addImageRef}
-                              onClick={() => handleHoverImages(index)}
-                              style={{
-                                height: "100%",
-                                // height: dataKey == index ? "250px" : "100%",
-                                cursor: "pointer",
-                              }}
-                            />
-                          ) : (
+
+                {!isPgLoading ? (
+                  <>
+                    <div className="smr_lookBookImgDivMain">
+                      {filteredDesignSetLstData?.length == 0 ? (
+                        <div className="smr_noProductFoundLookBookDiv">
+                          <p>No Product Found!</p>
+                        </div>
+                      ) : (
+                        filteredDesignSetLstData?.map((slide, index) => (
+                          <div className="smr_designSetDiv" key={index}>
                             <div
                               style={{
-                                height: "100%",
-                                width: "100%",
-                                ...getRandomBgColor(index),
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                cursor: "pointer",
+                                // display: "flex",
+                                position: 'relative',
+                                // height: dataKey == index ? '250px' : '100%'
+                                height: '100%'
                               }}
                             >
-                              <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
-                            </div>
-                          )}
-                          <p className="smr_lb2designList_title">
-                            {slide?.designsetno}
-                          </p>
-                          {dataKey == index &&
-                            <div style={{ position: 'absolute', bottom: '0px', backgroundColor: 'white', width: '100%' }}>
-                              <div
-                                className="smr_lookBookImgDeatil"
-                                style={{
-                                  // display: dataKey == index ? "none" : "flex",
-                                  justifyContent: "space-between",
-                                  margin: "5px",
-                                }}
-                              >
-                                <p className="smrMA_lookbookDeatilShow" style={{ fontSize: "13px", margin: "0px" }}>
-                                  DWT:{" "}
-                                  {calculateTotalUnitCostWithMarkUpDwt(
-                                    JSON.parse(slide.Designdetail)
-                                  ).toFixed(3)}{" "}
-                                  | GWT:{" "}
-                                  {calculateTotalUnitCostWithMarkUpGWt(
-                                    JSON.parse(slide.Designdetail)
-                                  ).toFixed(3)}{" "}
-                                  | NWT:{" "}
-                                  {calculateTotalUnitCostWithMarkUpNwt(
-                                    JSON.parse(slide.Designdetail)
-                                  ).toFixed(3)}{" "}
-                                </p>
+                              {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                                <img
+                                  className="smr_lookBookImg"
+                                  loading="lazy"
+                                  src={ProdCardImageFunc(slide)}
+                                  alt={`Slide ${index}`}
+                                  ref={addImageRef}
+                                  onClick={() => handleHoverImages(index)}
+                                  onError={() => handleImageError(index)}
+                                  style={{
+                                    height: "100%",
+                                    // height: dataKey == index ? "250px" : "100%",
+                                    cursor: "pointer",
+                                    backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
+                                  }}
+                                />
+                              ) : (
                                 <div
-                                  className="smr1_lookBookImgDeatilSub"
-                                  style={{ display: "flex", alignItems: "center" }}
+                                  style={{
+                                    height: "100%",
+                                    width: "100%",
+                                    ...getRandomBgColor(index),
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    backgroundColor: "rgb(191, 200, 255)",
+                                    cursor: "pointer",
+                                  }}
                                 >
-                                  <p
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
+                                </div>
+                              )}
+                              <p className="smr_lb2designList_title">
+                                {slide?.designsetno}
+                              </p>
+                              {dataKey == index &&
+                                <div style={{ position: 'absolute', bottom: '0px', backgroundColor: 'white', width: '100%' }}>
+                                  <div
+                                    className="smr_lookBookImgDeatil"
                                     style={{
-                                      margin: "0px 10px 0px 0px",
-                                      fontSize: "15px",
-                                      fontWeight: 600,
+                                      // display: dataKey == index ? "none" : "flex",
+                                      justifyContent: "space-between",
+                                      margin: "5px",
                                     }}
                                   >
-                                    {" "}
-                                    <span
-                                      className="smr_currencyFont"
-                                    >
-                                      {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                    &nbsp;
-                                    {formatter(calculateTotalUnitCostWithMarkUp(
-                                      JSON.parse(slide.Designdetail)
-                                    ))}
-                                  </p>
-                                  <Button
-                                    className="smr_lookBookBuyBtn"
-                                    onClick={() =>
-                                      handleByCombo(
-                                        parseDesignDetails(slide?.Designdetail, "Cart")
-                                      )
-                                    }
-                                  >
-                                    Buy Combo
-                                  </Button>
-                                </div>
-                              </div>
-                              <div className="smr_lookBookSubImgMain">
-                                <Swiper
-                                  {...swiperParams}
-                                  className="smr_LookBookmySwiper"
-                                >
-                                  {sortDesignDetailsBySrNo(
-                                    parseDesignDetails(slide?.Designdetail)
-                                  )?.map((detail, subIndex) => (
+                                    <p className="smrMA_lookbookDeatilShow" style={{ fontSize: "13px", margin: "0px" }}>
+                                      DWT:{" "}
+                                      {calculateTotalUnitCostWithMarkUpDwt(
+                                        JSON.parse(slide.Designdetail)
+                                      ).toFixed(3)}{" "}
+                                      | GWT:{" "}
+                                      {calculateTotalUnitCostWithMarkUpGWt(
+                                        JSON.parse(slide.Designdetail)
+                                      ).toFixed(3)}{" "}
+                                      | NWT:{" "}
+                                      {calculateTotalUnitCostWithMarkUpNwt(
+                                        JSON.parse(slide.Designdetail)
+                                      ).toFixed(3)}{" "}
+                                    </p>
                                     <div
-                                      className="smr_lookBookSubImageDiv"
-                                      key={subIndex}
+                                      className="smr1_lookBookImgDeatilSub"
+                                      style={{ display: "flex", alignItems: "center" }}
                                     >
-                                      <SwiperSlide
-                                        className="smr_lookBookSliderSubDiv"
+                                      <p
                                         style={{
-                                          marginRight: "0px",
-                                          cursor: "pointer",
+                                          margin: "0px 10px 0px 0px",
+                                          fontSize: "15px",
+                                          fontWeight: 600,
                                         }}
                                       >
-                                        {detail?.IsInReadyStock == 1 && (
-                                          <span className="smr_LookBookinstock">
-                                            In Stock
-                                          </span>
-                                        )}
-                                        <img
-                                          className="smr_lookBookSubImage"
-                                          loading="lazy"
-                                          src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                          alt={`Sub image ${subIndex} for slide ${index}`}
-                                          onClick={() =>
-                                            handleNavigation(
-                                              detail?.designno,
-                                              detail?.autocode,
-                                              detail?.TitleLine ? detail?.TitleLine : ""
-                                            )
-                                          }
-                                        />
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            marginBottom: "5px",
-                                          }}
+                                        {" "}
+                                        <span
+                                          className="smr_currencyFont"
                                         >
-                                          {cartItems.includes(detail?.autocode) ? (
-                                            <button
-                                              className="smr_lookBookINCartBtn"
-                                              onClick={() => handleRemoveCart(detail)}
-                                            >
-                                              REMOVE CART
-                                            </button>
-                                          ) : (
-                                            <button
-                                              className="smr_lookBookAddtoCartBtn"
-                                              onClick={() => handleAddToCart(detail)}
-                                            >
-                                              ADD TO CART +
-                                            </button>
-                                          )}
-                                        </div>
-                                      </SwiperSlide>
+                                          {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                        &nbsp;
+                                        {formatter(calculateTotalUnitCostWithMarkUp(
+                                          JSON.parse(slide.Designdetail)
+                                        ))}
+                                      </p>
+                                      <Button
+                                        className="smr_lookBookBuyBtn"
+                                        onClick={() =>
+                                          handleByCombo(
+                                            parseDesignDetails(slide?.Designdetail, "Cart")
+                                          )
+                                        }
+                                      >
+                                        Buy Combo
+                                      </Button>
                                     </div>
-                                  ))}
-                                </Swiper>
-                              </div>
+                                  </div>
+                                  <div className="smr_lookBookSubImgMain">
+                                    <Swiper
+                                      {...swiperParams}
+                                      className="smr_LookBookmySwiper"
+                                    >
+                                      {sortDesignDetailsBySrNo(
+                                        parseDesignDetails(slide?.Designdetail)
+                                      )?.map((detail, subIndex) => (
+                                        <div
+                                          className="smr_lookBookSubImageDiv"
+                                          key={subIndex}
+                                        >
+                                          <SwiperSlide
+                                            className="smr_lookBookSliderSubDiv"
+                                            style={{
+                                              marginRight: "0px",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            {detail?.IsInReadyStock == 1 && (
+                                              <span className="smr_LookBookinstock">
+                                                In Stock
+                                              </span>
+                                            )}
+                                            <img
+                                              className="smr_lookBookSubImage"
+                                              loading="lazy"
+                                              src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
+                                              alt={`Sub image ${subIndex} for slide ${index}`}
+                                              onClick={() =>
+                                                handleNavigation(
+                                                  detail?.designno,
+                                                  detail?.autocode,
+                                                  detail?.TitleLine ? detail?.TitleLine : ""
+                                                )
+                                              }
+                                            />
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                marginBottom: "5px",
+                                              }}
+                                            >
+                                              {cartItems.includes(detail?.autocode) ? (
+                                                <button
+                                                  className="smr_lookBookINCartBtn"
+                                                  onClick={() => handleRemoveCart(detail)}
+                                                >
+                                                  REMOVE CART
+                                                </button>
+                                              ) : (
+                                                <button
+                                                  className="smr_lookBookAddtoCartBtn"
+                                                  onClick={() => handleAddToCart(detail)}
+                                                >
+                                                  ADD TO CART +
+                                                </button>
+                                              )}
+                                            </div>
+                                          </SwiperSlide>
+                                        </div>
+                                      ))}
+                                    </Swiper>
+                                  </div>
+                                </div>
+                              }
                             </div>
-                          }
-                        </div>
-                      </div>
-                    ))
-                  )}
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </>
+                ) :
+                  <LookbookSkeleton />
+                }
+                <div className="lpDiv">
+                  <MuiPagination
+                    count={Math.ceil(dstCount / itemsPerPage)}
+                    size={maxwidth464px ? "small" : "large"}
+                    shape="circular"
+                    onChange={handelPageChange}
+                    page={currentPage}
+                  // showFirstButton
+                  // showLastButton
+                  />
                 </div>
-
               </div>
             </div>
           </div>
@@ -1526,7 +1619,7 @@ const Lookbook = () => {
           </p>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

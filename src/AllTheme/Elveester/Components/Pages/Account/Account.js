@@ -33,7 +33,6 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
-import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 import Cookies from 'js-cookie';
 import NewOrderHistoryElvee from './AccountOrderHistory/NewOrderHistoryElvee';
 

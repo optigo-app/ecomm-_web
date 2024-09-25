@@ -165,7 +165,6 @@ const HouseOfQuadri_App = () => {
   //   }, 500);
   // }, [location?.pathname])
 
-console.log(StoreData,"000")
   return (
     <>
       <Navbar StoreData={StoreData} />

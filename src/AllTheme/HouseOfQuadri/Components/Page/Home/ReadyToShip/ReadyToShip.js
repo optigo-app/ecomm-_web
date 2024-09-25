@@ -1,4 +1,4 @@
-import "./ReadyToShip.modul.scss";
+// import "./ReadyToShip.modul.scss";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Hoq_loginState } from "../../../Recoil/atom";
@@ -6,6 +6,8 @@ import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API
 import Cookies from "js-cookie";
 import { useRecoilValue } from "recoil";
 import Pako from "pako";
+import './../TabSection/TabSection.modul.scss'
+
 const ReadyToShip = () => {
   const [imageUrl, setImageUrl] = useState();
   const [bestSellerData, setBestSellerData] = useState([]);

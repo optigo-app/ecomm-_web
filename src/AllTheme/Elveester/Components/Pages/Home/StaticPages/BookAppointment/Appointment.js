@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MdDateRange } from "react-icons/md";
 import { ImClock2 } from "react-icons/im";
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import './Appointment.scss';
 
 const Appointment = () => {
@@ -23,14 +24,14 @@ const Appointment = () => {
     };
 
     const appointment = [
-        { src: "https://i.ibb.co/LkwcDtj/Collection.jpg", alt: "Collection" },
-        { src: "https://i.ibb.co/1JD9wpH/Engagement-Ring.jpg", alt: "Engagement-Ring" },
-        { src: "https://i.ibb.co/dMv93Gb/Fine-Jewellery.jpg", alt: "Fine-Jewellery" },
-        { src: "https://i.ibb.co/Z2sFYZj/Gold-Jewellery.jpg", alt: "Gold-Jewellery" },
-        { src: "https://i.ibb.co/mH6fHBF/High-Jewellery.jpg", alt: "High-Jewellery" },
-        { src: "https://i.ibb.co/fk5jS7X/Men-s-Jewellery.jpg", alt: "Men-s-Jewellery" },
-        { src: "https://i.ibb.co/Yt3mK52/Others.jpg", alt: "Others" },
-        { src: "https://i.ibb.co/W59vXrJ/Wedding-Ring.jpg", alt: "Wedding-Ring" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Collection.jpg`, alt: "Collection" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Engagement_Ring.jpg`, alt: "Engagement-Ring" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Fine_Jewellery.jpg`, alt: "Fine-Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Gold_Jewellery.jpg`, alt: "Gold-Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/High_Jewellery.jpg`, alt: "High-Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Men's_Jewellery.jpg`, alt: "Men-s-Jewellery" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Others.jpg`, alt: "Others" },
+        { src: `${storImagePath()}/images/HomePage/Appointment/Wedding_Ring.jpg`, alt: "Wedding-Ring" },
     ];
 
     return (
@@ -42,7 +43,7 @@ const Appointment = () => {
                     </p>
                 </div>
                 <div className="image">
-                    <img src="https://i.ibb.co/kGTGwWJ/Book-Aporinment.jpg" alt="aa" />
+                    <img src={`${storImagePath()}/images/HomePage/Appointment/Book_Appointment.jpg`} alt="aa" />
                 </div>
             </div>
             <div className="grid_col_2_elvee">

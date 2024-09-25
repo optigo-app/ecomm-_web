@@ -1289,9 +1289,9 @@ const ProductDetail = () => {
       <Helmet>
         <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
       </Helmet>
-      <div className="stam_prodDetail_bodyContain">
+      <div className="mala_prodDetail_bodyContain">
         <div className="mala_prodDetail_outerContain">
-          <div className="stam_prodDetail_whiteInnerContain">
+          <div className="mala_prodDetail_whiteInnerContain">
             {isDataFound ? (
               <div
                 style={{

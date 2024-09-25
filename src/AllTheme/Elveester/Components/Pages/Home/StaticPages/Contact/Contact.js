@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Contact.scss';
+import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CountryCode = [
     {
@@ -1026,7 +1027,7 @@ export default function ContactPage() {
 
     return (
         <div className="elvee_container">
-            <img src="https://i.ibb.co/WtPpQfH/Contact-us.jpg" alt="Contact icons" className="elvee_contact-img" />
+            <img src={`${storImagePath()}/images/HomePage/Contact/ContactBanner.jpg`} alt="Contact icons" className="elvee_contact-img" />
 
             <h1 className="elvee_heading-main">CONTACT US</h1>
 
