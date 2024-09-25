@@ -56,7 +56,7 @@ const HouseOfQuadri_App = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] =
     useRecoilState(Hoq_companyLogo);
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   let data = sessionStorage.getItem("storeInit");
@@ -75,41 +75,41 @@ const HouseOfQuadri_App = () => {
   //     setCompanyTitleLogo(logo?.companylogo);
   //   }
   // },[]);
-    useEffect(() => {
-      let interval;
-      const checkStoreInit = () => {
-        try {
-          const storeInit = sessionStorage.getItem("storeInit");
-          if (storeInit) {
-            const parsedData = JSON.parse(storeInit);
-            setStoreData(parsedData);
-            setLoading(false);
-            console.log(parsedData,"avaiable");
-  
-            if (interval) {
-              clearInterval(interval);
-            }
-          } else {
-            setLoading(true);
-          }
-        } catch (error) {
-          console.error('Error parsing storeInit:', error);
-          setLoading(false); 
-  
+  useEffect(() => {
+    let interval;
+    const checkStoreInit = () => {
+      try {
+        const storeInit = sessionStorage.getItem("storeInit");
+        if (storeInit) {
+          const parsedData = JSON.parse(storeInit);
+          setStoreData(parsedData);
+          setLoading(false);
+          console.log(parsedData, "avaiable");
+
           if (interval) {
             clearInterval(interval);
           }
+        } else {
+          setLoading(true);
         }
-      };
-  
-      checkStoreInit();
-      interval = setInterval(checkStoreInit, 1000); 
-      return () => {
+      } catch (error) {
+        console.error("Error parsing storeInit:", error);
+        setLoading(false);
+
         if (interval) {
           clearInterval(interval);
         }
-      };
-    }, []);
+      }
+    };
+
+    checkStoreInit();
+    interval = setInterval(checkStoreInit, 1000);
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, []);
   useEffect(() => {
     window.scrollTo({
       behavior: "smooth",
@@ -144,57 +144,75 @@ const HouseOfQuadri_App = () => {
   // }, []);
 
   // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (islogin == true) {
-  //       const restrictedPaths = [
-  //         '/LoginOption',
-  //         '/ContinueWithEmail',
-  //         '/ContinueWithMobile',
-  //         '/LoginWithEmailCode',
-  //         '/LoginWithMobileCode',
-  //         '/ForgotPass',
-  //         '/LoginWithEmail',
-  //         '/register'
-  //       ];
+  //     setTimeout(() => {
+  //       if (islogin == true) {
+  //         const restrictedPaths = [
+  //           '/LoginOption',
+  //           '/ContinueWithEmail',
+  //           '/ContinueWithMobile',
+  //           '/LoginWithEmailCode',
+  //           '/LoginWithMobileCode',
+  //           '/ForgotPass',
+  //           '/LoginWithEmail',
+  //           '/register'
+  //         ];
 
-  //       if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
-  //         return navigation("/");
+  //         if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+  //           return navigation(-1);
+  //         }
   //       }
-  //     }
 
-  //   }, 500);
-  // }, [location?.pathname])
+  //     }, 500);
+  // }, [location])
+  const navigate = useNavigate();
+  const [Authloading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // Check if user is logged in
+      if (islogin) {
+        const restrictedPaths = [
+          "/LoginOption",
+          "/ContinueWithEmail",
+          "/ContinueWithMobile",
+          "/LoginWithEmailCode",
+          "/LoginWithMobileCode",
+          "/ForgotPass",
+          "/LoginWithEmail",
+          "/Register",
+        ];
+        if (
+          restrictedPaths.some((path) => location.pathname.startsWith(path))
+        ) {
+          navigate("/");
+        }
+      }
+
+      setAuthLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname, islogin, navigate]);
+
+  if (Authloading) {
+    return null;
+  }
 
   return (
     <>
       <Navbar StoreData={StoreData} />
       <ChatMenu />
       <Routes>
-      <Route path="/checker" element={<ContactPage/>}/>
+        <Route path="/checker" element={<ContactPage />} />
         {/* Auth Flow  */}
         <Route path="/LoginOption" element={!islogin && <LoginOption />} />
-        <Route
-          path="/ContinueWithEmail"
-          element={!islogin && <ContinueWithEmail />}
-        />
-        <Route
-          path="/ContimueWithMobile"
-          element={!islogin && <ContimueWithMobile />}
-        />
-        <Route
-          path="/LoginWithEmail"
-          element={!islogin && <LoginWithEmail />}
-        />
-        <Route path="/Register" element={!islogin && <Register />} />
-        <Route
-          path="/LoginWithEmailCode"
-          element={!islogin && <LoginWithEmailCode />}
-        />
-        <Route
-          path="/LoginWithMobileCode"
-          element={!islogin && <LoginWithMobileCode />}
-        />
-        <Route path="/ForgotPass" element={!islogin && <ForgotPass />} />
+        <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
+        <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
+        <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
+        <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
+        <Route path="/ForgotPass" element={<ForgotPass />} />
         {/* Auth Flow Ends */}
         <Route path="/" element={<HomePage />} />
         <Route path="/collections/" element={<CollectionPage />} />
@@ -207,7 +225,7 @@ const HouseOfQuadri_App = () => {
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
           <Route path="/account" element={<Account />} />
-        <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/Lookbook" element={<Lookbook />} />
         </Route>
         {/* static Page */}
         <Route path="/Shipping-Policy" element={<ShippingPage />} />
