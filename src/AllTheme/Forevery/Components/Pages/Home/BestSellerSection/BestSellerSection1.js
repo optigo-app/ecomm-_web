@@ -114,15 +114,15 @@ const ProductGrid = () => {
     return (
         <>
             {bestSellerData?.length != 0 &&
-                <div className='smr_mainBestSeler1Div'>
-                    <div className='smr_bestseler1TitleDiv'>
-                        <span className='smr_bestseler1Title'>Best Seller</span>
+                <div className='for_mainBestSeler1Div'>
+                    <div className='for_bestseler1TitleDiv'>
+                        <span className='for_bestseler1Title'>Best Seller</span>
                     </div>
                     <div className="product-grid">
-                        <div className='smr_leftSideBestSeler'>
+                        <div className='for_leftSideBestSeler'>
                             {bestSellerData?.slice(0, 4).map((data, index) => (
                                 <div key={index} className="product-card">
-                                    <div className='smr_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
+                                    <div className='for_btimageDiv' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                         <img
                                             src={data?.ImageCount >= 1 ?
                                                 `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -136,24 +136,24 @@ const ProductGrid = () => {
                                         <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
-                                                <span className='smr_btdetailDT'>GWT: </span>
-                                                <span className='smr_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
+                                                <span className='for_btdetailDT'>GWT: </span>
+                                                <span className='for_btdetailDT'>{(data?.Gwt || 0)?.toFixed(3)}</span>
                                             </>
                                         }
                                         {Number(data?.Nwt) !== 0 && (
                                             <>
-                                            <span className='smr_btpipe'>|</span>
-                                                <span className='smr_btdetailDT'>NWT : </span>
-                                                <span className='smr_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
+                                            <span className='for_btpipe'>|</span>
+                                                <span className='for_btdetailDT'>NWT : </span>
+                                                <span className='for_btdetailDT'>{(data?.Nwt || 0)?.toFixed(3)}</span>
                                             </>
                                         )}
                                         {storeInit?.IsDiamondWeight == 1 &&
                                             <>
                                                 {(data?.Dwt != "0" || data?.Dpcs != "0") &&
                                                     <>
-                                                        <span className='smr_btpipe'>|</span>
-                                                        <span className='smr_btdetailDT'>DWT: </span>
-                                                        <span className='smr_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
+                                                        <span className='for_btpipe'>|</span>
+                                                        <span className='for_btdetailDT'>DWT: </span>
+                                                        <span className='for_btdetailDT'>{(data?.Dwt || 0)?.toFixed(3)}/{(data?.Dpcs || 0)}</span>
                                                     </>
                                                 }
                                             </>
@@ -162,15 +162,15 @@ const ProductGrid = () => {
                                             <>
                                                 {(data?.CSwt != "0" || data?.CSpcs != "0") &&
                                                     <>
-                                                        <span className='smr_btpipe'>|</span>
-                                                        <span className='smr_btdetailDT'>CWT: </span>
-                                                        <span className='smr_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
+                                                        <span className='for_btpipe'>|</span>
+                                                        <span className='for_btdetailDT'>CWT: </span>
+                                                        <span className='for_btdetailDT'>{(data?.CSwt || 0)?.toFixed(3)}/{(data?.CSpcs || 0)}</span>
                                                     </>
                                                 }
                                             </>
                                         }
                                         <p>
-                                            <span className="smr_currencyFont">
+                                            <span className="for_currencyFont">
                                                 {islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode}
                                             </span>&nbsp;
                                             <span>{formatter(data?.UnitCostWithMarkUp)}</span></p>
@@ -178,10 +178,10 @@ const ProductGrid = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className='smr_rightSideBestSeler'>
+                        <div className='for_rightSideBestSeler'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
                             <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.webp`} alt="modalimages" />
-                            <div className="smr_lookbookImageRightDT">
+                            <div className="for_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>
                                 <button onClick={() => navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</button>

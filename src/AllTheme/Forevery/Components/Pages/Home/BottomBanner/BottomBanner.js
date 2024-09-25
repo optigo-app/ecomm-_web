@@ -49,7 +49,7 @@ const BottomBanner = () => {
         // },
     ]
     return (
-        <div className='smr_BottomBannerMain'>
+        <div className='for_BottomBannerMain'>
             {
                 dataJSON.map((data, i) => (
                     <div>
@@ -60,7 +60,7 @@ const BottomBanner = () => {
                                 {/* <p style={{ fontSize: '12px', fontWeight: 500, letterSpacing: '1px', color: '#7d7f85' }}>{data.Link}</p> */}
                             </div>
                             <div className='shopifyMainImage'>
-                                <img src={data.images} style={{ height: '100%', width: '100%', minHeight: '500px' }} className='smr_shopifyImg'/>
+                                <img src={data.images} style={{ height: '100%', width: '100%', minHeight: '500px' }} className='for_shopifyImg'/>
                             </div>
                         </div>
                     </div>
