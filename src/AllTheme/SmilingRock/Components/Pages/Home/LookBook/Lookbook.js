@@ -103,21 +103,21 @@ const Lookbook = () => {
   const handleImageError = (index) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
   };
+  console.log('asdhashdjkhhasd', DynamicSize)
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
-      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
+      const { offsetWidth} = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
+      console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
-
   const handleResize = () => {
     updateSize();
   };
   const handleKeyDown = (e) => {
     if (e.key === 'F12') {
-      handleResize(); // Call handleResize function when F12 is pressed
+      handleResize();
     }
   };
   const handleImageLoad = () => {
@@ -596,29 +596,35 @@ const Lookbook = () => {
 
   const [imageSources, setImageSources] = React.useState({});
 
-  // useEffect(() => {
-  //   if (filteredDesignSetLstData) {
-  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-  //         const isAvailable = await checkImageAvailability(designImageUrl);
-  //         return {
-  //           designno: detail?.designno,
-  //           src: isAvailable ? designImageUrl : imageNotFound
-  //         };
-  //       })
-  //     );
-
-  //     Promise.all(imagePromises).then((results) => {
-  //       // Update state with the resolved image sources
-  //       const newImageSources = results.reduce((acc, { designno, src }) => {
-  //         acc[designno] = src;
-  //         return acc;
-  //       }, {});
-  //       setImageSources(newImageSources);
-  //     });
-  //   }
-  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
+  useEffect(() => {
+    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound,
+          };
+        })
+      );
+  
+      Promise.all(imagePromises).then((results) => {
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
+        
+        setImageSources((prevSources) => {
+          const isDifferent = Object.keys(newImageSources).some(
+            (key) => newImageSources[key] !== prevSources[key]
+          );
+          return isDifferent ? newImageSources : prevSources;
+        });
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
+  
 
 
   // pagination HandleChange Function for change page
@@ -626,6 +632,10 @@ const Lookbook = () => {
     setCurrentPage(value);
     setThumbsSwiper(null);
     setIsPgLoading(true);
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
   };
 
   return (
@@ -1408,12 +1418,12 @@ const Lookbook = () => {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
-                              {/* <p className="smr_lb2designList_title">
+                              <p className="smr_lb2designList_title">
                             {slide?.designsetno}
-                          </p> */}
+                          </p>
                             </div>
                             <div
                               className="smr_lookBookImgDeatil"
@@ -2182,14 +2192,14 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}>
+                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                                     
                                       <img
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="ctl_Paginationimg"
-                                        ref={SwiperSlideRef}
                                         onLoad={() => {
                                           handleImageLoad();
                                         }}

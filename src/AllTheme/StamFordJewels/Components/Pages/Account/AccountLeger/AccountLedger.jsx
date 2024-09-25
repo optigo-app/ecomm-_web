@@ -487,7 +487,7 @@ const AccountLedger = () => {
 
 
   return (
-    <div>
+    <div className='ledger_Account_SFJ'>
         <div>
             <div className='border_Acc'>
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p_2_acc ps_4_acc border_bottom_acc fs_Al_mq' style={{letterSpacing:'1px'}}>

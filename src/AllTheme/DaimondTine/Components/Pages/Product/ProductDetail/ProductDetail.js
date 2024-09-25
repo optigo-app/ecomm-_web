@@ -27,6 +27,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import GoogleAnalytics from 'react-ga4'
 
 // Import Swiper styles
 import 'swiper/css';
@@ -64,6 +65,7 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [isDataFound, setIsDataFound] = useState(false);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState();
+  const loginUserDetail  = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
 
   const [designSetList, setDesignSetList] = useState();
 
@@ -215,8 +217,14 @@ const ProductDetail = () => {
         singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
-
     if (cartflag) {
+      GoogleAnalytics.event({
+        action: `Added to Cart by User ${loginUserDetail?.firstname || 'Guest'}`,
+        category: `Cart Interaction on Product Detail Page`,
+        label: singleProd?.designNo || singleProd?.titleLine || singleProd?.autocode || 'Unknown Product',
+        value: loginUserDetail?.firstname || "Not Login" // Use 1 for logged-in, 0 for guest
+      });
+      
       CartAndWishListAPI("Cart", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
@@ -288,6 +296,12 @@ const ProductDetail = () => {
     };
 
     if (e?.target?.checked == true) {
+      GoogleAnalytics.event({
+        action: `Wishlist Clicked by User ${loginUserDetail?.firstname || 'Guest'}`,
+        category: `Wishlist Interaction on Product Detail Page`,
+        label: singleProd?.designNo || singleProd?.titleLine || singleProd?.autocode || 'Unknown Product',
+        value: loginUserDetail?.firstname || "Not Login" // Use 1 for logged-in, 0 for guest
+      });
       CartAndWishListAPI("Wish", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;

@@ -4,7 +4,7 @@ import Home from './Components/Pages/Home/Index'
 import CartDetails from './Components/Pages/Cart/Cart'
 import Header from './Components/Pages/Home/Header/Header'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { el_loginState, redirectModal, timerExpiredState } from './Components/Recoil/atom'
+import { el_companyLogo, el_companyLogoM, el_loginState, redirectModal, timerExpiredState } from './Components/Recoil/atom'
 import Footer from './Components/Pages/Home/Footer/Footer'
 import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
 import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
@@ -36,6 +36,7 @@ import History from './Components/Pages/Home/StaticPages/History/History'
 import Appointment from './Components/Pages/Home/StaticPages/BookAppointment/Appointment'
 import CountdownTimerFnc from './Components/Pages/Home/CountdownTimer/CountdownTimerFnc'
 import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal'
+import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
 
 const Elveester_app = () => {
 
@@ -47,6 +48,9 @@ const Elveester_app = () => {
   const getRedModal = useRecoilValue(redirectModal);
   const setRedModal = useSetRecoilState(redirectModal);
   const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+
+  const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+  const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
 
   const timer = CountdownTimerFnc();
   if (timer) {
@@ -60,6 +64,12 @@ const Elveester_app = () => {
   }
 
   useEffect(() => {
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    
+    el_setCompanyTitleLogo(webLogo);
+    el_setCompanyTitleLogoM(mobileLogo);
+
     if (
       location?.pathname === '/menu'
     ) {

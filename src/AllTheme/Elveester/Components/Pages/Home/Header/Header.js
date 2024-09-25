@@ -8,6 +8,7 @@ import {
   el_loginState,
   el_CartCount,
   el_WishCount,
+  el_companyLogoM,
 } from "../../../Recoil/atom";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { IoCaretDownSharp, IoPersonOutline } from "react-icons/io5";
@@ -24,7 +25,6 @@ import Pako from "pako";
 
 const Header = () => {
   const [lodingLogo, setLodingLogo] = useState(true);
-  const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo);
   const navigation = useNavigate();
   const [islogin, setislogin] = useRecoilState(el_loginState);
   const [cartCount, setCartCount] = useRecoilState(el_CartCount);
@@ -37,16 +37,18 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [mobilelogo, setMobileLogo] = useState(null);
   const inputRef = useRef(null);
-
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
   const isDesktopResp = useMediaQuery('(max-width:1650px)');
   const isMobile = useMediaQuery('(max-width:425px)');
 
-  useEffect(() => {
-    const value = JSON.parse(sessionStorage.getItem("LoginUser"));
-    setislogin(value);
+
+  const compnyLogo = useRecoilValue(el_companyLogo);
+  const compnyLogoM = useRecoilValue(el_companyLogoM);
+
+  // useEffect(() => {
+  //   const value = JSON.parse(sessionStorage.getItem("LoginUser"));
+  //   setislogin(value);
 
     // if (titleImg) {
     //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -63,9 +65,6 @@ const Header = () => {
       setislogin(value);
       const storeData = JSON?.parse(sessionStorage?.getItem('storeInit'));
       setStoreInit(storeData);
-      const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
-      setCompanyTitleLogo(storeInit?.companylogo);
-      setMobileLogo(storeInit?.companyMlogo)
       window.scroll({ behavior: "smooth", top: 0 });
     } catch (error) {
       console.log(error)
@@ -73,46 +72,42 @@ const Header = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      if (JSON?.parse(sessionStorage?.getItem("storeInit"))) {
-        GetCompanyLogo()
-      } else {
-        return
-      }
-    }, 600)
+    GetCompanyLogo()
   }, []);
 
-  useEffect(() => {
-    let interval;
-    const checkStoreInit = () => {
-      try {
-        const storeInit = sessionStorage.getItem("storeInit");
-        if (storeInit) {
-          const parsedData = JSON.parse(storeInit);
-          setCompanyTitleLogo(parsedData?.companylogo);
-          setMobileLogo(parsedData?.companyMlogo)
-          window.scroll({ behavior: "smooth", top: 0 });
-          if (interval) {
-            clearInterval(interval);
-          }
-        }
-      } catch (error) {
-        console.error('Error parsing storeInit:', error);
+  // useEffect(() => {
+  //   let interval;
+  //   const checkStoreInit = () => {
+  //     try {
+  //       const storeInit = sessionStorage.getItem("storeInit");
+  //       if (storeInit) {
+  //         const parsedData = JSON.parse(storeInit);
+  //         setCompanyTitleLogo(parsedData?.companylogo);
+  //         setMobileLogo(parsedData?.companyMlogo)
+  //         window.scroll({ behavior: "smooth", top: 0 });
+  //         console.log(parsedData, "avaiable");
 
-        if (interval) {
-          clearInterval(interval);
-        }
-      }
-    };
+  //         if (interval) {
+  //           clearInterval(interval);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Error parsing storeInit:', error);
 
-    checkStoreInit();
-    interval = setInterval(checkStoreInit, 1000);
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, []);
+  //       if (interval) {
+  //         clearInterval(interval);
+  //       }
+  //     }
+  //   };
+
+  //   checkStoreInit();
+  //   interval = setInterval(checkStoreInit, 1000);
+  //   return () => {
+  //     if (interval) {
+  //       clearInterval(interval);
+  //     }
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -501,9 +496,9 @@ const Header = () => {
                   <Menubar />
                   <div className="el_whioutL_headerDiv2_side">
                     <a href="/">
-                      {titleImg && (
+                      {compnyLogo && (
                         <img
-                          src={isMobile ? mobilelogo : titleImg}
+                          src={isMobile ? compnyLogoM : compnyLogo}
                           alt="Title"
                           className="el_without_headerLogo_side"
                         />
@@ -552,9 +547,9 @@ const Header = () => {
                   </div >
                   <div className="el_whioutL_headerDiv2">
                     <a href='/'>
-                      {titleImg && (
+                      {compnyLogo && (
                         <img
-                          src={isMobile ? mobilelogo : titleImg}
+                          src={isMobile ? compnyLogoM : compnyLogo}
                           alt="Title"
                           className="el_without_headerLogo"
                         />
@@ -616,9 +611,9 @@ const Header = () => {
                       alignItems: "center",
                     }}
                   >
-                    {titleImg && (
+                    {compnyLogo && (
                       <img
-                        src={isMobile ? mobilelogo : titleImg}
+                        src={isMobile ? compnyLogoM : compnyLogo}
                         alt="Title"
                         className="el_login_header_main_div1_logo"
                       />
@@ -707,9 +702,9 @@ const Header = () => {
                   alignItems: "center",
                 }}
               >
-                {titleImg && (
+                {compnyLogo && (
                   <img
-                    src={isMobile ? mobilelogo : titleImg}
+                    src={isMobile ? compnyLogoM : compnyLogo}
                     alt="Title"
                     className="el_login_header_main_div1_logo"
                   />

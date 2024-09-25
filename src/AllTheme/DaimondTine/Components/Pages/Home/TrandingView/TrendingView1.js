@@ -8,7 +8,7 @@ import pako from "pako";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
-
+import GoogleAnalytics from 'react-ga4';
 
 
 
@@ -126,7 +126,12 @@ const TrendingView1 = () => {
     const handleNavigation = (designNo, autoCode, titleLine) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
-
+        GoogleAnalytics.event({
+            action: "Navigate to Product Detail",
+            category: `Product Interaction Through Trending Section`,
+            label: designNo || titleLine ,
+            value: loginUserDetail?.firstname ?? 'User Not Login',
+          });
         let obj = {
             a: autoCode,
             b: designNo,

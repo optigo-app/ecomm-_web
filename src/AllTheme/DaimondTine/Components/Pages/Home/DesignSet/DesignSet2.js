@@ -15,6 +15,7 @@ import { Link } from '@mui/material';
 import gradientColors from "../color.json"
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { dt_homeLoading, dt_loginState } from "../../../Recoil/atom";
+import GoogleAnalytics from 'react-ga4';
 
 const DesignSet2 = () => {
   const designSetRef = useRef(null);
@@ -123,6 +124,12 @@ const DesignSet2 = () => {
   };
 
   const handleNavigation = (designNo, autoCode, titleLine) => {
+    GoogleAnalytics.event({
+      action: "Navigate to Product Detail",
+      category: `Product Interaction Through Design Set Section`,
+      label: designNo || titleLine ,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
     let obj = {
       a: autoCode,
       b: designNo,

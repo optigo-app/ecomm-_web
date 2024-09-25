@@ -1,7 +1,7 @@
 @import '../../../scss/elvee_modules.scss';
 
 .elv_confirMaindiv {
-    background-color: $backgroundColor;
+    // background-color: $backgroundColor;
     font-family: $fontSansSerif !important;
 
     .elv_confirSecondMaindiv {
@@ -13,7 +13,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-top: 70px;
+        padding-block: 70px;
         position: relative;
     }
 

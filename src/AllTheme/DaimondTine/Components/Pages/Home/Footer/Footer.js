@@ -6,7 +6,7 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 import { dt_companyLogo, dt_loginState } from '../../../Recoil/atom';
 import Cookies from "js-cookie";
 
-export default function Footer() {
+export default function     Footer() {
     const titleImg = useRecoilValue(dt_companyLogo);
     const [storeInitData, setStoreInitData] = useState();
     const [companyInfoData, setCompanuInfoData] = useState();

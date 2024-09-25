@@ -106,11 +106,11 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
-      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
+      const { offsetWidth} = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
+      console.log("Size updated:", offsetWidth, offsetWidth);
     }
-  };
+  };;
 
   const handleResize = () => {
     updateSize();
@@ -626,6 +626,10 @@ const Lookbook = () => {
     setCurrentPage(value);
     setThumbsSwiper(null);
     setIsPgLoading(true);
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
   };
 
   return (
@@ -1408,12 +1412,12 @@ const Lookbook = () => {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
-                              {/* <p className="roop_lb2designList_title">
+                              <p className="roop_lb2designList_title">
                             {slide?.designsetno}
-                          </p> */}
+                          </p>
                             </div>
                             <div
                               className="roop_lookBookImgDeatil"
@@ -2182,14 +2186,14 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}>
+                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="ctl_Paginationimg"
-                                        ref={SwiperSlideRef}
+                                        // ref={SwiperSlideRef}
                                         onLoad={() => {
                                           handleImageLoad();
                                         }}

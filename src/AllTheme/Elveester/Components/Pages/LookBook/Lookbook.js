@@ -104,11 +104,12 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
-      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
+      const { offsetWidth} = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
+      console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
+  
   const handleResize = () => {
     updateSize();
   };
@@ -783,14 +784,14 @@ const Lookbook = () => {
                                     size="small"
                                   />
                                 }
-                                // sx={{
-                                //   display: "flex",
-                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                //   width: "100%",
-                                //   flexDirection: "row-reverse", // Align items to the right
-                                //   fontFamily:'TT Commons Regular'
-                                // }}
-                                className="el_mui_checkbox_label"
+                                sx={{
+                                  display: "flex !important",
+                                  justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                  width: "100% !important",
+                                  flexDirection: "row-reverse !important", // Align items to the right
+                                  fontFamily: 'sans-serif'
+                                }}
+                                // className="el_mui_checkbox_label"
                                 label={<CustomLabel text={opt?.Name} />}
                               />
                             </div>
@@ -887,14 +888,14 @@ const Lookbook = () => {
                                   size="small"
                                 />
                               }
-                              // sx={{
-                              //   display: "flex",
-                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                              //   width: "100%",
-                              //   flexDirection: "row-reverse", // Align items to the right
-                              //   fontFamily:'TT Commons Regular'
-                              // }}
-                              className="el_mui_checkbox_label"
+                              sx={{
+                                display: "flex !important",
+                                justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                width: "100% !important",
+                                flexDirection: "row-reverse !important", // Align items to the right
+                                fontFamily: 'sans-serif'
+                              }}
+                              // className="el_mui_checkbox_label"
                               // label={
                               //   opt?.Minval == 0
                               //     ? `Under ${decodeEntities(
@@ -1029,7 +1030,14 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
-                          className="el_mui_checkbox_label"
+                          // className="el_mui_checkbox_label"
+                          sx={{
+                            display: "flex !important",
+                            justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                            width: "100% !important",
+                            flexDirection: "row-reverse !important", // Align items to the right
+                            fontFamily: 'sans-serif'
+                          }}
                           label={<CustomLabel text={opt?.Name} />}
                         />
                       </div>
@@ -1275,14 +1283,14 @@ const Lookbook = () => {
                                             size="small"
                                           />
                                         }
-                                        // sx={{
-                                        //   display: "flex",
-                                        //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                        //   width: "100%",
-                                        //   flexDirection: "row-reverse", // Align items to the right
-                                        //   fontFamily:'TT Commons Regular'
-                                        // }}
-                                        className="el_mui_checkbox_label"
+                                        sx={{
+                                          display: "flex !important",
+                                          justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                          width: "100% !important",
+                                          flexDirection: "row-reverse !important", // Align items to the right
+                                          fontFamily: 'sans-serif'
+                                        }}
+                                        // className="el_mui_checkbox_label"
                                         label={<CustomLabel text={opt?.Name} />}
                                       />
                                     </div>
@@ -1386,14 +1394,14 @@ const Lookbook = () => {
                                             size="small"
                                           />
                                         }
-                                        // sx={{
-                                        //   display: "flex",
-                                        //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                        //   width: "100%",
-                                        //   flexDirection: "row-reverse", // Align items to the right
-                                        //   fontFamily:'TT Commons Regular'
-                                        // }}
-                                        className="el_mui_checkbox_label"
+                                        sx={{
+                                          display: "flex !important",
+                                          justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                          width: "100% !important",
+                                          flexDirection: "row-reverse !important", // Align items to the right
+                                          fontFamily: 'sans-serif'
+                                        }}
+                                        // className="el_mui_checkbox_label"
                                         // label={
                                         //   opt?.Minval == 0
                                         //     ? `Under ${decodeEntities(
@@ -1463,7 +1471,7 @@ const Lookbook = () => {
                                 position: 'relative'
                               }}
                             >
-                               {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                              {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                 <img
                                   className="el_lookBookImg"
                                   loading="lazy"
@@ -1491,7 +1499,7 @@ const Lookbook = () => {
                                     backgroundColor: "rgb(191, 200, 255)",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
                               <p className="el_lb2designList_title">
@@ -1682,7 +1690,7 @@ const Lookbook = () => {
                                 }}
                                 className="el_designSetDiv2_sub1"
                               >
-                                 {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                                {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                   <img
                                     className="el_lookBookImg"
                                     loading="lazy"
@@ -1710,7 +1718,7 @@ const Lookbook = () => {
                                       backgroundColor: "rgb(191, 200, 255)",
                                     }}
                                   >
-                                    <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                    {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                   </div>
                                 )}
                                 <p className="el_lb1designList_title">{slide?.designsetno}</p>
@@ -2279,14 +2287,14 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}>
+                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="ctl_Paginationimg"
-                                        ref={SwiperSlideRef}
+                                        // ref={SwiperSlideRef}
                                         onLoad={handleImageLoad}
                                         onError={() => handleImageError(index)}
                                         style={{
@@ -2358,8 +2366,8 @@ const Lookbook = () => {
           shape="circular"
           onChange={handelPageChange}
           page={currentPage}
-          // showFirstButton
-          // showLastButton
+        // showFirstButton
+        // showLastButton
         />
       </div>
     </div>

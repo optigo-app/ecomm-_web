@@ -26,7 +26,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, A11y, FreeMode, Keyboard } from 'swiper/modules';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -39,6 +39,7 @@ import 'swiper/css/scrollbar';
 import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import { Helmet } from "react-helmet";
+import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -68,21 +69,619 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false)
   const [isDataFound, setIsDataFound] = useState(false)
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
-
   const [designSetList, setDesignSetList] = useState();
-
   const [thumbImgIndex, setThumbImgIndex] = useState()
-
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
-
-  const [prodLoading, setProdLoading] = useState(false)
+  const [prodLoading, setProdLoading] = useState(false);
+  const [albumView,setAlbumView] = useState([]);
 
 
   const setCartCountVal = useSetRecoilState(proCat_CartCount)
   const setWishCountVal = useSetRecoilState(proCat_WishCount)
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
+
+  let fakeData = [
+    {
+      "id": 1942,
+      "DesignId": 1942,
+      "IsBestSeller": 0,
+      "IsTrending": 0,
+      "designno": "K24705E",
+      "autocode": "0001942",
+      "DefaultImageName": "0001942_11092024113736361.jpg",
+      "imgrandomno": "228CC7FB4A",
+      "RollOverImageName": "0001942_11092024113738685.jpg",
+      "IsNewArrival": 0,
+      "TitleLine": "",
+      "MasterManagement_labid": 3,
+      "DisplayOrder": 58505,
+      "Producttypeid": 1,
+      "Collectionid": 16,
+      "Categoryid": 13,
+      "SubCategoryid": 6,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 3,
+      "Themeid": 6,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 18K",
+      "MetalColorid": 4,
+      "IsInReadyStock": 1,
+      "InReadyStockCnt": 1,
+      "MetalPurityid": 2,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "0001942_11092024113759543.jpg",
+      "CenterStonePieces": 0,
+      "Hashtagid": "5",
+      "description": "",
+      "SetDno": "",
+      "similarband": "",
+      "DefaultSize": "5mm",
+      "ImageName": "",
+      "VideoName": "0001942_11092024113853909.mp4",
+      "DesignFolderName": "228CC7FB4AMDAwMTk0Mg==",
+      "EntryDate": "2024-07-20T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 0,
+      "InStockDays": 0,
+      "MakeOrderDays": 0,
+      "SrNo": 1,
+      "StatusId": 1,
+      "DiaQuaCol": "VVS,GH",
+      "CsQuaCol": "S-EMR,S-RUB,GRN,RED",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 4,
+      "ColorImageCount": 4,
+      "360ImageCount": 0,
+      "VideoCount": 1,
+      "ImageExtension": "jpg",
+      "360ImageExtension": "",
+      "VideoExtension": "mp4",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "[{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":1,\"Ex\":\"mp4\",\"CN\":\"\",\"TI\":3},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2}]",
+      "stockno": "",
+      "Nwt": 13.606,
+      "Gwt": 14.782,
+      "Dwt": 0.504,
+      "Dpcs": 48,
+      "CSwt": 5.374,
+      "CSpcs": 5,
+      "UnitCost": 336331.51,
+      "DesignMarkUp": 0,
+      "DesignMarkUpAmount": 0,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 336331,
+      "Metal_Cost": 89146.51,
+      "Labour_Cost": 2400,
+      "Diamond_Cost": 26050.8,
+      "Diamond_SettingCost": 21800,
+      "ColorStone_Cost": 190734.2,
+      "ColorStone_SettingCost": 2900,
+      "Misc_Cost": 0,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 3300,
+      "SolPrice": 0
+    },
+    {
+      "id": 1943,
+      "DesignId": 1943,
+      "IsBestSeller": 0,
+      "IsTrending": 0,
+      "designno": "K24706E",
+      "autocode": "0001943",
+      "DefaultImageName": "0001943_19092024115722145.jpg",
+      "imgrandomno": "AD3DEADF9C",
+      "RollOverImageName": "",
+      "IsNewArrival": 0,
+      "TitleLine": "",
+      "MasterManagement_labid": 3,
+      "DisplayOrder": 58505,
+      "Producttypeid": 1,
+      "Collectionid": 16,
+      "Categoryid": 13,
+      "SubCategoryid": 6,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 3,
+      "Themeid": 6,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 18K",
+      "MetalColorid": 4,
+      "IsInReadyStock": 2,
+      "InReadyStockCnt": 0,
+      "MetalPurityid": 2,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "",
+      "CenterStonePieces": 0,
+      "Hashtagid": "5",
+      "description": "Wipe your jewellery with a soft cloth after every use Always store your jewellery in a flat box to avoid accidental scratches Keep sprays and perfumes away from your jewellery Do not soak your jewellery in water Clean your jewellery using a soft brush, dipped in jewellery cleaning solution only.",
+      "SetDno": "",
+      "similarband": "K24705E, K24706E, D24705E",
+      "DefaultSize": "5mm",
+      "ImageName": "",
+      "VideoName": "0001943_11092024123456869.mp4",
+      "DesignFolderName": "AD3DEADF9CMDAwMTk0Mw==",
+      "EntryDate": "2024-07-20T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 0,
+      "InStockDays": 0,
+      "MakeOrderDays": 0,
+      "SrNo": 2,
+      "StatusId": 2,
+      "DiaQuaCol": "VVS,GH",
+      "CsQuaCol": "S-EMR,S-RUB,GRN,RED",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 4,
+      "ColorImageCount": 4,
+      "360ImageCount": 0,
+      "VideoCount": 1,
+      "ImageExtension": "jpg",
+      "360ImageExtension": "",
+      "VideoExtension": "mp4",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "[{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":1,\"Ex\":\"mp4\",\"CN\":\"\",\"TI\":3},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2}]",
+      "stockno": "",
+      "Nwt": 13.606,
+      "Gwt": 19.782,
+      "Dwt": 0.504,
+      "Dpcs": 48,
+      "CSwt": 5.374,
+      "CSpcs": 5,
+      "UnitCost": 586331.51,
+      "DesignMarkUp": 0,
+      "DesignMarkUpAmount": 0,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 586331,
+      "Metal_Cost": 89146.51,
+      "Labour_Cost": 2400,
+      "Diamond_Cost": 26050.8,
+      "Diamond_SettingCost": 21800,
+      "ColorStone_Cost": 190734.2,
+      "ColorStone_SettingCost": 2900,
+      "Misc_Cost": 250000,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 3300,
+      "SolPrice": 0
+    },
+    {
+      "id": 368,
+      "DesignId": 368,
+      "IsBestSeller": 1,
+      "IsTrending": 0,
+      "designno": "S24704E",
+      "autocode": "0000368",
+      "DefaultImageName": "0000368_07082024160706154.jpg",
+      "imgrandomno": "E3C81E9D91",
+      "RollOverImageName": "0000368_07082024160706154.jpg",
+      "IsNewArrival": 0,
+      "TitleLine": "Trio Pear Cut Gemstone Bracelet",
+      "MasterManagement_labid": 2,
+      "DisplayOrder": 58607,
+      "Producttypeid": 1,
+      "Collectionid": 16,
+      "Categoryid": 11,
+      "SubCategoryid": 6,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 4,
+      "Themeid": 11,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 18K",
+      "MetalColorid": 2,
+      "IsInReadyStock": 0,
+      "InReadyStockCnt": 0,
+      "MetalPurityid": 2,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "",
+      "CenterStonePieces": 0,
+      "Hashtagid": "",
+      "description": "",
+      "SetDno": "",
+      "similarband": "",
+      "DefaultSize": "",
+      "ImageName": "",
+      "VideoName": "",
+      "DesignFolderName": "E3C81E9D91MDAwMDM2OA==",
+      "EntryDate": "2024-06-19T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 0,
+      "InStockDays": 0,
+      "MakeOrderDays": 0,
+      "SrNo": 3,
+      "StatusId": 0,
+      "DiaQuaCol": "VVS,GH",
+      "CsQuaCol": "",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 4,
+      "ColorImageCount": 4,
+      "360ImageCount": 0,
+      "VideoCount": 0,
+      "ImageExtension": "jpg",
+      "360ImageExtension": "",
+      "VideoExtension": "",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "[{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":2,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":3,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"Rose\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"White\",\"TI\":2},{\"Nm\":4,\"Ex\":\"jpg\",\"CN\":\"Yellow\",\"TI\":2}]",
+      "stockno": "",
+      "Nwt": 5.119,
+      "Gwt": 5.291,
+      "Dwt": 0.862,
+      "Dpcs": 82,
+      "CSwt": 0,
+      "CSpcs": 0,
+      "UnitCost": 102741.51,
+      "DesignMarkUp": 0,
+      "DesignMarkUpAmount": 0,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 102741,
+      "Metal_Cost": 30959.71,
+      "Labour_Cost": 900,
+      "Diamond_Cost": 44881.8,
+      "Diamond_SettingCost": 25200,
+      "ColorStone_Cost": 0,
+      "ColorStone_SettingCost": 0,
+      "Misc_Cost": 0,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 800,
+      "SolPrice": 0
+    },
+    {
+      "id": 98,
+      "DesignId": 98,
+      "IsBestSeller": 1,
+      "IsTrending": 0,
+      "designno": "D24701E",
+      "autocode": "0000075",
+      "DefaultImageName": "",
+      "imgrandomno": "CBAF13AE88",
+      "RollOverImageName": "",
+      "IsNewArrival": 0,
+      "TitleLine": "",
+      "MasterManagement_labid": 2,
+      "DisplayOrder": 58501,
+      "Producttypeid": 1,
+      "Collectionid": 16,
+      "Categoryid": 13,
+      "SubCategoryid": 6,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 3,
+      "Themeid": 6,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 18K",
+      "MetalColorid": 1,
+      "IsInReadyStock": 1,
+      "InReadyStockCnt": 1,
+      "MetalPurityid": 2,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "",
+      "CenterStonePieces": 0,
+      "Hashtagid": "5",
+      "description": "",
+      "SetDno": "",
+      "similarband": "",
+      "DefaultSize": "",
+      "ImageName": "",
+      "VideoName": "",
+      "DesignFolderName": "CBAF13AE88MDAwMDA3NQ==",
+      "EntryDate": "2024-06-19T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 1,
+      "InStockDays": 5,
+      "MakeOrderDays": 8,
+      "SrNo": 4,
+      "StatusId": 1,
+      "DiaQuaCol": "BETTER_SI,GREEN",
+      "CsQuaCol": "",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 1,
+      "ColorImageCount": 1,
+      "360ImageCount": 0,
+      "VideoCount": 0,
+      "ImageExtension": "jpg",
+      "360ImageExtension": "",
+      "VideoExtension": "",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "0",
+      "stockno": "",
+      "Nwt": 11.8,
+      "Gwt": 11.8,
+      "Dwt": 0,
+      "Dpcs": 0,
+      "CSwt": 0,
+      "CSpcs": 0,
+      "UnitCost": 56000,
+      "DesignMarkUp": 0,
+      "DesignMarkUpAmount": 0,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 56000,
+      "Metal_Cost": 0,
+      "Labour_Cost": 0,
+      "Diamond_Cost": 0,
+      "Diamond_SettingCost": 0,
+      "ColorStone_Cost": 0,
+      "ColorStone_SettingCost": 0,
+      "Misc_Cost": 0,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 0,
+      "SolPrice": 0
+    },
+    {
+      "id": 16,
+      "DesignId": 16,
+      "IsBestSeller": 0,
+      "IsTrending": 1,
+      "designno": "D24703E",
+      "autocode": "0000079",
+      "DefaultImageName": "0000079_10082024132825286.jpg",
+      "imgrandomno": "3951DEF362",
+      "RollOverImageName": "0000079_10082024132825286.jpg",
+      "IsNewArrival": 0,
+      "TitleLine": "",
+      "MasterManagement_labid": 2,
+      "DisplayOrder": 58507,
+      "Producttypeid": 1,
+      "Collectionid": 16,
+      "Categoryid": 13,
+      "SubCategoryid": 6,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 3,
+      "Themeid": 6,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 14K",
+      "MetalColorid": 1,
+      "IsInReadyStock": 0,
+      "InReadyStockCnt": 0,
+      "MetalPurityid": 1,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "",
+      "CenterStonePieces": 0,
+      "Hashtagid": "",
+      "description": "",
+      "SetDno": "",
+      "similarband": "",
+      "DefaultSize": "5mm",
+      "ImageName": "",
+      "VideoName": "",
+      "DesignFolderName": "3951DEF362MDAwMDA3OQ==",
+      "EntryDate": "2024-06-19T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 1,
+      "InStockDays": 0,
+      "MakeOrderDays": 0,
+      "SrNo": 5,
+      "StatusId": 0,
+      "DiaQuaCol": "VVS,GH",
+      "CsQuaCol": "S-EMR,GRN",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 1,
+      "ColorImageCount": 0,
+      "360ImageCount": 0,
+      "VideoCount": 0,
+      "ImageExtension": "jpg",
+      "360ImageExtension": "",
+      "VideoExtension": "",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "[{\"Nm\":1,\"Ex\":\"jpg\",\"CN\":\"\",\"TI\":1}]",
+      "stockno": "",
+      "Nwt": 98.78,
+      "Gwt": 98.78,
+      "Dwt": 0,
+      "Dpcs": 0,
+      "CSwt": 0,
+      "CSpcs": 0,
+      "UnitCost": 150000,
+      "DesignMarkUp": 5,
+      "DesignMarkUpAmount": 7500,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 157500,
+      "Metal_Cost": 0,
+      "Labour_Cost": 0,
+      "Diamond_Cost": 0,
+      "Diamond_SettingCost": 0,
+      "ColorStone_Cost": 0,
+      "ColorStone_SettingCost": 0,
+      "Misc_Cost": 0,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 0,
+      "SolPrice": 0
+    },
+    {
+      "id": 8,
+      "DesignId": 8,
+      "IsBestSeller": 0,
+      "IsTrending": 0,
+      "designno": "A27805",
+      "autocode": "0000040",
+      "DefaultImageName": "",
+      "imgrandomno": "1E4E16FE01",
+      "RollOverImageName": "",
+      "IsNewArrival": 0,
+      "TitleLine": "",
+      "MasterManagement_labid": 2,
+      "DisplayOrder": 81805,
+      "Producttypeid": 1,
+      "Collectionid": 15,
+      "Categoryid": 1,
+      "SubCategoryid": 10,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 4,
+      "Themeid": 11,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 18K",
+      "MetalColorid": 1,
+      "IsInReadyStock": 0,
+      "InReadyStockCnt": 0,
+      "MetalPurityid": 2,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "",
+      "CenterStonePieces": 0,
+      "Hashtagid": "",
+      "description": "",
+      "SetDno": "",
+      "similarband": "",
+      "DefaultSize": "",
+      "ImageName": "",
+      "VideoName": "",
+      "DesignFolderName": "1E4E16FE01MDAwMDA0MA==",
+      "EntryDate": "2024-06-19T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 0,
+      "InStockDays": 0,
+      "MakeOrderDays": 0,
+      "SrNo": 6,
+      "StatusId": 0,
+      "DiaQuaCol": "SI,GH",
+      "CsQuaCol": "S-EMR,GRN",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 4,
+      "ColorImageCount": 4,
+      "360ImageCount": 0,
+      "VideoCount": 0,
+      "ImageExtension": "jpg",
+      "360ImageExtension": "",
+      "VideoExtension": "",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "0",
+      "stockno": "",
+      "Nwt": 7.143,
+      "Gwt": 11.143,
+      "Dwt": 5,
+      "Dpcs": 2,
+      "CSwt": 5,
+      "CSpcs": 1,
+      "UnitCost": 402150.86,
+      "DesignMarkUp": 0,
+      "DesignMarkUpAmount": 0,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 402150,
+      "Metal_Cost": 43200.86,
+      "Labour_Cost": 900,
+      "Diamond_Cost": 257250,
+      "Diamond_SettingCost": 0,
+      "ColorStone_Cost": 0,
+      "ColorStone_SettingCost": 0,
+      "Misc_Cost": 100000,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 800,
+      "SolPrice": 0
+    },
+    {
+      "id": 4,
+      "DesignId": 4,
+      "IsBestSeller": 0,
+      "IsTrending": 1,
+      "designno": "A27801",
+      "autocode": "0000036",
+      "DefaultImageName": "",
+      "imgrandomno": "43666C1807",
+      "RollOverImageName": "",
+      "IsNewArrival": 0,
+      "TitleLine": "",
+      "MasterManagement_labid": 2,
+      "DisplayOrder": 103326,
+      "Producttypeid": 1,
+      "Collectionid": 15,
+      "Categoryid": 1,
+      "SubCategoryid": 10,
+      "Brandid": 3,
+      "Genderid": 1,
+      "Ocassionid": 4,
+      "Themeid": 11,
+      "MetalTypeid": 1,
+      "MetalTypePurity": "GOLD 18K",
+      "MetalColorid": 6,
+      "IsInReadyStock": 1,
+      "InReadyStockCnt": 1,
+      "MetalPurityid": 2,
+      "FrontEnd_OrderCnt": 0,
+      "CenterStoneId": 0,
+      "ColorWiseRollOverImageName": "",
+      "CenterStonePieces": 0,
+      "Hashtagid": "",
+      "description": "",
+      "SetDno": "",
+      "similarband": "A14413,A19903",
+      "DefaultSize": "",
+      "ImageName": "",
+      "VideoName": "",
+      "DesignFolderName": "43666C1807MDAwMDAzNg==",
+      "EntryDate": "2024-06-19T00:00:00",
+      "FrontEnd1_newArrivalsto": null,
+      "IsMrpBase": 0,
+      "InStockDays": 0,
+      "MakeOrderDays": 0,
+      "SrNo": 7,
+      "StatusId": 1,
+      "DiaQuaCol": "VVS1,IJ",
+      "CsQuaCol": "S-CRL,GRN",
+      "IsInWish": 0,
+      "IsInCart": 0,
+      "ImageCount": 2,
+      "ColorImageCount": 1,
+      "360ImageCount": 0,
+      "VideoCount": 2,
+      "ImageExtension": "png",
+      "360ImageExtension": "",
+      "VideoExtension": "mp4",
+      "IsImageNameWithRandNo": 0,
+      "ImageVideoDetail": "0",
+      "stockno": "",
+      "Nwt": 9.748,
+      "Gwt": 10,
+      "Dwt": 0.258,
+      "Dpcs": 5,
+      "CSwt": 1,
+      "CSpcs": 1,
+      "UnitCost": 74471.8,
+      "DesignMarkUp": 0,
+      "DesignMarkUpAmount": 0,
+      "SizeMarkUpOn": "",
+      "Size_MarkUp": 0,
+      "SizeMarkUpAmount": 0,
+      "UnitCostWithMarkUp": 74471,
+      "Metal_Cost": 58955.9,
+      "Labour_Cost": 900,
+      "Diamond_Cost": 13815.9,
+      "Diamond_SettingCost": 0,
+      "ColorStone_Cost": 0,
+      "ColorStone_SettingCost": 0,
+      "Misc_Cost": 0,
+      "Misc_SettingCost": 0,
+      "Other_Cost": 800,
+      "SolPrice": 0
+    }
+  ]
+
+
+  // console.log("SizeCombo",SizeCombo);
 
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
@@ -124,6 +723,8 @@ const ProductDetail = () => {
     let isincart = singleProd?.IsInCart == 0 ? false : true;
     setAddToCartFlag(isincart);
   }, [singleProd]);
+
+  
 
   const handleCart = (cartflag) => {
 
@@ -682,14 +1283,37 @@ const ProductDetail = () => {
         .catch((err) => console.log("err", err))
     }
 
-    FetchProductData()
 
+    const productlistDataFetch20 = async() =>{
+       let obj = { mt:decodeobj?.m , dia: decodeobj?.d, cs: decodeobj?.c };
+
+       console.log("detailparam",{}, 1, obj, decodeobj?.pl, cookie , decodeobj?.sb ,{},{},{},"",decodeobj?.b,decodeobj?.n);
+       
+
+       await ProductListApi({}, 1, obj, decodeobj?.pl, cookie , decodeobj?.sb ,{},{},{},"",decodeobj?.b,decodeobj?.n)
+        .then((res) => {
+          if (res) {
+            console.log("productList", res);
+            setAlbumView(res?.pdList)
+          }
+          return res;
+        }).catch((err) => console.log("err", err));
+
+    } 
+
+    FetchProductData()
+    productlistDataFetch20()
+ 
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
 
   }, [location?.key]);
+
+
+  console.log("decodeurl",decodeUrl);
+  
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -1274,6 +1898,9 @@ const ProductDetail = () => {
               <>
                 <div className="smr_prod_detail_main">
                   <div className="smr_prod_image_shortInfo">
+                    {/* <div>
+                      <span>{"<"}</span>
+                    </div> */}
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
                       {isImageload && (
@@ -1811,6 +2438,9 @@ const ProductDetail = () => {
                         }
                       </div>
                     </div>
+                    {/* <div>
+                      <span>{">"}</span>
+                    </div> */}
                   </div>
                 </div>
 
@@ -1954,6 +2584,52 @@ const ProductDetail = () => {
                     </div>
                   )}
                 </div>
+
+                {/* <div className="Dt_swiper_container">
+                                <Swiper
+                                    spaceBetween={10}
+                                    lazy={true}
+                                    navigation={true}
+                                    breakpoints={{
+                                        1024: {
+                                            slidesPerView: 4,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        0: {
+                                            slidesPerView: 2,
+                                        }
+                                    }}
+                                    modules={[Keyboard, FreeMode, Navigation]}
+                                    keyboard={{ enabled: true }}
+                                    pagination={false}
+                                    className='dt_album_swiper_SubDiv'
+                                >
+                                    {fakeData?.map((design) => {
+                                        const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+                                        return (
+                                            <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
+                                                <div 
+                                                className="design-slide" 
+                                                >
+                                                    <img
+                                                        src={imageSrc ?? imageNotFound}
+                                                        alt={design?.TitleLine}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                                <div className="design-info">
+                                                    <p className='smr_album1price'>
+                                                        {design?.designno}
+                                                    </p>
+                                                   
+                                                </div>
+                                            </SwiperSlide>
+                                        );
+                                    })}
+                                </Swiper>
+                    </div> */}
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">
@@ -2274,11 +2950,12 @@ const ProductDetail = () => {
                   </div>
                 )}
 
+
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
                   SimilarBrandArr?.length > 0 && (
                     <div className="smr_stockItem_div">
                       <p className="smr_details_title"> Similar Designs</p>
-                      <div className="smr_stockitem_container" style={{ maxWidth: '650px', overflowX: 'auto' }}>
+                      <div className="smr_stockitem_container">
                         <div className="smr_stock_item_card">
                           {SimilarBrandArr?.map((ele) => (
                             <div
@@ -2290,7 +2967,7 @@ const ProductDetail = () => {
                               }
                             >
                               <img
-                                className="procat_productCard_Image"
+                                className="smr_productCard_Image"
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.DesignImageFol +
@@ -2319,7 +2996,7 @@ const ProductDetail = () => {
                                   {ele?.designno}
                                 </span>
 
-                                <div
+                                { storeInit?.IsPriceShow == 1 ? <div
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
@@ -2329,22 +3006,18 @@ const ProductDetail = () => {
                                   }}
                                   className="smr_stockItem_price_type_mt"
                                 >
-                                  {storeInit?.IsPriceShow == 1 &&
-                                    <>
-                                      <spam>
-                                        <span className="smr_currencyFont">
-                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>
-                                        &nbsp;
-                                      </spam>
-                                      <span>{
-                                        formatter.format(
-                                          ele?.UnitCostWithMarkUp
-                                        )
-                                      }</span>
-                                    </>
-                                  }
-                                </div>
+                                  <spam>
+                                    <span className="smr_currencyFont">
+                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                    &nbsp;
+                                  </spam>
+                                  <span>{
+                                    formatter.format(
+                                      ele?.UnitCostWithMarkUp
+                                    )
+                                  }</span>
+                                </div> :  null}
                               </div>
                             </div>
                           ))}

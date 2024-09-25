@@ -241,7 +241,7 @@ const SmilingRock_App = () => {
           <Route path="/account" element={<Account />} />
           {/* <Route path="/accountdwsr" element={<DWSRprintComp />} /> */}
         </Route>
-          <Route path="/accountdwsr" element={<DWSRprintComp />} />
+        <Route path="/accountdwsr" element={<DWSRprintComp />} />
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

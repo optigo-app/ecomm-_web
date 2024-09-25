@@ -8,7 +8,7 @@ import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import imageNotFound from "../../../Assets/image-not-found.jpg"
-
+import GoogleAnalytics from 'react-ga4';
 
 const BestSellerSection1 = () => {
     const bestSallerRef = useRef(null);
@@ -102,6 +102,13 @@ const BestSellerSection1 = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+        GoogleAnalytics.event({
+            action: "Navigate to Product Detail",
+            category: `Product Interaction Through Best Seller Section`,
+            label: designNo || titleLine ,
+            value: loginUserDetail?.firstname ?? 'User Not Login',
+          });
+        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
         let obj = {
             a: autoCode,
             b: designNo,

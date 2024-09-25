@@ -73,6 +73,13 @@
   .smr_lookBookImgDiv {
     margin-top: 55px;
     width: 80%;
+    
+    .lpDiv{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 40px;
+    }
   }
 
   .smr_lb2designList_title {

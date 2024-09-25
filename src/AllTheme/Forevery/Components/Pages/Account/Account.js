@@ -22,7 +22,6 @@ import PendingMemo from './PendingMemo/PendingMemo';
 
 import { accountDetailPages, accountValidation } from '../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import Plm from './PLM/Plm';
-import OrderHistoryGroup from './OrderHistoryGroup/OrderHistoryGroup';
 import Cookies from 'js-cookie';
 import NewOrderHistoryF from './AccountOrderHistory/NewOrderHistoryF';
 import useNavbar from '../../hooks/UseNavbar';
