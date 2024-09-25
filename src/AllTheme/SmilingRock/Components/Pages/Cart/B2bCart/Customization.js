@@ -225,7 +225,7 @@ const Customization = ({
               <div className="option">
                 <label htmlFor="diamond">Color Stone:</label>
                 <span>
-                {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                  {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
                 </span>
               </div>
             }
@@ -237,10 +237,16 @@ const Customization = ({
             }
           </div>
           <div className="smr_stockPriceQtyDiv">
-            <div className="option">
-              <label htmlFor="qty">Qty:</label>
-              <span>{selectedItem?.Quantity}</span>
-            </div>
+            {selectedItem?.IsMrpBase == 0 ? (
+              <div className="option">
+                <label htmlFor="qty">Qty:</label>
+                <span>{selectedItem?.Quantity}</span>
+              </div>
+            ) :
+              <div>
+                <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+              </div>
+            }
             <div className=''>
               {storeInitData?.IsPriceShow == 1 &&
                 <div className="smr_Stockproduct-price">
