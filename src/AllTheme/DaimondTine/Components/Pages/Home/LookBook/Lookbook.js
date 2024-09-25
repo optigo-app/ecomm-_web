@@ -54,6 +54,7 @@ import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction
 import { dt_CartCount, dt_loginState, lookBookDrawer } from "../../../Recoil/atom";
 import Footer from "../Footer/Footer";
 import LookbookSkeleton from "./lookbookSkelton";
+import GoogleAnalytics from 'react-ga4'
 
 const Lookbook = () => {
   let location = useLocation();
@@ -247,13 +248,37 @@ const Lookbook = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(
       (ele) => ele.checked
     );
+    const formatCheckboxData = (data) => {
+      return Object.values(data)
+        .filter(item => item.checked) 
+        .map(item => ({ id: item.id, type: item.type, value: item.value })) 
+        .reduce((acc, curr) => {
+          acc[curr.type] = acc[curr.type] || [];
+          acc[curr.type].push(curr); 
+          return acc;
+        }, {});
+    };
+    
+      const formattedData = formatCheckboxData(filterChecked);
+      const labelString = JSON?.stringify(formattedData);
+      const labelSizeLimit = 2000; 
+
+      const eventLabel = labelString?.length > labelSizeLimit ? 
+      labelString?.substring(0, labelSizeLimit) + '...' : 
+      labelString;
+
+      GoogleAnalytics.event({
+      action: "Navigate to Product Detail",
+      category: `Filter Interaction Through Design Set && Filter by User ${loginUserDetail?.firstname}`,
+      label: eventLabel ,
+      value: `${Object?.keys(formattedData)?.length} Filter by User ${loginUserDetail?.firstname} `
+      });
 
     const priceValues = onlyTrueFilterValue
       .filter((item) => item.type === "Price")
       .map((item) => item.value);
 
     const output = {};
-
     onlyTrueFilterValue.forEach((item) => {
       if (!output[item.type]) {
         output[item.type] = "";
@@ -359,6 +384,12 @@ const Lookbook = () => {
     };
 
     setCartItems((prevCartItems) => [...prevCartItems, ele?.autocode]);
+    GoogleAnalytics.event({
+      action: `Item Added In Cart By User ${loginUserDetail?.firstname}`,
+      category: `Cart Interaction Through Design Set Page`,
+      label: ele?.designNo || ele?.titleLine ,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
 
     CartAndWishListAPI(type, prodObj, cookie)
       .then((res) => {
@@ -423,6 +454,17 @@ const Lookbook = () => {
       ...prevItems,
       ...data.map((detail) => detail.autocode),
     ]);
+    const labelString = JSON?.stringify(data);
+    const labelSizeLimit = 2000; 
+    const eventLabel = labelString?.length > labelSizeLimit ? 
+    labelString?.substring(0, labelSizeLimit) + '...' : 
+    labelString;
+    GoogleAnalytics.event({
+      action: `Combo Item Added In Cart By User ${loginUserDetail?.firstname}`,
+      category: `Cart Interaction Through Design Set Page`,
+      label: eventLabel ,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
     CartAndWishListAPI("Cart", prodObjs, cookie, "look")
       .then((res) => {
         let cartC = res?.Data?.rd[0]?.Cartlistcount;
@@ -448,6 +490,12 @@ const Lookbook = () => {
   };
 
   const handleNavigation = (designNo, autoCode, titleLine) => {
+    GoogleAnalytics.event({
+      action: "Navigate From LookBook to  Product Detail",
+      category: `Product Interaction Through Design Set Page`,
+      label: designNo || titleLine ||autoCode ,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
     let obj = {
       a: autoCode,
       b: designNo,

@@ -42,7 +42,9 @@ const WishlistItems = ({
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
-            toast.success("Wishlist items added in cart")
+            toast.success("Wishlist items added in cart", {
+                hideProgressBar: true
+            })
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
             });
@@ -132,7 +134,7 @@ const WishlistItems = ({
                                 className='elv_wishlist_btn'
                                 onClick={() => handleWishlistToCartFun(item)}
                                 disabled={item?.IsInCart === 1}
-                                style={{ backgroundColor: item?.IsInCart === 1 ? '#fafafa' : 'initial'}}
+                                style={{ backgroundColor: item?.IsInCart === 1 ? '#fafafa' : 'initial' }}
                             >
                                 {item?.IsInCart !== 1 ? "Add to cart +" : "In cart"}
                             </button>

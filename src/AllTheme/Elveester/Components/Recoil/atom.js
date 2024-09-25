@@ -6,6 +6,11 @@ export const el_companyLogo = atom({
   default: '',
 })
 
+export const el_companyLogoM = atom({
+  key: 'dt_companyLogoM',
+  default: '',
+})
+
 export const el_loginState = atom({
   key: 'el_loginState',
   default: false,

@@ -15,7 +15,7 @@ import { IoIosCall, IoIosLogOut } from "react-icons/io";
 import React, { useEffect, useRef, useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { IoChevronDown, IoClose } from "react-icons/io5";
-import { Link,   useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CartDrawer from "../../Cart/DrawerCart/CartDrawer";
 import { IoSearchOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
@@ -36,6 +36,11 @@ import Pako from "pako";
 import DummyNav from "./DummyNav";
 import TemporaryDrawer from "./MobileNavbar";
 import { HiOutlineUserCircle } from "react-icons/hi2";
+import axios from "axios";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+
+const DeskTopLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+const MobileLogoNew = `${storImagePath()}/logoIcon/webLogo.png`;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -56,19 +61,31 @@ const Navbar = () => {
   const [cartCountNum, setCartCountNum] = useRecoilState(Hoq_CartCount);
   const [wishCountNum, setWishCountNum] = useRecoilState(Hoq_WishCount);
   const [searchText, setSearchText] = useState("");
-  const location = useLocation()
+  const location = useLocation();
   const [titleImg, setCompanyTitleLogo] = useRecoilState(Hoq_companyLogo);
-  const [MobileLogo, setCompanyMobileLogo] = useRecoilState(Hoq_MobilecompanyLogo);
+  const [MobileLogo, setCompanyMobileLogo] = useRecoilState(
+    Hoq_MobilecompanyLogo
+  );
   const is320px = useMediaQuery("(max-width:320px)");
   const is400px = useMediaQuery("(max-width:401px)");
   const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-      setisMobileMenu(false)
-    },[location])
+  useEffect(() => {
+    setisMobileMenu(false);
+  }, [location]);
   useEffect(() => {
     sessionStorage.setItem("isCart_hOQ", cartCountNum);
   }, [cartCountNum]);
+
+  // useEffect(()=>{
+  //  (async function () {
+  //   try {
+  //     const {data} = await axios
+  //   } catch (error) {
+
+  //   }
+  //   })()
+  // },[])
 
   useEffect(() => {
     let interval;
@@ -78,10 +95,10 @@ const Navbar = () => {
         if (storeInit) {
           const parsedData = JSON.parse(storeInit);
           setCompanyTitleLogo(parsedData?.companylogo);
-          setCompanyMobileLogo(parsedData?.companyMlogo)
+          setCompanyMobileLogo(parsedData?.companyMlogo);
           window.scroll({ behavior: "smooth", top: 0 });
           setLoading(false);
-          console.log(parsedData,"avaiable");
+          console.log(parsedData, "avaiable");
 
           if (interval) {
             clearInterval(interval);
@@ -90,8 +107,8 @@ const Navbar = () => {
           setLoading(true);
         }
       } catch (error) {
-        console.error('Error parsing storeInit:', error);
-        setLoading(false); 
+        console.error("Error parsing storeInit:", error);
+        setLoading(false);
 
         if (interval) {
           clearInterval(interval);
@@ -100,7 +117,7 @@ const Navbar = () => {
     };
 
     checkStoreInit();
-    interval = setInterval(checkStoreInit, 1000); 
+    interval = setInterval(checkStoreInit, 1000);
     return () => {
       if (interval) {
         clearInterval(interval);
@@ -113,14 +130,14 @@ const Navbar = () => {
     setislogin(value);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeInit?.companylogo);
-    setCompanyMobileLogo(storeInit?.companyMlogo)
+    setCompanyMobileLogo(storeInit?.companyMlogo);
     window.scroll({ behavior: "smooth", top: 0 });
   }, []);
 
   const HandleAccountRoute = () => {
     navigate("/account");
   };
-  
+
   const handleScroll = () => {
     const scrollTop = window.pageYOffset;
     const currentScrollY = window.scrollY;
@@ -302,7 +319,6 @@ const Navbar = () => {
       `size=${finalData.size ?? 50}`,
     ].join("&");
 
-
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
     const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
@@ -365,7 +381,7 @@ const Navbar = () => {
           f: {},
         };
 
-        let encodeObj = btoa(JSON.stringify(obj))
+        let encodeObj = btoa(JSON.stringify(obj));
 
         navigate(`/p/${searchText}?S=${encodeObj}`);
         // toggleOverlay();
@@ -506,17 +522,17 @@ const Navbar = () => {
           )}
         </nav> */}
         <div className="new_bar">
-        {showSearchBar && (
-                  <SearchBar
-                    size={28}
-                    color="grey"
-                    closeSearch={() => setshowSearchBar(!showSearchBar)}
-                    showSearchBar={showSearchBar}
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                    searchDataFucn={searchDataFucn}
-                  />
-                )}
+          {showSearchBar && (
+            <SearchBar
+              size={28}
+              color="grey"
+              closeSearch={() => setshowSearchBar(!showSearchBar)}
+              showSearchBar={showSearchBar}
+              searchText={searchText}
+              setSearchText={setSearchText}
+              searchDataFucn={searchDataFucn}
+            />
+          )}
           <div className="first_bar_sec_hoq">
             <div className="nav_left2">
               <div className="navbar_search_hoq_m">
@@ -550,7 +566,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={is400px ? MobileLogo : titleImg}
+                  src={is400px ? MobileLogoNew : DeskTopLogo}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
@@ -1127,8 +1143,8 @@ const NavbarCenter = ({
   handleMenu,
   logo,
   islogin,
-  is400px ,
-  MobileLogo
+  is400px,
+  MobileLogo,
 }) => {
   const isOpen = true;
   return (
@@ -1302,7 +1318,7 @@ const SearchBar = ({
           onKeyDown={searchDataFucn}
         />
         <button className="cls_btn_search" onClick={closeSearch}>
-          <TfiClose size={20} color="grey"/>
+          <TfiClose size={20} color="grey" />
         </button>
       </div>
       <div className="bg_search_overlay"></div>

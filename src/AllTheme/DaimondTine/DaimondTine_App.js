@@ -35,6 +35,8 @@ import ShipingReturn from './Components/Pages/StaticPages/ShipingReturn/ShipingR
 import Exchange from './Components/Pages/StaticPages/Exchange/Exchange'
 import Location from './Components/Pages/StaticPages/Location/Location'
 import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
+import GoogleAnalytics  from 'react-ga4';
+
 
 
 const DaimondTine_App = () => {
@@ -49,6 +51,20 @@ const DaimondTine_App = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [localData, setLocalData] = useState();
   const isDrawerLookBook = useRecoilValue(lookBookDrawer);
+  
+
+  const TRACKING_ID = "G-6ETM8Y1KCR";
+  GoogleAnalytics.initialize(TRACKING_ID);
+
+  useEffect(() => {
+    GoogleAnalytics.set({ page: location.pathname });
+    GoogleAnalytics.send("pageview");
+    GoogleAnalytics.event({
+      category: "Navigation",
+      action: "Visited Route",
+      label: location.pathname,
+    });
+  }, [location]);
 
   useEffect(() => {
     let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;

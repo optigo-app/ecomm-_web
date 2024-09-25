@@ -99,7 +99,7 @@ export default function YourProfile() {
     }
 
     return (
-        <div className='smr_yourProfile'>
+        <div className='yourProfile_Account_SFJ smr_yourProfile'>
             <ToastContainer />
 
             {isLoading && (
