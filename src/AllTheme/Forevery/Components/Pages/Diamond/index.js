@@ -196,9 +196,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         p: pValue,
         f: {},
       };
-      console.log("ksjkfjkjdkjfkjsdk--", obj);
       let encodeObj = compressAndEncode(JSON.stringify(obj));
-
       handleOpen(null)
       Navigation(
         `/d/${(data?.TitleLine ?? data?.step1Data?.TitleLine).replace(/\s+/g, `_`)}${(data?.TitleLine ?? data?.step1Data?.TitleLine)?.length > 0 ? "_" : ""
@@ -278,19 +276,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
   const location = useLocation();
   const getStepName = location?.pathname.split('/');
   const getCustStepData = JSON?.parse(sessionStorage?.getItem('customizeSteps'));
-  console.log('getCustStepData: ', getCustStepData);
   const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  console.log('getCustStepData2: ', getCustStepData2);
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
   const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
-  console.log('getdiaData2: ', getdiaData2);
   const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
   const [setshape, setSetShape] = useState();
 
   useEffect(() => {
     const handleCompset = () => {
       const getSetShape = JSON.parse(sessionStorage.getItem('customizeSteps')) ?? JSON.parse(sessionStorage.getItem('customizeSteps2'));
-      console.log('Retrieved setShape:', getSetShape);
       setSetShape(getSetShape);
     }
     handleCompset();

@@ -86,29 +86,11 @@ const DesignSet = () => {
         navigate(`/d/${titleLine?.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? '_' : ''}${designNo}?p=${encodeObj}`);
     };
 
-    const decodeEntities = (html) => {
-        var txt = document.createElement('textarea');
-        txt.innerHTML = html;
-        return txt.value;
-    };
-
-    const onSwiperInit = (swiper) => {
-        console.log('Swiper initialized:', swiper);
-        setSwiper(swiper);
-    };
-
-
     const [showAll, setShowAll] = useState(false);
-
     const handleViewAll = () => {
         setShowAll(true);
     };
-
-    // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 7);
-
-    console.log('designSetListdesignSetList', designSetList);
-
     const handleNavigate = () => {
         navigate("/Lookbook");
     }

@@ -126,15 +126,6 @@ const TrendingView = () => {
         // }
     }
 
-    const decodeEntities = (html) => {
-        var txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }
-
-
-
-
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
             setHoveredItem(data.SrNo); 
@@ -144,29 +135,6 @@ const TrendingView = () => {
     const handleMouseLeaveRing1 = () => {
         setHoveredItem(null); 
         setRing1ImageChange(false)
-    }
-
-    const handleMouseEnterRing2 = (data) => {
-        if (data?.ImageCount > 1) {
-            setRing1ImageChangeOdd(true)
-        }
-    }
-    const handleMouseLeaveRing2 = () => {
-        setRing1ImageChangeOdd(false)
-    }
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
     }
 
     

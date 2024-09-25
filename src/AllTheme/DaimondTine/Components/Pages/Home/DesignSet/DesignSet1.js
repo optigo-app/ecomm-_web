@@ -93,7 +93,6 @@ const DesignSet1 = () => {
     };
 
     const onSwiperInit = (swiper) => {
-        console.log('Swiper initialized:', swiper);
         setSwiper(swiper);
     };
 
@@ -104,12 +103,7 @@ const DesignSet1 = () => {
         setShowAll(true);
     };
 
-    // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 4);
-    console.log('jkksdjkjfkdsj', itemsToShow);
-
-    console.log('designSetListdesignSetList', designSetList);
-
     const handleNavigate = () => {
         navigate("/Lookbook");
         window.scrollTo({
