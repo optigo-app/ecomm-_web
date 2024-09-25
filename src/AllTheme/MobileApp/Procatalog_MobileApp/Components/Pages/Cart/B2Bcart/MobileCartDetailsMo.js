@@ -4,7 +4,7 @@ import './smrMo_cartPage.scss';
 import QuantitySelector from './QuantitySelectorMo';
 import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilState } from 'recoil';
-import { smrMA_ShowSnackBar } from '../../../Recoil/atom';
+import { PC_AppShowSnackBar } from '../../../Recoil/atom';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { formatter } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 
@@ -44,7 +44,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-  const [snackbarOpen, setSnackbarOpen] = useRecoilState(smrMA_ShowSnackBar);
+  const [snackbarOpen, setSnackbarOpen] = useRecoilState(PC_AppShowSnackBar);
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));

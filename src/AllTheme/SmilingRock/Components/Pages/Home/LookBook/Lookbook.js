@@ -103,21 +103,21 @@ const Lookbook = () => {
   const handleImageError = (index) => {
     setImageLoadError((prev) => ({ ...prev, [index]: true }));
   };
+  console.log('asdhashdjkhhasd', DynamicSize)
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
-      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
+      const { offsetWidth} = SwiperSlideRef.current;
+      setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
+      console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
-
   const handleResize = () => {
     updateSize();
   };
   const handleKeyDown = (e) => {
     if (e.key === 'F12') {
-      handleResize(); // Call handleResize function when F12 is pressed
+      handleResize();
     }
   };
   const handleImageLoad = () => {
@@ -626,6 +626,10 @@ const Lookbook = () => {
     setCurrentPage(value);
     setThumbsSwiper(null);
     setIsPgLoading(true);
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0
+    })
   };
 
   return (
@@ -1408,12 +1412,12 @@ const Lookbook = () => {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
+                                  {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                 </div>
                               )}
-                              {/* <p className="smr_lb2designList_title">
+                              <p className="smr_lb2designList_title">
                             {slide?.designsetno}
-                          </p> */}
+                          </p>
                             </div>
                             <div
                               className="smr_lookBookImgDeatil"
@@ -2182,14 +2186,14 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}>
+                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
+                                     
                                       <img
                                         src={ProdCardImageFunc(slide)}
                                         alt=""
                                         className="ctl_Paginationimg"
-                                        ref={SwiperSlideRef}
                                         onLoad={() => {
                                           handleImageLoad();
                                         }}

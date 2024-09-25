@@ -36,14 +36,15 @@ const ProductDetail = () => {
   const [loginData, setLoginData] = useState({});
   const [sizeData, setSizeData] = useState();
   const [singleProd, setSingleProd] = useState({});
-  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState({});
-  console.log('singleProd1: ', singleProd1);
   const [diaList, setDiaList] = useState([]);
+  console.log('diaList: ', diaList);
   const [csList, setCsList] = useState([]);
+  console.log('csList: ', csList);
   const [netWTData, setnetWTData] = useState([])
   const [SizeCombo, setSizeCombo] = useState([]);
   const [metalTypeCombo, setMetalTypeCombo] = useState([])
+  console.log('metalTypeCombo: ', metalTypeCombo);
   const [metalType, setMetalType] = useState();
   const [isImageload, setIsImageLoad] = useState(true);
   const [IIIisImageload, setIIIIsImageLoad] = useState(false);
@@ -51,6 +52,7 @@ const ProductDetail = () => {
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [showtDiaQc, setShowDiaQc] = useState();
   const [diaQcCombo, setDiaQcCombo] = useState([])
+  console.log('diaQcCombo: ', diaQcCombo);
   const [csQcCombo, setCsQcCombo] = useState([])
   const [selectCsQC, setSelectCsQC] = useState();
   const [metalWiseColorImg, setMetalWiseColorImg] = useState([]);
@@ -58,7 +60,6 @@ const ProductDetail = () => {
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
-  console.log('selectedThumbImg: ', selectedThumbImg);
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [thumbImgIndex, setThumbImgIndex] = useState()
   const [pdVideoArr, setPdVideoArr] = useState([]);
@@ -69,8 +70,6 @@ const ProductDetail = () => {
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
-  console.log('imageSrc: ', imageSrc);
-  console.log('saveLastView: ', saveLastView);
 
   const [showPlaceholder, setShowPlaceholder] = useState(false);
 
@@ -1184,12 +1183,12 @@ const ProductDetail = () => {
           <>
             {maxWidth1400 ? (
               <>
-                {loadingdata ? (
+                {loadingdata || pdLoadImage ? (
                   <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                 ) : (
                   <div className='elv_ProductDet_max1400'>
                     <div className='elv_ProductDet_prod_img_max1400'>
-                      {selectedThumbImg ? (
+                      {selectedThumbImg || imageSrc ? (
                         selectedThumbImg?.type == "img" ? (
                           <img
                             // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
@@ -1217,13 +1216,17 @@ const ProductDetail = () => {
                           </div>
                         )
                       ) : (
+                        // showPlaceholder == true && (
                         <img
-                          src={imageSrc}
-                          onError={handleError}
+                          src={imageSrc || 'p.png'}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = noImageFound;
+                          }}
                           alt={""}
-                          onLoad={() => setIsImageLoad(false)}
                           className="elv_ProductDet_prod_image_max1400"
                         />
+                        // )
                       )
                       }
                     </div>
@@ -1290,7 +1293,7 @@ const ProductDetail = () => {
             ) : (
               <>
                 {!maxWidth1000 && (
-                  <>{loadingdata ? (
+                  <>{loadingdata || pdLoadImage ? (
                     <Skeleton className='elv_prod_det_default_thumb' variant="square" />
                   ) : (
                     <div className='elv_ProductDet_prod_img_list'>
@@ -1351,7 +1354,7 @@ const ProductDetail = () => {
                     ) : (
                       <>
                         <div className='elv_ProductDet_prod_img'>
-                          {imageSrc ? (
+                          {imageSrc || selectedThumbImg ? (
                             selectedThumbImg.type === "img" ? (
                               <img
                                 src={imageSrc}
@@ -1377,18 +1380,17 @@ const ProductDetail = () => {
                               />
                             )
                           ) : (
-                            showPlaceholder == true && (
-                              <img
-                                src={imageSrc || 'p.png'}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = noImageFound;
-                                }}
-                                alt=""
-                                onLoad={() => setIsImageLoad(false)}
-                                className={`elv_ProductDet_prod_image`}
-                              />
-                            )
+                            // showPlaceholder == true && (
+                            <img
+                              src={imageSrc || 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                              }}
+                              alt=""
+                              className={`elv_ProductDet_prod_image`}
+                            />
+                            // )
                           )}
                         </div>
                       </>
@@ -1400,13 +1402,13 @@ const ProductDetail = () => {
             {maxWidth1000 ? (
               <>
                 <div className='elv_ProductDet_max1000'>
-                  {loadingdata ? (
+                  {loadingdata || pdLoadImage ? (
                     <Skeleton className='elv_prod_det_default_max1000' variant="rectangular" />
                   ) : (
                     <>
                       <div>
                         <div className='elv_ProductDet_prod_img_max1000'>
-                          {selectedThumbImg ? (
+                          {selectedThumbImg || imageSrc ? (
                             selectedThumbImg?.type == "img" ? (
                               <img
                                 // src={metalWiseColorImg ? metalWiseColorImg : selectedThumbImg?.Link}
@@ -1436,13 +1438,17 @@ const ProductDetail = () => {
                               </div>
                             )
                           ) : (
+                            // showPlaceholder == true && (
                             <img
-                              src={imageSrc}
-                              onError={handleError}
+                              src={imageSrc || 'p.png'}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = noImageFound;
+                              }}
                               alt={""}
-                              onLoad={() => setIsImageLoad(false)}
                               className="elv_ProductDet_prod_image_max1000"
                             />
+                            // )
                           )
                           }
                         </div>
@@ -1542,40 +1548,42 @@ const ProductDetail = () => {
                         </div>
                         <hr className='elv_ProductDet_divider' />
                       </div>
-                      {storeInit?.IsProductWebCustomization == 1 &&
-                        metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                      {storeInit?.IsProductWebCustomization == 1 && (
+                        <>
                           <div className='elv_ProductDet_dropdown_max1000'>
-                            <div>
-                              <div style={{
-                                margin: 1,
-                                width: "95%",
-                                display: "flex",
-                                justifyContent: "center",
-                                flexDirection: 'column',
-                                border: "none",
-                                paddingBottom: '8px'
-                              }}>
-                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
-                                {singleProd?.IsMrpBase == 1 ?
-                                  <span className="elv_metaltype_span">
-                                    {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                                  </span>
-                                  :
-                                  <select
-                                    className="elv_metaltype_drp"
-                                    value={metalType}
-                                    onChange={(e) => handleCustomChange(e, 'mt')}
-                                  // onChange={(e) => setSelectMtType(e.target.value)}
-                                  >
-                                    {metalTypeCombo.map((ele) => (
-                                      <option key={ele?.Metalid} value={ele?.metaltype}>
-                                        {ele?.metaltype}
-                                      </option>
-                                    ))}
-                                  </select>}
+                            {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                              <div>
+                                <div style={{
+                                  margin: 1,
+                                  width: "95%",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  flexDirection: 'column',
+                                  border: "none",
+                                  paddingBottom: '8px'
+                                }}>
+                                  <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
+                                  {singleProd?.IsMrpBase == 1 ?
+                                    <span className="elv_metaltype_span">
+                                      {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                                    </span>
+                                    :
+                                    <select
+                                      className="elv_metaltype_drp"
+                                      value={metalType}
+                                      onChange={(e) => handleCustomChange(e, 'mt')}
+                                    // onChange={(e) => setSelectMtType(e.target.value)}
+                                    >
+                                      {metalTypeCombo.map((ele) => (
+                                        <option key={ele?.Metalid} value={ele?.metaltype}>
+                                          {ele?.metaltype}
+                                        </option>
+                                      ))}
+                                    </select>}
+                                </div>
+                                <hr className='elv_ProductDet_divider_1' />
                               </div>
-                              <hr className='elv_ProductDet_divider_1' />
-                            </div>
+                            )}
                             {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                               <div>
                                 <div>
@@ -1885,7 +1893,8 @@ const ProductDetail = () => {
                               </Accordion>
                             )}
                           </div>
-                        )}
+                        </>
+                      )}
 
                       {storeInit?.IsPriceShow == 1 && <div className='elv_ProductDet_prod_price'>
                         <span className='elv_ProductDet_prod_price_1'>
@@ -1972,40 +1981,42 @@ const ProductDetail = () => {
                       </div>
                       <hr className='elv_ProductDet_divider' />
                     </div>
-                    {storeInit?.IsProductWebCustomization == 1 &&
-                      metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
-                        <div className='elv_ProductDet_dropdown_max1000'>
-                          <div>
-                            <div style={{
-                              margin: 1,
-                              width: "95%",
-                              display: "flex",
-                              justifyContent: "center",
-                              flexDirection: 'column',
-                              border: "none",
-                              paddingBottom: '8px'
-                            }}>
-                              <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
-                              {singleProd?.IsMrpBase == 1 ?
-                                <span className="elv_metaltype_span">
-                                  {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                                </span>
-                                :
-                                <select
-                                  className="elv_metaltype_drp"
-                                  value={metalType}
-                                  onChange={(e) => handleCustomChange(e, 'mt')}
-                                >
-                                  {metalTypeCombo.map((ele) => (
-                                    <option key={ele?.Metalid} value={ele?.metaltype}>
-                                      {ele?.metaltype}
-                                    </option>
-                                  ))}
-                                </select>
-                              }
+                    {storeInit?.IsProductWebCustomization == 1 && (
+                      <>
+                        <div className='elv_ProductDet_dropdown'>
+                          {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
+                            <div>
+                              <div style={{
+                                margin: 1,
+                                width: "95%",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexDirection: 'column',
+                                border: "none",
+                                paddingBottom: '8px'
+                              }}>
+                                <label style={{ textTransform: 'uppercase', paddingBottom: '6px' }}>metal type : </label>
+                                {singleProd?.IsMrpBase == 1 ?
+                                  <span className="elv_metaltype_span">
+                                    {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                                  </span>
+                                  :
+                                  <select
+                                    className="elv_metaltype_drp"
+                                    value={metalType}
+                                    onChange={(e) => handleCustomChange(e, 'mt')}
+                                  >
+                                    {metalTypeCombo.map((ele) => (
+                                      <option key={ele?.Metalid} value={ele?.metaltype}>
+                                        {ele?.metaltype}
+                                      </option>
+                                    ))}
+                                  </select>
+                                }
+                              </div>
+                              <hr className='elv_ProductDet_divider_1' />
                             </div>
-                            <hr className='elv_ProductDet_divider_1' />
-                          </div>
+                          )}
                           {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
                             <div>
                               <div>
@@ -2316,7 +2327,9 @@ const ProductDetail = () => {
                             </Accordion>
                           )}
                         </div>
-                      )}
+                      </>
+                    )}
+
                     {storeInit?.IsPriceShow == 1 && <div className='elv_ProductDet_prod_price'>
                       <span className='elv_ProductDet_prod_price_1'>
                         {

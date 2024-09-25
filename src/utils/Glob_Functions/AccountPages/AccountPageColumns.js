@@ -63,7 +63,7 @@ export const headCells_Jobs = [
     { id: 'DesignNo', label: 'Design#', minWidth: 100, align: "center" },
     { id: 'Category', label: 'Category', minWidth: 110, align: "center" },
     { id: 'PDate', label: 'Promise Date', minWidth: 130, align: "center" },
-    { id: 'FinalAmount', label: 'Quote Price', minWidth: 120, align: "center" },
+    { id: 'FinalAmount', label: 'Quote Price', minWidth: 150, align: "center" },
     { id: 'ProgressStatusName', label: 'Status', minWidth: 120, align: "center" },
     { id: 'Quantity', label: 'Total Qty', minWidth: 100, align: "center" },
     { id: 'SuppliedQuantity', label: 'Supplied', minWidth: 100, align: "center" },

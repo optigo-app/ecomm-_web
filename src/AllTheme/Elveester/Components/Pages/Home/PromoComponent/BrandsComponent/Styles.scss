@@ -42,11 +42,21 @@
 }
 
 .elv_affi_cards {
-    /* width: 18rem; */
+    width: 18rem;
     height: 10rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.affli_swiper {
+    margin-inline: 2%;
+
+    .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 
@@ -80,8 +90,9 @@
     }
 
     .affilitionImg {
+        margin-inline: 1%;
         width: 17% !important;
-        margin-right: 20px !important;
+        // margin-right: 20px !important;
     }
 
     .brandsCompoents {
@@ -127,8 +138,9 @@
     }
 
     .affilitionImg {
+        margin-inline: 3%;
         width: 25% !important;
-        margin-right: 20px !important;
+        // margin-right: 20px !important;
     }
 
     .brandsCompoents {
@@ -138,11 +150,12 @@
 
 @media (min-width: 768px) and (max-width: 1200px) {
     .brandsComponentClass {
-        width: fit-content;
+        // width: fit-content;
+        gap: 3rem;
     }
 
     .affilitionImg {
-        margin-right: 50px !important;
+        // margin-right: 50px !important;
     }
 }
 

@@ -4,7 +4,7 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './smr_cartPage.scss';
+import './stam_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
@@ -162,13 +162,13 @@ const CartPage = () => {
       <div className='stam_cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
-            <div className="smr_cart-title">My Cart</div>
+            <div className="stam_cart-title">My Cart</div>
           }
-          <div className='smr_cartmainRowDiv'>
+          <div className='stam_cartmainRowDiv'>
             {!isloding && cartData?.length != 0 &&
-              <div className='smr_cartButton-groups'>
+              <div className='stam_cartButton-groups'>
                 <Link
-                  className='smr_ReomoveAllCartbtn'
+                  className='stam_ReomoveAllCartbtn'
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
@@ -177,31 +177,31 @@ const CartPage = () => {
               </div>
             }
             {!isMobileScreen &&
-              <div className="smr_cart-title">My Cart</div>
+              <div className="stam_cart-title">My Cart</div>
             }
             {!isloding && cartData?.length != 0 &&
-              <div className='smr_placeOrderMainbtnDivs'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='stam_placeOrderMainbtnDivs'>
+                <button className="stam_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             }
           </div>
 
           {/* {!isloding && cartData.length != 0 &&
             <>
-              <div className="smr_cartButton-group">
-                <button className="smr_cartBtn smr_cartActivebtn">List View</button>
-                <button className='smr_cartBtn'>Image View</button>
-                <button className='smr_cartBtn' onClick={handleRemoveAll}>Clear All</button>
+              <div className="stam_cartButton-group">
+                <button className="stam_cartBtn stam_cartActivebtn">List View</button>
+                <button className='stam_cartBtn'>Image View</button>
+                <button className='stam_cartBtn' onClick={handleRemoveAll}>Clear All</button>
                 <div>
                   <Link
-                    className='smr_ReomoveAllCartbtn'
+                    className='stam_ReomoveAllCartbtn'
                     variant="body2"
                     onClick={handleRemoveAllDialog}
                   >
                     Clear All
                   </Link>
                   <Link
-                    className='smr_ReomoveAllCartbtn smr_SelectAllCartbtn'
+                    className='stam_ReomoveAllCartbtn stam_SelectAllCartbtn'
                     variant="body2"
                     onClick={handleMultiSelectToggle}
                   >
@@ -209,18 +209,18 @@ const CartPage = () => {
                   </Link>
                 </div>
 
-                <button className='smr_cartBtn'>Show ProductList</button>
+                <button className='stam_cartBtn'>Show ProductList</button>
 
-                <button className='smr_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+                <button className='stam_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
                 {multiSelect && selectedItems.length != 0 &&
-                  <button className='smr_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+                  <button className='stam_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
                 }
-                <div className='smr_placeOrderMobileMainbtnDiv'>
-                  <button className="smr_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='stam_placeOrderMobileMainbtnDiv'>
+                  <button className="stam_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              <div className='smr_placeOrderMainbtnDiv'>
-                <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='stam_placeOrderMainbtnDiv'>
+                <button className="stam_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             </>
           } */}
@@ -245,8 +245,8 @@ const CartPage = () => {
               }
             </div>
             {cartData.length !== 0 ? (
-              <div className="smr_cartMainPage">
-                <div className="smr_cart-left-sides">
+              <div className="stam_cartMainPage">
+                <div className="stam_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -266,9 +266,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="smr_cart-right-side">
+                <div className="stam_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='smr_pc-cartDetail'>
+                    <div className='stam_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -293,7 +293,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='smr_mobile-cartDetails'>
+                    <div className='stam_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -329,10 +329,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='smr_noCartlistData'>
-                <p className='smr_title'>No Data Found!</p>
-                <p className='smr_desc'>Please First Add Product in Cart</p>
-                <button className='smr_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='stam_noCartlistData'>
+                <p className='stam_title'>No Data Found!</p>
+                <p className='stam_desc'>Please First Add Product in Cart</p>
+                <button className='stam_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>

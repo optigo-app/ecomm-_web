@@ -31,15 +31,6 @@ const Album1 = () => {
         let data = JSON?.parse(sessionStorage.getItem("storeInit"));
         setImageUrl(data?.AlbumImageFol);
         setStoreInit(data)
-        // const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
-        // const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
-        // const visiterID = Cookies.get('visiterId');
-        // let finalID;
-        // if (storeInit?.IsB2BWebsite == 0) {
-        //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-        // } else {
-        //     finalID = loginUserDetail?.id || '0';
-        // }
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -63,15 +54,6 @@ const Album1 = () => {
                 observer.unobserve(albumRef.current);
             }
         };
-
-        // Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
-        //     .then((response) => {
-        //         if (response?.Data?.rd) {
-        //             setAlbumData(response?.Data?.rd);
-        //             setSelectedAlbum(response?.Data?.rd[0]?.AlbumName)
-        //         }
-        //     })
-        //     .catch((err) => console.log(err));
     }, []);
 
     const apiCall = () => {
@@ -138,7 +120,7 @@ const Album1 = () => {
     return (
         <div ref={albumRef}>
             {albumData?.length != 0 &&
-                <div className="album-container" >
+                <div className="smr_album-container" >
                     <div className='smr_ablbumtitleDiv'>
                         <span className='smr_albumtitle'>ALBUM</span>
                         {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
@@ -171,24 +153,24 @@ const Album1 = () => {
                             ))}
                         </Tabs>
                     </Box>
-                    <div className="swiper-container">
+                    <div className="smr_swiper_container">
                         {albumData?.map((album) =>
                             album?.AlbumName === selectedAlbum ? (
                                 <Swiper
                                     key={album?.Albumid}
                                     spaceBetween={10}
                                     slidesPerView={4}
-                                    // breakpoints={{
-                                    //     1200: {
-                                    //         slidesPerView: 4,
-                                    //     },
-                                    //     992: {
-                                    //         slidesPerView: 3,
-                                    //     },
-                                    //     768: {
-                                    //         slidesPerView: 2,
-                                    //     },
-                                    // }}
+                                    breakpoints={{
+                                        1024: {
+                                            slidesPerView: 4,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        0: {
+                                            slidesPerView: 2,
+                                        }
+                                    }}
                                     lazy={true}
                                     navigation={true}
                                     // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}

@@ -21,7 +21,7 @@ const Footer = ({ fromPage }) => {
       const storedData = sessionStorage.getItem("CompanyInfoData");
       if (storedData) {
         const parsedData = JSON.parse(storedData);
-        if (!companyInfoData) { 
+        if (!companyInfoData) {
           setCompanyInfoData(parsedData);
           const parsedSocialMediaUrlData = parsedData?.SocialLinkObj ? JSON.parse(parsedData.SocialLinkObj) : [];
           setSocialMediaData(parsedSocialMediaUrlData);
@@ -33,7 +33,7 @@ const Footer = ({ fromPage }) => {
       const intervalId = setInterval(fetchCompanyInfo, 2000);
       return () => clearInterval(intervalId);
     }
-  }, [companyInfoData]); 
+  }, [companyInfoData]);
 
   // useEffect(() => {
   //   let companyInfoData;
@@ -59,14 +59,21 @@ const Footer = ({ fromPage }) => {
         <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
           <div className='footerMoreOption'>
             <div className='proCat_AddresMain' style={{ marginLeft: '100px' }}>
-              <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
-              <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
+              {
+                (companyInfoData?.FrontEndAddress !== "" ||
+                  companyInfoData?.FrontEndCity !== "" ||
+                  companyInfoData?.FrontEndZipCode !== "" ||
+                  companyInfoData?.FrontEndContactno1 !== "" ||
+                  companyInfoData?.FrontEndEmail1 !== "") &&
+                <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Contact Us</p>
+              }
+              {companyInfoData?.FrontEndAddress !== '' && <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif' }}>
                 <IoLocationOutline style={{ width: '22px', height: '22px' }} />
                 <span style={{ color: '#7d7f85', width: '80%' }}>
                   {companyInfoData?.FrontEndAddress},<br /> {companyInfoData?.FrontEndCity} - {companyInfoData?.FrontEndZipCode}
                 </span>
-              </p>
-              <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
+              </p>}
+              {companyInfoData?.FrontEndContactno1 !== '' && <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif', margin: '0px' }}>
                 <IoMdCall />
                 <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
                   {/* <a href={`tel:${companyInfoData?.FrontEndContactno1}`}>
@@ -74,16 +81,17 @@ const Footer = ({ fromPage }) => {
                     </a> */}
                   {companyInfoData?.FrontEndContactno1}
                 </span>
-              </p>
-              <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                <IoMdMail />
-                <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
-                  {/* <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
+              </p>}
+              {companyInfoData?.FrontEndEmail1 !== '' &&
+                <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
+                  <IoMdMail />
+                  <span style={{ marginLeft: '5px', color: '#7d7f85', fontSize: '13px' }}>
+                    {/* <a href={`mailto:${companyInfoData?.FrontEndEmail1}`}>
                       {companyInfoData?.FrontEndEmail1}
                     </a> */}
-                  {companyInfoData?.FrontEndEmail1}
-                </span>
-              </p>
+                    {companyInfoData?.FrontEndEmail1}
+                  </span>
+                </p>}
             </div>
             <div className='proCat_SoicialMain' style={{ marginLeft: '100px', width: '40%' }}>
               {socialMediaData?.length != 0 && <p style={{ color: '#7d7f85', fontSize: '17px', fontWeight: 600 }}>Follow Us</p>}

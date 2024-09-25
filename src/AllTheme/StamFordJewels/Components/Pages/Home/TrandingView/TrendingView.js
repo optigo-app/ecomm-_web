@@ -180,18 +180,18 @@ const TrendingView = () => {
     return (
         <div>
             {trandingViewData?.length != 0 &&
-                <div className='smr_trendingViewTopMain'>
-                    <div className='smr_trendingViewTopMain_div'>
-                        <div className='smr_trendingViewTopMain_Imgdiv'>
+                <div className='stam_trendingViewTopMain'>
+                    <div className='stam_trendingViewTopMain_div'>
+                        <div className='stam_trendingViewTopMain_Imgdiv'>
                             <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
                         </div>
-                        <div className='smr_trendingViewTopMain_Sliderdiv'>
+                        <div className='stam_trendingViewTopMain_Sliderdiv'>
                             <p className='linkingTitle'>Trending View</p>
                             <Slider {...settings} >
                                 {chunkedData?.map((chunk, index) => (
                                         <div className='linkRingLove'>
                                               {chunk?.map((data, dataIndex) => (
-                                            <div className='smr_TrendingMainDiv'>
+                                            <div className='stam_TrendingMainDiv'>
                                                 <div className='linkLoveRing1' onClick={() => handleNavigation(data?.designno, data?.autocode, data?.TitleLine)}>
                                                     <img src={hoveredItem === data.SrNo  ?
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}_2.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
@@ -204,7 +204,7 @@ const TrendingView = () => {
                                                 <div className='linkLoveRing1Desc'>
                                                     <p className='ring1Desc'>{data?.TitleLine}</p>
                                                     <p className='ring1Desc'>
-                                                        <span className="smr_currencyFont">
+                                                        <span className="stam_currencyFont">
                                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                         </span> &nbsp;
                                                         {formatter(data?.UnitCostWithMarkUp)}</p>
@@ -215,7 +215,7 @@ const TrendingView = () => {
                                     ))
                                 }
                             </Slider>
-                            <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
+                            <p className='stam_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
                         </div>
                     </div>
                 </div>
@@ -400,12 +400,12 @@ export default TrendingView
 //     return (
 //         <div>
 //             {trandingViewData?.length != 0 &&
-//                 <div className='smr_trendingViewTopMain'>
-//                     <div className='smr_trendingViewTopMain_div'>
-//                         <div className='smr_trendingViewTopMain_Imgdiv'>
+//                 <div className='stam_trendingViewTopMain'>
+//                     <div className='stam_trendingViewTopMain_div'>
+//                         <div className='stam_trendingViewTopMain_Imgdiv'>
 //                             <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
 //                         </div>
-//                         <div className='smr_trendingViewTopMain_Sliderdiv'>
+//                         <div className='stam_trendingViewTopMain_Sliderdiv'>
 //                             <p className='linkingTitle'>Trending View</p>
 //                             <Slider {...settings} >
 //                                 {
@@ -426,7 +426,7 @@ export default TrendingView
 //                                                         <p className='ring1Desc'>{data?.TitleLine}</p>
 //                                                         <p className='ring1Desc'>
 //                                                             <span
-//                                                                 className="smr_currencyFont"
+//                                                                 className="stam_currencyFont"
 //                                                                 dangerouslySetInnerHTML={{
 //                                                                     __html: decodeEntities(
 //                                                                         storeInit?.Currencysymbol
@@ -449,7 +449,7 @@ export default TrendingView
 //                                                     <div className='linkLoveRing1Desc'>
 //                                                         <p className='ring1Desc'>{data?.TitleLine}</p>
 //                                                         <p className='ring1Desc'><span
-//                                                             className="smr_currencyFont"
+//                                                             className="stam_currencyFont"
 //                                                             dangerouslySetInnerHTML={{
 //                                                                 __html: decodeEntities(
 //                                                                     storeInit?.Currencysymbol
@@ -463,7 +463,7 @@ export default TrendingView
 //                                     ))
 //                                 }
 //                             </Slider>
-//                             <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
+//                             <p className='stam_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
 //                         </div>
 //                     </div>
 //                 </div>

@@ -85,7 +85,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #D4DBE7;
+    background: $backgroundColor;
     padding: 20px 0px 20px 40px;
   }
 
@@ -203,7 +203,7 @@
 
   .elv_trend_drp {
     font-size: 14px;
-    background-color: #F4F4F4;
+    background-color: $dropdownBgColor;
     color: #8E7B8E;
     font-weight: 400;
     cursor: pointer;
@@ -233,7 +233,7 @@
   // }
   .elv_metal_drp {
     font-size: 14px;
-    background-color: #F4F4F4;
+    background-color: $dropdownBgColor;
     color: #8E7B8E;
     font-weight: 400;
     cursor: pointer;
@@ -253,7 +253,7 @@
 
   .elv_diamond_drp {
     font-size: 14px;
-    background-color: #F4F4F4;
+    background-color: $dropdownBgColor;
     color: #8E7B8E;
     font-weight: 400;
     cursor: pointer;
@@ -417,6 +417,17 @@
     font-weight: 500;
   }
 
+  .elv_category_names_fil {
+    // font-family: "PT Sans", sans-serif;
+    font-family: $fontSansSerif !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    color: #424242;
+    padding: 0 16px !important;
+    font-weight: 500;
+  }
+
   .elv_subCategory_name {
     display: flex;
     justify-content: space-between;
@@ -497,7 +508,7 @@
   .elv_filtered_prodlists_1 {
     width: 50%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -505,7 +516,7 @@
   .elv_filtered_prodlists_2 {
     width: 33.33%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -514,7 +525,7 @@
     width: 25%;
     // width: 24.47%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -523,7 +534,7 @@
     width: 100%;
     // max-width: fit-content;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -531,7 +542,7 @@
   .elv_filtered_prodlists_5 {
     width: 50%;
     height: auto;
-    background-color: #ffffff;
+    background-color: $defaultBgColor;
     border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
   }
@@ -675,13 +686,13 @@
       top: 0;
       left: 0;
       width: 100%;
-      // height: 100%;
+      height: 100%;
       z-index: 1;
       object-fit: contain;
 
       video {
         width: 100%;
-        // height: 100%;
+        height: 100%;
         // background-size: cover;
         object-fit: contain;
       }
@@ -692,13 +703,13 @@
       top: 0;
       left: 0;
       width: 100%;
-      // height: 100%;
+      height: 100%;
       z-index: 1;
       object-fit: contain;
 
       img {
         width: 100%;
-        // height: 100%;
+        height: 100%;
         // background-size: cover;
         object-fit: contain;
         // object-fit: scale-down;

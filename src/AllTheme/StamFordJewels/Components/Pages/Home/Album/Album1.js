@@ -97,10 +97,10 @@ const Album1 = () => {
     return (
         <>
             {albumData?.length != 0 &&
-                <div className="album-container">
-                    <div className='smr_ablbumtitleDiv'>
-                        <span className='smr_albumtitle'>Album</span>
-                        {/* <Link className='smr_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
+                <div className="stam_album-container">
+                    <div className='stam_ablbumtitleDiv'>
+                        <span className='stam_albumtitle'>Album</span>
+                        {/* <Link className='stam_designSetViewmoreBtn' onClick={() => navigation(`/p/AlbumName/?A=${btoa('AlbumName')}`)}>
                     View more
                 </Link> */}
                     </div>
@@ -118,14 +118,14 @@ const Album1 = () => {
                             TabIndicatorProps={{
                                 style: { display: 'none' }
                             }}
-                            className='smr_Albumtabs'
+                            className='stam_Albumtabs'
                         >
                             {albumData?.map((album) => (
                                 <Tab
                                     key={album?.Albumid}
                                     label={album?.AlbumName}
                                     value={album?.AlbumName}
-                                    className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
+                                    className={selectedAlbum === album?.AlbumName ? 'active stam_Albumtab' : 'stam_Albumtab'}
                                 />
                             ))}
                         </Tabs>
@@ -169,9 +169,9 @@ const Album1 = () => {
                                                 />
                                             </div>
                                             <div className="design-info">
-                                                <p className='smr_album1price'>
+                                                <p className='stam_album1price'>
                                                     <span
-                                                        className="smr_currencyFont"
+                                                        className="stam_currencyFont"
                                                         dangerouslySetInnerHTML={{
                                                             __html: decodeEntities(
                                                                 islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode

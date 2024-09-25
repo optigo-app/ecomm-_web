@@ -44,3 +44,8 @@ export const roop_CartNo = atom({
   key: 'cartNo',
   default: 0,
 });
+
+export const lookBookDrawer = atom({
+  key: 'lookBookDrawer',
+  default: false,
+});

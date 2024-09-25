@@ -1938,7 +1938,7 @@ const ProductList = () => {
                                   {item?.id?.includes("Price") && (
                                     <Accordion className="accordian" sx={{ paddingInline: 0 }}>
                                       <AccordionSummary
-                                        sx={{ paddingInline: 0 }}
+                                        sx={{ paddingInline: '16px' }}
                                         expandIcon={
                                           <ExpandMoreIcon
                                             sx={{ width: "20px" }}
@@ -2030,7 +2030,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("Diamond") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
-                                        sx={{ paddingInline: 0 }}
+                                        sx={{ paddingInline: '16px' }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2058,7 +2058,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("Gross") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
-                                        sx={{ paddingInline: 0 }}
+                                        sx={{ paddingInline: '16px' }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }
@@ -2086,7 +2086,7 @@ const ProductList = () => {
                                   {item?.Name?.includes("NetWt") && (
                                     <Accordion elevation={0} >
                                       <AccordionSummary
-                                        sx={{ paddingInline: 0 }}
+                                        sx={{ paddingInline: '16px' }}
                                         expandIcon={
                                           <ExpandMoreIcon sx={{ width: "20px" }} />
                                         }

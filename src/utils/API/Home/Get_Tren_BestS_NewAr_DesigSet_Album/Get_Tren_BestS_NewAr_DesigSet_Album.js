@@ -1,93 +1,69 @@
 import { CommonAPI } from "../../CommonAPI/CommonAPI";
 
-export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filterObj = {}, currentPage, itemsPerPage) => {
-    let response;
+export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filterObj = {}, currentPage = 1, itemsPerPage = 20) => {
     try {
-        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
-        const userData = JSON.parse(sessionStorage.getItem("loginUserDetail")) ?? ""
-        let userLogin = sessionStorage.getItem('LoginUser')
+        // Fetch data from session storage
+        const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? {};
+        const userData = JSON.parse(sessionStorage.getItem("loginUserDetail")) ?? {};
+        const userLogin = sessionStorage.getItem('LoginUser');
+        const email = sessionStorage.getItem("registerEmail") ?? "";
 
-        const combinedValue = JSON.stringify({
-            "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-            "Customerid": `${customerID}`,
-            "PackageId": `${storeInit?.PackageId}`,
-            "Laboursetid": `${storeInit?.pricemanagement_laboursetid}`,
-            "diamondpricelistname": `${storeInit?.diamondpricelistname}`,
-            "colorstonepricelistname": `${storeInit?.colorstonepricelistname}`,
-            "SettingPriceUniqueNo": `${storeInit?.SettingPriceUniqueNo}`,
-            "Metalid": `${storeInit?.MetalId}`,
-            "DiaQCid": `${storeInit?.cmboDiaQCid}`,
-            "CsQCid": `${storeInit?.cmboCSQCid}`,
-            "IsStockWebsite": `${storeInit?.IsStockWebsite}`,
-            Collectionid: `${filterObj?.collection ?? ""}`,
-            Categoryid: `${filterObj?.category ?? ""}`,
-            SubCategoryid: `${filterObj?.subcategory ?? ""}`,
-            Brandid: `${filterObj?.brand ?? ""}`,
-            Genderid: `${filterObj?.gender ?? ""}`,
-            Ocassionid: `${filterObj?.ocassion ?? ""}`,
-            Themeid: `${filterObj?.theme ?? ""}`,
-            Producttypeid: `${filterObj?.producttype ?? ""}`,
+        // Choose source based on userLogin status
+        const dataSource = userLogin ? userData : storeInit;
+
+        // Shared object with conditional data source
+        const sharedParams = {
+            FrontEnd_RegNo: storeInit?.FrontEnd_RegNo || "",
+            Customerid: customerID || "",
+            PackageId: dataSource?.PackageId || "",
+            Laboursetid: dataSource?.pricemanagement_laboursetid || "",
+            diamondpricelistname: dataSource?.diamondpricelistname || "",
+            colorstonepricelistname: dataSource?.colorstonepricelistname || "",
+            SettingPriceUniqueNo: dataSource?.SettingPriceUniqueNo || "",
+            Metalid: dataSource?.MetalId || "",
+            DiaQCid: dataSource?.cmboDiaQCid || "",
+            CsQCid: dataSource?.cmboCSQCid || "",
+            IsStockWebsite: storeInit?.IsStockWebsite || "", 
+            IsPLW: storeInit?.IsPLW || "",
+            CurrencyRate: dataSource?.CurrencyRate || storeInit?.CurrencyRate || "",
+            Collectionid: filterObj?.collection || "",
+            Categoryid: filterObj?.category || "",
+            SubCategoryid: filterObj?.subcategory || "",
+            Brandid: filterObj?.brand || "",
+            Genderid: filterObj?.gender || "",
+            Ocassionid: filterObj?.ocassion || "",
+            Themeid: filterObj?.theme || "",
+            Producttypeid: filterObj?.producttype || "",
+            FilPrice: filterObj?.Price || "",
             Min_DiaWeight: '',
             Max_DiaWeight: '',
             Min_GrossWeight: '',
             Max_GrossWeight: '',
-            Max_NetWt: '',
             Min_NetWt: '',
-            FilPrice: filterObj?.Price,
-            IsPLW: storeInit?.IsPLW,
-            CurrencyRate: `${userData?.CurrencyRate ?? storeInit?.CurrencyRate}`,
-            PageNo: `${currentPage ?? "1"}`,
-            PageSize: `${itemsPerPage ?? "20"}`
-        })
-
-        const combinedValueLogin = JSON.stringify({
-            "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-            "Customerid": `${customerID}`,
-            "PackageId": `${userData?.PackageId}`,
-            "Laboursetid": `${userData?.pricemanagement_laboursetid}`,
-            "diamondpricelistname": `${userData?._diamondpricelistname}`,
-            "colorstonepricelistname": `${userData?.colorstonepricelistname}`,
-            "SettingPriceUniqueNo": `${userData?._SettingPriceUniqueNo}`,
-            "Metalid": `${userData?.MetalId}`,
-            "DiaQCid": `${userData?.cmboDiaQCid}`,
-            "CsQCid": `${userData?.cmboCSQCid}`,
-            "IsStockWebsite": `${storeInit?.IsStockWebsite}`,
-            Collectionid: `${filterObj?.collection ?? ""}`,
-            Categoryid: `${filterObj?.category ?? ""}`,
-            SubCategoryid: `${filterObj?.subcategory ?? ""}`,
-            Brandid: `${filterObj?.brand ?? ""}`,
-            Genderid: `${filterObj?.gender ?? ""}`,
-            Ocassionid: `${filterObj?.ocassion ?? ""}`,
-            Themeid: `${filterObj?.theme ?? ""}`,
-            Producttypeid: `${filterObj?.producttype ?? ""}`,
-            Min_DiaWeight: '',
-            Max_DiaWeight: '',
-            Min_GrossWeight: '',
-            Max_GrossWeight: '',
             Max_NetWt: '',
-            Min_NetWt: '',
-            FilPrice: filterObj?.Price,
-            IsPLW: storeInit?.IsPLW,
-            CurrencyRate: `${userData?.CurrencyRate ?? storeInit?.CurrencyRate}`,
-            PageNo: `${currentPage ?? "1"}`,
-            PageSize: `${itemsPerPage ?? "20"}`
-        })
+        };
 
+        // Extend params for specific modes
+        const extendedParams = mode === "GETDesignSet_List" ? {
+            ...sharedParams,
+            PageNo: `${currentPage}`,
+            PageSize: `${itemsPerPage}`
+        } : sharedParams;
 
+        const params = JSON.stringify(extendedParams);
 
-        const email = sessionStorage.getItem("registerEmail") ?? ""
-
+        // Construct the request body
         const body = {
             "con": `{\"id\":\"\",\"mode\":\"${mode}\",\"appuserid\":\"${email}\"}`,
             "f": "zen (cartcount)",
-            "dp": userLogin ? combinedValueLogin : combinedValue,
-        }
-        response = await CommonAPI(body);
+            "dp": params
+        };
+
+        // Call the CommonAPI and return the response
+        return await CommonAPI(body);
 
     } catch (error) {
         console.error('Error:', error);
+        return null;
     }
-
-    return response;
-
-}
+};

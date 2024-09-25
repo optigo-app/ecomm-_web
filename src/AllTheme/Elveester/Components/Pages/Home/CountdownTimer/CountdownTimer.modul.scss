@@ -3,13 +3,14 @@
 .elv_CountdownTimerMain_div {
 
     font-family: $fontSansSerif !important;
+    background: $countDownBgColor;
 
     .elv_CountdownTimer_container {
         // font-family: "PT Sans", sans-serif !important;
         font-family: $fontSansSerif !important;
 
         width: 100%;
-        background: rgb(205, 209, 217);
+        // background: rgb(205, 209, 217);
         padding: 0px 40px 0px 40px;
         display: flex;
         justify-content: center;

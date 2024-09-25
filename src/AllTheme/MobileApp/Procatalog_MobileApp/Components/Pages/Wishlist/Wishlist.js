@@ -4,7 +4,7 @@ import WishlistData from "./WishlistData";
 import SkeletonLoader from "./WishlistSkelton";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { smrMA_CartCount, smrMA_WishCount } from "../../Recoil/atom";
+import { PC_AppCartCount, PC_AppWishCount } from "../../Recoil/atom";
 import Usewishlist from "../../../../../../utils/Glob_Functions/Cart_Wishlist/Wishlist";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { IoArrowBack } from "react-icons/io5";
@@ -31,8 +31,8 @@ const Wishlist = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const setWishCountVal = useSetRecoilState(smrMA_WishCount)
-  const setCartCountVal = useSetRecoilState(smrMA_CartCount)
+  const setWishCountVal = useSetRecoilState(PC_AppWishCount)
+  const setCartCountVal = useSetRecoilState(PC_AppCartCount)
   const navigation = useNavigate();
   const visiterId = "";
 
@@ -84,7 +84,7 @@ const Wishlist = () => {
   console.log("cartdataCount--", wishlistData);
 
   return (
-    <div className="smrMA_MainWlDiv">
+    <div className="PC_AppMainWlDiv">
       <p className="SmiCartListTitle">
         <IoArrowBack style={{ height: '25px', width: '25px', marginRight: '10px' }} onClick={() => navigation(-1)} />My Wishlist
       </p>

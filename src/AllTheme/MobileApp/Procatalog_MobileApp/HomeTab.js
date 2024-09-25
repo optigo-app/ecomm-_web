@@ -7,15 +7,15 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useRecoilValue } from 'recoil';
 import { Badge, Button, Tooltip } from '@mui/material';
 import { IoMenuOutline } from 'react-icons/io5';
-import { smrMA_CartCount, smrMA_loginState } from './Components/Recoil/atom';
+import { PC_AppCartCount, PC_ApploginState } from './Components/Recoil/atom';
 import { MdContactEmergency } from 'react-icons/md';
 
 
 
 const HomeTab = () => {
   const [activeTab, setActiveTab] = useState("/");
-  const getCartListCount = useRecoilValue(smrMA_CartCount)
-  const islogin = useRecoilValue(smrMA_loginState);
+  const getCartListCount = useRecoilValue(PC_AppCartCount)
+  const islogin = useRecoilValue(PC_ApploginState);
   const location = useLocation();
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;

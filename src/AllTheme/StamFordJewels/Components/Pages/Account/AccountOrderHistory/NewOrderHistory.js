@@ -263,7 +263,7 @@ const NewOrderHistory = () => {
   };
   return (
     <>
-      <div className="orderHistory_acc">
+      <div className="orderHistory_Account_SFJ orderHistory_acc">
         {loaderOH ? (
           <Box
             sx={{

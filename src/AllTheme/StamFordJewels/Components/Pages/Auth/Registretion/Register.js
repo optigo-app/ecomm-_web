@@ -242,7 +242,7 @@ export default function Register() {
   };
 
   return (
-    <div className='smr_registerMain'>
+    <div className='stam_registerMain'>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className='loadingBarManage' />
@@ -309,7 +309,7 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Email"
-              autoComplete="smr_registerEmail"
+              autoComplete="stam_registerEmail"
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}

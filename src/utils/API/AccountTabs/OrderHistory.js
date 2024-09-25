@@ -85,7 +85,6 @@ export const getOrderItemDetails = async(obj, storeinit, loginInfo, UserEmail) =
           // );
           const encodedCombinedValue2 = ( JSON.stringify(EncodeData_order_history));
     
-          // console.log(encodedCombinedValue2);
     
           const body_order_detail = {
             con: `{\"id\":\"Store\",\"mode\":\"GETORDERHISTORYDETAIL\",\"appuserid\":\"${UserEmail}\"}`,

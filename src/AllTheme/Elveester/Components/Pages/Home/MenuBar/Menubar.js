@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './MenuBar.modul.scss'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Cookies from 'js-cookie';
-import { el_CartCount, el_WishCount, el_companyLogo, el_loginState } from '../../../Recoil/atom';
+import { el_CartCount, el_WishCount, el_companyLogo, el_companyLogoM, el_loginState } from '../../../Recoil/atom';
 import { Link, useNavigate } from 'react-router-dom';
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
 import { IoCaretDownSharp, IoPersonOutline } from 'react-icons/io5';
@@ -17,12 +17,14 @@ import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 const Menubar = () => {
     const [lodingLogo, setLodingLogo] = useState(true);
-    const [titleImg, setCompanyTitleLogo] = useRecoilState(el_companyLogo)
     const [storeinit, setStoreInit] = useState();
     const navigation = useNavigate();
     const [islogin, setislogin] = useRecoilState(el_loginState);
     const [toggle, setToggle] = useState(false);
     const [menuToggle, setMenuToggle] = useState(false);
+
+    const compnyLogo = useRecoilValue(el_companyLogo);
+    const compnyLogoM = useRecoilValue(el_companyLogoM);
 
     const handleToggle = () => {
         setToggle(!toggle);
@@ -34,14 +36,8 @@ const Menubar = () => {
     useEffect(() => {
         const value = JSON.parse(sessionStorage.getItem('LoginUser'));
         setislogin(value);
-
         const storeData = JSON.parse(sessionStorage.getItem('storeInit'));
         setStoreInit(storeData)
-
-        if (titleImg) {
-            const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-            setCompanyTitleLogo(storeInit?.companylogo);
-        }
         setTimeout(() => {
             setLodingLogo(false);
         }, 100);
@@ -237,9 +233,9 @@ const Menubar = () => {
     };
 
     function ScrollToView(param) {
-        if (window.location.pathname !== "/") {
+        if (navigation("/")) {
             sessionStorage.setItem("scrollParam", param);
-            window.location.href = "/";
+            navigation('/')
             setToggle(false)
             return;
         }
@@ -252,6 +248,7 @@ const Menubar = () => {
             });
             setToggle(false)
         }
+        setToggle(false)
     }
 
     return (
@@ -268,7 +265,7 @@ const Menubar = () => {
                                         </div>
                                         {/* <div className="el_login_header_menu_main_div1">
                                             <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingLeft: '25px' }}>
-                                                {titleImg && <img src={titleImg} alt="Title" className="el_login_header_menu_main_div1_logo" />}
+                                                {compnyLogo && <img src={compnyLogo} alt="Title" className="el_login_header_menu_main_div1_logo" />}
                                             </a>
                                         </div> */}
 
@@ -465,7 +462,7 @@ const Menubar = () => {
                                         </div>
                                         <div className="el_login_header_menu_main_div1">
                                             <a href="/" onClick={() => { handleToggle() }} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                {titleImg && <img src={titleImg} alt="Title" className="el_login_header_menu_main_div1_logo_side" />}
+                                                {compnyLogo && <img src={compnyLogo} alt="Title" className="el_login_header_menu_main_div1_logo_side" />}
                                             </a>
                                         </div>
                                         <div className="el_login_header_menu_main_div2">
@@ -529,7 +526,7 @@ const Menubar = () => {
                                                 <li
                                                     className="el_whioutL_li_side"
                                                     style={{ cursor: "pointer" }}
-                                                // onClick={() => navigation("/contact")}
+                                                    onClick={() => { navigation("/contact-us"); setToggle(false) }}
                                                 >
                                                     Contact
                                                 </li>
@@ -543,9 +540,10 @@ const Menubar = () => {
                     </>
                 ) : (
                     <MenuIcon className='elv_Menu_size' onClick={handleToggle} />
-                )}
+                )
+                }
 
-            </div>
+            </div >
         </>
     )
 }
