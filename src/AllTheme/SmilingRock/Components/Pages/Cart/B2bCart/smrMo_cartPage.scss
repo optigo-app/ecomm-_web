@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: $primaryFontFamily;
 }
 
 .smrMo_cart-container {
@@ -15,6 +16,8 @@
     position: relative;
     border: none;
     box-shadow: none;
+    outline: none   ;
+    font-family: $primaryFontFamily;
 
     @media (max-width: 1050px) {
         padding: 10px;
@@ -87,10 +90,18 @@
         font-size: 1.2rem;
         font-weight: bold;
         margin-bottom: 10px;
+        font-family: $primaryFontFamily;
+        color: $titleColor;
 
         @media (max-width: 1050px) {
             font-size: 1rem;
         }
+    }
+
+    .smrMo_stockPriceQtyDiv {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .smrMo_Cart-options,
@@ -117,7 +128,7 @@
 
             select {
                 padding: 10px;
-                border: 1px solid  #ececec;
+                border: 1px solid #ececec;
                 border-radius: 4px;
                 background: #fff;
                 font-size: $fontSize2;
