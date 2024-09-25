@@ -14,6 +14,8 @@ import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Skeleton } from '@mui/material';
+import GoogleAnalytics from 'react-ga4'
+
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
@@ -46,9 +48,6 @@ const Payment = () => {
         handleClose();
     };
 
-
-
-    console.log('orderreamrk', orderRemark);
 
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -106,6 +105,12 @@ const Payment = () => {
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
 
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
+            GoogleAnalytics.event({
+                action: `Online Payment Started by User ${loginInfo?.firstname || 'Guest'}`,
+                category: `Payment Interaction on Payment Page`,
+                label:`Total Payment ${(taxAmmountData?.TotalAmountWithTax)?.toFixed(3)}`,
+                value: loginInfo?.firstname || "Guest User"
+              });
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
             navigate('/Confirmation', { replace: true });
