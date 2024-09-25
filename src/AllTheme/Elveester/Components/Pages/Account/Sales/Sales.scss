@@ -1,4 +1,7 @@
 @import "../../../scss/elvee_modules.scss";
+.sales_Account_elvee{
+
+
 .elvee_fs_sales {
     // font-family: $fontPTSans !important; // Use the variable with the $ symbol
     font-family: $fontSansSerif !important;
@@ -191,4 +194,5 @@
     .elvee_date_width{
         width: 95% !important;
     }
+}
 }

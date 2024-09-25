@@ -532,323 +532,78 @@ const DesignWiseSalesReport = () => {
     }, []);
 
     return (
-        <Box className="designWiseSalesReport fs_elvee_dwsr">
-            {/* { !isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
-                </Box>
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Date From"
-                            value={fromDate}
-                            ref={fromDateRef}
-                            format="DD MM YYYY"
-                            className='quotationFilterDates'
-                            onChange={(newValue) => {
-                                if (newValue === null) {
-                                    setFromDate(null)
-                                } else {
-                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                        setFromDate(newValue)
-                                    } else {
-                                        Swal.fire({
-                                            title: "Error !",
-                                            text: "Enter Valid Date From",
-                                            icon: "error",
-                                            confirmButtonText: "ok"
-                                        });
-                                        resetAllFilters();
-                                    }
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
-                </Box>
-                <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Date To"
-                            value={toDate}
-                            ref={toDateRef}
-                            format="DD MM YYYY"
-                            className='quotationFilterDates'
-                            onChange={(newValue) => {
-                                if (newValue === null) {
-                                    setToDate(null)
-                                } else {
-                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                        setToDate(newValue)
-                                    } else {
-                                        Swal.fire({
-                                            title: "Error !",
-                                            text: "Enter Valid Date To",
-                                            icon: "error",
-                                            confirmButtonText: "ok"
-                                        });
-                                        resetAllFilters();
-                                    }
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
-                </Box>
-
-                <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
-                    <Button variant='contained' className='muiSmilingRocksBtn'
-                        sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
-                        onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
-                        <SearchIcon sx={{ color: "#fff !important" }} /></Button>
-                </Box>
-
-
-                <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                    <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                    <Slider
-                        className='netWtSecSlider'
-                        getAriaLabel={() => 'NetWt(gm)'}
-                        value={netWtSlider}
-                        onChange={handleNetWtSlider}
-                        valueLabelDisplay="auto"
-                        getAriaValueText={valuetext}
-                        disableSwap
-                        min={(netWtLimit?.min)}
-                        max={(netWtLimit?.max)}
-                    />
-                    {console.log(netWtSlider)}
-                    
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                onChange={handleNetWtSliderCustom(0)}
-                                onBlur={handleBlurNetWt(0)}
-                                inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
-                            />
-                        </Typography>
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={(netWtSlider[1])}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                onChange={handleNetWtSliderCustom(1)}
-                                onBlur={handleBlurNetWt(1)}
-                            />
-                        </Typography>
+        <div className='designWiseSalesReport_Account_elvee'>
+            <Box className="designWiseSalesReport fs_elvee_dwsr">
+                {/* { !isSmallScreen && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
                     </Box>
-                </Box>
-
-                <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                    <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
-                    <Slider
-                        className='netWtSecSlider'
-                        getAriaLabel={() => 'GrossWt'}
-                        value={grossWtSlider}
-                        onChange={handleGrossWtSlider}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                        min={grossWtLimit?.min}
-                        max={grossWtLimit?.max}
-                    />
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                onChange={handleGrossWtSliderCustom(0)}
-                                onBlur={handleBlurGrossWt(0)}
-                                inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
-                            />
-                        </Typography>
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={grossWtSlider[1]}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
-                                onChange={handleGrossWtSliderCustom(1)}
-                                onBlur={handleBlurGrossWt(1)}
-                            />
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                    <Box
-                    >
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={purchaseCount}
-                            label="Age"
-                            onChange={handleChangePurchaseCount}
-                            sx={{ width: "80px" }}
-                        >
-                            {purchaseCountList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography>DesignNo</Typography>
-                    <TextField type='text' value={designNo} onChange={eve => {
-                        setDesignNo(eve?.target?.value);
-                        handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                    }} className='design_No' placeholder='#DesignNo' />
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={metal}
-                        label="Age"
-                        onChange={handleMetalChange}
-                        sx={{ width: "200px" }}
-                    >
-                        {metalList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={productType}
-                        label="Product Type"
-                        onChange={handleChangeProductType}
-                        sx={{ width: "200px" }}
-                    >
-                        {productTypeList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={metalColor}
-                        label="Product Type"
-                        onChange={handleChangeMetalColor}
-                        sx={{ width: "200px" }}
-                    >
-                        {metalColorList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={category}
-                        label="Product Type"
-                        onChange={handleChangeCategory}
-                        sx={{ width: "200px" }}
-                    >
-                        {categorylist?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
-                    <Select
-                        labelId="SubCategory"
-                        id="demo-simple-select"
-                        value={subCategory}
-                        label="Product Type"
-                        onChange={handleChangeSubCategory}
-                        sx={{ width: "200px" }}
-                    >
-                        {subCategoryList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-            </Box>}
-
-            { isSmallScreen &&
-            <>
-             <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
-                <AccordionDetails style={{margin:'0px', padding:'0px'}}>
-                <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
-                    <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
-                </Box>
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}}>
-                    <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date From"
-                                    value={fromDate}
-                                    ref={fromDateRef}
-                                    format="DD MM YYYY"
-                                    className='quotationFilterDates'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setFromDate(null)
+                            <DatePicker
+                                label="Date From"
+                                value={fromDate}
+                                ref={fromDateRef}
+                                format="DD MM YYYY"
+                                className='quotationFilterDates'
+                                onChange={(newValue) => {
+                                    if (newValue === null) {
+                                        setFromDate(null)
+                                    } else {
+                                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                            setFromDate(newValue)
                                         } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setFromDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date From",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
+                                            Swal.fire({
+                                                title: "Error !",
+                                                text: "Enter Valid Date From",
+                                                icon: "error",
+                                                confirmButtonText: "ok"
+                                            });
+                                            resetAllFilters();
                                         }
-                                    }}
-                                />
+                                    }
+                                }}
+                            />
                         </LocalizationProvider>
                     </Box>
-                    <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                    <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date To"
-                                    value={toDate}
-                                    ref={toDateRef}
-                                    format="DD MM YYYY"
-                                    className='quotationFilterDates'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setToDate(null)
+                            <DatePicker
+                                label="Date To"
+                                value={toDate}
+                                ref={toDateRef}
+                                format="DD MM YYYY"
+                                className='quotationFilterDates'
+                                onChange={(newValue) => {
+                                    if (newValue === null) {
+                                        setToDate(null)
+                                    } else {
+                                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                            setToDate(newValue)
                                         } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setToDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date To",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
+                                            Swal.fire({
+                                                title: "Error !",
+                                                text: "Enter Valid Date To",
+                                                icon: "error",
+                                                confirmButtonText: "ok"
+                                            });
+                                            resetAllFilters();
                                         }
-                                    }}
-                                />
-                            </LocalizationProvider>
+                                    }
+                                }}
+                            />
+                        </LocalizationProvider>
                     </Box>
-                    <Box  className="searchDesignWiseSalesReport">
-                        <Button variant='contained' size='small' className='muiSmilingRocksBtn'
-                            sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85" }}
+
+                    <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
+                        <Button variant='contained' className='muiSmilingRocksBtn'
+                            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
                             onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
                             <SearchIcon sx={{ color: "#fff !important" }} /></Button>
                     </Box>
-                </Box>
-                <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
-                    <Box sx={{  paddingBottom: "10px", width: 250 }}>
+
+
+                    <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
                         <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
                         <Slider
                             className='netWtSecSlider'
@@ -860,7 +615,9 @@ const DesignWiseSalesReport = () => {
                             disableSwap
                             min={(netWtLimit?.min)}
                             max={(netWtLimit?.max)}
-                        />                    
+                        />
+                        {console.log(netWtSlider)}
+                        
                         <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                             <Typography sx={{ maxWidth: "50px" }}>
                                 <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
@@ -879,9 +636,8 @@ const DesignWiseSalesReport = () => {
                             </Typography>
                         </Box>
                     </Box>
-                </Box>
-                <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
-                    <Box sx={{ paddingBottom: "10px", width: 250 }}>
+
+                    <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
                         <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
                         <Slider
                             className='netWtSecSlider'
@@ -911,472 +667,465 @@ const DesignWiseSalesReport = () => {
                             </Typography>
                         </Box>
                     </Box>
-                </Box>
-                <Box sx={{  paddingBottom: "10px" }}>
-                    <Typography>DesignNo</Typography>
-                    <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
-                        setDesignNo(eve?.target?.value);
-                        handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                    }} className='design_No' placeholder='#DesignNo' />
-                </Box>
-                <Box sx={{  paddingBottom: "10px", minWidth:'100%', maxWidth:'100%', width:'100%' }}>
-                    <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                    <Box style={{width:'100%'}}>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={purchaseCount}
-                            label="Age"
-                            onChange={handleChangePurchaseCount}
-                            sx={{ width: "100%" }}
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                        <Box
                         >
-                            {purchaseCountList?.map((ele, ind) => {
-                                return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-                </Box>
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={metal}
-                        label="Age"
-                        onChange={handleMetalChange}
-                        sx={{ width: "100%" }}
-                    >
-                        {metalList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={productType}
-                        label="Product Type"
-                        onChange={handleChangeProductType}
-                        sx={{ width: "100%" }}
-                    >
-                        {productTypeList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={metalColor}
-                        label="Product Type"
-                        onChange={handleChangeMetalColor}
-                        sx={{ width: "100%" }}
-                    >
-                        {metalColorList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={category}
-                        label="Product Type"
-                        onChange={handleChangeCategory}
-                        sx={{ width: "100%" }}
-                    >
-                        {categorylist?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{  paddingBottom: "10px", }}>
-                    <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
-                    <Select
-                        labelId="SubCategory"
-                        id="demo-simple-select"
-                        value={subCategory}
-                        label="Product Type"
-                        onChange={handleChangeSubCategory}
-                        sx={{ width: "100%" }}
-                    >
-                        {subCategoryList?.map((ele, ind) => {
-                            return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-                
-                </AccordionDetails>
-            </Accordion>
-            </>
-            } */}
-            { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
-                </Box>
-           
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Date From"
-                            value={fromDate}
-                            ref={fromDateRef}
-                            format="DD MM YYYY"
-                            className='quotationFilterDates fs_elvee_dwsr'
-                            onChange={(newValue) => {
-                                if (newValue === null) {
-                                    setFromDate(null)
-                                } else {
-                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                        setFromDate(newValue)
-                                    } else {
-                                        Swal.fire({
-                                            title: "Error !",
-                                            text: "Enter Valid Date From",
-                                            icon: "error",
-                                            confirmButtonText: "ok"
-                                        });
-                                        resetAllFilters();
-                                    }
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
-                </Box>
-                <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Date To"
-                            value={toDate}
-                            ref={toDateRef}
-                            format="DD MM YYYY"
-                            className='quotationFilterDates fs_elvee_dwsr'
-                            onChange={(newValue) => {
-                                if (newValue === null) {
-                                    setToDate(null)
-                                } else {
-                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                        setToDate(newValue)
-                                    } else {
-                                        Swal.fire({
-                                            title: "Error !",
-                                            text: "Enter Valid Date To",
-                                            icon: "error",
-                                            confirmButtonText: "ok"
-                                        });
-                                        resetAllFilters();
-                                    }
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
-                </Box>
-
-                <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
-                    <Button variant='contained' className='muiSmilingRocksBtn fs_elvee_dwsr'
-                        sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
-                        onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
-                        <SearchIcon sx={{ color: "#fff !important" }} /></Button>
-                </Box>
-
-                <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                    <Slider
-                        className='netWtSecSlider'
-                        getAriaLabel={() => 'NetWt(gm)'}
-                        value={netWtSlider}
-                        onChange={handleNetWtSlider}
-                        valueLabelDisplay="auto"
-                        getAriaValueText={valuetext}
-                        disableSwap
-                        min={(netWtLimit?.min)}
-                        max={(netWtLimit?.max)}
-                    />
-                    
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                onChange={handleNetWtSliderCustom(0)}
-                                onBlur={handleBlurNetWt(0)}
-                                className='fs_elvee_dwsr'
-                                inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
-                            />
-                        </Typography>
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={(netWtSlider[1])}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                onChange={handleNetWtSliderCustom(1)}
-                                onBlur={handleBlurNetWt(1)}
-                                className='fs_elvee_dwsr'
-                            />
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
-                    <Slider
-                        className='netWtSecSlider'
-                        getAriaLabel={() => 'GrossWt'}
-                        value={grossWtSlider}
-                        onChange={handleGrossWtSlider}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                        min={grossWtLimit?.min}
-                        max={grossWtLimit?.max}
-                    />
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                onChange={handleGrossWtSliderCustom(0)}
-                                onBlur={handleBlurGrossWt(0)}
-                                className='fs_elvee_dwsr'
-                                inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
-                            />
-                        </Typography>
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={grossWtSlider[1]}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
-                                onChange={handleGrossWtSliderCustom(1)}
-                                onBlur={handleBlurGrossWt(1)}
-                                className='fs_elvee_dwsr'
-                            />
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                    <Box
-                    >
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={purchaseCount}
-                            label="Age"
-                            onChange={handleChangePurchaseCount}
-                            sx={{ width: "80px" }}
-                        >
-                            {purchaseCountList?.map((ele, ind) => {
-                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
-                    <TextField type='text' value={designNo} onChange={eve => {
-                        setDesignNo(eve?.target?.value);
-                        handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                    }} className='design_No fs_elvee_dwsr' placeholder='#DesignNo' />
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={metal}
-                        label="Age"
-                        onChange={handleMetalChange}
-                        sx={{ width: "200px" }}
-                    >
-                        {metalList?.map((ele, ind) => {
-                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={productType}
-                        label="Product Type"
-                        onChange={handleChangeProductType}
-                        sx={{ width: "200px" }}
-                    >
-                        {productTypeList?.map((ele, ind) => {
-                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={metalColor}
-                        label="Product Type"
-                        onChange={handleChangeMetalColor}
-                        sx={{ width: "200px" }}
-                    >
-                        {metalColorList?.map((ele, ind) => {
-                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
-                    <Select
-                        labelId="metalColor"
-                        id="demo-simple-select"
-                        value={category}
-                        label="Product Type"
-                        onChange={handleChangeCategory}
-                        sx={{ width: "200px" }}
-                    >
-                        {categorylist?.map((ele, ind) => {
-                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-
-                <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
-                    <Select
-                        labelId="SubCategory"
-                        id="demo-simple-select"
-                        value={subCategory}
-                        label="Product Type"
-                        onChange={handleChangeSubCategory}
-                        sx={{ width: "200px" }}
-                    >
-                        {subCategoryList?.map((ele, ind) => {
-                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-            </Box>}
-            { (!isSmallScreen && isTabletScreen) && <>
-            <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingTop:'7px'}}>
-                    <Box sx={{ paddingRight: "15px", }}>
-                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
-                    </Box>
-                    <Box sx={{display:'flex', alignItems:'center'}}>
-                        <Box sx={{ paddingRight: "15px", }}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date From"
-                                    value={fromDate}
-                                    ref={fromDateRef}
-                                    format="DD MM YYYY"
-                                    className='quotationFilterDates fs_elvee_dwsr'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setFromDate(null)
-                                        } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setFromDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date From",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
-                                        }
-                                    }}
-                                />
-                            </LocalizationProvider>
-                        </Box>
-                        <Box sx={{ paddingRight: "15px", }}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date To"
-                                    value={toDate}
-                                    ref={toDateRef}
-                                    format="DD MM YYYY"
-                                    className='quotationFilterDates fs_elvee_dwsr'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setToDate(null)
-                                        } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setToDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date To",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
-                                        }
-                                    }}
-                                />
-                            </LocalizationProvider>
-                        </Box>
-                        <Box sx={{ paddingRight: "15px", }} className="searchDesignWiseSalesReport">
-                            <Button variant='contained' className='muiSmilingRocksBtn fs_elvee_dwsr'
-                                sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
-                                onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
-                                <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={purchaseCount}
+                                label="Age"
+                                onChange={handleChangePurchaseCount}
+                                sx={{ width: "80px" }}
+                            >
+                                {purchaseCountList?.map((ele, ind) => {
+                                    return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
                         </Box>
                     </Box>
-                    <Box sx={{ paddingRight: "0px" }}>
-                        <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography>DesignNo</Typography>
                         <TextField type='text' value={designNo} onChange={eve => {
                             setDesignNo(eve?.target?.value);
                             handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
                         }} className='design_No' placeholder='#DesignNo' />
-                    </Box>                    
-                </Box>
-                <Box style={{display:'flex',justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingBottom:'10px'}}>
-                    <Box sx={{ paddingRight: "10px", paddingLeft:'10px', paddingBottom: "0px", width: '24%' }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                    <Slider
-                        className='netWtSecSlider'
-                        getAriaLabel={() => 'NetWt(gm)'}
-                        value={netWtSlider}
-                        onChange={handleNetWtSlider}
-                        valueLabelDisplay="auto"
-                        getAriaValueText={valuetext}
-                        disableSwap
-                        min={(netWtLimit?.min)}
-                        max={(netWtLimit?.max)}
-                    />
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                onChange={handleNetWtSliderCustom(0)}
-                                onBlur={handleBlurNetWt(0)}
-                                inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
-                                className='fs_elvee_dwsr'
-                            />
-                        </Typography>
-                        <Typography sx={{ maxWidth: "50px" }}>
-                            <TextField type="number" value={(netWtSlider[1])}
-                                sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                onChange={handleNetWtSliderCustom(1)}
-                                onBlur={handleBlurNetWt(1)}
-                                className='fs_elvee_dwsr'
-                            />
-                        </Typography>
                     </Box>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={metal}
+                            label="Age"
+                            onChange={handleMetalChange}
+                            sx={{ width: "200px" }}
+                        >
+                            {metalList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
                     </Box>
-                    <Box sx={{ paddingRight: "10px", paddingLeft:'10px', paddingBottom: "0px", width: '24%' }}>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={productType}
+                            label="Product Type"
+                            onChange={handleChangeProductType}
+                            sx={{ width: "200px" }}
+                        >
+                            {productTypeList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                        <Select
+                            labelId="metalColor"
+                            id="demo-simple-select"
+                            value={metalColor}
+                            label="Product Type"
+                            onChange={handleChangeMetalColor}
+                            sx={{ width: "200px" }}
+                        >
+                            {metalColorList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                        <Select
+                            labelId="metalColor"
+                            id="demo-simple-select"
+                            value={category}
+                            label="Product Type"
+                            onChange={handleChangeCategory}
+                            sx={{ width: "200px" }}
+                        >
+                            {categorylist?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                        <Select
+                            labelId="SubCategory"
+                            id="demo-simple-select"
+                            value={subCategory}
+                            label="Product Type"
+                            onChange={handleChangeSubCategory}
+                            sx={{ width: "200px" }}
+                        >
+                            {subCategoryList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+                </Box>}
+
+                { isSmallScreen &&
+                <>
+                <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+                    <AccordionDetails style={{margin:'0px', padding:'0px'}}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
+                        <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                    </Box>
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}}>
+                        <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date From"
+                                        value={fromDate}
+                                        ref={fromDateRef}
+                                        format="DD MM YYYY"
+                                        className='quotationFilterDates'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setFromDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setFromDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date From",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box style={{minWidth:'35%', maxWidth:'35%', width:'100%', boxSizing:'border-box'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date To"
+                                        value={toDate}
+                                        ref={toDateRef}
+                                        format="DD MM YYYY"
+                                        className='quotationFilterDates'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setToDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setToDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date To",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                        </Box>
+                        <Box  className="searchDesignWiseSalesReport">
+                            <Button variant='contained' size='small' className='muiSmilingRocksBtn'
+                                sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85" }}
+                                onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
+                                <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                        </Box>
+                    </Box>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
+                        <Box sx={{  paddingBottom: "10px", width: 250 }}>
+                            <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                            <Slider
+                                className='netWtSecSlider'
+                                getAriaLabel={() => 'NetWt(gm)'}
+                                value={netWtSlider}
+                                onChange={handleNetWtSlider}
+                                valueLabelDisplay="auto"
+                                getAriaValueText={valuetext}
+                                disableSwap
+                                min={(netWtLimit?.min)}
+                                max={(netWtLimit?.max)}
+                            />                    
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        onChange={handleNetWtSliderCustom(0)}
+                                        onBlur={handleBlurNetWt(0)}
+                                        inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                    />
+                                </Typography>
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={(netWtSlider[1])}
+                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                        onChange={handleNetWtSliderCustom(1)}
+                                        onBlur={handleBlurNetWt(1)}
+                                    />
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
+                        <Box sx={{ paddingBottom: "10px", width: 250 }}>
+                            <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                            <Slider
+                                className='netWtSecSlider'
+                                getAriaLabel={() => 'GrossWt'}
+                                value={grossWtSlider}
+                                onChange={handleGrossWtSlider}
+                                valueLabelDisplay="auto"
+                                disableSwap
+                                min={grossWtLimit?.min}
+                                max={grossWtLimit?.max}
+                            />
+                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        onChange={handleGrossWtSliderCustom(0)}
+                                        onBlur={handleBlurGrossWt(0)}
+                                        inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                    />
+                                </Typography>
+                                <Typography sx={{ maxWidth: "50px" }}>
+                                    <TextField type="number" value={grossWtSlider[1]}
+                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                        inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
+                                        onChange={handleGrossWtSliderCustom(1)}
+                                        onBlur={handleBlurGrossWt(1)}
+                                    />
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box sx={{  paddingBottom: "10px" }}>
+                        <Typography>DesignNo</Typography>
+                        <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
+                            setDesignNo(eve?.target?.value);
+                            handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
+                        }} className='design_No' placeholder='#DesignNo' />
+                    </Box>
+                    <Box sx={{  paddingBottom: "10px", minWidth:'100%', maxWidth:'100%', width:'100%' }}>
+                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                        <Box style={{width:'100%'}}>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={purchaseCount}
+                                label="Age"
+                                onChange={handleChangePurchaseCount}
+                                sx={{ width: "100%" }}
+                            >
+                                {purchaseCountList?.map((ele, ind) => {
+                                    return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+                    </Box>
+                    <Box sx={{  paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={metal}
+                            label="Age"
+                            onChange={handleMetalChange}
+                            sx={{ width: "100%" }}
+                        >
+                            {metalList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{  paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={productType}
+                            label="Product Type"
+                            onChange={handleChangeProductType}
+                            sx={{ width: "100%" }}
+                        >
+                            {productTypeList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{  paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                        <Select
+                            labelId="metalColor"
+                            id="demo-simple-select"
+                            value={metalColor}
+                            label="Product Type"
+                            onChange={handleChangeMetalColor}
+                            sx={{ width: "100%" }}
+                        >
+                            {metalColorList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{  paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                        <Select
+                            labelId="metalColor"
+                            id="demo-simple-select"
+                            value={category}
+                            label="Product Type"
+                            onChange={handleChangeCategory}
+                            sx={{ width: "100%" }}
+                        >
+                            {categorylist?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{  paddingBottom: "10px", }}>
+                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                        <Select
+                            labelId="SubCategory"
+                            id="demo-simple-select"
+                            value={subCategory}
+                            label="Product Type"
+                            onChange={handleChangeSubCategory}
+                            sx={{ width: "100%" }}
+                        >
+                            {subCategoryList?.map((ele, ind) => {
+                                return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+                    
+                    </AccordionDetails>
+                </Accordion>
+                </>
+                } */}
+                { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
+                    </Box>
+            
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Date From"
+                                value={fromDate}
+                                ref={fromDateRef}
+                                format="DD MM YYYY"
+                                className='quotationFilterDates fs_elvee_dwsr'
+                                onChange={(newValue) => {
+                                    if (newValue === null) {
+                                        setFromDate(null)
+                                    } else {
+                                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                            setFromDate(newValue)
+                                        } else {
+                                            Swal.fire({
+                                                title: "Error !",
+                                                text: "Enter Valid Date From",
+                                                icon: "error",
+                                                confirmButtonText: "ok"
+                                            });
+                                            resetAllFilters();
+                                        }
+                                    }
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </Box>
+                    <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Date To"
+                                value={toDate}
+                                ref={toDateRef}
+                                format="DD MM YYYY"
+                                className='quotationFilterDates fs_elvee_dwsr'
+                                onChange={(newValue) => {
+                                    if (newValue === null) {
+                                        setToDate(null)
+                                    } else {
+                                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                            setToDate(newValue)
+                                        } else {
+                                            Swal.fire({
+                                                title: "Error !",
+                                                text: "Enter Valid Date To",
+                                                icon: "error",
+                                                confirmButtonText: "ok"
+                                            });
+                                            resetAllFilters();
+                                        }
+                                    }
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </Box>
+
+                    <Box sx={{ paddingRight: "25px", paddingBottom: "10px", }} className="searchDesignWiseSalesReport">
+                        <Button variant='contained' className='muiSmilingRocksBtn fs_elvee_dwsr'
+                            sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
+                            onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
+                            <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                    </Box>
+
+                    <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
+                        <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                        <Slider
+                            className='netWtSecSlider'
+                            getAriaLabel={() => 'NetWt(gm)'}
+                            value={netWtSlider}
+                            onChange={handleNetWtSlider}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            disableSwap
+                            min={(netWtLimit?.min)}
+                            max={(netWtLimit?.max)}
+                        />
+                        
+                        <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                            <Typography sx={{ maxWidth: "50px" }}>
+                                <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                    onChange={handleNetWtSliderCustom(0)}
+                                    onBlur={handleBlurNetWt(0)}
+                                    className='fs_elvee_dwsr'
+                                    inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                />
+                            </Typography>
+                            <Typography sx={{ maxWidth: "50px" }}>
+                                <TextField type="number" value={(netWtSlider[1])}
+                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                    inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                    onChange={handleNetWtSliderCustom(1)}
+                                    onBlur={handleBlurNetWt(1)}
+                                    className='fs_elvee_dwsr'
+                                />
+                            </Typography>
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
                         <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
                         <Slider
                             className='netWtSecSlider'
@@ -1393,8 +1142,8 @@ const DesignWiseSalesReport = () => {
                                 <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
                                     onChange={handleGrossWtSliderCustom(0)}
                                     onBlur={handleBlurGrossWt(0)}
-                                    inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
                                     className='fs_elvee_dwsr'
+                                    inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
                                 />
                             </Typography>
                             <Typography sx={{ maxWidth: "50px" }}>
@@ -1408,16 +1157,18 @@ const DesignWiseSalesReport = () => {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                        <Box >
+                        <Box
+                        >
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={purchaseCount}
                                 label="Age"
                                 onChange={handleChangePurchaseCount}
-                                sx={{ width: "100%" }}
+                                sx={{ width: "80px" }}
                             >
                                 {purchaseCountList?.map((ele, ind) => {
                                     return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
@@ -1425,25 +1176,32 @@ const DesignWiseSalesReport = () => {
                             </Select>
                         </Box>
                     </Box>
-                    <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                    <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={metal}
-                        label="Age"
-                        onChange={handleMetalChange}
-                        sx={{ width: "100%" }}
-                    >
-                        {metalList?.map((ele, ind) => {
-                            return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                        })}
-                    </Select>
-                </Box>
-                </Box>
 
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingBottom:'10px'}}>
-                    <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
+                        <TextField type='text' value={designNo} onChange={eve => {
+                            setDesignNo(eve?.target?.value);
+                            handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
+                        }} className='design_No fs_elvee_dwsr' placeholder='#DesignNo' />
+                    </Box>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={metal}
+                            label="Age"
+                            onChange={handleMetalChange}
+                            sx={{ width: "200px" }}
+                        >
+                            {metalList?.map((ele, ind) => {
+                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                            })}
+                        </Select>
+                    </Box>
+
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
                         <Select
                             labelId="demo-simple-select-label"
@@ -1451,7 +1209,7 @@ const DesignWiseSalesReport = () => {
                             value={productType}
                             label="Product Type"
                             onChange={handleChangeProductType}
-                            sx={{ width: "100%" }}
+                            sx={{ width: "200px" }}
                         >
                             {productTypeList?.map((ele, ind) => {
                                 return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -1459,15 +1217,15 @@ const DesignWiseSalesReport = () => {
                         </Select>
                     </Box>
 
-                    <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
-                        <Typography  sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
+                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
                             value={metalColor}
                             label="Product Type"
                             onChange={handleChangeMetalColor}
-                            sx={{ width: "100%" }}
+                            sx={{ width: "200px" }}
                         >
                             {metalColorList?.map((ele, ind) => {
                                 return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -1475,7 +1233,7 @@ const DesignWiseSalesReport = () => {
                         </Select>
                     </Box>
 
-                    <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
                         <Select
                             labelId="metalColor"
@@ -1483,7 +1241,7 @@ const DesignWiseSalesReport = () => {
                             value={category}
                             label="Product Type"
                             onChange={handleChangeCategory}
-                            sx={{ width: "100%" }}
+                            sx={{ width: "200px" }}
                         >
                             {categorylist?.map((ele, ind) => {
                                 return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -1491,7 +1249,7 @@ const DesignWiseSalesReport = () => {
                         </Select>
                     </Box>
 
-                    <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                    <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
                         <Select
                             labelId="SubCategory"
@@ -1499,136 +1257,127 @@ const DesignWiseSalesReport = () => {
                             value={subCategory}
                             label="Product Type"
                             onChange={handleChangeSubCategory}
-                            sx={{ width: "100%" }}
+                            sx={{ width: "200px" }}
                         >
                             {subCategoryList?.map((ele, ind) => {
                                 return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
                             })}
                         </Select>
                     </Box>
-                </Box>
-
-            </Box></>}
-            { isSmallScreen &&
-            <>
-             <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'20px', marginTop:'20px'}} className='accordion_Account_Head'>
-                <AccordionSummary className='fs_elvee_dwsr' expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
-                <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
-                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                        <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
-                            <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
+                </Box>}
+                { (!isSmallScreen && isTabletScreen) && <>
+                <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingTop:'7px'}}>
+                        <Box sx={{ paddingRight: "15px", }}>
+                            <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
                         </Box>
-                        <Box sx={{  paddingBottom: "10px" }}>
+                        <Box sx={{display:'flex', alignItems:'center'}}>
+                            <Box sx={{ paddingRight: "15px", }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date From"
+                                        value={fromDate}
+                                        ref={fromDateRef}
+                                        format="DD MM YYYY"
+                                        className='quotationFilterDates fs_elvee_dwsr'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setFromDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setFromDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date From",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            </Box>
+                            <Box sx={{ paddingRight: "15px", }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date To"
+                                        value={toDate}
+                                        ref={toDateRef}
+                                        format="DD MM YYYY"
+                                        className='quotationFilterDates fs_elvee_dwsr'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setToDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setToDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date To",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            </Box>
+                            <Box sx={{ paddingRight: "15px", }} className="searchDesignWiseSalesReport">
+                                <Button variant='contained' className='muiSmilingRocksBtn fs_elvee_dwsr'
+                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }}
+                                    onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
+                                    <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                            </Box>
+                        </Box>
+                        <Box sx={{ paddingRight: "0px" }}>
                             <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
-                            <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
+                            <TextField type='text' value={designNo} onChange={eve => {
                                 setDesignNo(eve?.target?.value);
                                 handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
                             }} className='design_No' placeholder='#DesignNo' />
-                        </Box>
+                        </Box>                    
                     </Box>
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}} className='w100dwsr'>
-                    <Box style={{ width:'40%', boxSizing:'border-box'}}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date From"
-                                    value={fromDate}
-                                    ref={fromDateRef}
-                                    format="DD MM YYYY"
-                                    className='quotationFilterDates w100_dwsr fs_elvee_dwsr'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setFromDate(null)
-                                        } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setFromDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date From",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
-                                        }
-                                    }}
+                    <Box style={{display:'flex',justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingBottom:'10px'}}>
+                        <Box sx={{ paddingRight: "10px", paddingLeft:'10px', paddingBottom: "0px", width: '24%' }}>
+                        <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                        <Slider
+                            className='netWtSecSlider'
+                            getAriaLabel={() => 'NetWt(gm)'}
+                            value={netWtSlider}
+                            onChange={handleNetWtSlider}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            disableSwap
+                            min={(netWtLimit?.min)}
+                            max={(netWtLimit?.max)}
+                        />
+                        <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                            <Typography sx={{ maxWidth: "50px" }}>
+                                <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                    onChange={handleNetWtSliderCustom(0)}
+                                    onBlur={handleBlurNetWt(0)}
+                                    inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                    className='fs_elvee_dwsr'
                                 />
-                        </LocalizationProvider>
-                    </Box>
-                    <Box style={{ width:'40%', boxSizing:'border-box'}}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date To"
-                                    value={toDate}
-                                    ref={toDateRef}
-                                    format="DD MM YYYY"
-                                    className='quotationFilterDates w100_dwsr fs_elvee_dwsr'
-                                    onChange={(newValue) => {
-                                        if (newValue === null) {
-                                            setToDate(null)
-                                        } else {
-                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setToDate(newValue)
-                                            } else {
-                                                Swal.fire({
-                                                    title: "Error !",
-                                                    text: "Enter Valid Date To",
-                                                    icon: "error",
-                                                    confirmButtonText: "ok"
-                                                });
-                                                resetAllFilters();
-                                            }
-                                        }
-                                    }}
+                            </Typography>
+                            <Typography sx={{ maxWidth: "50px" }}>
+                                <TextField type="number" value={(netWtSlider[1])}
+                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                    inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                    onChange={handleNetWtSliderCustom(1)}
+                                    onBlur={handleBlurNetWt(1)}
+                                    className='fs_elvee_dwsr'
                                 />
-                            </LocalizationProvider>
-                    </Box>
-                    <Box  className="searchDesignWiseSalesReport" >
-                        <Button variant='contained' size='small' className='muiSmilingRocksBtn'
-                            sx={{ padding: "7px 7px", background: "#7d7f85" }}
-                            onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
-                            <SearchIcon sx={{ color: "#fff !important" }} /></Button>
-                    </Box>
-                </Box>
-
-                <div className='toggleRange_dsr2'>
-                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}} className='mr10_slider1_acc'>
-                        <Box sx={{  paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
-                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                            <Slider
-                                className='netWtSecSlider'
-                                getAriaLabel={() => 'NetWt(gm)'}
-                                value={netWtSlider}
-                                onChange={handleNetWtSlider}
-                                valueLabelDisplay="auto"
-                                getAriaValueText={valuetext}
-                                disableSwap
-                                min={(netWtLimit?.min)}
-                                max={(netWtLimit?.max)}
-                            />                    
-                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                                <Typography sx={{ maxWidth: "50px" }}>
-                                    <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                        onChange={handleNetWtSliderCustom(0)}
-                                        onBlur={handleBlurNetWt(0)}
-                                        inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
-                                        className='fs_elvee_dwsr'
-                                    />
-                                </Typography>
-                                <Typography sx={{ maxWidth: "50px" }}>
-                                    <TextField type="number" value={(netWtSlider[1])}
-                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                        inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                        onChange={handleNetWtSliderCustom(1)}
-                                        onBlur={handleBlurNetWt(1)}
-                                        className='fs_elvee_dwsr'
-                                    />
-                                </Typography>
-                            </Box>
+                            </Typography>
                         </Box>
-                    </Box>
-                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}}>
-                        <Box sx={{ paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
+                        </Box>
+                        <Box sx={{ paddingRight: "10px", paddingLeft:'10px', paddingBottom: "0px", width: '24%' }}>
                             <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
                             <Slider
                                 className='netWtSecSlider'
@@ -1660,99 +1409,24 @@ const DesignWiseSalesReport = () => {
                                 </Typography>
                             </Box>
                         </Box>
-                    </Box>
-                </div>
-                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0px 14px'}} className='toggleRange_dsr'>
-                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                        <Box sx={{  paddingBottom: "10px", width: 190 }}>
-                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
-                            <Slider
-                                className='netWtSecSlider'
-                                getAriaLabel={() => 'NetWt(gm)'}
-                                value={netWtSlider}
-                                onChange={handleNetWtSlider}
-                                valueLabelDisplay="auto"
-                                getAriaValueText={valuetext}
-                                disableSwap
-                                min={(netWtLimit?.min)}
-                                max={(netWtLimit?.max)}
-                            />                    
-                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                                <Typography sx={{ maxWidth: "50px" }}>
-                                    <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                        onChange={handleNetWtSliderCustom(0)}
-                                        onBlur={handleBlurNetWt(0)}
-                                        inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
-                                        className='fs_elvee_dwsr'
-                                    />
-                                </Typography>
-                                <Typography sx={{ maxWidth: "50px" }}>
-                                    <TextField type="number" value={(netWtSlider[1])}
-                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                        inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
-                                        onChange={handleNetWtSliderCustom(1)}
-                                        onBlur={handleBlurNetWt(1)}
-                                        className='fs_elvee_dwsr'
-                                    />
-                                </Typography>
+                        <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                            <Box >
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={purchaseCount}
+                                    label="Age"
+                                    onChange={handleChangePurchaseCount}
+                                    sx={{ width: "100%" }}
+                                >
+                                    {purchaseCountList?.map((ele, ind) => {
+                                        return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
+                                    })}
+                                </Select>
                             </Box>
                         </Box>
-                    </Box>
-                    <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                        <Box sx={{ paddingBottom: "10px", width: 190 }}>
-                            <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
-                            <Slider
-                                className='netWtSecSlider'
-                                getAriaLabel={() => 'GrossWt'}
-                                value={grossWtSlider}
-                                onChange={handleGrossWtSlider}
-                                valueLabelDisplay="auto"
-                                disableSwap
-                                min={grossWtLimit?.min}
-                                max={grossWtLimit?.max}
-                            />
-                            <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
-                                <Typography sx={{ maxWidth: "50px" }}>
-                                    <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                        onChange={handleGrossWtSliderCustom(0)}
-                                        onBlur={handleBlurGrossWt(0)}
-                                        inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
-                                        className='fs_elvee_dwsr'
-                                    />
-                                </Typography>
-                                <Typography sx={{ maxWidth: "50px" }}>
-                                    <TextField type="number" value={grossWtSlider[1]}
-                                        sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
-                                        inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
-                                        onChange={handleGrossWtSliderCustom(1)}
-                                        onBlur={handleBlurGrossWt(1)}
-                                        className='fs_elvee_dwsr'
-                                    />
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                </div>
-                
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
-                    <Box sx={{  paddingBottom: "10px", width:'49%' }}>
-                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
-                        <Box style={{width:'100%'}}>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={purchaseCount}
-                                label="Age"
-                                onChange={handleChangePurchaseCount}
-                                sx={{ width: "100%" }}
-                            >
-                                {purchaseCountList?.map((ele, ind) => {
-                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
-                                })}
-                            </Select>
-                        </Box>
-                    </Box>
-                    <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                        <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
                         <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
                         <Select
                             labelId="demo-simple-select-label"
@@ -1767,178 +1441,506 @@ const DesignWiseSalesReport = () => {
                             })}
                         </Select>
                     </Box>
-                </Box>
-
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
-                    <Box sx={{  paddingBottom: "10px", width:'49%' }}>
-                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={productType}
-                            label="Product Type"
-                            onChange={handleChangeProductType}
-                            sx={{ width: "100%" }}
-                        >
-                            {productTypeList?.map((ele, ind) => {
-                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
                     </Box>
 
-                    <Box sx={{  paddingBottom: "10px", width:'49%'}}>
-                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
-                        <Select
-                            labelId="metalColor"
-                            id="demo-simple-select"
-                            value={metalColor}
-                            label="Product Type"
-                            onChange={handleChangeMetalColor}
-                            sx={{ width: "100%" }}
-                        >
-                            {metalColorList?.map((ele, ind) => {
-                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-                </Box>
-                
-                <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                    <Box sx={{  paddingBottom: "10px", width:'49%'}}>
-                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
-                        <Select
-                            labelId="metalColor"
-                            id="demo-simple-select"
-                            value={category}
-                            label="Product Type"
-                            onChange={handleChangeCategory}
-                            sx={{ width: "100%" }}
-                        >
-                            {categorylist?.map((ele, ind) => {
-                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', width:'100%', paddingBottom:'10px'}}>
+                        <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={productType}
+                                label="Product Type"
+                                onChange={handleChangeProductType}
+                                sx={{ width: "100%" }}
+                            >
+                                {productTypeList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+
+                        <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                            <Typography  sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                            <Select
+                                labelId="metalColor"
+                                id="demo-simple-select"
+                                value={metalColor}
+                                label="Product Type"
+                                onChange={handleChangeMetalColor}
+                                sx={{ width: "100%" }}
+                            >
+                                {metalColorList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+
+                        <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
+                            <Select
+                                labelId="metalColor"
+                                id="demo-simple-select"
+                                value={category}
+                                label="Product Type"
+                                onChange={handleChangeCategory}
+                                sx={{ width: "100%" }}
+                            >
+                                {categorylist?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+
+                        <Box sx={{ paddingRight: "0px", paddingBottom: "0px", width:'24%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                            <Select
+                                labelId="SubCategory"
+                                id="demo-simple-select"
+                                value={subCategory}
+                                label="Product Type"
+                                onChange={handleChangeSubCategory}
+                                sx={{ width: "100%" }}
+                            >
+                                {subCategoryList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
                     </Box>
 
-                    <Box sx={{  paddingBottom: "10px", width:'49%'}}>
-                        <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
-                        <Select
-                            labelId="SubCategory"
-                            id="demo-simple-select"
-                            value={subCategory}
-                            label="Product Type"
-                            onChange={handleChangeSubCategory}
-                            sx={{ width: "100%" }}
-                        >
-                            {subCategoryList?.map((ele, ind) => {
-                                return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
-                            })}
-                        </Select>
-                    </Box>
-                </Box>
-                
-                </AccordionDetails>
-            </Accordion>
-            </>
-            } 
-
-            {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
+                </Box></>}
+                { isSmallScreen &&
                 <>
-                <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
-                    {filteredDataPaginated?.map((products, i) => (
-                        <div
-                            style={{
-                                minWidth: "100%",
-                                border: "1px solid #e1e1e1",
-                                textAlign: "center",
-                                color: "#7d7f85",
-                                position: "relative",
-                                zIndex: 0,
-                                background: "#c0bbb133",
-                                display:'flex',
-                                justifyContent:'space-between',
-                                flexDirection:'column'
-                            }}
-                            className="smilingProductImageBox designWiseSalesReportProduct"
-                        >
-                            <Box sx={{
-                                paddingBottom: "10px"
-                            }}>
-                              
-                                <Box sx={{ minheight: "271px" }}>
-                                    {products?.imgsrc ? (
-                                        <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
-                                    ) : (
-                                        <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
-                                    )}
+                <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'20px', marginTop:'20px'}} className='accordion_Account_Head'>
+                    <AccordionSummary className='fs_elvee_dwsr' expandIcon={<ExpandMoreIcon />}>Filters</AccordionSummary>
+                    <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                            <Box sx={{ paddingRight: "15px", paddingBottom: "20px", marginLeft:'2px'}}>
+                                <Button variant="contained" size='small' sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn fs_elvee_dwsr' onClick={eve => resetAllFilters(eve)}>All</Button>
+                            </Box>
+                            <Box sx={{  paddingBottom: "10px" }}>
+                                <Typography className='fs_elvee_dwsr'>DesignNo</Typography>
+                                <TextField type='text' value={designNo} style={{width:'100%'}} onChange={eve => {
+                                    setDesignNo(eve?.target?.value);
+                                    handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
+                                }} className='design_No' placeholder='#DesignNo' />
+                            </Box>
+                        </Box>
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'20px'}} className='w100dwsr'>
+                        <Box style={{ width:'40%', boxSizing:'border-box'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date From"
+                                        value={fromDate}
+                                        ref={fromDateRef}
+                                        format="DD MM YYYY"
+                                        className='quotationFilterDates w100_dwsr fs_elvee_dwsr'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setFromDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setFromDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date From",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box style={{ width:'40%', boxSizing:'border-box'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        label="Date To"
+                                        value={toDate}
+                                        ref={toDateRef}
+                                        format="DD MM YYYY"
+                                        className='quotationFilterDates w100_dwsr fs_elvee_dwsr'
+                                        onChange={(newValue) => {
+                                            if (newValue === null) {
+                                                setToDate(null)
+                                            } else {
+                                                if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                    setToDate(newValue)
+                                                } else {
+                                                    Swal.fire({
+                                                        title: "Error !",
+                                                        text: "Enter Valid Date To",
+                                                        icon: "error",
+                                                        confirmButtonText: "ok"
+                                                    });
+                                                    resetAllFilters();
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                        </Box>
+                        <Box  className="searchDesignWiseSalesReport" >
+                            <Button variant='contained' size='small' className='muiSmilingRocksBtn'
+                                sx={{ padding: "7px 7px", background: "#7d7f85" }}
+                                onClick={(eve) => handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, designNo, metal, productType, metalColor, category, subCategory, orderProm)}>
+                                <SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                        </Box>
+                    </Box>
+
+                    <div className='toggleRange_dsr2'>
+                        <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}} className='mr10_slider1_acc'>
+                            <Box sx={{  paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
+                                <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                                <Slider
+                                    className='netWtSecSlider'
+                                    getAriaLabel={() => 'NetWt(gm)'}
+                                    value={netWtSlider}
+                                    onChange={handleNetWtSlider}
+                                    valueLabelDisplay="auto"
+                                    getAriaValueText={valuetext}
+                                    disableSwap
+                                    min={(netWtLimit?.min)}
+                                    max={(netWtLimit?.max)}
+                                />                    
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            onChange={handleNetWtSliderCustom(0)}
+                                            onBlur={handleBlurNetWt(0)}
+                                            inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={(netWtSlider[1])}
+                                            sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                            onChange={handleNetWtSliderCustom(1)}
+                                            onBlur={handleBlurNetWt(1)}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
                                 </Box>
-
                             </Box>
-                            <div>
-                            <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography
-                                    style={{
-                                        fontSize: "13px",
-                                        textTransform: "uppercase",
-                                        cursor: "pointer",
-                                        fontWeight: "bold",
-                                        textAlign: "start"
-                                    }}
-                                    className='fs_elvee_dwsr'
+                        </Box>
+                        <Box style={{display:'flex', justifyContent:'center', alignItems:'center', width:'40%'}}>
+                            <Box sx={{ paddingBottom: "10px", width: 250 }} className='boxWidth_Acc_Slider'>
+                                <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
+                                <Slider
+                                    className='netWtSecSlider'
+                                    getAriaLabel={() => 'GrossWt'}
+                                    value={grossWtSlider}
+                                    onChange={handleGrossWtSlider}
+                                    valueLabelDisplay="auto"
+                                    disableSwap
+                                    min={grossWtLimit?.min}
+                                    max={grossWtLimit?.max}
+                                />
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            onChange={handleGrossWtSliderCustom(0)}
+                                            onBlur={handleBlurGrossWt(0)}
+                                            inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={grossWtSlider[1]}
+                                            sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
+                                            onChange={handleGrossWtSliderCustom(1)}
+                                            onBlur={handleBlurGrossWt(1)}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </div>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0px 14px'}} className='toggleRange_dsr'>
+                        <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                            <Box sx={{  paddingBottom: "10px", width: 190 }}>
+                                <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                                <Slider
+                                    className='netWtSecSlider'
+                                    getAriaLabel={() => 'NetWt(gm)'}
+                                    value={netWtSlider}
+                                    onChange={handleNetWtSlider}
+                                    valueLabelDisplay="auto"
+                                    getAriaValueText={valuetext}
+                                    disableSwap
+                                    min={(netWtLimit?.min)}
+                                    max={(netWtLimit?.max)}
+                                />                    
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            onChange={handleNetWtSliderCustom(0)}
+                                            onBlur={handleBlurNetWt(0)}
+                                            inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={(netWtSlider[1])}
+                                            sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
+                                            onChange={handleNetWtSliderCustom(1)}
+                                            onBlur={handleBlurNetWt(1)}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                            <Box sx={{ paddingBottom: "10px", width: 190 }}>
+                                <Typography className='fs_elvee_dwsr' sx={{ textAlign: "center" }}>GrossWt</Typography>
+                                <Slider
+                                    className='netWtSecSlider'
+                                    getAriaLabel={() => 'GrossWt'}
+                                    value={grossWtSlider}
+                                    onChange={handleGrossWtSlider}
+                                    valueLabelDisplay="auto"
+                                    disableSwap
+                                    min={grossWtLimit?.min}
+                                    max={grossWtLimit?.max}
+                                />
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            onChange={handleGrossWtSliderCustom(0)}
+                                            onBlur={handleBlurGrossWt(0)}
+                                            inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                    <Typography sx={{ maxWidth: "50px" }}>
+                                        <TextField type="number" value={grossWtSlider[1]}
+                                            sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                            inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
+                                            onChange={handleGrossWtSliderCustom(1)}
+                                            onBlur={handleBlurGrossWt(1)}
+                                            className='fs_elvee_dwsr'
+                                        />
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </div>
+                    
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+                        <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                            <Box style={{width:'100%'}}>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={purchaseCount}
+                                    label="Age"
+                                    onChange={handleChangePurchaseCount}
+                                    sx={{ width: "100%" }}
                                 >
-                                    {products?.designno}
-                                </Typography>
-                                <Typography
-                                    style={{
-                                        fontSize: "13px",
-                                        textTransform: "uppercase",
-                                        cursor: "pointer",
-                                        fontWeight: "bold",
-                                        textAlign: "start"
-                                    }}
-                                    className='fs_elvee_dwsr'
-                                >
-                                    NetWt: {products?.DesignNetWt?.toFixed(3)}
-                                </Typography>
+                                    {purchaseCountList?.map((ele, ind) => {
+                                        return <MenuItem className='fs_elvee_dwsr' value={ele?.value}>{ele?.label}</MenuItem>
+                                    })}
+                                </Select>
                             </Box>
-                            <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
-                                </Typography>
-                                <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
-                                <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
-                                    Purchase Count: {NumberWithCommas(products?.salescount, 0)}
-                                </Typography>
-                               
-                            </Box>
-                            </div>
+                        </Box>
+                        <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={metal}
+                                label="Age"
+                                onChange={handleMetalChange}
+                                sx={{ width: "100%" }}
+                            >
+                                {metalList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+                    </Box>
 
-                        </div>
-                    ))}
-                </Box>
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+                        <Box sx={{  paddingBottom: "10px", width:'49%' }}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={productType}
+                                label="Product Type"
+                                onChange={handleChangeProductType}
+                                sx={{ width: "100%" }}
+                            >
+                                {productTypeList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+
+                        <Box sx={{  paddingBottom: "10px", width:'49%'}}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                            <Select
+                                labelId="metalColor"
+                                id="demo-simple-select"
+                                value={metalColor}
+                                label="Product Type"
+                                onChange={handleChangeMetalColor}
+                                sx={{ width: "100%" }}
+                            >
+                                {metalColorList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+                    </Box>
+                    
+                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                        <Box sx={{  paddingBottom: "10px", width:'49%'}}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>Category</Typography>
+                            <Select
+                                labelId="metalColor"
+                                id="demo-simple-select"
+                                value={category}
+                                label="Product Type"
+                                onChange={handleChangeCategory}
+                                sx={{ width: "100%" }}
+                            >
+                                {categorylist?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+
+                        <Box sx={{  paddingBottom: "10px", width:'49%'}}>
+                            <Typography className='fs_elvee_dwsr' sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                            <Select
+                                labelId="SubCategory"
+                                id="demo-simple-select"
+                                value={subCategory}
+                                label="Product Type"
+                                onChange={handleChangeSubCategory}
+                                sx={{ width: "100%" }}
+                            >
+                                {subCategoryList?.map((ele, ind) => {
+                                    return <MenuItem className='fs_elvee_dwsr' value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
+                                })}
+                            </Select>
+                        </Box>
+                    </Box>
+                    
+                    </AccordionDetails>
+                </Accordion>
                 </>
+                } 
 
-            }
+                {isLoading ?
+                    <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
+                    <>
+                    <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
+                        {filteredDataPaginated?.map((products, i) => (
+                            <div
+                                style={{
+                                    minWidth: "100%",
+                                    border: "1px solid #e1e1e1",
+                                    textAlign: "center",
+                                    color: "#7d7f85",
+                                    position: "relative",
+                                    zIndex: 0,
+                                    background: "#c0bbb133",
+                                    display:'flex',
+                                    justifyContent:'space-between',
+                                    flexDirection:'column'
+                                }}
+                                className="smilingProductImageBox designWiseSalesReportProduct"
+                            >
+                                <Box sx={{
+                                    paddingBottom: "10px"
+                                }}>
+                                
+                                    <Box sx={{ minheight: "271px" }}>
+                                        {products?.imgsrc ? (
+                                            <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
+                                        ) : (
+                                            <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
+                                        )}
+                                    </Box>
 
-            {filterData?.length !== 0 && <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                breakLabel={"..."}
-                pageCount={Math.ceil(filterData.length / perPage)}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination"}
-                subContainerClassName={"pages pagination"}
-                activeClassName={"active"}
-                className='reactPaginationDesignWise'
-            />}
-        </Box>
+                                </Box>
+                                <div>
+                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography
+                                        style={{
+                                            fontSize: "13px",
+                                            textTransform: "uppercase",
+                                            cursor: "pointer",
+                                            fontWeight: "bold",
+                                            textAlign: "start"
+                                        }}
+                                        className='fs_elvee_dwsr'
+                                    >
+                                        {products?.designno}
+                                    </Typography>
+                                    <Typography
+                                        style={{
+                                            fontSize: "13px",
+                                            textTransform: "uppercase",
+                                            cursor: "pointer",
+                                            fontWeight: "bold",
+                                            textAlign: "start"
+                                        }}
+                                        className='fs_elvee_dwsr'
+                                    >
+                                        NetWt: {products?.DesignNetWt?.toFixed(3)}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
+                                    </Typography>
+                                    <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
+                                    <Typography className='fs_elvee_dwsr' style={{ fontSize: "12px", textAlign: "start", }}>
+                                        Purchase Count: {NumberWithCommas(products?.salescount, 0)}
+                                    </Typography>
+                                
+                                </Box>
+                                </div>
+
+                            </div>
+                        ))}
+                    </Box>
+                    </>
+
+                }
+
+                {filterData?.length !== 0 && <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    breakLabel={"..."}
+                    pageCount={Math.ceil(filterData.length / perPage)}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}
+                    className='reactPaginationDesignWise'
+                />}
+            </Box>
+        </div>
     )
 }
 

@@ -56,7 +56,7 @@ const Plm = () => {
   };
 
   return (
-    <>
+    <div className="plm_Account_elvee">
     <div className="plm_container">
     <div className="plm_width">
       <HeadTitleAcc title="Private Label Setup" />
@@ -176,7 +176,7 @@ const Plm = () => {
       </div>
     </div>
     </div>
-    </>
+    </div>
   );
 };
 
