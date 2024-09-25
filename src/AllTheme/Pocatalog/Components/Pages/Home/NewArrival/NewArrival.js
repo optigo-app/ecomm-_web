@@ -91,9 +91,6 @@ const NewArrival = () => {
     const handleMouseLeaveRing2 = () => {
         setRing2ImageChange(false)
     }
-
-    console.log('nnnnnnnnnnnnn', newArrivalData);
-
     return (
         <div className='proCat_NewArrivalMain'>
             <div className='smilingBridesMain'>

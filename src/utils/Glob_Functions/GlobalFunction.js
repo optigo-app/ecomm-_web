@@ -1,8 +1,26 @@
 export function storImagePath() {
   let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
+  // return `${statiPath}/Website_Store/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
 }
+
+export function storInitDataPath() {
+  let hostName = (window.location.hostname === 'localhost' || window.location.hostname === 'zen')
+    ? 'fgstore.pro'
+    : window.location.hostname;
+  if (hostName.startsWith('www.')) {
+    hostName = hostName.substring(4);
+  }
+  let statiPath = `${window?.location?.protocol}//${hostName}`;
+  return `${statiPath}/Website_Store/WebSiteStaticImage/${hostName}`;
+}
+
+// export function storInitDataPath() {
+//   let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname}`
+//   let hostName = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname}`
+//   return `${statiPath}/Website_Store/WebSiteStaticImage/${hostName}`
+// }
 
 export function findMetalColor(paramId) {
   let metalColorArr = JSON.parse(sessionStorage.getItem("MetalColorCombo"))

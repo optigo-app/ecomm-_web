@@ -37,7 +37,6 @@ const DesignSet2 = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             callAPI();
-            console.log("visble")
             observer.unobserve(entry.target);
           }
         });
@@ -56,30 +55,6 @@ const DesignSet2 = () => {
         observer.unobserve(designSetRef.current);
       }
     };
-    // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-    // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-    // const visiterID = Cookies.get('visiterId');
-    // let finalID;
-    // if (storeInit?.IsB2BWebsite == 0) {
-    //   finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-    // } else {
-    //   finalID = loginUserDetail?.id || '0';
-    // }
-
-    // let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
-    // setStoreInit(storeinit);
-
-    // let data = JSON.parse(sessionStorage.getItem('storeInit'));
-    // setImageUrl(data?.DesignSetImageFol);
-    // setImageUrlDesignSet(data?.DesignImageFol);
-
-    // Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
-    //   .then((response) => {
-    //     if (response?.Data?.rd) {
-    //       setDesignSetList(response?.Data?.rd);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
   }, []);
 
   const callAPI = () => {

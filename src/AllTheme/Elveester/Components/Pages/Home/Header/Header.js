@@ -50,14 +50,13 @@ const Header = () => {
   //   const value = JSON.parse(sessionStorage.getItem("LoginUser"));
   //   setislogin(value);
 
-  //   // if (titleImg) {
-  //   //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   //   console.log("storeInit: ", storeInit);
-  //   //   setCompanyTitleLogo(storeInit?.companylogo);
-  //   // }
-  //   // setTimeout(() => {
-  //   //   setLodingLogo(false);
-  //   // }, 100);
+    // if (titleImg) {
+    //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    //   setCompanyTitleLogo(storeInit?.companylogo);
+    // }
+    // setTimeout(() => {
+    //   setLodingLogo(false);
+    // }, 100);
   // }, []);
 
   const GetCompanyLogo = async () => {
@@ -115,7 +114,6 @@ const Header = () => {
       try {
         const visiterID = Cookies.get("visiterId");
         const res = await GetCountAPI(visiterID);
-        console.log("responseCount", res);
         setCartCount(res?.cartcount);
         setWishCount(res?.wishcount);
       } catch (error) {
@@ -304,7 +302,6 @@ const Header = () => {
   }, [menuData]);
 
   const handelMenu = (param, param1, param2, event) => {
-    console.log("kkk", event)
     if (
       event?.ctrlKey ||     // Ctrl key
       event?.shiftKey ||    // Shift key
@@ -407,7 +404,6 @@ const Header = () => {
         menuDataObj = { ...menuDataObj, ...param2Item };
       }
     } else {
-      console.log("Menu Item:", cleanedMenuItem);
     }
   };
 

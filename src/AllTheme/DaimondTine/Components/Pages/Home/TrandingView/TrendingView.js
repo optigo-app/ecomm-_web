@@ -118,22 +118,8 @@ const TrendingView = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-        // if(IsB2BWebsite === 1){
-        //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }else{
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }
     }
-
-    const decodeEntities = (html) => {
-        var txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }
-
-
-
 
     const handleMouseEnterRing1 = (data) => {
         if (data?.ImageCount > 1) {
@@ -146,37 +132,11 @@ const TrendingView = () => {
         setRing1ImageChange(false)
     }
 
-    const handleMouseEnterRing2 = (data) => {
-        if (data?.ImageCount > 1) {
-            setRing1ImageChangeOdd(true)
-        }
-    }
-    const handleMouseLeaveRing2 = () => {
-        setRing1ImageChangeOdd(false)
-    }
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
-    }
-
-    
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {
         chunkedData.push(trandingViewData?.slice(i, i + 3));
     }
     
-    console.log('trandingViewDatatrandingViewData', trandingViewData);
-    console.log('chunkedDatachunkedData', chunkedData);
     return (
         <div>
             {trandingViewData?.length != 0 &&
@@ -394,9 +354,6 @@ export default TrendingView
 //     const handleMouseLeaveRing4 = () => {
 //         setRing4ImageChange(false)
 //     }
-
-//     console.log('nnnnnnnnnnnnn', trandingViewData?.length);
-
 
 //     return (
 //         <div>

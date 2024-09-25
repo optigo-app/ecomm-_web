@@ -12,6 +12,17 @@
         }
     }
 
+    @media (max-width: 1200px) {
+        .smr_bestseler1TitleDiv {
+            padding: 4% 0px 0px 0px !important;
+
+            .smr_bestseler1Title {
+                font-size: 18px !important;
+                margin-top: 10px;
+            }
+        }
+    }
+
     .product-grid {
         display: flex;
         flex-wrap: wrap;
@@ -125,6 +136,12 @@
         }
 
         @media (max-width: 1200px) {
+
+            .smr_bestseler1Title {
+                font-size: 18px !important;
+            }
+
+
             .smr_leftSideBestSeler {
                 width: 100%;
 

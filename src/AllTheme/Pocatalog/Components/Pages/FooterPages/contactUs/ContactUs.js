@@ -60,12 +60,10 @@ export default function ContactUs() {
         }
 
         if (Object.keys(errors).length === 0) {
-            console.log('Form submitted:', formData);
             const combinedValue = JSON.stringify({
                 companyname: `${formData?.companyName}`, subject: `${formData?.subject}`, fullname: `${formData?.fullName}`, emailid: `${(formData?.emailAddress).toLocaleLowerCase()}`, mobileno: `${formData?.phoneNumber}`, message: `${formData?.message}`
             });
             const encodedCombinedValue = btoa(combinedValue);
-            console.log(encodedCombinedValue);
             const body = {
                 "con": "{\"id\":\"\",\"mode\":\"CONTACTUS\"}",
                 "f": "CONTACTUS (handlesubmit)",
@@ -73,7 +71,6 @@ export default function ContactUs() {
             };
             const response = await CommonAPI(body);
             if (response) {
-                console.log('res', response);
                 toast.success("Got it! We've received your query. We'll be in touch shortly.")
             }
             setFormData({

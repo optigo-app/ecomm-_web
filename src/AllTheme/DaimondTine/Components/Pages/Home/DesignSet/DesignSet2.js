@@ -36,7 +36,6 @@ const DesignSet2 = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             callAPI();
-            console.log("visble")
             observer.unobserve(entry.target);
           }
         });
@@ -106,7 +105,6 @@ const DesignSet2 = () => {
   const parseDesignDetails = (details) => {
     try {
       let finalArr = JSON.parse(details);
-      console.log('kjdksjfkjsdjf', finalArr);
       return finalArr;
     } catch (error) {
       console.error("Error parsing design details:", error);
@@ -150,25 +148,7 @@ const DesignSet2 = () => {
     return txt.value;
   };
 
-  const onSwiperInit = (swiper) => {
-    console.log('Swiper initialized:', swiper);
-    setSwiper(swiper);
-  };
-
-
-  const [showAll, setShowAll] = useState(false);
-
-  const handleViewAll = () => {
-    setShowAll(true);
-  };
-
-  // Determine the items to show
-  const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 4);
-  console.log('jkksdjkjfkdsj', designSetList);
-
-  console.log('designSetListdesignSetList', designSetList);
   const redirectUrl = `/loginOption/?LoginRedirect=/Lookbook`;
-
   const handleNavigate = () => {
     if (storeInit?.IsB2BWebsite == 1) {
       if (islogin == true) {

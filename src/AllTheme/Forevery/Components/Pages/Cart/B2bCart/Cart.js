@@ -175,9 +175,6 @@ const CartPage = () => {
       toast.error('Something went wrong!')
     }
   }
-
-  console.log("diamondCartData", diamondCartData);
-
   // useEffect(() => {
   //   setTimeout(() => {
   //     const diamondValue = diamondCartData?.find((dia) => dia?.stockno == selectedItem?.Sol_StockNo);

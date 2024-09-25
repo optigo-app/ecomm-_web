@@ -39,8 +39,6 @@ const WishItem = ({
     const handleWishlistToCartFun = async (item) => {
         setloding(true);
         const returnValue = await handleWishlistToCart(item);
-        console.log('returnValue',returnValue);
-        
         if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
                 toast.success("Wishlist item added in cart")

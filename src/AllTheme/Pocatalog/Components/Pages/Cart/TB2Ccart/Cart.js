@@ -101,10 +101,6 @@ const CartPage = () => {
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
-
-
-
-  console.log('selected--', selectedItem);
   return (
     <div className='ProCat_MainB2cBGDiv'>
       <div className='cartMainb2cPageDiv'>

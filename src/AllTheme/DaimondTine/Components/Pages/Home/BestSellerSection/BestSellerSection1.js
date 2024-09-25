@@ -143,8 +143,6 @@ const BestSellerSection1 = () => {
         chunkedData.push(bestSellerData?.slice(i, i + 3));
     }
 
-    console.log("kjdkjkjdkjk", ...chunkedData);
-
     return (
         <div ref={bestSallerRef}>
             {bestSellerData?.length != 0 &&

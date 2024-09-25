@@ -73,11 +73,7 @@ const Lookbook = () => {
             })
             .catch((err) => console.log(err));
     }, []);
-
-    console.log('cartItemscartItemscartItems', cartItems);
-
     useEffect(() => {
-
         const fetchData = async () => {
             let productlisttype = {
                 FilterKey: 'GETDesignSet_List',
@@ -97,9 +93,6 @@ const Lookbook = () => {
 
     const handleCheckboxChange = (e, listname, val) => {
         const { name, checked } = e.target;
-
-        // console.log("output filterCheckedVal",{checked,type:listname,id:name.replace(/[a-zA-Z]/g, ''),value:val});
-
         setFilterChecked((prev) => ({
             ...prev,
             [name]: { checked, type: listname, id: name?.replace(/[a-zA-Z]/g, ''), value: val }
@@ -161,7 +154,6 @@ const Lookbook = () => {
             // Use a callback to update the state
             setCartItems(prevCartItems => {
                 const updatedCartItems = prevCartItems.filter(item => item !== ele?.autocode);
-                console.log("Updated cartItems inside setState callback:", updatedCartItems);
                 return updatedCartItems;
             });
         } catch (err) {

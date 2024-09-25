@@ -33,12 +33,11 @@ import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
-import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
-  const [localData, setLocalData] = useState();
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(smr_loginState);
   const location = useLocation();
@@ -48,6 +47,7 @@ const SmilingRock_App = () => {
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smr_companyLogo);
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(smr_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
+  const [localData, setLocalData] = useState();
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -60,7 +60,7 @@ const SmilingRock_App = () => {
 
  
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+    fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
         try {
@@ -108,7 +108,7 @@ const SmilingRock_App = () => {
 
   useEffect(() => {
     const cookieValue = Cookies.get("userLoginCookie");
-    if (cookieValue) {
+    if (cookieValue && islogin == false) {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response?.Data?.rd[0]?.stat === 1) {

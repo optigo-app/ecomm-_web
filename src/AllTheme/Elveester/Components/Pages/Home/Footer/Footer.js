@@ -68,11 +68,9 @@ const Footer = () => {
                 redirect: "follow"
             };
             const newsletterUrl = `${newslater}${email}`;
-            console.log('newsletterUrl: ', newsletterUrl);
             await fetch(newsletterUrl, requestOptions)
                 .then((response) => {
                     response.text()
-                    console.log(response)
                 })
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
