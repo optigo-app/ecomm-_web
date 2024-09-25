@@ -21,9 +21,7 @@ const Confirmation = () => {
     
 
     useEffect(() => {
-
         setCSSVariable();
-        
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeInit);
         let orderNo = sessionStorage.getItem('orderNumber')

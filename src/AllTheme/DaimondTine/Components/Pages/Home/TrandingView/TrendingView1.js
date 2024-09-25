@@ -49,7 +49,6 @@ const TrendingView1 = () => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         callAPI();
-                        console.log("visble")
                         observer.unobserve(entry.target);
                     }
                 });
@@ -142,12 +141,7 @@ const TrendingView1 = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-        // if(IsB2BWebsite === 1){
-        //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }else{
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }
     }
 
     const decodeEntities = (html) => {
@@ -155,45 +149,6 @@ const TrendingView1 = () => {
         txt.innerHTML = html;
         return txt.value;
     }
-
-
-
-
-    const handleMouseEnterRing1 = (data) => {
-        if (data?.ImageCount > 1) {
-            setHoveredItem(data.SrNo);
-            setRing1ImageChange(true)
-        }
-    }
-    const handleMouseLeaveRing1 = () => {
-        setHoveredItem(null);
-        setRing1ImageChange(false)
-    }
-
-    const handleMouseEnterRing2 = (data) => {
-        if (data?.ImageCount > 1) {
-            setRing1ImageChangeOdd(true)
-        }
-    }
-    const handleMouseLeaveRing2 = () => {
-        setRing1ImageChangeOdd(false)
-    }
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
-    }
-
-    console.log('nnnnnnnnnnnnn', trandingViewData);
 
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {

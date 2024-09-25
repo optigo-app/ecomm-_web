@@ -553,7 +553,7 @@ const AccountLedger = () => {
 
 
   return (
-    <div>
+    <div className='ledger_Account_PCJ'>
         <div>
             <div className='border'>
             { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p-2 ps-4 border-bottom fs_Al_mq' style={{letterSpacing:'1px'}}>

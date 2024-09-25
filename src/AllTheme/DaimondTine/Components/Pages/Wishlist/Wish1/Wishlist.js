@@ -86,8 +86,6 @@ const Wishlist = () => {
     });
   }
 
-  console.log("cartdataCount--", wishlistData);
-
   return (
     <div className="dt_MainWlDiv">
       <div className="dt_WlMainPageDiv">

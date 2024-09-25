@@ -106,17 +106,14 @@ const ProductList = () => {
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isHover, setIsHover] = useState(false);
   const [filterData, setFilterData] = useState([]);
-  console.log('filterData: ', filterData);
   const [currPage, setCurrPage] = useState(1);
   const [rollOverImgPd, setRolloverImgPd] = useState({})
   const [filterPriceSlider, setFilterPriceSlider] = useState([]);
   const [filterGrossSlider, setFilterGrossSlider] = useState([]);
   const [filterNetWtSlider, setFilterNetWTSlider] = useState([]);
   const [sliderValue, setSliderValue] = useState([]);
-  console.log('sliderValue: ', sliderValue);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
-  console.log('sliderValue2: ', sliderValue2);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterDiamondSlider, setFilterDiamondSlider] = useState([]);
   const [loginInfo, setLoginInfo] = useState();
@@ -207,15 +204,6 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly();
     console.log("output: ", output);
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-    //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
-    console.log(
-      "locationkey",
-      location?.key !== locationKey,
-      location?.key,
-      locationKey
-    );
-
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
       ProductListApi(output, 1, obj, prodListType, cookie)
@@ -467,15 +455,11 @@ const ProductList = () => {
     // setAllFilter(getAllFilter);
   }, []);
 
-  console.log("abbcdefghojk;mnopqrustuvwz")
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
         let UrlVal = location?.search?.slice(1).split("/");
-        console.log('UrlVal: ', UrlVal);
-
         let MenuVal = "";
         let SearchVar = '';
         let productlisttype;
@@ -506,17 +490,12 @@ const ProductList = () => {
         if (SearchVar) {
           productlisttype = SearchVar
         }
-
         setprodListType(productlisttype);
         setIsProdLoading(true);
-
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie);
         const res1 = await FilterListAPI(productlisttype, cookie);
-        console.log('res1: ', res1);
-
         if (res) {
           setProductListData(res?.pdList);
-          console.log('res?.pdList: ', res?.pdList);
           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
         }
 
@@ -572,7 +551,6 @@ const ProductList = () => {
   };
 
   const handelPageChange = (event, value) => {
-    console.log('value: ', value);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
@@ -680,13 +658,9 @@ const ProductList = () => {
 
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value);
-
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-    console.log("obj: ", obj);
-
     setIsOnlyProdLoading(true);
-
     let sortby = e.target?.value;
 
     await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)

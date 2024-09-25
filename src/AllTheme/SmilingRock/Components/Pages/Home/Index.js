@@ -20,7 +20,7 @@ import NewArrival1 from "./NewArrival/NewArrival1";
 import BestSellerSection from "./BestSellerSection/BestSellerSection";
 import BestSellerSection1 from "./BestSellerSection/BestSellerSection1";
 import BrandsComponent from "./BrandComponent/BrandComponents";
-import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
+import { storImagePath, storInitDataPath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { useRecoilValue } from "recoil";
 import { homeLoading } from "../../Recoil/atom";
 
@@ -40,7 +40,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+    fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
         try {

@@ -703,6 +703,7 @@ const scrollToTop = () => {
 };
 
   return (
+    <div className='quotationJob_Account_PCJ'>
     <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
       <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
         <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
@@ -962,16 +963,8 @@ const scrollToTop = () => {
 
 
     </Box>
+    </div>
   )
 }
 
 export default QuotationJob
-// import React from 'react'
-
-// const QuotationJob = () => {
-//   return (
-//     <div>QuotationJob</div>
-//   )
-// }
-
-// export default QuotationJob

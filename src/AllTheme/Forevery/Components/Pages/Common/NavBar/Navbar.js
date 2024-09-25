@@ -120,8 +120,6 @@ const Navbar = () => {
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
     let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
-    console.log("callll");
-    console.log(LoggedUserDetails);
     if (storeinit?.IsB2BWebsite === 0) {
       getMenuApi();
       return;
@@ -663,9 +661,7 @@ const NavitemsWrapper = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          console.log("firstNavRef is visible");
         } else {
-          console.log("firstNavRef is not visible");
           setHoveredIndex(null);
         }
       },
@@ -759,17 +755,6 @@ const FirstNavMenu = ({
   const handleToggle = () => {
     setShowModal(!showModal);
   };
-
-  useEffect(() => {
-    if (showModal) {
-      console.log("Modal is showing");
-      // setTimeout(() => {
-      //   setshowMenu(false);
-      // }, 200);
-    } else {
-      console.log("Modal is closed");
-    }
-  }, [showModal]);
 
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
@@ -907,11 +892,6 @@ const FirstNavMenu = ({
 
   const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
   const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
-
-  console.log("Style Array:", styleArr);
-  console.log("Women Array:", womenArr);
-  console.log("Men Array:", menArr);
-
   return (
     <>
       <div className="For_Nav_first_Menu">

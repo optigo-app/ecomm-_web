@@ -39,7 +39,6 @@ const SettingPage = () => {
 
   useEffect(() => {
     const aa1234 = JSON.parse(sessionStorage.getItem('custStepData'));
-    console.log('aa1234: ', aa1234);
   }, [])
 
   const encodeLink = (link) => btoa(link);

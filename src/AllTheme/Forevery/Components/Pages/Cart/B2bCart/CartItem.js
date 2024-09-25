@@ -111,11 +111,7 @@ const CartItem = ({
       setImageSrc(noImageFound);
     }
   }, [item]);
-
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
-
-  console.log("diamondData", diamondData)
-
   const handleError = (event) => {
     event.target.src = noImageFound;
   };

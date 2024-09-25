@@ -17,7 +17,6 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-  console.log('-', selectedItem);
   return (
     <div className="ProCat_MainCartList">
       <Grid container spacing={2}>

@@ -5,7 +5,7 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 const BottomBanner = () => {
    
     return (
-        <div className='smr_BottomBannerMain'>
+        <div className='roop_BottomBannerMain'>
             
         </div>
     )

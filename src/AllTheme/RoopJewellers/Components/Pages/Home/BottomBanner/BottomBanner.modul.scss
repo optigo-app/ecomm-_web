@@ -1,7 +1,7 @@
 @import '../../../scss/variable';
 
 
-.smr_BottomBannerMain {
+.roop_BottomBannerMain {
     .shopifyMain {
         display: flex;
         margin-inline: 0px;
@@ -42,7 +42,7 @@
 
 
     @media screen and (max-width: 1200px) {
-        .smr_shopifyImg {
+        .roop_shopifyImg {
             min-height: auto!important;
         }
     }
