@@ -665,7 +665,7 @@ const SalesReport = () => {
   };
 
   return (
-    <Box>
+    <Box className="salesReport_Account_PCJ">
       <Box
         sx={{
           display: "flex",

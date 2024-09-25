@@ -1,24 +1,24 @@
 @import '../../../scss/variable';
 
-.smr_mainTrending1Div {
-    .smr_trending1TitleDiv {
+.for_mainTrending1Div {
+    .for_trending1TitleDiv {
         text-align: center;
         padding-block: 3%;
 
-        .smr_trending1Title {
+        .for_trending1Title {
             font-size: $fontSize6;
             color: $homePageFontColor;
             font-family: $primaryFontFamily;
         }
     }
 
-    .smr_trendingProduct-grid {
+    .for_trendingProduct-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 0px 10px;
 
-        .smr_leftSideBestTR {
+        .for_leftSideBestTR {
             width: 50%;
             position: relative;
 
@@ -29,7 +29,7 @@
                 object-fit: cover;
             }
 
-            .smr_lookbookImageRightDT {
+            .for_lookbookImageRightDT {
                 position: absolute;
                 top: 50%;
                 left: 40%;
@@ -66,7 +66,7 @@
             }
         }
 
-        .smr_rightSideTR {
+        .for_rightSideTR {
             width: 50%;
             display: flex;
             flex-wrap: wrap;
@@ -77,7 +77,7 @@
                 width: calc(50% - 10px);
                 box-sizing: border-box;
 
-                .smr_btimageDiv {
+                .for_btimageDiv {
                     padding: 50px;
                     background-color: #f1f1f1;
 
@@ -118,7 +118,7 @@
                         letter-spacing: .5px;
                     }
 
-                    .smr_btpipe {
+                    .for_btpipe {
                         margin: 0px 3px;
                     }
                 }
@@ -129,12 +129,12 @@
             flex-direction: column;
             align-items: center;
 
-            .smr_leftSideBestTR,
-            .smr_rightSideTR {
+            .for_leftSideBestTR,
+            .for_rightSideTR {
                 width: 100%;
             }
 
-            .smr_lookbookImageRightDT {
+            .for_lookbookImageRightDT {
                 left: 50%;
                 transform: translate(-50%, -70%);
             }
@@ -142,8 +142,8 @@
 
         @media (max-width: 992px) {
 
-            .smr_leftSideBestTR,
-            .smr_rightSideTR {
+            .for_leftSideBestTR,
+            .for_rightSideTR {
                 width: 100%;
             }
 
@@ -154,7 +154,7 @@
         }
 
         @media (max-width: 768px) {
-            .smr_lookbookImageRightDT {
+            .for_lookbookImageRightDT {
                 left: 50%;
                 transform: translate(-50%, -50%);
 
@@ -176,21 +176,21 @@
                 padding: 0;
                 margin: 0 0 10px 0;
 
-                .smr_btimageDiv {
+                .for_btimageDiv {
                     padding: 20px !important;
                 }
             }
         }
 
         @media (max-width: 576px) {
-            .smr_mainTrending1Div {
-                .smr_trendingProduct-grid {
+            .for_mainTrending1Div {
+                .for_trendingProduct-grid {
                     padding: 0px 10px !important;
                 }
             }
 
-            .smr_leftSideBestTR,
-            .smr_rightSideTR {
+            .for_leftSideBestTR,
+            .for_rightSideTR {
                 width: 100%;
                 margin-top: 10px;
                 justify-content: center;
@@ -201,7 +201,7 @@
                 width: 100%;
                 margin: 0 0 10px 0;
 
-                .smr_btimageDiv {
+                .for_btimageDiv {
                     padding: 10px !important;
                 }
 

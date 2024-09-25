@@ -98,8 +98,8 @@ const Album1 = () => {
         <>
             {albumData?.length != 0 &&
                 <div className="roop_album-container">
-                    <div className='smr_ablbumtitleDiv'>
-                        <span className='smr_albumtitle'>Album</span>
+                    <div className='roop_ablbumtitleDiv'>
+                        <span className='roop_albumtitle'>Album</span>
 
                     </div>
                     <Box className="tabs"
@@ -116,14 +116,14 @@ const Album1 = () => {
                             TabIndicatorProps={{
                                 style: { display: 'none' }
                             }}
-                            className='smr_Albumtabs'
+                            className='roop_Albumtabs'
                         >
                             {albumData?.map((album) => (
                                 <Tab
                                     key={album?.Albumid}
                                     label={album?.AlbumName}
                                     value={album?.AlbumName}
-                                    className={selectedAlbum === album?.AlbumName ? 'active smr_Albumtab' : 'smr_Albumtab'}
+                                    className={selectedAlbum === album?.AlbumName ? 'active roop_Albumtab' : 'roop_Albumtab'}
                                 />
                             ))}
                         </Tabs>
@@ -167,9 +167,9 @@ const Album1 = () => {
                                                 />
                                             </div>
                                             <div className="design-info">
-                                                <p className='smr_album1price'>
+                                                <p className='roop_album1price'>
                                                     <span
-                                                        className="smr_currencyFont"
+                                                        className="roop_currencyFont"
                                                         dangerouslySetInnerHTML={{
                                                             __html: decodeEntities(
                                                                 islogin ? loginUserDetail?.CurrencyCode : storeInit?.CurrencyCode

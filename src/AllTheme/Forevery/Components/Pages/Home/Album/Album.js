@@ -43,25 +43,25 @@ const Album = () => {
   console.log('albumDataalbumData', albumData);
 
   return (
-    <div className="smr_alubmMainDiv">
-      {albumData?.length > 0 && <p className="smr_albumTitle">Infinitely Inspiring</p>}
-      <div className="smr_albumALL_div">
+    <div className="for_alubmMainDiv">
+      {albumData?.length > 0 && <p className="for_albumTitle">Infinitely Inspiring</p>}
+      <div className="for_albumALL_div">
         {albumData?.slice(0, 5).map((data, index) => (
           <div
             key={index}
-            className="smr_AlbumImageMain"
+            className="for_AlbumImageMain"
             onClick={() => handleNavigate(data?.AlbumName)}
           >
             <img
               src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
-              className="smr_AlbumImageMain_img"
+              className="for_AlbumImageMain_img"
             />
-            <p className="smr_albumName">{data?.AlbumName}</p>
+            <p className="for_albumName">{data?.AlbumName}</p>
           </div>
         ))}
       </div>
       {albumData?.length > 5 && <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <p className="smr_albumViveAll">View All</p>
+        <p className="for_albumViveAll">View All</p>
       </div>}
     </div>
   );

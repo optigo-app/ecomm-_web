@@ -123,7 +123,7 @@ export default function ForgotPass() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
+            <div>
                 <div className='smr_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',

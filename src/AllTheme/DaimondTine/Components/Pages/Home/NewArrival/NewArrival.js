@@ -8,7 +8,8 @@ import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction
 import Pako from 'pako';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import GoogleAnalytics from 'react-ga4';
+   
 const NewArrival = () => {
     const newArrivalRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -93,6 +94,12 @@ const NewArrival = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+        GoogleAnalytics.event({
+            action: "Navigate to Product Detail",
+            category: `Product Interaction Through New Arrival Section`,
+            label: designNo || titleLine ,
+            value: loginUserDetail?.firstname ?? 'User Not Login',
+          });
         let obj = {
             a: autoCode,
             b: designNo,

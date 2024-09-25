@@ -27,6 +27,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import GoogleAnalytics from 'react-ga4'
 
 // Import Swiper styles
 import 'swiper/css';
@@ -64,6 +65,7 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [isDataFound, setIsDataFound] = useState(false);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState();
+  const loginUserDetail  = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
 
   const [designSetList, setDesignSetList] = useState();
 
@@ -215,8 +217,14 @@ const ProductDetail = () => {
         singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp,
       Remark: "",
     };
-
     if (cartflag) {
+      GoogleAnalytics.event({
+        action: `Added to Cart by User ${loginUserDetail?.firstname || 'Guest'}`,
+        category: `Cart Interaction on Product Detail Page`,
+        label: singleProd?.designNo || singleProd?.titleLine || singleProd?.autocode || 'Unknown Product',
+        value: loginUserDetail?.firstname || "Not Login" // Use 1 for logged-in, 0 for guest
+      });
+      
       CartAndWishListAPI("Cart", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
@@ -288,6 +296,12 @@ const ProductDetail = () => {
     };
 
     if (e?.target?.checked == true) {
+      GoogleAnalytics.event({
+        action: `Wishlist Clicked by User ${loginUserDetail?.firstname || 'Guest'}`,
+        category: `Wishlist Interaction on Product Detail Page`,
+        label: singleProd?.designNo || singleProd?.titleLine || singleProd?.autocode || 'Unknown Product',
+        value: loginUserDetail?.firstname || "Not Login" // Use 1 for logged-in, 0 for guest
+      });
       CartAndWishListAPI("Wish", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
@@ -727,8 +741,6 @@ const ProductDetail = () => {
 
   }, [location?.key]);
 
-  console.log("locationKey", location?.key);
-
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -785,8 +797,6 @@ const ProductDetail = () => {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg", IsColImg)
-
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
@@ -805,8 +815,6 @@ const ProductDetail = () => {
     } else {
       finalprodListimg = imageNotFound;
     }
-
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -1892,7 +1900,6 @@ const ProductDetail = () => {
                 ))}
               </div>
             )}
-            {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
             {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
               <div className="smr_material_details_portion_inner">
                 <ul style={{ margin: "10px 0px 3px 0px" }}>

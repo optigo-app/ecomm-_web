@@ -226,8 +226,6 @@ const Header = () => {
       `size=${finalData.size ?? 50}`
     ].join('&');
 
-    console.log('otherparamsUrl--', otherparamUrl);
-
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
     // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
     const url = `/p/${queryParameters1}/?M=${btoa(menuEncoded)}`;
@@ -252,7 +250,6 @@ const Header = () => {
         menuDataObj = { ...menuDataObj, ...param2Item };
       }
     } else {
-      console.log('Menu Item:', cleanedMenuItem);
     }
     let finalData = {
       menuname: menuDataObj?.menuname ?? "",
@@ -310,26 +307,6 @@ const Header = () => {
       }
     }
   };
-
-
-  // for cart drawer
-
-  // const toggleCartDrawer = () => {
-  //   setIsCartOpen(prevState => !prevState);
-  //   const isCartDrawerOpen = JSON.parse(sessionStorage.getItem('isCartDrawer'));
-  //   sessionStorage.setItem('isCartDrawer', !isCartDrawerOpen);
-  //   setCartOpenState(prevState => !prevState);
-  // };
-
-  const handleContextMenu = (e) => {
-  };
-
-  const handleMouseDown = (e) => {
-    console.log('rrrrrrrrrrrrrrrrrrr', e);
-    if (e.button === 1) {
-    }
-  };
-
   return (
     <div className='ProCat_headerMain_div'>
       {serachsShowOverlay && (

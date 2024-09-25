@@ -43,8 +43,6 @@ const Footer = ({ fromPage }) => {
   //     if (companyInfoData?.SocialLinkObj != "" || companyInfoData?.SocialLinkObj != null || companyInfoData?.SocialLinkObj != undefined) {
   //       // companyInfoData = JSON?.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
   //       const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-  //       console.log('parsedSocilaMediaUrlData', parsedSocilaMediaUrlData);
-
   //       if (parsedSocilaMediaUrlData) {
   //         setSocialMediaData(parsedSocilaMediaUrlData)
   //       }

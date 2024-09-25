@@ -32,13 +32,9 @@ const APIURL = (window.location.hostname === 'localhost'
 
 
 export const CommonAPI = async (body) => {
-    // const storeInitDat = JSON.parse(sessionStorage.getItem('storeInit'));
-    // const storeInit = JSON.stringify(storeInitDat);
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
+    console.log('storeInitstoreInit',storeInit);
     try {
-        // const { YearCode, version, token , sv } = storeInit;
-        // alert(`storeInit storeInit ${storeInit?.YearCode} , ${storeInit?.version} , ${storeInit?.token} , ${storeInit?.sv}`);
-
         const YearCode = storeInit?.YearCode ?? '' ;
         const version = storeInit?.version  ?? '';
         const token = storeInit?.token ?? '';

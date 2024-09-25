@@ -44,7 +44,7 @@ import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
-import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import Footer from "./Components/Pages/Home/Footer/Footer";
 
 const Procatalog_App = () => {
@@ -54,6 +54,7 @@ const Procatalog_App = () => {
   const islogin = useRecoilValue(proCat_loginState);
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
+
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
   const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(proCat_companyLogoM);
@@ -61,7 +62,7 @@ const Procatalog_App = () => {
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+    fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
         try {
@@ -69,6 +70,24 @@ const Procatalog_App = () => {
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/Store_Init.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const styleTag = document.createElement("style");
+          styleTag.type = "text/css";
+          styleTag.innerHTML = text; // Inject the content of the file as CSS
+          document.head.appendChild(styleTag); // Append to the <head> section
+        } catch (error) {
+          console.error("Error processing the text file:", error);
         }
       })
       .catch((error) => {
@@ -143,13 +162,13 @@ const Procatalog_App = () => {
 
   return (
     <>
-      <div>
+      <div className="setFullThemeBack">
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
-        {/* <Header2 /> */}
       </div>
       <ConnectionManager />
-      <div style={{backgroundColor: '#f1e9dd'}}>
+      <div className="setFullThemeBack">
+      {/* <div style={{ backgroundColor: '#f1e9dd' }}> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

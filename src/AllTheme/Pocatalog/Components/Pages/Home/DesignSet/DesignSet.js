@@ -90,28 +90,14 @@ const DesignSet = () => {
         txt.innerHTML = html;
         return txt.value;
     };
-
-    const onSwiperInit = (swiper) => {
-        console.log('Swiper initialized:', swiper);
-        setSwiper(swiper);
-    };
-
-    console.log('designSetListdesignSetList', designSetList);
-
-
     const [showAll, setShowAll] = useState(false);
-
-    // Function to handle the "View All" click
     const handleViewAll = () => {
         setShowAll(true);
     };
-
-    // Determine the items to show
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 7);
 
     return (
         <div className="proCat_designSetMain">
-
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />

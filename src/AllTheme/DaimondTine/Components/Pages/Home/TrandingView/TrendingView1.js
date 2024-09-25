@@ -8,7 +8,7 @@ import pako from "pako";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
-
+import GoogleAnalytics from 'react-ga4';
 
 
 
@@ -49,7 +49,6 @@ const TrendingView1 = () => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         callAPI();
-                        console.log("visble")
                         observer.unobserve(entry.target);
                     }
                 });
@@ -127,7 +126,12 @@ const TrendingView1 = () => {
     const handleNavigation = (designNo, autoCode, titleLine) => {
         const storeInit = JSON.parse(sessionStorage.getItem('storeInit')) ?? "";
         const { IsB2BWebsite } = storeInit;
-
+        GoogleAnalytics.event({
+            action: "Navigate to Product Detail",
+            category: `Product Interaction Through Trending Section`,
+            label: designNo || titleLine ,
+            value: loginUserDetail?.firstname ?? 'User Not Login',
+          });
         let obj = {
             a: autoCode,
             b: designNo,
@@ -137,12 +141,7 @@ const TrendingView1 = () => {
             f: {}
         }
         let encodeObj = compressAndEncode(JSON.stringify(obj))
-
-        // if(IsB2BWebsite === 1){
-        //     navigation(`/productdetail/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }else{
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
-        // }
     }
 
     const decodeEntities = (html) => {
@@ -150,45 +149,6 @@ const TrendingView1 = () => {
         txt.innerHTML = html;
         return txt.value;
     }
-
-
-
-
-    const handleMouseEnterRing1 = (data) => {
-        if (data?.ImageCount > 1) {
-            setHoveredItem(data.SrNo);
-            setRing1ImageChange(true)
-        }
-    }
-    const handleMouseLeaveRing1 = () => {
-        setHoveredItem(null);
-        setRing1ImageChange(false)
-    }
-
-    const handleMouseEnterRing2 = (data) => {
-        if (data?.ImageCount > 1) {
-            setRing1ImageChangeOdd(true)
-        }
-    }
-    const handleMouseLeaveRing2 = () => {
-        setRing1ImageChangeOdd(false)
-    }
-
-    const handleMouseEnterRing3 = () => {
-        setRing3ImageChange(true)
-    }
-    const handleMouseLeaveRing3 = () => {
-        setRing3ImageChange(false)
-    }
-
-    const handleMouseEnterRing4 = () => {
-        setRing4ImageChange(true)
-    }
-    const handleMouseLeaveRing4 = () => {
-        setRing4ImageChange(false)
-    }
-
-    console.log('nnnnnnnnnnnnn', trandingViewData);
 
     const chunkedData = [];
     for (let i = 0; i < trandingViewData?.length; i += 3) {

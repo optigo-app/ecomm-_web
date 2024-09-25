@@ -122,12 +122,7 @@ export default function LoginWithEmail() {
 
     //     let currencyData = JSON.parse(sessionStorage.getItem('CURRENCYCOMBO'));
     //     let loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-    //     console.log("param",loginData);
-
     //     const filterData = currencyData?.filter((cd)=>cd?.Currencyid === loginData?.CurrencyCodeid)
-
-    //     console.log("currencyData",filterData);
-
     //     if(filterData.length && filterData){
     //         if(Array.isArray(filterData)){
     //             sessionStorage.setItem("currencyData",JSON.stringify(filterData[0]))
@@ -163,15 +158,11 @@ export default function LoginWithEmail() {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
-
-                console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token);
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
                 sessionStorage.setItem('LoginUser', true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
-
-
                 GetCountAPI(visiterID).then((res) => {
                     if (res) {
                         setCartCountNum(res?.cartcount)

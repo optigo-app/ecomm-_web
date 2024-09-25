@@ -40,6 +40,9 @@ const RelatedProduct = ({
                       : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
                   }
                   alt={hoq?.id}
+                  style={{
+                    objectFit  :"contain !important",
+                  }}
                 />
                 {/* <div className="overlay_img">
                     <img src={hoq?.BackerImg} alt={hoq?.id} />
