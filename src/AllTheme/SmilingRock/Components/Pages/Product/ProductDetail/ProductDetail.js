@@ -748,7 +748,7 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          // setIsImageLoad(false)  
+          setIsImageLoad(false); 
           setProdLoading(false);         
         });
     };
