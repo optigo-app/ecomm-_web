@@ -50,14 +50,8 @@ const AffiliationData = () => {
             imageUrl: "/images/HomePage/Affiliation/AffiliationLogo12.png",
         },
     ];
-
     const [isInitial, setIsInitial] = useState(true);
-
-    const handleSlideChange = (swiper) => {
-        console.log("slider working")
-        setIsInitial(swiper.realIndex === 0);
-    };
-
+    
     return (
         <div>
             <p className='elv_AffiliationComponents'>Affiliation</p>

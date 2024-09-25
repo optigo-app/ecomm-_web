@@ -102,8 +102,6 @@ const BestSellerSection1 = () => {
     };
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
-
-        console.log('aaaaaaaaaaa', designNo, autoCode, titleLine);
         let obj = {
             a: autoCode,
             b: designNo,
@@ -137,8 +135,6 @@ const BestSellerSection1 = () => {
     for (let i = 0; i < bestSellerData?.length; i += 3) {
         chunkedData.push(bestSellerData?.slice(i, i + 3));
     }
-
-    console.log("kjdkjkjdkjk", ...chunkedData);
 
     return (
         <div ref={bestSallerRef}>

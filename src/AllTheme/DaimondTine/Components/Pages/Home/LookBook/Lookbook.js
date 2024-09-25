@@ -106,7 +106,6 @@ const Lookbook = () => {
     if (SwiperSlideRef.current) {
       const { offsetWidth, offsetHeight } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetHeight}px` });
-      console.log("Size updated:", offsetWidth, offsetHeight);
     }
   };
 
@@ -201,7 +200,6 @@ const Lookbook = () => {
   }, []);
 
   useEffect(() => {
-    console.log("cartItemscartItemscartItems", filterData);
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -379,10 +377,6 @@ const Lookbook = () => {
         const updatedCartItems = prevCartItems.filter(
           (item) => item !== ele?.autocode
         );
-        console.log(
-          "Updated cartItems inside setState callback:",
-          updatedCartItems
-        );
         return updatedCartItems;
       });
     } catch (err) {
@@ -504,11 +498,6 @@ const Lookbook = () => {
     selectedCategories
   );
 
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
-
   const calculateTotalUnitCostWithMarkUp = (details) => {
     let total = 0;
     details.forEach((detail) => {
@@ -584,12 +573,6 @@ const Lookbook = () => {
       </ul>
     </div>
   );
-
-  console.log(
-    "filteredDesignSetLstDatafilteredDesignSetLstData",
-    selectedCategories
-  );
-
 
   const handelPageChange = (event, value) => {
     window.scrollTo({

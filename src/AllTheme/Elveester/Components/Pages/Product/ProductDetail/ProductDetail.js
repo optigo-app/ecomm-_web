@@ -36,9 +36,7 @@ const ProductDetail = () => {
   const [loginData, setLoginData] = useState({});
   const [sizeData, setSizeData] = useState();
   const [singleProd, setSingleProd] = useState({});
-  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState({});
-  console.log('singleProd1: ', singleProd1);
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [netWTData, setnetWTData] = useState([])
@@ -58,7 +56,6 @@ const ProductDetail = () => {
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
-  console.log('selectedThumbImg: ', selectedThumbImg);
   const [pdThumbImg, setPdThumbImg] = useState([]);
   const [thumbImgIndex, setThumbImgIndex] = useState()
   const [pdVideoArr, setPdVideoArr] = useState([]);
@@ -69,9 +66,6 @@ const ProductDetail = () => {
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
-  console.log('imageSrc: ', imageSrc);
-  console.log('saveLastView: ', saveLastView);
-
   const [showPlaceholder, setShowPlaceholder] = useState(false);
 
   useEffect(() => {
@@ -92,7 +86,6 @@ const ProductDetail = () => {
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
   const [designSetList, setDesignSetList] = useState();
   const [stockItemArr, setStockItemArr] = useState([]);
-  console.log('stockItemArr: ', stockItemArr);
   const [cartArr, setCartArr] = useState({});
 
   let maxWidth1400pxAndMinWidth1000px = useMediaQuery('(max-width: 1400px) and (min-width: 1000px)');
@@ -869,7 +862,6 @@ const ProductDetail = () => {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg", IsColImg)
 
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {

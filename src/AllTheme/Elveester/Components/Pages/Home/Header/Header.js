@@ -50,7 +50,6 @@ const Header = () => {
 
     // if (titleImg) {
     //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    //   console.log("storeInit: ", storeInit);
     //   setCompanyTitleLogo(storeInit?.companylogo);
     // }
     // setTimeout(() => {
@@ -67,7 +66,6 @@ const Header = () => {
       const storeInit = JSON?.parse(sessionStorage?.getItem("storeInit"));
       setCompanyTitleLogo(storeInit?.companylogo);
       setMobileLogo(storeInit?.companyMlogo)
-      console.log(storeInit?.companylogo);
       window.scroll({ behavior: "smooth", top: 0 });
     } catch (error) {
       console.log(error)
@@ -94,8 +92,6 @@ const Header = () => {
           setCompanyTitleLogo(parsedData?.companylogo);
           setMobileLogo(parsedData?.companyMlogo)
           window.scroll({ behavior: "smooth", top: 0 });
-          console.log(parsedData, "avaiable");
-
           if (interval) {
             clearInterval(interval);
           }
@@ -123,7 +119,6 @@ const Header = () => {
       try {
         const visiterID = Cookies.get("visiterId");
         const res = await GetCountAPI(visiterID);
-        console.log("responseCount", res);
         setCartCount(res?.cartcount);
         setWishCount(res?.wishcount);
       } catch (error) {
@@ -312,7 +307,6 @@ const Header = () => {
   }, [menuData]);
 
   const handelMenu = (param, param1, param2, event) => {
-    console.log("kkk", event)
     if (
       event?.ctrlKey ||     // Ctrl key
       event?.shiftKey ||    // Shift key
@@ -415,7 +409,6 @@ const Header = () => {
         menuDataObj = { ...menuDataObj, ...param2Item };
       }
     } else {
-      console.log("Menu Item:", cleanedMenuItem);
     }
   };
 

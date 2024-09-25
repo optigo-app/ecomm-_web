@@ -727,8 +727,6 @@ const ProductDetail = () => {
 
   }, [location?.key]);
 
-  console.log("locationKey", location?.key);
-
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -785,8 +783,6 @@ const ProductDetail = () => {
       IsColImg = await checkImageAvailability(colImg)
     }
 
-    console.log("colImg", IsColImg)
-
     if (pd?.ImageCount > 0 && !IsColImg) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString =
@@ -805,8 +801,6 @@ const ProductDetail = () => {
     } else {
       finalprodListimg = imageNotFound;
     }
-
-    console.log("SearchData", pd?.VideoCount);
 
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
@@ -1892,7 +1886,6 @@ const ProductDetail = () => {
                 ))}
               </div>
             )}
-            {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
             {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
               <div className="smr_material_details_portion_inner">
                 <ul style={{ margin: "10px 0px 3px 0px" }}>

@@ -119,7 +119,6 @@ export default function Account() {
     //     window.location.reload();
     // }
     const handleLogout = () => {
-        // console.log(loginState);
         setIsLoginState(false);
         Cookies.remove('userLoginCookie');
         sessionStorage.setItem('LoginUser', false);

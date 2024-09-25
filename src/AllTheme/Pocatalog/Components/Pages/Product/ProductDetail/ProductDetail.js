@@ -84,9 +84,6 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
-
-  // console.log("SizeCombo",SizeCombo);
-
   // const [metalFilterData, setMetalFilterData] = useState();
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
   // const [colorStoneFilterData, setColorStoneFiletrData] = useState([]);
@@ -99,18 +96,8 @@ const ProductDetail = () => {
 
   const [stockItemArr, setStockItemArr] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
-
   const [cartArr, setCartArr] = useState({})
-
-
   let cookie = Cookies.get('visiterId')
-
-  // console.log("selectttt",{selectMtType,selectDiaQc,selectCsQc,selectMtColor});
-
-  // console.log("sizeData",sizeData)
-
-  // console.log("pdVideoArr", selectedThumbImg?.link ?? imageNotFound)
-
   const navigate = useNavigate()
 
   const setCSSVariable = () => {
@@ -358,7 +345,6 @@ const ProductDetail = () => {
         //   setCustomObj({metalArr, diaArr, csArr ,InitialSize})
         // }
 
-        // console.log("default", { metalArr, diaArr, csArr }, decodeobj);
       }
     }, 500)
   }, [singleProd])
@@ -658,9 +644,6 @@ const ProductDetail = () => {
               ? prod?.DefaultSize
               : (SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename === undefined
                 ? SizeCombo?.rd[0]?.sizename : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)?.sizename)
-
-            console.log("initialsize", initialsize);
-
             setSizeData(initialsize)
 
             // await SingleFullProdPriceAPI(decodeobj).then((res) => {
