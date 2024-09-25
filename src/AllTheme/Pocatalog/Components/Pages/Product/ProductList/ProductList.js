@@ -992,12 +992,13 @@ const ProductList = () => {
       a: productData?.autocode,
       b: productData?.designno,
       m: selectedMetalId ?? logininfoDetail?.MetalId ?? storeInit?.MetalId,
-      d:
-        selectedDiaId ?? logininfoDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+      d: selectedDiaId ?? logininfoDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
       c: selectedCsId ?? logininfoDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: output,
       // n: decodeURI(extractedPart)
-      n: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])
+      n: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ?? "",
+      pl:prodListType ?? "",
+      sb:sortBySelect ?? ""
     };
 
     console.log("selectedMetalId", obj);
