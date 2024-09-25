@@ -350,7 +350,7 @@ const ManageAddress = () => {
     }
 
     return (
-        <>
+        <div className='address_Account_elvee'>
         <ToastContainer />
             <div className='manage_address_elvee_fs'>
             <HeadTitleAcc title="Saved Addresses" />
@@ -551,7 +551,7 @@ const ManageAddress = () => {
                     </div>
                 </Dialog>
             </div>                    
-        </>
+        </div>
     )
 }
 
