@@ -57,7 +57,7 @@ const Header = () => {
     // setTimeout(() => {
     //   setLodingLogo(false);
     // }, 100);
-  }, []);
+  // }, []);
 
   const GetCompanyLogo = async () => {
     try {
