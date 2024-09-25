@@ -1,4 +1,7 @@
 @import "../../../scss/elvee_modules.scss";
+.designWiseSalesReport_Account_elvee{
+
+
 .fs_elvee_dwsr{
     font-family: $fontSansSerif !important;
 }
@@ -87,6 +90,7 @@
     .smling-AccountTabMain {
         margin-inline: 1% !important;
     }
+}
 }
 /* .designWiseSalesProducts .designWiseSalesReportProduct > .MuiBox-root:has(.MuiTypography-root){
     transition: 0.4s ease;
