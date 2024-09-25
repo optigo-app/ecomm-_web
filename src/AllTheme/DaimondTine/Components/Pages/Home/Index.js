@@ -12,6 +12,7 @@ import './Index.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { dt_homeLoading } from '../../Recoil/atom';
 
+
 function Home() {
 
   const [localData, setLocalData] = useState();
@@ -40,6 +41,8 @@ function Home() {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
   }, []);
+
+
 
   return (
     <>

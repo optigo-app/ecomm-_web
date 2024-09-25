@@ -383,25 +383,24 @@ $settedcOLOR  : rgba(112, 128, 144, 0.096) ;
             height: 100%;
             object-fit: cover;
             img {
-              // width: 100%;
-              // height: 100%;
+              width: 100%;
+              height: 100%;
               object-fit: contain !important;
               border: transparent;
               outline: none;
               mix-blend-mode: multiply;
               &:hover {
                 transition: 0.3s ease-in-out;
-                scale: 1.01 !important;
               }
             }
           }
           img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            object-fit: cover !important;
             border: transparent;
             outline: none;
             mix-blend-mode: multiply;
+            transition: 0.3s ease-in-out;
           }
         }
         .det {

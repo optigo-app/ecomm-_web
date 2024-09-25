@@ -13,6 +13,8 @@ import Pako from 'pako';
 import { Box, Link, Tab, Tabs, tabsClasses, useMediaQuery } from '@mui/material';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { dt_homeLoading, dt_loginState } from '../../../Recoil/atom';
+import GoogleAnalytics  from 'react-ga4';
+
 
 const Album1 = () => {
     const albumRef = useRef(null);
@@ -57,6 +59,8 @@ const Album1 = () => {
 
     }, []);
 
+
+
     const apiCall = () => {
         const loginUserDetail = JSON?.parse(sessionStorage.getItem('loginUserDetail'));
         const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
@@ -96,6 +100,12 @@ const Album1 = () => {
     }
 
     const handleNavigation = (designNo, autoCode, titleLine) => {
+        GoogleAnalytics.event({
+            action: "Navigate to Product Detail",
+            category: `Product Interaction Through Album Section`,
+            label: designNo || titleLine ,
+            value: loginUserDetail?.firstname ?? 'User Not Login',
+          });
         let obj = {
             a: autoCode,
             b: designNo,
