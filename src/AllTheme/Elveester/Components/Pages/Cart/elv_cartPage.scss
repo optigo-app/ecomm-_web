@@ -621,14 +621,15 @@
                 gap: 10px;
             }
 
-            .elv_option {
+            .elv_option_mrp {
                 color: #000000;
                 font-size: 15px;
                 padding: 5px;
                 border-radius: 5px;
                 background: #F4F4F4;
-                display: flex;
-                width: 48%;
+                align-content: center;
+                text-align: center;
+                width: 100%;
             }
 
             .elv_stock_2 {
@@ -647,10 +648,10 @@
 
             .elv_stock_3 {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-end;
                 margin-block: 5px;
 
-                .elv_option {
+                .elv_option_mrp_price {
                     color: #000000;
                     font-size: 15px;
                     padding: 5px;
