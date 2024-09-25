@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import { Backdrop, useMediaQuery } from "@mui/material";
 import ResponsiveCartUi from "./ResponsiveCartUi";
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import GoogleAnalytics from 'react-ga4'
 
 function Cart(props) {
   const {
@@ -50,6 +51,7 @@ function Cart(props) {
       }
     }, 300);
   }, [cartData]);
+  console.log(cartData,"1212")
 
   const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
@@ -59,6 +61,13 @@ function Cart(props) {
       0
     );
     sessionStorage.setItem("TotalPriceData", priceData);
+    GoogleAnalytics.event({
+      action: `Checkout Started by User ${loginInfo?.firstname || 'Guest'}`,
+      category: `Checkout Interaction on Cart Page`,
+      label:`Cart Total ${totalPrice} and Total Items ${cartData?.length}`,
+      value: loginInfo?.firstname 
+    });
+    
     if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
       navigate(redirectUrl);
       // navigate('/loginOption')

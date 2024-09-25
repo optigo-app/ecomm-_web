@@ -2185,8 +2185,6 @@ const Lookbook = () => {
               shape="circular"
               onChange={handelPageChange}
               page={currentPage}
-              showFirstButton
-              showLastButton
             />
           </div>
         </div>

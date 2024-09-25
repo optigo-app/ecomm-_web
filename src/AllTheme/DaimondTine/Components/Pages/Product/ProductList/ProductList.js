@@ -40,6 +40,7 @@ import Footer from "../../Home/Footer/Footer";
 import CloseIcon from '@mui/icons-material/Close';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import GoogleAnalytics from 'react-ga4'
 
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -446,6 +447,32 @@ const ProductList = () => {
       (ele) => ele.checked
     );
 
+    const formatCheckboxData = (data) => {
+      return Object.values(data)
+        .filter(item => item.checked) 
+        .map(item => ({ id: item.id, type: item.type, value: item.value })) 
+        .reduce((acc, curr) => {
+          acc[curr.type] = acc[curr.type] || [];
+          acc[curr.type].push(curr); 
+          return acc;
+        }, {});
+    };
+    
+      const formattedData = formatCheckboxData(filterChecked);
+      const labelString = JSON?.stringify(formattedData);
+      const labelSizeLimit = 2000; 
+
+      const eventLabel = labelString?.length > labelSizeLimit ? 
+      labelString?.substring(0, labelSizeLimit) + '...' : 
+      labelString;
+
+      GoogleAnalytics.event({
+       action: "Product Listing Filter",
+      category: `Filter Interaction Through Product Listing && Filter by User ${loginUserDetail?.firstname}`,
+        label: eventLabel ,
+        value: loginUserDetail?.firstname ?? 'User Not Login',
+      });
+  
     const priceValues = onlyTrueFilterValue
       .filter((item) => item.type === "Price")
       .map((item) => item.value);
@@ -491,6 +518,14 @@ const ProductList = () => {
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
     let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
     let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+
+    const data = `Diamond Weight Range : ${DiaRange} Net Weight Range : ${netRange} Gross Weight Range : ${grossRange}`;
+    GoogleAnalytics.event({
+      action: "Product Listing Filter Extra Filter Options *",
+      category: `Filter Interaction Through Product Listing  && Filter by User ${loginUserDetail?.firstname}`,
+      label: data,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
 
     await ProductListApi(
       output,
@@ -821,7 +856,12 @@ const ProductList = () => {
     };
     // console.log('ksjkfjkjdkjfkjsdk--', obj);
     // compressAndEncode(JSON.stringify(obj))
-
+    GoogleAnalytics.event({
+      action: "Navigate From Product Listing to Product Detail",
+      category: `Product Interaction Through Product Listing Page`,
+      label: productData?.designNo || productData?.titleLine || productData?.autocode ,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
     decodeAndDecompress();
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -850,6 +890,12 @@ const ProductList = () => {
     };
 
     if (e.target.checked == true) {
+      GoogleAnalytics.event({
+        action: ` Item Added in Wishlist  by User ${loginUserDetail?.firstname || 'Guest'}`,
+        category: `Wishlist Interaction on Product Listing Page`,
+        label: ele?.designNo || ele?.titleLine || ele?.autocode || 'Unknown Product',
+        value: loginUserDetail?.firstname 
+      });
       CartAndWishListAPI(type, prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;

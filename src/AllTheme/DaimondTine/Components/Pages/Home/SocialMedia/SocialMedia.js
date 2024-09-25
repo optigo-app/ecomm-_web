@@ -3,6 +3,7 @@ import './SocialMedia.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Button } from '@mui/material';
 import { AiFillInstagram } from 'react-icons/ai';
+import GoogleAnalytics from 'react-ga4';
 
 const SocialMedia = () => {
 
@@ -24,13 +25,23 @@ const SocialMedia = () => {
         }
     ];
 
+    const HandleGoogleAn = (ClickedPostNo)=>{
+        GoogleAnalytics.event({
+            action: "Social Media Post Analtyics",
+            category: `Social Media Post`,
+            label: `User Clicked On Post Number ${ClickedPostNo}` ,
+          });
+    }
+
     return (
         <div className='dt_SocialMedia'>
             <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
                     {photos.map((photo, index) => (
-                        <div key={index} className="dt_instagram_photo" onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')}>
+                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open('https://www.instagram.com/houseofdiamondtine/');
+                            HandleGoogleAn(index+1)
+                        }}>
                             <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
                             <div className="dt_socialMedioverlay"></div>
                         </div>

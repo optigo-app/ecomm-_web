@@ -1,11 +1,15 @@
 @import "../../../scss/Variable.scss";
 
 .hoq_main_RelatedProduct {
+  img{
+    object-fit: contain;
+    width: 100%;
+  }
   .heading {
     margin-top:2rem;
     display: flex;
     align-items: center;
-    height: 120px;
+    height: 80px;
     width: 100%;
     justify-content: center;
     flex-direction: column;
@@ -79,10 +83,9 @@
       align-items: center;
       justify-content: center;
       img {
-        width: 100%;
-        height: 100%;
+    
         border-radius: 2px;
-        object-fit: cover;
+        object-fit: contain;
 
       }
       &:hover .overlay_img {
