@@ -204,31 +204,31 @@ const Customization = ({
             <div className="elv_StockCart-options">
               <div className='elv_stock_1'>
                 {selectedItem?.metaltypename != "" &&
-                  <div className="elv_option">
+                  <div className="elv_option_mrp">
                     <label htmlFor="metal-type">Metal Type:&nbsp;</label>
                     <span>{selectedItem?.metaltypename}</span>
                   </div>
                 }
                 {selectedItem?.metaltypename != "" &&
-                  <div className="elv_option">
+                  <div className="elv_option_mrp">
                     <label htmlFor="metal-color">Metal Color:&nbsp;</label>
                     <span>{selectedItem?.metalcolorname}</span>
                   </div>
                 }
                 {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
-                  <div className="elv_option">
+                  <div className="elv_option_mrp">
                     <label htmlFor="diamond">Diamond:&nbsp;</label>
                     <span>{(selectedItem?.diamondqualityname)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolorname}</span>
                   </div>
                 }
                 {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
-                  <div className="elv_option">
+                  <div className="elv_option_mrp">
                     <label htmlFor="diamond">Color Stone:&nbsp;</label>
                     <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
                   </div>
                 }
                 {selectedItem?.Size != "" &&
-                  <div className="elv_option">
+                  <div className="elv_option_mrp">
                     <label htmlFor="size">Size:&nbsp;</label>
                     <span>{selectedItem?.Size}</span>
                   </div>

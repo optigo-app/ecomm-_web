@@ -48,6 +48,9 @@ export default function ThemeRoutes() {
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
 
+  const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo)
+  const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM)
+
   const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
 
   const [title, setTitle] = useState();

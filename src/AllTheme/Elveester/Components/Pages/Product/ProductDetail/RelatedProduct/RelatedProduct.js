@@ -11,7 +11,7 @@ const RelatedProduct = ({
   const formatter = new Intl.NumberFormat("en-IN");
 
   return (
-    <div className="elv_main_RelatedProduct" style={{ marginBottom: "4rem" }}>
+    <div className="elv_main_RelatedProduct">
       <div className="heading">
         <h1>Similar Designs</h1>
       </div>
