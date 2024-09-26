@@ -581,7 +581,8 @@
   }
 
   .elvWeb_app_instock {
-    background-color: #00d300;
+    // background-color: #00d300;
+    background-color: #28C76F;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -589,10 +590,12 @@
   }
 
   .elvWeb_app_bestSeller {
-    background-color: #ff5100;
+    background-color: #00C5FF;
+    // background-color: #ff5100;
+    padding-inline: 2px;
     color: white;
     text-transform: uppercase;
-    width: 70px;
+    width: 82px;
     font-size: 10px;
   }
 
@@ -607,7 +610,8 @@
   }
 
   .elv_app_newarrival {
-    background-color: darkblue;
+    background-color: #FFD9DD;
+    // background-color: darkblue;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -615,7 +619,8 @@
   }
 
   .elvWeb_app_newarrival {
-    background-color: darkblue;
+    background-color: #E18AAA;
+    // background-color: darkblue;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -623,7 +628,8 @@
   }
 
   .elvWeb_app_intrending {
-    background-color: darkorange;
+    background-color: #7367F0;
+    // background-color: darkorange;
     color: white;
     text-transform: uppercase;
     width: 70px;
