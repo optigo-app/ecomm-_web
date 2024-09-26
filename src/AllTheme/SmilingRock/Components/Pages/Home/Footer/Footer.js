@@ -6,14 +6,13 @@ import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunc
 const Footer = ({ fromPage }) => {
 
   const [socialMediaData, setSocialMediaData] = useState([]);
-  const [companyInfoData, setCompanuInfoData] = useState();
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
   let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+    fetch(`${storImagePath()}/ExtraFlag.txt`)
       .then((response) => response.text())
       .then((text) => {
         try {
@@ -29,31 +28,21 @@ const Footer = ({ fromPage }) => {
   }, []);
 
   useEffect(() => {
-    if (htmlContent) {
-      setLocalData((prevData) => ({
-        ...prevData,
-        Footerno: htmlContent?.rd[0]?.Footerno, 
-      }));
+    let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
+    if (localData) {
+      setLocalData(localData);
     }
-  }, [htmlContent]);
+
+    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
+    if (companyInfoData) {
+      const parsedSocialMediaUrlData = JSON.parse(companyInfoData.SocialLinkObj) ?? [];
+      setSocialMediaData(parsedSocialMediaUrlData);
+    }
+  }, []);
 
   useEffect(() => {
     let localD = JSON?.parse(sessionStorage?.getItem('storeInit'));
     setLocalData(localD);
-  }, [])
-
-
-  useEffect(() => {
-    let companyInfoData;
-    if (sessionStorage?.getItem("CompanyInfoData")) {
-      if (companyInfoData?.SocialLinkObj != "" && companyInfoData?.SocialLinkObj != null && companyInfoData?.SocialLinkObj != undefined) {
-        companyInfoData = JSON?.parse(sessionStorage?.getItem("CompanyInfoData")) ?? "";
-        const parsedSocilaMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
-        if (parsedSocilaMediaUrlData) {
-          setSocialMediaData(parsedSocilaMediaUrlData)
-        }
-      }
-    }
   }, [])
 
   return (
