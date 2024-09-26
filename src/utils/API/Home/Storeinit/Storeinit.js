@@ -34,7 +34,7 @@ export const Storeinit = async (param) => {
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
-       domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
+    //  domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.web' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.mapp' : window.location.hostname,
     // domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstore.pro.mapp' : window.location.hostname,

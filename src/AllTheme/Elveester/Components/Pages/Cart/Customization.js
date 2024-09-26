@@ -237,6 +237,16 @@ const Customization = ({
                 </div>
               </div>
               <div className='elv_stock_3'>
+                {selectedItem?.IsMrpBase == 0 ? (
+                  <div className="elv_qty">
+                    <label htmlFor="qty">Qty:</label>
+                    <span>{selectedItem?.Quantity}</span>
+                  </div>
+                ) :
+                  <div>
+                    <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+                  </div>
+                }
                 <div className="elv_cartQtyPricemainDev_1">
                   {storeInitData?.IsPriceShow == 1 &&
                     <div className="elv_product-price_1">
@@ -259,9 +269,12 @@ const Customization = ({
                   }
                 </div>
               </div>
-
+              {/* {selectedItem?.IsMrpBase == 1 && (
+                <div className='elv_UpdateCartBtn'>
+                  <button className="elv_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Apply</button>
+                </div>
+              )} */}
             </div>
-
           </div>
         </>
       )}
