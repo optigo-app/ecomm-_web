@@ -53,30 +53,6 @@ const DesignSet = () => {
                 observer.unobserve(designSetRef.current);
             }
         };
-        // const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-        // const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-        // const visiterID = Cookies.get('visiterId');
-        // let finalID;
-        // if (storeInit?.IsB2BWebsite == 0) {
-        //   finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-        // } else {
-        //   finalID = loginUserDetail?.id || '0';
-        // }
-
-        // let storeinit = JSON.parse(sessionStorage.getItem('storeInit'));
-        // setStoreInit(storeinit);
-
-        // let data = JSON.parse(sessionStorage.getItem('storeInit'));
-        // setImageUrl(data?.DesignSetImageFol);
-        // setImageUrlDesignSet(data?.DesignImageFol);
-
-        // Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
-        //   .then((response) => {
-        //     if (response?.Data?.rd) {
-        //       setDesignSetList(response?.Data?.rd);
-        //     }
-        //   })
-        //   .catch((err) => console.log(err));
     }, []);
 
     const callAPI = () => {
@@ -170,8 +146,7 @@ const DesignSet = () => {
     const itemsToShow = showAll ? designSetList.slice(1) : designSetList.slice(1, 5);
 
     return (
-        <div className="smrMA_designSetMain">
-
+        <div className="smrMA_designSetMain" ref={designSetRef}>
             <div className='smr_designSetMainDiv'>
                 <div className='smr_designSetDiv1'>
                     <img className="smr_designSetDiv1_img" loading="lazy" src={`${imageUrl}${designSetList[0]?.designsetuniqueno}/${designSetList[0]?.DefaultImageName}`} onClick={() => handleNavigation(designSetList[0]?.designno, designSetList[0]?.autocode, designSetList[0]?.TitleLine ? designSetList[0]?.TitleLine : '')} />
