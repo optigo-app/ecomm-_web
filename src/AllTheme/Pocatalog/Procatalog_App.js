@@ -78,7 +78,7 @@ const Procatalog_App = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+    fetch(`${storImagePath()}/ColorTheme.txt`)
       .then((response) => response.text())
       .then((text) => {
         try {

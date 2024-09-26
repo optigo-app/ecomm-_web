@@ -1,13 +1,12 @@
 import React from "react";
-import { RelatedProductList } from "../../../Constants/TabImages";
 import "./related.modul.scss";
-import { Link } from "react-router-dom";
+import noimage from "../../../Assets/noImageFound.jpg";
 
 const RelatedProduct = ({
   SimilarBrandArr,
   loginInfo,
   storeInit,
-  check ,
+  check,
   handleMoveToDetail,
 }) => {
   const formatter = new Intl.NumberFormat("en-IN");
@@ -24,9 +23,6 @@ const RelatedProduct = ({
               className="TabCard_main"
               onClick={() => handleMoveToDetail(hoq)}
             >
-              {/* <div className="new">
-                <p>new</p>
-              </div> */}
               <div className="cardhover">
                 <img
                   src={
@@ -37,32 +33,26 @@ const RelatedProduct = ({
                         "1" +
                         "." +
                         hoq?.ImageExtension
-                      : "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
+                      : noimage
                   }
                   alt={hoq?.id}
                   style={{
-                    objectFit  :"contain !important",
+                    objectFit: "contain !important",
                   }}
                 />
-                {/* <div className="overlay_img">
-                    <img src={hoq?.BackerImg} alt={hoq?.id} />
-                  </div> */}
               </div>
               <div className="tab_hover_Details">
                 <h3>{hoq?.designno}</h3>
-               {check && <small>
-                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode} &nbsp;
-                  {formatter.format(hoq?.UnitCostWithMarkUp)}
-                </small>}
+                {check && (
+                  <small>
+                    {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode} &nbsp;
+                    {formatter.format(hoq?.UnitCostWithMarkUp)}
+                  </small>
+                )}
               </div>
             </div>
           );
         })}
-        {/* <div className="TabCard_main mobile-only">
-          <div className="box">
-            <Link to={"/"}>View All 106 Products</Link>
-          </div>
-        </div> */}
       </div>
     </div>
   );
