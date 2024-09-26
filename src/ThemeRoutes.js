@@ -42,19 +42,18 @@ export default function ThemeRoutes() {
   const setRoopWebLogo = useSetRecoilState(roop_companyLogo);
   const setRoopMobileLogo = useSetRecoilState(roop_companyLogoM);
 
-  const [el_companyTitleLogoM, el_setCompanyTitleLogoM] = useRecoilState(el_companyLogoM)
+  const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM)
+  const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo)
 
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
 
-  const [smrMA_companyTitleLogo, smrMA_setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo)
-  const [el_companyTitleLogo, el_setCompanyTitleLogo] = useRecoilState(el_companyLogo)
+  const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
 
   const [title, setTitle] = useState();
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    console.log('storeinitPath', `${storInitDataPath()}/StoreInit.json`);
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
@@ -88,9 +87,11 @@ export default function ThemeRoutes() {
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
-    
+
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
+
+    smrMA_setCompanyTitleLogo(mobileLogo);
   }, []);
 
   useEffect(() => {

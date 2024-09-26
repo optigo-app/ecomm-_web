@@ -28,7 +28,6 @@ const Home = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const cancelRedireactUrl = `/LoginOption/${search}`;
   const isLoadingHome = useRecoilValue(smrMA_homeLoading);
   const [cartCountNum, setCartCountNum] = useRecoilState(smrMA_CartCount)
   const [wishCountNum, setWishCountNum] = useRecoilState(smrMA_WishCount)
@@ -93,13 +92,9 @@ const Home = () => {
         .catch((err) => console.log(err));
     }
 
-
     const queryParams = new URLSearchParams(window.location.search);
     const ismobile = queryParams.get("ismobile");
     const token = queryParams.get("token");
-    console.log("mobilereeeeeeee ismobile", ismobile);
-    console.log("mobilereeeeeeee islogin", islogin);
-    console.log("mobilereeeeeeee token", token);
     if (
       ismobile === "1" &&
       islogin === false &&
@@ -124,20 +119,6 @@ const Home = () => {
   const handleSubmit = async () => {
     const queryParams = new URLSearchParams(window.location.search);
     const token = queryParams.get("token");
-
-    // try {
-    //   const combinedValue = JSON.stringify({
-    //     userid: '', mobileno: '', pass: '', mobiletoken: `${token}`, FrontEnd_RegNo: ''
-    //   });
-    //   const encodedCombinedValue = btoa(combinedValue);
-    //   const body = {
-    //     "con": "{\"id\":\"\",\"mode\":\"WEBLOGINMOBILETOKEN\"}",
-    //     "f": "LoginWithEmail (handleSubmit)",
-    //     p: encodedCombinedValue
-    //   };
-    //   const response = await CommonAPI(body);
-    //   console.log('ressssssssssssssssss', response);
-    localStorage.setItem('userLoginTokenApp', token);
     WebLoginWithMobileToken(token)
       .then((response) => {
         if (response.Data.rd[0].stat === 1) {
@@ -193,17 +174,11 @@ const Home = () => {
         }
       })
       .catch((err) => console.log(err));
-
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // } finally {
-    // }
   };
 
   useEffect(() => {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localData);
-    console.log("localDatalocalData", localData);
   }, []);
 
   return (
