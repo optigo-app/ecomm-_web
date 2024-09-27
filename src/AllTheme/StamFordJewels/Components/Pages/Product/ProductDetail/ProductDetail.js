@@ -70,7 +70,7 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false)
   const [isDataFound, setIsDataFound] = useState(false)
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
-  const [vison360,setVision360] = useState()
+  const [vison360, setVision360] = useState()
 
   const [designSetList, setDesignSetList] = useState();
 
@@ -243,11 +243,12 @@ const ProductDetail = () => {
       )[0] ?? csQcCombo[0];
 
     let mcArr = metalColorCombo?.filter(
-      (ele) =>{ if(selectMtColor) {
-        return ele?.colorcode == selectMtColor
-      }
-      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
-    })[0];
+      (ele) => {
+        if (selectMtColor) {
+          return ele?.colorcode == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -325,7 +326,7 @@ const ProductDetail = () => {
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0] 
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0]
         }
 
         if (diaQcLocal?.length) {
@@ -341,8 +342,8 @@ const ProductDetail = () => {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId ==(decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
-                ele?.ColorId ==(decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+                ele?.QualityId == (decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
             )[0]
         }
 
@@ -389,71 +390,6 @@ const ProductDetail = () => {
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
 
-
-
-  // useEffect(()=>{
-
-  //   let finalSize = SizeCombo?.rd1?.filter((ele)=>ele?.sizename == sizeData)
-  //   const filteredDataMetal = finalSize?.filter(item => item.DiamondStoneTypeName === "METAL")[0]
-  //   const filteredDataDaimond = finalSize?.filter(item => item.DiamondStoneTypeName === "DIAMOND")
-  //   const filteredDataColorStone = finalSize?.filter(item => item.DiamondStoneTypeName === "COLOR STONE")
-  //   const filteredDataFinding = finalSize?.filter(item => item.DiamondStoneTypeName === "FINDING")
-
-  //   setMetalFilterData(filteredDataMetal)
-  //   setDaimondFiletrData(filteredDataDaimond)
-  //   setColorStoneFiletrData(filteredDataColorStone)
-  //   setFindingFiletrData(filteredDataFinding)
-
-
-  // },[sizeData,SizeCombo])
-
-
-  // let metalUpdatedPrice = () => {
-  //   if (metalFilterData && metalFilterData.length && mtrd?.AE === 1) {
-
-
-  //     let CalcNetwt = ((mtrd?.I ?? 0) + (metalFilterData?.Weight ?? 0) ?? 0)
-
-  //     let fprice = ((mtrd?.AD ?? 0) * CalcNetwt) + ((mtrd?.AC ?? 0) * CalcNetwt)
-  //     console.log('fpricemetal', fprice);
-
-  //     return Number(fprice.toFixed(2))
-  //   } else {
-  //     return 0
-  //   }
-  // }
-
-  // let diaUpdatedPrice = () => {
-
-  //   if (daimondFilterData && daimondFilterData?.length && diard1[0]?.T === 1) {
-  //     let calcDiaWt = (mtrd?.K ?? 0) + (daimondFilterData?.Weight ?? 0)
-
-  //     let CalcPics = (mtrd?.J ?? 0) + (daimondFilterData?.pieces ?? 0)
-
-  //     let fpprice = ((dqcRate ?? 0) * (calcDiaWt ?? 0)) + ((dqcSettRate ?? 0) * (CalcPics ?? 0))
-
-  //     return Number(fpprice.toFixed(2))
-  //   }
-  //   else {
-  //     return 0
-  //   }
-  // }
-
-  // let colUpdatedPrice = () => {
-
-  //   if (colorStoneFilterData && colorStoneFilterData?.length && csrd2[0]?.T === 1) {
-
-  //     let calcDiaWt = (singleProd?.totalcolorstoneweight ?? 0) + (colorStoneFilterData?.Weight ?? 0)
-
-  //     let CalcPics = (singleProd?.totalcolorstonepcs ?? 0) + (colorStoneFilterData?.pieces ?? 0)
-
-  //     let fpprice = ((csqcRate ?? 0) * (calcDiaWt ?? 0)) + ((csqcSettRate ?? 0) * (CalcPics ?? 0))
-
-  //     return Number(fpprice.toFixed(2))
-  //   } else {
-  //     return 0
-  //   }
-  // }
 
 
   const callAllApi = () => {
@@ -620,7 +556,7 @@ const ProductDetail = () => {
 
       let obj = {
         mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
-        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid) ,
+        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
         csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
       }
 
@@ -637,11 +573,11 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setIsImageLoad(false)
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
               setProdLoading(false)
             }
 
@@ -700,6 +636,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsImageLoad(false); 
+          setProdLoading(false);         
+        });
     }
 
     FetchProductData()
@@ -710,105 +650,6 @@ const ProductDetail = () => {
     });
 
   }, [location?.key]);
-
-  console.log("locationKey", location?.key);
-
-  console.log("prodLoading",prodLoading);
-
-  // useEffect(() => {
-  //   let metal = metalTypeCombo?.filter(
-  //     (ele) => ele?.metaltype == selectMtType
-  //   )[0];
-  //   let dia = diaQcCombo?.filter(
-  //     (ele) =>
-  //       ele?.Quality == selectDiaQc.split(",")[0] &&
-  //       ele?.color == selectDiaQc.split(",")[1]
-  //   )[0];
-  //   let cs = csQcCombo?.filter(
-  //     (ele) =>
-  //       ele?.Quality == selectCsQc.split(",")[0] &&
-  //       ele?.color == selectCsQc.split(",")[1]
-  //   )[0];
-
-  //   let metalPdata = singleProdPrice?.rd?.filter(
-  //     (ele) => ele?.C == metal?.Metalid
-  //   )[0];
-
-  //   let diaPData = singleProdPrice?.rd1?.filter(
-  //     (ele) => ele?.G == dia?.QualityId && ele?.I == dia?.ColorId
-  //   );
-
-  //   let csPData = singleProdPrice?.rd2?.filter(
-  //     (ele) => ele?.G == cs?.QualityId && ele?.I == cs?.ColorId
-  //   );
-
-  //   let metalPrice = 0;
-  //   let diamondPrice = 0;
-  //   let csPrice = 0;
-
-  //   if (metalPdata) {
-  //     setMtrd(metalPdata);
-  //     metalPrice =
-  //       ((metalPdata?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
-  //         (metalPdata?.W ?? 0) +
-  //         (metalPdata?.X ?? 0) ?? 0;
-  //   }
-
-  //   console.log("metalPdata", metalPrice);
-
-  //   if (diaPData?.length > 0) {
-  //     setDiard1(diaPData);
-  //     let diasetRate = diard1?.reduce((acc, obj) => acc + obj.O, 0)
-  //     let diaSettRate = diard1?.reduce((acc, obj) => acc + obj.Q, 0)
-  //     setDqcRate(diasetRate ?? 0)
-  //     setDqcSettRate(diaSettRate ?? 0)
-  //     diamondPrice =
-  //       Number(diaPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
-  //   }
-
-  //   if (csPData?.length > 0) {
-  //     setCsrd2(csPData);
-  //     let csRate = csrd2?.reduce((acc, obj) => acc + obj.O, 0)
-  //     let csSettRate = csrd2?.reduce((acc, obj) => acc + obj.Q, 0)
-  //     setCsqcRate(csRate ?? 0)
-  //     setCsqcSettRate(csSettRate ?? 0)
-  //     csPrice = Number(csPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
-  //   }
-
-  //   let finalPrice =
-  //     Number(metalPrice) + Number(diamondPrice)  + Number(csPrice);
-  //   console.log("pData", { metalPrice, diamondPrice, csPrice });
-
-  //   let fp = finalPrice.toFixed(2)
-  //   setFinalprice(fp)
-  // }, [singleProd, singleProdPrice, selectMtType, selectDiaQc, selectCsQc]);
-
-  // const handlePrice = () =>{
-
-
-  //   let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
-
-  //   if(finalSize?.IsMarkUpInAmount == 1){
-
-  //     let ultimatePrice = (Number(finalprice)+ metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
-
-  //     console.log("ultimatePrice",(mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ));
-
-  //     return PriceWithMarkupFunction((mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ))
-
-  //   }else{
-
-  //     let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
-  //     const percentMarkupPlus = (mtrd?.AB ?? 0) + (finalSize?.MarkUp ?? 0)
-  //     let ultimatePrice = (Number(finalprice) + metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
-
-  //     console.log("ultimatePrice",percentMarkupPlus, ultimatePrice , mtrd?.AA);
-
-  //     return PriceWithMarkupFunction(percentMarkupPlus, ultimatePrice , mtrd?.AA )
-  //   }
-
-  // }
-
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -934,7 +775,7 @@ const ProductDetail = () => {
       setPdVideoArr([]);
     }
 
-    if(storeinitInside?.IsVision360 == 1 && storeinitInside?.Vision360URL?.length > 0){
+    if (storeinitInside?.IsVision360 == 1 && storeinitInside?.Vision360URL?.length > 0) {
 
       // const CheckUrl = async (url) => {
       //   try {
@@ -963,6 +804,13 @@ const ProductDetail = () => {
   }, [singleProd, location?.key]);
 
 
+  useEffect(() => {
+    if (isImageload === false) {
+      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+      }
+    }
+  }, [isImageload])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1270,9 +1118,9 @@ const ProductDetail = () => {
   const SizeSorting = (SizeArr) => {
 
     let SizeSorted = SizeArr?.sort((a, b) => {
-      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0,-2),10);
-      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0,-2),10);
-      console.log("SizeSorted",a?.sizename?.toUpperCase())
+      const nameA = parseInt(a?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      const nameB = parseInt(b?.sizename?.toUpperCase()?.slice(0, -2), 10);
+      console.log("SizeSorted", a?.sizename?.toUpperCase())
 
       return nameA - nameB;
     })
@@ -1282,7 +1130,7 @@ const ProductDetail = () => {
 
   }
 
-  console.log("ColorStone_Cost",singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
+  console.log("ColorStone_Cost", singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
 
   return (
     <>
@@ -1339,7 +1187,7 @@ const ProductDetail = () => {
                         ) : (
                           <div className="stam_prod_video">
                             <video
-                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              src={selectedThumbImg?.link}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1418,8 +1266,8 @@ const ProductDetail = () => {
                               // onError={()=>{
                               // }}
                               />
-                            ) : 
-                            null
+                            ) :
+                              null
                           }
                           {/* <div className="stam_thumb_prod_img">
                       
@@ -1428,285 +1276,285 @@ const ProductDetail = () => {
                       </div>
                     </div>
                     <div className="stam_prod_shortInfo">
-                     { prodLoading ? 
-                     <Skeleton 
-                        variant="rounded"
-                        width={"100%"}
-                        height={"97%"}
-                        sx={{marginInline:"16%",marginTop:"3%"}}
-                        className="pSkelton"
-                      />
-                     :<div className="stam_prod_shortInfo_inner">
-                        <p className="stam_prod_titleLine">
-                          {singleProd?.TitleLine}
-                        </p>
+                      {prodLoading ?
+                        <Skeleton
+                          variant="rounded"
+                          width={"100%"}
+                          height={"97%"}
+                          sx={{ marginInline: "16%", marginTop: "3%" }}
+                          className="pSkelton"
+                        />
+                        : <div className="stam_prod_shortInfo_inner">
+                          <p className="stam_prod_titleLine">
+                            {singleProd?.TitleLine}
+                          </p>
 
-                        <div className="stam_prod_summury_info">
-                          <div className="stam_prod_summury_info_inner">
-                            <span className="stam_single_prod_designno">
-                              {singleProd?.designno}
-                            </span>
-                            { (singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="stam_prod_short_key">
-                              Metal Purity :{" "}
-                              <span className="stam_prod_short_val">
-                                {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
+                          <div className="stam_prod_summury_info">
+                            <div className="stam_prod_summury_info_inner">
+                              <span className="stam_single_prod_designno">
+                                {singleProd?.designno}
                               </span>
-                            </span> : null}
-                            <span className="stam_prod_short_key">
-                              Metal Color :{" "}
-                              <span className="stam_prod_short_val">
-                                {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                              {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="stam_prod_short_key">
+                                Metal Purity :{" "}
+                                <span className="stam_prod_short_val">
+                                  {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
+                                </span>
+                              </span> : null}
+                              <span className="stam_prod_short_key">
+                                Metal Color :{" "}
+                                <span className="stam_prod_short_val">
+                                  {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
                                     (ele) => ele?.colorcode == selectMtColor
-                                          )[0]?.metalcolorname}
+                                  )[0]?.metalcolorname}
+                                </span>
                               </span>
-                            </span>
-                            {(storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="stam_prod_short_key">
-                              Diamond Quality Color :{" "}
-                              <span className="stam_prod_short_val">
-                                {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
+                              {(storeInit?.IsDiamondCustomization === 1 &&
+                                diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="stam_prod_short_key">
+                                Diamond Quality Color :{" "}
+                                <span className="stam_prod_short_val">
+                                  {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
+                                </span>
+                              </span> : null}
+                              <span className="stam_prod_short_key">
+                                Net Wt :{" "}
+                                <span className="stam_prod_short_val">
+                                  {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
+                                </span>
                               </span>
-                            </span> : null}
-                            <span className="stam_prod_short_key">
-                              Net Wt :{" "}
-                              <span className="stam_prod_short_val">
-                                {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
-                              </span>
-                            </span>
+                            </div>
                           </div>
-                        </div>
 
-                        {storeInit?.IsProductWebCustomization == 1 &&
-                        (
-                            <div className="stam_single_prod_customize">
-                              { metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 
-                              && (<div className="stam_single_prod_customize_metal">
-                                <label className="menuItemTimeEleveDeatil">
-                                  METAL TYPE:
-                                </label>
-                                {singleProd?.IsMrpBase == 1 ? (
-                                  <span className="menuitemSelectoreMain">
-                                    {/* {
+                          {storeInit?.IsProductWebCustomization == 1 &&
+                            (
+                              <div className="stam_single_prod_customize">
+                                {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1
+                                  && (<div className="stam_single_prod_customize_metal">
+                                    <label className="menuItemTimeEleveDeatil">
+                                      METAL TYPE:
+                                    </label>
+                                    {singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {/* {
                                       metalTypeCombo?.filter(
                                         (ele) =>
                                           ele?.Metalid ==
                                           singleProd?.MetalPurityid
                                       )[0]?.metaltype
                                     } */}
-                                    {singleProd?.MetalTypePurity}
-                                  </span>
-                                ) : (
-                                  <select
-                                    className="menuitemSelectoreMain"
-                                    value={selectMtType}
-                                    onChange={(e) =>
-                                      handleCustomChange(e, "mt")
-                                    }
-                                  // onChange={(e) => setSelectMtType(e.target.value)}
-                                  >
-                                    {metalTypeCombo.map((ele) => (
-                                      <option
-                                        key={ele?.Metalid}
-                                        value={ele?.metaltype}
-                                      >
-                                        {ele?.metaltype}
-                                      </option>
-                                    ))}
-                                  </select>
-                                )}
-                              </div>)}
-                              {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-                                <div className="stam_single_prod_customize_outer">
-                                  <label className="menuItemTimeEleveDeatil">
-                                    METAL COLOR:
-                                  </label>
-                                  {singleProd?.IsMrpBase == 1 ? (
-                                    <span className="menuitemSelectoreMain">
-                                      {
-                                        metalColorCombo?.filter(
-                                          (ele) =>
-                                            ele?.id == singleProd?.MetalColorid
-                                        )[0]?.metalcolorname
-                                      }
-                                    </span>
-                                  ) : (
-                                    <select
-                                      className="menuitemSelectoreMain"
-                                      value={selectMtColor}
-                                      onChange={(e) =>
-                                        handleMetalWiseColorImg(e)
-                                      }
-                                    >
-                                      {metalColorCombo?.map((ele) => (
-                                        <option
-                                          key={ele?.id}
-                                          value={ele?.colorcode}
-                                        >
-                                          {ele?.metalcolorname}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  )}
-                                </div>
-                              )}
-                              {(storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && diaList?.length ) ? (
-                                <div className="stam_single_prod_customize_outer">
-                                  <label className="menuItemTimeEleveDeatil">
-                                    DIAMOND :
-                                  </label>
-                                  {
-                                    singleProd?.IsMrpBase == 1 ? (
-                                      <span className="menuitemSelectoreMain">
-                                        {singleProd?.DiaQuaCol}
+                                        {singleProd?.MetalTypePurity}
                                       </span>
-                                    ) 
-                                    :
-                                    (
-                                    <select
-                                      className="menuitemSelectoreMain"
-                                      value={selectDiaQc}
-                                      // onChange={(e) => setSelectDiaQc(e.target.value)}
-                                      onChange={(e) =>
-                                        handleCustomChange(e, "dia")
-                                      }
-                                    >
-                                      {diaQcCombo.map((ele) => (
-                                        <option
-                                          key={ele?.QualityId}
-                                          value={`${ele?.Quality},${ele?.color}`}
-                                        >{`${ele?.Quality},${ele?.color}`}</option>
-                                      ))}
-                                    </select>
-                                  )}
-                                </div>
-                              ) : null}
-                              {(storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
-                                <div className="stam_single_prod_customize_outer">
-                                  <label className="menuItemTimeEleveDeatil">
-                                    COLOR STONE :
-                                  </label>
-                                  {
-                                    singleProd?.IsMrpBase == 1 ? (
-                                      <span className="menuitemSelectoreMain">
-                                        {singleProd?.CsQuaCol}
-                                      </span>
-                                    ):(
+                                    ) : (
                                       <select
                                         className="menuitemSelectoreMain"
-                                        value={selectCsQc}
-                                        // onChange={(e) => setSelectCsQc(e.target.value)}
+                                        value={selectMtType}
                                         onChange={(e) =>
-                                          handleCustomChange(e, "cs")
+                                          handleCustomChange(e, "mt")
                                         }
+                                      // onChange={(e) => setSelectMtType(e.target.value)}
                                       >
-                                        {csQcCombo.map((ele) => (
+                                        {metalTypeCombo.map((ele) => (
                                           <option
-                                            key={ele?.QualityId}
-                                            value={`${ele?.Quality},${ele?.color}`}
-                                          >{`${ele?.Quality},${ele?.color}`}</option>
+                                            key={ele?.Metalid}
+                                            value={ele?.metaltype}
+                                          >
+                                            {ele?.metaltype}
+                                          </option>
                                         ))}
                                       </select>
-                                    )
-                                  }
-                                  
-                                </div>
-                              )
-                                :
-                                null
-                              }
-                              {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                              {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
-                                <div className="stam_single_prod_customize_outer">
-                                  <label className="menuItemTimeEleveDeatil">
-                                    SIZE:
-                                  </label>
-                                  {singleProd?.IsMrpBase == 1 ? (
-                                    <span className="menuitemSelectoreMain">
-                                      {singleProd?.DefaultSize}
-                                    </span>
-                                  ) : (
-                                    <select
-                                      className="menuitemSelectoreMain"
-                                      value={sizeData}
-                                      // onChange={(e) => {
-                                      //   setSizeData(e.target.value);
-                                      // }}
-                                      onChange={(e) =>
-                                        handleCustomChange(e, "sz")
-                                      }
-                                    >
-                                      {SizeCombo?.rd?.map((ele) => (
-                                        <option
-                                          value={ele?.sizename}
-                                          // selected={
-                                          //   singleProd && singleProd.DefaultSize === ele.sizename
-                                          // }
-                                          key={ele?.id}
+                                    )}
+                                  </div>)}
+                                {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
+                                  <div className="stam_single_prod_customize_outer">
+                                    <label className="menuItemTimeEleveDeatil">
+                                      METAL COLOR:
+                                    </label>
+                                    {singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {
+                                          metalColorCombo?.filter(
+                                            (ele) =>
+                                              ele?.id == singleProd?.MetalColorid
+                                          )[0]?.metalcolorname
+                                        }
+                                      </span>
+                                    ) : (
+                                      <select
+                                        className="menuitemSelectoreMain"
+                                        value={selectMtColor}
+                                        onChange={(e) =>
+                                          handleMetalWiseColorImg(e)
+                                        }
+                                      >
+                                        {metalColorCombo?.map((ele) => (
+                                          <option
+                                            key={ele?.id}
+                                            value={ele?.colorcode}
+                                          >
+                                            {ele?.metalcolorname}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    )}
+                                  </div>
+                                )}
+                                {(storeInit?.IsDiamondCustomization === 1 &&
+                                  diaQcCombo?.length > 0 && diaList?.length) ? (
+                                  <div className="stam_single_prod_customize_outer">
+                                    <label className="menuItemTimeEleveDeatil">
+                                      DIAMOND :
+                                    </label>
+                                    {
+                                      singleProd?.IsMrpBase == 1 ? (
+                                        <span className="menuitemSelectoreMain">
+                                          {singleProd?.DiaQuaCol}
+                                        </span>
+                                      )
+                                        :
+                                        (
+                                          <select
+                                            className="menuitemSelectoreMain"
+                                            value={selectDiaQc}
+                                            // onChange={(e) => setSelectDiaQc(e.target.value)}
+                                            onChange={(e) =>
+                                              handleCustomChange(e, "dia")
+                                            }
+                                          >
+                                            {diaQcCombo.map((ele) => (
+                                              <option
+                                                key={ele?.QualityId}
+                                                value={`${ele?.Quality},${ele?.color}`}
+                                              >{`${ele?.Quality},${ele?.color}`}</option>
+                                            ))}
+                                          </select>
+                                        )}
+                                  </div>
+                                ) : null}
+                                {(storeInit?.IsCsCustomization === 1 &&
+                                  selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                                  <div className="stam_single_prod_customize_outer">
+                                    <label className="menuItemTimeEleveDeatil">
+                                      COLOR STONE :
+                                    </label>
+                                    {
+                                      singleProd?.IsMrpBase == 1 ? (
+                                        <span className="menuitemSelectoreMain">
+                                          {singleProd?.CsQuaCol}
+                                        </span>
+                                      ) : (
+                                        <select
+                                          className="menuitemSelectoreMain"
+                                          value={selectCsQc}
+                                          // onChange={(e) => setSelectCsQc(e.target.value)}
+                                          onChange={(e) =>
+                                            handleCustomChange(e, "cs")
+                                          }
                                         >
-                                          {ele?.sizename}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )}
+                                          {csQcCombo.map((ele) => (
+                                            <option
+                                              key={ele?.QualityId}
+                                              value={`${ele?.Quality},${ele?.color}`}
+                                            >{`${ele?.Quality},${ele?.color}`}</option>
+                                          ))}
+                                        </select>
+                                      )
+                                    }
 
-                        {storeInit?.IsPriceBreakUp == 1  && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
-                        (
-                          <Accordion
-                            elevation={0}
-                            sx={{
-                              borderBottom: "1px solid #c7c8c9",
-                              borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                              {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
-                              "&.MuiPaper-root.MuiAccordion-root:before":
-                              {
-                                background: "none",
-                              },
-                              width: '95.5%'
-                            }}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
-                              }
-                              aria-controls="panel1-content"
-                              id="panel1-header"
-                              sx={{
-                                color: "#7d7f85 !important",
-                                borderRadius: 0,
+                                  </div>
+                                )
+                                  :
+                                  null
+                                }
+                                {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
+                                {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
+                                  <div className="stam_single_prod_customize_outer">
+                                    <label className="menuItemTimeEleveDeatil">
+                                      SIZE:
+                                    </label>
+                                    {singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.DefaultSize}
+                                      </span>
+                                    ) : (
+                                      <select
+                                        className="menuitemSelectoreMain"
+                                        value={sizeData}
+                                        // onChange={(e) => {
+                                        //   setSizeData(e.target.value);
+                                        // }}
+                                        onChange={(e) =>
+                                          handleCustomChange(e, "sz")
+                                        }
+                                      >
+                                        {SizeCombo?.rd?.map((ele) => (
+                                          <option
+                                            value={ele?.sizename}
+                                            // selected={
+                                            //   singleProd && singleProd.DefaultSize === ele.sizename
+                                            // }
+                                            key={ele?.id}
+                                          >
+                                            {ele?.sizename}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
 
-                                "&.MuiAccordionSummary-root": {
-                                  padding: 0,
-                                },
-                              }}
-                            // className="filtercategoryLable"
+                          {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                            (
+                              <Accordion
+                                elevation={0}
+                                sx={{
+                                  borderBottom: "1px solid #c7c8c9",
+                                  borderRadius: 0,
+                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
+                                  "&.MuiPaper-root.MuiAccordion-root:before":
+                                  {
+                                    background: "none",
+                                  },
+                                  width: '95.5%'
+                                }}
+                              >
+                                <AccordionSummary
+                                  expandIcon={
+                                    <ExpandMoreIcon sx={{ width: "20px" }} />
+                                  }
+                                  aria-controls="panel1-content"
+                                  id="panel1-header"
+                                  sx={{
+                                    color: "#7d7f85 !important",
+                                    borderRadius: 0,
 
-                            >
-                              <Typography sx={{ fontFamily: "TT Commons Regular", fontSize: '18px' }}>Price Breakup</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                // minHeight: "fit-content",
-                                // maxHeight: "300px",
-                                // overflow: "auto",
-                                padding: '0 0 16px 0',
+                                    "&.MuiAccordionSummary-root": {
+                                      padding: 0,
+                                    },
+                                  }}
+                                // className="filtercategoryLable"
 
-                              }}
-                            >
+                                >
+                                  <Typography sx={{ fontFamily: "TT Commons Regular", fontSize: '18px' }}>Price Breakup</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "4px",
+                                    // minHeight: "fit-content",
+                                    // maxHeight: "300px",
+                                    // overflow: "auto",
+                                    padding: '0 0 16px 0',
 
-                              {/* <table>
+                                  }}
+                                >
+
+                                  {/* <table>
                                 <tr>
                                   <td><Typography>{(singleProd?.Metal_Cost).toFixed(3)}</Typography></td>
                                   <td><Typography>Metal Amount</Typography></td>
@@ -1722,91 +1570,23 @@ const ProductDetail = () => {
                               </table> */}
 
 
-                              {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>
-                                    {
-                                      <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                      </span>
-                                    }
-                                  </Typography>
-                                  &nbsp;
-                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="stam_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                  {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>
+                                        {
+                                          <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                          </span>
+                                        }
+                                      </Typography>
+                                      &nbsp;
+                                      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="stam_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                     </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
+                                  </div> : null}
 
-                              {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
-
-                                <span style={{ display: 'flex' }}>
-                                  <Typography>{
-                                    <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
-                                      {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>
-                                  }</Typography>
-                                  &nbsp;
-                                  <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
-                                </span>
-                              </div> : null}
-
-                              {
-                                (
-
-                                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                  (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                  (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                  (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                  (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                  (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                ) !== 0 ?
-
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                  {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
@@ -1815,111 +1595,179 @@ const ProductDetail = () => {
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
-                                        formatter.format((
-
-                                          (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                          (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                          (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                          (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                          (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                          (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                        )?.toFixed(2))
-                                      }</Typography>
+                                      <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                     </span>
-                                  </div>
-                                  :
-                                  null
-                              }
+                                  </div> : null}
 
-                            </AccordionDetails>
-                          </Accordion>
-                        )}
+                                  {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
 
-                        {storeInit?.IsPriceShow === 1 &&
-                          (<div className="stam_price_portion">
-                            {isPriceloading ? (
-                              ""
-                            ) : (
-                              <span className="stam_currencyFont">
-                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                              </span>
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                    </span>
+                                  </div> : null}
+
+                                  {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                    </span>
+                                  </div> : null}
+
+                                  {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                    </span>
+                                  </div> : null}
+
+                                  {
+                                    (
+
+                                      (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                      (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                      (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                      (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                      (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                      (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                    ) !== 0 ?
+
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Typography className="stam_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+
+                                        <span style={{ display: 'flex' }}>
+                                          <Typography>{
+                                            <span className="stam_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                              {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            </span>
+                                          }</Typography>
+                                          &nbsp;
+                                          <Typography className="stam_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                            formatter.format((
+
+                                              (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                              (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                              (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                              (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                              (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                              (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                            )?.toFixed(2))
+                                          }</Typography>
+                                        </span>
+                                      </div>
+                                      :
+                                      null
+                                  }
+
+                                </AccordionDetails>
+                              </Accordion>
                             )}
-                            &nbsp;
-                            {/* {PriceWithMarkupFunction(
+
+                          {storeInit?.IsPriceShow === 1 &&
+                            (<div className="stam_price_portion">
+                              {isPriceloading ? (
+                                ""
+                              ) : (
+                                <span className="stam_currencyFont">
+                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                </span>
+                              )}
+                              &nbsp;
+                              {/* {PriceWithMarkupFunction(
                         mtrd?.AB,
                         finalprice,
                         storeInit?.CurrencyRate
                       )?.toFixed(2)} */}
-                            {isPriceloading ? (
-                              <Skeleton
-                                variant="rounded"
-                                width={140}
-                                height={30}
-                                className="pSkelton"
-                              />
-                            ) :
-                              formatter.format
-                                (
-                                  singleProd1?.UnitCostWithMarkUp ??
-                                  singleProd?.UnitCostWithMarkUp
-                                )
-                            }
-                            {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
-                          </div>)
-                        }
-
-                        {prodLoading ? null :
-                          <div>
-
-                            <div className="Smr_CartAndWish_portion">
-                              <button
-                                className={
-                                  !addToCartFlag
-                                    ? "stam_AddToCart_btn"
-                                    : "stam_AddToCart_btn_afterCart"
-                                }
-                                onClick={() => handleCart(!addToCartFlag)}
-                              >
-                                <span
-                                  className="stam_addtocart_btn_txt"
-                                  style={{ color: !addToCartFlag ? "" : "white" }}
-                                >
-                                  {!addToCartFlag
-                                    ? "ADD TO CART"
-                                    : "REMOVE FROM CART"}
-                                </span>
-                              </button>
-                              <div className="Smr_wishlistcont">
-                                <Checkbox
-                                  icon={
-                                    <StarBorderIcon
-                                      sx={{ fontSize: "25px", color: "#7d7f85" }}
-                                    />
-                                  }
-                                  checkedIcon={
-                                    <StarIcon
-                                      sx={{ fontSize: "25px", color: "#7d7f85" }}
-                                    />
-                                  }
-                                  disableRipple={true}
-                                  checked={
-                                    wishListFlag ?? singleProd?.IsInWish == 1
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => handleWishList(e, singleProd)}
+                              {isPriceloading ? (
+                                <Skeleton
+                                  variant="rounded"
+                                  width={140}
+                                  height={30}
+                                  className="pSkelton"
                                 />
+                              ) :
+                                formatter.format
+                                  (
+                                    singleProd1?.UnitCostWithMarkUp ??
+                                    singleProd?.UnitCostWithMarkUp
+                                  )
+                              }
+                              {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
+                            </div>)
+                          }
+
+                          {prodLoading ? null :
+                            <div>
+
+                              <div className="Smr_CartAndWish_portion">
+                                <button
+                                  className={
+                                    !addToCartFlag
+                                      ? "stam_AddToCart_btn"
+                                      : "stam_AddToCart_btn_afterCart"
+                                  }
+                                  onClick={() => handleCart(!addToCartFlag)}
+                                >
+                                  <span
+                                    className="stam_addtocart_btn_txt"
+                                    style={{ color: !addToCartFlag ? "" : "white" }}
+                                  >
+                                    {!addToCartFlag
+                                      ? "ADD TO CART"
+                                      : "REMOVE FROM CART"}
+                                  </span>
+                                </button>
+                                <div className="Smr_wishlistcont">
+                                  <Checkbox
+                                    icon={
+                                      <StarBorderIcon
+                                        sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                      />
+                                    }
+                                    checkedIcon={
+                                      <StarIcon
+                                        sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                      />
+                                    }
+                                    disableRipple={true}
+                                    checked={
+                                      wishListFlag ?? singleProd?.IsInWish == 1
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={(e) => handleWishList(e, singleProd)}
+                                  />
+                                </div>
                               </div>
+                              {
+                                // prodLoading &&
+                                singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                              {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                             </div>
-                            { 
-                            // prodLoading &&
-                            singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                            {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
-                          </div>
-                        }
-                      </div>}
+                          }
+                        </div>}
                     </div>
                   </div>
                 </div>

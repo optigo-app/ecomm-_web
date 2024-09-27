@@ -89,13 +89,13 @@ const TrendingView = () => {
 
         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then(async (response) => {
             if (response?.Data?.rd) {
+                setLoadingHome(false);
                 const data = response.Data.rd;
                 const urls = await Promise.all(data?.map(async (item) => {
                     const url = `${storeInitData?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;
                     const available = await checkImageAvailability(url);
                     return available ? url : imageNotFound;
                 }));
-                setLoadingHome(false);
                 setTrandingViewData(data);
                 setImageUrls(urls);
             }

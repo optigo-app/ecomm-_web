@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import './smrMo_cartPage.scss';
+import './malaMo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
@@ -76,24 +76,24 @@ const MobileCartDetails = ({
 
 
   return (
-    <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
-        <div className="smrMo_Cart-imageDiv">
+    <Modal open={open} onClose={handleClose} className="malaMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+      <div className="malaMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
+        <div className="malaMo_Cart-imageDiv">
           <img
             src={imageSrc}
             alt="Cluster Diamond"
-            className='smrMo_cartImage'
+            className='malaMo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             style={{ border: 'none' }}
           />
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-            <div className="smrMo_Cart_R-details">
-              <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="malaMo_Cart_R-details">
+              <p className='malaMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
-                <div className="smrMo_Cart-options">
+                <div className="malaMo_Cart-options">
                   {storeInitData?.IsMetalCustomization == 1 &&
                     <div className="option">
                       <label htmlFor="metal-type">Metal Type:</label>
@@ -186,7 +186,7 @@ const MobileCartDetails = ({
                   }
                 </div>
               }
-              <div className='smrMo_cartQtyPricemainDev'>
+              <div className='malaMo_cartQtyPricemainDev'>
                 <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
                 {storeInitData?.IsPriceShow == 1 &&
                   <div className="product-price">
@@ -197,23 +197,23 @@ const MobileCartDetails = ({
                         &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
-                      <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
+                      <Skeleton className='malaMo_CartSkelton' variant="text" width="80%" animation="wave" />
                     )}
                   </div>
                 }
               </div>
-              <div className='smrMo_UpdateCartBtn'>
-                <Button className="smrMo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
+              <div className='malaMo_UpdateCartBtn'>
+                <Button className="malaMo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
               </div>
-              <div className='smrMo_CloseIcon' onClick={handleClose}>
+              <div className='malaMo_CloseIcon' onClick={handleClose}>
                 <CloseIcon />
               </div>
             </div>
           ) :
-            <div className="smrMo_CartCusto_R-details">
-              <p className='smrMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="malaMo_CartCusto_R-details">
+              <p className='malaMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
-              <div className="smrMo_StockCart-options">
+              <div className="malaMo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&
                   <div className="option">
                     <label htmlFor="metal-type">Metal Type:</label>
@@ -245,14 +245,20 @@ const MobileCartDetails = ({
                   </div>
                 }
               </div>
-              <div className="smrMo_stockPriceQtyDiv">
-                <div className="option">
-                  <label htmlFor="qty">Qty:</label>
-                  <span>{selectedItem?.Quantity}</span>
-                </div>
+              <div className="malaMo_stockPriceQtyDiv">
+                {selectedItem?.IsMrpBase == 0 ? (
+                  <div className="option">
+                    <label htmlFor="qty">Qty:</label>
+                    <span>{selectedItem?.Quantity}</span>
+                  </div>
+                ) :
+                  <div>
+                    <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+                  </div>
+                }
                 <div className=''>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <div className="smrMo_Stockproduct-price">
+                    <div className="malaMo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
                           {loginInfo?.CurrencyCode ??
@@ -260,7 +266,7 @@ const MobileCartDetails = ({
                           &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
                       ) :
-                        <Skeleton className='smrMo_CartSkelton' variant="text" width="80%" animation="wave" />
+                        <Skeleton className='malaMo_CartSkelton' variant="text" width="80%" animation="wave" />
                       }
                     </div>
                   }

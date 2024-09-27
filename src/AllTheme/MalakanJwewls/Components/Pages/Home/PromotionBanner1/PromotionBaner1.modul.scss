@@ -1,3 +1,6 @@
+@import '../../../scss/variable';
+
+
 .mala_Banner_main {
 
     .mala_BannerMAinTitleMAin {
@@ -29,8 +32,11 @@
     }
 
     .mala_promo2_main2_2 {
-        width: 50%;
-        padding: 70px 400px 0px 0px;
+        width: 40%;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .mala_promo2_main2 {
@@ -38,7 +44,7 @@
     }
 
     .mala_promo_bottomMainP {
-        font-size: 24px;
+        font-size: $fontSize6;
         color: white;
         text-align: center;
         width: 40%;
@@ -76,6 +82,11 @@
     .mala_BannerMAinTitle1 {
         font-size: 18px;
         margin: 0px;
+    }
+
+    .mala_promo2_main2_2_p {
+        text-align: justify;
+        font-size: $fontSize6;
     }
 
     .mala_BannerMAinTitle2 {
@@ -190,7 +201,7 @@
     }
 
     .mala_promo_section2_div1_p2 {
-        font-size: 30px;
+        font-size: $fontSize6;
     }
 
     .mala_promo_section2_div1_btn {
@@ -225,13 +236,19 @@
         }
 
         .mala_promo2_main2_2 {
-            padding: 70px 150px 0px 0px !important;
+            padding: 0px 150px 0px 0px !important;
         }
 
         .mala_promo_section2_div1 {
             padding: 10px 0px 10px 10px !important;
         }
 
+    }
+
+    @media screen and (max-width: 1250px) {
+        .mala_promo2_main2_2 {
+            padding: 0px 80px 0px 0px !important;
+        }
     }
 
     @media screen and (max-width: 1024px) {
@@ -342,12 +359,12 @@
             flex-direction: column;
         }
 
-        .mala_promo_section2_div2{
+        .mala_promo_section2_div2 {
             order: 1;
             width: 100%;
         }
 
-        .mala_promo_section2_div1{
+        .mala_promo_section2_div1 {
             width: 100%;
             order: 2;
         }
@@ -377,11 +394,11 @@
             font-size: 15px !important;
         }
 
-        .mala_promo_section2_div1_p1{
+        .mala_promo_section2_div1_p1 {
             font-size: 30px !important;
         }
 
-        .mala_promo_section2_div1_p2{
+        .mala_promo_section2_div1_p2 {
             font-size: 20px !important;
         }
     }

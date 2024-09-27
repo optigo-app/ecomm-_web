@@ -58,7 +58,7 @@ const SmilingRock_App = () => {
     );
   };
 
- 
+
   useEffect(() => {
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
@@ -79,8 +79,8 @@ const SmilingRock_App = () => {
     if (htmlContent) {
       setLocalData((prevData) => ({
         ...prevData,
-        Headerno: htmlContent?.rd[0]?.Headerno, 
-        BrowserTitle: htmlContent.BrowserTitle, 
+        Headerno: htmlContent?.rd[0]?.Headerno,
+        BrowserTitle: htmlContent.BrowserTitle,
       }));
     }
   }, [htmlContent]);
@@ -89,7 +89,7 @@ const SmilingRock_App = () => {
     setCSSVariable();
     let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
     let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
-    
+
     setCompanyTitleLogo(webLogo);
     setCompanyTitleLogoM(mobileLogo);
     // if (Logindata) {
@@ -115,10 +115,10 @@ const SmilingRock_App = () => {
             Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token);
             setIsLoginState(true);
             sessionStorage.setItem("LoginUser", true);
-            sessionStorage.setItem( "loginUserDetail", JSON.stringify(response.Data.rd[0]) );
+            sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
             if (redirectEmailUrl) {
               navigation(redirectEmailUrl);
-            } else if(location.pathname.startsWith('/accountdwsr')) {
+            } else if (location.pathname.startsWith('/accountdwsr')) {
               navigation("/accountdwsr");
             } else {
               navigation("/");
@@ -154,7 +154,7 @@ const SmilingRock_App = () => {
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      { !location.pathname.startsWith('/accountdwsr') && <div>
+      {!location.pathname.startsWith('/accountdwsr') && <div>
         {localData?.Headerno == 1 && <Header />}
         {localData?.Headerno == 2 && <Header2 />}
       </div>}

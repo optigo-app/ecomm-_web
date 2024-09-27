@@ -637,11 +637,11 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setIsImageLoad(false)
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
               setProdLoading(false)
             }
 
@@ -700,6 +700,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsImageLoad(false); 
+          setProdLoading(false);         
+        });
     }
 
     FetchProductData()
@@ -962,6 +966,13 @@ const ProductDetail = () => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
 
+  useEffect(() => {
+    if (isImageload === false) {
+      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+      }
+    }
+  }, [isImageload])
 
 
   const decodeEntities = (html) => {

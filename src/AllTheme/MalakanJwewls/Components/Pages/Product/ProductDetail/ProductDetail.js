@@ -71,14 +71,10 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [vison360,setVision360] = useState()
-
   const [designSetList, setDesignSetList] = useState();
-
   const [thumbImgIndex, setThumbImgIndex] = useState()
-
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
-
   const [prodLoading, setProdLoading] = useState(false)
 
 
@@ -637,11 +633,11 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setIsImageLoad(false)
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
               setProdLoading(false)
             }
 
@@ -700,6 +696,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsImageLoad(false); 
+          setProdLoading(false);         
+        });
     }
 
     FetchProductData()
@@ -962,7 +962,13 @@ const ProductDetail = () => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
 
-
+  useEffect(() => {
+    if (isImageload === false) {
+      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+      }
+    }
+  }, [isImageload])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");

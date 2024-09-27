@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './rJ_cartPage.scss';
+import './roop_cartPage.scss';
 
 const QuantitySelector = ({ selectedItem, qtyCount, handleIncrement, handleDecrement, }) => {
 
   return (
-    <div className="rJ_cart-quantity">
+    <div className="roop_cart-quantity">
       <button className="bttn bttn-left" onClick={() => handleDecrement(selectedItem)}>
         <span>-</span> 
       </button>

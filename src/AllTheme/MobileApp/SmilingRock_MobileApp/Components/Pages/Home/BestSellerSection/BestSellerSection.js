@@ -81,8 +81,8 @@ const BestSellerSection = () => {
     setImageUrl(data?.DesignImageFol);
 
     Get_Tren_BestS_NewAr_DesigSet_Album("GETBestSeller", finalID).then((response) => {
+      setLoadingHome(false);
         if (response?.Data?.rd) {
-            setLoadingHome(false);
             setBestSellerData(response?.Data?.rd);
         }
     }).catch((err) => console.log(err))

@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import {noimage} from '../../../Constants/noimage'
+import { noimage } from "../../../Constants/noimage";
 
 const CategoryTab = () => {
   const [albumData, setAlbumData] = useState();
@@ -16,6 +16,7 @@ const CategoryTab = () => {
   const showShapeSection = false;
 
   useEffect(() => {
+    console.log("called album");
     let data = JSON.parse(sessionStorage?.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
 
@@ -36,6 +37,7 @@ const CategoryTab = () => {
       Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum", finalID)
         .then((response) => {
           if (response?.Data?.rd) {
+            console.log("called album", response?.Data?.rd);
             setAlbumData(response?.Data?.rd);
           }
         })
@@ -48,8 +50,8 @@ const CategoryTab = () => {
     navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`);
   };
 
-  if(albumData?.length === 0){
-    return  <div style={{marginTop  :"-2rem"}}></div>;
+  if (albumData?.length === 0) {
+    return <div style={{ marginTop: "-2rem" }}></div>;
   }
 
   return (
@@ -74,7 +76,6 @@ const CategoryTab = () => {
             src={'http://zen/R50B3/UFS/BYJQD1FKE0ON69L2IRW4/AlbumImages/QWxidW1fMjc=/Necklace_27072024171233537.png'}
             name={"Zero 11"}
           />  */}
-          
       </div>
       {showShapeSection && <ShapeSection />}
     </div>
@@ -102,13 +103,14 @@ const CategoryCard = ({ src, onClick, name }) => {
   return (
     <div className="c_card" onClick={onClick}>
       <div className="image">
-        <img src={src} alt=""
-         onError={(e) => {
-          e.target.onerror = null;
-          e.target.src =
-          noimage;
-        }}
-         />
+        <img
+          src={src}
+          alt=""
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = noimage;
+          }}
+        />
       </div>
       <div className="title">
         <h2 className="hoq_albumName">{name}</h2>

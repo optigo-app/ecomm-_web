@@ -35,9 +35,9 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         if (!storeInt) {
           Storeinit();
         } 
-        return <Navigate to={redirectUrl} replace />;
+        return <Navigate to={redirectUrl} replace/>;
       } else {
-        return <Navigate to="/"  replace/>;
+        return <Navigate to="/" />;
       }
     }
   }
