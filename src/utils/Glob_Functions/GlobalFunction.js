@@ -7,7 +7,7 @@ export function storImagePath() {
 
 export function storInitDataPath() {
   let hostName = (window.location.hostname === 'localhost' || window.location.hostname === 'zen')
-    ? 'fgstore.pro'
+    ? 'fgstore.web'
     : window.location.hostname;
   if (hostName.startsWith('www.')) {
     hostName = hostName.substring(4);
