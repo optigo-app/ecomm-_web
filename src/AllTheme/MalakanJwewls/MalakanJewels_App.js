@@ -48,7 +48,7 @@ const MalakanJewels_App = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(mala_companyLogo);
   const [htmlContent, setHtmlContent] = useState("");
-  
+
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
       .then((response) => response.text())
@@ -137,7 +137,7 @@ const MalakanJewels_App = () => {
       <Helmet>
         <title>{localData?.BrowserTitle}</title>
       </Helmet>
-      <div style={{minHeight: '700px'}}>
+      <div>
         {localData?.Headerno === 1 && <Header />}
         {localData?.Headerno === 2 && <Header2 />}
         <Routes>
