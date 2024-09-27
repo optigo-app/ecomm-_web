@@ -23,7 +23,7 @@ const CartItem = ({
   itemLength,
   handleMoveToDetail
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
   const setCartCountVal = useSetRecoilState(PC_AppCartCount)
   const [storeInitData, setStoreInitData] = useState();
@@ -93,12 +93,12 @@ const CartItem = ({
       className='smrMo_cartListCardGrid'>
       <Card className='smrMo_cartListCard' >
         <Box onClick={() => handleMoveToDetail(item)} className="smrmo_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          <CardMedia
+          {imageSrc != undefined && <CardMedia
             component="img"
             image={imageSrc}
             alt={item?.TitleLine}
             className='smrMo_cartListImage'
-          />
+          />}
           <div>
             <CardContent className='smrMo_cartcontentData'>
               <Typography variant="body2" className='smrmo_DesignNoTExt'>
@@ -163,7 +163,7 @@ const CartItem = ({
             <div className="smrMO_inStockbadgeDiv">
               <span className="smrMO_inStockbadgeSpan">In Stock</span>
             </div>
-          } 
+          }
         </Box>
         <Box className="smrMo_cartbtngroupReRm">
 

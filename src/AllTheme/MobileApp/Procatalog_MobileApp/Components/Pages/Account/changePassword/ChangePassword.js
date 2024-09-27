@@ -3,7 +3,6 @@ import CryptoJS from 'crypto-js';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';
@@ -132,7 +131,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className='changePassword_Account_PCMJ'>
         <ToastContainer />
 
         <div className='sticky-header'>
@@ -231,7 +230,7 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }
 

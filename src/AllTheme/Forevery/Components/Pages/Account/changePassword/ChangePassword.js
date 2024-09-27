@@ -167,7 +167,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className='changePassword_Account_FE'>
         <ToastContainer />
         <div>
             {isLoading && (
@@ -261,7 +261,7 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }
 

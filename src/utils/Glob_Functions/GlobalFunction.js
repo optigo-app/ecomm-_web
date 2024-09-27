@@ -28,7 +28,6 @@ export function findMetalColor(paramId) {
   return item
 }
 
-
 export function findMetalType(paramId) {
   let metalTypeArr = JSON.parse(sessionStorage.getItem("metalTypeCombo"))
   let item = metalTypeArr.filter(item => item?.Metalid == paramId)

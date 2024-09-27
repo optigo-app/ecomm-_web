@@ -35,7 +35,8 @@ const Home = () => {
 
   useEffect(() => {
     const UserToken = localStorage.getItem('userLoginTokenProCatApp');
-    if (UserToken) {
+    if (UserToken && islogin == false) {
+      alert(`Login with Token`);
       WebLoginWithMobileToken(UserToken)
         .then((response) => {
           if (response.Data.rd[0].stat === 1) {
@@ -124,36 +125,28 @@ const Home = () => {
   const handleSubmit = async () => {
     const queryParams = new URLSearchParams(window.location.search);
     const token = queryParams.get("token");
-
-    // try {
-    //   const combinedValue = JSON.stringify({
-    //     userid: '', mobileno: '', pass: '', mobiletoken: `${token}`, FrontEnd_RegNo: ''
-    //   });
-    //   const encodedCombinedValue = btoa(combinedValue);
-    //   const body = {
-    //     "con": "{\"id\":\"\",\"mode\":\"WEBLOGINMOBILETOKEN\"}",
-    //     "f": "LoginWithEmail (handleSubmit)",
-    //     p: encodedCombinedValue
-    //   };
-    //   const response = await CommonAPI(body); 
-    //   console.log('ressssssssssssssssss', response);
     localStorage.setItem('userLoginTokenProCatApp', token);
     WebLoginWithMobileToken(token)
       .then((response) => {
         if (response.Data.rd[0].stat === 1) {
+          const visiterID = Cookies.get('visiterId');
+          setislogin(true);
+          sessionStorage.setItem("LoginUser", true);
+          sessionStorage.setItem("loginUserDetail", JSON.stringify(response.Data.rd[0]));
+          let redairectURL = JSON.stringify(localStorage.getItem('redirectURLLocal'));
+          let redairectURLDDDD = localStorage.getItem('redirectURLLocal');
+          alert(`WebLoginWithMobileToken url ${redairectURL}`);
+          alert(`WebLoginWithMobileToken url redairectURLDDDD ${redairectURLDDDD}`);
+          if (redairectURL) {
+            navigation(redairectURL);
+          }
 
+          alert(`WebLoginWithMobileToken 1 ${JSON.stringify(response.Data)}`);
           let Data = localStorage.getItem('navigateUrl');
           let isNavigate = (Data === 'true');
           if (isNavigate) {
             navigation("/payment");
           }
-          const visiterID = Cookies.get('visiterId');
-          setislogin(true);
-          sessionStorage.setItem("LoginUser", true);
-          sessionStorage.setItem(
-            "loginUserDetail",
-            JSON.stringify(response.Data.rd[0])
-          );
 
           GetCountAPI(visiterID).then((res) => {
             if (res) {

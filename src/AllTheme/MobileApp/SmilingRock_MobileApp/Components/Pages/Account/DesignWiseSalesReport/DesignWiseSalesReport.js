@@ -537,7 +537,7 @@ const DesignWiseSalesReport = () => {
     }, []);
 
     return (
-        <>
+        <div className='designWiseSaleReport_Account_SMRM'>
         <div className='sticky-header'>
             <MobViewHeader title="Design Wise Report" />
         </div>
@@ -879,7 +879,7 @@ const DesignWiseSalesReport = () => {
                     className='reactPaginationDesignWise'
                 />}
             </Box>
-        </>
+        </div>
     )
 }
 
