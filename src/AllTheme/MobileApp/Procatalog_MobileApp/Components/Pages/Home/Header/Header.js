@@ -62,10 +62,7 @@ const Header = () => {
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
-
       const compressed = Pako.deflate(uint8Array, { to: 'string' });
-
-
       return btoa(String.fromCharCode.apply(null, compressed));
     } catch (error) {
       console.error('Error compressing and encoding:', error);

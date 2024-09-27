@@ -45,7 +45,8 @@
 
     .mala_promo_bottomMainP {
         font-size: $fontSize6;
-        color: white;
+        color: white;        
+        font-family: $primaryFontFamily;
         text-align: center;
         width: 40%;
     }
@@ -87,6 +88,7 @@
     .mala_promo2_main2_2_p {
         text-align: justify;
         font-size: $fontSize6;
+        font-family: $primaryFontFamily;
     }
 
     .mala_BannerMAinTitle2 {
@@ -198,19 +200,22 @@
 
     .mala_promo_section2_div1_p1 {
         font-size: 40px;
+        font-family: $primaryFontFamily;
     }
 
     .mala_promo_section2_div1_p2 {
+        font-family: $primaryFontFamily;
         font-size: $fontSize6;
     }
 
     .mala_promo_section2_div1_btn {
         height: 35px;
-        width: 150px;
+        font-family: $primaryFontFamily;
+        width: 138px;
+        height: 52px;
         color: white;
         font-weight: 500;
         background-color: black;
-
     }
 
 

@@ -98,7 +98,7 @@ const CartList = ({
               </div>
             }
             <Button
-              className='smrMO_Placeorderbtn'
+              className='smrProMO_Placeorderbtn'
               fullWidth
               onClick={handlePlaceOrder}
             >

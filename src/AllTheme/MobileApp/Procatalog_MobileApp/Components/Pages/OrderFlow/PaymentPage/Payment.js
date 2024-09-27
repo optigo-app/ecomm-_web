@@ -32,6 +32,7 @@ const Payment = () => {
     const [CurrencyData, setCurrencyData] = useState();
     const [storeInitData, setStoreInitData] = useState();
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const [taxAmmountData, setTaxAmountData] = useState();
 
     const setCartCountVal = useSetRecoilState(PC_AppCartCount);
     const islogin = useRecoilValue(PC_ApploginState);
@@ -57,8 +58,8 @@ const Payment = () => {
 
     const handleSaveInternal = () => {
         const trimmedRemark = orderRemark?.trim();
-            handleOrderRemarkFun(trimmedRemark);
-            handleClose();
+        handleOrderRemarkFun(trimmedRemark);
+        handleClose();
     };
 
     useEffect(() => {
@@ -82,9 +83,11 @@ const Payment = () => {
         setIsOrderloding(true);
         const fetchData = async () => {
             try {
-                const texData = await fetchEstimateTax();
-                if (texData) {
-                    setTaxAmount(texData[0]?.TaxAmount);
+                const taxData = await fetchEstimateTax();
+
+                if (taxData) {
+                    const data = taxData[0];
+                    setTaxAmountData(data);
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
@@ -93,7 +96,6 @@ const Payment = () => {
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-           
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -301,27 +303,31 @@ const Payment = () => {
                                         {storeInitData?.IsPriceShow == 1 &&
                                             <div className='orderSubmmuryMain'>
                                                 <p className='PaymentMainTitle' style={{ fontSize: '25px', fontWeight: 500, color: '#5e5e5e' }}>Order Summary</p>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
-                                                    <p className='orderSubTitle'>Subtotal</p>
-                                                    <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
-                                                        <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                        {formatter(finalTotal)}
-                                                    </p>
-                                                </div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
-                                                    <p className='orderSubTitle'>Estimated Tax</p>
-                                                    <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
-                                                        <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                        {formatter(Number((taxAmmount)?.toFixed(3)))}
-                                                    </p>
-                                                </div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                                                    <p className='orderSubTitle'>Estimated Total</p>
-                                                    <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
-                                                        <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                                                        {formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}
-                                                    </p>
-                                                </div>
+                                                {!isOrderloding &&
+                                                    <>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
+                                                            <p className='orderSubTitle'>Subtotal</p>
+                                                            <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}>
+                                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                                {formatter(taxAmmountData?.TotalAmount)}
+                                                            </p>
+                                                        </div>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgb(233, 233, 233)', paddingBottom: "5px" }}>
+                                                            <p className='orderSubTitle'>Estimated Tax</p>
+                                                            <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
+                                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                                {formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}
+                                                            </p>
+                                                        </div>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+                                                            <p className='orderSubTitle'>Estimated Total</p>
+                                                            <p style={{ fontWeight: 500, display: 'flex', margin: '0px' }}> <div className="currencyFont" />
+                                                                <span className="smr_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                                                                {formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}
+                                                            </p>
+                                                        </div>
+                                                    </>
+                                                }
                                             </div>
                                         }
                                         <div className='deliveryShiipingMain'>

@@ -79,7 +79,7 @@
         position: relative;
         display: inline-block;
         height: 50px;
-        // font-family: $primaryFontFamily;
+        font-family: $primaryFontFamily;
         display: flex;
         align-items: center;
     }
@@ -91,6 +91,7 @@
         right: 0;
         width: 0%;
         height: 1px;
+        font-family: $primaryFontFamily;
         background-color: white;
         transition: width 0.3s ease-out;
     }
@@ -166,6 +167,7 @@
     .stam_A_link {
         text-decoration: none;
         color: white;
+        font-family: $primaryFontFamily;
     }
 
     .mala_A_linkFixed {

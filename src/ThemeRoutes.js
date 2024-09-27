@@ -177,16 +177,13 @@ export default function ThemeRoutes() {
   useEffect(() => {
     const storedData = sessionStorage.getItem("storeInit");
     const data = storedData ? JSON.parse(storedData) : null;
-  
     if (htmlContent) {
       setStoreInitData(htmlContent.rd[0]);
     } else if (data) {
       setStoreInitData(data);
     }
   }, [htmlContent]);
-  
 
-  console.log("ksalkjdjaskj", storeInitData)
   return (
     <>
       {storeInitData?.DomainForNo == 2 ? (
