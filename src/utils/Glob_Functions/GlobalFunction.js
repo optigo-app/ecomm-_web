@@ -1,5 +1,5 @@
 export function storImagePath() {
-  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'fgstorepro.mapp' : window.location.hostname}`
+  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'stamford.web' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
   // return `${statiPath}/Website_Store/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
@@ -7,11 +7,11 @@ export function storImagePath() {
 
 export function storInitDataPath() {
   let hostName = (window.location.hostname === 'localhost' || window.location.hostname === 'zen')
-    ? 'fgstorepro.mapp'
+    ? 'stamford.web'
     : window.location.hostname;
   if (hostName.startsWith('www.')) {
     hostName = hostName.substring(4);
-  }
+  } 
   let statiPath = `${window?.location?.protocol}//${hostName}`;
   return `${statiPath}/Website_Store/WebSiteStaticImage/${hostName}`;
 }
