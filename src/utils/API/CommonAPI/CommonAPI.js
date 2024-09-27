@@ -33,7 +33,6 @@ const APIURL = (window.location.hostname === 'localhost'
 
 export const CommonAPI = async (body) => {
     const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-    console.log('storeInitstoreInit',storeInit);
     try {
         const YearCode = storeInit?.YearCode ?? '' ;
         const version = storeInit?.version  ?? '';

@@ -183,7 +183,7 @@ export default Home;
 //   }, []);
 
 //   useEffect(() => {
-//     fetch(`${storImagePath()}/Store_Init.txt`)
+//     fetch(`${storImagePath()}/ExtraFlag.txt`)
 //       .then((response) => response.text())
 //       .then((text) => {
 //         try {

@@ -21,7 +21,7 @@ import OrderHistory from './Components/Pages/Account/AccountOrderHistory/OrderHi
 import ChangePassword from './Components/Pages/Account/changePassword/ChangePassword';
 import SearchPage from './Components/Pages/SearchPage/SearchPage'
 import { smrMA_companyLogo, smrMA_loginState } from './Components/Recoil/atom'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import PrivateRoutes from './PrivateRoutes'
 import MobileViewComp from './Components/Pages/Account/MobileViewComps/MobileViewComp';
 import QuotationQuote from './Components/Pages/Account/QuotationQuote/QuotationQuote';
@@ -39,26 +39,16 @@ import HelpCenter from './Components/Pages/StaticPages/HelpCenter'
 import ManageAddressMAPP from './Components/Pages/Account/address/ManageAddressMAPP';
 import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
 import NewOrderHistoryMapp from './Components/Pages/Account/AccountOrderHistory/NewOrderHistoryMapp';
+import { storImagePath } from '../../../utils/Glob_Functions/GlobalFunction'
 
 const SmilingRock_MobileApp_App = () => {
 
   const location = useLocation();
-  const islogin = useRecoilValue(smrMA_loginState)
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(smrMA_companyLogo);
+  const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-    }
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    smrMA_setCompanyTitleLogo(mobileLogo);
   });
 
   return (
@@ -96,6 +86,9 @@ const SmilingRock_MobileApp_App = () => {
         location.pathname === "/Lookbook" ||
         location.pathname === "/CurrentVersion") ?
         null : <Header />}
+
+
+        
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/WithoutLoginCart" element={<WithoutLoginCart />} />
@@ -106,31 +99,31 @@ const SmilingRock_MobileApp_App = () => {
         <Route path="/Lookbook" element={<Lookbook />} />
         <Route path="/DeliveryShipping" element={<DeliveryShipping />} />
         {/* <Route path='/' element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-          <Route path="/CartPage" element={<CartPage />} />
-          <Route path="/Account" element={<Account />} />
-          <Route path="/HelpCenter" element={<HelpCenter />} />
-          <Route path="/Coupons" element={<Coupons />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/SearchPage" element={<SearchPage />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/AccountLedger" element={<AccountLedger />} />
-          <Route path="/QuotationQuote" element={<QuotationQuote />} />
-          <Route path="/QuotationJob" element={<QuotationJob />} />
-          <Route path="/Sales" element={<Sales />} />
-          <Route path="/SalesReport" element={<SalesReport />} />
-          <Route path="/Memo" element={<PendingMemo />} />
-          <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
-          <Route path="/YourProfile" element={<YourProfile />} />
-          {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}
-          <Route path="/OrderHistory" element={<NewOrderHistoryMapp />} />
-          <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
-          <Route path="/ChangePassword" element={<ChangePassword />} />
-          <Route path="/MobileViewComp" element={<MobileViewComp />} />
+        <Route path="/CartPage" element={<CartPage />} />
+        <Route path="/Account" element={<Account />} />
+        <Route path="/HelpCenter" element={<HelpCenter />} />
+        <Route path="/Coupons" element={<Coupons />} />
+        <Route path="/Delivery" element={<Delivery />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/Confirmation" element={<Confirmation />} />
+        <Route path="/myWishList" element={<Wishlist />} />
+        <Route path="/p/*" element={<ProductList />} />
+        <Route path="/d/*" element={<ProductDetail />} />
+        <Route path="/SearchPage" element={<SearchPage />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/AccountLedger" element={<AccountLedger />} />
+        <Route path="/QuotationQuote" element={<QuotationQuote />} />
+        <Route path="/QuotationJob" element={<QuotationJob />} />
+        <Route path="/Sales" element={<Sales />} />
+        <Route path="/SalesReport" element={<SalesReport />} />
+        <Route path="/Memo" element={<PendingMemo />} />
+        <Route path="/DesignWiseSalesReport" element={<DesignWiseSalesReport />} />
+        <Route path="/YourProfile" element={<YourProfile />} />
+        {/* <Route path="/OrderHistory" element={<OrderHistory />} /> */}
+        <Route path="/OrderHistory" element={<NewOrderHistoryMapp />} />
+        <Route path="/ManageAddress" element={<ManageAddressMAPP />} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
+        <Route path="/MobileViewComp" element={<MobileViewComp />} />
         {/* </Route> */}
         <Route path="/p/*" element={<ProductList />} />
         <Route path="/d/*" element={<ProductDetail />} />

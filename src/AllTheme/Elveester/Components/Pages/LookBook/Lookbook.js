@@ -104,12 +104,12 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth} = SwiperSlideRef.current;
+      const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };
-  
+
   const handleResize = () => {
     updateSize();
   };
@@ -623,30 +623,34 @@ const Lookbook = () => {
     setIsPgLoading(true);
   };
 
+  useEffect(() => {
+    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound,
+          };
+        })
+      );
 
-  // useEffect(() => {
-  //   if (filteredDesignSetLstData) {
-  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-  //         const isAvailable = await checkImageAvailability(designImageUrl);
-  //         return {
-  //           designno: detail?.designno,
-  //           src: isAvailable ? designImageUrl : imageNotFound
-  //         };
-  //       })
-  //     );
+      Promise.all(imagePromises).then((results) => {
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
 
-  //     Promise.all(imagePromises).then((results) => {
-  //       // Update state with the resolved image sources
-  //       const newImageSources = results.reduce((acc, { designno, src }) => {
-  //         acc[designno] = src;
-  //         return acc;
-  //       }, {});
-  //       setImageSources(newImageSources);
-  //     });
-  //   }
-  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
+        setImageSources((prevSources) => {
+          const isDifferent = Object.keys(newImageSources).some(
+            (key) => newImageSources[key] !== prevSources[key]
+          );
+          return isDifferent ? newImageSources : prevSources;
+        });
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
     <div className="el_LookBookMain">
@@ -2287,7 +2291,7 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
+                                  <SwiperSlide key={index} ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img

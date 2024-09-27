@@ -63,7 +63,7 @@ const Header = () => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
+    fetch(`${storImagePath()}/ExtraFlag.txt`)
       .then((response) => response.text())
       .then((text) => {
         try {

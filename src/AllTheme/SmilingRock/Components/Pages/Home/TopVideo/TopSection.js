@@ -6,43 +6,17 @@ const TopSection = () => {
   const [loading, setLoading] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const videoRef = useRef(null);
-  const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [localData, setLocalData] = useState();
-  const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
-    fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response.text())
-      .then((text) => {
-        try {
-          const jsonData = JSON.parse(text);
-          setHtmlContent(jsonData);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (htmlContent) {
-      setLocalData((prevData) => ({
-        ...prevData,
-        Blockno: htmlContent?.rd[0]?.Blockno,
-      }));
+    let localData = JSON.parse(sessionStorage.getItem("storeInit"));
+    if(localData){
+      setLocalData(localData);
     }
-  }, [htmlContent]);
-
-  // useEffect(() => {
-  //   let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   setLocalData(localData);
-  // }, []);
+  }, []);
 
   const handleVideoLoad = () => {
     setLoading(false);
-    // Unmute the video once it's loaded
     setTimeout(() => { }, 0);
 
     videoRef.current.controls = false;

@@ -88,7 +88,7 @@ const CartItem = ({
   };
 
   const handleSaveInternal = () => {
-    handleSave(item, remark);
+    handleSave(item);
     handleClose1();
   };
 
@@ -197,14 +197,14 @@ const CartItem = ({
               <div className='elv_ProdWeights_div'>
                 <div className='elv_ProdWt1_div'>
                   <div>
-                    {(Number(item?.Nwt)) !== 0 && (<><span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span style={{ fontWeight: '500', fontSize: '12px' }}>&nbsp;{(item?.Nwt || 0).toFixed(3)}{' '}</span></>)}
+                    {(Number(item?.Nwt)) !== 0 && (<><span className='elv_prodWeights_label'>NWT&nbsp;: </span> <span className='elv_prodWeights_data'>&nbsp;{(item?.Nwt || 0).toFixed(3)}{' '}</span></>)}
                   </div>
                   <div>
                     {storeInitData?.IsDiamondWeight == 1 &&
                       <>
                         {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                           <>
-                            <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span style={{ fontWeight: '500', wordSpacing: '2px', fontSize: '12px' }}>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                            <span className='elv_prodWeights_label'>DWT&nbsp;:</span> <span className='elv_prodWeights_data'>{(item?.Dwt || 0).toFixed(3)} / {(item?.Dpcs || 0)}</span>
                           </>
                         }
                       </>
@@ -217,7 +217,7 @@ const CartItem = ({
                       <>
                         {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                           <>
-                            <span className='elv_prodWeights_label'>CWT: </span> <span style={{ fontWeight: '500', fontSize: '12px' }}>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                            <span className='elv_prodWeights_label'>CWT: </span> <span className='elv_prodWeights_data'>{(item?.CSwt || 0).toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
                           </>
                         }
                       </>
@@ -228,7 +228,7 @@ const CartItem = ({
                       <>
                         {(item?.Gwt != 0) &&
                           <>
-                            <span className='elv_prodWeights_label'>GWT: </span> <span style={{ fontWeight: '500', fontSize: '12px' }}>{(item?.Gwt || 0).toFixed(3)}</span>
+                            <span className='elv_prodWeights_label'>GWT: </span> <span className='elv_prodWeights_data'>{(item?.Gwt || 0).toFixed(3)}</span>
                           </>
                         }
                       </>
