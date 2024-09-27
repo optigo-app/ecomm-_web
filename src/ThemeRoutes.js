@@ -55,6 +55,7 @@ export default function ThemeRoutes() {
   const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
+    console.log(`path..........  ${storInitDataPath()}/StoreInit.json`);
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
