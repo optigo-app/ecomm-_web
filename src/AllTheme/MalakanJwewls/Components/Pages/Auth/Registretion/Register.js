@@ -252,8 +252,8 @@ export default function Register() {
         <div className='smling-register-main'>
           <p style={{
             textAlign: 'center',
-            marginTop: '0px',
-            paddingTop: '5%',
+            margin: '0px',
+            padding: '0px',
             fontSize: '40px',
             color: '#7d7f85',
             fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
