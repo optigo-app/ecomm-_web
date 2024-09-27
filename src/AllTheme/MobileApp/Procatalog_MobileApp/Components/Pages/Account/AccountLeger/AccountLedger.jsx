@@ -574,130 +574,256 @@ const AccountLedger = () => {
                     (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : 
                     <div className='d-flex justify-content-between align-items-center flex_col_Al mt-2'>
                     {
-                       <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            More Filters
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <div className='fs_al2 p-2 d-flex justify-content-start  align-items-center flex-wrap mb-0 w-100'>
-                            <div className='mb_acc'>
-                                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
-                            <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
-                            <p className='fs-6 mb-0 w_30_acc pad_right_Acc' style={{ paddingRight: "8px" }}>Date : </p>
-                            <Box className="w_70_acc">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        label="Date From"
-                                        value={fromDate} 
-                                        ref={fromDateRef}
+                    //    <Accordion>
+                    //     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    //         More Filters
+                    //     </AccordionSummary>
+                    //     <AccordionDetails>
+                    //     <div className='fs_al2 p-2 d-flex justify-content-start  align-items-center flex-wrap mb-0 w-100'>
+                    //         <div className='mb_acc'>
+                    //             <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
+                    //         <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
+                    //         <p className='fs-6 mb-0 w_30_acc pad_right_Acc' style={{ paddingRight: "8px" }}>Date : </p>
+                    //         <Box className="w_70_acc">
+                    //             <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    //                 <DatePicker
+                    //                     label="Date From"
+                    //                     value={fromDate} 
+                    //                     ref={fromDateRef}
 
-                                        onChange={(newValue) => {
-                                            if (newValue === null) {
-                                              setFromDate(null)
-                                            } else {
+                    //                     onChange={(newValue) => {
+                    //                         if (newValue === null) {
+                    //                           setFromDate(null)
+                    //                         } else {
                                       
-                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                        setFromDate(newValue)
-                                                      } else {
-                                                        Swal.fire({
-                                                          title: "Error !",
-                                                          text: "Enter Valid Date From",
-                                                          icon: "error",
-                                                          confirmButtonText: "ok"
-                                                        });
-                                                        backToInitial2();
-                                                      }
+                    //                                 if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                    //                                     setFromDate(newValue)
+                    //                                   } else {
+                    //                                     Swal.fire({
+                    //                                       title: "Error !",
+                    //                                       text: "Enter Valid Date From",
+                    //                                       icon: "error",
+                    //                                       confirmButtonText: "ok"
+                    //                                     });
+                    //                                     backToInitial2();
+                    //                                   }
                                              
-                                            }
-                                          }}
-                                        format="DD MM YYYY"
-                                        placeholder="DD MM YYYY"
-                                        className='quotationFilterDates w_all_acc'
-                                        name="date" 
-                                        id="startdate" 
-                                    />
-                                </LocalizationProvider>
-                            </Box>
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec date_margin_acc">
-                            <p className='fs-6 mb-0 w_30_acc pad_right_Acc' style={{ paddingRight: "8px" }}>To : </p>
-                            <Box className="w_70_acc">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        label="Date To"
-                                        value={toDate} 
-                                        ref={toDateRef}
+                    //                         }
+                    //                       }}
+                    //                     format="DD MM YYYY"
+                    //                     placeholder="DD MM YYYY"
+                    //                     className='quotationFilterDates w_all_acc'
+                    //                     name="date" 
+                    //                     id="startdate" 
+                    //                 />
+                    //             </LocalizationProvider>
+                    //         </Box>
+                    //     </Box>
+                    //     <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec date_margin_acc">
+                    //         <p className='fs-6 mb-0 w_30_acc pad_right_Acc' style={{ paddingRight: "8px" }}>To : </p>
+                    //         <Box className="w_70_acc">
+                    //             <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    //                 <DatePicker
+                    //                     label="Date To"
+                    //                     value={toDate} 
+                    //                     ref={toDateRef}
 
-                                        onChange={(newValue) => {
-                                            if (newValue === null) {
-                                              setToDate(null)
-                                            } else {
-                                              if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setToDate(newValue)
-                                                setShowEndDate(newValue)
-                                              } 
-                                              else {
-                                                Swal.fire({
-                                                  title: "Error !",
-                                                  text: "Enter Valid Date To",
-                                                  icon: "error",
-                                                  confirmButtonText: "ok"
-                                                });
+                    //                     onChange={(newValue) => {
+                    //                         if (newValue === null) {
+                    //                           setToDate(null)
+                    //                         } else {
+                    //                           if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                    //                             setToDate(newValue)
+                    //                             setShowEndDate(newValue)
+                    //                           } 
+                    //                           else {
+                    //                             Swal.fire({
+                    //                               title: "Error !",
+                    //                               text: "Enter Valid Date To",
+                    //                               icon: "error",
+                    //                               confirmButtonText: "ok"
+                    //                             });
 
-                                                backToInitial2();
-                                            }
-                                            }
-                                          }}
-                                        format="DD MM YYYY"
-                                        placeholder="DD MM YYYY"
-                                        className='quotationFilterDates w_all_acc'
-                                        name="date" 
-                                        id="enddate"
-                                    />
-                                </LocalizationProvider>
-                            </Box>
-                        </Box>
-                                </Box>
-                            </div>
-                            <div>         
-                                <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
+                    //                             backToInitial2();
+                    //                         }
+                    //                         }
+                    //                       }}
+                    //                     format="DD MM YYYY"
+                    //                     placeholder="DD MM YYYY"
+                    //                     className='quotationFilterDates w_all_acc'
+                    //                     name="date" 
+                    //                     id="enddate"
+                    //                 />
+                    //             </LocalizationProvider>
+                    //         </Box>
+                    //     </Box>
+                    //             </Box>
+                    //         </div>
+                    //         <div>         
+                    //             <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
         
-                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
-                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }}
-                                    onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
-                                    >
-                                    <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} /></Button>
-                                </Box>
-                            </div>
-                        <Box sx={{paddingBottom: "35px", paddingRight: "15px"}}>
-                            <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }}  
-                            onClick={() => backToInitial3()}>
-                                All
-                            </Button>
-                        </Box>
-                        <Box sx={{paddingBottom: "35px", paddingRight: "15px"}} className="pad_r_acc center_acc w_all_acc">
+                    //             <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
+                    //                 sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }}
+                    //                 onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
+                    //                 >
+                    //                 <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} /></Button>
+                    //             </Box>
+                    //         </div>
+                    //     <Box sx={{paddingBottom: "35px", paddingRight: "15px"}}>
+                    //         <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }}  
+                    //         onClick={() => backToInitial3()}>
+                    //             All
+                    //         </Button>
+                    //     </Box>
+                    //     <Box sx={{paddingBottom: "35px", paddingRight: "15px"}} className="pad_r_acc center_acc w_all_acc">
                        
-                        <div className='d-flex pt-2'>
-                            <button className='ms-2 mx-1 btn border p-2 py-0 daybtn mb-2' title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
-                                {[30, 60, 90]?.map((days) => (
-                                    <button key={days} 
-                                    className={`mx-1 btn  p-2 py-0 daybtn mb-2 btnHover`} 
-                                    title={`${days} days`} 
-                                    style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
-                                     onClick={() => handleDays(days)}>{days}</button>
-                                ))}
-                            <button className='ms-2 mx-1 btn border p-2 py-0 daybtn me_3 mb-2' title='next' 
-                            onClick={() => handleNextDays()}
-                            >&gt;</button>
-                        </div>
-                        </Box>
+                    //     <div className='d-flex pt-2'>
+                    //         <button className='ms-2 mx-1 btn border p-2 py-0 daybtn mb-2' title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                    //             {[30, 60, 90]?.map((days) => (
+                    //                 <button key={days} 
+                    //                 className={`mx-1 btn  p-2 py-0 daybtn mb-2 btnHover`} 
+                    //                 title={`${days} days`} 
+                    //                 style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                    //                  onClick={() => handleDays(days)}>{days}</button>
+                    //             ))}
+                    //         <button className='ms-2 mx-1 btn border p-2 py-0 daybtn me_3 mb-2' title='next' 
+                    //         onClick={() => handleNextDays()}
+                    //         >&gt;</button>
+                    //     </div>
+                    //     </Box>
     
-                        <div className='mx-1 ms-4 mb-2'>
-                        </div>
-                        </div>                                                        
-                        </AccordionDetails>
-                       </Accordion>
+                    //     <div className='mx-1 ms-4 mb-2'>
+                    //     </div>
+                    //     </div>                                                        
+                    //     </AccordionDetails>
+                    //    </Accordion>
                     }
+                                                <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'0px', marginTop:'20px', width:'100%'}}  className='accordion_Account_Head accordion_pd_Acc'>
+                                <AccordionSummary style={{padding:'0px !important'}} expandIcon={<ExpandMoreIcon />} >Filters</AccordionSummary>
+                                <AccordionDetails style={{padding:'0px'}} className=''>
+                                    <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%', padding:'0px 10px'}}>
+                                        <Box sx={{paddingBottom: "10px", paddingRight: "0px"}}>
+                                            <Button variant="contained" className="muiSmilingRocksBtn" size='small' sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", marginLeft:'10px'}} onClick={() => backToInitial3()}>
+                                                All
+                                            </Button>
+                                        </Box>
+                                        <Box className="daysfilter_account2">
+                                            <Box  className=" center_acc w_all_acc">                      
+                                    <div className='d_flex_Acc' style={{paddingTop:'8px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                        <button className=' btn_acc border_Acc daybtn' 
+                                            style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
+                                            paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
+                                            title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                                            {[30, 60, 90]?.map((days) => (
+                                                <button key={days} 
+                                                className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
+                                                title={`${days} days`} 
+                                                style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                                                onClick={() => handleDays(days)}>{days}</button>
+                                            ))}
+                                        <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
+                                        onClick={() => handleNextDays()}
+                                        >&gt;</button>
+                                    </div>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                <div style={{display:'flex', alignItems:'center', marginTop:'10px', marginBottom:'10px', justifyContent:'space-between'}}>
+                                    <Box style={{width:'40%'}}>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DatePicker
+                                                label="Date From"
+                                                value={fromDate} 
+                                                ref={fromDateRef}
+                                                onChange={(newValue) => {
+                                                    if (newValue === null) {
+                                                    setFromDate(null)
+                                                    } else {
+                                            
+                                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                                setFromDate(newValue)
+                                                            } else {
+                                                                Swal.fire({
+                                                                title: "Error !",
+                                                                text: "Enter Valid Date From",
+                                                                icon: "error",
+                                                                confirmButtonText: "ok"
+                                                                });
+                                                                backToInitial2();
+                                                            }
+                                                    
+                                                    }
+                                                }}
+                                                format="DD MM YYYY"
+                                                placeholder="DD MM YYYY"
+                                                className='quotationFilterDates w_all_acc w100_dwsr'
+                                                name="date" 
+                                                id="startdate" 
+                                            />
+                                        </LocalizationProvider>
+                                    </Box>
+                                    <Box style={{width:'40%'}}>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DatePicker
+                                                label="Date To"
+                                                value={toDate} 
+                                                ref={toDateRef}
+                                                style={{width:'100%'}}
+                                                onChange={(newValue) => {
+                                                    if (newValue === null) {
+                                                        setToDate(null)
+                                                    } else {
+                                            
+                                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                                setToDate(newValue)
+                                                            } else {
+                                                                Swal.fire({
+                                                                title: "Error !",
+                                                                text: "Enter Valid Date To",
+                                                                icon: "error",
+                                                                confirmButtonText: "ok"
+                                                                });
+                                                                backToInitial2();
+                                                            }
+                                                    
+                                                    }
+                                                }}
+                                                format="DD MM YYYY"
+                                                placeholder="DD MM YYYY"
+                                                className='quotationFilterDates w_all_acc w100_dwsr'
+                                                name="date" 
+                                                id="enddate" 
+                                            />
+                                        </LocalizationProvider>
+                                    </Box>
+                                    <Box sx={{ paddingBottom: "0px"}}>
+                                        <Button variant='contained' size='small' className='muiSmilingRocksBtn' title='search here' sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85",  }} onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)} >
+                                            <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} />
+                                        </Button>
+                                    </Box>
+                                </div>
+                                <div className="daysfilter_account">
+                                    <Box  className=" center_acc w_all_acc">                      
+                                        <div className='d_flex_Acc' style={{paddingTop:'8px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                            <button className=' btn_acc border_Acc daybtn' 
+                                                style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
+                                                paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
+                                                title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
+                                                {[30, 60, 90]?.map((days) => (
+                                                    <button key={days} 
+                                                    className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
+                                                    title={`${days} days`} 
+                                                    style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
+                                                    onClick={() => handleDays(days)}>{days}</button>
+                                                ))}
+                                            <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
+                                            onClick={() => handleNextDays()}
+                                            >&gt;</button>
+                                        </div>
+                                    </Box>
+                                </div>
+                                </AccordionDetails>
+                            </Accordion>
                     </div>
                 }
                 
@@ -724,20 +850,20 @@ const AccountLedger = () => {
                 <div className='text-secondary fs_al d_flex_Acc justify-content-between align-items-start p-2 my-3 mt-0 balance_not_none'>
                     <div className='d-flex justify-content-start align-items-start flex-wrap'>
                         <div className='px-4 px_2_al d-flex flex-column align-items-center mb-2 p-1 w-100'>
-                            <div className='w-100'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w-100 end_acc'>
+                            <div className='w-100'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w-100 end_acc' style={{padding:'2px', fontSize:'12px', paddingLeft:'10px'}}>
                             { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
                             { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }</div>
                         </div>
                         <div className='px-4 px_2_al d-flex flex-column align-items-center mb-2 w-100'>
                             <div className='w-100'>Balance Diam. :&nbsp;</div> 
-                            <div className='bal_Amt_ac w-100 end_acc'>
+                            <div className='bal_Amt_ac w-100 end_acc' style={{padding:'2px', fontSize:'12px', paddingLeft:'10px'}}>
                             { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
                             { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
                             </div>
                         </div>
                         <div className='px-4 px_2_al d-flex flex-column align-items-center mb-2 w-100'>
                             <div className='w-100'>Balance Amount :&nbsp;</div> 
-                            <div className='bal_Amt_ac w-100 end_acc'>
+                            <div className='bal_Amt_ac w-100 end_acc' style={{padding:'2px', fontSize:'12px', paddingLeft:'10px'}}>
                             <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
                             { ((formatAmount(
                                 (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
