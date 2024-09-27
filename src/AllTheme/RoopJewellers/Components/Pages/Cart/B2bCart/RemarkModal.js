@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import './rJ_RemarkModal.scss';
+import './roop_RemarkModal.scss';
 
 const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
 
@@ -30,7 +30,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           flexDirection: 'column',
           borderRadius: '8px',
         }}
-        className="rJ_remarkModalBox"
+        className="roop_remarkModalBox"
       >
         <Typography id="remark-modal-title" variant="h6" component="h2">
           Add The Item Remark..
@@ -44,13 +44,13 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           value={remark}
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
-          className='rJ_RemarkMoalInput'
+          className='roop_RemarkMoalInput'
         />
-        <div className="rJ_projectRemarkBtn-group">
-          <Button className="rJ_remarksave-btn" onClick={onSave}>
+        <div className="roop_projectRemarkBtn-group">
+          <Button className="roop_remarksave-btn" onClick={onSave}>
             Save
           </Button>
-          <Button className="rJ_remarkcancel-btn" onClick={onClose}>
+          <Button className="roop_remarkcancel-btn" onClick={onClose}>
             Cancel
           </Button>
         </div>
