@@ -4,22 +4,22 @@ import { Grid, Skeleton } from '@mui/material';
 const CartPageSkeleton = () => {
   return (
     <Grid container spacing={1} sx={{padding:'0px 10px'}}>
-      <Grid item xs={12} md={9} className='rJ_cartSkeltonListCardGrid'>
+      <Grid item xs={12} md={9} className='roop_cartSkeltonListCardGrid'>
         <Grid container spacing={1}>
           {[...Array(9)].map((_, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Skeleton className='rJ_CartSkelton' variant="rectangular" width="100%" height={240} animation="wave" />
+              <Skeleton className='roop_CartSkelton' variant="rectangular" width="100%" height={240} animation="wave" />
             </Grid>
           ))}
         </Grid>
       </Grid>
 
       <Grid item xs={12} md={3}>
-        <div className='rJ_cartskeltonRightSide'>
-          <Skeleton className='rJ_CartSkelton' variant="rectangular" width="100%" height={500} animation="wave" />
-          <Skeleton className='rJ_CartSkelton' variant="text" width="80%" animation="wave" />
-          <Skeleton className='rJ_CartSkelton' variant="text" width="80%" animation="wave" />
-          <Skeleton className='rJ_CartSkelton' variant="text" width="60%" animation="wave" />
+        <div className='roop_cartskeltonRightSide'>
+          <Skeleton className='roop_CartSkelton' variant="rectangular" width="100%" height={500} animation="wave" />
+          <Skeleton className='roop_CartSkelton' variant="text" width="80%" animation="wave" />
+          <Skeleton className='roop_CartSkelton' variant="text" width="80%" animation="wave" />
+          <Skeleton className='roop_CartSkelton' variant="text" width="60%" animation="wave" />
         </div>
       </Grid>
     </Grid>

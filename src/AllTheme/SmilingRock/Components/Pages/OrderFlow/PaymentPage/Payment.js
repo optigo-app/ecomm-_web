@@ -47,7 +47,7 @@ const Payment = () => {
 
 
     const handleSaveInternal = () => {
-        const trimmedRemark = orderRemark.trim();
+        const trimmedRemark = orderRemark?.trim();
         handleOrderRemarkFun(trimmedRemark);
         handleClose();
     };

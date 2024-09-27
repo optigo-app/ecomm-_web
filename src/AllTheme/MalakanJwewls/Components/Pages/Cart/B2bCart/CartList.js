@@ -21,7 +21,6 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-
   return (
     <div className="mala_RightCartList">
       <Grid container spacing={1}>

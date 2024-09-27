@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: $primaryFontFamily;
 }
 
 .malaMo_cart-container {
@@ -15,13 +16,15 @@
     position: relative;
     border: none;
     box-shadow: none;
+    outline: none   ;
+    font-family: $primaryFontFamily;
 
     @media (max-width: 1050px) {
         padding: 10px;
     }
 }
 
-.malaMo_cart-quantity {
+.mala_cart-quantity {
     display: flex;
     width: 130px;
     height: 45px;
@@ -87,10 +90,18 @@
         font-size: 1.2rem;
         font-weight: bold;
         margin-bottom: 10px;
+        font-family: $primaryFontFamily;
+        color: $titleColor;
 
         @media (max-width: 1050px) {
             font-size: 1rem;
         }
+    }
+
+    .malaMo_stockPriceQtyDiv {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .malaMo_Cart-options,
@@ -117,7 +128,7 @@
 
             select {
                 padding: 10px;
-                border: 1px solid  #ececec;
+                border: 1px solid #ececec;
                 border-radius: 4px;
                 background: #fff;
                 font-size: $fontSize2;
@@ -138,6 +149,7 @@
     .malaMo_cartQtyPricemainDev {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         font-family: $primaryFontFamily;
 
         .product-price,
@@ -146,7 +158,7 @@
             color: $titleColor;
             font-weight: bold;
 
-            .malaMo_currencyFont {
+            .mala_currencyFont {
                 margin-right: 5px;
             }
         }

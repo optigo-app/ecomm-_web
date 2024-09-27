@@ -7,15 +7,17 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
+    const [isPloding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
@@ -43,19 +45,12 @@ const Payment = () => {
     //     handleClose();
     // };
 
-    
-    const handleSaveInternal = () => {
-        const trimmedRemark = orderRemark.trim();
-    
-        if (trimmedRemark && trimmedRemark !== "null") {
-            handleOrderRemarkFun(trimmedRemark);
-            handleClose();
-        } else {
-            toast.info("Please add a remark first!");
-        }        
-    };
 
-    console.log('orderreamrk', orderRemark);
+    const handleSaveInternal = () => {
+        const trimmedRemark = orderRemark?.trim();
+        handleOrderRemarkFun(trimmedRemark);
+        handleClose();
+    };
 
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -77,6 +72,7 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             try {
                 const texData = await fetchEstimateTax();
@@ -85,10 +81,11 @@ const Payment = () => {
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally {
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-           
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -107,16 +104,14 @@ const Payment = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-        
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
-            navigate('/Confirmation',{replace  :true});
+            navigate('/Confirmation',{replace :true});
             setIsloding(false);
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
-                
                 setCartCountVal(res?.cartcount)
             })
 
@@ -159,7 +154,7 @@ const Payment = () => {
     }
 
     return (
-        <div className='stam_paymentMainDiv'>
+        <div className='mala_paymentMainDiv'>
             <div className='mala_paymentSecondMainDiv'>
                 <div className='mala_PaymentContainer'>
                     <div className='mala_paymentBackbtnDiv'>
@@ -169,7 +164,7 @@ const Payment = () => {
                             variant="body2"
                             onClick={handleOpen}
                         >
-                            {orderRemakdata == "" ? "Add order Remark" : "Update order Remark"}
+                            {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
                     <div className='mala_paymentDetailMainDiv'>
@@ -185,12 +180,14 @@ const Payment = () => {
                                 <p className='mala_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
                                     Order Remark : {orderRemakdata}
                                 </p>
-        
+
                             </div>
                         </div>
                         <div className='mala_paymentDetailRightSideContent'>
-                            <h3>Order Summary</h3>
-                            {/* <div className='mala_paymenttotalpricesummary'>
+                            {storeInit?.IsPriceShow == 1 &&
+                                <>
+                                    <h3>Order Summary</h3>
+                                    {/* <div className='mala_paymenttotalpricesummary'>
                                 <p>Subtotal</p>
                                 <p className='mala_PriceTotalTx'>
                                     <span className="mala_currencyFont">
@@ -218,37 +215,41 @@ const Payment = () => {
                                     <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
                                 </p>
                             </div> */}
-
-                            <div class="mala_order-summary">
-                                <div class="mala_summary-item">
-                                    <div class="mala_label">Subtotal</div>
-                                    <div class="mala_value">
-                                        <span className="mala_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(finalTotal)}</span>
-                                    </div>
-                                </div>
-                                <div class="mala_summary-item">
-                                    <div class="mala_label">Estimated Tax</div>
-                                    <div class="mala_value">
-                                        <span className="mala_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                                <div class="mala_summary-item">
-                                    <div class="mala_label">Estimated Total</div>
-                                    <div class="mala_value">
-                                        <span className="mala_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                            </div>
-
+                                    {!isPloding ? (
+                                        <div class="mala_order-summary">
+                                            <div class="mala_summary-item">
+                                                <div class="mala_label">Subtotal</div>
+                                                <div class="mala_value">
+                                                    <span className="mala_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(finalTotal)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="mala_summary-item">
+                                                <div class="mala_label">Estimated Tax</div>
+                                                <div class="mala_value">
+                                                    <span className="mala_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                            <div class="mala_summary-item">
+                                                <div class="mala_label">Estimated Total</div>
+                                                <div class="mala_value">
+                                                    <span className="mala_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) :
+                                        <Skeleton className='mala_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    }
+                                </>
+                            }
                             <div className='mala_shippingAddress'>
                                 <h3>Shipping Address</h3>
                                 <p className='mala_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
