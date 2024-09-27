@@ -82,8 +82,8 @@ export default function ThemeRoutes() {
     setRoopWebLogo(webLogo);
     setRoopMobileLogo(mobileLogo);
 
-    proCat_setCompanyTitleLogo(webLogo);
-    proCatM_setCompanyTitleLogo(mobileLogo);
+    // proCat_setCompanyTitleLogo(webLogo);
+    // proCatM_setCompanyTitleLogo(mobileLogo);
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
@@ -175,7 +175,6 @@ export default function ThemeRoutes() {
   return (
     <>
       <div>
-
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={title} />
@@ -191,7 +190,6 @@ export default function ThemeRoutes() {
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
         </Helmet>
-
       </div>
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 &&

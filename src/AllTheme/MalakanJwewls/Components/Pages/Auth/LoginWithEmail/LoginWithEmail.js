@@ -316,8 +316,8 @@ export default function LoginWithEmail() {
                 <div className='mala_loginEmailD'>
                     <p style={{
                         textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '0px',
+                        padding: '0px',
+                        margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
@@ -326,7 +326,7 @@ export default function LoginWithEmail() {
                     >Login With Password</p>
                     <p style={{
                         textAlign: 'center',
-                        marginTop: '-80px',
+                        margin: '0px',
                         fontSize: '15px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
