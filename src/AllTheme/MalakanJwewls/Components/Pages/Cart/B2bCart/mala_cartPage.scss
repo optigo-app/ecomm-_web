@@ -2,11 +2,15 @@
 
 $cartUpdateBtncolor: #b1b1b1;
 
-.mala_B2B_MainBGDiv {
+.mala_MainBGDiv {
+  // background-color: $backgroundColor;
   font-family: $primaryFontFamily;
 
-  .mala_cartMainPageDiv {
+  .cartMainPageDiv {
     background-color: #fff;
+    margin-inline: 1%;
+    min-height: 79.6vh;
+    margin-bottom: 170px;
   }
 
   .mala_cartmainRowDiv {
@@ -173,6 +177,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
       .mala_RightCartList {
         width: 100%;
+
         .mala_cartListCardGrid {
           padding-left: 15px !important;
           padding-top: 15px !important;
@@ -189,7 +194,7 @@ $cartUpdateBtncolor: #b1b1b1;
       margin-top: 6px;
       position: sticky;
       height: 80vh;
-      top:  70px;
+      top: 70px;
       margin-bottom: 190px;
     }
 
@@ -242,6 +247,7 @@ $cartUpdateBtncolor: #b1b1b1;
       width: 390px;
       position: relative;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
       .mala_card-ContentsData {
         padding: 2px 0px 2px 0px !important;
         font-size: $fontSize0 !important;
@@ -343,6 +349,7 @@ $cartUpdateBtncolor: #b1b1b1;
           color: $titleColor;
         }
       }
+
     }
 
     .mala_StockCart-options {
@@ -357,9 +364,9 @@ $cartUpdateBtncolor: #b1b1b1;
         background-color: #f7f7f7;
         padding: 10px;
         border-radius: 0px;
-        // width: 48%;
-        max-width: 550px;
-        width: 200px;
+        width: 48.5%;
+        // max-width: 550px;
+        // width: 200px;
 
         label {
           display: block;
@@ -370,12 +377,35 @@ $cartUpdateBtncolor: #b1b1b1;
           font-family: $primaryFontFamily !important;
 
         }
+
         span {
           display: block;
           color: $titleColor;
           font-size: $fontSize2;
           font-family: $primaryFontFamily !important;
 
+        }
+      }
+
+      @media(max-width: 1560px) {
+        .option {
+          width: 48%;
+
+          label,
+          span {
+            font-size: $fontSize1;
+          }
+        }
+      }
+
+      @media(max-width: 1490px) {
+        .option {
+          width: 47%;
+
+          label,
+          span {
+            font-size: $fontSize0;
+          }
         }
       }
     }
@@ -532,15 +562,16 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   .mala_cartListImage {
-    width: 100%;
     max-width: 200px;
     max-height: 200px;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
+    width: 65%;
   }
 
   .mala_rightContentDataDiv {
     max-width: 150px;
+    width: 35%;
   }
 
   .mala_cartcontentData {
@@ -779,6 +810,11 @@ $cartUpdateBtncolor: #b1b1b1;
     margin: 0 auto;
   }
 
+  @media(max-width:1200px) {
+    .cartMainPageDiv {
+      margin-inline: 1%;
+    }
+  }
 
   @media (max-width: 768px) {
     .mala_remarkModalBox {
@@ -1089,7 +1125,8 @@ $cartUpdateBtncolor: #b1b1b1;
                   .mala_ItemRemarkbtn {
                     margin-right: 0px;
                   }
-                  .mala_ReomoveCartbtn{
+
+                  .mala_ReomoveCartbtn {
                     margin-right: 12px;
                   }
                 }

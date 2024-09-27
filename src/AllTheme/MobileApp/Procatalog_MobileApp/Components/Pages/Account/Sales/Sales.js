@@ -388,12 +388,12 @@ const Sales = () => {
         }
       };
     return (
-        <>
+        <div className='sales_Account_PCMJ'>
         <div className='sticky-header'>
             <MobViewHeader title="Sales" />
         </div>
             <Box className='smilingSavedAddressMain salesApiSectionMob' sx={{ padding: "20px", marginBottom:'3rem'}}>
-            <Accordion sx={{marginBottom:'20px'}}>
+            {/* <Accordion sx={{marginBottom:'20px'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     More Filters
                 </AccordionSummary>
@@ -479,7 +479,98 @@ const Sales = () => {
                 </Box>
             </Box>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
+                            <Accordion  style={{padding:'2px', paddingBottom:'10px', marginBottom:'40px', marginTop:'20px'}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>More Filters</AccordionSummary>
+                    <AccordionDetails style={{padding:'0px'}}>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                            <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
+                                All
+                            </Button>
+                            <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 2px 35px 0",   maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                                <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote" style={{minWidth:'100%'}} value={searchVal} onChange={eve => {
+                                    setSearchVal(eve?.target?.value);
+                                    handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                                }} />
+                                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                                    onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon />
+                                </Button>
+                            </Box>
+                        </Box>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
+                            <Box style={{ boxSizing:'border-box'}}>
+                                {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>Date: </p> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date From"
+                                            value={fromDate}
+                                            format="DD MM YYYY"
+                                            placeholder="DD MM YYYY"
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setFromDate(null)
+                                                } else {
+                                                
+
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setFromDate(newValue)
+                                                    } else {
+
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date From",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            
+                                            }}
+                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee_job'
+                                            ref={fromDateRef}
+                                        />
+                                    </LocalizationProvider>
+                            </Box>
+                            <Box style={{ boxSizing:'border-box'}}>
+                                {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>To: </p> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date To"
+                                            value={toDate}
+                                    
+                                            format="DD MM YYYY"
+                                            placeholder="DD MM YYYY"
+                                    
+                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee_job'
+                                            ref={toDateRef}
+                                            inputProps={{ readOnly: true }}
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setToDate(null)
+                                                } else {
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setToDate(newValue)
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date To",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                </LocalizationProvider>
+                            </Box>
+                            <Box sx={{ paddingBottom: '4px', display: "flex", alignItems: "center", }} className="  fs_elvee_quote">
+                                <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                            </Box>
+                        </Box>
+                    </AccordionDetails>
+                </Accordion>
             {isLoading ?
                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
                 <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableMob">
@@ -554,18 +645,8 @@ const Sales = () => {
                 </Paper>}
 
             </Box>
-        </>
+        </div>
     )
 }
 
 export default Sales
-
-// import React from 'react'
-
-// const Sales = () => {
-//   return (
-//     <div>Sales</div>
-//   )
-// }
-
-// export default Sales

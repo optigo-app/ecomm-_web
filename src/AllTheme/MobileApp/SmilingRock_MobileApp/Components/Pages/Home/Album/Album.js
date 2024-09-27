@@ -19,15 +19,6 @@ const Album = () => {
     setLoadingHome(true);
     let data = JSON?.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.AlbumImageFol);
-    // const loginUserDetail = JSON?.parse(sessionStorage?.getItem('loginUserDetail'));
-    // const storeInit = JSON?.parse(sessionStorage?.getItem('storeInit'));
-    // const visiterID = Cookies.get('visiterId');
-    // let finalID;
-    // if (storeInit?.IsB2BWebsite == 0) {
-    //     finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
-    // } else {
-    //     finalID = loginUserDetail?.id || '0';
-    // }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -81,12 +72,13 @@ const Album = () => {
         navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
       } else {
         navigation('/signin')
+
       }
     } else {
       navigation(`/p/${name}/?A=${btoa(`AlbumName=${name}`)}`)
     }
-
   }
+
 
   return (
     <div ref={albumRef}>
@@ -104,7 +96,6 @@ const Album = () => {
                   src={imageUrl + data?.AlbumImageFol + "/" + data?.AlbumImageName}
                   className="smr_AlbumImageMain_img"
                 />
-                {/* <p className="smr_albumName">{data?.AlbumName}</p> */}
               </div>
             ))}
           </div>

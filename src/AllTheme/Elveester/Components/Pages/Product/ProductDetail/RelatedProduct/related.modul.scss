@@ -2,18 +2,18 @@
 
 .elv_main_RelatedProduct {
 
+  // margin-bottom: 4rem;
+  margin-top: 4rem;
   font-family: $fontSansSerif !important;
 
   .heading {
-    margin-top: 2rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    height: 120px;
     width: 100%;
     justify-content: center;
     flex-direction: column;
     font-size: 30px;
-    // font-family: "FreightDisp Pro Medium";
     font-family: $fontSansSerif !important;
     color: #7d7f85;
 

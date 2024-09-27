@@ -99,7 +99,6 @@ const ProductDetail = () => {
   // const [daimondFilterData, setDaimondFiletrData] = useState([]);
   // const [colorStoneFilterData, setColorStoneFiletrData] = useState([]);
   // const [FindingFilterData, setFindingFiletrData] = useState([]);
-
   // const [dqcRate, setDqcRate] = useState();
   // const [dqcSettRate, setDqcSettRate] = useState()
   // const [csqcRate, setCsqcRate] = useState()

@@ -532,6 +532,7 @@ const DesignWiseSalesReport = () => {
     }, []);
 
     return (
+        <div className='designWiseSalesReport_Account_HOQ'>
         <Box className="designWiseSalesReport">
             { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
                 <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
@@ -1428,6 +1429,7 @@ const DesignWiseSalesReport = () => {
                 className='reactPaginationDesignWise'
             />}
         </Box>
+        </div>
     )
 }
 

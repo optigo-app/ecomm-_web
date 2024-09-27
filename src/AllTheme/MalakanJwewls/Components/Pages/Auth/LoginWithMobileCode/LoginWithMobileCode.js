@@ -65,16 +65,16 @@ export default function LoginWithMobileCode() {
             errors.otp = 'Code is required';
             return;
         }
-        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '',visiterId).then((response) => {
+        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '', visiterId).then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 sessionStorage.setItem('LoginUser', true)
                 setIsLoginState(true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 sessionStorage.setItem('registerMobile', mobileNo);
 
-                if(redirectMobileUrl){
+                if (redirectMobileUrl) {
                     navigation(redirectMobileUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
 
@@ -110,8 +110,8 @@ export default function LoginWithMobileCode() {
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '0px',
+                        padding: '0px',
+                        margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
@@ -120,7 +120,7 @@ export default function LoginWithMobileCode() {
                     >Login With Code</p>
                     <p style={{
                         textAlign: 'center',
-                        marginTop: '-80px',
+                        margin: '0px',
                         fontSize: '15px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'

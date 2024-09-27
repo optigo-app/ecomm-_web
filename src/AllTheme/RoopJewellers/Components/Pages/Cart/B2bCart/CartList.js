@@ -21,9 +21,8 @@ const CartList = ({
   handleSave,
   handleCancel,
 }) => {
-
   return (
-    <div className="rJ_RightCartList">
+    <div className="roop_RightCartList">
       <Grid container spacing={1}>
         {items.map((item, index) => (
           <CartItem

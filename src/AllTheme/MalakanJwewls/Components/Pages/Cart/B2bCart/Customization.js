@@ -54,7 +54,19 @@ const Customization = ({
     }
   }
 
-  console.log("selectedItem", selectedItem);
+  function combineDiamondInfo(quality, color) {
+    if (!quality || !color) return '';
+
+    const qualityParts = quality?.split(',');
+    const colorParts = color?.split(',');
+
+    const combinedParts = qualityParts?.map((q, index) => {
+      const c = colorParts[index] || '';
+      return `${q?.toUpperCase()}-${c?.toUpperCase()}`;
+    });
+
+    return combinedParts.join(', ');
+  }
 
   return (
     <>
@@ -201,16 +213,20 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-            {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+            {(selectedItem?.Dwt !== "0" || selectedItem?.Dpcs !== "0") && (
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
-                <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
+                <span>
+                  {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                </span>
               </div>
-            }
+            )}
             {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Color Stone:</label>
-                <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
+                <span>
+                  {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                </span>
               </div>
             }
             {selectedItem?.Size != "" &&
@@ -221,10 +237,16 @@ const Customization = ({
             }
           </div>
           <div className="mala_stockPriceQtyDiv">
-            <div className="option">
-              <label htmlFor="qty">Qty:</label>
-              <span>{selectedItem?.Quantity}</span>
-            </div>
+            {selectedItem?.IsMrpBase == 0 ? (
+              <div className="option">
+                <label htmlFor="qty">Qty:</label>
+                <span>{selectedItem?.Quantity}</span>
+              </div>
+            ) :
+              <div>
+                <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+              </div>
+            }
             <div className=''>
               {storeInitData?.IsPriceShow == 1 &&
                 <div className="mala_Stockproduct-price">

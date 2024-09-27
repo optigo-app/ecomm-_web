@@ -20,7 +20,7 @@ const ShopBanner = () => {
                     <img src={`${storImagePath()}/images/HomePage/shop/shop2.jpg`} className='mala_promo_secton2_img' />
                 </div>
                 <div className='mala_shop_div2_2'>
-                    <img src={`${storImagePath()}/images/HomePage/shop/shop4.jpg`} className='mala_promo_secton2_img' />
+                    <img src={`${storImagePath()}/images/HomePage/shop/shop4.jpeg`} className='mala_promo_secton2_img' />
                 </div>
             </div>
         </div>

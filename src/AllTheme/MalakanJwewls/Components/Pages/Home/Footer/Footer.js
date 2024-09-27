@@ -34,11 +34,13 @@ const Footer = ({ fromPage }) => {
     <div className='mala_Footer1_main'>
       <div className='footerBottomMain'>
         <div className="mala_FooterLogo_div1">
+          <a href='/'>
           <img
             src={compnyLogo}
             loading="lazy"
             className="mala_logo_header"
           />
+          </a>
         </div>
         <div className='mala_footer_div2_main'>
           <div className='mala_footer_div2_sub_main'>

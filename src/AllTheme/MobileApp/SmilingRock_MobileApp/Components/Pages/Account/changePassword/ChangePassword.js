@@ -132,7 +132,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className='changePassword_Account_SMRM'>
         <ToastContainer />
 
         <div className='sticky-header'>
@@ -231,7 +231,7 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }
 

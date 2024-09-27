@@ -350,7 +350,7 @@ const useCart = () => {
           cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
         );
         setCartData(updatedCartData);
-        setProductRemark(resStatus?.design_remark);
+        setProductRemark("");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -580,7 +580,8 @@ const useCart = () => {
       if (pd?.ImageCount > 0) {
         primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-      } else {
+      } 
+      else {
         primaryImage = secondaryImage = imageNotFound;
       }
 

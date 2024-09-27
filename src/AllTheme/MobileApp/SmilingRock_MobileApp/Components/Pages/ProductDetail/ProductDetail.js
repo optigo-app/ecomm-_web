@@ -163,11 +163,12 @@ const ProductDetail = () => {
       )[0] ?? csQcCombo[0];
 
     let mcArr = metalColorCombo?.filter(
-      (ele) =>{ if(selectMtColor) {
-        return ele?.colorname == selectMtColor
-      }
-      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
-    })[0];
+      (ele) => {
+        if (selectMtColor) {
+          return ele?.colorname == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -229,9 +230,10 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-      
-      let mcArr = metalColorCombo?.filter(
-        (ele) =>{ if(selectMtColor) {
+
+    let mcArr = metalColorCombo?.filter(
+      (ele) => {
+        if (selectMtColor) {
           return ele?.colorname == selectMtColor
         }
         else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
@@ -1802,7 +1804,7 @@ const ProductDetail = () => {
                       <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
-                            className="prod_detail_info_title"
+                            className="prod_detail_info_title"    
                           >{`Diamond Detail(${diaList?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
@@ -2103,17 +2105,15 @@ const ProductDetail = () => {
                             <div className="compeletethelook_cont">
                               <div className="smr_ctlImg_containe">
                                 <img
+                                  src={selectedThumbImg?.link}
                                   // src={
-                                  //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
+                                  //   designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
+                                  //     designSetList?.designsetuniqueno +
+                                  //     "/" +
+                                  //     designSetList?.DefaultImageName
+                                  //     :
+                                  //     imageNotFound
                                   // }
-                                  src={
-                                    designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
-                                      designSetList?.designsetuniqueno +
-                                      "/" +
-                                      designSetList?.DefaultImageName
-                                      :
-                                      imageNotFound
-                                  }
                                   alt={""}
                                   className="ctl_img"
                                 />

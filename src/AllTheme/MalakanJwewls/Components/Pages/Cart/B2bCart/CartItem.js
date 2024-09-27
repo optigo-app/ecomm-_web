@@ -10,12 +10,12 @@ import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } fr
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { mala_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import { mala_CartCount } from '../../../Recoil/atom';
 
 const CartItem = ({
   item,
@@ -40,7 +40,7 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(mala_CartCount)
@@ -77,7 +77,6 @@ const CartItem = ({
 
   const handleIsSelected = () => {
     let isselected = selectedItem?.id == item?.id
-    
     setIsSelectedItems()
   }
 
@@ -129,6 +128,8 @@ const CartItem = ({
     }
   }, [item]);
 
+  console.log('ggsdhsgghdghasgd', imageSrc)
+
   return (
     <Grid
       item
@@ -153,13 +154,15 @@ const CartItem = ({
       // onTouchEnd={cancelPress}
       >
         <Box className="mala_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          <CardMedia
-            component="img"
-            image={imageSrc}
-            alt={item?.TitleLine}
-            className='mala_cartListImage'
-            onClick={() => onSelect(item)}
-          />
+          {imageSrc != undefined &&
+            <CardMedia
+              component="img"
+              image={imageSrc != undefined && imageSrc}
+              alt={item?.TitleLine}
+              className='mala_cartListImage'
+              onClick={() => onSelect(item)}
+            />
+          }
           <div className='mala_rightContentDataDiv'>
             <CardContent className='mala_cartcontentData' onClick={() => onSelect(item)}>
               <Typography variant="body2" className='mala_DesignNoTExt'>
@@ -174,13 +177,15 @@ const CartItem = ({
                       GWT: {(item?.Gwt || 0)?.toFixed(3)}
                     </Typography>
                   }
-
-                  {Number(item?.Nwt) !== 0 && (
-                    <Typography variant="body2" className='mala_card-ContentsData'>
-                      NWT: {(item?.Nwt || 0)?.toFixed(3)}{' '}
-                    </Typography>
-                  )}
-
+                  {storeInitData?.IsMetalWeight == 1 &&
+                    <>
+                      {Number(item?.Nwt) !== 0 && (
+                        <Typography variant="body2" className='mala_card-ContentsData'>
+                          NWT: {(item?.Nwt || 0)?.toFixed(3)}{' '}
+                        </Typography>
+                      )}
+                    </>
+                  }
                 </div>
                 <div>
                   {storeInitData?.IsDiamondWeight == 1 &&

@@ -386,6 +386,7 @@ const QuotationQuote = () => {
     };
 
     return (
+        <div className="quotationQuote_Account_HOQ">
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
             { (!isSmallScreen && !isTabletScreen) && <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
@@ -747,17 +748,8 @@ const QuotationQuote = () => {
                 </Paper>}
 
         </Box>
+        </div>
     )
 }
 
 export default QuotationQuote
-
-// import React from 'react'
-
-// const QuotationQuote = () => {
-//   return (
-//     <div>QuotationQuote</div>
-//   )
-// }
-
-// export default QuotationQuote

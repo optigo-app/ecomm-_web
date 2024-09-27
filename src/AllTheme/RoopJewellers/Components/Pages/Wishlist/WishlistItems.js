@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./smr_wishlist.scss";
+import "./roop_wishlist.scss";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -75,41 +75,41 @@ const WishlistItems = ({
                     sm={itemsLength <= 2 ? 4 : 4}
                     md={itemsLength <= 2 ? 4 : 4}
                     lg={itemsLength <= 2 ? 3 : 3}
-                    className="smr_wlListGrid"
+                    className="roop_wlListGrid"
                 >
-                    <Card className="smr_WlListCard">
+                    <Card className="roop_WlListCard">
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
                                 image={imageSrc}
                                 alt={item?.TitleLine}
-                                className="smr_WlListImage"
+                                className="roop_WlListImage"
                                 onClick={() => handleMoveToDetail(item)}
                             />
-                            <CardContent className="smr_cardContent">
+                            <CardContent className="roop_cardContent">
                                 <div className="cardText">
                                     <Typography
                                         variant="body2"
-                                        className="smr_card-ContentData smr_WlTitleline"
+                                        className="roop_card-ContentData roop_WlTitleline"
                                     >
                                         {item?.designno != "" && item?.designno}
                                         {item?.TitleLine != "" || item?.TitleLine != null && " - " + item?.TitleLine}
                                     </Typography>
-                                    <Typography variant="body2" className="smr_card-ContentData">
+                                    <Typography variant="body2" className="roop_card-ContentData">
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
-                                                <span className="smr_wishDT">GWT: </span>
-                                                {/* <span className='smr_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
-                                                <span className="smr_wishDT">
+                                                <span className="roop_wishDT">GWT: </span>
+                                                {/* <span className='roop_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                                <span className="roop_wishDT">
                                                     {(item?.Gwt || 0).toFixed(3)}
                                                 </span>
-                                                <span className="smr_pipes"> | </span>
+                                                <span className="roop_pipes"> | </span>
                                             </>
                                         }
                                         {storeInit?.IsMetalWeight == 1 &&
                                             <>
-                                                <span className="smr_wishDT">NWT : </span>
-                                                <span className="smr_wishDT">
+                                                <span className="roop_wishDT">NWT : </span>
+                                                <span className="roop_wishDT">
                                                     {(item?.Nwt || 0).toFixed(3)}
                                                 </span>
                                             </>
@@ -118,8 +118,8 @@ const WishlistItems = ({
                                             <>
                                                 {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                                                     <>
-                                                        <span className="smr_pipes"> | </span>
-                                                        <span className="smr_wishDT">DWT: </span>
+                                                        <span className="roop_pipes"> | </span>
+                                                        <span className="roop_wishDT">DWT: </span>
                                                         <span>
                                                             {(item?.Dwt || 0).toFixed(3)} /
                                                             {(item?.Dpcs || 0)}
@@ -132,8 +132,8 @@ const WishlistItems = ({
                                             <>
                                                 {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                                                     <>
-                                                        <span className="smr_pipes"> | </span>
-                                                        <span className="smr_wishDT">CWT: </span>
+                                                        <span className="roop_pipes"> | </span>
+                                                        <span className="roop_wishDT">CWT: </span>
                                                         <span>
                                                             {(item?.CSwt || 0).toFixed(3)} /
                                                             {(item?.CSpcs || 0)}
@@ -143,7 +143,7 @@ const WishlistItems = ({
                                             </>
                                         }
                                     </Typography>
-                                    <Typography variant="body2" className="smr_card-ContentData">
+                                    <Typography variant="body2" className="roop_card-ContentData">
                                         {storeInit?.IsMetalTypeWithColor == 1 &&
                                             <>
                                                 {item?.metalcolorname !== "" && (
@@ -157,10 +157,10 @@ const WishlistItems = ({
                                                 {" / "}
                                             </>
                                         }
-                                        {/* <span className="smr_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                        {/* <span className="roop_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
                                         {storeInit?.IsPriceShow == 1 &&
                                             <>
-                                                <span className="smr_currencyFont">
+                                                <span className="roop_currencyFont">
                                                     {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>{" "}
                                                 <span>{formatter(item?.FinalCost)}</span>
@@ -169,12 +169,12 @@ const WishlistItems = ({
                                     </Typography>
                                 </div>
                                 {/* <div className='designNoWlList'>
-                            <p className='smr_DesignNoTExt'>{item?.designno}</p>
+                            <p className='roop_DesignNoTExt'>{item?.designno}</p>
                         </div> */}
                             </CardContent>
-                            <div className="smr_Wl-CartbtnDiv">
+                            <div className="roop_Wl-CartbtnDiv">
                                 <button
-                                    className="smr_Wl-Cartbtn"
+                                    className="roop_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
                                     {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}
@@ -196,20 +196,20 @@ const WishlistItems = ({
                     sm={itemsLength <= 2 ? 4 : 3}
                     md={itemsLength <= 2 ? 4 : 2}
                     lg={itemsLength <= 2 ? 3 : 2}
-                    className="smr_wlListGrid"
+                    className="roop_wlListGrid"
                 >
-                    <Card className="smr_WlListCard">
+                    <Card className="roop_WlListCard">
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
                                 image={imageSrc}
                                 alt={item?.TitleLine}
-                                className="smr_WlListImage2"
+                                className="roop_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}
                             />
-                            <div className="smr_Wl-CartbtnDiv">
+                            <div className="roop_Wl-CartbtnDiv">
                                 <button
-                                    className="smr_Wl-Cartbtn"
+                                    className="roop_Wl-Cartbtn"
                                     onClick={() => handleWishlistToCartFun(item)}
                                 >
                                     {item?.IsInCart != 1 ? "Add to cart +" : "in cart"}

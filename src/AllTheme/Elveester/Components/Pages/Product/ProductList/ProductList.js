@@ -202,7 +202,6 @@ const ProductList = () => {
 
   useEffect(() => {
     let output = FilterValueWithCheckedOnly();
-    console.log("output: ", output);
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
@@ -1249,6 +1248,8 @@ const ProductList = () => {
     flexDirection: 'row-reverse',
   }));
 
+  console.log("kkk", decodeURIComponent(location?.pathname?.split("/")[2]))
+
   return (
     <>
       <div className="elv_Productlists_Main_div">
@@ -1258,115 +1259,107 @@ const ProductList = () => {
               <div className="elv_Productslists_lists_name">
                 <div className="elv_Productlists_details">
                   <span className="elv_Productlists_details_1">
-                    {BreadCumsObj()?.menuname && (
-                      <span
-                        onClick={() =>
-                          handleBreadcums({
-                            [BreadCumsObj()?.FilterKey]:
-                              BreadCumsObj()?.FilterVal,
-                          })
-                        }
-                      >
-                        {BreadCumsObj()?.menuname}
-                      </span>
+                    {location?.search?.charAt(1) == "S" ? (
+                      <>
+                        {decodeURIComponent(location?.pathname?.split("/")[2])}
+                      </>
+                    ) : (
+                      <>
+                        {BreadCumsObj()?.menuname && (
+                          <span
+                            onClick={() =>
+                              handleBreadcums({
+                                [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                              })
+                            }
+                          >
+                            {BreadCumsObj()?.menuname}
+                          </span>
+                        )}
+                      </>
                     )}
+
                   </span>
                   <span className="elv_Productlists_details_2">&nbsp;&nbsp;&nbsp;{afterFilterCount}</span>
                   <span className="elv_Productlists_details_3">
-                    &nbsp;{afterFilterCount?.length == 1 ? "Design" : "Designs"}
+                    &nbsp;{afterFilterCount === 1 ? "Design" : "Designs"}
                   </span>
                 </div>
                 <div role="presentation">
-                  {/* <Breadcrumbs
-                    separator="›"
-                    fontSize="16px"
-                    aria-label="breadcrumb"
-                  >
-                    {menuParams?.menuname && (
-                      <Typography
+                  {productListData?.length > 0 ? (
+                    <>
+                      <div
                         className="elv_breadcrumbs"
-                        color="text.primary"
+                        style={{ marginLeft: "3px" }}
                       >
-                        <Link to={'/'}>{menuParams?.menuname}</Link>
-                      </Typography>
-                    )}
-                    {menuParams?.FilterVal && (
-                      <Typography
-                        className="elv_breadcrumbs"
-                        color="text.primary"
-                      >
-                        {menuParams?.FilterVal}
-                      </Typography>
-                    )}
-                    {menuParams?.FilterVal2 && (
-                      <Typography
-                        className="elv_breadcrumbs"
-                        color="text.primary"
-                      >
-                        {menuParams?.FilterVal2}
-                      </Typography>
-                    )}
-                  </Breadcrumbs> */}
-
-                  {IsBreadCumShow && (
-                    <div
-                      className="elv_breadcrumbs"
-                      style={{ marginLeft: "3px" }}
-                    >
-                      <span
-                        onClick={() => {
-                          navigate("/");
-                        }}
-                      >
-                        {"Home >"}{" "}
-                      </span>
-                      {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
-                      {BreadCumsObj()?.menuname && (
                         <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [BreadCumsObj()?.FilterKey]:
-                                BreadCumsObj()?.FilterVal,
-                            })
-                          }
+                          onClick={() => {
+                            navigate("/");
+                          }}
                         >
-                          {BreadCumsObj()?.menuname}
+                          {"Home >"}{" "}
                         </span>
-                      )}
 
-                      {BreadCumsObj()?.FilterVal1 && (
-                        <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [BreadCumsObj()?.FilterKey]:
-                                BreadCumsObj()?.FilterVal,
-                              [BreadCumsObj()?.FilterKey1]:
-                                BreadCumsObj()?.FilterVal1,
-                            })
-                          }
-                        >
-                          {` > ${BreadCumsObj()?.FilterVal1 || BreadCumsObj()?.FilterVal}`}
-                        </span>
-                      )}
+                        {location?.search?.charAt(1) == "S" ? (
+                          <span>{decodeURIComponent(location?.pathname?.split("/")[2])}</span>
+                        ) :
+                          <>
+                            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+                            {IsBreadCumShow && (
+                              <>
+                                {BreadCumsObj()?.menuname && (
+                                  <span
+                                    onClick={() =>
+                                      handleBreadcums({
+                                        [BreadCumsObj()?.FilterKey]:
+                                          BreadCumsObj()?.FilterVal,
+                                      })
+                                    }
+                                  >
+                                    {BreadCumsObj()?.menuname}
+                                  </span>
+                                )}
 
-                      {BreadCumsObj()?.FilterVal2 && (
-                        <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [BreadCumsObj()?.FilterKey]:
-                                BreadCumsObj()?.FilterVal,
-                              [BreadCumsObj()?.FilterKey1]:
-                                BreadCumsObj()?.FilterVal1,
-                              [BreadCumsObj()?.FilterKey2]:
-                                BreadCumsObj()?.FilterVal2,
-                            })
-                          }
-                        >
-                          {` > ${BreadCumsObj()?.FilterVal2}`}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                                {BreadCumsObj()?.FilterVal1 && (
+                                  <span
+                                    onClick={() =>
+                                      handleBreadcums({
+                                        [BreadCumsObj()?.FilterKey]:
+                                          BreadCumsObj()?.FilterVal,
+                                        [BreadCumsObj()?.FilterKey1]:
+                                          BreadCumsObj()?.FilterVal1,
+                                      })
+                                    }
+                                  >
+                                    {` > ${BreadCumsObj()?.FilterVal1 || BreadCumsObj()?.FilterVal}`}
+                                  </span>
+                                )}
+
+                                {BreadCumsObj()?.FilterVal2 && (
+                                  <span
+                                    onClick={() =>
+                                      handleBreadcums({
+                                        [BreadCumsObj()?.FilterKey]:
+                                          BreadCumsObj()?.FilterVal,
+                                        [BreadCumsObj()?.FilterKey1]:
+                                          BreadCumsObj()?.FilterVal1,
+                                        [BreadCumsObj()?.FilterKey2]:
+                                          BreadCumsObj()?.FilterVal2,
+                                      })
+                                    }
+                                  >
+                                    {` > ${BreadCumsObj()?.FilterVal2}`}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </>
+                        }
+                      </div>
+                    </>
+                  ) : null}
+
                 </div>
               </div>
               <div className="elv_Productlists_lists_header_logo">
@@ -2575,6 +2568,7 @@ const Product_Card = ({
                   e.stopPropagation();
                   e.target.src = noImageFound
                 }}
+                style={{ opacity: isHover && (RollImageUrl || videoUrl) ? '0' : '1' }}
               />
             </div>
           </div>

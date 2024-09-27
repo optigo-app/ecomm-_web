@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import './Account.modul.scss'
+// import './Account.modul.scss'
+import './Account.scss';
 import { Box, CircularProgress, IconButton, InputAdornment, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -90,6 +91,7 @@ export default function Account() {
         setIsLoginState(false);
         localStorage.clear();
         sessionStorage.setItem("LoginUser", false);
+        localStorage.removeItem("userLoginTokenProCatApp");
         sessionStorage.removeItem("storeInit");
         sessionStorage.removeItem("loginUserDetail");
         sessionStorage.removeItem("remarks");
@@ -105,6 +107,7 @@ export default function Account() {
     }
 
     return (
+        <div className='accountTab_Account_PCMJ'>
         <div className='PC_AppSmiling_AccountMain'>
             <div className='titleMain'>
                 <div style={{ width: '100%' }}>
@@ -222,6 +225,7 @@ export default function Account() {
                         </CustomTabPanel>
                     </Box> */}
             </div>
+        </div>
         </div>
     )
 }

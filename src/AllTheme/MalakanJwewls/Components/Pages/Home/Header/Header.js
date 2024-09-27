@@ -1063,6 +1063,19 @@ const Header = () => {
                 ) : (
                   islogin && (
                     <>
+                      <li
+                        className="nav_li_smining_Icone mala_mobileHideIcone"
+                        onClick={toggleOverlay}
+                        style={{}}
+                      >
+                        <IoSearchOutline
+                          style={{
+                            height: "20px",
+                            cursor: "pointer",
+                            width: "20px",
+                          }}
+                        />
+                      </li>
                       <Badge
                         badgeContent={wishCountNum}
                         max={1000}
@@ -1085,19 +1098,7 @@ const Header = () => {
                           </li>
                         </Tooltip>
                       </Badge>
-                      <li
-                        className="nav_li_smining_Icone mala_mobileHideIcone"
-                        onClick={toggleOverlay}
-                        style={{}}
-                      >
-                        <IoSearchOutline
-                          style={{
-                            height: "20px",
-                            cursor: "pointer",
-                            width: "20px",
-                          }}
-                        />
-                      </li>
+
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -1299,7 +1300,7 @@ const Header = () => {
                           </>
                         </div>
                       ))}
-                      <button
+                      <p
                         className="mala_underline_button"
                         onClick={() =>
                           handelMenu({
@@ -1310,7 +1311,7 @@ const Header = () => {
                         }
                       >
                         view all
-                      </button>
+                      </p>
                     </List>
                   </>
                 </div>

@@ -4,11 +4,13 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './rJ_cartPage.scss';
+import './roop_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -17,8 +19,6 @@ import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
-import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
-import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const CartPage = () => {
@@ -147,28 +147,27 @@ const CartPage = () => {
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
-      navigate('/Confirmation',{replace  :true});
+      navigate('/Confirmation');
       GetCountAPI().then((res) => {
         setCartCountVal(res?.cartcount)
       })
-
     } else {
       toast.error('Something went wrong!')
     }
   }
 
   return (
-    <div className='rJ_B2B_MainBGDiv'>
-      <div className='rJ_cartMainPageDiv'>
+    <div className='roop_MainBGDiv'>
+      <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
-            <div className="rJ_cart-title">My Cart</div>
+            <div className="roop_cart-title">My Cart</div>
           }
-          <div className='rJ_cartmainRowDiv'>
+          <div className='roop_cartmainRowDiv'>
             {!isloding && cartData?.length != 0 &&
-              <div className='rJ_cartButton-groups'>
+              <div className='roop_cartButton-groups'>
                 <Link
-                  className='rJ_ReomoveAllCartbtn'
+                  className='roop_ReomoveAllCartbtn'
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
@@ -177,31 +176,31 @@ const CartPage = () => {
               </div>
             }
             {!isMobileScreen &&
-              <div className="rJ_cart-title">My Cart</div>
+              <div className="roop_cart-title">My Cart</div>
             }
             {!isloding && cartData?.length != 0 &&
-              <div className='rJ_placeOrderMainbtnDivs'>
-                <button className="rJ_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='roop_placeOrderMainbtnDivs'>
+                <button className="roop_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             }
           </div>
 
           {/* {!isloding && cartData.length != 0 &&
             <>
-              <div className="rJ_cartButton-group">
-                <button className="rJ_cartBtn rJ_cartActivebtn">List View</button>
-                <button className='rJ_cartBtn'>Image View</button>
-                <button className='rJ_cartBtn' onClick={handleRemoveAll}>Clear All</button>
+              <div className="roop_cartButton-group">
+                <button className="roop_cartBtn roop_cartActivebtn">List View</button>
+                <button className='roop_cartBtn'>Image View</button>
+                <button className='roop_cartBtn' onClick={handleRemoveAll}>Clear All</button>
                 <div>
                   <Link
-                    className='rJ_ReomoveAllCartbtn'
+                    className='roop_ReomoveAllCartbtn'
                     variant="body2"
                     onClick={handleRemoveAllDialog}
                   >
                     Clear All
                   </Link>
                   <Link
-                    className='rJ_ReomoveAllCartbtn rJ_SelectAllCartbtn'
+                    className='roop_ReomoveAllCartbtn roop_SelectAllCartbtn'
                     variant="body2"
                     onClick={handleMultiSelectToggle}
                   >
@@ -209,18 +208,18 @@ const CartPage = () => {
                   </Link>
                 </div>
 
-                <button className='rJ_cartBtn'>Show ProductList</button>
+                <button className='roop_cartBtn'>Show ProductList</button>
 
-                <button className='rJ_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
+                <button className='roop_cartBtn' onClick={handleMultiSelectToggle}>{multiSelect ? 'Disable MultiSelect' : 'Select All'}</button>
                 {multiSelect && selectedItems.length != 0 &&
-                  <button className='rJ_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
+                  <button className='roop_cartBtn' onClick={handleOpenModal} >Show Selected Items</button>
                 }
-                <div className='rJ_placeOrderMobileMainbtnDiv'>
-                  <button className="rJ_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
+                <div className='roop_placeOrderMobileMainbtnDiv'>
+                  <button className="roop_place-order-btnMobile" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
               </div>
-              <div className='rJ_placeOrderMainbtnDiv'>
-                <button className="rJ_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+              <div className='roop_placeOrderMainbtnDiv'>
+                <button className="roop_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             </>
           } */}
@@ -245,8 +244,8 @@ const CartPage = () => {
               }
             </div>
             {cartData.length !== 0 ? (
-              <div className="rJ_cartMainPage">
-                <div className="rJ_cart-left-sides">
+              <div className="roop_cartMainPage">
+                <div className="roop_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -266,9 +265,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="rJ_cart-right-side">
+                <div className="roop_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='rJ_pc-cartDetail'>
+                    <div className='roop_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -293,7 +292,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='rJ_mobile-cartDetails'>
+                    <div className='roop_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -329,10 +328,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='rJ_noCartlistData'>
-                <p className='rJ_title'>No Data Found!</p>
-                <p className='rJ_desc'>Please First Add Product in Cart</p>
-                <button className='rJ_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='roop_noCartlistData'>
+                <p className='roop_title'>No Data Found!</p>
+                <p className='roop_desc'>Please First Add Product in Cart</p>
+                <button className='roop_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
@@ -347,7 +346,12 @@ const CartPage = () => {
           title="Confirm"
           content="Are you sure you want to remove all Items?"
         />
+
+        {/* <Footer /> */}
       </div>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+        <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+      </div> */}
     </div>
   );
 };

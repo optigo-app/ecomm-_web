@@ -358,6 +358,7 @@ const Sales = () => {
     };
 
     return (
+        <div className='sales_Account_HOQ'>
         <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
             { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
@@ -685,6 +686,7 @@ const Sales = () => {
                 </Paper>}
 
         </Box>
+        </div>
     )
 }
 
