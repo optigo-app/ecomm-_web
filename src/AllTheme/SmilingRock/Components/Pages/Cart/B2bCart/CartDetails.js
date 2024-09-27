@@ -31,7 +31,7 @@ const CartDetails = ({
 }) => {
 
   const [storeInitData, setStoreInitData] = useState();
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
@@ -47,12 +47,14 @@ const CartDetails = ({
     <div className="smr_cart-container">
       <div className="smr_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='smr_cartImage' /> */}
-        <img 
-        src={imageSrc} 
-        alt="image" 
-        className='smr_cartDetailImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
-        />
+        {imageSrc != undefined &&
+          <img
+            src={imageSrc}
+            alt="image"
+            className='smr_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        }
       </div>
       <Customization
         ispriceloding={ispriceloding}
