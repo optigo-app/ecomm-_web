@@ -26,7 +26,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        padding: 0px 10px;
+        padding: 0px 0px 0px 10px;
 
         .smr_leftSideBestTR {
             width: 50%;
@@ -80,8 +80,9 @@
             width: 50%;
             display: flex;
             flex-wrap: wrap;
-            justify-content: end;
+            // justify-content: end;
             gap: 10px;
+            padding-left: 10px;
 
             .product-card {
                 width: calc(50% - 10px);
