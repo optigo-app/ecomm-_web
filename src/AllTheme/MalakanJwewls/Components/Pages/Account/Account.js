@@ -122,6 +122,7 @@ export default function Account() {
       }
 
     return (
+        <div className='accountTab_Account_MKJ'>
         <div className='accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
@@ -235,6 +236,7 @@ export default function Account() {
                 </div>
             </div>
             <Footer />
+        </div>
         </div>
     )
 }

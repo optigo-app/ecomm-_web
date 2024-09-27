@@ -364,7 +364,7 @@ const ManageAddressMAPP = () => {
     }
 
     return (
-        <>
+        <div className='address_Account_SMRM'>
         <ToastContainer />
         <div className="sticky-header">
             <MobViewHeader title="Manage Address" />
@@ -576,7 +576,7 @@ const ManageAddressMAPP = () => {
                     className='smr_MoSnakbarTM'
                 />
             </div>                    
-        </>
+        </div>
     )
 }
 

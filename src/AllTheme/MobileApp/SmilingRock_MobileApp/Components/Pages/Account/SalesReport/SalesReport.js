@@ -663,7 +663,7 @@ const SalesReport = () => {
   };
 
   return (
-    <>
+    <div className="salesReport_Account_SMRM">
     <div className="sticky-header">
        <MobViewHeader title="Sales Report" />
     </div>
@@ -1059,7 +1059,7 @@ const SalesReport = () => {
         </>
       )}
     </Box>
-    </>
+    </div>
   );
 };
 

@@ -3,10 +3,12 @@ import './YourProfile.scss';
 import { TextField, Modal,  CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
+import { stam_defaultAddressState } from '../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { getAddressData } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { validateChangeYPAccount, validateUserDataYPAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
-import { stam_defaultAddressState } from '../../../Recoil/atom';
+import HeadTitleAcc from '../HeadTitleAcc';
+
 
 export default function YourProfile() {
     
@@ -15,9 +17,10 @@ export default function YourProfile() {
     const [editedUserData, setEditedUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-    const [errorMsg, setErrorMsg] = useState('');
-    const defaultAddress = useRecoilValue(stam_defaultAddressState);
+
+    // const defaultAddress = useRecoilValue(stam_defaultAddressState);
     const [addressPresentFlag, setAddressPresentFlag] = useState(false);
+
 
     useEffect(() => {
         const storedUserData = sessionStorage.getItem('loginUserDetail');
@@ -26,6 +29,8 @@ export default function YourProfile() {
             let obj = {...parsedUserData};
             obj.mobileno = obj.mobileno.replace(/-/g, '');
             setUserData(obj);
+     
+            
         }
     }, []);
 
@@ -56,7 +61,6 @@ export default function YourProfile() {
         const { errors, isValid } = validateUserDataYPAccount(editedUserData);
 
         if (isValid) {
-            // No errors, proceed with the submission
             try {
                 setIsLoading(true);
                 const storedData = sessionStorage.getItem('loginUserDetail');
@@ -88,7 +92,7 @@ export default function YourProfile() {
             setErrors(errors);
         }
     };
-
+    
     const handleClose = () => {
         setEditMode(false);
     };
@@ -98,17 +102,22 @@ export default function YourProfile() {
         setErrors({});
     }
 
+
     return (
-        <div className='yourProfile_Account_SFJ smr_yourProfile'>
-            <ToastContainer />
+        <div className='yourProfile_Account_stam'>
+        <div className='stam_yourProfile'>
+            <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
 
             {isLoading && (
-                <div className="loader-overlay" style={{zIndex:100000}}>
+                <div className="loader-overlay" style={{zIndex:10000}}>
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <div><HeadTitleAcc title="Profile" /></div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
-                {   <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                {  <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                     {userData && (
                         <>
                             <div className='mobileEditProfileDiv'>
@@ -163,13 +172,13 @@ export default function YourProfile() {
                                     variant="outlined"
                                     className='labgrowRegister'
                                     style={{ margin: '15px' }}
-                                    value={userData?.street || ''}
-                                    disabled
                                     sx={{ "& .MuiInputBase-input.Mui-disabled" : {
                                         WebkitTextFillColor:'black'
                                     }}}
                                     multiline
                                     rows={2}
+                                    value={userData?.street || ''}
+                                    disabled
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -177,15 +186,18 @@ export default function YourProfile() {
                     )}
                 </div>}
                 {  <div>
-                    <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    <button onClick={handleEdit} className='stam_SmilingAddEditAddrwess'>Edit Profile</button>
                 </div>}
             </div>
 
             <Modal
                 open={editMode}
                 onClose={handleClose}
+                sx={{
+                    zIndex : 999999
+                }}
             >
-                <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
+                <div className='smilingEditProfilePopup_stam' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
                     <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                         <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
                         {editedUserData && (
@@ -232,30 +244,27 @@ export default function YourProfile() {
                                     helperText={errors.mobileno}
                                 />
                                 <TextField
-                                    id="street"
-                                    label="Address"
-                                    variant="outlined"
-                                    style={{ margin: '15px' }}
-                                    value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
-                                    onChange={handleInputChange}
-                                    error={!!errors.street}
-                                    helperText={errors.street}
-                                    sx={{ "& .MuiInputBase-input.Mui-disabled" : {
-                                        WebkitTextFillColor:'black'
-                                    }}}
-                                    multiline
-                                    rows={2}
+                                     id="street"
+                                     label="Address"
+                                     variant="outlined"
+                                     multiline
+                                     rows={2}
+                                     style={{ margin: '15px' }}
+                                     value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
+                                     onChange={handleInputChange}
+                                     error={!!errors.street}
+                                     helperText={errors.street}
                                 />
                             </>
                         )}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                        <button type='submit' className='smilingDeleveryformSaveBtn' >Save</button>
-                        <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_sfj'>Cancel</button>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '25px' ,padding  :"0 14px" }}>
+                        <button type='submit' className='stam_smilingDeleveryformSaveBtn' >Save</button>
+                        <button onClick={() => handleCancel()} className='stam_smilingDeleveryformCansleBtn' >Cancel</button>
                     </div>
                     </form>
                 </div>
             </Modal>
-        
+        </div>
         </div>
     );
 }

@@ -26,7 +26,7 @@ const MobViewHeader = (props) => {
     // },[])
 
     return (
-        <>
+        <div className='header_Account_PCMJ'>
             <div className='container_movh'>
                 <p className="SmiCartListTitle">
                     <IoArrowBack
@@ -36,7 +36,7 @@ const MobViewHeader = (props) => {
                     {props?.title}
                 </p>
             </div>
-        </>
+        </div>
     )
 }
 
