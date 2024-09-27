@@ -616,11 +616,11 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setIsImageLoad(false)
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
             }
 
             if (!res?.pdList[0]) {
@@ -678,6 +678,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(()=>{
+          setIsImageLoad(false)
+          setProdLoading(false)
+        })
     }
 
     FetchProductData()
@@ -1461,7 +1465,7 @@ const ProductDetail = () => {
                                 onChange={(e) => handleMetalWiseColorImg(e)}
                               >
                                 {metalColorCombo?.map((ele) => (
-                                  <option key={ele?.id} value={ele?.metalcolorname}>
+                                  <option key={ele?.id} value={ele?.colorcode}>
                                     {ele?.metalcolorname}
                                   </option>
                                 ))}
