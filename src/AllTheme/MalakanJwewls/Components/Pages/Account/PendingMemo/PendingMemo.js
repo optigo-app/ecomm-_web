@@ -631,7 +631,7 @@ const PendingMemo = () => {
   };
 
   return (
-    <Box>
+    <Box className="memo_Account_MKJ">
       <Box
         sx={{
           display: "flex",

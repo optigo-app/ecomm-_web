@@ -163,165 +163,167 @@ export default function Account() {
   }, []);
 
   return (
-    <div className="accountPagTabSection">
-      <div>
-        <div className="hoq-AccountMain">
-          <div className={` ${!isSticky ? 'sticky_header_web_sm_hoq_isSticky' : 'sticky_header_web_sm_hoq'}`} style={{
-            top  : !isSticky && '0px' ,
-          }}>
-            <p className="hoqAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
-            <div className="hoqAccountTabWebView hoq_main_head_none" style={{paddingTop:'1%'}}>
-              <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
-                  {" "}
-                  {/*  orientation="vertical" indicatorColor="#7d7f85" */}
-                  <Tab label="Your Profile" {...a11yProps(0)} />
-                  <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                  <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
-                  <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} /> {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                   {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )}
-                  {/* <Tab label="Log Out" onClick={handleLogout} /> */}
+    <div className="accountTab_Account_HOQ">
+      <div className="accountPagTabSection">
+        <div>
+          <div className="hoq-AccountMain">
+            <div className={` ${!isSticky ? 'sticky_header_web_sm_hoq_isSticky' : 'sticky_header_web_sm_hoq'}`} style={{
+              top  : !isSticky && '0px' ,
+            }}>
+              <p className="hoqAccountTitle youraccountpagesec" style={{ height: "40px", margin: "0px", padding: "0px" }} > Your Account </p>
+              <div className="hoqAccountTabWebView hoq_main_head_none" style={{paddingTop:'1%'}}>
+                <Box sx={{ display: "flex", justifyContent: "center", borderBottom: 1, borderColor: "divider", }} >
+                  <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                    {" "}
+                    {/*  orientation="vertical" indicatorColor="#7d7f85" */}
+                    <Tab label="Your Profile" {...a11yProps(0)} />
+                    <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
+                    <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} /> {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                    {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )}
+                    {/* <Tab label="Log Out" onClick={handleLogout} /> */}
+                  </Tabs>
+                  {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                </Box>
+              </div>
+              <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount " style={{ display: "none" }} >
+                <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+                  <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: "100%" }} >
+                    {" "}
+                    {/*  indicatorColor="#7d7f85" */}
+                    <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: "start", width: "90%", borderColor: "divider", }} />
+                    <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                    <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
+                    <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                    {/* <Tab label="PLM" {...a11yProps(5)} /> */}
+                    {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )} {/* <Tab label="Log Out" onClick={handleLogout} /> */}
+                  </Tabs>
+                  {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
+                </Box>
+              </div>
+              <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
+                      marginTop: "5px", // This changes the underline color to black
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    },
+                  }}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
+                  <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                  <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                  <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                  {accountValidation() && ( <Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
+                  <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
+                  {loginUSerDeatil?.IsPLWOn && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
                 </Tabs>
-                {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-              </Box>
+              </div>
             </div>
-            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount " style={{ display: "none" }} >
-              <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: "100%" }} >
-                  {" "}
-                  {/*  indicatorColor="#7d7f85" */}
-                  <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: "start", width: "90%", borderColor: "divider", }} />
-                  <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                  <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} /> {accountValidation() && ( <Tab label="ACCOUNT" {...a11yProps(3)} /> )}
-                  <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                  {/* <Tab label="PLM" {...a11yProps(5)} /> */}
-                  {loginUSerDeatil?.IsPLWOn && ( <Tab label="PLM" {...a11yProps(1)} /> )} {/* <Tab label="Log Out" onClick={handleLogout} /> */}
-                </Tabs>
-                {/* <p className='smilingAccountLogout' onClick={handleLogout}>LOG OUT</p> */}
-              </Box>
-            </div>
-            <div className="hoqAccountTabMobileView hoqYourAccountPageTabs yourAccount iconsTabAcc" style={{paddingTop:'1%', display: "flex", alignItems: "center", justifyContent: "center"}}>
-              <Tabs value={value} orientation="horizontal" variant="scrollable" onChange={handleChange} TabIndicatorProps={{ style: { backgroundColor: "black",
-                    marginTop: "5px", // This changes the underline color to black
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  },
-                }}
-                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", }} >
-                <Tab icon={<AccountBoxIcon titleAccess="Your Profile" />} {...a11yProps(0)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                <Tab icon={<ListAltIcon titleAccess="Order History" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                <Tab icon={<PersonPinIcon titleAccess="Manage Address" />} {...a11yProps(2)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                {accountValidation() && ( <Tab icon={<AutoStoriesIcon titleAccess="Accounts" />} {...a11yProps(3)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
-                <Tab icon={ <LockResetIcon titleAccess="Change Password" {...a11yProps(accountValidation() ? 4 : 3)} /> } style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} />
-                {loginUSerDeatil?.IsPLWOn && ( <Tab icon={<ShieldIcon titleAccess="PLM" />} {...a11yProps(1)} style={{ minWidth: "16.66%", display: "flex", justifyContent: "center", alignItems: "center", padding: "2px", height: "30px", }} /> )}
-              </Tabs>
-            </div>
-          </div>
-          <div className="hoq-AccountTabMain">
-            <Box sx={{ width: "100%" }}>
-              {/* <div className='hoqAccountTabWebView'>
-                                <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >  
-                                        <Tab label="Your Profile" {...a11yProps(0)} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
-                                    </Tabs>
-                                </Box>
-                            </div>
-                            <div className='hoqAccountTabMobileView YourAccountPageTabs'>
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                    <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   
-                                        <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
-                                        <Tab label="ORDER HISTORY" {...a11yProps(1)} />
-                                        <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
-                                        {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
-                                        <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
-                                        {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
-                                        <Tab label="Log Out" onClick={handleLogout} />
-                                    </Tabs>
-                                </Box>
-                               
-                            </div> */}
+            <div className="hoq-AccountTabMain">
+              <Box sx={{ width: "100%" }}>
+                {/* <div className='hoqAccountTabWebView'>
+                                  <Box sx={{ display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
+                                      <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  >  
+                                          <Tab label="Your Profile" {...a11yProps(0)} />
+                                          <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                          <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                          {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                          <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                          {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                          <Tab label="Log Out" onClick={handleLogout} />
+                                      </Tabs>
+                                  </Box>
+                              </div>
+                              <div className='hoqAccountTabMobileView YourAccountPageTabs'>
+                                  <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                      <Tabs value={value} orientation="vertical" onChange={handleChange} sx={{ width: '100%' }} >   
+                                          <Tab label="Your Profile" {...a11yProps(0)} sx={{ textAlign: 'start', width: '90%', borderColor: 'divider' }} />
+                                          <Tab label="ORDER HISTORY" {...a11yProps(1)} />
+                                          <Tab label="MANAGE ADDRESSES" {...a11yProps(2)} />
+                                          {accountValidation() && <Tab label="ACCOUNT" {...a11yProps(3)} />}
+                                          <Tab label="CHANGE PASSWORD" {...a11yProps(accountValidation() ? 4 : 3)} />
+                                          {loginUSerDeatil?.IsPLWOn && <Tab label="PLM" {...a11yProps(1)} />}
+                                          <Tab label="Log Out" onClick={handleLogout} />
+                                      </Tabs>
+                                  </Box>
+                                
+                              </div> */}
 
-              <CustomTabPanel value={value} index={0}>
-                <div>
-                  <YourProfile />
-                </div>
-              </CustomTabPanel>
+                <CustomTabPanel value={value} index={0}>
+                  <div>
+                    <YourProfile />
+                  </div>
+                </CustomTabPanel>
 
-              <CustomTabPanel value={value} index={1}>
-                <div>
-                  {/* <OrderHistory /> */}
-                  {/* <OrderHistoryGroup /> */}
-                  <NewOrderHistoryHOQ />
-                </div>
-              </CustomTabPanel>
-              <CustomTabPanel
-                value={value}
-                index={2}
-                className="manageAddressSec"
-              >
-                <ManageAddress />
-              </CustomTabPanel>
-
-              {accountValidation() && (
+                <CustomTabPanel value={value} index={1}>
+                  <div>
+                    {/* <OrderHistory /> */}
+                    {/* <OrderHistoryGroup /> */}
+                    <NewOrderHistoryHOQ />
+                  </div>
+                </CustomTabPanel>
                 <CustomTabPanel
                   value={value}
-                  index={3}
-                  className="accountSalesPage"
+                  index={2}
+                  className="manageAddressSec"
                 >
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      value={value1}
-                      className="accountTabSection"
-                      variant="scrollable"
-                      onChange={handleChangeSub}
-                      aria-label="basic tabs example"
-                      sx={{ background: "#7d7f8529", ...tabIndicator }}
-                      scrollButtons="auto"
-                    >
-                      {accountInner?.map((e, i) => {
-                        return (
-                          <Tab
-                            label={e?.tabLabel}
-                            {...a11yProps(i)}
-                            sx={{ color: "#7d7f85" }}
-                            key={i}
-                          />
-                        );
-                      })}
-                    </Tabs>
-                  </Box>
-                  {accountInner?.map((e, i) => { return ( <React.Fragment key={i}> 
-                        {e?.id === 1163 && ( <CustomTabPanel value={value1} index={i} className="AcountSales" > <QuotationQuote /> </CustomTabPanel> )} 
-                        {e?.id === 1164 && ( <CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel> )}
-                        {e?.id === 1157 && ( <CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel> )}
-                        {e?.id === 1314 && ( <CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel> )}
-                        {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
-                         {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
-                        {e?.id === 1159 && ( <CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel> )} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
-                                                <PendingMemo />
-                                            </CustomTabPanel>} */}
-                      </React.Fragment>
-                    );
-                  })}
+                  <ManageAddress />
                 </CustomTabPanel>
-              )}
 
-              <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
-                <div>
-                  <ChangePassword />
-                </div>
-              </CustomTabPanel>
-              { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
-                <div>
-                  <Plm />
-                </div>
-              </CustomTabPanel>}
-            </Box>
+                {accountValidation() && (
+                  <CustomTabPanel
+                    value={value}
+                    index={3}
+                    className="accountSalesPage"
+                  >
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        value={value1}
+                        className="accountTabSection"
+                        variant="scrollable"
+                        onChange={handleChangeSub}
+                        aria-label="basic tabs example"
+                        sx={{ background: "#7d7f8529", ...tabIndicator }}
+                        scrollButtons="auto"
+                      >
+                        {accountInner?.map((e, i) => {
+                          return (
+                            <Tab
+                              label={e?.tabLabel}
+                              {...a11yProps(i)}
+                              sx={{ color: "#7d7f85" }}
+                              key={i}
+                            />
+                          );
+                        })}
+                      </Tabs>
+                    </Box>
+                    {accountInner?.map((e, i) => { return ( <React.Fragment key={i}> 
+                          {e?.id === 1163 && ( <CustomTabPanel value={value1} index={i} className="AcountSales" > <QuotationQuote /> </CustomTabPanel> )} 
+                          {e?.id === 1164 && ( <CustomTabPanel value={value1} index={i} className="quotationFilters" > <QuotationJob /> </CustomTabPanel> )}
+                          {e?.id === 1157 && ( <CustomTabPanel value={value1} index={i} className="salesPage" > <Sales /> </CustomTabPanel> )}
+                          {e?.id === 1314 && ( <CustomTabPanel value={value1} index={i} className="salesReport" > <SalesReport /> </CustomTabPanel> )}
+                          {e?.id === 18129 && <CustomTabPanel value={value1} index={i}> <PendingMemo /> </CustomTabPanel>}
+                          {e?.id === 17020 && ( <CustomTabPanel value={value1} index={i} className="DesignWiseSalesReport" > <DesignWiseSalesReport /> </CustomTabPanel> )}
+                          {e?.id === 1159 && ( <CustomTabPanel value={value1} index={i}> <AccountLedger /> </CustomTabPanel> )} {/* {e?.id === 1314 && <CustomTabPanel value={value1} index={i}>
+                                                  <PendingMemo />
+                                              </CustomTabPanel>} */}
+                        </React.Fragment>
+                      );
+                    })}
+                  </CustomTabPanel>
+                )}
+
+                <CustomTabPanel value={value} index={accountValidation() ? 4 : 3}>
+                  <div>
+                    <ChangePassword />
+                  </div>
+                </CustomTabPanel>
+                { loginUSerDeatil?.IsPLWOn && <CustomTabPanel value={value} index={5}>
+                  <div>
+                    <Plm />
+                  </div>
+                </CustomTabPanel>}
+              </Box>
+            </div>
           </div>
         </div>
       </div>

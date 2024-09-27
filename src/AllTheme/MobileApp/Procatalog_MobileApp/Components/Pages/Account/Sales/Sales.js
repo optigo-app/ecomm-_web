@@ -388,7 +388,7 @@ const Sales = () => {
         }
       };
     return (
-        <>
+        <div className='sales_Account_PCMJ'>
         <div className='sticky-header'>
             <MobViewHeader title="Sales" />
         </div>
@@ -554,18 +554,8 @@ const Sales = () => {
                 </Paper>}
 
             </Box>
-        </>
+        </div>
     )
 }
 
 export default Sales
-
-// import React from 'react'
-
-// const Sales = () => {
-//   return (
-//     <div>Sales</div>
-//   )
-// }
-
-// export default Sales

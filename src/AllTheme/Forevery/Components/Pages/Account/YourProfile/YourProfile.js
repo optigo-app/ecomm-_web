@@ -377,6 +377,7 @@ export default function YourProfile() {
 
 
     return (
+        <div className='yourProfile_Account_FE'>
         <div className='smr_yourProfile '>
             <ToastContainer />
 
@@ -546,6 +547,7 @@ export default function YourProfile() {
                 </div>
             </Modal>
         
+        </div>
         </div>
     );
 }

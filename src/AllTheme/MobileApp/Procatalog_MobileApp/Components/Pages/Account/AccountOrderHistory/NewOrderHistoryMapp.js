@@ -263,7 +263,7 @@ const NewOrderHistoryMapp = () => {
     setOpenTaxes(openTaxes === id ? null : id); // Toggle taxes dropdown by item id
   };
   return (
-    <>
+    <div className="orderHistory_Account_PCMJ">
       <div className="sticky-header">
           <MobViewHeader title="Order History"  />
         </div>
@@ -486,7 +486,7 @@ const NewOrderHistoryMapp = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

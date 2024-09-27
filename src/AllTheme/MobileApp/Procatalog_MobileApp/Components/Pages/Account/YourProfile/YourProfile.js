@@ -116,7 +116,7 @@ export default function YourProfile() {
     }
 
     return (
-        <div>
+        <div className='yourProfile_Account_PCMJ'>
             {/* <ToastContainer /> */}
 
             {isLoading && (

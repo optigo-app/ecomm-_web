@@ -104,6 +104,7 @@ export default function YourProfile() {
 
 
     return (
+        <div className='yourProfile_Account_HOQ'>
         <div className='hoq_yourProfile'>
             <ToastContainer  style={{
                 zIndex : 999999
@@ -263,6 +264,7 @@ export default function YourProfile() {
                     </form>
                 </div>
             </Modal>
+        </div>
         </div>
     );
 }

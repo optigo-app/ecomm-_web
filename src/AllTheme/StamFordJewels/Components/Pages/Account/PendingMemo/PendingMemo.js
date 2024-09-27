@@ -1,18 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./PendingMemo.scss"
+import "./PendingMemo.scss";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   CircularProgress,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Label } from "@mui/icons-material";
+
 import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,22 +25,15 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
+
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { CommonAPI } from "../../../../../../utils/API/CommonAPI/CommonAPI";
-import { FaBullseye } from "react-icons/fa";
-import { NumberWithCommas, checkMonth, customComparator_Col, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
+import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getMemoReturnData } from "../../../../../../utils/API/AccountTabs/MemoReturn";
 
 import { headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
@@ -178,6 +175,7 @@ function descendingComparator(a, b, orderBy) {
   }
 }
 
+
 function getComparator(order, orderBy) {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -201,7 +199,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead className="salesReporttabelHead">
       <TableRow>
-        {headCells.map((headCell) => (
+        {headCells?.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
@@ -210,21 +208,26 @@ function EnhancedTableHead(props) {
             style={{
               minWidth: headCell.minWidth,
               textAlign: headCell?.align || "left",
+              position:'sticky', top:0, zIndex:1,
             }}
+            className="account_themewise_stam"
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-              sx={{ textAlign: "center" }}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+         {
+          (headCell?.id?.toLowerCase() === 'srno') ? 'SrNo' : 
+          <TableSortLabel
+          active={orderBy === headCell.id}
+          direction={orderBy === headCell.id ? order : "asc"}
+          onClick={createSortHandler(headCell.id)}
+          sx={{ textAlign: "center" }}
+        >
+          {headCell.label}
+          {orderBy === headCell.id ? (
+            <Box component="span" sx={visuallyHidden}>
+              {order === "desc" ? "sorted descending" : "sorted ascending"}
+            </Box>
+          ) : null}
+        </TableSortLabel>
+         }
           </TableCell>
         ))}
       </TableRow>
@@ -249,10 +252,7 @@ const PendingMemo = () => {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [grossWtInput, setGrossWtInput] = useState({
-    from: "",
-    to: "",
-  });
+  const [grossWtInput, setGrossWtInput] = useState({ from: "", to: "" });
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -277,6 +277,9 @@ const PendingMemo = () => {
   const fromDateRef = useRef(null);
   const toDateRef = useRef(null);
 
+  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
+  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1440px)');
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -291,24 +294,6 @@ const PendingMemo = () => {
     }
     setSelected([]);
   };
-
-  // const handleClick = (event, id) => {
-  //     const selectedIndex = selected.indexOf(id);
-  //     let newSelected = [];
-  //     if (selectedIndex === -1) {
-  //         newSelected = newSelected.concat(selected, id);
-  //     } else if (selectedIndex === 0) {
-  //         newSelected = newSelected.concat(selected.slice(1));
-  //     } else if (selectedIndex === selected.length - 1) {
-  //         newSelected = newSelected.concat(selected.slice(0, -1));
-  //     } else if (selectedIndex > 0) {
-  //         newSelected = newSelected.concat(
-  //             selected.slice(0, selectedIndex),
-  //             selected.slice(selectedIndex + 1),
-  //         );
-  //     }
-  //     setSelected(newSelected);
-  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -508,6 +493,7 @@ const PendingMemo = () => {
     setSearchVal("");
     setFilterData(data);
     setPage(0);
+    setRowsPerPage(10);
   };
 
   const handleimageShow = (eve, img) => {
@@ -529,20 +515,9 @@ const PendingMemo = () => {
       const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
       let currencyRate = storeInit?.CurrencyRate;
-      // const combinedValue = JSON.stringify({
-      //   CurrencyRate: "1",
-      //   FrontEnd_RegNo: `${FrontEnd_RegNo}`,
-      //   Customerid: `${customerid}`,
-      // });
-      // const encodedCombinedValue = btoa(combinedValue);
-      // const body = {
-      //   con: `{\"id\":\"Store\",\"mode\":\"getsalereport\",\"appuserid\":\"${data.email1}\"}`,
-      //   f: "zen (cartcount)",
-      //   p: encodedCombinedValue,
-      // };
-      // const response = await CommonAPI(body);
-      const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
+
+      const response = await getMemoReturnData(currencyRate, FrontEnd_RegNo, customerid, data);
+
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -622,6 +597,7 @@ const PendingMemo = () => {
       inputTo.placeholder = "Date To";
     }
   }, []);
+
   const scrollToTop = () => {
     // Find the table container element and set its scrollTop property to 0
     const tableContainer = document.querySelector('.quotationJobSec');
@@ -631,480 +607,734 @@ const PendingMemo = () => {
   };
 
   return (
-    <div className="memo_Account_SFJ">
-      <Box>
+    <Box className="memo_Account_stam">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        <div className="sptable_stam">
+          {/* <Box
+            className="salesReporttableWeb "
+            sx={{ paddingBottom: "5px", paddingRight: "15px" }}
+          >
+            <table style={{minWidth:'710px', overflowX:'scroll'}}>
+              <tbody>
+                <tr>
+                  <td>Total Gross Wt</td>
+                  <td>Total Net Wt(24k)</td>
+                  <td>Total Net Wt</td>
+                  <td>Total Diamonds</td>
+                  <td>Total Color Stones</td>
+                  <td>Unique Designs</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.GrossWt, 3)}
+                  </td>
+                  <td className="fw_bold">
+                    {" "}
+                    {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                  </td>
+                  <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                    {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                    {NumberWithCommas(total?.CsWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.uniqueDesigns, 0)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Metal Amt</td>
+                  <td>Total Dia. Amt</td>
+                  <td>Total CST Amt</td>
+                  <td>Total Labour Amt</td>
+                  <td>Total Other Amt</td>
+                  <td>Unique Customers</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.MetalAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiamondAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.LabourAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.OtherAmount, 2)}
+                  </td>
+                  <td className="fw_bold">1</td>
+                </tr>
+              </tbody>
+            </table>
+          </Box> */}
+                  <Box
+          className="salesReporttableWeb"
+          sx={{ paddingBottom: "5px", paddingRight: "15px" }}
+        >
+          <table style={{minWidth:'850px'}}>
+            <tbody>
+              <tr>
+                <td>Total Gross Wt</td>
+                <td>Total Net Wt(24k)</td>
+                <td>Total Net Wt</td>
+                <td>Total Diamonds</td>
+                <td>Total Color Stones</td>
+                <td>Unique Designs</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.GrossWt, 3)}
+                </td>
+                <td className="fw_bold">
+                  {" "}
+                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                </td>
+                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                  {NumberWithCommas(total?.CsWt, 3)} Ctw
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.uniqueDesigns, 0)}
+                </td>
+                <td className="fw_bold">
+                  1
+                </td>
+              </tr>
+              <tr>
+                {/* <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td> */}
+                {/* <td>Unique Customers</td> */}
+              </tr>
+              <tr>
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td> */}
+                {/* <td className="fw_bold">1</td> */}
+              </tr>
+              {/* <tr>
+                <td>Total Metal Amt</td>
+                <td>Total Dia. Amt</td>
+                <td>Total CST Amt</td>
+                <td>Total Labour Amt</td>
+                <td>Total Other Amt</td>
+                <td>Unique Customers</td>
+              </tr>
+              <tr>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.MetalAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.DiamondAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.LabourAmount, 2)}
+                </td>
+                <td className="fw_bold">
+                  {NumberWithCommas(total?.OtherAmount, 2)}
+                </td>
+                <td className="fw_bold">1</td>
+              </tr> */}
+            </tbody>
+          </table>
+        </Box>
+        </div>
+        {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
+          <Typography>Total Amount</Typography>
+          <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
+            {NumberWithCommas(total?.TotalAmount, 2)}
+          </Typography>
+        </Box> */}
         <Box
+          className="salesReportImgSec"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
+            width: "135px",
+            height: "135px",
+            paddingBottom: "20px",
+            overflow: "hidden",
           }}
         >
           <Box
-            className="salesReporttableWeb"
-            sx={{ paddingBottom: "5px", paddingRight: "15px" }}
-          >
-            <table style={{minWidth:'850px'}}>
-              <tbody>
-                <tr>
-                  <td>Total Gross Wt</td>
-                  <td>Total Net Wt(24k)</td>
-                  <td>Total Net Wt</td>
-                  <td>Total Diamonds</td>
-                  <td>Total Color Stones</td>
-                  <td>Unique Designs</td>
-                  <td>Unique Customers</td>
-                </tr>
-                <tr>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.GrossWt, 3)}
-                  </td>
-                  <td className="fw_bold">
-                    {" "}
-                    {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
-                  </td>
-                  <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.DiaPcs, 0)} PCs/
-                    {NumberWithCommas(total?.DiaWt, 3)} Ctw
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.CsPcs, 0)} PCs/
-                    {NumberWithCommas(total?.CsWt, 3)} Ctw
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.uniqueDesigns, 0)}
-                  </td>
-                  <td className="fw_bold">
-                    1
-                  </td>
-                </tr>
-                <tr>
-                  {/* <td>Total Metal Amt</td>
-                  <td>Total Dia. Amt</td>
-                  <td>Total CST Amt</td>
-                  <td>Total Labour Amt</td>
-                  <td>Total Other Amt</td> */}
-                  {/* <td>Unique Customers</td> */}
-                </tr>
-                <tr>
-                  {/* <td className="fw_bold">
-                    {NumberWithCommas(total?.MetalAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.DiamondAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.ColorStoneAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.LabourAmount, 2)}
-                  </td> */}
-                  {/* <td className="fw_bold">
-                    {NumberWithCommas(total?.OtherAmount, 2)}
-                  </td> */}
-                  {/* <td className="fw_bold">1</td> */}
-                </tr>
-                {/* <tr>
-                  <td>Total Metal Amt</td>
-                  <td>Total Dia. Amt</td>
-                  <td>Total CST Amt</td>
-                  <td>Total Labour Amt</td>
-                  <td>Total Other Amt</td>
-                  <td>Unique Customers</td>
-                </tr>
-                <tr>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.MetalAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.DiamondAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.ColorStoneAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.LabourAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.OtherAmount, 2)}
-                  </td>
-                  <td className="fw_bold">1</td>
-                </tr> */}
-              </tbody>
-            </table>
-            {/* <table>
-              <tbody>
-                <tr>
-                  <td>Total Gross Wt</td>
-                  <td>Total Net Wt(24k)</td>
-                  <td>Total Net Wt</td>
-                  <td>Total Diamonds</td>
-                  <td>Total Color Stones</td>
-                  <td>Unique Designs</td>
-                </tr>
-                <tr>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.GrossWt, 3)}
-                  </td>
-                  <td className="fw_bold">
-                    {" "}
-                    {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
-                  </td>
-                  <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.DiaPcs, 0)} PCs/
-                    {NumberWithCommas(total?.DiaWt, 3)} Ctw
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.CsPcs, 0)} PCs/
-                    {NumberWithCommas(total?.CsWt, 3)} Ctw
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.uniqueDesigns, 0)}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Total Metal Amt</td>
-                  <td>Total Dia. Amt</td>
-                  <td>Total CST Amt</td>
-                  <td>Total Labour Amt</td>
-                  <td>Total Other Amt</td>
-                  <td>Unique Customers</td>
-                </tr>
-                <tr>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.MetalAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.DiamondAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.ColorStoneAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.LabourAmount, 2)}
-                  </td>
-                  <td className="fw_bold">
-                    {NumberWithCommas(total?.OtherAmount, 2)}
-                  </td>
-                  <td className="fw_bold">1</td>
-                </tr>
-              </tbody>
-            </table> */}
-          </Box>
-          {/* <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
-            <Typography>Total Amount</Typography>
-            <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
-              {NumberWithCommas(total?.TotalAmount, 2)}
-            </Typography>
-          </Box> */}
-          <Box
-            className="salesReportImgSec"
             sx={{
-              width: "135px",
-              height: "135px",
-              paddingBottom: "20px",
-              overflow: "hidden",
+              border: "1px solid #d6d6d6",
+              height: "117px",
+              marginTop: "17px",
             }}
           >
-            <Box
-              sx={{
-                border: "1px solid #d6d6d6",
-                height: "117px",
-                marginTop: "17px",
+            {hoverImg !== "" && (
+              <img
+                src={hoverImg}
+                alt=""
+                style={{
+                  width: "100%",
+                  objectFit: "contain",
+                  minHeight: "114px",
+                  maxHeight: "114px",
+                }}
+              />
+            )}
+          </Box>
+        </Box>
+      </Box>
+      { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+        <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "15px", }} >
+          <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
+            All
+          </Button>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", }} className="searchbox" >
+          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date From"
+              value={fromDate}
+              ref={fromDateRef}
+              format="DD MM YYYY"
+              className="quotationFilterDates"
+              onChange={(newValue) => {
+                if (newValue === null) {
+                  setFromDate(null)
+                } else {
+                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                        setFromDate(newValue)
+                    } else {
+                        Swal.fire({
+                            title: "Error !",
+                            text: "Enter Valid Date To",
+                            icon: "error",
+                            confirmButtonText: "ok"
+                        });
+                        resetAllFilters();
+                    }
+                }
+            }}
+         
+            />
+          </LocalizationProvider>
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date To"
+              value={toDate}
+              ref={toDateRef}
+              format="DD MM YYYY"
+              className="quotationFilterDates"
+              onChange={(newValue) => {
+                if (newValue === null) {
+                  setToDate(null);
+                } else {
+                  if (
+                    (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                    newValue["$y"] < 1000 ||
+                    isNaN(newValue["$y"])
+                  ) {
+                    setToDate(newValue);
+                  } else {
+                    Swal.fire({
+                      title: "Error !",
+                      text: "Enter Valid Date To",
+                      icon: "error",
+                      confirmButtonText: "ok",
+                    });
+                    resetAllFilters();
+                  }
+                }
               }}
-            >
-              {hoverImg !== "" && (
-                <img
-                  src={hoverImg}
-                  alt=""
-                  style={{
-                    width: "100%",
-                    objectFit: "contain",
-                    minHeight: "114px",
-                    maxHeight: "114px",
+            />
+          </LocalizationProvider>
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+          <Button
+            variant="contained"
+            className="muiSmilingRocksBtn"
+            sx={{
+              padding: "7px 10px",
+              minWidth: "max-content",
+              background: "#7d7f85",
+            }}
+            onClick={(eve) =>
+              handleSearch(
+                eve,
+                searchVal,
+                fromDate,
+                toDate,
+                grossWtInput?.from,
+                grossWtInput?.to
+              )
+            }
+          >
+            <SearchIcon sx={{ color: "#fff !important" }} />
+          </Button>
+        </Box>
+        <Box sx={{ paddingRight: "10px", paddingBottom: "20px" }}>
+          <div>Gross Wt : </div>
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+          <TextField
+            placeholder="From"
+            name="from"
+            sx={{ maxWidth: "150px" }}
+            className="grossWtinputSecSalesReport"
+            value={grossWtInput?.from}
+            onChange={(eve) => handleChangegrossWt(eve)}
+          />
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+          <TextField
+            placeholder="To"
+            name="to"
+            sx={{ maxWidth: "150px" }}
+            className="grossWtinputSecSalesReport"
+            value={grossWtInput?.to}
+            onChange={(eve) => handleChangegrossWt(eve)}
+          />
+        </Box>
+        <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
+          <Button
+            variant="contained"
+            className="muiSmilingRocksBtn"
+            sx={{
+              padding: "7px 10px",
+              minWidth: "max-content",
+              background: "#7d7f85",
+            }}
+            onClick={(eve) =>
+              handleSearch(
+                eve,
+                searchVal,
+                fromDate,
+                toDate,
+                grossWtInput?.from,
+                grossWtInput?.to
+              )
+            }
+          >
+            <SearchIcon sx={{ color: "#fff !important" }} />
+          </Button>
+        </Box>
+      </Box>}
+      {
+        (!isSmallScreen && isTabletScreen) && <Box>
+          <Box style={{display:'flex', alignItems:'center'}}>
+            <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "5px", }} >
+              <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
+                All
+              </Button>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "5px", }} className="searchbox" >
+              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+              <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+            </Box>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date From"
+              value={fromDate}
+              ref={fromDateRef}
+              format="DD MM YYYY"
+              className="quotationFilterDates"
+              onChange={(newValue) => {
+                if (newValue === null) {
+                  setFromDate(null)
+                } else {
+                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                        setFromDate(newValue)
+                    } else {
+                        Swal.fire({
+                            title: "Error !",
+                            text: "Enter Valid Date To",
+                            icon: "error",
+                            confirmButtonText: "ok"
+                        });
+                        resetAllFilters();
+                    }
+                }
+            }}
+         
+            />
+          </LocalizationProvider>
+            </Box>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date To"
+                  value={toDate}
+                  ref={toDateRef}
+                  format="DD MM YYYY"
+                  className="quotationFilterDates"
+                  onChange={(newValue) => {
+                    if (newValue === null) {
+                      setToDate(null);
+                    } else {
+                      if (
+                        (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                        newValue["$y"] < 1000 ||
+                        isNaN(newValue["$y"])
+                      ) {
+                        setToDate(newValue);
+                      } else {
+                        Swal.fire({
+                          title: "Error !",
+                          text: "Enter Valid Date To",
+                          icon: "error",
+                          confirmButtonText: "ok",
+                        });
+                        resetAllFilters();
+                      }
+                    }
                   }}
                 />
-              )}
+              </LocalizationProvider>
+            </Box>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+              <Button
+                variant="contained"
+                className="muiSmilingRocksBtn"
+                sx={{
+                  padding: "7px 10px",
+                  minWidth: "max-content",
+                  background: "#7d7f85",
+                }}
+                onClick={(eve) =>
+                  handleSearch(
+                    eve,
+                    searchVal,
+                    fromDate,
+                    toDate,
+                    grossWtInput?.from,
+                    grossWtInput?.to
+                  )
+                }
+              >
+                <SearchIcon sx={{ color: "#fff !important" }} />
+              </Button>
+            </Box>
+            <Box style={{position:'relative'}}>
+              <div style={{position:'absolute', top:'-20px'}}>
+                  <div>Gross Wt : </div>
+              </div>
+              <div style={{display:'flex', alignItems:'center'}}>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ maxWidth: "150px" }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ maxWidth: "150px" }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <Button
+                    variant="contained"
+                    className="muiSmilingRocksBtn"
+                    sx={{
+                      padding: "7px 10px",
+                      minWidth: "max-content",
+                      background: "#7d7f85",
+                    }}
+                    onClick={(eve) =>
+                      handleSearch(
+                        eve,
+                        searchVal,
+                        fromDate,
+                        toDate,
+                        grossWtInput?.from,
+                        grossWtInput?.to
+                      )
+                    }
+                  >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </div>
             </Box>
           </Box>
         </Box>
-        <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-          <Box
-            sx={{
-              paddingBottom: "15px",
-              position: "relative",
-              top: "-2px",
-              paddingRight: "15px",
-            }}
-          >
-            <Button
-              variant="contained"
-              sx={{ background: "#7d7f85" }}
-              className="muiSmilingRocksBtn"
-              onClick={(eve) => resetAllFilters(eve)}
-            >
-              All
-            </Button>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              position: "relative",
-              maxWidth: "max-content",
-              paddingBottom: "15px",
-              paddingRight: "15px",
-            }}
-            className="searchbox"
-          >
-            <TextField
-              id="standard-basic"
-              label="Search"
-              variant="outlined"
-              value={searchVal}
-              onChange={(eve) => {
-                setSearchVal(eve?.target?.value);
-                handleSearch(
-                  eve,
-                  eve?.target?.value,
-                  fromDate,
-                  toDate,
-                  grossWtInput?.from,
-                  grossWtInput?.to
-                );
-              }}
-            />
-            <Button
-              sx={{
-                padding: 0,
-                maxWidth: "max-content",
-                minWidth: "max-content",
-                position: "absolute",
-                right: "8px",
-                color: "#757575",
-              }}
-            >
-              <SearchIcon />
-            </Button>
-          </Box>
-          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Date From"
-                value={fromDate}
-                ref={fromDateRef}
-                format="DD MM YYYY"
-                className="quotationFilterDates"
-                onChange={(newValue) => {
-                  if (newValue === null) {
-                    setFromDate(null)
-                  } else {
-                      if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                          setFromDate(newValue)
-                      } else {
-                          Swal.fire({
-                              title: "Error !",
-                              text: "Enter Valid Date To",
-                              icon: "error",
-                              confirmButtonText: "ok"
-                          });
-                          resetAllFilters();
-                      }
-                  }
-              }}
-          
-              />
-            </LocalizationProvider>
-          </Box>
-          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Date To"
-                value={toDate}
-                ref={toDateRef}
-                format="DD MM YYYY"
-                className="quotationFilterDates"
-                onChange={(newValue) => {
-                  if (newValue === null) {
-                    setToDate(null);
-                  } else {
-                    if (
-                      (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
-                      newValue["$y"] < 1000 ||
-                      isNaN(newValue["$y"])
-                    ) {
-                      setToDate(newValue);
-                    } else {
-                      Swal.fire({
-                        title: "Error !",
-                        text: "Enter Valid Date To",
-                        icon: "error",
-                        confirmButtonText: "ok",
-                      });
-                      resetAllFilters();
-                    }
-                  }
-                }}
-              />
-            </LocalizationProvider>
-          </Box>
-          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-            <Button
-              variant="contained"
-              className="muiSmilingRocksBtn"
-              sx={{
-                padding: "7px 10px",
-                minWidth: "max-content",
-                background: "#7d7f85",
-              }}
-              onClick={(eve) =>
-                handleSearch(
-                  eve,
-                  searchVal,
-                  fromDate,
-                  toDate,
-                  grossWtInput?.from,
-                  grossWtInput?.to
-                )
-              }
-            >
-              <SearchIcon sx={{ color: "#fff !important" }} />
-            </Button>
-          </Box>
-          <Box sx={{ paddingRight: "10px", paddingBottom: "20px" }}>
-            <Typography>Gross Wt : </Typography>
-          </Box>
-          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-            <TextField
-              placeholder="From"
-              name="from"
-              sx={{ maxWidth: "150px" }}
-              className="grossWtinputSecSalesReport"
-              value={grossWtInput?.from}
-              onChange={(eve) => handleChangegrossWt(eve)}
-            />
-          </Box>
-          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-            <TextField
-              placeholder="To"
-              name="to"
-              sx={{ maxWidth: "150px" }}
-              className="grossWtinputSecSalesReport"
-              value={grossWtInput?.to}
-              onChange={(eve) => handleChangegrossWt(eve)}
-            />
-          </Box>
-          <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
-            <Button
-              variant="contained"
-              className="muiSmilingRocksBtn"
-              sx={{
-                padding: "7px 10px",
-                minWidth: "max-content",
-                background: "#7d7f85",
-              }}
-              onClick={(eve) =>
-                handleSearch(
-                  eve,
-                  searchVal,
-                  fromDate,
-                  toDate,
-                  grossWtInput?.from,
-                  grossWtInput?.to
-                )
-              }
-            >
-              <SearchIcon sx={{ color: "#fff !important" }} />
-            </Button>
-          </Box>
-        </Box>
-        {isLoading ? (
-          <Box
-            sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
-          >
-            <CircularProgress className="loadingBarManage" />
-          </Box>
-        ) : (
-          <>
-            <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
-              <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
-                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                  <EnhancedTableHead
-                    numSelected={selected.length}
-                    order={order}
-                    orderBy={orderBy}
-                    onSelectAllClick={handleSelectAllClick}
-                    onRequestSort={handleRequestSort}
-                    rowCount={filterData.length}
+      }
+      {
+        isSmallScreen && <>
+        <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
+          <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
+            <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+              <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
+                All
+              </Button>
+              <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "0px",}} className="searchbox" >
+                <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+              </Box>
+              <div className='grosswt_toggle'>
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'20px', position:'relative'}} >
+                <div style={{position:'absolute', top:'-20px'}}>Gross Wt : </div>
+                <Box sx={{  boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
                   />
-                  <TableBody>
-                    {visibleRows.map((row, index) => {
-                      const labelId = `enhanced-table-checkbox-${index}`;
-                      return (
-                        <TableRow
-                          hover
-                          tabIndex={-1}
-                          key={row.id}
-                          sx={{ cursor: "pointer" }}
-                          onMouseEnter={(eve) =>
-                            handleimageShow(eve, row?.imgsrc)
-                          }
-                          onMouseLeave={(eve) =>
-                            handleimageShow(eve, row?.imgsrc)
-                          }
-                        >
-                          <TableCell id={labelId} scope="row" align="center">
-                            {" "}
-                            {index + 1}{" "}
-                          </TableCell>
-                          <TableCell align="center">{row.EntryDate}</TableCell>
-                          <TableCell align="center">
-                            {row.StockDocumentNo}
-                          </TableCell>
-                          <TableCell align="center">{row.SKUNo}</TableCell>
-                          <TableCell align="center">{row.designno}</TableCell>
-                          <TableCell align="center">{row.MetalType}</TableCell>
-                          {/* <TableCell align="center">{row.MetalAmount}</TableCell>
-                          <TableCell align="center">
-                            {row.DiamondAmount}
-                          </TableCell>
-                          <TableCell align="center">
-                            {row.ColorStoneAmount}
-                          </TableCell>
-                          <TableCell align="center">{row.LabourAmount}</TableCell>
-                          <TableCell align="center">{row.OtherAmount}</TableCell>
-                          <TableCell align="center">{row.UnitCost}</TableCell> */}
-                          <TableCell align="center">{row.Category}</TableCell>
-                          <TableCell align="center">{row.GrossWt}</TableCell>
-                          <TableCell align="center">{row.NetWt}</TableCell>
-                          <TableCell align="center">{row.DiaPcs}</TableCell>
-                          <TableCell align="center">{row.DiaWt}</TableCell>
-                          <TableCell align="center">{row.CsPcs}</TableCell>
-                          <TableCell align="center">{row.CsWt}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={filterData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </>
-        )}
-      </Box>
-    </div>
+                </Box>
+                <Box sx={{  boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </Box>
+              </div>
+            </Box>
+            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'7px', justifyContent:'space-between'}} className='mb20_stam_sp'>
+              <Box style={{width:'45%'}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date From"
+                  value={fromDate}
+                  ref={fromDateRef}
+                  format="DD MM YYYY"
+                  className="quotationFilterDates w100_dwsr"
+                  onChange={(newValue) => {
+                    if (newValue === null) {
+                      setFromDate(null)
+                    } else {
+                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                            setFromDate(newValue)
+                        } else {
+                            Swal.fire({
+                                title: "Error !",
+                                text: "Enter Valid Date To",
+                                icon: "error",
+                                confirmButtonText: "ok"
+                            });
+                            resetAllFilters();
+                        }
+                    }
+                }}
+                />
+              </LocalizationProvider>
+              </Box>
+              <Box style={{width:'45%'}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date To"
+                  value={toDate}
+                  ref={toDateRef}
+                  format="DD MM YYYY"
+                  className="quotationFilterDates w100_dwsr"
+                  onChange={(newValue) => {
+                    if (newValue === null) {
+                      setToDate(null);
+                    } else {
+                      if (
+                        (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                        newValue["$y"] < 1000 ||
+                        isNaN(newValue["$y"])
+                      ) {
+                        setToDate(newValue);
+                      } else {
+                        Swal.fire({
+                          title: "Error !",
+                          text: "Enter Valid Date To",
+                          icon: "error",
+                          confirmButtonText: "ok",
+                        });
+                        resetAllFilters();
+                      }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+              </Box>
+              <Box>
+                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                  <SearchIcon sx={{ color: "#fff !important" }} />
+                </Button>
+              </Box>
+            </Box>
+            <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}  className="grosswt_toggle2">
+              <Typography>Gross Wt : </Typography>
+            </Box>
+            <div className="grosswt_toggle2">
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'10px'}}>
+                <Box sx={{ width:'45%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ width:'45%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </Box>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+        </>
+      }
+      {isLoading ? (
+        <Box
+          sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
+        >
+          <CircularProgress className="loadingBarManage" />
+        </Box>
+      ) : (
+        <>
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
+              <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={filterData.length}
+                />
+                <TableBody>
+                  {visibleRows.map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={row.id}
+                        sx={{ cursor: "pointer" }}
+                        onMouseEnter={(eve) =>
+                          handleimageShow(eve, row?.imgsrc)
+                        }
+                        onMouseLeave={(eve) =>
+                          handleimageShow(eve, row?.imgsrc)
+                        }
+                      >
+                        <TableCell id={labelId} scope="row" align="center">
+                          {" "}
+                          {index + 1}{" "}
+                        </TableCell>
+                        <TableCell align="center">{row.EntryDate}</TableCell>
+                        <TableCell align="center">
+                          {row.StockDocumentNo}
+                        </TableCell>
+                        <TableCell align="center">{row.SKUNo}</TableCell>
+                        <TableCell align="center">{row.designno}</TableCell>
+                        <TableCell align="center">{row.MetalType}</TableCell>
+                        {/* <TableCell align="center">{formatAmount(row.MetalAmount)}</TableCell>
+                        <TableCell align="center">
+                          {formatAmount(row.DiamondAmount)}
+                        </TableCell>
+                        <TableCell align="center">
+                          {formatAmount(row.ColorStoneAmount)}
+                        </TableCell>
+                        <TableCell align="center">{formatAmount(row.LabourAmount)}</TableCell>
+                        <TableCell align="center">{formatAmount(row.OtherAmount)}</TableCell>
+                        <TableCell align="center">{formatAmount(row.UnitCost)}</TableCell> */}
+                        <TableCell align="center">{row.Category}</TableCell>
+                        <TableCell align="center">{row.GrossWt}</TableCell>
+                        <TableCell align="center">{row.NetWt}</TableCell>
+                        <TableCell align="center">{row.DiaPcs}</TableCell>
+                        <TableCell align="center">{row.DiaWt}</TableCell>
+                        <TableCell align="center">{row.CsPcs}</TableCell>
+                        <TableCell align="center">{row.CsWt}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={filterData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              className="memoTablePagination_Acc salesReport"
+            />
+          </Paper>
+        </>
+      )}
+    </Box>
   );
 };
 
 export default PendingMemo;
+
