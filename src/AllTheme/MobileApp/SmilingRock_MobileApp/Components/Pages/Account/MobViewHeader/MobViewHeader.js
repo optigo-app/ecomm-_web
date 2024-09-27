@@ -26,7 +26,7 @@ const MobViewHeader = (props) => {
     // },[])
 
   return (
-    <>
+    <div className='header_Account_SMRM'>
         <div className='container_movh'>
 
           {/* <div className='titleMain'>
@@ -64,7 +64,7 @@ const MobViewHeader = (props) => {
             </div>
 
         </div>
-    </>
+    </div>
   )
 }
 

@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import './changepassword.scss'
 import { handleChangePassword } from '../../../../../../utils/API/AccountTabs/changePassword';
 import { ToastContainer, toast } from 'react-toastify';
-import { handlePasswordChangeAcc, handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import { handlePasswordInputChangeAcc, validateChangePassword } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 export default function ChangePassword() {
 
@@ -33,7 +34,6 @@ export default function ChangePassword() {
 
     }, []); // 
 
-
     const validatePassword = (value) => {
         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[^\w\d\s]).{8,}$/;
         return passwordRegex.test(value);
@@ -48,6 +48,7 @@ export default function ChangePassword() {
             setPasswordError('');
         }
     };
+
 
     const handleTogglePasswordVisibility = (fieldName) => {
         if (fieldName === 'password') {
@@ -75,7 +76,6 @@ export default function ChangePassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
         const { errors, isValid } = validateChangePassword({ oldPassword, password, confirmPassword });
 
         if (isValid) {
@@ -105,7 +105,6 @@ export default function ChangePassword() {
 
                 // console.log(body);
                 // const response = await CommonAPI(body);
-
                 if(passwordError === ''){
 
                     const response = await handleChangePassword(hashedOldPassword, hashedPassword, hashedConfirmPassword, FrontEnd_RegNo, customerID, email);
@@ -133,14 +132,17 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
-        <ToastContainer />
-        <div className='changePassword_Account_SFJ'>
+        <div className='changePassword_Account_stam'>
+        <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
+        <div>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
+            <HeadTitleAcc title="Change Password" />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
                 <TextField
                     id="outlined-confirm-password-input"
@@ -150,7 +152,6 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={oldPassword}
-                    // onChange={(e) => handleInputChange(e, setOldPassword, 'oldPassword')}
                     onChange={(e) => handlePasswordInputChangeAcc(e, 'oldPassword', { setOldPassword, setPassword, setConfirmPassword }, errors, setErrors)}
                     error={!!errors.oldPassword}
                     helperText={errors.oldPassword}
@@ -179,7 +180,6 @@ export default function ChangePassword() {
                     style={{ margin: '15px' }}
                     value={password}
                     onChange={handlePasswordChange}
-                    // onChange={(e) => handlePasswordInputChangeAcc(e, 'password', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
                     error={!!passwordError}
                     helperText={passwordError}
                     InputProps={{
@@ -206,7 +206,6 @@ export default function ChangePassword() {
                     className='labgrowRegister'
                     style={{ margin: '15px' }}
                     value={confirmPassword}
-                    // onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
                     onChange={(e) => handlePasswordInputChangeAcc(e, 'confirmPassword', { setPassword, setConfirmPassword, setOldPassword }, errors, setErrors)}
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
@@ -226,10 +225,10 @@ export default function ChangePassword() {
                     }}
                 />
 
-                <button className='ForgotPassBtn' onClick={handleSubmit}>Change Password</button>
+                <button className='stam_ForgotPassBtn labgrowRegister' onClick={handleSubmit}>Change Password</button>
             </div>
         </div>
 
-        </>
+        </div>
     )
 }

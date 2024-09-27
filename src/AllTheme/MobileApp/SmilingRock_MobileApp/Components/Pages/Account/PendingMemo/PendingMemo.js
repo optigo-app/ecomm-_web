@@ -663,7 +663,7 @@ const PendingMemo = () => {
   };
 
   return (
-    <>
+    <div className="memo_Account_SMRM">
     <div className="sticky-header">
        <MobViewHeader title="Memo" />
     </div>
@@ -1063,7 +1063,7 @@ const PendingMemo = () => {
         </>
       )}
     </Box>
-    </>
+    </div>
   );
 };
 

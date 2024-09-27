@@ -744,7 +744,7 @@ const scrollToTop = () => {
 };
 
   return (
-    <>
+    <div className='quotationJob_Account_PCMJ'>
     <div className='sticky-header'>
       <MobViewHeader title="Jobs" />
     </div>
@@ -1017,7 +1017,7 @@ const scrollToTop = () => {
 
 
     </Box>
-    </>
+    </div>
   )
 }
 

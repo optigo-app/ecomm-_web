@@ -133,7 +133,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className='changePassword_Account_MKJ'>
         <ToastContainer />
         <div>
             {isLoading && (
@@ -230,6 +230,6 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }

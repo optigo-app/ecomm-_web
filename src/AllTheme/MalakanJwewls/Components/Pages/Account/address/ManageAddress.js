@@ -349,7 +349,7 @@ const ManageAddress = () => {
     }
 
     return (
-        <>
+        <div className='address_Account_MKJ'>
         <ToastContainer />
             <div>
             <p style={{
@@ -549,7 +549,7 @@ const ManageAddress = () => {
                     </div>
                 </Dialog>
             </div>                    
-        </>
+        </div>
     )
 }
 

@@ -537,6 +537,7 @@ const DesignWiseSalesReport = () => {
     }, []);
 
     return (
+        <div className='designWiseSalesReport_Account_PCMJ'>
         <div className='proCatApp_desisnwiseSaleReportMain'>
             <div className='sticky-header'>
                 <MobViewHeader title="Design Wise Report" />
@@ -888,6 +889,7 @@ const DesignWiseSalesReport = () => {
                     className='reactPaginationDesignWise'
                 />}
             </Box>
+        </div>
         </div>
     )
 }

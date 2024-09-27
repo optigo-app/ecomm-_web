@@ -557,7 +557,7 @@ const AccountLedger = () => {
 
 
   return (
-    <div>
+    <div className='ledger_Account_SMRM'>
         <div className='sticky-header'>
             <MobViewHeader title="Ledger" />
         </div>
@@ -887,12 +887,3 @@ const AccountLedger = () => {
 }
 
 export default AccountLedger
-// import React from 'react'
-
-// const AccountLedger = () => {
-//   return (
-//     <div>AccountLedger</div>
-//   )
-// }
-
-// export default AccountLedger
