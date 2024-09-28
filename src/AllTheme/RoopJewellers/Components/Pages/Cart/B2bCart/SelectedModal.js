@@ -3,24 +3,24 @@ import Modal from '@mui/material/Modal';
 import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import './rJ_cartPage.scss';
+import './roop_cartPage.scss';
 
 
 
 const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) => {
   return (
-    <Accordion className='rJ_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
+    <Accordion className='roop_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ padding: '0' }}>
-        <Typography className='rJ_FilterTitle'>{title}</Typography>
+        <Typography className='roop_FilterTitle'>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails className='rJ_filterAccordianDetail' style={{ padding: '0' }}>
+      <AccordionDetails className='roop_filterAccordianDetail' style={{ padding: '0' }}>
         {items?.map(item => (
-          <div className='rJ_filter-AccrodianDetails' key={item.id}>
-            <Typography className='rJ_filterAccordianDeatilTitle'>{item.name}</Typography>
+          <div className='roop_filter-AccrodianDetails' key={item.id}>
+            <Typography className='roop_filterAccordianDeatilTitle'>{item.name}</Typography>
             <Checkbox
               checked={checkedItems[title]?.[item.id] || false}
               onChange={() => handleCheckboxChange(item.id, title)}
-              className='rJ_filterCheckbox'
+              className='roop_filterCheckbox'
             />
           </div>
         ))}
@@ -121,26 +121,26 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   return (
     <Modal
-      className="rJ_modal"
+      className="roop_modal"
       open={open}
       onClose={onClose}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
 
     >
-      <div className="rJ_paper">
-        <div className='rJ_Modal_Title'>
-          <Typography className='rJ_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
+      <div className="roop_paper">
+        <div className='roop_Modal_Title'>
+          <Typography className='roop_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
             Update Cart
           </Typography>
-          <IconButton className="rJ_closeIcon" onClick={onClose}>
+          <IconButton className="roop_closeIcon" onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </div>
         <Divider />
-        <div className='rJ_cartmodal_body'>
+        <div className='roop_cartmodal_body'>
           <div>
-            <div className="rJ_ShortCutCombo-section">
+            <div className="roop_ShortCutCombo-section">
               <div>
                 <FormControl className="form-control">
                   <InputLabel id="metalTypeMaster">Metal Type</InputLabel>
@@ -206,49 +206,49 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
               </div>
             </div>
           </div>
-          <div className='rJ_cartModal-Divider'>
+          <div className='roop_cartModal-Divider'>
             <Divider />
           </div>
           <Grid container spacing={2}>
             <Grid item xs={6} md={3}>
-              <div className='rJ_Modal-FilterList'>
+              <div className='roop_Modal-FilterList'>
                 {generateFilterAccordions(filterArr, checkedItems, handleCheckboxChange)}
               </div>
             </Grid>
             <Grid item xs={6} md={9}>
-              <div className='rJ_Modal-cardList'>
+              <div className='roop_Modal-cardList'>
                 <Grid container spacing={2}>
                   {filteredItems?.map(product => (
                     <Grid item key={product.id} xs={12} sm={4} md={4}>
-                      <Card className='rJ_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
+                      <Card className='roop_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
                         <CardActionArea>
                           <CardMedia
                             component="img"
                             image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
                             alt={product?.TitleLine}
-                            className='rJ_cartListImage'
+                            className='roop_cartListImage'
                           />
                           <CardContent>
                             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                               <div>
-                                <Typography variant="body2" className='rJ_card-ContentData'>
+                                <Typography variant="body2" className='roop_card-ContentData'>
                                   NWT: {product?.netwt}
                                 </Typography>
-                                <Typography variant="body2" className='rJ_card-ContentData'>
+                                <Typography variant="body2" className='roop_card-ContentData'>
                                   DWT: {product?.dwt}
                                 </Typography>
                               </div>
                               <div>
-                                <Typography variant="body2" className='rJ_card-ContentData'>
+                                <Typography variant="body2" className='roop_card-ContentData'>
                                   CWT: {product?.cwt}
                                 </Typography>
-                                <Typography variant="body2" className='rJ_card-ContentData'>
+                                <Typography variant="body2" className='roop_card-ContentData'>
                                   GWT: {product?.gwt}
                                 </Typography>
                               </div>
                             </div>
                             <div className='designNocartList'>
-                              <p className='rJ_DesignNoTExt'>{product?.designno}</p>
+                              <p className='roop_DesignNoTExt'>{product?.designno}</p>
                             </div>
                             <div className='closeCartIconDiv'>
                               <CloseIcon className='closeCartIcon' onClick={(e) => { e.stopPropagation(); onRemove(product); }} />
@@ -263,12 +263,12 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
             </Grid>
           </Grid>
           <Divider sx={{ margin: '10px 0px' }} />
-          <CardActions className='rJ_projectUpdateCartBtn-group'>
-            <div className="rJ_projectUpdateCartBtn-group">
-              <button className="rJ_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
+          <CardActions className='roop_projectUpdateCartBtn-group'>
+            <div className="roop_projectUpdateCartBtn-group">
+              <button className="roop_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
                 Update
               </button>
-              <button className="rJ_cartCancel-btn" onClick={onCancelCart}>
+              <button className="roop_cartCancel-btn" onClick={onCancelCart}>
                 Cancel
               </button>
             </div>

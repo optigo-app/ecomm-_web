@@ -107,6 +107,7 @@ export default function Account() {
     }
 
     return (
+        <div className='account_2_Account_SMRM'>
         <div className='accountPagTabSection'>
             <div>
                 <div className='Smiling-AccountMain'>
@@ -202,6 +203,7 @@ export default function Account() {
                 </div>
             </div>
             {/* <Footer /> */}
+        </div>
         </div>
     )
 }

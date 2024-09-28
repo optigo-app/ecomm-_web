@@ -31,7 +31,7 @@ const CartDetails = ({
 }) => {
 
   const [storeInitData, setStoreInitData] = useState();
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
@@ -43,17 +43,18 @@ const CartDetails = ({
     }
   }, [selectedItem]);
 
-  
   return (
     <div className="mala_cart-container">
       <div className="mala_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='mala_cartImage' /> */}
-        <img 
-        src={imageSrc} 
-        alt="image" 
-        className='mala_cartDetailImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
-        />
+        {imageSrc !== undefined &&
+          <img
+            src={imageSrc}
+            alt="image"
+            className='mala_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        }
       </div>
       <Customization
         ispriceloding={ispriceloding}

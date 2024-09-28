@@ -9,6 +9,8 @@ import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
+import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -17,8 +19,6 @@ import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
-import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
-import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
 
 
 const CartPage = () => {
@@ -144,24 +144,21 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get('visiterId');
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
       navigate('/Confirmation');
       GetCountAPI().then((res) => {
-        
         setCartCountVal(res?.cartcount)
       })
-
     } else {
       toast.error('Something went wrong!')
     }
   }
 
   return (
-    <div className='mala_B2B_MainBGDiv'>
-      <div className='mala_cartMainPageDiv'>
+    <div className='mala_MainBGDiv'>
+      <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="mala_cart-title">My Cart</div>
@@ -349,7 +346,12 @@ const CartPage = () => {
           title="Confirm"
           content="Are you sure you want to remove all Items?"
         />
+
+        {/* <Footer /> */}
       </div>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+        <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
+      </div> */}
     </div>
   );
 };

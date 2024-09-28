@@ -243,6 +243,8 @@ const ProductList = () => {
 
 
   useEffect(() => {
+    localStorage.removeItem('redirectURLLocal');
+
     const logininfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     setLoginInfo(logininfo);
   }, []);

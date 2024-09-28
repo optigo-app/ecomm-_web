@@ -106,11 +106,11 @@ const Procatalog_App = () => {
   }, [htmlContent]);
 
   useEffect(() => {
-    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
-    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
-
-    setCompanyTitleLogo(webLogo);
-    setCompanyTitleLogoM(mobileLogo);
+    // let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    // let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;  
+    let storeinit = JSON.parse(sessionStorage.getItem('storeInit'))
+    setCompanyTitleLogo(storeinit?.companylogo);
+    setCompanyTitleLogoM(storeinit?.companyMlogo);
   }, []);
 
   useEffect(() => {
@@ -168,7 +168,7 @@ const Procatalog_App = () => {
       </div>
       <ConnectionManager />
       <div className="setFullThemeBack">
-      {/* <div style={{ backgroundColor: '#f1e9dd' }}> */}
+        {/* <div style={{ backgroundColor: '#f1e9dd' }}> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

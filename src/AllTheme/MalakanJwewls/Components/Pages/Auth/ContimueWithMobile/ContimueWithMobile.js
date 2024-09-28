@@ -104,8 +104,8 @@ export default function ContimueWithMobile() {
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '0px',
+                        padding: '0px',
+                        margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
@@ -114,7 +114,7 @@ export default function ContimueWithMobile() {
                     >Continue With Mobile</p>
                     <p style={{
                         textAlign: 'center',
-                        marginTop: '-60px',
+                        margin: '0px',
                         fontSize: '15px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'

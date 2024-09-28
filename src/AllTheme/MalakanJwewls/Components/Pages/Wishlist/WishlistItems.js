@@ -28,7 +28,7 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
 
     const setWishCountVal = useSetRecoilState(mala_WishCount);
     const setCartCountVal = useSetRecoilState(mala_CartCount);
@@ -40,12 +40,12 @@ const WishlistItems = ({
     useEffect(() => {
         if (item?.ImageCount > 0) {
             WishCardImageFunc(item).then((src) => {
-            setImageSrc(src);
-          });
+                setImageSrc(src);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound);
         }
-      }, [item]);
+    }, [item]);
 
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
@@ -79,13 +79,15 @@ const WishlistItems = ({
                 >
                     <Card className="mala_WlListCard">
                         <div className="cardContent">
-                            <CardMedia
-                                component="img"
-                                image={imageSrc}
-                                alt={item?.TitleLine}
-                                className="mala_WlListImage"
-                                onClick={() => handleMoveToDetail(item)}
-                            />
+                            {imageSrc !== undefined &&
+                                <CardMedia
+                                    component="img"
+                                    image={imageSrc}
+                                    alt={item?.TitleLine}
+                                    className="mala_WlListImage"
+                                    onClick={() => handleMoveToDetail(item)}
+                                />
+                            }
                             <CardContent className="mala_cardContent">
                                 <div className="cardText">
                                     <Typography
@@ -109,7 +111,7 @@ const WishlistItems = ({
                                         </span>
                                         {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                                             <>
-                                            <span className="mala_pipes"> | </span>
+                                                <span className="mala_pipes"> | </span>
                                                 <span className="mala_wishDT">DWT: </span>
                                                 <span>
                                                     {(item?.Dwt || 0).toFixed(3)} /
@@ -119,7 +121,7 @@ const WishlistItems = ({
                                         }
                                         {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                                             <>
-                                            <span className="mala_pipes"> | </span>
+                                                <span className="mala_pipes"> | </span>
                                                 <span className="mala_wishDT">CWT: </span>
                                                 <span>
                                                     {(item?.CSwt || 0).toFixed(3)} /
@@ -179,7 +181,7 @@ const WishlistItems = ({
                         <div className="cardContent">
                             <CardMedia
                                 component="img"
-                                image={imageSrc }
+                                image={imageSrc}
                                 alt={item?.TitleLine}
                                 className="mala_WlListImage2"
                                 onClick={() => handleMoveToDetail(item)}

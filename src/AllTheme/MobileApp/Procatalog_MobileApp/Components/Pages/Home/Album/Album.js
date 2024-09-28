@@ -149,8 +149,12 @@ const Album = () => {
       setDesignSubData(finalNewData);
       setOpenAlbumName(data?.AlbumName);
     } else {
-      sessionStorage.setItem('redirectURL', url)
-      navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
+      if(islogin || data?.AlbumSecurityId === 0){
+        navigate(url);
+      }else{
+        localStorage.setItem('redirectURLLocal', url)
+        navigate('/signin');
+      }
     }
   };
 
@@ -158,7 +162,13 @@ const Album = () => {
     const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
     const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
     sessionStorage.setItem('redirectURL', url)
-    navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
+    if(islogin || data?.AlbumSecurityId === 0){
+      navigate(url);
+    }else{
+      localStorage.setItem('redirectURLLocal', url)
+      navigate('/signin');
+    }
+    // navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
   };
 
   const handleOpen = () => setOpen(true);

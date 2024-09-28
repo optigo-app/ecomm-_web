@@ -10,12 +10,12 @@ import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } fr
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
+import { roop_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
-import { roop_CartCount } from '../../../Recoil/atom';
 
 const CartItem = ({
   item,
@@ -40,7 +40,7 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(roop_CartCount)
@@ -128,6 +128,8 @@ const CartItem = ({
     }
   }, [item]);
 
+  console.log('ggsdhsgghdghasgd', imageSrc)
+
   return (
     <Grid
       item
@@ -136,8 +138,8 @@ const CartItem = ({
       md={itemLength <= 2 ? 6 : 6}
       lg={itemLength <= 2 ? 6 : 4}
       xxl={itemLength <= 2 ? 6 : 3}
-      className='rJ_cartListCardGrid'>
-      <Card className={itemLength <= 3 ? 'rJ_cartListCard' : 'rJ_cartListCard'}
+      className='roop_cartListCardGrid'>
+      <Card className={itemLength <= 3 ? 'roop_cartListCard' : 'roop_cartListCard'}
         key={item?.id}
         sx={{
           boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && 'rgb(175 130 56 / 68%) 1px 1px 1px 0px, rgb(175 130 56 / 68%) 0px 0px 0px 1px !important',
@@ -151,42 +153,46 @@ const CartItem = ({
       // onTouchStart={handlePress('start')}
       // onTouchEnd={cancelPress}
       >
-        <Box className="rJ_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          <CardMedia
-            component="img"
-            image={imageSrc}
-            alt={item?.TitleLine}
-            className='rJ_cartListImage'
-            onClick={() => onSelect(item)}
-          />
-          <div className='rJ_rightContentDataDiv'>
-            <CardContent className='rJ_cartcontentData' onClick={() => onSelect(item)}>
-              <Typography variant="body2" className='rJ_DesignNoTExt'>
+        <Box className="roop_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
+          {imageSrc != undefined &&
+            <CardMedia
+              component="img"
+              image={imageSrc != undefined && imageSrc}
+              alt={item?.TitleLine}
+              className='roop_cartListImage'
+              onClick={() => onSelect(item)}
+            />
+          }
+          <div className='roop_rightContentDataDiv'>
+            <CardContent className='roop_cartcontentData' onClick={() => onSelect(item)}>
+              <Typography variant="body2" className='roop_DesignNoTExt'>
                 {item?.designno} {item?.StockNo != "" &&
-                  <span className='rJ_DesignNoTExt'>({item?.StockNo})</span>
+                  <span className='roop_DesignNoTExt'>({item?.StockNo})</span>
                 }
               </Typography>
-              <div className='rJ_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              <div className='roop_cartlistdetails' style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <div>
                   {storeInitData?.IsGrossWeight == 1 &&
-                    <Typography variant="body2" className='rJ_card-ContentsData'>
+                    <Typography variant="body2" className='roop_card-ContentsData'>
                       GWT: {(item?.Gwt || 0)?.toFixed(3)}
                     </Typography>
                   }
-
-                  {Number(item?.Nwt) !== 0 && (
-                    <Typography variant="body2" className='rJ_card-ContentsData'>
-                      NWT: {(item?.Nwt || 0)?.toFixed(3)}{' '}
-                    </Typography>
-                  )}
-
+                  {storeInitData?.IsMetalWeight == 1 &&
+                    <>
+                      {Number(item?.Nwt) !== 0 && (
+                        <Typography variant="body2" className='roop_card-ContentsData'>
+                          NWT: {(item?.Nwt || 0)?.toFixed(3)}{' '}
+                        </Typography>
+                      )}
+                    </>
+                  }
                 </div>
                 <div>
                   {storeInitData?.IsDiamondWeight == 1 &&
                     <>
                       {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                         <>
-                          <Typography variant="body2" className='rJ_card-ContentsData'>
+                          <Typography variant="body2" className='roop_card-ContentsData'>
                             DWT: {(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}
                           </Typography>
                         </>
@@ -197,7 +203,7 @@ const CartItem = ({
                     <>
                       {(item?.CSwt != "0" || item?.CSpcs != "0") &&
                         <>
-                          <Typography variant="body2" className='rJ_card-ContentsData'>
+                          <Typography variant="body2" className='roop_card-ContentsData'>
                             CWT: {(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}
                           </Typography>
                         </>
@@ -206,13 +212,13 @@ const CartItem = ({
                   }
                 </div>
               </div>
-              <Box className="rJ_PriceBox">
+              <Box className="roop_PriceBox">
                 <>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <span className='rJ_currencyFontPrice'>
-                      <span className="rJ_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className='roop_currencyFontPrice'>
+                      <span className="roop_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {/* <span
-                        className="rJ_currencyFont"
+                        className="roop_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
@@ -225,16 +231,16 @@ const CartItem = ({
                 </>
               </Box>
               {item?.Remarks !== "" && (
-                <Typography variant="body2" className='rJ_remarktext'>
+                <Typography variant="body2" className='roop_remarktext'>
                   <span>Remark:</span> {truncateText(item?.Remarks || productRemark, 40)}
                 </Typography>
               )}
             </CardContent>
-            <Box className="rJ_cartbtngroupReRm">
-              <Link className='rJ_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
+            <Box className="roop_cartbtngroupReRm">
+              <Link className='roop_ItemRemarkbtn' onClick={(e) => { e.stopPropagation(); handleOpen(); }} variant="body2">
                 {item?.Remarks ? "Update Remark" : "Add Remark"}
               </Link>
-              <Link className='rJ_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
+              <Link className='roop_ReomoveCartbtn' href="#" variant="body2" onClick={() => handleRemoveItem(item, index)} >
                 Remove
               </Link>
             </Box>
@@ -255,8 +261,8 @@ const CartItem = ({
           }
         </div>
         {item?.StockId != 0 &&
-          <div className="rJ_inStockbadgeDiv">
-            <span className="rJ_inStockbadgeSpan">In Stock</span>
+          <div className="roop_inStockbadgeDiv">
+            <span className="roop_inStockbadgeSpan">In Stock</span>
           </div>
         }
       </Card>

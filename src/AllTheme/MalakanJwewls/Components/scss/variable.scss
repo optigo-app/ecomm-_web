@@ -25,24 +25,29 @@ $btn1hoverFontColor: #fff;
 $primaryfontcolorLight: #7d7f856e;
 
 //fontFamily
-$homePageFontFamily:'Roboto', Arial, sans-serif;
-$primaryFontFamily: 'Roboto', Arial, sans-serif;
-$primaryFontFamilyMedium: 'Roboto', Arial, sans-serif;
+$homePageFontFamily: "Crimson Pro", serif;
+$primaryFontFamily: "Crimson Pro", serif;
+$primaryFontFamilyMedium: "Crimson Pro", serif;
 
 //fontSize
-$fontSize0: 10px;
+$fontSize0: 9px;
 $fontSize1: 12px;
 $fontSize2: 14px;
 $fontSize3: 16px;
 $fontSize4: 18px;
 $fontSize5: 22px;
-$fontSize6: 28px;
-$fontSize7: 35px;
-$fontSize8: 40px;
+$fontSize6: 26px;
+$fontSize7: 28px;
+$fontSize8: 35px;
+$fontSize9: 40px;
+$fontSize10: 64px;
 
 //borderColor
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
+
+//account background color
+$accountBgColor: #fff2e6;
 
 @font-face {
   font-family: "TT Commons Regular";

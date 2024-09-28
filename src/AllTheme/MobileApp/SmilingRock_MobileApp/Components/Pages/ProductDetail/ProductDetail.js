@@ -27,7 +27,7 @@ import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import {FreeMode, Navigation, Pagination, Keyboard,Scrollbar, A11y, Thumbs } from 'swiper/modules';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -163,11 +163,12 @@ const ProductDetail = () => {
       )[0] ?? csQcCombo[0];
 
     let mcArr = metalColorCombo?.filter(
-      (ele) =>{ if(selectMtColor) {
-        return ele?.colorname == selectMtColor
-      }
-      else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
-    })[0];
+      (ele) => {
+        if (selectMtColor) {
+          return ele?.colorname == selectMtColor
+        }
+        else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
+      })[0];
 
     let prodObj = {
       autocode: singleProd?.autocode,
@@ -229,9 +230,10 @@ const ProductDetail = () => {
           ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
       )[0] ?? csQcCombo[0];
-      
-      let mcArr = metalColorCombo?.filter(
-        (ele) =>{ if(selectMtColor) {
+
+    let mcArr = metalColorCombo?.filter(
+      (ele) => {
+        if (selectMtColor) {
           return ele?.colorname == selectMtColor
         }
         else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
@@ -368,7 +370,6 @@ const ProductDetail = () => {
       }
     }, 500)
   }, [singleProd])
-
 
 
 
@@ -613,11 +614,12 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setIsImageLoad(false)
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
+              setProdLoading(false)
             }
 
             if (!res?.pdList[0]) {
@@ -675,6 +677,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(()=>{
+          setIsImageLoad(false)
+          setProdLoading(false)
+        })
     }
 
     FetchProductData()
@@ -1001,15 +1007,12 @@ const ProductDetail = () => {
     }
 
     return finalprodListimg;
-
-
   };
-
-  console.log("pdThumbImg", pdVideoArr);
 
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
+
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1091,7 +1094,7 @@ const ProductDetail = () => {
 
     if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
       setPdThumbImg(FinalPdColImgList)
-      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
+      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' })
       setThumbImgIndex(thumbImgIndex)
 
     }
@@ -1251,11 +1254,69 @@ const ProductDetail = () => {
                         />
                       )}
 
+
                       <div
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {selectedThumbImg?.type == "img" ? (
+                        <Swiper
+                        slidesPerView={1}
+                        spaceBetween={10}
+                          modules={[Keyboard, FreeMode, Navigation,Thumbs,Pagination]}
+                          keyboard={{ enabled: true }}
+                          navigation={true}
+                          loop={true}
+                          pagination={{
+                            clickable: true,
+                          }}
+                        >
+                          {
+                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
+                            ([...pdThumbImg,...pdVideoArr]?.map((ele,i)=>(
+                              <SwiperSlide key={i}>
+                              {ele?.split(".")[1] !== "mp4" ? (
+                              <img
+                                // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                src={ele ?? imageNotFound}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />
+                              ) : (
+                              <div
+                                className="smr_app_prod_video"
+                              >
+                                <video
+                                  src={ele ?? imageNotFound}
+                                  loop={true}
+                                  autoPlay={true}
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    // marginTop: "40px",
+                                    height: "90%",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            )}
+                              </SwiperSlide>
+                            )))
+                            :
+                            (
+                              <img
+                                src={imageNotFound}
+                                // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                // alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />                        
+                            )
+                          }
+                        </Swiper>                        
+                        
+                        {/* {selectedThumbImg?.type == "img" ? (
                           <img
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             src={selectedThumbImg?.link}
@@ -1281,9 +1342,9 @@ const ProductDetail = () => {
                               }}
                             />
                           </div>
-                        )}
+                        )} */}
 
-                        <div className="smr_app_thumb_prod_img">
+                        {/* <div className="smr_app_thumb_prod_img">
                           {pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                             <img
                               src={""}
@@ -1308,27 +1369,11 @@ const ProductDetail = () => {
                                 setSelectedThumbImg({ link: data, type: "vid" })
                               }
                             >
-                              {/* <video
-                            src={data}
-                            autoPlay={true}
-                            loop={true}
-                            className="smr_prod_thumb_img"
-                            style={{ height: "70px", objectFit: "cover" }}
-                          />
-                          <IoIosPlayCircle
-                            style={{
-                              position: "absolute",
-                              color: "white",
-                              width: "35px",
-                              height: "35px",
-                            }}
-                          /> */}
+                          
                             </div>
                           ))}
-                          {/* <div className="smr_thumb_prod_img">
-                      
-                      </div> */}
-                    </div>
+                    </div> */}
+                    
                   </div>
                 </div>
                 <div className="smr_prod_shortInfo">
@@ -1417,7 +1462,7 @@ const ProductDetail = () => {
                           onChange={(e) => handleMetalWiseColorImg(e)}
                         >
                           {metalColorCombo?.map((ele) => (
-                            <option key={ele?.id} value={ele?.metalcolorname}>
+                            <option key={ele?.id} value={ele?.colorcode}>
                               {ele?.metalcolorname}
                             </option>
                           ))}
@@ -1756,10 +1801,10 @@ const ProductDetail = () => {
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (<p className="smr_app_details_title"> Product Details</p>)}
                   <div style={{ width: '100%', border: '1px solid #80808038' }}>
                     {diaList?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
-                            className="prod_detail_info_title"
+                            className="prod_detail_info_title"    
                           >{`Diamond Detail(${diaList?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
@@ -1787,7 +1832,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -1818,7 +1863,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -2060,17 +2105,15 @@ const ProductDetail = () => {
                             <div className="compeletethelook_cont">
                               <div className="smr_ctlImg_containe">
                                 <img
+                                  src={selectedThumbImg?.link}
                                   // src={
-                                  //   "https://cdn.accentuate.io/3245609615460/4121939443812/99-v1581576944425.jpg?2048x1950"
+                                  //   designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
+                                  //     designSetList?.designsetuniqueno +
+                                  //     "/" +
+                                  //     designSetList?.DefaultImageName
+                                  //     :
+                                  //     imageNotFound
                                   // }
-                                  src={
-                                    designSetList?.DefaultImageName ? storeInit?.DesignSetImageFol +
-                                      designSetList?.designsetuniqueno +
-                                      "/" +
-                                      designSetList?.DefaultImageName
-                                      :
-                                      imageNotFound
-                                  }
                                   alt={""}
                                   className="ctl_img"
                                 />

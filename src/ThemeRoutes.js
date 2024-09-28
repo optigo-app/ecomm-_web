@@ -56,8 +56,10 @@ export default function ThemeRoutes() {
 
   const [title, setTitle] = useState();
   const [htmlContent, setHtmlContent] = useState("");
+  const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
+    console.log(`path..........  ${storInitDataPath()}/StoreInit.json`);
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
@@ -86,8 +88,8 @@ export default function ThemeRoutes() {
     setRoopWebLogo(webLogo);
     setRoopMobileLogo(mobileLogo);
 
-    proCat_setCompanyTitleLogo(webLogo);
-    proCatM_setCompanyTitleLogo(mobileLogo);
+    // proCat_setCompanyTitleLogo(webLogo);
+    // proCatM_setCompanyTitleLogo(mobileLogo);
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
@@ -179,27 +181,56 @@ export default function ThemeRoutes() {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("storeInit");
+    const data = storedData ? JSON.parse(storedData) : null;
+    if (htmlContent) {
+      setStoreInitData(htmlContent.rd[0]);
+    } else if (data) {
+      setStoreInitData(data);
+    }
+  }, [htmlContent]);
+
   return (
     <>
-      <div>
-
-        <Helmet>
-          <title>{title}</title>
-          <meta name="description" content={title} />
-          <link rel="icon" href={`${storImagePath()}/logoIcon/favicon1.png`} type="image/x-icon" />
-          <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
-          <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logoIcon/androidCh1.png`} />
-          <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logoIcon/androidCh2.png`} />
-          <link rel="mask-icon" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
-          <meta name="msapplication-TileColor" content="#ffffff" />
-          <meta name="msapplication-TileImage" content={`${storImagePath()}/logoIcon/androidCh2.png`} />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          />
-        </Helmet>
-
-      </div>
+      {storeInitData?.DomainForNo == 2 ? (
+        <div>
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={title} />
+            <link rel="icon" href={storeInitData?.favicon} type="image/x-icon" />
+            <link rel="apple-touch-icon" sizes="180x180" href={storeInitData?.favicon} />
+            <link rel="icon" type="image/png" sizes="192x192" href={storeInitData?.favicon} />
+            <link rel="icon" type="image/png" sizes="512x512" href={storeInitData?.favicon} />
+            <link rel="mask-icon" href={storeInitData?.favicon} />
+            <meta name="msapplication-TileColor" content="#ffffff" />
+            <meta name="msapplication-TileImage" content={storeInitData?.favicon} />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            />
+          </Helmet>
+        </div>
+      ) :
+        <div>
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={title} />
+            <link rel="icon" href={`${storImagePath()}/logoIcon/favicon1.png`} type="image/x-icon" />
+            <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
+            <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logoIcon/androidCh1.png`} />
+            <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logoIcon/androidCh2.png`} />
+            <link rel="mask-icon" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
+            <meta name="msapplication-TileColor" content="#ffffff" />
+            <meta name="msapplication-TileImage" content={`${storImagePath()}/logoIcon/androidCh2.png`} />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            />
+          </Helmet>
+        </div>
+      }
 
       {htmlContent?.rd && htmlContent?.rd.length > 0 &&
         (
@@ -338,7 +369,7 @@ export default function ThemeRoutes() {
 //     dt_setCompanyTitleLogo(webLogo);
 //     dt_setCompanyTitleLogoM(mobileLogo);
 
-//     // fetch(`${storImagePath()}/Store_Init.txt`)
+//     // fetch(`${storImagePath()}/ExtraFlag.txt`)
 
 //   }, []);
 

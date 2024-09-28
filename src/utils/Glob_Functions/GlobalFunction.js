@@ -11,7 +11,7 @@ export function storInitDataPath() {
     : window.location.hostname;
   if (hostName.startsWith('www.')) {
     hostName = hostName.substring(4);
-  }
+  } 
   let statiPath = `${window?.location?.protocol}//${hostName}`;
   return `${statiPath}/Website_Store/WebSiteStaticImage/${hostName}`;
 }
@@ -27,7 +27,6 @@ export function findMetalColor(paramId) {
   let item = metalColorArr.filter(item => item?.id === paramId)
   return item
 }
-
 
 export function findMetalType(paramId) {
   let metalTypeArr = JSON.parse(sessionStorage.getItem("metalTypeCombo"))

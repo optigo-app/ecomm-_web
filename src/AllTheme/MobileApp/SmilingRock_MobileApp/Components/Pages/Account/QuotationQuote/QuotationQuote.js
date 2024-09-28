@@ -402,7 +402,7 @@ const QuotationQuote = () => {
 
 
     return (
-        <>
+        <div className="quotationQuote_Account_SMRM">
         <div className="sticky-header">   
             <MobViewHeader title="Quotation" />
         </div>
@@ -596,7 +596,7 @@ const QuotationQuote = () => {
                 </Paper>}
 
             </Box>
-        </>
+        </div>
     )
 }
 

@@ -176,8 +176,8 @@ export default function LoginWithEmailCode() {
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '15px',
+                        padding: '0px',
+                        margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
@@ -186,7 +186,7 @@ export default function LoginWithEmailCode() {
                     >Login With Code</p>
                     <p style={{
                         textAlign: 'center',
-                        marginTop: '-80px',
+                        marginTop: '0px',
                         fontSize: '15px',
                         color: '#7d7f85',
                         fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
