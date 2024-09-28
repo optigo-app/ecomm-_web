@@ -62,7 +62,6 @@
         align-items: center;
     }
 
-
     .nav_li_smining_Icone {
         color: white;
         font-size: $fontSize1;
@@ -209,6 +208,7 @@
     }
 
     .muilistMenutext {
+        font-family: $primaryFontFamily;
         font-size: 15px !important;
         font-weight: 600;
         margin: 5px 5px 5px 0px;
@@ -217,12 +217,13 @@
 
     .mala_menuSubTitle {
         font-size: 13px;
+        font-family: $primaryFontFamily;
         text-decoration: none;
         color: #9b978f;
-        // color: rgb(192 187 184);
     }
 
     .muilist2ndSubMenutext {
+        font-family: $primaryFontFamily;
         font-size: 12px;
         margin: 5px;
         cursor: pointer;
@@ -236,6 +237,7 @@
     .mala_underline_button {
         background-color: transparent;
         border: none;
+        font-family: $primaryFontFamily;
         outline: none;
         cursor: pointer;
         width: 80px;
@@ -390,10 +392,6 @@
             width: 40% !important;
         }
 
-        .mala_Top_header_logo_div {
-            width: 20% !important;
-        }
-
         .smiling_Top_header_div3 {
             width: 40% !important;
         }
@@ -413,10 +411,6 @@
 
         .mala_Top_header_menu_main_sub {
             width: 45% !important;
-        }
-
-        .mala_Top_header_logo_div {
-            width: 10% !important;
         }
 
         .smiling_Top_header_div3 {
@@ -448,17 +442,29 @@
 
     @media screen and (max-width:1200px) {
 
+        .mala_Top_header_menu_main {
+            display: none !important;
+        }
 
         .mala_mobileHeader_top_div1 {
             width: 33.33%;
         }
 
-        .mala_mobileHeader_top_div2 {
+        .mala_mobileHeader_top_div2_web {
             width: 33.33%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
+
+        .mala_mobileHeader_top_div2_mobile {
+            width: 33.33%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
 
         .mala_mobileHeader_top_div3 {
             width: 33.33%;
@@ -492,6 +498,9 @@
         .nav_ul_shop_menu_Mobile {
             padding: 0px;
             margin: 0px !important;
+            position: absolute;
+            top: 20px;
+            right: 50px;
         }
 
         .mala_menuStaicMobile {
@@ -524,10 +533,24 @@
 
     }
 
+    @media screen and (min-width:426px) {
+        .mala_logo_header_Mobile {
+            display: none !important;
+        }
 
-    @media screen and (max-width: 600px) {
-        .mala_mobileHideIcone {
+        .mala_mobileHeader_top_div2_mobile {
             display: none !important;
         }
     }
+
+    @media screen and (max-width: 425px) {
+        .mala_logo_header_webLogo {
+            display: none !important;
+        }
+
+        .mala_mobileHeader_top_div2_web {
+            display: none !important;
+        }
+    }
+
 }
