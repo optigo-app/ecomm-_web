@@ -42,7 +42,7 @@ const CartItem = ({
   handleCancel,
   openHandleUpdateCartModal
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
@@ -128,7 +128,9 @@ const CartItem = ({
       >
         <div className="for_cart-item">
           <div className="for_cart-item__image">
-            <img src={imageSrc} alt='Product-image' />
+            {imageSrc !== undefined && (
+              <img src={imageSrc} alt='Product-image' />
+            )}
           </div>
           <div className="for_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}

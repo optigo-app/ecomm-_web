@@ -42,7 +42,7 @@ const MobileCartDetails = ({
   const [diamondQualityColorCombo, setDiamondQualityColorCombo] = useState([]);
   const [storeInitData, setStoreInitData] = useState();
   const loginInfo = JSON.parse(sessionStorage.getItem('loginUserDetail'));
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   useEffect(() => {
     const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -91,13 +91,15 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="elvMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="elvMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="elvMo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='elvMo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {imageSrc !== undefined && (
+            <img
+              src={imageSrc}
+              alt="Cluster Diamond"
+              className='elvMo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+            />
+          )}
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

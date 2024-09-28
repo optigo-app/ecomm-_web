@@ -11,6 +11,7 @@ import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityCol
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
+import { for_companyLogo, for_companyLogoM } from "./AllTheme/Forevery/Components/Recoil/atom";
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 // import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
@@ -44,6 +45,9 @@ export default function ThemeRoutes() {
 
   const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM)
   const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo)
+
+  const for_setCompanyTitleLogoM = useSetRecoilState(for_companyLogoM)
+  const for_setCompanyTitleLogo = useSetRecoilState(for_companyLogo)
 
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
@@ -89,6 +93,9 @@ export default function ThemeRoutes() {
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
+
+    for_setCompanyTitleLogo(webLogo);
+    for_setCompanyTitleLogoM(mobileLogo);
 
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
