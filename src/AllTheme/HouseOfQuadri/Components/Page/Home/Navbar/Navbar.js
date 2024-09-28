@@ -566,7 +566,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={is400px ? MobileLogoNew : DeskTopLogo}
+                  src={is400px ?  MobileLogoNew : `https://i.ibb.co/nn00wPJ/sonasans-Lite-2.png` || DeskTopLogo}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })

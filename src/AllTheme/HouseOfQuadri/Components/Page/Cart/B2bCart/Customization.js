@@ -320,10 +320,16 @@ const Customization = ({
             )}
           </div>
           <div className="hoq_stockPriceQtyDiv">
-            <div className="option">
-              <label htmlFor="qty">Qty:</label>
-              <span>{selectedItem?.Quantity}</span>
-            </div>
+          {selectedItem?.IsMrpBase == 0 ? (
+              <div className="option">
+                <label htmlFor="qty">Qty:</label>
+                <span>{selectedItem?.Quantity}</span>
+              </div>
+            ) :
+              <div>
+                <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+              </div>
+            }
             <div className="">
               {storeInitData?.IsPriceShow == 1 && (
                 <div className="hoq_Stockproduct-price">
