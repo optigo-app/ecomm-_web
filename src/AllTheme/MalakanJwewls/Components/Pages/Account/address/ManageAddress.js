@@ -6,9 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import { NavLink } from 'react-router-dom';
 import { getAddressData, handleAddAddress, handleDefaultSelectionAddress, handleDeleteAddress, handleEditAddress } from '../../../../../../utils/API/AccountTabs/manageAddress';
 import { useSetRecoilState } from 'recoil';
-import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import { mala_defaultAddressState } from '../../../Recoil/atom';
+import { validateAddressFieldAccount, validateAddressFormAccount } from '../../../../../../utils/Glob_Functions/AccountPages/AccountPage';
 import ConfirmationDialog from '../../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
+import HeadTitleAcc from '../HeadTitleAcc';
 
 
 const ManageAddress = () => {
@@ -67,9 +68,8 @@ const ManageAddress = () => {
             setIsLoading(false);
         }
     }
-
+    
     const handleOpen = (item, addressIndex = null, args) => {
-        // setIsEditMode(addressIndex !== null);
                 console.log(item, addressIndex, args);
 
             if(args === 'edit'){
@@ -231,13 +231,12 @@ const ManageAddress = () => {
 
         const error = validateAddressFieldAccount(fieldName, value);
 
-        // setErrors(errorsCopy);
         setErrors((prevErrors) => ({
             ...prevErrors,
             [fieldName]: error
         }));
     };
-
+    
     const handleClose = () => {
         setFormData({
             firstName: '',
@@ -301,7 +300,6 @@ const ManageAddress = () => {
             const { FrontEnd_RegNo } = storeInit;
             
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-            
             if (response?.Data?.rd) {
 
                 if(response?.Data?.rd?.length > 0){
@@ -349,30 +347,35 @@ const ManageAddress = () => {
     }
 
     return (
-        <>
-        <ToastContainer />
+        <div className='address_Account_mala'>
+ <ToastContainer  style={{
+                zIndex : 999999
+            }}/>
             <div>
+                <HeadTitleAcc title="Saved Addresses" />
             <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
-                    background: '#f6efe6',
-                    color: "rgba(31, 25, 25, 0.7)",
+                    background: '#f6f6f6',
+                    color: "#7D7F89",
                     fontFamily:"PT Sans, sans-serif",
                     fontWeight: "700",
                     opacity:'.8'
-                }} className='savedAddress'>Saved Addresses</p>
+                }} className='savedAddress none_addTitleAcc'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='mala_muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
+                    className='radioGroupAddressAcc'
                 >
                     {
-                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
+                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                        <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
                             {
                                 addressData?.map((item, index) => {
                                     return <Box className="AddressSec" key={index}>
@@ -386,22 +389,19 @@ const ManageAddress = () => {
                                                 </Box>
                                             </Box>
                                             <Box>
-                                                <Typography sx={{ paddingBottom: "15px" }}>
-                                                    {item?.street !== undefined && item?.street},
-                                                    {item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},
-                                                    {item?.state !== undefined && item?.state},
-                                                    {item?.country !== undefined && item?.country}
-                                                </Typography>
+                                                <Typography sx={{ paddingBottom: "15px" }}>{item?.street !== undefined && item?.street},{item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},{item?.state !== undefined && item?.state},{item?.country !== undefined && item?.country}</Typography>
                                             </Box>
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} style={{textDecoration:'none'}} >{item?.shippingmobile}</a>
+                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} className='text-decoration-none' >{item?.shippingmobile}</a>
+                                                        {/* <Typography  sx={{ paddingLeft: "3px", textDecoration: "unset" }}>{item?.shippingmobile !== undefined && item?.shippingmobile}</Typography> */}
                                                 </Box>
                                             </NavLink>
 
 
                                             <Box sx={{ display: "flex", paddingBottom: "7px", alignItems: 'center' }}>
+                                                {/* <FormControlLabel value="Default1" control={<Radio />} /> */}
                                                 <input
                                                     type="radio"
                                                     checked={item.isdefault === 1}
@@ -414,14 +414,14 @@ const ManageAddress = () => {
                                             </Box>
                                             
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
-                                                <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
+                                                <Button className='mala_muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
-                                                        background: "#7d7f85", maxHeight: "30px", minWidth: "max-content",
+                                                       maxHeight: "30px", minWidth: "max-content",
                                                         maxWidth: "max-content", padding: "6px 10px", fontSize: "0.9rem", marginBottom: "10px", borderRadius: "0",
                                                     }}
                                                     onClick={() => handleOpen(item, index, 'edit')}
                                                 >Edit</Button>
-                                                { item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
+                                                { item.isdefault !== 1 && <Button className='mala_muiSmilingRocksBtnManageEdit'
                                                     variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
@@ -437,7 +437,7 @@ const ManageAddress = () => {
                     }
 
                 </RadioGroup>
-     
+      
                 <ConfirmationDialog
                     open={openDelete}
                     onClose={handleCloseDialog}
@@ -445,7 +445,7 @@ const ManageAddress = () => {
                     title="Delete Address"
                     content="Are you sure you want to delete address?"
                 />
-                <Dialog open={open} onClose={handleClose} >
+                <Dialog open={open} onClose={handleClose} sx={{zIndex : 999999}} >
                     <div className='smilingAddressPopupMain'>
                         <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -453,7 +453,7 @@ const ManageAddress = () => {
                                 id="firstName"
                                 label="First Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.firstName}
                                 onChange={(e) => handleInputChange(e, 'firstName')}
@@ -464,7 +464,7 @@ const ManageAddress = () => {
                                 id="lastName"
                                 label="Last Name"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.lastName}
                                 onChange={(e) => handleInputChange(e, 'lastName')}
@@ -475,7 +475,7 @@ const ManageAddress = () => {
                                 id="address"
                                 label="Address"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.address}
                                 onChange={(e) => handleInputChange(e, 'address')}
@@ -486,7 +486,7 @@ const ManageAddress = () => {
                                 id="country"
                                 label="Country"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.country}
                                 onChange={(e) => handleInputChange(e, 'country')}
@@ -497,7 +497,7 @@ const ManageAddress = () => {
                                 id="state"
                                 label="State"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.state}
                                 onChange={(e) => handleInputChange(e, 'state')}
@@ -508,7 +508,7 @@ const ManageAddress = () => {
                                 id="city"
                                 label="City"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.city}
                                 onChange={(e) => handleInputChange(e, 'city')}
@@ -519,7 +519,7 @@ const ManageAddress = () => {
                                 id="zipCode"
                                 label="ZIP Code"
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.zipCode}
                                 onChange={(e) => handleInputChange(e, 'zipCode')}
@@ -530,7 +530,7 @@ const ManageAddress = () => {
                                 id="mobileNo"
                                 label="Mobile No."
                                 variant="outlined"
-                                className="labgrowRegister"
+                                className="labgrowRegister_mala"
                                 style={{ margin: '15px' }}
                                 value={formData.mobileNo}
                                 onChange={(e) => handleInputChange(e, 'mobileNo')}
@@ -539,8 +539,8 @@ const ManageAddress = () => {
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                    <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
-                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn_mj'>
+                                    <button type="submit" className='mala_smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
+                                    <button onClick={handleClose} className='mala_smilingDeleveryformCansleBtn'>
                                         Cancel
                                     </button>
                                 </div>
@@ -549,7 +549,7 @@ const ManageAddress = () => {
                     </div>
                 </Dialog>
             </div>                    
-        </>
+        </div>
     )
 }
 

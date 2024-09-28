@@ -347,7 +347,7 @@ const ManageAddress = () => {
     }
 
     return (
-        <>
+        <div className='address_Account_HOQ'>
  <ToastContainer  style={{
                 zIndex : 999999
             }}/>
@@ -549,7 +549,7 @@ const ManageAddress = () => {
                     </div>
                 </Dialog>
             </div>                    
-        </>
+        </div>
     )
 }
 

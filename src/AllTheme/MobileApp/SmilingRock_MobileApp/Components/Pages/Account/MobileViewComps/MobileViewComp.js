@@ -45,7 +45,7 @@ const MobileViewComp = () => {
     },[])
 
   return (
-    <>
+    <div className='mobComp_Account_SMRM'>
             <div className='sticky-header'>
                 <MobViewHeader title="My Account" />
             </div>
@@ -114,7 +114,7 @@ const MobileViewComp = () => {
                 </div> */}
             </div>
         </div>
-    </>
+    </div>
   )
 }
 

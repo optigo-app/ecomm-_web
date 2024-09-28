@@ -2,42 +2,46 @@
 
 $cartUpdateBtncolor: #b1b1b1;
 
-.stam_B2B_MainBGDiv {
+.roop_MainBGDiv {
+  // background-color: $backgroundColor;
   font-family: $primaryFontFamily;
 
-  .stam_cartMainPageDiv {
+  .cartMainPageDiv {
     background-color: #fff;
+    margin-inline: 1%;
+    min-height: 79.6vh;
+    margin-bottom: 170px;
   }
 
-  .rJ_cartmainRowDiv {
+  .roop_cartmainRowDiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
 
-    .rJ_cartButton-groups {
+    .roop_cartButton-groups {
       flex: 1;
       text-align: left;
     }
 
-    .rJ_cart-title {
+    .roop_cart-title {
       flex: 1;
       text-align: center;
     }
 
-    .rJ_placeOrderMainbtnDivs {
+    .roop_placeOrderMainbtnDivs {
       flex: 1;
       text-align: right;
     }
   }
 
-  .rJ_placeOrderMainbtnDiv {
+  .roop_placeOrderMainbtnDiv {
     flex: 1;
     text-align: right;
   }
 
   // Top button Group code
-  .rJ_cartMainPage {
+  .roop_cartMainPage {
     display: flex;
     gap: 15px !important;
     margin-bottom: -8%;
@@ -48,27 +52,27 @@ $cartUpdateBtncolor: #b1b1b1;
     text-align: center;
     padding-top: 40px;
 
-    .rJ_cart-title {
+    .roop_cart-title {
       color: $titleColor;
       // padding-bottom: 35px;
       font-size: $fontSize8;
       font-family: $primaryFontFamily !important;
     }
 
-    .rJ_cartButton-groups {
+    .roop_cartButton-groups {
 
-      .rJ_ReomoveAllCartbtn {
+      .roop_ReomoveAllCartbtn {
         text-transform: capitalize !important;
         color: $titleColor !important;
         text-decoration-color: $titleColor !important;
         cursor: pointer;
       }
 
-      .rJ_ReomoveAllCartbtn {
+      .roop_ReomoveAllCartbtn {
         margin-left: 20px;
       }
 
-      .rJ_cartBtn {
+      .roop_cartBtn {
         height: 60px;
         width: 150px;
         font-family: $primaryFontFamily !important;
@@ -79,7 +83,7 @@ $cartUpdateBtncolor: #b1b1b1;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
 
-        &.rJ_cartActivebtn {
+        &.roop_cartActivebtn {
           background-color: $btn1ActivebgColor;
           color: $btn1hoverFontColor;
         }
@@ -91,7 +95,7 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .rJ_place-order-btn {
+    .roop_place-order-btn {
       font-family: $primaryFontFamily !important;
       background-color: $btn1hoverColor;
       color: $btn1hoverFontColor;
@@ -112,7 +116,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_place-order-btnMobile {
+  .roop_place-order-btnMobile {
     font-family: $primaryFontFamily !important;
     background-color: $btn1hoverColor;
     color: $btn1hoverFontColor;
@@ -132,22 +136,22 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_noCartlistData {
+  .roop_noCartlistData {
     text-align: center;
     height: 100%;
     margin-block: 109px;
 
-    .rJ_title {
+    .roop_title {
       color: $titleColor;
       font-size: $fontSize6;
     }
 
-    .rJ_desc {
+    .roop_desc {
       color: $titleColor;
       font-size: $fontSize4;
     }
 
-    .rJ_browseOurCollectionbtn {
+    .roop_browseOurCollectionbtn {
       background-color: #7d7f85;
       border: none;
       color: #fff;
@@ -161,26 +165,27 @@ $cartUpdateBtncolor: #b1b1b1;
 
   // cart Main Page layout
 
-  .rJ_cartMainPage {
+  .roop_cartMainPage {
     display: flex;
 
-    .rJ_cart-left-sides {
+    .roop_cart-left-sides {
       max-width: 75%;
       width: 75%;
       display: flex;
       justify-content: start;
       align-items: start;
 
-      .rJ_RightCartList {
+      .roop_RightCartList {
         width: 100%;
-        .rJ_cartListCardGrid {
+
+        .roop_cartListCardGrid {
           padding-left: 15px !important;
           padding-top: 15px !important;
         }
       }
     }
 
-    .rJ_cart-right-side {
+    .roop_cart-right-side {
       max-width: 25%;
       width: 25%;
       display: flex;
@@ -189,20 +194,20 @@ $cartUpdateBtncolor: #b1b1b1;
       margin-top: 6px;
       position: sticky;
       height: 80vh;
-      top:  70px;
+      top: 70px;
       margin-bottom: 190px;
     }
 
-    .rJ_mobile-cartDetails {
+    .roop_mobile-cartDetails {
       display: none;
     }
 
-    .rJ_currencyFontPrice {
+    .roop_currencyFontPrice {
       color: $titleColor !important;
       font-weight: bold;
     }
 
-    .rJ_remarktext {
+    .roop_remarktext {
       font-size: $fontSize0 !important;
       color: $titleColor !important;
       max-width: 130px !important;
@@ -215,12 +220,12 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .rJ_mui_CartBox {
+    .roop_mui_CartBox {
       display: flex !important;
       justify-content: space-evenly !important;
     }
 
-    .rJ_inStockbadgeDiv {
+    .roop_inStockbadgeDiv {
       position: absolute;
       top: 0;
       left: 0;
@@ -231,42 +236,43 @@ $cartUpdateBtncolor: #b1b1b1;
       font-weight: bold;
     }
 
-    .rJ_cartListCard {
-      .rJ_card-ContentsData {
+    .roop_cartListCard {
+      .roop_card-ContentsData {
         padding: 2px 0px 2px 0px !important;
         font-size: $fontSize0 !important;
       }
     }
 
-    .rJ_cartListCard1 {
+    .roop_cartListCard1 {
       width: 390px;
       position: relative;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-      .rJ_card-ContentsData {
+
+      .roop_card-ContentsData {
         padding: 2px 0px 2px 0px !important;
         font-size: $fontSize0 !important;
       }
     }
 
-    .rJ_PriceBox {
+    .roop_PriceBox {
       margin-bottom: 10px !important;
     }
   }
 
-  .rJ_cart-container {
+  .roop_cart-container {
     height: 100%;
     overflow: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
-  .rJ_cart-container::-webkit-scrollbar {
+  .roop_cart-container::-webkit-scrollbar {
     display: none !important;
   }
 
   // cart Details SCSS code (cart right side)
 
-  .rJ_cart-container {
+  .roop_cart-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -276,7 +282,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_Cart-imageDiv {
+  .roop_Cart-imageDiv {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,7 +293,7 @@ $cartUpdateBtncolor: #b1b1b1;
     border-radius: 0px;
     border: 1px solid rgb(225, 225, 225);
 
-    .rJ_cartDetailImage {
+    .roop_cartDetailImage {
       border-radius: 0px;
       padding: 2px;
       width: 100%;
@@ -295,13 +301,13 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_CartCusto_R-details {
+  .roop_CartCusto_R-details {
     // padding: 0 20px;
     flex: 1;
     max-width: 600px;
     width: 100%;
 
-    .rJ_cart-Titleline {
+    .roop_cart-Titleline {
       font-size: $fontSize4;
       color: $titleColor;
       margin: 10px;
@@ -316,7 +322,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
 
-    .rJ_Cart-options {
+    .roop_Cart-options {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -343,9 +349,10 @@ $cartUpdateBtncolor: #b1b1b1;
           color: $titleColor;
         }
       }
+
     }
 
-    .rJ_StockCart-options {
+    .roop_StockCart-options {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -357,9 +364,9 @@ $cartUpdateBtncolor: #b1b1b1;
         background-color: #f7f7f7;
         padding: 10px;
         border-radius: 0px;
-        // width: 48%;
-        max-width: 550px;
-        width: 200px;
+        width: 48.5%;
+        // max-width: 550px;
+        // width: 200px;
 
         label {
           display: block;
@@ -370,6 +377,7 @@ $cartUpdateBtncolor: #b1b1b1;
           font-family: $primaryFontFamily !important;
 
         }
+
         span {
           display: block;
           color: $titleColor;
@@ -378,15 +386,37 @@ $cartUpdateBtncolor: #b1b1b1;
 
         }
       }
+
+      @media(max-width: 1560px) {
+        .option {
+          width: 48%;
+
+          label,
+          span {
+            font-size: $fontSize1;
+          }
+        }
+      }
+
+      @media(max-width: 1490px) {
+        .option {
+          width: 47%;
+
+          label,
+          span {
+            font-size: $fontSize0;
+          }
+        }
+      }
     }
 
-    .rJ_stockPriceQtyDiv {
+    .roop_stockPriceQtyDiv {
       display: flex;
       justify-content: space-around;
       align-items: center;
       margin-top: 10px;
 
-      .rJ_Stockproduct-price {
+      .roop_Stockproduct-price {
         font-size: $fontSize6;
         color: $titleColor;
         width: 100%;
@@ -412,14 +442,14 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .rJ_cartQtyPricemainDev {
+    .roop_cartQtyPricemainDev {
       display: flex;
       justify-content: space-between;
     }
 
     // cart quantity scss
 
-    .rJ_cart-quantity {
+    .roop_cart-quantity {
       display: flex;
       width: 130px;
       height: 45px;
@@ -479,13 +509,13 @@ $cartUpdateBtncolor: #b1b1b1;
       justify-content: end;
     }
 
-    .rJ_UpdateCartBtn {
+    .roop_UpdateCartBtn {
       display: flex;
       justify-content: flex-end;
       align-items: end;
     }
 
-    .rJ_cartUpdate-button {
+    .roop_cartUpdate-button {
       display: block;
       height: 40px;
       width: 100px;
@@ -506,7 +536,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
   // cart list item css(left side)
 
-  .rJ_cartListCard {
+  .roop_cartListCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     display: flex !important;
     justify-content: space-between !important;
@@ -514,14 +544,14 @@ $cartUpdateBtncolor: #b1b1b1;
     position: relative;
     border-radius: 0px !important;
 
-    .rJ_DesignNoTExt {
+    .roop_DesignNoTExt {
       color: $titleColor;
       font-weight: bold;
       font-size: $fontSize1;
       font-family: $primaryFontFamily !important;
     }
 
-    .rJ_card-ContentsData {
+    .roop_card-ContentsData {
       color: $titleColor;
       font-size: $fontSize1;
       font-family: $primaryFontFamily;
@@ -531,38 +561,39 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_cartListImage {
-    width: 100%;
+  .roop_cartListImage {
     max-width: 200px;
     max-height: 200px;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
+    width: 65%;
   }
 
-  .rJ_rightContentDataDiv {
+  .roop_rightContentDataDiv {
     max-width: 150px;
+    width: 35%;
   }
 
-  .rJ_cartcontentData {
+  .roop_cartcontentData {
     padding: 16px 0px !important;
   }
 
-  .rJ_cartlistdetails {
+  .roop_cartlistdetails {
     font-size: 10px !important;
   }
 
-  .rJ_cartbtngroupReRm {
+  .roop_cartbtngroupReRm {
     position: absolute;
     bottom: 5px;
 
-    .rJ_ItemRemarkbtn,
-    .rJ_ReomoveCartbtn {
+    .roop_ItemRemarkbtn,
+    .roop_ReomoveCartbtn {
       color: #c1c1c1 !important;
       font-size: $fontSize1;
     }
 
 
-    .rJ_ItemRemarkbtn {
+    .roop_ItemRemarkbtn {
       margin-right: 20px;
     }
   }
@@ -570,27 +601,27 @@ $cartUpdateBtncolor: #b1b1b1;
 
   // update cart modal
 
-  .rJ_modal {
+  .roop_modal {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .rJ_Modal-cardList {
+  .roop_Modal-cardList {
     max-height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 10px;
   }
 
-  .rJ_Modal-FilterList {
+  .roop_Modal-FilterList {
     max-height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 10px;
   }
 
-  .rJ_paper {
+  .roop_paper {
     position: relative;
     width: 1200px;
     max-width: 1200px;
@@ -601,36 +632,36 @@ $cartUpdateBtncolor: #b1b1b1;
 
   }
 
-  .rJ_Modal_Title {
+  .roop_Modal_Title {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 
-    .rJ_Modal_TitleTypo {
+    .roop_Modal_TitleTypo {
       color: $titleColor;
       margin: 0;
     }
   }
 
-  .rJ_closeIcon {
+  .roop_closeIcon {
     position: absolute;
     top: 8px;
     right: 8px;
   }
 
-  .rJ_cartmodal_body {
+  .roop_cartmodal_body {
     margin-top: 20px;
   }
 
-  .rJ_cart-Accordian {
+  .roop_cart-Accordian {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   }
 
-  .rJ_Cart-prCard {
+  .roop_Cart-prCard {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
   }
 
-  .rJ_ShortCutCombo-section {
+  .roop_ShortCutCombo-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -643,31 +674,31 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_cartModal-Divider {
+  .roop_cartModal-Divider {
     margin: 10px 0px 20px 0px;
   }
 
-  .rJ_filter-AccrodianDetails {
+  .roop_filter-AccrodianDetails {
     display: flex !important;
     justify-content: space-between !important;
   }
 
-  .rJ_cart-Accordion {
-    .rJ_FilterTitle {
+  .roop_cart-Accordion {
+    .roop_FilterTitle {
       color: $titleColor;
       font-weight: 500;
       font-size: $fontSize4;
       font-family: $primaryFontFamily;
     }
 
-    .rJ_filterAccordianDeatilTitle {
+    .roop_filterAccordianDeatilTitle {
       color: $titleColor;
       font-size: $fontSize3;
       font-family: $primaryFontFamily;
       padding-left: 10px;
     }
 
-    .rJ_filterCheckbox {
+    .roop_filterCheckbox {
       color: $titleColor;
       font-size: $fontSize3;
       font-family: $primaryFontFamily;
@@ -676,25 +707,25 @@ $cartUpdateBtncolor: #b1b1b1;
 
   // customization ui
 
-  .rJ_projectRemark {
+  .roop_projectRemark {
     max-width: 600px;
     padding: 5px 40px 20px 20px;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
   }
 
-  .rJ_remarkTitle {
+  .roop_remarkTitle {
     color: $titleColor;
     font-size: $fontSize4;
     font-weight: bold;
   }
 
-  .rJ_prRemarkText {
+  .roop_prRemarkText {
     color: $titleColor;
     font-size: $fontSize2;
   }
 
-  .rJ_AddReamrkBtn {
+  .roop_AddReamrkBtn {
     display: flex;
     justify-content: end;
     align-items: center;
@@ -714,7 +745,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_product-remark {
+  .roop_product-remark {
     margin: 15px 0px 15px 0px;
 
     label {
@@ -734,7 +765,7 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_projectUpdateCartBtn-group {
+  .roop_projectUpdateCartBtn-group {
     display: flex !important;
     justify-content: end !important;
     gap: 10px;
@@ -747,7 +778,7 @@ $cartUpdateBtncolor: #b1b1b1;
       cursor: pointer;
     }
 
-    .rJ_cartUpdate-btn {
+    .roop_cartUpdate-btn {
       background-color: $cartUpdateBtncolor;
       color: $btn1hoverFontColor;
 
@@ -756,7 +787,7 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .rJ_cartCancel-btn {
+    .roop_cartCancel-btn {
       background-color: $btn1bgColor;
       color: $btn1FontColor;
       border: 1px solid $titleColor;
@@ -767,28 +798,33 @@ $cartUpdateBtncolor: #b1b1b1;
     }
   }
 
-  .rJ_CartSkelton {
+  .roop_CartSkelton {
     background-color: #f6f6f6 !important;
   }
 
 
-  .rJ_remarkModalBox {
+  .roop_remarkModalBox {
     width: 90%;
     max-width: 500px;
     min-width: 300px;
     margin: 0 auto;
   }
 
+  @media(max-width:1200px) {
+    .cartMainPageDiv {
+      margin-inline: 1%;
+    }
+  }
 
   @media (max-width: 768px) {
-    .rJ_remarkModalBox {
+    .roop_remarkModalBox {
       width: 95%;
       max-width: 100%;
       min-width: 0;
     }
 
-    .rJ_Cart_R-details {
-      .rJ_cart-Titleline {
+    .roop_Cart_R-details {
+      .roop_cart-Titleline {
         font-size: $fontSize3 !important;
         margin-bottom: 20px;
         color: #7d7f85;
@@ -796,18 +832,18 @@ $cartUpdateBtncolor: #b1b1b1;
       }
     }
 
-    .rJ_Cart_R-details {
+    .roop_Cart_R-details {
       padding: 0 !important;
     }
   }
 
   @media(max-width: 770px) {
-    .rJ_cartmainRowDiv {
+    .roop_cartmainRowDiv {
       margin-bottom: 30px;
     }
 
     .cartBtnGroupMainDiv {
-      .rJ_place-order-btn {
+      .roop_place-order-btn {
         height: 35px !important;
         width: 120px !important;
       }
@@ -815,7 +851,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 474px) {
-    .rJ_place-order-btn {
+    .roop_place-order-btn {
       width: 120px;
       font-size: $fontSize2;
       height: 35px;
@@ -823,25 +859,25 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media screen and (min-width: 1000px) {
-    .rJ_mobile-cartDetails {
+    .roop_mobile-cartDetails {
       display: none !important;
     }
 
-    .rJ_cart-modal {
+    .roop_cart-modal {
       display: none !important;
     }
   }
 
   @media(max-width: 1500px) and (min-width:1440px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
-        .rJ_cart-left-sides {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
           max-width: 80%;
           width: 80%;
 
-          .rJ_RightCartList {
-            .rJ_mui_CartBox {
-              .rJ_cartListImage {
+          .roop_RightCartList {
+            .roop_mui_CartBox {
+              .roop_cartListImage {
                 max-width: 170px;
                 max-height: 180px;
                 height: 150px;
@@ -850,7 +886,7 @@ $cartUpdateBtncolor: #b1b1b1;
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           max-width: 20%;
           width: 20%;
           display: block;
@@ -861,19 +897,19 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 1439px) and (min-width:1360px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
-        .rJ_cart-left-sides {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
           max-width: 80%;
           width: 80%;
 
-          .rJ_RightCartList {
-            .rJ_cartListCardGrid {
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
               padding-left: 10px !important;
               padding-top: 15px !important;
             }
 
-            .rJ_mui_CartBox {
-              .rJ_cartListImage {
+            .roop_mui_CartBox {
+              .roop_cartListImage {
                 max-width: 180px;
                 max-height: 180px;
                 height: 130px;
@@ -883,7 +919,7 @@ $cartUpdateBtncolor: #b1b1b1;
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           max-width: 20%;
           width: 20%;
           display: block;
@@ -894,19 +930,19 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 1359px) and (min-width:1000px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
-        .rJ_cart-left-sides {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
           max-width: 75%;
           width: 75%;
 
-          .rJ_RightCartList {
-            .rJ_cartListCardGrid {
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
               flex-basis: 50% !important;
               max-width: 50% !important;
             }
 
-            .rJ_mui_CartBox {
-              .rJ_cartListImage {
+            .roop_mui_CartBox {
+              .roop_cartListImage {
                 max-width: 180px;
                 max-height: 180px;
                 height: 130px;
@@ -916,7 +952,7 @@ $cartUpdateBtncolor: #b1b1b1;
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           max-width: 25%;
           width: 25%;
           display: block;
@@ -927,19 +963,19 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 999px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
-        .rJ_cart-left-sides {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
           max-width: 100%;
           width: 100%;
 
-          .rJ_RightCartList {
-            .rJ_cartListCardGrid {
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
               flex-basis: 33.333333% !important;
               max-width: 33.333333% !important;
             }
 
-            .rJ_mui_CartBox {
-              .rJ_cartListImage {
+            .roop_mui_CartBox {
+              .roop_cartListImage {
                 max-width: 180px;
                 max-height: 180px;
                 height: 130px;
@@ -949,7 +985,7 @@ $cartUpdateBtncolor: #b1b1b1;
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           display: none;
         }
       }
@@ -958,20 +994,20 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 849px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
-        .rJ_cart-left-sides {
+      .roop_cartMainPage {
+        .roop_cart-left-sides {
           max-width: 100%;
           width: 100%;
 
-          .rJ_RightCartList {
-            .rJ_cartListCardGrid {
+          .roop_RightCartList {
+            .roop_cartListCardGrid {
               flex-basis: 50% !important;
               max-width: 50% !important;
             }
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           display: none;
         }
       }
@@ -980,31 +1016,31 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 570px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
+      .roop_cartMainPage {
         padding: 0;
 
-        .rJ_cart-left-sides {
+        .roop_cart-left-sides {
           width: 100%;
           max-width: 100%;
           max-height: 100%;
           overflow: auto;
 
-          .rJ_RightCartList {
+          .roop_RightCartList {
             width: 100%;
             padding: 0px 12px 0px 10px;
 
-            .rJ_cartListCardGrid {
+            .roop_cartListCardGrid {
               padding-left: 10px !important;
               padding-top: 10px !important;
               width: 50% !important;
               max-width: 50% !important;
               flex-basis: 50% !important;
 
-              .rJ_mui_CartBox {
+              .roop_mui_CartBox {
                 display: flex;
                 flex-direction: column;
 
-                .rJ_cartListImage {
+                .roop_cartListImage {
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -1016,20 +1052,20 @@ $cartUpdateBtncolor: #b1b1b1;
                 }
               }
 
-              .rJ_rightContentDataDiv {
+              .roop_rightContentDataDiv {
                 width: 100%;
                 max-width: 100%;
                 padding: 5px;
               }
             }
 
-            .rJ_remarkModalBox {
+            .roop_remarkModalBox {
               width: 200px !important;
             }
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           display: none;
         }
       }
@@ -1038,32 +1074,32 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 570px) {
     .cartMainPageDiv {
-      .rJ_cartMainPage {
+      .roop_cartMainPage {
         padding: 0;
 
-        .rJ_cart-left-sides {
+        .roop_cart-left-sides {
           width: 100%;
           max-width: 100%;
           max-height: 100%;
           overflow: auto;
           padding: 20px 0px;
 
-          .rJ_RightCartList {
+          .roop_RightCartList {
             width: 100%;
             padding: 0px 8px 0px 8px;
 
-            .rJ_cartListCardGrid {
+            .roop_cartListCardGrid {
               padding-left: 8px !important;
               padding-top: 8px !important;
               width: 50% !important;
               max-width: 50% !important;
               flex-basis: 50% !important;
 
-              .rJ_mui_CartBox {
+              .roop_mui_CartBox {
                 display: flex;
                 flex-direction: column;
 
-                .rJ_cartListImage {
+                .roop_cartListImage {
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -1076,33 +1112,34 @@ $cartUpdateBtncolor: #b1b1b1;
                 }
               }
 
-              .rJ_rightContentDataDiv {
+              .roop_rightContentDataDiv {
                 width: 100%;
                 max-width: 100%;
                 padding: 5px;
 
-                .rJ_cartbtngroupReRm {
+                .roop_cartbtngroupReRm {
                   display: flex;
                   justify-content: space-between;
                   width: 100%;
 
-                  .rJ_ItemRemarkbtn {
+                  .roop_ItemRemarkbtn {
                     margin-right: 0px;
                   }
-                  .rJ_ReomoveCartbtn{
+
+                  .roop_ReomoveCartbtn {
                     margin-right: 12px;
                   }
                 }
               }
             }
 
-            .rJ_remarkModalBox {
+            .roop_remarkModalBox {
               width: 300px !important;
             }
           }
         }
 
-        .rJ_cart-right-side {
+        .roop_cart-right-side {
           display: none;
         }
       }

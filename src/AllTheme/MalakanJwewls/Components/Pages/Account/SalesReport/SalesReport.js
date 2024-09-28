@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./SalesReport.scss";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   CircularProgress,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -28,6 +32,7 @@ import { NumberWithCommas, checkMonth, customComparator_Col, formatAmount, stabl
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getSalesReportData } from "../../../../../../utils/API/AccountTabs/salesReport";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { headCells_SalesReport as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
@@ -202,7 +207,9 @@ function EnhancedTableHead(props) {
             style={{
               minWidth: headCell.minWidth,
               textAlign: headCell?.align || "left",
+              position:'sticky', top:0, zIndex:1,
             }}
+            className="account_themewise_mala"
           >
          {
           (headCell?.id?.toLowerCase() === 'srno') ? 'SrNo' : 
@@ -271,6 +278,9 @@ const SalesReport = () => {
   });
   const fromDateRef = useRef(null);
   const toDateRef = useRef(null);
+
+  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px),(max-width:680px)');
+  const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1100px), (max-width:1200px), (max-width:1300px), (max-width:1440px)');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -567,12 +577,10 @@ const SalesReport = () => {
       }else{
         setData([]);
         setFilterData([]);
-        setIsLoading(false);
       }
       
     } catch (error) {
       console.log("Error:", error);
-      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
@@ -600,7 +608,7 @@ const SalesReport = () => {
   };
 
   return (
-    <Box>
+    <Box className="salesReport_Account_mala">
       <Box
         sx={{
           display: "flex",
@@ -609,70 +617,72 @@ const SalesReport = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box
-          className="salesReporttableWeb"
-          sx={{ paddingBottom: "5px", paddingRight: "15px" }}
-        >
-          <table>
-            <tbody>
-              <tr>
-                <td>Total Gross Wt</td>
-                <td>Total Net Wt(24k)</td>
-                <td>Total Net Wt</td>
-                <td>Total Diamonds</td>
-                <td>Total Color Stones</td>
-                <td>Unique Designs</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.GrossWt, 3)}
-                </td>
-                <td className="fw_bold">
-                  {" "}
-                  {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
-                </td>
-                <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiaPcs, 0)} PCs/
-                  {NumberWithCommas(total?.DiaWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.CsPcs, 0)} PCs/
-                  {NumberWithCommas(total?.CsWt, 3)} Ctw
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.uniqueDesigns, 0)}
-                </td>
-              </tr>
-              <tr>
-                <td>Total Metal Amt</td>
-                <td>Total Dia. Amt</td>
-                <td>Total CST Amt</td>
-                <td>Total Labour Amt</td>
-                <td>Total Other Amt</td>
-                <td>Unique Customers</td>
-              </tr>
-              <tr>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.MetalAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.DiamondAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.ColorStoneAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.LabourAmount, 2)}
-                </td>
-                <td className="fw_bold">
-                  {NumberWithCommas(total?.OtherAmount, 2)}
-                </td>
-                <td className="fw_bold">1</td>
-              </tr>
-            </tbody>
-          </table>
-        </Box>
+        <div className="sptable_mala">
+          <Box
+            className="salesReporttableWeb "
+            sx={{ paddingBottom: "5px", paddingRight: "15px" }}
+          >
+            <table style={{minWidth:'710px', overflowX:'scroll'}}>
+              <tbody>
+                <tr>
+                  <td>Total Gross Wt</td>
+                  <td>Total Net Wt(24k)</td>
+                  <td>Total Net Wt</td>
+                  <td>Total Diamonds</td>
+                  <td>Total Color Stones</td>
+                  <td>Unique Designs</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.GrossWt, 3)}
+                  </td>
+                  <td className="fw_bold">
+                    {" "}
+                    {NumberWithCommas(total?.Netwt_24k, 3)}{" "}
+                  </td>
+                  <td className="fw_bold">{NumberWithCommas(total?.NetWt, 3)}</td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiaPcs, 0)} PCs/
+                    {NumberWithCommas(total?.DiaWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.CsPcs, 0)} PCs/
+                    {NumberWithCommas(total?.CsWt, 3)} Ctw
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.uniqueDesigns, 0)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Metal Amt</td>
+                  <td>Total Dia. Amt</td>
+                  <td>Total CST Amt</td>
+                  <td>Total Labour Amt</td>
+                  <td>Total Other Amt</td>
+                  <td>Unique Customers</td>
+                </tr>
+                <tr>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.MetalAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.DiamondAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.ColorStoneAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.LabourAmount, 2)}
+                  </td>
+                  <td className="fw_bold">
+                    {NumberWithCommas(total?.OtherAmount, 2)}
+                  </td>
+                  <td className="fw_bold">1</td>
+                </tr>
+              </tbody>
+            </table>
+          </Box>
+        </div>
         <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
           <Typography>Total Amount</Typography>
           <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
@@ -710,64 +720,15 @@ const SalesReport = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-        <Box
-          sx={{
-            paddingBottom: "15px",
-            position: "relative",
-            top: "-2px",
-            paddingRight: "15px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{ background: "#7d7f85" }}
-            className="muiSmilingRocksBtn"
-            onClick={(eve) => resetAllFilters(eve)}
-          >
+      { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+        <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "15px", }} >
+          <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
             All
           </Button>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            position: "relative",
-            maxWidth: "max-content",
-            paddingBottom: "15px",
-            paddingRight: "15px",
-          }}
-          className="searchbox"
-        >
-          <TextField
-            id="standard-basic"
-            label="Search"
-            variant="outlined"
-            value={searchVal}
-            onChange={(eve) => {
-              setSearchVal(eve?.target?.value);
-              handleSearch(
-                eve,
-                eve?.target?.value,
-                fromDate,
-                toDate,
-                grossWtInput?.from,
-                grossWtInput?.to
-              );
-            }}
-          />
-          <Button
-            sx={{
-              padding: 0,
-              maxWidth: "max-content",
-              minWidth: "max-content",
-              position: "absolute",
-              right: "8px",
-              color: "#757575",
-            }}
-          >
-            <SearchIcon />
-          </Button>
+        <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "15px", }} className="searchbox" >
+          <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+          <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
         </Box>
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -899,7 +860,303 @@ const SalesReport = () => {
             <SearchIcon sx={{ color: "#fff !important" }} />
           </Button>
         </Box>
-      </Box>
+      </Box>}
+      {
+        (!isSmallScreen && isTabletScreen) && <Box>
+          <Box style={{display:'flex', alignItems:'center'}}>
+            <Box sx={{ paddingBottom: "15px", position: "relative", top: "-2px", paddingRight: "5px", }} >
+              <Button variant="contained" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" onClick={(eve) => resetAllFilters(eve)} >
+                All
+              </Button>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "5px", }} className="searchbox" >
+              <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+              <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+            </Box>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date From"
+              value={fromDate}
+              ref={fromDateRef}
+              format="DD MM YYYY"
+              className="quotationFilterDates"
+              onChange={(newValue) => {
+                if (newValue === null) {
+                  setFromDate(null)
+                } else {
+                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                        setFromDate(newValue)
+                    } else {
+                        Swal.fire({
+                            title: "Error !",
+                            text: "Enter Valid Date To",
+                            icon: "error",
+                            confirmButtonText: "ok"
+                        });
+                        resetAllFilters();
+                    }
+                }
+            }}
+         
+            />
+          </LocalizationProvider>
+            </Box>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date To"
+                  value={toDate}
+                  ref={toDateRef}
+                  format="DD MM YYYY"
+                  className="quotationFilterDates"
+                  onChange={(newValue) => {
+                    if (newValue === null) {
+                      setToDate(null);
+                    } else {
+                      if (
+                        (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                        newValue["$y"] < 1000 ||
+                        isNaN(newValue["$y"])
+                      ) {
+                        setToDate(newValue);
+                      } else {
+                        Swal.fire({
+                          title: "Error !",
+                          text: "Enter Valid Date To",
+                          icon: "error",
+                          confirmButtonText: "ok",
+                        });
+                        resetAllFilters();
+                      }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+            </Box>
+            <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+              <Button
+                variant="contained"
+                className="muiSmilingRocksBtn"
+                sx={{
+                  padding: "7px 10px",
+                  minWidth: "max-content",
+                  background: "#7d7f85",
+                }}
+                onClick={(eve) =>
+                  handleSearch(
+                    eve,
+                    searchVal,
+                    fromDate,
+                    toDate,
+                    grossWtInput?.from,
+                    grossWtInput?.to
+                  )
+                }
+              >
+                <SearchIcon sx={{ color: "#fff !important" }} />
+              </Button>
+            </Box>
+            <Box style={{position:'relative'}}>
+              <div style={{position:'absolute', top:'-15px'}}>
+                  <div>Gross Wt : </div>
+              </div>
+              <div style={{display:'flex', alignItems:'center'}}>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ maxWidth: "150px" }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ maxWidth: "150px" }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ paddingRight: "5px", paddingBottom: "20px" }}>
+                  <Button
+                    variant="contained"
+                    className="muiSmilingRocksBtn"
+                    sx={{
+                      padding: "7px 10px",
+                      minWidth: "max-content",
+                      background: "#7d7f85",
+                    }}
+                    onClick={(eve) =>
+                      handleSearch(
+                        eve,
+                        searchVal,
+                        fromDate,
+                        toDate,
+                        grossWtInput?.from,
+                        grossWtInput?.to
+                      )
+                    }
+                  >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </div>
+            </Box>
+          </Box>
+        </Box>
+      }
+      {
+        isSmallScreen && <>
+        <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
+          <AccordionDetails style={{margin:'0px'}} className='p0_acc_mob'>
+            <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}>
+              <Button variant="contained" size="small" sx={{ background: "#7d7f85" }} className="muiSmilingRocksBtn" style={{marginBottom:'20px'}} onClick={(eve) => resetAllFilters(eve)} >
+                All
+              </Button>
+              <Box sx={{ display: "flex", alignItems: "center", position: "relative", maxWidth: "max-content", paddingBottom: "15px", paddingRight: "0px",}} className="searchbox" >
+                <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={(eve) => { setSearchVal(eve?.target?.value); handleSearch( eve, eve?.target?.value, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ); }} />
+                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575", }} > <SearchIcon /> </Button>
+              </Box>
+              <div className='grosswt_toggle'>
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'20px', position:'relative'}} >
+                <div style={{position:'absolute', top:'-17px'}}>Gross Wt : </div>
+                <Box sx={{  boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{  boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </Box>
+              </div>
+            </Box>
+            <Box style={{display:'flex', alignItems:'flex-end', marginBottom:'7px', justifyContent:'space-between'}} className='mb20_mala_sp'>
+              <Box style={{width:'45%'}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date From"
+                  value={fromDate}
+                  ref={fromDateRef}
+                  format="DD MM YYYY"
+                  className="quotationFilterDates w100_dwsr"
+                  onChange={(newValue) => {
+                    if (newValue === null) {
+                      setFromDate(null)
+                    } else {
+                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                            setFromDate(newValue)
+                        } else {
+                            Swal.fire({
+                                title: "Error !",
+                                text: "Enter Valid Date To",
+                                icon: "error",
+                                confirmButtonText: "ok"
+                            });
+                            resetAllFilters();
+                        }
+                    }
+                }}
+                />
+              </LocalizationProvider>
+              </Box>
+              <Box style={{width:'45%'}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date To"
+                  value={toDate}
+                  ref={toDateRef}
+                  format="DD MM YYYY"
+                  className="quotationFilterDates w100_dwsr"
+                  onChange={(newValue) => {
+                    if (newValue === null) {
+                      setToDate(null);
+                    } else {
+                      if (
+                        (newValue["$y"] <= 2099 && newValue["$y"] >= 1900) ||
+                        newValue["$y"] < 1000 ||
+                        isNaN(newValue["$y"])
+                      ) {
+                        setToDate(newValue);
+                      } else {
+                        Swal.fire({
+                          title: "Error !",
+                          text: "Enter Valid Date To",
+                          icon: "error",
+                          confirmButtonText: "ok",
+                        });
+                        resetAllFilters();
+                      }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+              </Box>
+              <Box>
+                <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                  <SearchIcon sx={{ color: "#fff !important" }} />
+                </Button>
+              </Box>
+            </Box>
+            <Box sx={{ paddingRight: "10px", paddingBottom: "5px" }}  className="grosswt_toggle2">
+              <Typography>Gross Wt : </Typography>
+            </Box>
+            <div className="grosswt_toggle2">
+              <Box style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', paddingBottom:'10px'}}>
+                <Box sx={{ width:'45%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="From"
+                    name="from"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.from}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ width:'45%', boxSizing:'border-box' }}>
+                  <TextField
+                    placeholder="To"
+                    name="to"
+                    sx={{ minWidth:'100%' }}
+                    className="grossWtinputSecSalesReport"
+                    value={grossWtInput?.to}
+                    onChange={(eve) => handleChangegrossWt(eve)}
+                  />
+                </Box>
+                <Box sx={{ boxSizing:'border-box' }}>
+                  <Button variant="contained" size="small" className="muiSmilingRocksBtn" sx={{ padding: "7px 7px", minWidth: "max-content", background: "#7d7f85", }} onClick={(eve) => handleSearch( eve, searchVal, fromDate, toDate, grossWtInput?.from, grossWtInput?.to ) } >
+                    <SearchIcon sx={{ color: "#fff !important" }} />
+                  </Button>
+                </Box>
+              </Box>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+        </>
+      }
       {isLoading ? (
         <Box
           sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}
@@ -908,7 +1165,7 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          {  <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+          <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
             <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
@@ -920,7 +1177,7 @@ const SalesReport = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  { filterData?.length > 0 ? visibleRows?.map((row, index) => {
+                  {visibleRows.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -965,7 +1222,7 @@ const SalesReport = () => {
                         <TableCell align="center">{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  }) : <TableCell colSpan={headCells?.length} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -978,7 +1235,7 @@ const SalesReport = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </Paper> }
+          </Paper>
         </>
       )}
     </Box>

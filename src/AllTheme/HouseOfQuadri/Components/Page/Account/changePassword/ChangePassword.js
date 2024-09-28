@@ -132,7 +132,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className='changePassword_Account_HOQ'>
         <ToastContainer  style={{
                 zIndex : 999999
             }}/>
@@ -229,6 +229,6 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }

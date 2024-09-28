@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './rJ_cartPage.scss';
+import './roop_cartPage.scss';
 import Customization from './Customization';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 
@@ -31,7 +31,7 @@ const CartDetails = ({
 }) => {
 
   const [storeInitData, setStoreInitData] = useState();
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
@@ -44,15 +44,17 @@ const CartDetails = ({
   }, [selectedItem]);
 
   return (
-    <div className="rJ_cart-container">
-      <div className="rJ_Cart-imageDiv">
-        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='rJ_cartImage' /> */}
-        <img 
-        src={imageSrc} 
-        alt="image" 
-        className='rJ_cartDetailImage'  
-        onClick={() => handleMoveToDetail(selectedItem)}
-        />
+    <div className="roop_cart-container">
+      <div className="roop_Cart-imageDiv">
+        {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='roop_cartImage' /> */}
+        {imageSrc !== undefined &&
+          <img
+            src={imageSrc}
+            alt="image"
+            className='roop_cartDetailImage'
+            onClick={() => handleMoveToDetail(selectedItem)}
+          />
+        }
       </div>
       <Customization
         ispriceloding={ispriceloding}

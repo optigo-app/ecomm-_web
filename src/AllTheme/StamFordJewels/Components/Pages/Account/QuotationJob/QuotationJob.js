@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import "./quotation.scss";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -18,7 +17,8 @@ import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {checkMonth, customComparator_Col, formatAmount, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
-
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField, useMediaQuery } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Swal from 'sweetalert2';
 
 import { getQuotationJobData } from '../../../../../../utils/API/AccountTabs/quotationJob';
@@ -28,15 +28,16 @@ import { headCells_Jobs as columns } from "../../../../../../utils/Glob_Function
 const CustomSortIcon = ({ order }) => {
   return (
     <>
-      {order === 'asc' && <ArrowUpwardIcon className='sorticon_ma_SMR' />}
-      {order === 'desc' && <ArrowDownwardIcon className='sorticon_ma_SMR' />}
+      {order === 'asc' && <ArrowUpwardIcon className='sorticon_ma_stam' />}
+      {order === 'desc' && <ArrowDownwardIcon className='sorticon_ma_stam' />}
     </>
   );
 };
 
 const QuotationJob = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [printJobError, setPrintJobError] = useState('');
+
+  const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:530px),(max-width:575px)');
+  const isTabletScreen = useMediaQuery('(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px), (max-width:1070px), (max-width:1105px)');
 
   const [allChecked, setAllChecked] = useState(false);
   const [orderProm, setOrderProm] = useState('order');
@@ -44,20 +45,13 @@ const QuotationJob = () => {
   const [toDate, setToDate] = useState(null);
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [filterData2, setFilterData2] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [orderBy, setOrderBy] = useState('');
   const [order, setOrder] = useState('');
   const [statusList, setStatusList] = useState([]);
-  const [categoryList, setCategoryList] = useState([
-   
-  ]);
-  const [metalColorList, setmetalColorList] = useState([
-
-  ]);
-  const [metalPurityList, setMetalPurityList] = useState([
-    
-  ]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [metalColorList, setmetalColorList] = useState([]);
+  const [metalPurityList, setMetalPurityList] = useState([]);
   const [statuse, setStatus] = useState(statusList[0]?.value || "");
   const [category, setCategory] = useState(categoryList[0]?.value || "");
   const [MetalColor, setMetalColor] = useState(metalColorList[0]?.value || "");
@@ -104,7 +98,6 @@ const QuotationJob = () => {
     handleSearch(event, searchVal, fromDate, toDate, event.target.value, MetalColor, category, selectedStatus, orderProm);
   };
   moment.locale('en-gb');
-
 
 
   const [page, setPage] = React.useState(0);
@@ -411,7 +404,7 @@ const QuotationJob = () => {
 
       return 0;
 
-    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
+    }else if ((orderBy === 'PO') || (orderBy === 'PO') || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
       // Handle sorting for SKU# column
       return customComparator_Col(a[orderBy], b[orderBy]);
   }  else {
@@ -426,7 +419,7 @@ const QuotationJob = () => {
         }
         return 0;
     }
-  }
+}
 
   const fetchData = async () => {
     try {
@@ -487,20 +480,15 @@ const QuotationJob = () => {
         setCategory(allCategory[0]?.value);
         setMetalColor(allMetalColor[0]?.value);
         setMetalPurity(allMetalPurity[0]?.value);
-
         setData(datass);
         setFilterData(datass);
       } else {
         // alert('nodata')
         setData([]);
         setFilterData([]);
-        setIsLoading(false);
       }
     } catch (error) {
       console.log('Error:', error);
-        setIsLoading(false);  
-        setData([]);
-        setFilterData([]);
     } finally {
       setIsLoading(false);
     }
@@ -665,9 +653,9 @@ const scrollToTop = () => {
 };
 
   return (
-    <div className='jobs_Account_SFJ'>
-      <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
-        <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+    <div className='quotationJob_Account_stam'>
+      <Box className='smilingSavedAddressMain quotationFiltersText p_0_stam_acc_job' sx={{ padding: "20px", }}>
+        {(!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
           <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
           <Box sx={{ padding: "0 20px" }}>
             <RadioGroup
@@ -849,33 +837,407 @@ const scrollToTop = () => {
           <Box sx={{ padding: "0 0px 40px 0", }} className="QuotationJobAllBtnSec">
             <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
           </Box>
+        </Box>}
+        {
+        (!isSmallScreen && isTabletScreen) && <Box>
+          <Box style={{display:'flex', alignItems:'center', paddingBottom:'5px'}}>
+              <Button variant="contained" sx={{  background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
+              <Box sx={{ padding: "0 20px" }}>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={orderProm}
+                  onChange={handleOrderProms}
+                  sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
+                >
+                  <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate_stam' control={<Radio sx={{padding:'0px'}} />} label="Order Date" sx={{ padding: "0 5px 0px 0", marginRight: "0", marginLeft:'-20px' }} />
+                  <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate_stam' control={<Radio sx={{padding:'0px'}} />} label="Promise Date" sx={{ padding: "0 5px 0px 2px", marginRight: "0" }} />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 0px 0px 0", maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSe">
+                <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
+                  setSearchVal(eve?.target?.value);
+                  setPage(0);
+                  handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+                }} />
+                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+                  onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon />
+                </Button>
+              </Box>
+              <Box sx={{ padding: "0 0px 0px 20px", marginLeft:'10px'}} >
+                <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+              </Box>
+          </Box>
+          <Box style={{display:'flex', alignItems:'center', paddingBottom:'25px'}}>
+              <Box style={{paddingRight:'20px'}}> 
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Date From"
+                      value={fromDate}
+                      ref={fromDateRef}
+        
+                      format="DD MM YYYY"
+                      className='quotationFilterDates'
+                      onChange={(newValue) => {
+                        if (newValue === null) {
+                          setFromDate(null)
+                        } else {
+                          if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                            setFromDate(newValue)
+                          } else {
+
+                            Swal.fire({
+                              title: "Error !",
+                              text: "Enter Valid Date From",
+                              icon: "error",
+                              confirmButtonText: "ok"
+                            });
+                            resetAllFilters();
+                          }
+                        }
+                      }}
+                    />
+                </LocalizationProvider>
+              </Box>
+              <Box style={{paddingRight:'20px'}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date To"
+                    value={toDate}
+                    ref={toDateRef}
+      
+                    format="DD MM YYYY"
+                    className='quotationFilterDates'
+                    onChange={(newValue) => {
+                      if (newValue === null) {
+                        setToDate(null)
+                      } else {
+                        if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                          setToDate(newValue)
+                        } else {
+                          Swal.fire({
+                            title: "Error !",
+                            text: "Enter Valid Date To",
+                            icon: "error",
+                            confirmButtonText: "ok"
+                          });
+                          resetAllFilters();
+                        }
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              </Box>
+              <Box sx={{ padding: "0 0px 0px 0", }} className="">
+                <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+              </Box>
+          </Box>
+          <Box style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', paddingBottom:'25px'}}>
+          <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
+              <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
+            
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={selectedStatus} // Assuming selectedStatus is an array of selected values
+                  onChange={handleStatus} // Assuming handleStatus function receives selected values
+                  MenuProps={MenuProps}
+                  input={<OutlinedInput  />}
+                  style={{minHeight:'2.9375em', width:'100%'}}
+                  className='statusSelect'
+                  size='small'
+                  label='ALL'
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <em style={{color:'black'}}>Placeholder</em>;
+                    }
+        
+                    return '';
+                  }}
+                  inputProps={{
+                    placeholder: 'Placeholder', // Set placeholder directly on the inputProps
+                }}
+                
+                >
+                  
+                {statusList?.map((status) => (
+                  <MenuItem key={status.id} value={status.value}>
+                    <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
+                    <ListItemText primary={status.label} />
+                  </MenuItem>
+                ))}
+              </Select>
+      
+          </Box>
+          <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" style={{width:'100%'}} onChange={handleCategory} >
+              {
+                categoryList?.map((e, i) => {
+                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                })
+              }
+            </Select>
+          </Box>
+          <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'15px', width:'25%' }}  >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={MetalColor}
+              label="Status"
+              className='MetalColorList'
+              style={{width:'100%'}}
+              onChange={handleMetalColor}
+            >
+              {
+                metalColorList?.map((e, i) => {
+                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                })
+              }
+            </Select>
+          </Box>
+          <Box sx={{ position: "relative",  display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", height:'35px', paddingRight:'0px', width:'25%' }}  >
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={metalPurity}
+              label="Status"
+              className='MetalPurityList'
+              style={{width:'100%'}}
+              onChange={handleMetalPurity}
+            >
+              {
+                metalPurityList?.map((e, i) => {
+                  return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                })
+              }
+            </Select>
+          </Box>
+          </Box>
         </Box>
+        }
+        { isSmallScreen && <>
+        <Accordion   style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className='accordion_Account_Head'>
+          <AccordionSummary style={{paddingLeft:'5px', paddingRight:'5px'}} expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
+          <AccordionDetails className='acc_Details_elvee_job p0_acc_mob'>
+          <Box style={{marginBottom:'10px', marginTop:'5px'}}>
+            <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+              <Button variant="contained" sx={{ marginBottom: "25px", background: "#7d7f85" }} className='muiSmilingRocksBtn ' onClick={eve => resetAllFilters(eve)} >All</Button>
+              <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0px 0px 20px 0px",  width:'100%', maxWidth: "max-content" }} className="searchbox ">
+                <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} style={{minWidth:'100%'}} onChange={eve => {
+                  setSearchVal(eve?.target?.value);
+                  setPage(0);
+                  // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+                  handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+                }} />
+                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
+                  // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
+                  onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon />
+                </Button>
+              </Box>
+            </Box>
+            <Box sx={{ padding: "0 20px" }}>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={orderProm}
+
+                onChange={handleOrderProms}
+                sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
+              >
+                <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 20px 0", marginRight: "0" }} />
+                <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 20px 0", marginRight: "0" }} />
+                <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", marginLeft:'10px', marginBottom:'20px', minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handlePrintJobs(filterData, data)}><PrintIcon sx={{ color: "#fff !important" }} /></Button>
+              </RadioGroup>
+            </Box>
+            
+            <Box style={{ display:'flex', alignItems:'center', justifyContent:'space-between'}} className='w100dwsr'>
+              <Box style={{marginBottom:'2rem', boxSizing:'border-box', width:'45%'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="Date From"
+                        value={fromDate}
+                        ref={fromDateRef}
+          
+                        format="DD MM YYYY"
+                        // className='quotationFilterDatesElvee pd_right_elvee_job'
+                        className='quotationFilterDatesElvee w100_dwsr'
+                        onChange={(newValue) => {
+                          if (newValue === null) {
+                            setFromDate(null)
+                          } else {
+                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                              setFromDate(newValue)
+                            } else {
+
+                              Swal.fire({
+                                title: "Error !",
+                                text: "Enter Valid Date From",
+                                icon: "error",
+                                confirmButtonText: "ok"
+                              });
+                              resetAllFilters();
+                            }
+                          }
+                        }}
+                      />
+                    </LocalizationProvider>
+              </Box>
+              <Box style={{marginBottom:'2rem', boxSizing:'border-box', width:'45%'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="Date To"
+                        value={toDate}
+                        ref={toDateRef}
+          
+                        format="DD MM YYYY"
+                        // className='quotationFilterDatesElvee pd_right_elvee_job'
+                        className='quotationFilterDatesElvee w100_dwsr'
+                        onChange={(newValue) => {
+                          if (newValue === null) {
+                            setToDate(null)
+                          } else {
+                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                              setToDate(newValue)
+                            } else {
+                              Swal.fire({
+                                title: "Error !",
+                                text: "Enter Valid Date To",
+                                icon: "error",
+                                confirmButtonText: "ok"
+                              });
+                              resetAllFilters();
+                            }
+                          }
+                        }}
+                      />
+                    </LocalizationProvider>
+              </Box>
+              <Box style={{ marginBottom:'2rem',  boxSizing:'border-box'}}>
+                <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "9px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+              </Box>
+            </Box>
+            <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
+              <Box sx={{ position: "relative", padding: "0 0px 40px 0 !important", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
+              <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
+                
+                    <Select
+                      labelId="demo-multiple-checkbox-label"
+                      id="demo-multiple-checkbox"
+                      multiple
+                      value={selectedStatus} // Assuming selectedStatus is an array of selected values
+                      onChange={handleStatus} // Assuming handleStatus function receives selected values
+                      MenuProps={MenuProps}
+                      input={<OutlinedInput  />}
+                      style={{minHeight:'2.9375em', width:'100%'}}
+                      className='statusSelect'
+                      size='small'
+                      label='ALL'
+                      renderValue={(selected) => {
+                        if (selected.length === 0) {
+                          return <em style={{color:'black'}}>Placeholder</em>;
+                        }
+                        return '';
+                      }}
+                      inputProps={{
+                        placeholder: 'Placeholder', // Set placeholder directly on the inputProps
+                    }}
+                    
+                    >
+                      
+                    {statusList?.map((status) => (
+                      <MenuItem key={status.id} value={status.value}>
+                        <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
+                        <ListItemText primary={status.label} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+          
+              </Box>
+              <Box sx={{ position: "relative", padding: "0 0px 20px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="QuotationJobAllBtnSec" >
+                <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' style={{width:'100%'}} value={category} label="Status" onChange={handleCategory} >
+                  {
+                    categoryList?.map((e, i) => {
+                      return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                    })
+                  }
+                </Select>
+              </Box>
+            </div>
+            <div style={{display:'flex', alignItems:'center', width:'100%', justifyContent:'space-between'}}>
+              <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
+                <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Color</label>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={MetalColor}
+                  label="Status"
+                  className='MetalColorList'
+                  onChange={handleMetalColor}
+                  style={{width:'100%'}}
+                >
+                  {
+                    metalColorList?.map((e, i) => {
+                      return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                    })
+                  }
+                </Select>
+              </Box>
+              <Box sx={{ position: "relative", padding: "0 0px 0px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center", width:'45%' }} className="" >
+                <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Metal Purity</label>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={metalPurity}
+                  label="Status"
+                  className='MetalPurityList'
+                  onChange={handleMetalPurity}
+                  style={{width:'100%'}}
+                >
+                  {
+                    metalPurityList?.map((e, i) => {
+                      return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
+                    })
+                  }
+                </Select>
+              </Box>
+            </div>
+          </Box>
+        </AccordionDetails>
+        </Accordion>
+        </>
+        }
 
         <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
           {isLoading ?
             <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
-            <>
-            { <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
               <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
                 <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
                   <TableHead className='user-select-none'>
-                    <TableRow>
-                    <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
+                    <TableRow style={{zIndex:1}}>
+                    <TableCell className='account_themewise_stam' style={{ color: "#6f6f6f"}}>
                       <Checkbox
                         checked={allChecked}
                         onChange={handleMasterCheckboxChange}
+                        style={{zIndex:10}}
                       />
                     </TableCell>  
                       {columns?.slice(1)?.map((column) => (
                         <TableCell
                           key={column?.id}
                           align={column.align}
-                          style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
+                          style={{ minWidth: column.minWidth,  color: "#6f6f6f", }}
                           onClick={() => handleRequestSort(column?.id)}
+                          className='account_themewise_stam'
                         >
                           {column.label}
                           {orderBy === column.id ? (
-                            <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
+                            <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_stam'>
                               {orderBy === column?.id && (<CustomSortIcon order={order} />)}
                             </span>
                           ) : null}
@@ -886,7 +1248,7 @@ const scrollToTop = () => {
                   <TableBody>
             
 
-                    { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
+                    {stableSort(filterData, getComparator(order, orderBy))
                       ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       ?.map((row, rowIndex) => {
                         let serialNumber = page * rowsPerPage + rowIndex + 1;
@@ -911,7 +1273,7 @@ const scrollToTop = () => {
                             })}
                           </TableRow>
                         );
-                      }) : <TableCell colSpan={12} align='center' style={{ color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
+                      })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -924,9 +1286,7 @@ const scrollToTop = () => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-            </Paper> }
-            </>
-            }
+            </Paper>}
         </Box>
 
 
@@ -936,12 +1296,3 @@ const scrollToTop = () => {
 }
 
 export default QuotationJob
-// import React from 'react'
-
-// const QuotationJob = () => {
-//   return (
-//     <div>QuotationJob</div>
-//   )
-// }
-
-// export default QuotationJob

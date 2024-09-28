@@ -8,7 +8,7 @@ const AlbumSkeleton = ({ fromPage }) => {
     const isDesktop = useMediaQuery('(max-width: 1440px)');
 
     return (
-        <div className='albumApp_SkeltenShow' style={{marginTop: '15px'}}>
+        <div className='albumApp_SkeltenShow' style={{marginTop: '15px' , marginBottom: '70px'}}>
             <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center', width: '100% !important' }}>
                 {/* <CardMedia style={{ width: '100%', height: '30vh' }} className='cardMainSkeleton'>
                     <Skeleton animation="wave" variant="rect" width={'100%'} height='10vh' style={{ backgroundColor: '#e8e8e86e' }} />

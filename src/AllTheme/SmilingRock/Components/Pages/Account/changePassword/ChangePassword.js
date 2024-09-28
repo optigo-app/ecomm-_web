@@ -133,9 +133,9 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
-        <ToastContainer />
         <div className='changePassword_Account_SMR'>
+        <ToastContainer />
+        <div>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -245,6 +245,6 @@ export default function ChangePassword() {
             </div>
         </div>
 
-        </>
+        </div>
     )
 }

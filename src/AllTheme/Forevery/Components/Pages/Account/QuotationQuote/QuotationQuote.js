@@ -384,6 +384,7 @@ const QuotationQuote = () => {
 
 
     return (
+        <div className="quotationQuote_Account_FE">
         <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
             <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
@@ -559,6 +560,7 @@ const QuotationQuote = () => {
                 </Paper>}
 
         </Box>
+        </div>
     )
 }
 

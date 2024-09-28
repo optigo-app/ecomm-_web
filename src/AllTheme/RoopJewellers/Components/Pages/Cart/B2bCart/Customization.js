@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './rJ_cartPage.scss';
+import './roop_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -54,15 +54,28 @@ const Customization = ({
     }
   }
 
+  function combineDiamondInfo(quality, color) {
+    if (!quality || !color) return '';
+
+    const qualityParts = quality?.split(',');
+    const colorParts = color?.split(',');
+
+    const combinedParts = qualityParts?.map((q, index) => {
+      const c = colorParts[index] || '';
+      return `${q?.toUpperCase()}-${c?.toUpperCase()}`;
+    });
+
+    return combinedParts.join(', ');
+  }
 
   return (
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-        <div className="rJ_CartCusto_R-details">
-          <p className='rJ_cart-Titleline'>{selectedItem?.TitleLine}</p>
+        <div className="roop_CartCusto_R-details">
+          <p className='roop_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
           {storeInitData?.IsProductWebCustomization == 1 &&
-            <div className="rJ_Cart-options">
+            <div className="roop_Cart-options">
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
@@ -156,38 +169,38 @@ const Customization = ({
               }
             </div>
           }
-          <div className='rJ_cartQtyPricemainDev'>
+          <div className='roop_cartQtyPricemainDev'>
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
                     {/* <span
-                      className="rJ_currencyFont"
+                      className="roop_currencyFont"
                       dangerouslySetInnerHTML={{
                         __html: decodeEntities(
                           CurrencyData?.Currencysymbol
                         ),
                       }}
                     /> */}
-                    <span className="rJ_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="roop_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
-                  <Skeleton className='rJ_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='roop_CartSkelton' variant="text" width="80%" animation="wave" />
                 }
               </div>
             }
           </div>
-          <div className='rJ_UpdateCartBtn'>
-            <button className="rJ_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
+          <div className='roop_UpdateCartBtn'>
+            <button className="roop_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
-        <div className="rJ_CartCusto_R-details">
-          <p className='rJ_cart-Titleline'>{selectedItem?.TitleLine}</p>
+        <div className="roop_CartCusto_R-details">
+          <p className='roop_cart-Titleline'>{selectedItem?.TitleLine}</p>
           <Divider />
-          <div className="rJ_StockCart-options">
+          <div className="roop_StockCart-options">
             {selectedItem?.metaltypename != "" &&
               <div className="option">
                 <label htmlFor="metal-type">Metal Type:</label>
@@ -200,16 +213,20 @@ const Customization = ({
                 <span>{selectedItem?.metalcolorname}</span>
               </div>
             }
-            {(selectedItem?.Dwt != "0" || selectedItem?.Dpcs != "0") &&
+            {(selectedItem?.Dwt !== "0" || selectedItem?.Dpcs !== "0") && (
               <div className="option">
                 <label htmlFor="diamond">Diamond:</label>
-                <span>{(selectedItem?.diamondquality)?.replace(/,/g, ' - ') + ',' + selectedItem?.diamondcolor}</span>
+                <span>
+                  {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                </span>
               </div>
-            }
+            )}
             {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
               <div className="option">
                 <label htmlFor="diamond">Color Stone:</label>
-                <span>{selectedItem?.colorstonequality + ',' + selectedItem?.colorstonecolor}</span>
+                <span>
+                  {combineDiamondInfo(selectedItem?.diamondquality, selectedItem?.diamondcolor)}
+                </span>
               </div>
             }
             {selectedItem?.Size != "" &&
@@ -219,29 +236,35 @@ const Customization = ({
               </div>
             }
           </div>
-          <div className="rJ_stockPriceQtyDiv">
-            <div className="option">
-              <label htmlFor="qty">Qty:</label>
-              <span>{selectedItem?.Quantity}</span>
-            </div>
+          <div className="roop_stockPriceQtyDiv">
+            {selectedItem?.IsMrpBase == 0 ? (
+              <div className="option">
+                <label htmlFor="qty">Qty:</label>
+                <span>{selectedItem?.Quantity}</span>
+              </div>
+            ) :
+              <div>
+                <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+              </div>
+            }
             <div className=''>
               {storeInitData?.IsPriceShow == 1 &&
-                <div className="rJ_Stockproduct-price">
+                <div className="roop_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
                       {/* <span
-                        className="rJ_currencyFont"
+                        className="roop_currencyFont"
                         dangerouslySetInnerHTML={{
                           __html: decodeEntities(
                             CurrencyData?.Currencysymbol
                           ),
                         }}
                       /> */}
-                      <span className="rJ_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                      <span className="roop_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                       {formatter(selectedItem?.FinalCost)}
                     </span>
                   ) :
-                    <Skeleton className='rJ_CartSkelton' variant="text" width="80%" animation="wave" />
+                    <Skeleton className='roop_CartSkelton' variant="text" width="80%" animation="wave" />
                   }
                 </div>
               }

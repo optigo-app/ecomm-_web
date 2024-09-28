@@ -1,12 +1,13 @@
 @import '../../../scss/variable.scss';
 
-.rjMo_cart-modal {
+.roopMo_cart-modal {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: $primaryFontFamily;
 }
 
-.rjMo_cart-container {
+.roopMo_cart-container {
     max-width: 600px;
     width: 100%;
     margin: auto;
@@ -15,13 +16,15 @@
     position: relative;
     border: none;
     box-shadow: none;
+    outline: none   ;
+    font-family: $primaryFontFamily;
 
     @media (max-width: 1050px) {
         padding: 10px;
     }
 }
 
-.rJ_cart-quantity {
+.roop_cart-quantity {
     display: flex;
     width: 130px;
     height: 45px;
@@ -65,7 +68,7 @@
     }
 }
 
-.rjMo_Cart-imageDiv {
+.roopMo_Cart-imageDiv {
     text-align: center;
     margin-bottom: 20px;
 
@@ -73,7 +76,7 @@
         margin-bottom: 10px;
     }
 
-    .rjMo_cartImage {
+    .roopMo_cartImage {
         max-width: 100%;
         height: auto;
         cursor: pointer;
@@ -81,20 +84,28 @@
     }
 }
 
-.rjMo_Cart_R-details,
-.rjMo_CartCusto_R-details {
-    .rjMo_cart-Titleline {
+.roopMo_Cart_R-details,
+.roopMo_CartCusto_R-details {
+    .roopMo_cart-Titleline {
         font-size: 1.2rem;
         font-weight: bold;
         margin-bottom: 10px;
+        font-family: $primaryFontFamily;
+        color: $titleColor;
 
         @media (max-width: 1050px) {
             font-size: 1rem;
         }
     }
 
-    .rjMo_Cart-options,
-    .rjMo_StockCart-options {
+    .roopMo_stockPriceQtyDiv {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .roopMo_Cart-options,
+    .roopMo_StockCart-options {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
@@ -117,7 +128,7 @@
 
             select {
                 padding: 10px;
-                border: 1px solid  #ececec;
+                border: 1px solid #ececec;
                 border-radius: 4px;
                 background: #fff;
                 font-size: $fontSize2;
@@ -135,24 +146,25 @@
         }
     }
 
-    .rjMo_cartQtyPricemainDev {
+    .roopMo_cartQtyPricemainDev {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         font-family: $primaryFontFamily;
 
         .product-price,
-        .rjMo_Stockproduct-price {
+        .roopMo_Stockproduct-price {
             font-size: $fontSize4;
             color: $titleColor;
             font-weight: bold;
 
-            .rJ_currencyFont {
+            .roop_currencyFont {
                 margin-right: 5px;
             }
         }
     }
 
-    .rjMo_UpdateCartBtn {
+    .roopMo_UpdateCartBtn {
         margin-top: 20px;
         display: flex;
         justify-content: end;
@@ -160,7 +172,7 @@
         font-family: $primaryFontFamily;
 
 
-        .rjMo_cartUpdate-button {
+        .roopMo_cartUpdate-button {
             background-color: #b1b1b1;
             border: none;
             border-radius: 5px;
@@ -181,7 +193,7 @@
 }
 
 
-.rjMo_CloseIcon {
+.roopMo_CloseIcon {
     position: absolute;
     top: 20px;
     right: 20px;

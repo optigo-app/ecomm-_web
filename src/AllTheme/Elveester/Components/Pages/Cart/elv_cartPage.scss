@@ -322,7 +322,7 @@
                         margin-top: 30px;
                         color: #4a5568;
                         font-size: 11px;
-                        padding-inline: 3px;
+                        // padding-inline: 3px;
 
                         .elv_ProdDesignno {
                             color: #212529;
@@ -348,6 +348,17 @@
                                     opacity: .6;
                                     font-size: 12px;
                                 }
+
+                                .elv_prodWeights_data {
+                                    font-weight: 500;
+                                    font-size: 12px;
+                                }
+
+                                // .elv_prodWeights_data_1{
+                                //     font-weight: 500;
+                                //     word-spacing: 2px;
+                                //     font-size: 12px;
+                                // }
                             }
                         }
                     }
@@ -648,8 +659,7 @@
 
             .elv_stock_3 {
                 display: flex;
-                justify-content: flex-end;
-                margin-block: 5px;
+                justify-content: space-between;
 
                 .elv_option_mrp_price {
                     color: #000000;
@@ -657,6 +667,16 @@
                     padding: 5px;
                     border-radius: 5px;
                     background: #F4F4F4;
+                }
+
+                .elv_qty {
+                    font-size: 18px;
+                    font-family: $fontSansSerif !important;
+
+                    &.label {
+                        color: black;
+                        font-weight: 600;
+                    }
                 }
             }
         }
@@ -689,6 +709,30 @@
             }
         }
 
+        .elv_UpdateCartBtn {
+            display: flex;
+            justify-content: flex-end;
+            align-items: end;
+            margin-top: 1rem;
+        }
+
+        .elv_cartUpdate-button {
+            display: block;
+            height: 40px;
+            width: 80px;
+            color: black;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background-color: rgb(225, 225, 225);
+            padding: 6px 17px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
 
 
     }
@@ -699,7 +743,8 @@
         left: 2px;
 
         .elv_inStockbadgeSpan {
-            background-color: #0BDA51;
+            // background-color: #0BDA51;
+            background-color: #28C76F;
             color: #fff;
             font-size: 12px;
             border-radius: 5px;
@@ -1100,6 +1145,22 @@
             }
         }
 
+    }
+
+    @media (max-width: 1240px) {
+        .elv_ProdWeights_div {
+
+            .elv_ProdWt1_div {
+
+                .elv_prodWeights_label {
+                    font-size: 11px;
+                }
+
+                .elv_prodWeights_data {
+                    font-size: 11px;
+                }
+            }
+        }
     }
 
     @media screen and (max-width: 1110px) {

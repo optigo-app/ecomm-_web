@@ -12,7 +12,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        
+        min-height: 400px;
     }
 
     .mala_WlListImage {
@@ -135,7 +135,7 @@
 }
 
 .mala_WlListData {
-    padding: 60px 14px 10px 15px;
+    padding: 60px 14px 40px 15px;
 
     .mala_wlListGrid {
         display: flex !important;
@@ -272,7 +272,7 @@
     }
 
     .mala_cardContent {
-        padding: 0 !important;
+        padding-top: 16px !important;
 
         .cardText {
             padding: 2px;
@@ -299,7 +299,7 @@
     }
 
     .mala_cardContent {
-        padding: 0 !important;
+        padding-top: 16px !important;;
 
         .cardText {
             padding: 2px;
@@ -326,7 +326,7 @@
     }
 
     .mala_cardContent {
-        padding: 0 !important;
+        padding-top: 16px !important;
 
         .cardText {
             padding: 2px;
@@ -382,7 +382,7 @@
     }
 
     .mala_cardContent {
-        padding: 0 !important;
+        padding-top: 16px !important;
 
         .mala_currencyFont {
             // margin-left: 40px;
@@ -432,8 +432,8 @@
     }
 
     .mala_cardContent {
-        padding: 0 !important;
-
+        padding-top: 16px !important;
+        
         .mala_currencyFont {
             // margin-left: 40px;
         }

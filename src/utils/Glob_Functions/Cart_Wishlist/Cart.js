@@ -580,7 +580,8 @@ const useCart = () => {
       if (pd?.ImageCount > 0) {
         primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-      } else {
+      } 
+      else {
         primaryImage = secondaryImage = imageNotFound;
       }
 
