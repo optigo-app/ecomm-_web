@@ -36,7 +36,7 @@ const MobileCartDetails = ({
   handleClose
 }) => {
 
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
@@ -54,7 +54,7 @@ const MobileCartDetails = ({
     setMetalTypeCombo(metalTypeData);
     setMetalColorCombo(metalColorData);
     setDiamondQualityColorCombo(diamondQtyColorData);
-    setColorStoneCombo(CSQtyColorData);
+    setColorStoneCombo(CSQtyColorData);                   
   }, [])
 
   const handleUpdateCart = async (selectedItem) => {
@@ -79,13 +79,15 @@ const MobileCartDetails = ({
     <Modal open={open} onClose={handleClose} className="smrMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
       <div className="smrMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
         <div className="smrMo_Cart-imageDiv">
-          <img
-            src={imageSrc}
-            alt="Cluster Diamond"
-            className='smrMo_cartImage'
-            onClick={() => handleMoveToDetail(selectedItem)}
-            style={{ border: 'none' }}
-          />
+          {imageSrc != undefined &&
+            <img
+              src={imageSrc}
+              alt="Cluster Diamond"
+              className='smrMo_cartImage'
+              onClick={() => handleMoveToDetail(selectedItem)}
+              style={{ border: 'none' }}
+            />
+          }
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (

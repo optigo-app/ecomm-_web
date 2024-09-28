@@ -112,7 +112,7 @@ $cartUpdateBtncolor: #b1b1b1;
     background-color: white;
     border-top: 0.5px solid lightgray;
 
-    .smrMO_Placeorderbtn {
+    .smrProMO_Placeorderbtn {
       font-family: $primaryFontFamily !important;
       background-color: rgb(214 176 139)!important;
       color: #fff !important;
@@ -121,8 +121,7 @@ $cartUpdateBtncolor: #b1b1b1;
       outline: none !important;
       height: 45px !important;
       border-radius: 5px !important;
-      // width: 190px !important;
-      width: 100%;
+      width: 190px !important;
       font-weight: bold !important;
     }
   }

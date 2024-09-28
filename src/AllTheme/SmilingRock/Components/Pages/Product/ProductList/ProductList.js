@@ -1382,11 +1382,12 @@ const ProductList = () => {
       return acc;
     }, {});
 
-    const result = Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+    const result = Object?.entries(updatedBreadCum ?? {})?.reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
+     
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 

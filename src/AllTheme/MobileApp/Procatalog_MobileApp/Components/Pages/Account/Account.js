@@ -91,6 +91,7 @@ export default function Account() {
         setIsLoginState(false);
         localStorage.clear();
         sessionStorage.setItem("LoginUser", false);
+        localStorage.removeItem("userLoginTokenProCatApp");
         sessionStorage.removeItem("storeInit");
         sessionStorage.removeItem("loginUserDetail");
         sessionStorage.removeItem("remarks");
