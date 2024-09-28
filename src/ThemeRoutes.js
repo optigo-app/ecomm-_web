@@ -30,6 +30,7 @@ import { Helmet } from "react-helmet";
 import SEO from "./utils/Seo/Seo";
 import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
 import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
+import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
 
 export default function ThemeRoutes() {
 
@@ -47,6 +48,9 @@ export default function ThemeRoutes() {
 
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
+  
+  const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
+  const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
 
   const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
 
@@ -84,8 +88,8 @@ export default function ThemeRoutes() {
     setRoopWebLogo(webLogo);
     setRoopMobileLogo(mobileLogo);
 
-    // proCat_setCompanyTitleLogo(webLogo);
-    // proCatM_setCompanyTitleLogo(mobileLogo);
+    mala_setCompanyTitleLogo(webLogo);
+    mala_setCompanyTitleLogoM(mobileLogo);
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);

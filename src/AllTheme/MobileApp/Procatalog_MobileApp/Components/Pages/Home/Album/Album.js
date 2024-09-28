@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "./Album.modul.scss";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +26,7 @@ const Album = () => {
   const [open, setOpen] = useState(false);
   const storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [selectedImage, setSelectedImage] = useState("");
+
 
   useEffect(() => {
     setImageUrl(storeinit?.AlbumImageFol || "");
@@ -59,8 +59,8 @@ const Album = () => {
         sessionStorage.setItem('ALCVALUE', ALCVAL);
         await fetchAndSetAlbumData(ALCVAL, finalID);
       } else {
-        const storedALCValue = sessionStorage.getItem('ALCVALUE');
-        await fetchAndSetAlbumData(storedALCValue || ALCVAL, finalID);
+        const storedALCValue = JSON.parse(sessionStorage.getItem('ALCVALUE')) ?? "";
+        await fetchAndSetAlbumData(storedALCValue, finalID);
       }
     };
 
@@ -69,6 +69,7 @@ const Album = () => {
 
   const fetchAndSetAlbumData = async (value, finalID) => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    
     if (!storeInit) {
       setTimeout(() => fetchAndSetAlbumData(value, finalID), 500);
       return;
@@ -76,13 +77,23 @@ const Album = () => {
     try {
       const response = await Get_Procatalog("GETProcatalog", finalID, value);
       if (response?.Data?.rd) {
+
         const albums = response.Data.rd;
+        setAlbumData(albums);
+
         const status = {};
         const fallbackImages = {};
 
         for (const data of albums) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-          const imageAvailable = await checkImageAvailability(fullImageUrl);
+          let imageAvailable;
+
+          if(data?.AlbumImageName !== ""){
+            imageAvailable = await checkImageAvailability(fullImageUrl);
+          }else{
+            imageAvailable = false;
+          }
+
           if (!imageAvailable && data?.AlbumDetail) {
             const albumDetails = JSON.parse(data.AlbumDetail);
             albumDetails.forEach((detail) => {
@@ -94,6 +105,7 @@ const Album = () => {
                     fallbackImages[fullImageUrl] = fallbackImage;
                   }
                 });
+
               }
             });
           }
@@ -104,7 +116,6 @@ const Album = () => {
         setFallbackImages(fallbackImages);
         setIsLoding(false);
         setImagesReady(true);
-        setAlbumData(albums);
       }
     } catch (err) {
       console.error(err);
@@ -168,7 +179,6 @@ const Album = () => {
       localStorage.setItem('redirectURLLocal', url)
       navigate('/signin');
     }
-    // navigate(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
   };
 
   const handleOpen = () => setOpen(true);
