@@ -12,7 +12,6 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
-import { Button, CircularProgress, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,6 +20,8 @@ import moment from "moment";
 import Swal from 'sweetalert2';
 import PrintIcon from '@mui/icons-material/Print';
 import { getSalesData } from '../../../../../../utils/API/AccountTabs/sales';
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, TextField, useMediaQuery } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { headCells_Sales as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
@@ -71,7 +72,6 @@ const getComparator = (order, orderBy) => {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
         props;
@@ -97,6 +97,8 @@ function EnhancedTableHead(props) {
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ position: 'sticky', top: 0,  zIndex: 1 }}
+                        className='account_themewise_mala'
                     >
                         {
                             ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ? `${headCell?.label}` 
@@ -122,6 +124,8 @@ function EnhancedTableHead(props) {
 }
 
 const Sales = () => {
+    const isSmallScreen = useMediaQuery('(max-width:500px),(max-width:576px)');
+    const isTabletScreen = useMediaQuery('(max-width:680px),(max-width:700px),(max-width:768px),(max-width:778px),(max-width:800px), (max-width:850px), (max-width:900px), (max-width:950px), (max-width:1000px)');
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
@@ -321,13 +325,11 @@ const Sales = () => {
                 setFilterData(rows);
             } else {
                 // alert('nodata')
-                setIsLoading(false);
                 setData([]);
                 setFilterData([]);
             }
         } catch (error) {
             console.log('Error:', error);
-            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }
@@ -357,9 +359,9 @@ const Sales = () => {
     };
 
     return (
-        <div className='sales_Account_MKJ'>
+        <div className='sales_Account_mala'>
         <Box className='smilingSavedAddressMain salesApiSection' sx={{ padding: "20px", }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            { (!isSmallScreen && !isTabletScreen) && <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                 <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
                 <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
                     <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
@@ -371,7 +373,7 @@ const Sales = () => {
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="sal_flexcol">
                     <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtn date_from_sal">
-                        <p  style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>Date: </p>
+                        <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>Date: </p>
                         <Box>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
@@ -403,7 +405,7 @@ const Sales = () => {
                         </Box>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtn">
-                        <p style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>To: </p>
+                        <p className='fs-6 mb-0' style={{ paddingRight: "8px" }}>To: </p>
                         <Box>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
@@ -435,83 +437,254 @@ const Sales = () => {
                         </Box>
                     </Box>
                 </Box>
-                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="salesPagePagBtn salePageBtnAlign">
+                <Box sx={{ padding: "0 15px 35px 0", display: "flex", alignItems: "center", }} className="">
                     <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                 </Box>
-            </Box>
-                {isLoading ?
-                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <>
-                    {  <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
-                        <TableContainer className='salesPartTable'>
-                            <Table
-                                sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
-                                aria-labelledby="tableTitle"
-                                size={dense ? 'small' : 'medium'}
-
-                            >
-                                <EnhancedTableHead
-                                    numSelected={selected.length}
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onRequestSort={handleRequestSort}
-                                    rowCount={filterData.length}
+            </Box>}
+            {
+                 (isTabletScreen && !isSmallScreen) && <Box>
+                    <Box style={{display:'flex', alignItems:'center', paddingBottom:'20px', paddingTop:'8px'}}>
+                        <Box sx={{ paddingRight: "15px" }} className=""> <Button variant="contained" className=" " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
+                        <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 0px 0", maxWidth: "max-content" }} className="searchbox ">
+                            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
+                                setSearchVal(eve?.target?.value);
+                                handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                            }} />
+                            <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                                onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
+                        </Box>
+                        <Box style={{paddingRight:'15px', paddingBottom:'4px'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Date From"
+                                    value={fromDate}
+                                    ref={fromDateRef}
+                                    format="DD MM YYYY"
+                                    placeholder="DD MM YYYY"
+                                    className='quotationFilterDates'
+                                    onChange={(newValue) => {
+                                        if (newValue === null) {
+                                            setFromDate(null)
+                                        } else {
+                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                setFromDate(newValue)
+                                            } else {
+                                                Swal.fire({
+                                                    title: "Error !",
+                                                    text: "Enter Valid Date From",
+                                                    icon: "error",
+                                                    confirmButtonText: "ok"
+                                                });
+                                                resetAllFilters();
+                                            }
+                                        }
+                                    }}
                                 />
-                                <TableBody>
-                                    {filterData?.length > 0 ? visibleRows.map((row, index) => {
-                                        const labelId = `enhanced-table-checkbox-${index}`;
+                            </LocalizationProvider>
+                        </Box>
+                        <Box style={{paddingRight:'15px', paddingBottom:'4px'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Date To"
+                                    value={toDate}
+                                    ref={toDateRef}
+                                    format="DD MM YYYY"
+                                    placeholder="DD MM YYYY"
+                                    className='quotationFilterDates'
+                                    onChange={(newValue) => {
+                                        if (newValue === null) {
+                                            setToDate(null)
+                                        } else {
+                                            if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                setToDate(newValue)
+                                            } else {
+                                                Swal.fire({
+                                                    title: "Error !",
+                                                    text: "Enter Valid Date To",
+                                                    icon: "error",
+                                                    confirmButtonText: "ok"
+                                                });
+                                                resetAllFilters();
+                                            }
+                                        }
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box sx={{ padding: "0 5px 4px 0", display: "flex", alignItems: "center", }} className="">
+                            <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                        </Box>
+                    </Box>
 
-                                        return (
-                                            <TableRow
-                                                hover
-                                                onClick={(event) => handleClick(event, index)}
-                                    
-                                                tabIndex={-1}
-                                                key={index}
-                                                sx={{ cursor: 'pointer' }}
-                                            >
+                 </Box>
+            }
+            {
+                isSmallScreen && <>
+                <Accordion  style={{padding:'2px', paddingBottom:'0px', marginBottom:'40px', marginTop:'20px'}} className="accordion_Account_Head">
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> Filters</AccordionSummary>
+                    <AccordionDetails style={{padding:'0px'}}>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                            <Button variant="contained" className="muiSmilingRocksBtn fs_elvee_quote" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: '20px', marginLeft:'5px',padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
+                                All
+                            </Button>
+                            <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 2px 35px 0",   maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
+                                <TextField id="standard-basic" label="Search" variant="outlined" className="w_q fs_elvee_quote" style={{minWidth:'100%'}} value={searchVal} onChange={eve => {
+                                    setSearchVal(eve?.target?.value);
+                                    handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                                }} />
+                                <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
+                                    onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)} className="fs_elvee_quote"><SearchIcon />
+                                </Button>
+                            </Box>
+                        </Box>
+                        <Box style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', paddingBottom:'5px'}}>
+                            <Box style={{ boxSizing:'border-box'}}>
+                                {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>Date: </p> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date From"
+                                            value={fromDate}
+                                            format="DD MM YYYY"
+                                            placeholder="DD MM YYYY"
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setFromDate(null)
+                                                } else {
+                                                
 
-                                                <TableCell
-                                                    component="td"
-                                                    id={labelId}
-                                                    scope="row"
-                                                    padding="none"
-                                                    align="center"
-                                                >
-                                                    {page * rowsPerPage + index + 1}
-                                                </TableCell>
-                                                <TableCell align="center">{row.Date}</TableCell>
-                                                <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                                <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                                <PrintIcon   />
-                                                            </div></TableCell>
-                                            </TableRow>
-                                        );
-                                    }) : <TableCell colSpan={headCells?.length} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
-                                    {emptyRows > 0 && (
-                                        <TableRow
-                                            style={{
-                                                height: (dense ? 33 : 53) * emptyRows,
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setFromDate(newValue)
+                                                    } else {
+
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date From",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            
                                             }}
-                                        >
-                                            <TableCell colSpan={6} />
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            rowsPerPageOptions={[10, 25, 100]}
-                            component="div"
-                            count={filterData.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
-                    </Paper> }
+                                            className='quotationFilterDates fs_elvee_quote pd_right_elvee_job'
+                                            ref={fromDateRef}
+                                        />
+                                    </LocalizationProvider>
+                            </Box>
+                            <Box style={{ boxSizing:'border-box'}}>
+                                {/* <p className='fs-6 w_20_q mb-0 fs_elvee_quote' style={{ paddingRight: "8px", paddingBottom:'10px' }}>To: </p> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Date To"
+                                            value={toDate}
+                                    
+                                            format="DD MM YYYY"
+                                            placeholder="DD MM YYYY"
+                                    
+                                            className='quotationFilterDates w_q fs_elvee_quote pd_right_elvee_job'
+                                            ref={toDateRef}
+                                            inputProps={{ readOnly: true }}
+                                            onChange={(newValue) => {
+                                                if (newValue === null) {
+                                                    setToDate(null)
+                                                } else {
+                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                        setToDate(newValue)
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: "Error !",
+                                                            text: "Enter Valid Date To",
+                                                            icon: "error",
+                                                            confirmButtonText: "ok"
+                                                        });
+                                                        resetAllFilters();
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                </LocalizationProvider>
+                            </Box>
+                            <Box sx={{ paddingBottom: '4px', display: "flex", alignItems: "center", }} className="  fs_elvee_quote">
+                                <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
+                            </Box>
+                        </Box>
+                    </AccordionDetails>
+                </Accordion>
                 </>
-                }
+            }
+
+            {isLoading ?
+                <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
+                    <TableContainer className='salesPartTable'>
+                        <Table
+                            sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
+                            aria-labelledby="tableTitle"
+                            size={dense ? 'small' : 'medium'}
+                            stickyHeader // Enable sticky header in Material UI Table
+                        >
+                            <EnhancedTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onRequestSort={handleRequestSort}
+                                rowCount={filterData.length}
+                                stickyHeader
+                            />
+                            <TableBody>
+                                {visibleRows.map((row, index) => {
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                                    return (
+                                        <TableRow
+                                            hover
+                                            onClick={(event) => handleClick(event, index)}
+                                   
+                                            tabIndex={-1}
+                                            key={index}
+                                            sx={{ cursor: 'pointer' }}
+                                        >
+
+                                            <TableCell
+                                                component="td"
+                                                id={labelId}
+                                                scope="row"
+                                                padding="none"
+                                                align="center"
+                                            >
+                                                {page * rowsPerPage + index + 1}
+                                            </TableCell>
+                                            <TableCell align="center">{row.Date}</TableCell>
+                                            <TableCell align="center">{row.StockDocumentNo}</TableCell>
+                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                            <PrintIcon   />
+                                                        </div></TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                                {emptyRows > 0 && (
+                                    <TableRow
+                                        style={{
+                                            height: (dense ? 33 : 53) * emptyRows,
+                                        }}
+                                    >
+                                        <TableCell colSpan={6} />
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={filterData.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>}
 
         </Box>
         </div>
