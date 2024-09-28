@@ -16,10 +16,12 @@ import { IoDiamondOutline, IoDiamond } from "react-icons/io5";
 import { GiDiamondRing, GiGemPendant } from "react-icons/gi";
 import { TbDiamond, TbSettingsHeart } from "react-icons/tb";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   for_CartCount,
   for_WishCount,
+  for_companyLogo,
+  for_companyLogoM,
   for_customizationSteps,
   for_customizationSteps1,
   for_loginState,
@@ -27,7 +29,7 @@ import {
 import Cookies from "js-cookie";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
-import { Badge, Dialog, DialogContent } from "@mui/material";
+import { Badge, Dialog, DialogContent, useMediaQuery } from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Preloader from "../../../../../../dum/Load";
@@ -93,6 +95,10 @@ const Navbar = () => {
     };
     fetchData();
   }, []);
+
+
+  const compnyLogo = useRecoilValue(for_companyLogo);
+  const compnyLogoM = useRecoilValue(for_companyLogoM);
 
   const getMenuApi = async () => {
     const loginUserDetail = JSON.parse(
@@ -204,7 +210,7 @@ const Navbar = () => {
           onOpen={ToggleNav}
           onLoad={handleLogoLoad}
         />
-        <NavbarCenter Navigate={Navigate} onLoad={handleLogoLoad} />
+        <NavbarCenter Navigate={Navigate} onLoad={handleLogoLoad} compnyLogo={compnyLogo} compnyLogoM={compnyLogoM} />
         <NavbarRight
           Navigate={Navigate}
           ShowSearchBar={ShowSearchBar}
@@ -249,233 +255,234 @@ const NavbarRight = ({
   }, [ShowSearchBar]);
   return (
     <>
-    <div className="right">
-      <span
-        className="for_item_menu"
-        onClick={() => {
-          Navigate("/appointment");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      >
-        <img
-          src={`${storImagePath()}/Forevery/appointment.png`}
-          alt=""
-          width={18}
-          height={18}
-          style={{ objectFit: "contain", marginRight: "5px" }}
-        />
-        Appointment
-      </span>
-      <span
-        className="for_item_menu"
-        onClick={() => {
-          Navigate("/wishlist");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      >
-        <Badge
-          style={{ size: "1px" }}
-          sx={{
-            "& .MuiBadge-badge": {
-              fontSize: "9.4px",
-              borderRadius: "100%",
-              marginRight: "6px",
-              marginTop: "3px",
-              bgcolor: "#DC637D",
-              width: 6,
-              height: 14,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            },
+      <div className="right">
+        <span
+          className="for_item_menu"
+          onClick={() => {
+            Navigate("/appointment");
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          badgeContent={wishCountNum}
-          color="primary"
         >
-          <FaRegHeart size={18} style={{ marginRight: "5px" }} />
-        </Badge>
-        Wishlist
-      </span>
-      <span
-        className="for_item_menu"
-        onClick={() => {
-          Navigate("/cart");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      >
-        <Badge
-          style={{ size: "1px" }}
-          sx={{
-            "& .MuiBadge-badge": {
-              fontSize: "9.4px",
-              borderRadius: "100%",
-              marginRight: "6px",
-              marginTop: "3px",
-              bgcolor: "#DC637D",
-              width: 6,
-              height: 14,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            },
-          }}
-          badgeContent={cartCountNum}
-          color="primary"
-        >
-          <HiOutlineShoppingBag size={18} style={{ marginRight: "5px" }} />
-        </Badge>
-        Cart
-      </span>
-      <span className="for_item_menu search_main">
-        {ShowSearchBar && (
-          <input
-            type="text"
-            placeholder="Search Forevery"
-            className="for_search_bar"
-            value={searchText}
-            autoFocus
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={searchDataFucn}
+          <img
+            src={`${storImagePath()}/Forevery/appointment.png`}
+            alt=""
+            width={18}
+            height={18}
+            style={{ objectFit: "contain", marginRight: "5px" }}
           />
-        )}
-        <GrSearch size={19} onClick={() => setShowSearchBar(!ShowSearchBar)} />
-      </span>
-      {!islogin ? (
-        <>
-          {" "}
-          <span
-            className="for_item_menu"
-            onClick={() => {
-              Navigate("/LoginOption");
-              window.scrollTo({ top: 0, behavior: "smooth" });
+          Appointment
+        </span>
+        <span
+          className="for_item_menu"
+          onClick={() => {
+            Navigate("/wishlist");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <Badge
+            style={{ size: "1px" }}
+            sx={{
+              "& .MuiBadge-badge": {
+                fontSize: "9.4px",
+                borderRadius: "100%",
+                marginRight: "6px",
+                marginTop: "3px",
+                bgcolor: "#DC637D",
+                width: 6,
+                height: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
             }}
+            badgeContent={wishCountNum}
+            color="primary"
           >
-            <FaRegCircleUser size={19} style={{ marginRight: "5px" }} />
-            Login
-          </span>
-        </>
-      ) : (
-        <>
-          <div className="for_login_user_dropdown">
-            <span className="user_logged_in_for">{user}</span>
-            <div className="for_dropdown">
-              <div>
-                <div
-                  className="item_a"
-                  onClick={() => {
-                    Navigate("/account");
-                    window.scrollTo({ behavior: "smooth", top: 0 });
-                  }}
-                >
-                  <li>my account</li>
-                </div>
-                <div
-                  className="item_a"
-                  onClick={() => {
-                    Navigate("/account");
-                    window.scrollTo({ behavior: "smooth", top: 0 });
-                  }}
-                >
-                  <li>my orders</li>
-                </div>
-                <div
-                  className="item_a"
-                  onClick={() => {
-                    Navigate("/account");
-                    window.scrollTo({ behavior: "smooth", top: 0 });
-                  }}
-                >
-                  <li>my details</li>
-                </div>
-                <hr />
-                <div className="item_a" onClick={() => handleLogout()}>
-                  <li>log out</li>
+            <FaRegHeart size={18} style={{ marginRight: "5px" }} />
+          </Badge>
+          Wishlist
+        </span>
+        <span
+          className="for_item_menu"
+          onClick={() => {
+            Navigate("/cart");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <Badge
+            style={{ size: "1px" }}
+            sx={{
+              "& .MuiBadge-badge": {
+                fontSize: "9.4px",
+                borderRadius: "100%",
+                marginRight: "6px",
+                marginTop: "3px",
+                bgcolor: "#DC637D",
+                width: 6,
+                height: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            }}
+            badgeContent={cartCountNum}
+            color="primary"
+          >
+            <HiOutlineShoppingBag size={18} style={{ marginRight: "5px" }} />
+          </Badge>
+          Cart
+        </span>
+        <span className="for_item_menu search_main">
+          {ShowSearchBar && (
+            <input
+              type="text"
+              placeholder="Search Forevery"
+              className="for_search_bar"
+              value={searchText}
+              autoFocus
+              onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={searchDataFucn}
+            />
+          )}
+          <GrSearch size={19} onClick={() => setShowSearchBar(!ShowSearchBar)} />
+        </span>
+        {!islogin ? (
+          <>
+            {" "}
+            <span
+              className="for_item_menu"
+              onClick={() => {
+                Navigate("/LoginOption");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <FaRegCircleUser size={19} style={{ marginRight: "5px" }} />
+              Login
+            </span>
+          </>
+        ) : (
+          <>
+            <div className="for_login_user_dropdown">
+              <span className="user_logged_in_for">{user}</span>
+              <div className="for_dropdown">
+                <div>
+                  <div
+                    className="item_a"
+                    onClick={() => {
+                      Navigate("/account");
+                      window.scrollTo({ behavior: "smooth", top: 0 });
+                    }}
+                  >
+                    <li>my account</li>
+                  </div>
+                  <div
+                    className="item_a"
+                    onClick={() => {
+                      Navigate("/account");
+                      window.scrollTo({ behavior: "smooth", top: 0 });
+                    }}
+                  >
+                    <li>my orders</li>
+                  </div>
+                  <div
+                    className="item_a"
+                    onClick={() => {
+                      Navigate("/account");
+                      window.scrollTo({ behavior: "smooth", top: 0 });
+                    }}
+                  >
+                    <li>my details</li>
+                  </div>
+                  <hr />
+                  <div className="item_a" onClick={() => handleLogout()}>
+                    <li>log out</li>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
-     
-    </div>
-     <div className="for_max_1100_menu">
-     <span
-       className="for_item_menu"
-       onClick={() => {
-         Navigate("/appointment");
-         window.scrollTo({ top: 0, behavior: "smooth" });
-       }}
-     >
-       <img
-         src={`${storImagePath()}/Forevery/appointment.png`}
-         alt=""
-         className="calemder-logo"
-         style={{ objectFit: "contain", marginRight: "5px" }}
-       />
-     </span>
-     <span
-       className="for_item_menu"
-       onClick={() => {
-         Navigate("/wishlist");
-         window.scrollTo({ top: 0, behavior: "smooth" });
-       }}
-     >
-       <Badge
-         style={{ size: "1px" }}
-         sx={{
-           "& .MuiBadge-badge": {
-             fontSize: "9.4px",
-             borderRadius: "100%",
-             marginRight: "6px",
-             marginTop: "3px",
-             bgcolor: "#DC637D",
-             width: 6,
-             height: 14,
-             display: "flex",
-             alignItems: "center",
-             justifyContent: "center",
-           },
-         }}
-         badgeContent={wishCountNum}
-         color="primary"
-       >
-         <FaRegHeart  className="fa-for-heart" style={{ marginRight: "5px" }} />
-       </Badge>
-     </span>
-     <span
-       className="for_item_menu"
-       onClick={() => {
-         Navigate("/cart");
-         window.scrollTo({ top: 0, behavior: "smooth" });
-       }}
-     >
-       <Badge
-         style={{ size: "1px" }}
-         sx={{
-           "& .MuiBadge-badge": {
-             fontSize: "9.4px",
-             borderRadius: "100%",
-             marginRight: "6px",
-             marginTop: "3px",
-             bgcolor: "#DC637D",
-             width: 6,
-             height: 14,
-             display: "flex",
-             alignItems: "center",
-             justifyContent: "center",
-           },
-         }}
-         badgeContent={cartCountNum}
-         color="primary"
-       >
-         <HiOutlineShoppingBag  className="fa-for-shop" style={{ marginRight: "5px" }} />
-       </Badge>
-     </span>
-   </div>
+          </>
+        )}
+
+      </div>
+      <div className="for_max_1100_menu">
+        <span
+          className="for_item_menu"
+          onClick={() => {
+            Navigate("/appointment");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <img
+            src={`${storImagePath()}/Forevery/appointment.png`}
+            alt=""
+            className="calemder-logo"
+            style={{ objectFit: "contain", marginRight: "5px" }}
+          />
+        </span>
+        <span
+          className="for_item_menu"
+          onClick={() => {
+            Navigate("/wishlist");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <Badge
+            style={{ size: "1px" }}
+            sx={{
+              "& .MuiBadge-badge": {
+                fontSize: "9.4px",
+                borderRadius: "100%",
+                marginRight: "6px",
+                marginTop: "3px",
+                bgcolor: "#DC637D",
+                width: 6,
+                height: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            }}
+            badgeContent={wishCountNum}
+            color="primary"
+          >
+            <FaRegHeart className="fa-for-heart" style={{ marginRight: "5px" }} />
+          </Badge>
+        </span>
+        <span
+          className="for_item_menu"
+          onClick={() => {
+            Navigate("/cart");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <Badge
+            style={{ size: "1px" }}
+            sx={{
+              "& .MuiBadge-badge": {
+                fontSize: "9.4px",
+                borderRadius: "100%",
+                marginRight: "6px",
+                marginTop: "3px",
+                bgcolor: "#DC637D",
+                width: 6,
+                height: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            }}
+            badgeContent={cartCountNum}
+            color="primary"
+          >
+            <HiOutlineShoppingBag className="fa-for-shop" style={{ marginRight: "5px" }} />
+          </Badge>
+        </span>
+      </div>
     </>
   );
 };
-const NavbarCenter = ({ Navigate, onLoad }) => {
+const NavbarCenter = ({ Navigate, onLoad, compnyLogo, compnyLogoM }) => {
+  const isMobile = useMediaQuery('max-width(425px)');
   return (
     <div className="center">
       <div
@@ -486,7 +493,7 @@ const NavbarCenter = ({ Navigate, onLoad }) => {
         }}
       >
         <img
-          src={`${storImagePath()}/Forevery/logo.webp`}
+          src={isMobile ? compnyLogoM : compnyLogo}
           alt=""
           style={{ cursor: "pointer" }}
           onLoad={onLoad}
@@ -570,7 +577,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-              // }}
+            // }}
             >
               {val?.disabled ? (
                 <div
@@ -619,15 +626,15 @@ const NavbarLeft = ({
         })}
         <>
           {showMenu && (
-           <div className="wrapper_menu_">
-             <NavitemsWrapper
-              SelectedMenu={ActiveMenu}
-              setActiveMenu={setActiveMenu}
-              setHoveredIndex={setHoveredIndex}
-              height={height}
-              setshowMenu={setshowMenu}
-            />
-           </div>
+            <div className="wrapper_menu_">
+              <NavitemsWrapper
+                SelectedMenu={ActiveMenu}
+                setActiveMenu={setActiveMenu}
+                setHoveredIndex={setHoveredIndex}
+                height={height}
+                setshowMenu={setshowMenu}
+              />
+            </div>
           )}
         </>
       </div>
@@ -1167,11 +1174,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Jewlery</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                // onClick={() =>
-                //   Navigate(
-                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                //   )
-                // }
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
               >
                 Show More
               </button>
@@ -1180,11 +1187,11 @@ const ThirdNavMenu = ({ data }) => {
               <h3>Bespoke Diamonds</h3>
               <button
                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                // onClick={() =>
-                //   Navigate(
-                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                //   )
-                // }
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
               >
                 Show More
               </button>

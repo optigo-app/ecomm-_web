@@ -29,6 +29,7 @@ import { for_CartCount, for_Loader, for_WishCount, for_customizationSteps, for_c
 import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
+import useZoom from '../../../hooks/UseZoom';
 
 
 const ProductDetail = () => {
@@ -45,7 +46,6 @@ const ProductDetail = () => {
   const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps);
-  console.log('customizeStep: ', customizeStep);
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -53,9 +53,7 @@ const ProductDetail = () => {
   const [completeSet, setCompleteSet] = useState(false);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  console.log('selectedMetalId: ', selectedMetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  console.log('selectedDiaId: ', selectedDiaId);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [metalType, setMetaltype] = useState([]);
   const [diamondType, setDiamondType] = useState([]);
@@ -77,9 +75,7 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [singleProd, setSingleProd] = useState();
-  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState();
-  console.log('singleProd1: ', singleProd1);
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
@@ -87,18 +83,21 @@ const ProductDetail = () => {
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [decodeUrl, setDecodeUrl] = useState({})
   const [loadingdata, setloadingdata] = useState(false);
+  const [pdImageLoading, setPdImageLoading] = useState(false);
   const [path, setpath] = useState();
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [videoArr, SETvideoArr] = useState([]);
   const [setshape, setSetShape] = useState();
-  console.log('setshape: ', setshape);
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData2'))
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  console.log('steps11: ', steps);
-  console.log('stepsData: ', stepsData);
 
   const [Swap, setswap] = useState("diamond");
   const breadCrumb = location?.pathname?.split("/")[2];
+
+  const containerRef = useRef(null);
+  const imgRef = useRef(null);
+
+  useZoom(containerRef, imgRef);
 
   const StyleCondition = {
     fontSize: breadCrumb === "settings" && "14px",
@@ -119,6 +118,7 @@ const ProductDetail = () => {
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [PdImageArr, setPdImageArr] = useState([]);
+  console.log('PdImageArr: ', PdImageArr);
   const [ratingvalue, setratingvalue] = useState(5);
 
   useEffect(() => {
@@ -208,7 +208,6 @@ const ProductDetail = () => {
     responsive: responsiveConfig,
   };
 
-
   const callAllApi = async () => {
     if (!mTypeLocal || mTypeLocal?.length === 0) {
       const res = await MetalTypeComboAPI(cookie);
@@ -275,7 +274,6 @@ const ProductDetail = () => {
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
     let decodeobj = decodeAndDecompress(navVal);
-    console.log('decodeobj: ', decodeobj);
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
 
@@ -432,7 +430,6 @@ const ProductDetail = () => {
 
   const BreadCumsObj = () => {
     let BreadCum = location?.search.split("?p=")[1];
-    console.log('BreadCum: ', BreadCum);
     let decodeobj = decodeAndDecompress(BreadCum);
 
     const values = BreadCum[0].split(',');
@@ -458,10 +455,8 @@ const ProductDetail = () => {
 
   useEffect(() => {
     let navVal = location?.search.split("?p=")[1];
-    console.log('navVal: ', navVal);
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
     let decodeobj = decodeAndDecompress(navVal);
-    console.log('decodeobj: ', decodeobj);
     if (decodeobj) {
       setDecodeUrl(decodeobj);
       setpath(decodeobj?.p)
@@ -525,7 +520,7 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
-              setloadingdata(false);
+              // setloadingdata(false);
             }
 
             if (!res?.pdList[0]) {
@@ -560,32 +555,19 @@ const ProductDetail = () => {
           if (resp) {
             await getSizeData(resp?.pdList[0], cookie)
               .then((res) => {
-                console.log("Sizeres", res);
                 setSizeCombo(res?.Data);
               })
               .catch((err) => console.log("SizeErr", err));
-
-            //     if (storeinitInside?.IsStockWebsite === 1) {
-            //       await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
-            //         setStockItemArr(res?.Data?.rd)
-            //       }).catch((err) => console.log("stockItemErr", err))
-            //     }
 
             if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
               await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
                 setSimilarBrandArr(res?.Data?.rd)
               }).catch((err) => console.log("similarbrandErr", err))
             }
-
-            //     if (storeinitInside?.IsProductDetailDesignSet === 1) {
-            //       await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie).then((res) => {
-            //         // console.log("designsetList",res?.Data?.rd[0])
-            //         setDesignSetList(res?.Data?.rd)
-            //       }).catch((err) => console.log("designsetErr", err))
-            //     }
           }
         })
-        .catch((err) => console.log("err", err));
+        .catch((err) => console.log("err", err))
+        .finally(() => setloadingdata(false));
     };
 
     FetchProductData();
@@ -594,7 +576,7 @@ const ProductDetail = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [location?.pathname]);
+  }, [location?.key]);
 
   const decodeAndDecompress = (encodedString) => {
     try {
@@ -726,12 +708,16 @@ const ProductDetail = () => {
       SETvideoArr(VideoMap);
       setPdImageArr((prev) => [...prev, ...VideoMap]);
     }
+
+
+    setPdImageLoading(false)
     return finalprodListimg;
   };
 
   useEffect(() => {
+    setPdImageLoading(true)
     ProdCardImageFunc();
-  }, [singleProd, location?.key]);
+  }, [singleProd]);
 
   const handleMetalWiseColorImg = async (e) => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -739,7 +725,7 @@ const ProductDetail = () => {
 
     if (mtColorLocal?.length) {
       mcArr = mtColorLocal?.filter(
-        (ele) => ele?.metalcolorname == e.target.value
+        (ele) => ele?.colorcode == e.target.value
       )[0];
     }
 
@@ -755,7 +741,7 @@ const ProductDetail = () => {
       "." +
       (singleProd ?? singleProd1)?.ImageExtension;
 
-    setMetalWiseColorImg(imgLink);
+    // setMetalWiseColorImg(imgLink);
 
     let isImg = await checkImageAvailability(imgLink);
 
@@ -820,9 +806,9 @@ const ProductDetail = () => {
           return { src: val, type: "img" };
         });
         setPdImageArr([...imageMap, ...videoArr]);
+        setPdImageLoading(false)
       }
     }
-    console.log(pdImgList);
 
   };
 
@@ -832,7 +818,7 @@ const ProductDetail = () => {
       setMetaltype(mtType);
     }
     if (metalColorCombo.length) {
-      const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.metalcolorname;
+      const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
       setMetalColor(getCurrentMetalColor);
     }
   }, [singleProd])
@@ -859,7 +845,6 @@ const ProductDetail = () => {
   }, [singleProd])
 
   const handleCart = async (cartFlag) => {
-    console.log('cartFlag: ', cartFlag);
     const metal =
       metalTypeCombo?.find((ele) => {
         return ele?.metaltype == metalType
@@ -926,7 +911,6 @@ const ProductDetail = () => {
   }
 
   const handleWishList = async (e, ele) => {
-    console.log('e: ', e);
     setWishListFlag(e?.target?.checked);
 
     const metal =
@@ -1101,7 +1085,6 @@ const ProductDetail = () => {
       p: BreadCumsObj(),
       f: {},
     };
-    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
     // decodeAndDecompress()
@@ -1134,17 +1117,14 @@ const ProductDetail = () => {
   };
 
   const handleButtonChange = (type) => {
-    console.log('type: ', type);
     const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
     const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
-    console.log('stepsData: ', stepsData);
     const SettingSteps = JSON.parse(sessionStorage.getItem('customizeSteps2'));
 
     if ((steps?.[0] == undefined || steps?.[0] == null) || (steps?.[1] == undefined || steps?.[1] == null)) {
 
       if (type === "hasData") {
         const step1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
-        console.log('inside-type-step1: ', step1);
         const stepData = JSON.parse(sessionStorage.getItem("custStepData2"));
 
         const step1Index = stepData.findIndex(item => item.step1Data !== undefined);
@@ -1254,177 +1234,123 @@ const ProductDetail = () => {
             <div className="for_ProductDet_left_prodImages">
               <div className="for_slider_container">
                 <div className="for_images_slider">
-                  {(loadingdata && !PdImageArr) ? (
+                  {loadingdata || pdImageLoading ? (
                     <>
                       <div className="for_slider">
-                        {Array.from({ length: 3 })?.map((val, i) => {
-                          return (
-                            <div
-                              key={i}
-                              onClick={() => handleThumbnailClick(i)}
-                              style={{
-                                backgroundColor: "transparent",
-                                width: '100%',
-                                height: '50px',
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Skeleton
-                                sx={{
-                                  backgroundColor: "#f0ededb4 !important;",
-                                  width: '65px',
-                                  height: '65px',
-                                  marginBottom: '1rem',
-                                }}
-                              />
-                            </div>
-                          );
-                        })}
+                        {Array.from({ length: 3 }).map((_, i) => (
+                          <div key={i} className='for_skeleton_thumb_div'>
+                            <Skeleton className='for_skeleton_det_thumb' />
+                          </div>
+                        ))}
                       </div>
-                      <div
-                      // className="for_main_image"
-                      >
-                        <Skeleton
-                          variant='square'
-                          sx={{
-                            padding: '0',
-                            width: '34rem',
-                            height: '100%',
-                            backgroundColor: '#f0ededb4 !important'
-                          }}
-                        />
+                      <div className="for_main_image">
+                        <Skeleton variant='square' className='for_skeleton_main_image' />
                       </div>
                     </>
                   ) : (
                     <>
                       <div className="for_slider">
-                        {PdImageArr?.map((val, i) => {
-                          return (
+                        {(
+                          PdImageArr.map((val, i) => (
                             <div
                               key={i}
                               className={`for_box ${i === currentSlide ? "active" : ""}`}
                               onClick={() => handleThumbnailClick(i)}
                             >
                               {val?.type === "img" ? (
-                                <>
-                                  <img
-                                    src={val?.src}
-                                    alt=""
-                                    onClick={() => {
-                                      setSelectedThumbImg({
-                                        link: val?.src,
-                                        type: "img",
-                                      });
-                                      setThumbImgIndex(i);
-                                    }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src =
-                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                    }}
-                                  />
-                                </>
+                                <img
+                                  src={val?.src}
+                                  alt=""
+                                  onClick={() => {
+                                    setSelectedThumbImg({ link: val?.src, type: "img" });
+                                    setThumbImgIndex(i);
+                                  }}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = imageNotFound;
+                                  }}
+                                />
                               ) : (
-                                val?.type === "video" && (
-                                  <div
-                                    className="for_video_box"
-                                    style={{ position: "relative" }}
-                                  >
-                                    <video
-                                      src={val?.src}
-                                      autoPlay
-                                      muted
-                                      loop
-                                      style={{
-                                        width: '65px',
-                                      }}
-                                    />
-                                    <IoIosPlayCircle className="for_play_io_icon" />
-                                  </div>
-                                )
+                                <div className="for_video_box" style={{ position: "relative" }}>
+                                  <video
+                                    src={val?.src}
+                                    autoPlay
+                                    muted
+                                    loop
+                                    style={{ width: '65px' }}
+                                  />
+                                  <IoIosPlayCircle className="for_play_io_icon" />
+                                </div>
                               )}
                             </div>
-                          );
-                        })}
+                          ))
+                        )}
                       </div>
                       <div className="for_main_image">
                         <div className="forWeb_app_product_label">
-                          {singleProd?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
-                          {singleProd?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
-                          {singleProd?.IsTrending == 1 && <span className="forWeb_app_intrending">Trending</span>}
-                          {singleProd?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
+                          {singleProd?.IsInReadyStock === 1 && <span className="forWeb_app_instock">In Stock</span>}
+                          {singleProd?.IsBestSeller === 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
+                          {singleProd?.IsTrending === 1 && <span className="forWeb_app_intrending">Trending</span>}
+                          {singleProd?.IsNewArrival === 1 && <span className="forWeb_app_newarrival">New</span>}
                         </div>
-                        { PdImageArr?.length > 0 ? (
-                          <>
-                            <Slider
-                              {...settings}
-                              ref={sliderRef}
-                              lazyLoad="anticipated"
-                            >
-                              {PdImageArr && PdImageArr?.map((val, i) => {
-                                return (
-                                  <div key={i} className="for_slider_card">
-                                    <div className="for_image">
-                                      {val?.type == "img" ? (
-                                        <>
-                                          <img
-                                            loading="lazy"
-                                            src={
-                                              val?.src 
-                                            }
-                                            alt={""}
-                                            onLoad={() => setIsImageLoad(false)}
-                                            // onError={(e) => {
-                                            //   e.target.onerror = null;
-                                            //     e.target.src = 
-                                            //     imageNotFound;
-                                            // }}
-                                          />
-                                        </>
-                                      ) : (
-                                        <div
-                                          style={{
-                                            height: "80%",
-                                          }}
-                                        >
-                                          <video
-                                            src={val?.src}
-                                            ref={videoRef}
-                                            loop={true}
-                                            autoPlay={true}
-                                            muted
-                                            style={{
-                                              width: "100%",
-                                              height: "100%",
-                                              objectFit: "scale-down",
-                                            }}
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
+                        {PdImageArr?.length === 0 ? ( // Check if no images are available
+                          <div className="for_slider_card">
+                            <div className="for_image">
+                              <img
+                                src={imageNotFound}
+                                alt=""
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = imageNotFound;
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          PdImageArr?.length > 1 ? (
+                            <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                              {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
+                                <div key={i} className="for_slider_card">
+                                  <div className="for_image">
+                                    {val?.type === "img" ? (
+                                      <img
+                                        loading="lazy"
+                                        src={val?.src}
+                                        alt=""
+                                        style={{ transition: 'transform 0.3s ease' }}
+                                        onLoad={() => setIsImageLoad(false)}
+                                      />
+                                    ) : (
+                                      <div style={{ height: "80%" }}>
+                                        <video
+                                          src={val?.src}
+                                          ref={videoRef}
+                                          loop={true}
+                                          autoPlay={true}
+                                          muted
+                                          style={{ width: "100%", height: "100%", objectFit: "scale-down" }}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
-                                );
-                              }
-                              )}
+                                </div>
+                              ))}
                             </Slider>
-                          </>
-                        ) :
-                         (PdImageArr &&  <div className="for_main_image">
-                          <img
-                            src={imageNotFound}
-                            alt={""}
-                            style={{
-                              width: "100%",
-                              height: "90%",
-                              objectFit: "contain",
-                              border: "1px solid #312f2f21",
-                              marginTop: "45px",
-                            }}
-                          />
-                        </div>)
-                        }
+                          ) : PdImageArr.length === 1 && (
+                            <div className="for_slider_card">
+                              <div className="for_image">
+                                <img
+                                  src={PdImageArr[0]?.src}
+                                  alt=""
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = imageNotFound;
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )
+                        )}
                       </div>
                     </>
                   )}
@@ -1836,7 +1762,6 @@ const ProductDetail = () => {
 export default ProductDetail
 
 const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setshape }) => {
-  console.log('setshape: ', setshape);
   const dropdownRefs = useRef({});
   const isLoading = useRecoilValue(for_Loader);
   const [open, setOpen] = useState(null);
@@ -2221,7 +2146,6 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         p: pValue,
         f: {},
       };
-      console.log("ksjkfjkjdkjfkjsdk--", obj);
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
       handleOpen(null)

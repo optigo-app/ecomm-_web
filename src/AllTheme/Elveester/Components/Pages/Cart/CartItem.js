@@ -53,7 +53,7 @@ const CartItem = ({
   const [open1, setOpen1] = useState(false);
   const visiterId = Cookies.get('visiterId');
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
 
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
@@ -181,12 +181,14 @@ const CartItem = ({
           </div>
         }
         <div className='elv_cardImage_div' >
-          <img className='elv_cardImage_img' src={imageSrc} alt=""
-            onClick={() => {
-              handleIsSelected();
-              onSelect(item)
-            }}
-          />
+          {imageSrc !== undefined && (
+            <img className='elv_cardImage_img' src={imageSrc} alt=""
+              onClick={() => {
+                handleIsSelected();
+                onSelect(item)
+              }}
+            />
+          )}
         </div>
         <div className='elv_ProductCard_details'>
           <div className={`elv_Product_details ${mobileScreen && item?.Remarks !== '' ? 'with-remarks' : ''}`}>
