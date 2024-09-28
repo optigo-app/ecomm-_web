@@ -249,6 +249,22 @@
                                     display: block;
                                 }
 
+                                .for_skeleton_thumb_div {
+                                    background-color: transparent;
+                                    width: 100%;
+                                    height: 55px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+
+
+                                .for_skeleton_det_thumb {
+                                    background-color: #f0ededb4 !important;
+                                    width: 65px;
+                                    height: 100px;
+                                }
+
                                 .for_box {
                                     max-width: 100%;
                                     max-height: 100%;
@@ -302,6 +318,13 @@
                                 min-width: 34rem;
                                 position: relative;
 
+                                .for_skeleton_main_image {
+                                    padding: 0;
+                                    width: 34rem;
+                                    height: 100%;
+                                    background-color: #f0ededb4 !important;
+                                }
+
                                 .zoom-lens {
                                     position: absolute;
                                     border: 1px solid #d4d4d4;
@@ -316,30 +339,54 @@
                                     height: auto;
                                     margin: 0 !important;
                                     padding: 0 !important;
+                                    margin-top: 5%;
 
                                     .for_image {
-                                        height: 80%;
+                                        // height: 80%;
+                                        height: 570px;
+                                        overflow: hidden;
                                         display: flex;
                                         align-items: center;
                                         justify-content: center;
-                                        cursor: zoom-in;
+                                        // cursor: zoom-in;
 
                                         img {
                                             width: 100%;
                                             border: 1px solid rgba(255, 228, 234, .451);
-                                            min-height: 570px;
-                                            max-height: 570px;
                                             object-fit: contain;
                                             object-position: center;
+                                            transform-origin: center center;
+                                            height: 100%;
+                                            width: 100%;
                                         }
 
                                         video {
                                             width: 100%;
                                             height: 100%;
                                         }
+
+                                        // #container {
+                                        //     height: 500px;
+                                        //     width: 500px;
+                                        //     overflow: hidden;
+                                        // }
                                     }
 
-                                    margin-top: 5%;
+
+                                    // #container {
+                                    //     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+                                    //     height: 500px;
+                                    //     width: 500px;
+                                    //     overflow: hidden;
+                                    // }
+
+                                    // img {
+                                    //     transform-origin: center center;
+                                    //     object-fit: cover;
+                                    //     height: 100%;
+                                    //     width: 100%;
+                                    // }
+
                                 }
                             }
                         }

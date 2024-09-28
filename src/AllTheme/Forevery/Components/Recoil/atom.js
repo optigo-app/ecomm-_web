@@ -5,6 +5,11 @@ export const for_companyLogo = atom({
   default: []
 })
 
+export const for_companyLogoM = atom({
+  key: 'for_companyLogoM',
+  default: []
+})
+
 export const for_loginState = atom({
   key: 'for_loginState',
   default: false,

@@ -170,7 +170,7 @@ const DiamondDetails = () => {
             const filterKeyVal = btoa(Settingcategory)
             setFilterVal(filterKeyVal);
         }
-    }, [compSet])
+    }, [compSet, setshape])
 
 
     const totalPrice = (Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2);
