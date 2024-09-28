@@ -108,4 +108,10 @@
     transform: scale(1.1);
     /* Slight zoom effect on hover */
   }
+
+  @media screen and (max-width:1400px) {
+    .roop_col_imageMain_div{
+      
+    }
+  }
 }

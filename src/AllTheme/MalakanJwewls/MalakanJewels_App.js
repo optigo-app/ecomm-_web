@@ -31,7 +31,7 @@ import Account from "./Components/Pages/Account/Account";
 import Cookies from "js-cookie";
 import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
-import { mala_companyLogo, mala_loginState } from "./Components/Recoil/atom";
+import { mala_companyLogo, mala_companyLogoM, mala_loginState } from "./Components/Recoil/atom";
 import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
@@ -46,8 +46,10 @@ const MalakanJewels_App = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(mala_companyLogo);
   const [htmlContent, setHtmlContent] = useState("");
+  const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
+  const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
+
 
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
@@ -75,18 +77,11 @@ const MalakanJewels_App = () => {
   }, [htmlContent]);
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-    }
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+
+    mala_setCompanyTitleLogo(webLogo);
+    mala_setCompanyTitleLogoM(mobileLogo);
   });
 
   useEffect(() => {

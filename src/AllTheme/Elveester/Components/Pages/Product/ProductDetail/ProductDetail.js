@@ -738,7 +738,6 @@ const ProductDetail = () => {
         (ele) => ele?.colorcode == e.target.value
       )[0];
     }
-    console.log('mcArr: ', mcArr);
 
     setMetalColor(e.target.value)
 
@@ -900,8 +899,6 @@ const ProductDetail = () => {
       finalprodListimg = imageNotFound;
     }
 
-    console.log("SearchData", pd?.VideoCount);
-
     if (pd?.VideoCount > 0) {
       for (let i = 1; i <= pd?.VideoCount; i++) {
         let videoString =
@@ -929,8 +926,6 @@ const ProductDetail = () => {
         }
       }
     }
-
-    console.log("SearchData", singleProd);
 
     if (FinalPdImgList?.length > 0) {
       finalprodListimg = FinalPdImgList[0];
@@ -1091,10 +1086,6 @@ const ProductDetail = () => {
     return SizeSorted
 
   }
-  useEffect(() => {
-    console.log('netWTData: ', netWTData);
-    console.log("first", singleProd1?.Nwt)
-  }, [])
 
   const compressAndEncode = (inputString) => {
     try {
