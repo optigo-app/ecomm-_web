@@ -368,6 +368,7 @@ const Header = () => {
         };
 
         let encodeObj = btoa(JSON.stringify(obj))
+        setDrawerShowOverlay(false);
         navigation(`/p/${searchText}?S=${encodeObj}`);
         setSearchText("")
       }
@@ -573,26 +574,31 @@ const Header = () => {
               <div
                 style={{
                   display: "flex",
-                  borderBottom: "1px solid white",
+                  border: "1px solid white",
                   alignItems: "center",
+                  height: '40px',
                   justifyContent: 'center',
-                  marginInline: "15px",
+                  marginInline: "5px",
                 }}
               >
                 <input
                   type="text"
                   placeholder="Search"
+                  value={searchText}
+                  autoFocus
+                  onChange={(e) => setSearchText(e.target.value)}
+                  className="mobileSideBarSearch"
+                  onKeyDown={searchDataFucn}
                   style={{
                     width: "100%",
                     border: "none",
                     outline: "none",
                     backgroundColor: "transparent",
-                    marginTop: "15px",
                     fontWeight: 500,
                     color: "white",
                     fontSize: "17px",
                   }}
-                  className="mobileSideBarSearch"
+                 
                 />
                 <IoSearchOutline
                   style={{
@@ -759,7 +765,7 @@ const Header = () => {
               <p className="roop_menuStaicMobilePage">About us</p>
             </div>
 
-            <div>
+            {islogin == true && <div>
               <p
                 className="roop_menuStaicMobilePageLink"
                 style={{ marginTop: "10px" }}
@@ -771,6 +777,7 @@ const Header = () => {
                 WishList
               </p>
             </div>
+            }
 
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
@@ -811,32 +818,32 @@ const Header = () => {
             )}
 
             {
-              islogin && <div>
-                <p
-                  className="roop_menuStaicMobilePageLink"
-                  onClick={() => {
-                    setDrawerShowOverlay(false);
-                    navigation("/account");
-                  }}
-                >
-                  Account
-                </p>
-              </div>
+              islogin &&
+              <>
+                <div>
+                  <p
+                    className="roop_menuStaicMobilePageLink"
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      navigation("/account");
+                    }}
+                  >
+                    Account
+                  </p>
+                </div>
+                <div>
+                  <p
+                    className="roop_menuStaicMobilePageLink"
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      handleLogout();
+                    }}
+                  >
+                    Log Out
+                  </p>
+                </div>
+              </>
             }
-
-            <div>
-              <p
-                className="roop_menuStaicMobilePageLink"
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  handleLogout();
-                }}
-              >
-                Log Out
-              </p>
-            </div>
-
-           
           </div>
         </>
       )}
@@ -1004,7 +1011,7 @@ const Header = () => {
           </div>
         </div>
         <div className="roop_top_header3">
-        <div className="roop_top_header3_logo_Web">
+          <div className="roop_top_header3_logo_Web">
             <a href="/">
               <img
                 src={compnyLogo}
