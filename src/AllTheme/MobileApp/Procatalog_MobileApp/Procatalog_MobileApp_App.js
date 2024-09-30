@@ -48,18 +48,21 @@ const Procatalog_MobileApp_App = () => {
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(PC_AppcompanyLogo);
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
+    let data = JSON?.parse(sessionStorage.getItem("storeInit"));
+    if (data) {
+      setCompanyTitleLogo(data?.companyMlogo);
     }
+
+
+    // if (Logindata) {
+    //   if (Logindata?.IsPLWOn == 1) {
+    //     setCompanyTitleLogo(Logindata?.Private_label_logo);
+    //   } else {
+    //     setCompanyTitleLogo(logo?.companylogo);
+    //   }
+    // } else {
+    //   setCompanyTitleLogo(logo?.companylogo);
+    // }
   });
 
   return (

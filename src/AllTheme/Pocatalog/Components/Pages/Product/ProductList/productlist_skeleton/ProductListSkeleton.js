@@ -3,7 +3,7 @@ import './ProductSkelton.scss';
 import { Skeleton, Card, CardContent, Grid, CardMedia, useMediaQuery } from '@mui/material';
 
 const ProductListSkeleton = ({fromPage}) => {
-    const cardsArray = Array.from({ length: 6 }, (_, index) => index + 1);
+    const cardsArray = Array.from({ length: 8 }, (_, index) => index + 1);
     const isMobile = useMediaQuery('(max-width: 767px)');
     const isDesktop = useMediaQuery('(max-width: 1440px)');
 
@@ -21,7 +21,8 @@ const ProductListSkeleton = ({fromPage}) => {
                         </CardContent>
                     </Card>
                 </Grid>}
-                { fromPage !== "Prodlist" && <Grid sx={{display: isDesktop ? 'none' : 'block'}}  item xs={3}>
+                {/* { fromPage !== "Prodlist" && <Grid sx={{display: isDesktop ? 'none' : 'block'}}  item xs={3}> */}
+                { fromPage !== "Prodlist" && <Grid sx={{display:'none'}}  item xs={3}>
                     <Card className='skeltoncards'>
                         <CardContent>
                             <Skeleton animation="wave" variant="text" width={'80%'} height={20} style={{ marginBottom: '20px' }} />
@@ -42,9 +43,9 @@ const ProductListSkeleton = ({fromPage}) => {
                         </CardContent>
                     </Card>
                 </Grid>}
-                <Grid item xs={isDesktop ? 12 :(fromPage === "Prodlist"? 12 : 9)} container spacing={2}>
+                <Grid item xs={isDesktop ? 12 :(fromPage === "Prodlist"? 12 : 12)} container spacing={2}>
                     {cardsArray.map((item) => (
-                        <Grid item xs={isMobile ? 6 : 4} key={item}>
+                        <Grid item xs={isMobile ? 6 : 3} key={item}>
                             <Card className={fromPage === "Prodlist" ? "skeltoncards_listpage":'skeltoncards'}>
                                 <CardMedia style={{width:'100%', height:'40vh'}} className='cardMainSkeleton'>
                                     <Skeleton animation="wave" variant="rect" width={'100%'} height='40vh' />
