@@ -3346,14 +3346,14 @@ const ProductList = () => {
 
                                     <div className="proCat_prod_card_info">
                                       <div className="smr_prod_Title">
-                                        <p
-                                          className="proCat1_prod_title_with_no_width">
-                                          {productData?.designno}{" "}
-                                          <span className="proCat_produtList_mobileTitle">
-                                            {productData?.TitleLine?.length > 0 &&
-                                              " - " + productData?.TitleLine}
-                                          </span>
-                                        </p>
+                                      <span
+                                          className="proCat1_prod_title_with_no_width"
+                                        >
+                                          {/* {productData?.TitleLine?.length > 0 &&
+                                            "-"}
+                                          {productData?.TitleLine}{" "} */}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                        </span>
                                         {/* <span className="smr_prod_designno">
                                           {productData?.designno}
                                         </span> */}
