@@ -842,6 +842,9 @@ const ProductList = () => {
   };
 
   const handleCartandWish = (e, ele, type) => {
+
+    console.log("event",e.target.checked)
+
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObj = {
       autocode: ele?.autocode,
@@ -3313,7 +3316,7 @@ const ProductList = () => {
                                           <LocalMallIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "white",
+                                              color: "#474747d1",
                                             }}
                                           />
                                           // <LocalMallIcon
@@ -3339,9 +3342,16 @@ const ProductList = () => {
                                         }
                                       />
                                         }
-                                        label={ !(cartArr[productData?.autocode] || productData?.IsInCart === 1) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: 'white' }}>Remove From Cart</span> }
+                                        label={ !(cartArr[productData?.autocode] ??
+                                          productData?.IsInCart === 1
+                                          ? true
+                                          : false) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: '#474747d1' }}>Remove From Cart</span> }
 
-                                        sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+                                        // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+                                        className={!(cartArr[productData?.autocode] ??
+                                          productData?.IsInCart === 1
+                                          ? true
+                                          : false) ? "procat_cart_btn" :"procat_cart_btn_alter"}
                                       />
 
                                     <div className="proCat_prod_card_info">
