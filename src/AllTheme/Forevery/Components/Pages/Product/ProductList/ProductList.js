@@ -41,6 +41,7 @@ const ProductList = () => {
   let maxwidth375px = useMediaQuery('(max-width:375px)')
   let maxwidth1000px = useMediaQuery('(max-width:1000px)')
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [storeInit, setStoreInit] = useState({});
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
   let cookie = Cookies.get("visiterId");
@@ -117,13 +118,12 @@ const ProductList = () => {
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  console.log('selectedMetalId: ', selectedMetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-  console.log('selectedDiaId: ', selectedDiaId);
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
-  const [storeInit, setStoreInit] = useState({});
+  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
   const [locationKey, setLocationKey] = useState();
+  const getEncodeData = atob(location?.search?.slice(3));
+  const [collectionName, setCollectionName] = useState(getEncodeData.split('/')?.[0]);
 
   const [priceRangeValue, setPriceRangeValue] = useState([5000, 250000]);
   const [caratRangeValue, setCaratRangeValue] = useState([0.96, 41.81]);
@@ -133,9 +133,7 @@ const ProductList = () => {
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalType, setMetaltype] = useState([]);
-  console.log('metalType: ', metalType);
   const [diamondType, setDiamondType] = useState([]);
-  console.log('diamondType: ', diamondType);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterData, setFilterData] = useState([]);
   const [sortBySelect, setSortBySelect] = useState();
@@ -327,7 +325,6 @@ const ProductList = () => {
   };
 
   const handleCartandWish = async (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const prodObj = {
@@ -352,7 +349,6 @@ const ProductList = () => {
 
     if (e.target.checked) {
       await CartAndWishListAPI(type, prodObj, cookie).then((res) => {
-        console.log(res?.Data?.rd[0])
         if (res) {
           let cartC = res?.Data?.rd[0]?.Cartlistcount
           let wishC = res?.Data?.rd[0]?.Wishlistcount
@@ -364,7 +360,6 @@ const ProductList = () => {
     } else {
 
       await RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res1) => {
-        console.log('res1: ', res1);
         if (res1) {
           let cartC = res1?.Data?.rd[0]?.Cartlistcount
           let wishC = res1?.Data?.rd[0]?.Wishlistcount
@@ -525,7 +520,7 @@ const ProductList = () => {
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    result.menuname = decodeURI(atob(location?.search?.slice(3)))?.split('/')?.[0]
 
     return result
   }
@@ -541,13 +536,6 @@ const ProductList = () => {
   useEffect(() => {
     let output = selectedValues.filter((ele) => ele.value)
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-    console.log(
-      "locationkey",
-      location?.key !== locationKey,
-      location?.key,
-      locationKey
-    );
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
@@ -589,9 +577,10 @@ const ProductList = () => {
       })
   }
 
-  const menuName = BreadCumsObj()?.menuname || 'Title';
+  // const menuName = BreadCumsObj()?.menuname || 'Title';
+  const menuName = (BreadCumsObj()?.menuname === 'Ikigai' || BreadCumsObj()?.menuname === 'Heritage' || BreadCumsObj()?.menuname === 'Icon') ? 'High End Jewelry' : '';
   const dropdownsData = [
-    { index: 1, title: `${menuName}`, data: ["high1", "high2", "high3"], type: 'high' },
+    { index: 1, title: `${menuName}`, data: ["Ikigai", "Heritage", "Icon"], type: 'high' },
     { index: 2, title: "All metal", data: metalType, type: 'metal' },
     { index: 3, title: "Diamond quality", data: diamondType, type: 'diamond' },
     // { index: 4, title: "price", data: rangevalue, type: 'range' },
@@ -635,52 +624,74 @@ const ProductList = () => {
     });
   };
 
-  const setDefaultValues = () => {
+
+  const getMatchCollName = () => {
+    const getCollectionNameFromURL = location?.pathname.split('/')?.[2];
+    const getCollName = dropdownsData?.[0]?.data;
+    return getCollName.find((item) => item === getCollectionNameFromURL) || "";
+  };
+
+  const setDefaultValues = (matchCollName) => {
+    console.log("Default values is callled", matchCollName)
+    setCollectionName(matchCollName);
+
     const ids = typeof selectedDiaId === 'string' ? selectedDiaId.split(',').map(Number) : [];
     const [qualityId, colorId] = ids;
 
     const findMetal = metalType?.find((item) => item?.Metalid === selectedMetalId)?.metaltype;
-
     const findDiamond = diamondType?.find((ele) =>
       ele.QualityId === qualityId && ele.ColorId === colorId
     );
 
     if (selectedMetalId && selectedDiaId && selectedValues?.length === 0) {
       const defaultValues = [
+        { dropdownIndex: 1, value: matchCollName || "" },
         { dropdownIndex: 2, value: findMetal || "" },
         { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" }
       ];
 
       setSelectedValues(defaultValues);
     }
-  }
+  };
 
   useEffect(() => {
-    setDefaultValues();
-  }, [metalType, diamondType, selectedDiaId, selectedValues]);
+    const matchCollName = getMatchCollName();
+    setDefaultValues(matchCollName);
+  }, [metalType, diamondType, selectedDiaId, location?.pathname]);
 
   const handleRemoveValues = (index) => {
     setSelectedValues(prev => {
-      const existingIndex = prev.findIndex(item => item?.dropdownIndex === index)
-      return prev.filter((_, i) => i !== existingIndex);
-    })
-    // setSelectedMetalId(loginUserDetail?.MetalId);
-    // setSelectedDiaId(loginUserDetail?.cmboDiaQCid);
-    if (selectedValues?.length === 0) {
-      setDefaultValues();
-    }
-    setCaratRangeValue([0.96, 41.81])
-    setPriceRangeValue([5000, 250000])
-  }
+      const existingIndex = prev.findIndex(item => item?.dropdownIndex === index);
+      const updatedValues = prev.filter((_, i) => i !== existingIndex);
 
-  const handleClearSelectedvalues = () => {
-    // setSelectedValues([]);
-    // setSelectedMetalId(loginUserDetail?.MetalId);
-    // setSelectedDiaId(loginUserDetail?.cmboDiaQCid);
+      if (updatedValues.length === 0) {
+        const matchCollName = getMatchCollName();
+        setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+        setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+        setDefaultValues(matchCollName);
+        // navigate(`/p/${BreadCumsObj()?.menuname}?M=${location?.search?.slice(3)}`)
+      }
+
+      return updatedValues;
+    });
+
     setCaratRangeValue([0.96, 41.81]);
     setPriceRangeValue([5000, 250000]);
-    setDefaultValues();
-  }
+  };
+
+  const handleClearSelectedvalues = () => {
+    setSelectedValues([]);
+
+    const matchCollName = getMatchCollName();
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
+
+    setCaratRangeValue([0.96, 41.81]);
+    setPriceRangeValue([5000, 250000]);
+
+    setDefaultValues(matchCollName);
+  };
+
 
   const handelPageChange = (event, value) => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -739,7 +750,6 @@ const ProductList = () => {
       p: BreadCumsObj(),
       f: {},
     };
-    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
     // decodeAndDecompress()
@@ -979,6 +989,8 @@ const ProductList = () => {
                       setSelectedDiaId={setSelectedDiaId}
                       selectedMetalId={selectedMetalId}
                       selectedDiaId={selectedDiaId}
+                      collectionName={collectionName}
+                      setCollectionName={setCollectionName}
                     />
                   ))}
 
@@ -1034,7 +1046,6 @@ const ProductList = () => {
               <div className="for_productList_filter_data_div">
                 <div className="for_productList_filter_selected">
                   {selectedValues.map((item) => {
-                    console.log('item: ', item);
                     return (
                       <>
                         {item?.dropdownIndex === 2 && (
@@ -1178,6 +1189,8 @@ const CollectionDropdown = forwardRef(({
   selectedMetalId,
   selectedDiaId,
   maxwidth1000px,
+  collectionName,
+  setCollectionName,
 }, ref) => {
   const isOpen = maxwidth1000px || open;
   return (
@@ -1191,7 +1204,7 @@ const CollectionDropdown = forwardRef(({
           let isChecked = false;
 
           if (type === 'high') {
-            isChecked = check1 === i;
+            isChecked = collectionName === i;
           } else if (type === 'metal') {
             isChecked = selectedMetalId === i?.Metalid;
           } else if (type === 'diamond') {
@@ -1209,8 +1222,9 @@ const CollectionDropdown = forwardRef(({
                 } else if (type === 'diamond') {
                   handleButton(`${i.Quality}#${i?.color}`);
                   setSelectedDiaId(`${i?.QualityId},${i?.ColorId}`);
-                } else {
+                } else if (type === 'high') {
                   handleButton(i);
+                  setCollectionName(i);
                 }
               }}
               key={type === 'metal' ? i.Metalid : type === 'diamond' ? `${i?.QualityId},${i?.ColorId}` : i}
@@ -1219,7 +1233,7 @@ const CollectionDropdown = forwardRef(({
                 type="radio"
                 checked={isChecked}
               />
-              <span>{type === 'diamond' ? `${i.Quality}#${i?.color}` : i?.metaltype || i}</span>
+              <span>{type === 'diamond' ? `${i.Quality}#${i?.color}` : type === 'metal' ? i?.metaltype : i}</span>
             </div>
           );
         })}
