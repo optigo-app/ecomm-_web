@@ -83,6 +83,15 @@
   padding: 0px;
 }
 
+@mixin truncate-lines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 36px;
+}
+
 .container {
   display: flex;
   align-items: baseline;
@@ -339,6 +348,8 @@
   // padding-inline: 30px;
   gap: 3px;
   font-family: $primaryFontFamily;
+
+  @include truncate-lines(2);
 }
 
 .smr_por {
@@ -559,7 +570,7 @@
   .procat_productList {
     width: 100%;
     // margin: 00px 0px 0px 18px;
-    margin: 00px 0px 0px 18px;
+    margin: 0px 10px 0px 10px;
     // display: flex;
     // justify-content: center;
     // align-items: center;
@@ -744,13 +755,13 @@
 
   .procat_productList {
     width: 100%;
-    margin: 0px 0px 0px 7px !important;
+    margin: 5px 0px 0px 5px !important;
   }
 }
 
 @media screen and (max-width:900px) {
   .procat_productList {
     width: 100%;
-    margin: 0px 0px 0px 13px;
+    margin: 8px 0px 0px 8px;
   }
 }

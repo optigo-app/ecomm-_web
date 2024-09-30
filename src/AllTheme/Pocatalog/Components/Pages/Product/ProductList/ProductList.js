@@ -3189,35 +3189,7 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    <div className="proCat_app_product_label">
-                                      {productData?.StatusId == 1 ? (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      ) : productData?.StatusId == 2 ? (
-                                        <span className="proCat_app_MEMO">
-                                          In memo
-                                        </span>
-                                      ) : (
-                                        <span className="proCat_app_Make_to_order">
-                                          Make To Order
-                                        </span>
-                                      )}
-
-                                      {/* {productData?.StatusId == 1 && (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {productData?.StatusId == 2 && (
-                                        <span className="proCat_app_instock">
-                                          In memo
-                                        </span>
-                                      )} */}
-                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
-                                    </div>
+                                    
 
                                     <div
                                       onMouseEnter={() => {
@@ -3242,6 +3214,7 @@ const ProductList = () => {
                                         });
                                       }}
                                       className="smr_ImgandVideoContainer"
+                                      style={{position:'relative'}}
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
                                         true ? (
@@ -3293,6 +3266,36 @@ const ProductList = () => {
                                         // }}
                                         />
                                       )}
+
+                                      <div className="proCat_app_product_label" style={{bottom:'0px'}}>
+                                      {productData?.StatusId == 1 ? (
+                                        <span className="proCat_app_instock">
+                                          In Stock
+                                        </span>
+                                      ) : productData?.StatusId == 2 ? (
+                                        <span className="proCat_app_MEMO">
+                                          In memo
+                                        </span>
+                                      ) : (
+                                        <span className="proCat_app_Make_to_order">
+                                          Make To Order
+                                        </span>
+                                      )}
+
+                                      {/* {productData?.StatusId == 1 && (
+                                        <span className="proCat_app_instock">
+                                          In Stock
+                                        </span>
+                                      )}
+                                      {productData?.StatusId == 2 && (
+                                        <span className="proCat_app_instock">
+                                          In memo
+                                        </span>
+                                      )} */}
+                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
+                                    </div>
                                     </div>
 
                                       <FormControlLabel
