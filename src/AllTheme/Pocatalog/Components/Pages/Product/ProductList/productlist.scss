@@ -400,17 +400,36 @@
   // }
 }
 
-.procat_cart_btn{
-  background-color:#8d8888d1;
-  color:white;
+.procat_cart_btn
+{
+  width:100%;
   display:flex;
-  align-items:center;
   justify-content:center;
-  padding:3px 0px;
-  gap:5px;
-  font-family: $primaryFontFamily;
-  font-weight: lighter;
-  cursor: pointer;
+  align-items:center;
+  background-color:#474747d1 !important;
+  margin-left:0 !important;
+  border:1px solid #474747d1 !important;
+
+  // background-color:#8d8888d1;
+  // color:white;
+  // display:flex;
+  // align-items:center;
+  // justify-content:center;
+  // padding:3px 0px;
+  // gap:5px;
+  // font-family: $primaryFontFamily;
+  // font-weight: lighter;
+  // cursor: pointer;
+}
+
+.procat_cart_btn_alter{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background-color:white;
+  border:1px solid #474747d1 !important;
+  margin-left:0 !important;
 }
 
 
