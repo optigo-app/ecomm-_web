@@ -2216,7 +2216,7 @@ const ProductList = () => {
                         />
                       </div>
 
-                      {filterData?.length > 0 && <Checkbox
+                      {/* {filterData?.length > 0 && <Checkbox
                         sx={{ padding: "0px 9px 0px 9px" }}
                         icon={<FilterAltIcon fontSize="large" />}
                         checkedIcon={
@@ -2228,7 +2228,7 @@ const ProductList = () => {
                         checked={isDrawerOpen}
                         onChange={(e) => setIsDrawerOpen(e.target.value)}
                       />
-                      }
+                      } */}
                     </div>
                   ) : null
                     // <div className="smr_prodSorting">
