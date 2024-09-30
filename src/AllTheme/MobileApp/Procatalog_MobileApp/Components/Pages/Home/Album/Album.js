@@ -67,6 +67,7 @@ const Album = () => {
     fetchAlbumData();
   }, [islogin]);
 
+
   const fetchAndSetAlbumData = async (value, finalID) => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     
@@ -77,23 +78,19 @@ const Album = () => {
     try {
       const response = await Get_Procatalog("GETProcatalog", finalID, value);
       if (response?.Data?.rd) {
-
         const albums = response.Data.rd;
         setAlbumData(albums);
-
+        setImagesReady(true);
         const status = {};
         const fallbackImages = {};
-
         for (const data of albums) {
           const fullImageUrl = `${storeInit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
           let imageAvailable;
-
           if(data?.AlbumImageName !== ""){
             imageAvailable = await checkImageAvailability(fullImageUrl);
           }else{
             imageAvailable = false;
           }
-
           if (!imageAvailable && data?.AlbumDetail) {
             const albumDetails = JSON.parse(data.AlbumDetail);
             albumDetails.forEach((detail) => {
@@ -111,11 +108,9 @@ const Album = () => {
           }
           status[fullImageUrl] = imageAvailable;
         }
-
         setImageStatus(status);
         setFallbackImages(fallbackImages);
         setIsLoding(false);
-        setImagesReady(true);
       }
     } catch (err) {
       console.error(err);
@@ -282,27 +277,34 @@ const Album = () => {
       <p className="proCatApp_albumTitle">ALBUMS</p>
       <div className="proCatApp_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
         {albumData.map((data, index) => {
-          let imgSrc = imageNotFound;
-          if (data.AlbumImageName) {
-            const imageUrlI = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-            imgSrc = imageStatus[imageUrlI] ? imageUrlI : fallbackImages[imageUrlI] || imageNotFound;
-          } else if (data.AlbumDetail) {
-            const albumDetails = JSON.parse(data.AlbumDetail);
-
-            albumDetails.forEach((detail) => {
-              if (detail?.Designdetail) {
-                const designDetails = JSON.parse(detail.Designdetail);
-                designDetails.some((design) => {
-                  if (design.ImageCount > 0) {
-                    const fallbackImage = `${storeinit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
-                    imgSrc = fallbackImage;
-                    return true;
-                  }
-                  return false;
-                });
-              }
-            });
+          let imgSrc = imageNotFound; 
+          let isImageFound = false;
+      
+          if (data.AlbumImageName && data.AlbumImageFol) {
+              imgSrc = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+              isImageFound = true; 
           }
+      
+          if (!isImageFound && data.AlbumDetail) {
+              const albumDetails = JSON.parse(data.AlbumDetail);
+              albumDetails.forEach((detail) => {
+                  if (detail?.Designdetail) {
+                      const designDetails = JSON.parse(detail.Designdetail);
+                      designDetails.some((design) => {
+                          if (design.ImageCount > 0) {
+                              imgSrc = `${storeinit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
+                              isImageFound = true;  // Break the loop after finding the first valid image
+                              return true;
+                          }
+                          return false;
+                      });
+                  }
+              });
+          }
+           
+           if (!isImageFound) {
+             imgSrc = imageNotFound;
+           }
 
           return (
             <div
