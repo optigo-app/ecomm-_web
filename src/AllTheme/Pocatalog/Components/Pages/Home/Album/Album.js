@@ -170,6 +170,8 @@ const Album = () => {
     return <AlbumSkeleton />;
   }
 
+  console.log('albumDataalbumData',albumData);
+
   return (
     <div className="proCat_alubmMainDiv">
       <Modal
@@ -262,73 +264,67 @@ const Album = () => {
       </Modal>
       <p className="proCat_albumTitle">ALBUMS</p>
       <div className="proCat_albumALL_div" style={{ minHeight: !albumData.length && '600px' }}>
-      {albumData.map((data, index) => {
-  let imgSrc = ""; // Start with a blank image
-  let isImageFound = false; // Flag to check if an image is found
+        {albumData.map((data, index) => {
+               let imgSrc = imageNotFound; 
+               let isImageFound = false;
+           
+               if (data.AlbumImageName && data.AlbumImageFol) {
+                   imgSrc = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
+                   isImageFound = true; 
+               }
+           
+               if (!isImageFound && data.AlbumDetail) {
+                   const albumDetails = JSON.parse(data.AlbumDetail);
+                   albumDetails.forEach((detail) => {
+                       if (detail?.Designdetail) {
+                           const designDetails = JSON.parse(detail.Designdetail);
+                           designDetails.some((design) => {
+                               if (design.ImageCount > 0) {
+                                   imgSrc = `${storeinit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
+                                   isImageFound = true;  // Break the loop after finding the first valid image
+                                   return true;
+                               }
+                               return false;
+                           });
+                       }
+                   });
+               }
 
-  if (data.AlbumImageName) {
-    const imageUrlI = `${storeinit?.AlbumImageFol}${data?.AlbumImageFol}/${data?.AlbumImageName}`;
-    if (imageStatus[imageUrlI]) {
-      imgSrc = imageUrlI;
-      isImageFound = true; 
-    }
-  } 
-  
-  if (!isImageFound && data.AlbumDetail) {
-    const albumDetails = JSON.parse(data.AlbumDetail);
-    albumDetails.forEach((detail) => {
-      if (detail?.Designdetail) {
-        const designDetails = JSON.parse(detail.Designdetail);
-        designDetails.some((design) => {
-          if (design.ImageCount > 0) {
-            imgSrc = `${storeinit?.DesignImageFol}${design.designno}_1.${design.ImageExtension}`;
-            isImageFound = true; 
-            return true;
-          }
-          return false;
-        });
-      }
-    });
-  }
-  
-  if (!isImageFound) {
-    imgSrc = imageNotFound;
-  }
-
-  return (
-    <div
-      key={index}
-      className="smr_AlbumImageMain"
-      onClick={() => handleNavigate(data)}
-    >
-      <div style={{ position: "relative" }}>
-        <img
-          src={imgSrc}
-          className="smr_AlbumImageMain_img"
-          alt={data?.AlbumName}
-        />
-        {islogin || data?.AlbumSecurityId === 0 ? (
-          ""
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="#000000"
-            className="proCat_AlbumLockIcone lock_icon"
-          >
-            <path
-              d="M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9 8 4 8.9 4 10 L 4 20 C 4 21.1 4.9 22 6 22 L 18 22 C 19.1 22 20 21.1 20 20 L 20 10 C 20 8.9 19.1 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 12 13 C 13.1 13 14 13.9 14 15 C 14 16.1 13.1 17 12 17 C 10.9 17 10 16.1 10 15 C 10 13.9 10.9 13 12 13 z"
-              fill="#000000"
-            ></path>
-          </svg>
-        )}
-      </div>
-      <div style={{ marginTop: "3px" }}>
-        <p className="proCat_albumName">{data?.AlbumName}</p>
-      </div>
-    </div>
-  );
-})}
+                return (
+                  <div
+                    key={index}
+                    className="smr_AlbumImageMain"
+                    onClick={() => handleNavigate(data)}
+                  >
+                    <div style={{ position: "relative" }}>
+                      <img
+                        src={imgSrc}
+                        className="smr_AlbumImageMain_img"
+                        alt={data?.AlbumName}
+                      />
+                      {islogin || data?.AlbumSecurityId === 0 ? (
+                        ""
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="#000000"
+                          className="proCat_AlbumLockIcone lock_icon"
+                        >
+                          <path
+                            d="M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9 8 4 8.9 4 10 L 4 20 C 4 21.1 4.9 22 6 22 L 18 22 C 19.1 22 20 21.1 20 20 L 20 10 C 20 8.9 19.1 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 12 13 C 13.1 13 14 13.9 14 15 C 14 16.1 13.1 17 12 17 C 10.9 17 10 16.1 10 15 C 10 13.9 10.9 13 12 13 z"
+                            fill="#000000"
+                          ></path>
+                        </svg>
+                      )}
+                    </div>
+                    <div style={{ marginTop: "3px" }}>
+                      <p className="proCat_albumName">{data?.AlbumName}</p>
+                    </div>
+                  </div>
+                );
+              })
+            }
       </div>
     </div>
   );

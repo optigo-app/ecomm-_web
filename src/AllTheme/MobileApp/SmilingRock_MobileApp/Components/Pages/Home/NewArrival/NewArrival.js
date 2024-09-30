@@ -81,9 +81,9 @@ const NewArrival = () => {
     let data = JSON.parse(sessionStorage.getItem("storeInit"));
     setImageUrl(data?.DesignImageFol);
 
+    setLoadingHome(false);
     Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
       .then(async (response) => {
-        setLoadingHome(false);
         if (response?.Data?.rd) {
           const itemsWithImageCheck = await Promise.all(
             response.Data.rd.map(async (item) => {
