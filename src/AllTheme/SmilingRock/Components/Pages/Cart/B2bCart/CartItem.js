@@ -40,7 +40,7 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState();
+  const [imageSrc, setImageSrc] = useState(noImageFound);
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)
@@ -152,7 +152,8 @@ const CartItem = ({
       // onTouchEnd={cancelPress}
       >
         <Box className="smr_mui_CartBox" sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', position: 'relative' }}>
-          {imageSrc !== undefined &&
+          {/* {imageSrc !== undefined && */}
+           {imageSrc !== undefined && 
             <CardMedia
               component="img"
               image={imageSrc}

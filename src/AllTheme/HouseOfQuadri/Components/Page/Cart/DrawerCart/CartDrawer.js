@@ -3,7 +3,7 @@ import "./CartDrawer.modul.scss";
 import { Drawer, IconButton, Typography } from "@mui/material";
 import QuantityCom from "../../../common/QuantityCom";
 import { Link } from "react-router-dom";
-
+import noimage from '../../../Assets/noImageFound.jpg'
 const CartDrawer = ({ width, close }) => {
   const PolyFill = Array.from({ length: 8 });
   return (
@@ -68,7 +68,7 @@ const CartCard = ({ close }) => {
       <div className="cart_p_image">
         <Link to={"/products/5-stone-band"}>
           <img
-            src="https://houseofquadri.com/cdn/shop/files/RL0195_2Y_180x.jpg?v=1719897799"
+            src={noimage}
             alt=""
             onClick={close}
           />
