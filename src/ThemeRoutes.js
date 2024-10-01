@@ -11,6 +11,7 @@ import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityCol
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
+import { for_companyLogo, for_companyLogoM } from "./AllTheme/Forevery/Components/Recoil/atom";
 import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
 import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
 // import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
@@ -30,6 +31,8 @@ import { Helmet } from "react-helmet";
 import SEO from "./utils/Seo/Seo";
 import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
 import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
+import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
+import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 
 export default function ThemeRoutes() {
 
@@ -45,8 +48,17 @@ export default function ThemeRoutes() {
   const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM)
   const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo)
 
+  const for_setCompanyTitleLogoM = useSetRecoilState(for_companyLogoM)
+  const for_setCompanyTitleLogo = useSetRecoilState(for_companyLogo)
+
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
+  
+  const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
+  const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
+  
+  const stam_setCompanyTitleLogo = useSetRecoilState(stam_companyLogo)
+  const stam_setCompanyTitleLogoM = useSetRecoilState(stam_companyLogoM)
 
   const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
 
@@ -84,14 +96,20 @@ export default function ThemeRoutes() {
     setRoopWebLogo(webLogo);
     setRoopMobileLogo(mobileLogo);
 
-    // proCat_setCompanyTitleLogo(webLogo);
-    // proCatM_setCompanyTitleLogo(mobileLogo);
+    mala_setCompanyTitleLogo(webLogo);
+    mala_setCompanyTitleLogoM(mobileLogo);
 
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
 
+    for_setCompanyTitleLogo(webLogo);
+    for_setCompanyTitleLogoM(mobileLogo);
+
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
+    
+    stam_setCompanyTitleLogo(webLogo);
+    stam_setCompanyTitleLogoM(mobileLogo);
 
     smrMA_setCompanyTitleLogo(mobileLogo);
   }, []);

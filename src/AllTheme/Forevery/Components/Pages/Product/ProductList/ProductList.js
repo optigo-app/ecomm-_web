@@ -16,8 +16,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import Rating from '@mui/material/Rating';
+import { IoClose } from "react-icons/io5";
 import Stack from '@mui/material/Stack';
-import { Checkbox, FormControl, FormControlLabel, Input, MenuItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
+import { Box, Checkbox, Divider, Drawer, FormControl, FormControlLabel, Input, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, Slider, colors, useMediaQuery } from "@mui/material";
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
@@ -37,6 +38,8 @@ const ProductList = () => {
   const location = useLocation();
   const dropdownRefs = useRef({})
   let maxwidth464px = useMediaQuery('(max-width:464px)')
+  let maxwidth375px = useMediaQuery('(max-width:375px)')
+  let maxwidth1000px = useMediaQuery('(max-width:1000px)')
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
@@ -110,11 +113,14 @@ const ProductList = () => {
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
+  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
+  console.log('selectedMetalId: ', selectedMetalId);
   const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  console.log('selectedDiaId: ', selectedDiaId);
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [storeInit, setStoreInit] = useState({});
   const [locationKey, setLocationKey] = useState();
@@ -127,7 +133,9 @@ const ProductList = () => {
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalType, setMetaltype] = useState([]);
+  console.log('metalType: ', metalType);
   const [diamondType, setDiamondType] = useState([]);
+  console.log('diamondType: ', diamondType);
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [filterData, setFilterData] = useState([]);
   const [sortBySelect, setSortBySelect] = useState();
@@ -136,6 +144,12 @@ const ProductList = () => {
   const setCartCountVal = useSetRecoilState(for_CartCount);
   const setWishCountVal = useSetRecoilState(for_WishCount);
   const [cartArr, setCartArr] = useState({})
+
+  const [open1, setOpen1] = useState(false);
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen1(newOpen);
+  };
 
   const handleCardHover = () => {
     setHoverIndex(!hoverIndex);
@@ -592,13 +606,13 @@ const ProductList = () => {
   const handlePriceSliderChange = (event, newValue) => {
     const roundedValue = newValue.map(val => parseInt(val));
     setPriceRangeValue(roundedValue)
-    handleButton(4, roundedValue); // Assuming 4 is the index for price range
+    handleButton(4, roundedValue); // index 4 is the index for price range
   };
 
   const handleCaratSliderChange = (event, newValue) => {
     const roundedValue = newValue.map(val => parseFloat(val.toFixed(3)));
     setCaratRangeValue(roundedValue)
-    handleButton(5, roundedValue); // Assuming 5 is the index for carat range
+    handleButton(5, roundedValue); // index 5 is the index for carat range
   };
 
   const handleButton = (dropdownIndex, value) => {
@@ -621,23 +635,51 @@ const ProductList = () => {
     });
   };
 
+  const setDefaultValues = () => {
+    const ids = typeof selectedDiaId === 'string' ? selectedDiaId.split(',').map(Number) : [];
+    const [qualityId, colorId] = ids;
+
+    const findMetal = metalType?.find((item) => item?.Metalid === selectedMetalId)?.metaltype;
+
+    const findDiamond = diamondType?.find((ele) =>
+      ele.QualityId === qualityId && ele.ColorId === colorId
+    );
+
+    if (selectedMetalId && selectedDiaId && selectedValues?.length === 0) {
+      const defaultValues = [
+        { dropdownIndex: 2, value: findMetal || "" },
+        { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" }
+      ];
+
+      setSelectedValues(defaultValues);
+    }
+  }
+
+  useEffect(() => {
+    setDefaultValues();
+  }, [metalType, diamondType, selectedDiaId, selectedValues]);
 
   const handleRemoveValues = (index) => {
     setSelectedValues(prev => {
       const existingIndex = prev.findIndex(item => item?.dropdownIndex === index)
       return prev.filter((_, i) => i !== existingIndex);
     })
+    // setSelectedMetalId(loginUserDetail?.MetalId);
+    // setSelectedDiaId(loginUserDetail?.cmboDiaQCid);
+    if (selectedValues?.length === 0) {
+      setDefaultValues();
+    }
     setCaratRangeValue([0.96, 41.81])
     setPriceRangeValue([5000, 250000])
   }
 
   const handleClearSelectedvalues = () => {
-    setSelectedValues([]);
-    setSelectedMetalId(loginUserDetail?.MetalId)
-    setSelectedDiaId(loginUserDetail?.cmboDiaQCid)
-    setSelectedCsId(loginUserDetail?.cmboCSQCid)
-    setCaratRangeValue([0.96, 41.81])
-    setPriceRangeValue([5000, 250000])
+    // setSelectedValues([]);
+    // setSelectedMetalId(loginUserDetail?.MetalId);
+    // setSelectedDiaId(loginUserDetail?.cmboDiaQCid);
+    setCaratRangeValue([0.96, 41.81]);
+    setPriceRangeValue([5000, 250000]);
+    setDefaultValues();
   }
 
   const handelPageChange = (event, value) => {
@@ -729,7 +771,7 @@ const ProductList = () => {
             >
               {links.map((i, index) => (
                 <SwiperSlide key={index}>
-                  <img src={i?.link} alt={`Slide ${index}`} style={{ width: '100%', height: '12.5rem', objectFit: 'contain' }} />
+                  <img src={i?.link} alt={`Slide ${index}`} className="for_productList_Banner_img" />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -805,7 +847,7 @@ const ProductList = () => {
               </div>
               <div className="for_productList_category_filter_options">
                 {categoryArr?.map((item, index) => (
-                  <div className="for_category_filter_options_card" key={index} onClick={() => handleCategory(item?.id)}>
+                  <div className={`for_category_filter_options_card ${selectedCategory === item?.id && maxwidth1000px ? 'selected' : ''}`} key={index} onClick={() => handleCategory(item?.id)}>
                     <div className={selectedCategory === item?.id ? 'for_category_filter_image_div_selected' : 'for_category_filter_image_div'}>
                       <img src={item?.image} className={selectedCategory === item?.id ? "for_category_filter_image_selected" : "for_category_filter_image"} alt="category image" />
                     </div>
@@ -816,126 +858,237 @@ const ProductList = () => {
                 ))}
               </div>
             </div>
-            <div className="for_productList_collection_filter_mainDiv">
-              <div className="for_collection_filter_lists">
-
-                {dropdownsData.map(({ index, title, data, type }) => (
-                  <CollectionDropdown
-                    key={index}
-                    handleOpen={handleOpen}
-                    open={open === index}
-                    type={type}
-                    handleButton={(value) => handleButton(index, value)}
-                    check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
-                    title={title}
-                    index={index}
-                    data={data}
-                    ref={el => dropdownRefs.current[index] = el}
-                    setSelectedMetalId={setSelectedMetalId}
-                    setSelectedDiaId={setSelectedDiaId}
-                    selectedMetalId={selectedMetalId}
-                    selectedDiaId={selectedDiaId}
-                  />
-                ))}
-
-                {rangeData?.map(({ index, title, data, type }) => (
-                  type === 'price' ? (
-                    <CollectionPriceRange
-                      key={index}
-                      handleOpen={handleOpen}
-                      open={open === index}
-                      title={title}
-                      index={index}
-                      handleSliderChange={handlePriceSliderChange}
-                      data={data}
-                    />
-                  ) : (
-                    <CollectionCaratRange
-                      key={index}
-                      handleOpen={handleOpen}
-                      open={open === index}
-                      title={title}
-                      index={index}
-                      handleSliderChange={handleCaratSliderChange}
-                      data={data}
-                    />
-                  )
-                ))}
-
-                <div className="for_collection_filter_dropdown_sort">
-                  <div className="for_collection_filter_label">
-                    <label>sort by: </label>
+            {maxwidth1000px ? (
+              <>
+                <div className="for_productList_collection_filter_mainDiv_tabletView" onClick={toggleDrawer(true)}>
+                  <button className="for_productList_filter_btn">
+                    <img src={`${storImagePath()}/images/ProductListing/Filtericons/filter-ring.png`} alt="filter-icon" />
+                    <span className="for_productList_filter_span">Filters</span>
+                  </button>
+                </div>
+                <Drawer sx={{
+                  zIndex: 9999999,
+                  '& .MuiDrawer-paper': {
+                    width: maxwidth375px ? '18rem' : maxwidth464px ? '22rem' : '25rem',
+                  },
+                }} open={open1} onClose={toggleDrawer(false)} className="for_productList_drawer_div">
+                  <div className="for_modal_cancel_btn_div_pd" onClick={toggleDrawer(false)}>
+                    <IoClose className='for_modal_cancel_btn_pd' size={28} />
                   </div>
-                  <div className="for_collection_filter_option_div">
-                    <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={trend}
-                        onChange={(e) => {
-                          handleSortby(e);
-                          handleChangeTrend(e);
-                        }}
-                        className="for_collection_filter_sort_select"
-                      >
-                        <MenuItem value='Recommended'>Recommended</MenuItem>
-                        <MenuItem value='New'>New</MenuItem>
-                        <MenuItem value='Trending'>Trending</MenuItem>
-                        {storeInit?.IsStockWebsite == 1 &&
-                          <MenuItem value='In Stock'>In Stock</MenuItem>
-                        }
+                  <div className="for_productLisrt_fillter_div_1" toggleDrawer={toggleDrawer}>
+                    {dropdownsData.map(({ index, title, data, type }) => (
+                      <CollectionDropdown
+                        key={index}
+                        handleOpen={handleOpen}
+                        open={open === index}
+                        type={type}
+                        handleButton={(value) => handleButton(index, value)}
+                        check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                        title={title}
+                        index={index}
+                        data={data}
+                        ref={(el) => (dropdownRefs.current[index] = el)}
+                        setSelectedMetalId={setSelectedMetalId}
+                        setSelectedDiaId={setSelectedDiaId}
+                        selectedMetalId={selectedMetalId}
+                        selectedDiaId={selectedDiaId}
+                        maxwidth1000px={maxwidth1000px}
+                      />
+                    ))}
 
-                        <MenuItem value='PRICE HIGH TO LOW'>Price High To Low</MenuItem>
-                        <MenuItem value='PRICE LOW TO HIGH'> Price Low To High</MenuItem>
-                      </Select>
-                    </FormControl>
+                    {rangeData?.map(({ index, title, data, type }) => {
+                      const Component = type === 'price' ? CollectionPriceRange : CollectionCaratRange;
+                      return (
+                        <Component
+                          key={index}
+                          handleOpen={handleOpen}
+                          open={open === index}
+                          title={title}
+                          index={index}
+                          handleSliderChange={type === 'price' ? handlePriceSliderChange : handleCaratSliderChange}
+                          data={data}
+                          maxwidth1000px={maxwidth1000px}
+                        />
+                      );
+                    })}
+
+                    <div className="for_collection_filter_dropdown_sort">
+                      <div className="for_collection_filter_label">
+                        <label>Sort by:</label>
+                      </div>
+                      <div className="for_collection_filter_option_div">
+                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120, background: 'transparent' }}>
+                          <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={trend}
+                            onChange={(e) => {
+                              handleSortby(e);
+                              handleChangeTrend(e);
+                            }}
+                            className="for_collection_filter_sort_select"
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  zIndex: 99999999,
+                                },
+                              },
+                            }}
+                          >
+                            <MenuItem value="Recommended">Recommended</MenuItem>
+                            <MenuItem value="New">New</MenuItem>
+                            <MenuItem value="Trending">Trending</MenuItem>
+                            {storeInit?.IsStockWebsite === 1 && (
+                              <MenuItem value="In Stock">In Stock</MenuItem>
+                            )}
+                            <MenuItem value="PRICE HIGH TO LOW">Price High To Low</MenuItem>
+                            <MenuItem value="PRICE LOW TO HIGH">Price Low To High</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </div>
+                    <div className="for_productList_shipping_div">
+                      <div className="for_collection_filter_dropdown_sort_ship">
+                        <div className="for_collection_filter_label_ship">
+                          <label>shipping date </label>
+                        </div>
+                        <div className="for_collection_filter_option_div_ship">
+                          <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_collection_filter_sort_select_ship"} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Drawer>
+              </>
+            ) : (
+              <div className="for_productList_collection_filter_mainDiv">
+                <div className="for_collection_filter_lists">
+                  {dropdownsData.map(({ index, title, data, type }) => (
+                    <CollectionDropdown
+                      key={index}
+                      handleOpen={handleOpen}
+                      open={open === index}
+                      type={type}
+                      handleButton={(value) => handleButton(index, value)}
+                      check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                      title={title}
+                      index={index}
+                      data={data}
+                      ref={(el) => (dropdownRefs.current[index] = el)}
+                      setSelectedMetalId={setSelectedMetalId}
+                      setSelectedDiaId={setSelectedDiaId}
+                      selectedMetalId={selectedMetalId}
+                      selectedDiaId={selectedDiaId}
+                    />
+                  ))}
+
+                  {rangeData?.map(({ index, title, data, type }) => {
+                    const Component = type === 'price' ? CollectionPriceRange : CollectionCaratRange;
+                    return (
+                      <Component
+                        key={index}
+                        handleOpen={handleOpen}
+                        open={open === index}
+                        title={title}
+                        index={index}
+                        handleSliderChange={type === 'price' ? handlePriceSliderChange : handleCaratSliderChange}
+                        data={data}
+                      />
+                    );
+                  })}
+
+                  <div className="for_collection_filter_dropdown_sort">
+                    <div className="for_collection_filter_label">
+                      <label>Sort by:</label>
+                    </div>
+                    <div className="for_collection_filter_option_div">
+                      <FormControl variant="standard" sx={{ m: 1, minWidth: 120, background: 'transparent' }}>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={trend}
+                          onChange={(e) => {
+                            handleSortby(e);
+                            handleChangeTrend(e);
+                          }}
+                          className="for_collection_filter_sort_select"
+                        >
+                          <MenuItem value="Recommended">Recommended</MenuItem>
+                          <MenuItem value="New">New</MenuItem>
+                          <MenuItem value="Trending">Trending</MenuItem>
+                          {storeInit?.IsStockWebsite === 1 && (
+                            <MenuItem value="In Stock">In Stock</MenuItem>
+                          )}
+                          <MenuItem value="PRICE HIGH TO LOW">Price High To Low</MenuItem>
+                          <MenuItem value="PRICE LOW TO HIGH">Price Low To High</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+
+
             <div className="for_productList_filter_display_mainDiv">
               <div className="for_productList_filter_data_div">
-                {selectedValues && (
-                  <div className="for_productList_filter_selected">
-                    {selectedValues?.map((item) => {
-                      return (
-                        <>
-                          {item?.dropdownIndex === 2 && (
-                            <>
-                              <div className="for_productList_filter_selected_value">{item?.value}</div>
-                              <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_productList_filter_selected_icon" /></div>
-                            </>
-                          )}
-                          {item?.dropdownIndex === 1 && (
-                            <>
-                              <div className="for_productList_filter_selected_value">{item?.value}</div>
-                              <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_productList_filter_selected_icon" /></div>
-                            </>
-                          )}
-                          {item?.dropdownIndex === 3 && (
-                            <>
-                              <div className="for_productList_filter_selected_value">{item?.value}</div>
-                              <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_productList_filter_selected_icon" /></div>
-                            </>
-                          )}
-                          {item?.dropdownIndex === 4 && (
-                            <>
-                              <div className="for_productList_filter_selected_value"> {`Price INR ${item.value[0]} - INR ${item.value[1]}`}</div>
-                              <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_productList_filter_selected_icon" /></div>
-                            </>
-                          )}
-                          {item?.dropdownIndex === 5 && (
-                            <>
-                              <div className="for_productList_filter_selected_value">{`Carat ${caratRangeValue[0]}CT - ${caratRangeValue[1]}CT`}</div>
-                              <div onClick={() => handleRemoveValues(item?.dropdownIndex)}><RxCross1 className="for_productList_filter_selected_icon" /></div>
-                            </>
-                          )}
-
-                        </>
-                      )
-                    })}
-                  </div>
-                )}
+                <div className="for_productList_filter_selected">
+                  {selectedValues.map((item) => {
+                    console.log('item: ', item);
+                    return (
+                      <>
+                        {item?.dropdownIndex === 2 && (
+                          <>
+                            <div className="for_productList_filter_selected_value">
+                              {item?.value ?? metalType?.[1]?.metaltype}
+                            </div>
+                            <div onClick={() => handleRemoveValues(item?.dropdownIndex)}>
+                              <RxCross1 className="for_productList_filter_selected_icon" />
+                            </div>
+                          </>
+                        )}
+                        {item?.dropdownIndex === 1 && (
+                          <>
+                            <div className="for_productList_filter_selected_value">{item?.value}</div>
+                            <div onClick={() => handleRemoveValues(item?.dropdownIndex)}>
+                              <RxCross1 className="for_productList_filter_selected_icon" />
+                            </div>
+                          </>
+                        )}
+                        {item?.dropdownIndex === 3 && (
+                          <>
+                            <div className="for_productList_filter_selected_value">
+                              {item?.value ?? `${diamondType?.[2]?.Quality}#${diamondType?.[2]?.color}`}
+                            </div>
+                            <div onClick={() => handleRemoveValues(item?.dropdownIndex)}>
+                              <RxCross1 className="for_productList_filter_selected_icon" />
+                            </div>
+                          </>
+                        )}
+                        {item?.dropdownIndex === 4 && (
+                          <>
+                            <div className="for_productList_filter_selected_value">
+                              {`Price INR ${item.value[0]} - INR ${item.value[1]}`}
+                            </div>
+                            <div onClick={() => handleRemoveValues(item?.dropdownIndex)}>
+                              <RxCross1 className="for_productList_filter_selected_icon" />
+                            </div>
+                          </>
+                        )}
+                        {item?.dropdownIndex === 5 && (
+                          <>
+                            <div className="for_productList_filter_selected_value">
+                              {`Carat ${caratRangeValue[0]}CT - ${caratRangeValue[1]}CT`}
+                            </div>
+                            <div onClick={() => handleRemoveValues(item?.dropdownIndex)}>
+                              <RxCross1 className="for_productList_filter_selected_icon" />
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )
+                  })}
+                </div>
                 <div className="" >
                   <button className="for_productList_reset_button" onClick={handleClearSelectedvalues}>Reset</button>
                 </div>
@@ -943,16 +1096,18 @@ const ProductList = () => {
               <div className="for_productList_total_filtered_data_div">
                 <span className="for_total_filtered_span">Showing {afterFilterCount || 0} results</span>
               </div>
-              <div className="for_productList_shipping_div">
-                <div className="for_collection_filter_dropdown_sort_ship">
-                  <div className="for_collection_filter_label_ship">
-                    <label>shipping date </label>
-                  </div>
-                  <div className="for_collection_filter_option_div_ship">
-                    <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_collection_filter_sort_select_ship"} />
+              {!maxwidth1000px && (
+                <div className="for_productList_shipping_div">
+                  <div className="for_collection_filter_dropdown_sort_ship">
+                    <div className="for_collection_filter_label_ship">
+                      <label>shipping date </label>
+                    </div>
+                    <div className="for_collection_filter_option_div_ship">
+                      <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_collection_filter_sort_select_ship"} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="for_productList_listing_div">
               {isOnlyProdLoading ? <div className="for_global_spinner"></div> : (
@@ -1000,7 +1155,7 @@ const ProductList = () => {
                 </div>
               )}
           </div>
-        </div>
+        </div >
       </div >
 
     </>
@@ -1022,14 +1177,16 @@ const CollectionDropdown = forwardRef(({
   data,
   selectedMetalId,
   selectedDiaId,
+  maxwidth1000px,
 }, ref) => {
+  const isOpen = maxwidth1000px || open;
   return (
     <div className="for_collection_filter_dropdown" onClick={() => handleOpen(index)} ref={ref}>
       <div className="for_collection_filter_label">
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={`for_collection_filter_option_div ${open ? 'open' : 'for_collection_filter_option_div_hide'}`}>
+      <div className={`for_collection_filter_option_div ${isOpen ? 'open' : 'for_collection_filter_option_div_hide'}`}>
         {data?.map((i) => {
           let isChecked = false;
 
@@ -1078,11 +1235,12 @@ const CollectionPriceRange = forwardRef(({
   index,
   handleSliderChange,
   data,
+  maxwidth1000px,
 }, ref) => {
   const handleSliderMouseDown = (event) => {
     event.stopPropagation(); // Prevent click from propagating to parent div
   };
-
+  const isOpen = maxwidth1000px || open;
   return (
     <div
       className="for_collection_filter_dropdown"
@@ -1093,7 +1251,7 @@ const CollectionPriceRange = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={open ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
+      <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
         <div className='for_collection_slider_div'>
           <Slider
             value={data}
@@ -1131,12 +1289,13 @@ const CollectionCaratRange = forwardRef(({
   index,
   handleSliderChange,
   data,
+  maxwidth1000px,
 }, ref) => {
 
   const handleSliderMouseDown = (event) => {
     event.stopPropagation(); // Prevent click from propagating to parent div
   };
-
+  const isOpen = maxwidth1000px || open;
   return (
     <div
       className="for_collection_filter_dropdown"
@@ -1147,7 +1306,7 @@ const CollectionCaratRange = forwardRef(({
         <label>{title}</label>
         <FaAngleDown />
       </div>
-      <div className={open ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
+      <div className={isOpen ? "for_collection_filter_option_div_slide" : 'for_collection_filter_option_div_slide_hide'}>
         <div className='for_collection_slider_div'>
           <Slider
             value={data}

@@ -667,7 +667,7 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
+              // setIsImageLoad(false)
               // setSelectedThumbImg({
               //   link: vidSkel,
               //   type: "img",
@@ -730,6 +730,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsImageLoad(false); 
+          setProdLoading(false);         
+        });
     }
 
     FetchProductData()
@@ -867,6 +871,16 @@ const ProductDetail = () => {
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
+
+
+  useEffect(()=>{
+    if(isImageload === false){
+      if(!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)){
+         setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+        // setIsImageLoad(false)
+      }
+    }
+  },[isImageload])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1197,6 +1211,11 @@ const ProductDetail = () => {
                     //   height: '100% !important',
                     //   // margin: "20px 0 0 0",
                     // }}
+                    sx={{
+                      width: "95%",
+                      height: "550px",
+                      margin: "20px 0 0 0",
+                    }}
                     className="dt_skeleton_main"
                     variant="rounded"
                   />
@@ -1222,11 +1241,7 @@ const ProductDetail = () => {
                   ) : (
                     <div className="dt_prod_video">
                       <video
-                        src={
-                          pdVideoArr?.length > 0
-                            ? selectedThumbImg?.link
-                            : imageNotFound
-                        }
+                        src={selectedThumbImg?.link}
                         loop={true}
                         autoPlay={true}
                         style={{

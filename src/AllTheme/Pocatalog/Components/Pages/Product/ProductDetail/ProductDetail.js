@@ -1220,7 +1220,7 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
+              // setIsImageLoad(false)
               // setSelectedThumbImg({
               //   link: "",
               //   type: "img",
@@ -1281,6 +1281,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsImageLoad(false); 
+          setProdLoading(false);         
+        });
     }
 
 
@@ -1534,6 +1538,15 @@ const ProductDetail = () => {
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
+
+  useEffect(()=>{
+    if(isImageload === false){
+      if(!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)){
+         setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+        // setIsImageLoad(false)
+      }
+    }
+  },[isImageload])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -2585,51 +2598,45 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                {/* <div className="Dt_swiper_container">
-                                <Swiper
-                                    spaceBetween={10}
-                                    lazy={true}
-                                    navigation={true}
-                                    breakpoints={{
-                                        1024: {
-                                            slidesPerView: 4,
-                                        },
-                                        768: {
-                                            slidesPerView: 2,
-                                        },
-                                        0: {
-                                            slidesPerView: 2,
-                                        }
-                                    }}
-                                    modules={[Keyboard, FreeMode, Navigation]}
-                                    keyboard={{ enabled: true }}
-                                    pagination={false}
-                                    className='dt_album_swiper_SubDiv'
-                                >
-                                    {fakeData?.map((design) => {
-                                        const imageSrc = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
-                                        return (
-                                            <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
-                                                <div 
-                                                className="design-slide" 
-                                                >
-                                                    <img
-                                                        src={imageSrc ?? imageNotFound}
-                                                        alt={design?.TitleLine}
-                                                        loading="lazy"
-                                                    />
-                                                </div>
-                                                <div className="design-info">
-                                                    <p className='smr_album1price'>
-                                                        {design?.designno}
-                                                    </p>
-                                                   
-                                                </div>
-                                            </SwiperSlide>
-                                        );
-                                    })}
-                                </Swiper>
-                    </div> */}
+                {/* <p className="smr_details_title" style={{fontSize:'20px',marginLeft:'40px',textAlign:'center'}}> MORE PRODUCTS</p>
+                <div className="smr_swiper_container">
+                    <Swiper
+                        spaceBetween={10}
+                        lazy={true}
+                        navigation={true}
+                        breakpoints={{
+                            1024: {
+                                slidesPerView: 4,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                            },
+                            0: {
+                                slidesPerView: 2,
+                            }
+                        }}
+                        modules={[Keyboard, FreeMode, Navigation]}
+                        keyboard={{ enabled: true }}
+                        pagination={false}
+                    >
+                      {
+                        fakeData.map((ele)=>{
+                          const imageSrc = `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`;
+                          return (
+                            <SwiperSlide key={ele?.autocode} className="swiper-slide-custom">
+                                <div className="procat_design_slide_detailpage">
+                                <img
+                                  src={imageSrc ?? imageNotFound}
+                                  alt={ele?.TitleLine}
+                                  loading="lazy"
+                                />
+                                </div>
+                            </SwiperSlide>
+                          )
+                        })
+                      }
+                    </Swiper>
+                </div> */}
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">

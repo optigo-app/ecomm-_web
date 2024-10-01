@@ -27,7 +27,7 @@ import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, A11y,Thumbs,FreeMode,Keyboard } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
@@ -616,11 +616,11 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
-              setSelectedThumbImg({
-                link: "",
-                type: "img",
-              });
+              // setIsImageLoad(false)
+              // setSelectedThumbImg({
+              //   link: "",
+              //   type: "img",
+              // });
             }
 
             if (!res?.pdList[0]) {
@@ -678,6 +678,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(()=>{
+          setIsImageLoad(false)
+          setProdLoading(false)
+        })
     }
 
     FetchProductData()
@@ -1256,94 +1260,124 @@ const ProductDetail = () => {
 
                       <div
                         className="smr_main_prod_img"
-                        style={{ display: isImageload ? 'none' : 'block' }}
+                        style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {selectedThumbImg?.type === 'img' ? (
-                          <Swiper
-                            modules={[Navigation]}
-                            spaceBetween={10}
-                            slidesPerView={1}
-                            navigation
-                            loop
-                            className="mainSwiper"
-                          >
-                            {pdThumbImg?.map((img, index) => (
-                              <SwiperSlide key={index}>
-                                <img
-                                  src={img}
-                                  alt={`Image ${index}`}
-                                  onError={() => setSelectedThumbImg({ link: imageNotFound, type: 'img' })}
-                                  onLoad={() => setIsImageLoad(false)}
-                                  className="proCatApp_prod_img"
+                        <Swiper
+                        slidesPerView={1}
+                        spaceBetween={10}
+                          modules={[Keyboard, FreeMode, Navigation,Thumbs,Pagination]}
+                          keyboard={{ enabled: true }}
+                          navigation={true}
+                          loop={true}
+                          pagination={{
+                            clickable: true,
+                          }}
+                        >
+                          {
+                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
+                            ([...pdThumbImg,...pdVideoArr]?.map((ele,i)=>(
+                              <SwiperSlide key={i}>
+                              {ele?.split(".")[1] !== "mp4" ? (
+                              <img
+                                // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                src={ele ?? imageNotFound}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />
+                              ) : (
+                              <div
+                                className="smr_app_prod_video"
+                              >
+                                <video
+                                  src={ele ?? imageNotFound}
+                                  loop={true}
+                                  autoPlay={true}
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    // marginTop: "40px",
+                                    height: "90%",
+                                    borderRadius: "8px",
+                                  }}
                                 />
+                              </div>
+                            )}
                               </SwiperSlide>
-                            ))}
-                          </Swiper>
-
-                          // <img
-                          //   src={selectedThumbImg?.link}
-                          //   onError={() => setSelectedThumbImg({ link: imageNotFound, type: 'img' })}
-                          //   alt=""
-                          //   onLoad={() => setIsImageLoad(false)}
-                          //   className="smr_prod_img"
-                          // />
+                            )))
+                            :
+                            (
+                              <img
+                                src={imageNotFound}
+                                // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                // alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />                        
+                            )
+                          }
+                        </Swiper>                        
+                        
+                        {/* {selectedThumbImg?.type == "img" ? (
+                          <img
+                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                            src={selectedThumbImg?.link}
+                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                            alt={""}
+                            onLoad={() => setIsImageLoad(false)}
+                            className="smr_prod_img"
+                          />
                         ) : (
-                          <div className="smr_app_prod_video">
+                          <div
+                            className="smr_app_prod_video"
+                          >
                             <video
                               src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
-                                width: '100%',
-                                objectFit: 'cover',
-                                height: '90%',
-                                borderRadius: '8px',
+                                width: "100%",
+                                objectFit: "cover",
+                                // marginTop: "40px",
+                                height: "90%",
+                                borderRadius: "8px",
                               }}
                             />
                           </div>
-                        )}
+                        )} */}
 
-                        <div className="smr_app_thumb_prod_img">
-                          {pdThumbImg?.length > 1 && (
-                            <Swiper
-                              modules={[Navigation]}
-                              spaceBetween={10}
-                              slidesPerView={3}
-                              navigation
-                              loop
-                              className="mySwiper"
-                            >
-                              {pdThumbImg?.map((ele, index) => (
-                                <SwiperSlide key={index} className="proCatApp_app_prod_thumb_img_main">
-                                  <img
-                                    src={ele}
-                                    alt=""
-                                    onLoad={() => setIsImageLoad(false)}
-                                    className="proCatApp_app_prod_thumb_img"
-                                    onClick={() => setSelectedThumbImg({ link: ele, type: 'img' })}
-                                  />
-                                </SwiperSlide>
-                              ))}
-                            </Swiper>
-                          )}
-
-                          {pdVideoArr?.map((data, index) => (
+                        {/* <div className="smr_app_thumb_prod_img">
+                          {pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
+                            <img
+                              src={""}
+                              alt={""}
+                              onLoad={() => setIsImageLoad(false)}
+                              className="smr_app_prod_thumb_img"
+                              onClick={() =>
+                                setSelectedThumbImg({ link: ele, type: "img" })
+                              }
+                            />
+                          ))}
+                          {pdVideoArr?.map((data) => (
                             <div
-                              key={index}
                               style={{
-                                position: 'relative',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
+                                position: "relative",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
                               }}
-                              className="prodAppVideo_app_prod_thumb_img"
-                              onClick={() => setSelectedThumbImg({ link: data, type: 'vid' })}
+                              className="smr_app_prod_thumb_img"
+                              onClick={() =>
+                                setSelectedThumbImg({ link: data, type: "vid" })
+                              }
                             >
-                              <FaPlayCircle style={{ height: '25px', width: '25px' }} />
+                          
                             </div>
                           ))}
-                        </div>
-                      </div>
+                    </div> */}
+                    
+                  </div>
                     </div>
                     <div className="smr_prod_shortInfo">
                       <div className="smrMA_prod_shortInfo_inner">
@@ -1431,7 +1465,7 @@ const ProductDetail = () => {
                                 onChange={(e) => handleMetalWiseColorImg(e)}
                               >
                                 {metalColorCombo?.map((ele) => (
-                                  <option key={ele?.id} value={ele?.metalcolorname}>
+                                  <option key={ele?.id} value={ele?.colorcode}>
                                     {ele?.metalcolorname}
                                   </option>
                                 ))}
@@ -1770,7 +1804,7 @@ const ProductDetail = () => {
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (<p className="smr_app_details_title"> Product Details</p>)}
                   <div style={{ width: '100%', border: '1px solid #80808038' }}>
                     {diaList?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -1801,7 +1835,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -1832,7 +1866,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"

@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
-import { roop_cartB2CDrawer, roop_CartCount, roop_CartNo, roop_companyLogo, roop_loginState, roop_WishCount } from "../../../Recoil/atom";
+import { roop_cartB2CDrawer, roop_CartCount, roop_CartNo, roop_companyLogo, roop_companyLogoM, roop_loginState, roop_WishCount } from "../../../Recoil/atom";
 import { MdAccountBox } from "react-icons/md";
 
 const Header = () => {
@@ -31,6 +31,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
   const compnyLogo = useRecoilValue(roop_companyLogo);
+  const compnyLogoM = useRecoilValue(roop_companyLogoM);
   const [islogin, setislogin] = useRecoilState(roop_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -367,6 +368,7 @@ const Header = () => {
         };
 
         let encodeObj = btoa(JSON.stringify(obj))
+        setDrawerShowOverlay(false);
         navigation(`/p/${searchText}?S=${encodeObj}`);
         setSearchText("")
       }
@@ -415,8 +417,8 @@ const Header = () => {
     <div className="roop_headerMain_div">
       {/* {serachsShowOverlay && (
         <>
-          <div className="smr_smlingSearchoverlay">
-            <div className="smr_smlingTopSerachOver">
+          <div className="roop_smlingSearchoverlay">
+            <div className="roop_smlingTopSerachOver">
               <IoSearchOutline
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
@@ -426,7 +428,7 @@ const Header = () => {
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
-                className="smr_serachinputBoxOverly"
+                className="roop_serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
               />
               <IoClose
@@ -442,10 +444,10 @@ const Header = () => {
           </div>
 
           <div
-            className={`smr_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
+            className={`roop_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
               }`}
           >
-            <div className="smr_smlingTopSerachOver-Fixed">
+            <div className="roop_smlingTopSerachOver-Fixed">
               <IoSearchOutline
                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
               />
@@ -455,7 +457,7 @@ const Header = () => {
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
-                className="smr_serachinputBoxOverly"
+                className="roop_serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
               />
               <IoClose
@@ -474,7 +476,7 @@ const Header = () => {
 
       {drawerShowOverlay && (
         <>
-          <div className="srm_MobileSiderBarMain">
+          <div className="roop_MobileSiderBarMain">
             <div
               style={{
                 margin: "20px 10px 0px 10px",
@@ -482,7 +484,7 @@ const Header = () => {
                 justifyContent: "space-between",
               }}
             >
-              <div className="smr_mobileHeader_top_div1">
+              <div className="roop_mobileHeader_top_div1">
                 <IoClose
                   style={{
                     height: "30px",
@@ -493,17 +495,17 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="smr_mobileHeader_top_div2">
+              <div className="roop_mobileHeader_top_div2">
                 <a href="/">
                   <img
                     src={compnyLogo}
                     loading="lazy"
-                    className="smr_logo_header"
+                    className="roop_logo_header"
                   />
                 </a>
               </div>
 
-              <div className="smr_mobileHeader_top_div3">
+              <div className="roop_mobileHeader_top_div3">
                 {islogin && (
                   <>
                     <Badge
@@ -511,7 +513,7 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix smr_mobileHideIcone"
+                      className="badgeColorFix roop_mobileHideIcone"
                       style={{ marginInline: "15px" }}
                     >
                       <Tooltip title="WishList">
@@ -530,7 +532,7 @@ const Header = () => {
                       </Tooltip>
                     </Badge>
                     <li
-                      className="nav_li_smining_Icone smr_mobileHideIcone"
+                      className="nav_li_smining_Icone roop_mobileHideIcone"
                       onClick={toggleOverlay}
                       style={{}}
                     >
@@ -567,9 +569,52 @@ const Header = () => {
                 )}
               </div>
             </div>
-            <div className="smr_mobileMenuSubDivMain">
+
+            {islogin && (
+              <div
+                style={{
+                  display: "flex",
+                  border: "1px solid white",
+                  alignItems: "center",
+                  height: '40px',
+                  justifyContent: 'center',
+                  marginInline: "5px",
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={searchText}
+                  autoFocus
+                  onChange={(e) => setSearchText(e.target.value)}
+                  className="mobileSideBarSearch"
+                  onKeyDown={searchDataFucn}
+                  style={{
+                    width: "100%",
+                    border: "none",
+                    outline: "none",
+                    backgroundColor: "transparent",
+                    fontWeight: 500,
+                    color: "white",
+                    fontSize: "17px",
+                  }}
+                 
+                />
+                <IoSearchOutline
+                  style={{
+                    height: "20px",
+                    cursor: "pointer",
+                    color: "white",
+                    width: "20px",
+                    marginInline: "5px",
+                  }}
+                />
+              </div>
+            )}
+
+            <div className="roop_mobileMenuSubDivMain">
               <List
-                className="smr_ListMenuSiderMobile"
+                className="roop_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
               >
                 {menuItems.map((menuItem) => (
@@ -592,7 +637,7 @@ const Header = () => {
                           borderBottom: "1px solid white",
                         }}
                       >
-                        <p className="smr_menuStaicMobile">
+                        <p className="roop_menuStaicMobile">
                           {menuItem.menuname}
                         </p>
                       </ListItem>
@@ -621,12 +666,12 @@ const Header = () => {
                               marginTop: "5px",
                             }}
                           >
-                            <button className="smr_mobile_viewAllBtn">
+                            <button className="roop_mobile_viewAllBtn">
                               View All
                             </button>
                           </div>
                         </ButtonBase>
-                        <List className="smr_mobileMenuScroll">
+                        <List className="roop_mobileMenuScroll">
                           {menuItem.param1.map((subMenuItem) => (
                             <div key={subMenuItem.param1dataid}>
                               <ButtonBase
@@ -698,7 +743,7 @@ const Header = () => {
                                             justifyContent: "start",
                                           }}
                                         >
-                                          <p className="smr_mobile_subMenu">
+                                          <p className="roop_mobile_subMenu">
                                             {subSubMenuItem.param2dataname}
                                           </p>
                                         </ButtonBase>
@@ -717,12 +762,12 @@ const Header = () => {
               </List>
             </div>
             <div>
-              <p className="smr_menuStaicMobilePage">About us</p>
+              <p className="roop_menuStaicMobilePage">About us</p>
             </div>
 
-            <div>
+            {islogin == true && <div>
               <p
-                className="smr_menuStaicMobilePageLink"
+                className="roop_menuStaicMobilePageLink"
                 style={{ marginTop: "10px" }}
                 onClick={() => {
                   setDrawerShowOverlay(false);
@@ -732,13 +777,14 @@ const Header = () => {
                 WishList
               </p>
             </div>
+            }
 
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
                 <>
                   {storeinit?.IsDesignSetInMenu == 1 &&
                     <p
-                      className="smr_menuStaicMobilePageLink"
+                      className="roop_menuStaicMobilePageLink"
                       style={{ marginTop: "10px" }}
                       onClick={() => {
                         setDrawerShowOverlay(false);
@@ -757,7 +803,7 @@ const Header = () => {
               <>
                 {storeinit?.IsDesignSetInMenu == 1 &&
                   <p
-                    className="smr_menuStaicMobilePageLink"
+                    className="roop_menuStaicMobilePageLink"
                     style={{ marginTop: "10px" }}
                     onClick={() => {
                       setDrawerShowOverlay(false);
@@ -772,67 +818,32 @@ const Header = () => {
             )}
 
             {
-              islogin && <div>
-                <p
-                  className="smr_menuStaicMobilePageLink"
-                  onClick={() => {
-                    setDrawerShowOverlay(false);
-                    navigation("/account");
-                  }}
-                >
-                  Account
-                </p>
-              </div>
+              islogin &&
+              <>
+                <div>
+                  <p
+                    className="roop_menuStaicMobilePageLink"
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      navigation("/account");
+                    }}
+                  >
+                    Account
+                  </p>
+                </div>
+                <div>
+                  <p
+                    className="roop_menuStaicMobilePageLink"
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      handleLogout();
+                    }}
+                  >
+                    Log Out
+                  </p>
+                </div>
+              </>
             }
-
-            <div>
-              <p
-                className="smr_menuStaicMobilePageLink"
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  handleLogout();
-                }}
-              >
-                Log Out
-              </p>
-            </div>
-
-            {islogin && (
-              <div
-                style={{
-                  display: "flex",
-                  borderBottom: "1px solid white",
-                  alignItems: "end",
-                  marginInline: "15px",
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Search"
-                  style={{
-                    width: "100%",
-                    borderBottom: "1px solid white",
-                    border: "none",
-                    outline: "none",
-                    backgroundColor: "rgba(192, 187, 177, 1.8)",
-                    marginTop: "15px",
-                    fontWeight: 500,
-                    color: "white",
-                    fontSize: "17px",
-                  }}
-                  className="mobileSideBarSearch"
-                />
-                <IoSearchOutline
-                  style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    color: "white",
-                    width: "20px",
-                    marginInline: "5px",
-                  }}
-                />
-              </div>
-            )}
           </div>
         </>
       )}
@@ -847,7 +858,7 @@ const Header = () => {
               <img
                 src={compnyLogo}
                 loading="lazy"
-                className="smr_logo_header"
+                className="roop_logo_header"
               />
             </a>
           </div>
@@ -869,42 +880,6 @@ const Header = () => {
           </div>
           <div className="roop_Top2_header_div3">
             <ul className="nav_ul_shop">
-
-
-              {/* <li
-                className="nav_li_roop nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
-              >
-                <a href="/servicePolicy" className="stam_A_link">
-                  SERVICE POLICY
-                </a>
-              </li>
-
-              <li
-                className="nav_li_roop nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
-              >
-                <a href="/ExpertAdvice" className="stam_A_link">
-                  EXPERT ADVICE
-                </a>
-              </li> */}
-
-              {/* <li
-                className="nav_li_roop nav_li_smining_Mobile"
-                style={{ cursor: "pointer" }}
-                onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-              >
-                <a href="/FunFact" className="stam_A_link">
-                  FUN FACT
-                </a>
-              </li> */}
-
-
-            </ul>
-
-            <ul className="nav_ul_shop">
               {IsB2BWebsiteChek == 0 ? (
                 <>
                   <Badge
@@ -912,7 +887,7 @@ const Header = () => {
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
-                    className="badgeColorFix smr_mobileHideIcone"
+                    className="badgeColorFix roop_mobileHideIcone"
                   >
                     <Tooltip title="WishList">
                       <li
@@ -930,7 +905,7 @@ const Header = () => {
                     </Tooltip>
                   </Badge>
                   <li
-                    className="nav_li_smining_Icone smr_mobileHideIcone"
+                    className="nav_li_smining_Icone roop_mobileHideIcone"
                     onClick={toggleOverlay}
                     style={{}}
                   >
@@ -969,7 +944,7 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix smr_mobileHideIcone"
+                      className="badgeColorFix roop_mobileHideIcone"
                     >
                       <Tooltip title="WishList">
                         <li
@@ -1036,6 +1011,26 @@ const Header = () => {
           </div>
         </div>
         <div className="roop_top_header3">
+          <div className="roop_top_header3_logo_Web">
+            <a href="/">
+              <img
+                src={compnyLogo}
+                loading="lazy"
+                className="roop_logo_header"
+              />
+            </a>
+          </div>
+
+          <div className="roop_top_header3_logo_mobile">
+            <a href="/">
+              <img
+                src={compnyLogoM}
+                loading="lazy"
+                className="roop_logo_header"
+              />
+            </a>
+          </div>
+
           <ul className="nav_ul_shop_menu_Mobile">
             <MenuIcon
               style={{ fontSize: "35px", color: "black" }}
@@ -1119,17 +1114,6 @@ const Header = () => {
             </a>
           </li>
 
-          <li
-            className="nav_li_roop nav_li_smining_Mobile"
-            style={{ cursor: "pointer" }}
-            onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-          >
-            <a href="/FunFact" className="stam_A_link">
-              FUN FACT
-            </a>
-          </li>
-
-
           {/* {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <>
@@ -1171,7 +1155,7 @@ const Header = () => {
                 <img
                   src={compnyLogo}
                   loading="lazy"
-                  className="smr_logo_header_Fixed"
+                  className="roop_logo_header_Fixed"
                 />
               </a>
             </div>
@@ -1236,7 +1220,7 @@ const Header = () => {
                           style={{ cursor: "pointer" }}
                           onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                         >
-                          <a href="/Lookbook" className="smr_A_linkFixed">
+                          <a href="/Lookbook" className="roop_A_linkFixed">
                             {storeinit?.DesignSetInMenu}
                           </a>
                         </li>
@@ -1253,7 +1237,7 @@ const Header = () => {
                         style={{ cursor: "pointer" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
                       >
-                        <a href="/Lookbook" className="smr_A_linkFixed">
+                        <a href="/Lookbook" className="roop_A_linkFixed">
                           {storeinit?.DesignSetInMenu}
                         </a>
                       </li>
@@ -1266,7 +1250,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
                 >
-                  <a href="/servicePolicy" className="smr_A_linkFixed">
+                  <a href="/servicePolicy" className="roop_A_linkFixed">
                     SERVICE POLICY
                   </a>
                 </li>
@@ -1276,7 +1260,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
                 >
-                  <a href="/ExpertAdvice" className="smr_A_linkFixed">
+                  <a href="/ExpertAdvice" className="roop_A_linkFixed">
                     EXPERT ADVICE
                   </a>
                 </li>
@@ -1286,7 +1270,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
                 >
-                  <a href="/FunFact" className="smr_A_linkFixed">
+                  <a href="/FunFact" className="roop_A_linkFixed">
                     FUN FACT
                   </a>
                 </li>
@@ -1308,7 +1292,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
                 >
-                  <a href="/aboutUs" className="smr_A_linkFixed">
+                  <a href="/aboutUs" className="roop_A_linkFixed">
                     ABOUT US
                   </a>
                 </li>
@@ -1362,11 +1346,11 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColor smr_mobileHideIcone"
+                      className="badgeColor roop_mobileHideIcone"
                     >
                       <Tooltip title="WishList">
                         <li
-                          className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                          className="nav_li_smining_Fixed_Icone roop_mobileHideIcone"
                           onClick={() => navigation("/myWishList")}
                         >
                           <PiStarThin
@@ -1380,7 +1364,7 @@ const Header = () => {
                       </Tooltip>
                     </Badge>
                     <li
-                      className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                      className="nav_li_smining_Fixed_Icone roop_mobileHideIcone"
                       onClick={toggleOverlay}
                       style={{}}
                     >
@@ -1419,11 +1403,11 @@ const Header = () => {
                         max={1000}
                         overlap={"rectangular"}
                         color="secondary"
-                        className="badgeColor smr_mobileHideIcone"
+                        className="badgeColor roop_mobileHideIcone"
                       >
                         <Tooltip title="WishList">
                           <li
-                            className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                            className="nav_li_smining_Fixed_Icone roop_mobileHideIcone"
                             onClick={() => navigation("/myWishList")}
                           >
                             <PiStarThin
@@ -1437,7 +1421,7 @@ const Header = () => {
                         </Tooltip>
                       </Badge>
                       <li
-                        className="nav_li_smining_Fixed_Icone smr_mobileHideIcone"
+                        className="nav_li_smining_Fixed_Icone roop_mobileHideIcone"
                         onClick={toggleOverlay}
                         style={{}}
                       >
@@ -1497,7 +1481,7 @@ const Header = () => {
               borderTop: '3px solid #3d3dae'
               // marginTop: isHeaderFixed && "20px",
             }}
-            className="smr_showDropOptionMainDiv"
+            className="roop_showDropOptionMainDiv"
             onMouseEnter={handleDropdownOpen}
             onMouseLeave={handleDropdownClose}
           >
@@ -1505,7 +1489,7 @@ const Header = () => {
               {menuItems.map((menuItem) => (
                 <div
                   key={menuItem.menuid}
-                  className="smr_headerOptionSingleDiv"
+                  className="roop_headerOptionSingleDiv"
                   style={{
                     minWidth: "fitContent",
                     borderRight: "1px solid lightgray",
@@ -1530,7 +1514,7 @@ const Header = () => {
                       href={`/p/${menuItem?.menuname}/?M=${btoa(
                         `${menuItem?.param0dataname}/${menuItem?.param0name}`
                       )}`}
-                      className="smr_menuSubTitle"
+                      className="roop_menuSubTitle"
                     // onClick={() =>
                     //   handelMenu({
                     //     menuname: menuItem?.menuname,
@@ -1548,10 +1532,10 @@ const Header = () => {
                       style={{ display: 'flex', justifyContent: 'start' }}
                     >
                       <div style={{ paddingLeft: '10px', fontSize: '15px', marginTop: '5px' }}>
-                        <button className="smr_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
+                        <button className="roop_underline_button" onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname })}>view all</button>
                       </div>
                     </ButtonBase> */}
-                    <List className="smr_listMain">
+                    <List className="roop_listMain">
                       {menuItem.param1.map((subMenuItem) => (
                         <div key={subMenuItem.param1dataid}>
                           <ButtonBase
@@ -1564,13 +1548,13 @@ const Header = () => {
                             }}
                             onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e)}
                           >
-                            {/* <a href='#' className='smr_menuSubTitle'> */}
+                            {/* <a href='#' className='roop_menuSubTitle'> */}
                             <a
                               href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
                                 }/?M=${btoa(
                                   `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
                                 )}`}
-                              className="smr_menuSubTitle"
+                              className="roop_menuSubTitle"
 
                             // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                             >
@@ -1621,7 +1605,7 @@ const Header = () => {
                                       }/?M=${btoa(
                                         `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
                                       )}`}
-                                    className="smr_menuSubTitle"
+                                    className="roop_menuSubTitle"
                                   // onClick={() =>
                                   //   handelMenu(
                                   //     {
@@ -1653,7 +1637,7 @@ const Header = () => {
                         </div>
                       ))}
                       <button
-                        className="smr_underline_button"
+                        className="roop_underline_button"
                         onClick={() =>
                           handelMenu({
                             menuname: menuItem?.menuname,

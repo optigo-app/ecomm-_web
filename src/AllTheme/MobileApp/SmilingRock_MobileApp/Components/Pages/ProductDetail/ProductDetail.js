@@ -27,7 +27,7 @@ import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import {FreeMode, Navigation, Pagination, Keyboard,Scrollbar, A11y, Thumbs } from 'swiper/modules';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -373,7 +373,6 @@ const ProductDetail = () => {
 
 
 
-
   useEffect(() => {
 
     let finalSize = SizeCombo?.rd1?.filter((ele) => ele?.sizename == sizeData)
@@ -615,12 +614,12 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setProdLoading(false);
               // setIsImageLoad(false)
               // setSelectedThumbImg({
               //   link: "",
               //   type: "img",
               // });
+              setProdLoading(false)
             }
 
             if (!res?.pdList[0]) {
@@ -678,10 +677,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsImageLoad(false);
-          setProdLoading(false);
-        });
+        .finally(()=>{
+          setIsImageLoad(false)
+          setProdLoading(false)
+        })
     }
 
     FetchProductData()
@@ -1008,24 +1007,11 @@ const ProductDetail = () => {
     }
 
     return finalprodListimg;
-
-
   };
-
-  console.log("pdThumbImg", pdVideoArr);
 
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
-
-  useEffect(() => {
-    if (isImageload === false) {
-      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
-        // setIsImageLoad(false)
-      }
-    }
-  }, [isImageload])
 
 
   const decodeEntities = (html) => {
@@ -1108,7 +1094,7 @@ const ProductDetail = () => {
 
     if (FinalPdColImgList?.length > 0 && (isImgCol == true)) {
       setPdThumbImg(FinalPdColImgList)
-      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' });
+      setSelectedThumbImg({ "link": FinalPdColImgList[thumbImgIndex], "type": 'img' })
       setThumbImgIndex(thumbImgIndex)
 
     }
@@ -1268,11 +1254,69 @@ const ProductDetail = () => {
                         />
                       )}
 
+
                       <div
                         className="smr_main_prod_img"
                         style={{ display: isImageload ? "none" : "block" }}
                       >
-                        {selectedThumbImg?.type == "img" ? (
+                        <Swiper
+                        slidesPerView={1}
+                        spaceBetween={10}
+                          modules={[Keyboard, FreeMode, Navigation,Thumbs,Pagination]}
+                          keyboard={{ enabled: true }}
+                          navigation={true}
+                          loop={true}
+                          pagination={{
+                            clickable: true,
+                          }}
+                        >
+                          {
+                            !(isImageload === false && !(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0))  ?
+                            ([...pdThumbImg,...pdVideoArr]?.map((ele,i)=>(
+                              <SwiperSlide key={i}>
+                              {ele?.split(".")[1] !== "mp4" ? (
+                              <img
+                                // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                                src={ele ?? imageNotFound}
+                                onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />
+                              ) : (
+                              <div
+                                className="smr_app_prod_video"
+                              >
+                                <video
+                                  src={ele ?? imageNotFound}
+                                  loop={true}
+                                  autoPlay={true}
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    // marginTop: "40px",
+                                    height: "90%",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            )}
+                              </SwiperSlide>
+                            )))
+                            :
+                            (
+                              <img
+                                src={imageNotFound}
+                                // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                                // alt={""}
+                                onLoad={() => setIsImageLoad(false)}
+                                className="smr_prod_img"
+                              />                        
+                            )
+                          }
+                        </Swiper>                        
+                        
+                        {/* {selectedThumbImg?.type == "img" ? (
                           <img
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             src={selectedThumbImg?.link}
@@ -1286,7 +1330,7 @@ const ProductDetail = () => {
                             className="smr_app_prod_video"
                           >
                             <video
-                              src={selectedThumbImg?.link}
+                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                               loop={true}
                               autoPlay={true}
                               style={{
@@ -1298,9 +1342,9 @@ const ProductDetail = () => {
                               }}
                             />
                           </div>
-                        )}
+                        )} */}
 
-                        <div className="smr_app_thumb_prod_img">
+                        {/* <div className="smr_app_thumb_prod_img">
                           {pdThumbImg?.length > 1 && pdThumbImg?.map((ele) => (
                             <img
                               src={""}
@@ -1325,203 +1369,187 @@ const ProductDetail = () => {
                                 setSelectedThumbImg({ link: data, type: "vid" })
                               }
                             >
-                              {/* <video
-                            src={data}
-                            autoPlay={true}
-                            loop={true}
-                            className="smr_prod_thumb_img"
-                            style={{ height: "70px", objectFit: "cover" }}
-                          />
-                          <IoIosPlayCircle
-                            style={{
-                              position: "absolute",
-                              color: "white",
-                              width: "35px",
-                              height: "35px",
-                            }}
-                          /> */}
+                          
                             </div>
                           ))}
-                          {/* <div className="smr_thumb_prod_img">
-                      
-                      </div> */}
-                        </div>
+                    </div> */}
+                    
+                  </div>
+                </div>
+                <div className="smr_prod_shortInfo">
+                  <div className="smrMA_prod_shortInfo_inner">
+                    <p className="smr_prod_titleLine_app">
+                      {singleProd?.TitleLine}
+                    </p>
+                    <div className="smr_prod_summury_info">
+                      <div className="smr_prod_summury_info_inner">
+                        <span className="smr_single_prod_designno">
+                          {singleProd?.designno}
+                        </span>
+                        {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
+                          Metal Purity :{" "}
+                          <span className="smr_prod_short_val">
+                          {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
+                          </span>
+                        </span>: null}
+                        <span className="smr_prod_short_key">
+                          Metal Color :{" "}
+                          <span className="smr_prod_short_val">
+                          {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                                    (ele) => ele?.colorcode == selectMtColor
+                                          )[0]?.metalcolorname}
+                          </span>
+                        </span>
+                        {(diaList?.length > 0 && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
+                          Diamond Quality & Color:{" "}
+                          <span className="smr_prod_short_val">
+                          {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
+                          </span>
+                        </span> : null}
+                        {storeInit?.IsMetalWeight == 1 ?<span className="smr_prod_short_key">
+                          Net Wt:{" "}
+                          <span className="smr_prod_short_val">{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                        </span> : null}
                       </div>
                     </div>
-                    <div className="smr_prod_shortInfo">
-                      <div className="smrMA_prod_shortInfo_inner">
-                        <p className="smr_prod_titleLine_app">
-                          {singleProd?.TitleLine}
-                        </p>
-                        <div className="smr_prod_summury_info">
-                          <div className="smr_prod_summury_info_inner">
-                            <span className="smr_single_prod_designno">
-                              {singleProd?.designno}
-                            </span>
-                            {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
-                              Metal Purity :{" "}
-                              <span className="smr_prod_short_val">
-                                {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
-                              </span>
-                            </span> : null}
-                            <span className="smr_prod_short_key">
-                              Metal Color :{" "}
-                              <span className="smr_prod_short_val">
-                                {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
-                                  (ele) => ele?.colorcode == selectMtColor
-                                )[0]?.metalcolorname}
-                              </span>
-                            </span>
-                            {(diaList?.length > 0 && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
-                              Diamond Quality & Color:{" "}
-                              <span className="smr_prod_short_val">
-                                {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
-                              </span>
-                            </span> : null}
-                            {storeInit?.IsMetalWeight == 1 ? <span className="smr_prod_short_key">
-                              Net Wt:{" "}
-                              <span className="smr_prod_short_val">{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
-                            </span> : null}
-                          </div>
-                        </div>
-                        {storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
-                          <div className="smr_single_prod_customize_metal">
-                            <label className="menuItemTimeEleveDeatil">
-                              METAL TYPE:
-                            </label>
-                            {singleProd?.IsMrpBase == 1 ? (
-                              <span className="menuitemSelectoreMain">
-                                {/* {
+                    { storeInit?.IsProductWebCustomization == 1 && <div className="smr_single_prod_customize">
+                      <div className="smr_single_prod_customize_metal">
+                        <label className="menuItemTimeEleveDeatil">
+                          METAL TYPE:
+                        </label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                                  <span className="menuitemSelectoreMain">
+                                    {/* {
                                       metalTypeCombo?.filter(
                                         (ele) =>
                                           ele?.Metalid ==
                                           singleProd?.MetalPurityid
                                       )[0]?.metaltype
                                     } */}
-                                {singleProd?.MetalTypePurity}
-                              </span>
-                            ) : (
-                              <select
-                                className="menuitemSelectoreMain"
-                                value={selectMtType}
-                                // onChange={(e) => setSelectMtType(e.target.value)}
-                                onChange={(e) => handleCustomChange(e, "mt")}
-                              >
-                                {metalTypeCombo.map((ele) => (
-                                  <option key={ele?.Metalid} value={ele?.metaltype}>
-                                    {ele?.metaltype}
-                                  </option>
-                                ))}
-                              </select>)}
-                          </div>
-                          <div className="smr_single_prod_customize_outer">
-                            <label className="menuItemTimeEleveDeatil">
-                              METAL COLOR:
-                            </label>
-                            {singleProd?.IsMrpBase == 1 ? (
-                              <span className="menuitemSelectoreMain">
-                                {
-                                  metalColorCombo?.filter(
-                                    (ele) =>
-                                      ele?.id == singleProd?.MetalColorid
-                                  )[0]?.metalcolorname
-                                }
-                              </span>
-                            ) : (
-                              <select
-                                className="menuitemSelectoreMain"
-                                value={selectMtColor}
-                                onChange={(e) => handleMetalWiseColorImg(e)}
-                              >
-                                {metalColorCombo?.map((ele) => (
-                                  <option key={ele?.id} value={ele?.metalcolorname}>
-                                    {ele?.metalcolorname}
-                                  </option>
-                                ))}
-                              </select>)}
-                          </div>
-                          {(storeInit?.IsDiamondCustomization === 1 && diaList?.length > 0) && (<div className="smr_single_prod_customize_outer">
-                            <label className="menuItemTimeEleveDeatil">
-                              DAIMOND :
-                            </label>
-                            {
-                              singleProd?.IsMrpBase == 1 ? (
-                                <span className="menuitemSelectoreMain">
-                                  {singleProd?.DiaQuaCol}
-                                </span>
-                              )
-                                :
-                                (
-                                  <select
-                                    className="menuitemSelectoreMain"
-                                    value={selectDiaQc}
-                                    // onChange={(e) => setSelectDiaQc(e.target.value)}
-                                    onChange={(e) => handleCustomChange(e, "dia")}
-                                  >
-                                    {diaQcCombo.map((ele) => (
-                                      <option
-                                        key={ele?.QualityId}
-                                        value={`${ele?.Quality},${ele?.color}`}
-                                      >{`${ele?.Quality},${ele?.color}`}</option>
-                                    ))}
-                                  </select>)}
-                          </div>)}
-                          {(storeInit?.IsCsCustomization === 1 && csList?.length > 0) && (
-                            <div className="smr_single_prod_customize_outer">
-                              <label className="menuItemTimeEleveDeatil">
-                                COLOR STONE :
-                              </label>
-                              {
-                                singleProd?.IsMrpBase == 1 ? (
-                                  <span className="menuitemSelectoreMain">
-                                    {singleProd?.CsQuaCol}
+                                    {singleProd?.MetalTypePurity}
                                   </span>
                                 ) : (
-                                  <select
-                                    className="menuitemSelectoreMain"
-                                    value={selectCsQc}
-                                    // onChange={(e) => setSelectCsQc(e.target.value)}
-                                    onChange={(e) => handleCustomChange(e, "cs")}
-                                  >
-                                    {csQcCombo.map((ele) => (
-                                      <option
-                                        key={ele?.QualityId}
-                                        value={`${ele?.Quality},${ele?.color}`}
-                                      >{`${ele?.Quality},${ele?.color}`}</option>
-                                    ))}
-                                  </select>)}
-                            </div>
-                          )}
-                          {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                          {SizeSorting(SizeCombo?.rd)?.length > 0 && <div className="smr_single_prod_customize_outer">
-                            <label className="menuItemTimeEleveDeatil">SIZE:</label>
-                            {singleProd?.IsMrpBase == 1 ? (
-                              <span className="menuitemSelectoreMain">
-                                {singleProd?.DefaultSize}
-                              </span>
-                            ) : (
-                              <select
-                                className="menuitemSelectoreMain"
-                                value={sizeData}
-                                onChange={(e) => {
-                                  handleCustomChange(e, "sz")
-                                  // setSizeData(e.target.value);
-                                }}
-                              >
-                                {SizeCombo?.rd?.map((ele) => (
-                                  <option
-                                    value={ele?.sizename}
-                                    // selected={
-                                    //   singleProd && singleProd.DefaultSize === ele.sizename
-                                    // }
-                                    key={ele?.id}
-                                  >
-                                    {ele?.sizename}
-                                  </option>
-                                ))}
-                              </select>)}
-                          </div>}
-                        </div>}
+                        <select
+                          className="menuitemSelectoreMain"
+                          value={selectMtType}
+                          // onChange={(e) => setSelectMtType(e.target.value)}
+                          onChange={(e) => handleCustomChange(e, "mt")}
+                        >
+                          {metalTypeCombo.map((ele) => (
+                            <option key={ele?.Metalid} value={ele?.metaltype}>
+                              {ele?.metaltype}
+                            </option>
+                          ))}
+                        </select>)}
+                      </div>
+                      <div className="smr_single_prod_customize_outer">
+                        <label className="menuItemTimeEleveDeatil">
+                          METAL COLOR:
+                        </label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {
+                                        metalColorCombo?.filter(
+                                          (ele) =>
+                                            ele?.id == singleProd?.MetalColorid
+                                        )[0]?.metalcolorname
+                                      }
+                                    </span>
+                                  ) : (
+                        <select
+                          className="menuitemSelectoreMain"
+                          value={selectMtColor}
+                          onChange={(e) => handleMetalWiseColorImg(e)}
+                        >
+                          {metalColorCombo?.map((ele) => (
+                            <option key={ele?.id} value={ele?.colorcode}>
+                              {ele?.metalcolorname}
+                            </option>
+                          ))}
+                        </select>)}
+                      </div>
+                      {(storeInit?.IsDiamondCustomization === 1 && diaList?.length > 0)  && (<div className="smr_single_prod_customize_outer">
+                        <label className="menuItemTimeEleveDeatil">
+                          DAIMOND :
+                        </label>
+                        {
+                                    singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.DiaQuaCol}
+                                      </span>
+                                    ) 
+                                    :
+                                    (
+                        <select
+                          className="menuitemSelectoreMain"
+                          value={selectDiaQc}
+                          // onChange={(e) => setSelectDiaQc(e.target.value)}
+                          onChange={(e) => handleCustomChange(e, "dia")}
+                        >
+                          {diaQcCombo.map((ele) => (
+                            <option
+                              key={ele?.QualityId}
+                              value={`${ele?.Quality},${ele?.color}`}
+                            >{`${ele?.Quality},${ele?.color}`}</option>
+                          ))}
+                        </select>)}
+                      </div>)}
+                      {(storeInit?.IsCsCustomization === 1 &&  csList?.length > 0 ) && (
+                        <div className="smr_single_prod_customize_outer">
+                          <label className="menuItemTimeEleveDeatil">
+                            COLOR STONE :
+                          </label>
+                          {
+                                    singleProd?.IsMrpBase == 1 ? (
+                                      <span className="menuitemSelectoreMain">
+                                        {singleProd?.CsQuaCol}
+                                      </span>
+                                    ):(
+                          <select
+                            className="menuitemSelectoreMain"
+                            value={selectCsQc}
+                            // onChange={(e) => setSelectCsQc(e.target.value)}
+                            onChange={(e) => handleCustomChange(e, "cs")}
+                          >
+                            {csQcCombo.map((ele) => (
+                              <option
+                                key={ele?.QualityId}
+                                value={`${ele?.Quality},${ele?.color}`}
+                              >{`${ele?.Quality},${ele?.color}`}</option>
+                            ))}
+                          </select>)}
+                        </div>
+                      )}
+                      {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
+                      {SizeSorting(SizeCombo?.rd)?.length > 0 && <div className="smr_single_prod_customize_outer">
+                        <label className="menuItemTimeEleveDeatil">SIZE:</label>
+                        {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {singleProd?.DefaultSize}
+                                    </span>
+                                  ) : (
+                        <select
+                          className="menuitemSelectoreMain"
+                          value={sizeData}
+                          onChange={(e) => {
+                            handleCustomChange(e, "sz")
+                            // setSizeData(e.target.value);
+                          }}
+                        >
+                          {SizeCombo?.rd?.map((ele) => (
+                            <option
+                              value={ele?.sizename}
+                              // selected={
+                              //   singleProd && singleProd.DefaultSize === ele.sizename
+                              // }
+                              key={ele?.id}
+                            >
+                              {ele?.sizename}
+                            </option>
+                          ))}
+                        </select>)}
+                      </div>}
+                    </div>}
 
                         {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 && (
                           <Accordion
@@ -1773,7 +1801,7 @@ const ProductDetail = () => {
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (<p className="smr_app_details_title"> Product Details</p>)}
                   <div style={{ width: '100%', border: '1px solid #80808038' }}>
                     {diaList?.length > 0 && (
-                      <div className="smrMApro_material_details_portion_inner" style={{marginLeft:'0px'}}>
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"    
@@ -1804,7 +1832,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
@@ -1835,7 +1863,7 @@ const ProductDetail = () => {
                     )}
 
                     {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
-                      <div className="smr_material_details_portion_inner">
+                      <div className="smr_material_details_portion_inner" style={{marginLeft:'0px'}}>
                         <ul style={{ margin: "0px 0px 3px 0px" }}>
                           <li
                             className="prod_detail_info_title"
