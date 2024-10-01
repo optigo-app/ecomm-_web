@@ -101,6 +101,7 @@
     }
 
     .mala_prod_summury_info {
+        font-family: $homePageFontFamily;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -283,6 +284,7 @@
     }
 
     .mala_material_details_portion_inner {
+        font-family: $homePageFontFamily;
         width: 60%;
     }
 

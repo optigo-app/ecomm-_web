@@ -131,7 +131,9 @@ const ProductList = () => {
 
   const [afterCountStatus, setAfterCountStatus] = useState(false);
 
-  const [value, setValue] = React.useState([]);
+
+
+  const [intoCart, setIntoCart] = useState(false);
 
   const getDiaRangeFilter = useRecoilValue(proCat_DiamondRangeArr);
   const SoketData = useRecoilValue(soketProductData);
@@ -840,7 +842,9 @@ const ProductList = () => {
   };
 
   const handleCartandWish = (e, ele, type) => {
-    // console.log("event", e.target.checked, ele, type);
+
+    console.log("event",e.target.checked)
+
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObj = {
       autocode: ele?.autocode,
@@ -2215,7 +2219,7 @@ const ProductList = () => {
                         />
                       </div>
 
-                      {filterData?.length > 0 && <Checkbox
+                      {/* {filterData?.length > 0 && <Checkbox
                         sx={{ padding: "0px 9px 0px 9px" }}
                         icon={<FilterAltIcon fontSize="large" />}
                         checkedIcon={
@@ -2227,7 +2231,7 @@ const ProductList = () => {
                         checked={isDrawerOpen}
                         onChange={(e) => setIsDrawerOpen(e.target.value)}
                       />
-                      }
+                      } */}
                     </div>
                   ) : null
                     // <div className="smr_prodSorting">
@@ -2452,7 +2456,7 @@ const ProductList = () => {
                   <div className="smr_mainPortion">
                     <div
                       className="smr_filter_portion"
-                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%' }}
+                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%', display:'none',width:'0%'}}
                     >
                       {filterData?.length > 0 && <div
                         className="proCat_topTitleList"
@@ -2978,7 +2982,8 @@ const ProductList = () => {
                         </span>
                       </div>
                     ) : (
-                      <div className="smr_productList" style={{ width: filterData?.length <= 0 && '100%', margin: filterData?.length <= 0 && '20px 50px 0px 65px' }}>
+                      // <div className="smr_productList" style={{ width: filterData?.length <= 0 && '100%', margin: filterData?.length <= 0 && '20px 50px 0px 65px' }}>
+                      <div className="procat_productList" style={{ width: '100%'}}>
                         {isOnlyProdLoading ? (
                           <ProductListSkeleton
                             fromPage={"Prodlist"}
@@ -2987,6 +2992,26 @@ const ProductList = () => {
                         ) : (
                           <>
                             <div className="smr_main_sorting_div_proCat">
+                            <div
+                                  className="proCat_topTitleList"
+                                  style={{ display: "flex", alignItems: "center" }}
+                                >
+                                  <div className="proCat_mpty_sorting_div_NoData">
+                                    <IoArrowBack
+                                      style={{
+                                        height: "25px",
+                                        width: "25px",
+                                        cursor: "pointer",
+                                        color: "rgba(143, 140, 139, 0.9019607843)",
+                                      }}
+                                      onClick={() => navigate("/")}
+                                    />
+                                  </div>
+                                  <p className="proCat_NameTopShow">
+                                    {/* {decodeURI(extractedPart)} */}
+                                    {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
+                                  </p>
+                                </div>
                               <div
                                 className="proCat_topTitleList_mobile"
                                 style={{
@@ -3009,7 +3034,7 @@ const ProductList = () => {
                               </div>
                               <div className={filterData?.length <= 0 ? "smr_sorting_custom_NoData" : "smr_sorting_custom"}
                               >
-                                {filterData?.length <= 0 && <div
+                                {/* { <div
                                   className="proCat_topTitleList"
                                   style={{ display: "flex", alignItems: "center" }}
                                 >
@@ -3025,11 +3050,10 @@ const ProductList = () => {
                                     />
                                   </div>
                                   <p className="proCat_NameTopShow">
-                                    {/* {decodeURI(extractedPart)} */}
                                     {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
                                   </p>
                                 </div>
-                                }
+                                } */}
 
                                 <div className={filterData?.length <= 0 ? 'NoDatacontainer' : "container"}>
                                   <label className="label">
@@ -3092,9 +3116,9 @@ const ProductList = () => {
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
                                   <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "smr_productCard"}>
-                                    <div className="cart_and_wishlist_icon">
-                                      {/* <Button className="smr_cart-icon"> */}
-                                      <Checkbox
+
+                                    <div className="cart_and_wishlist_icon" style={{display:'none'}}>
+                                      {/* <Checkbox
                                         icon={
                                           <LocalMallOutlinedIcon
                                             sx={{
@@ -3127,7 +3151,7 @@ const ProductList = () => {
                                             ? true
                                             : false
                                         }
-                                      />
+                                      /> */}
                                       {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
                                       {/* </Button> */}
                                       {/* <Button className="smr_wish-icon"> */}
@@ -3168,35 +3192,8 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    <div className="proCat_app_product_label">
-                                      {productData?.StatusId == 1 ? (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      ) : productData?.StatusId == 2 ? (
-                                        <span className="proCat_app_MEMO">
-                                          In memo
-                                        </span>
-                                      ) : (
-                                        <span className="proCat_app_Make_to_order">
-                                          Make To Order
-                                        </span>
-                                      )}
+                                    
 
-                                      {/* {productData?.StatusId == 1 && (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {productData?.StatusId == 2 && (
-                                        <span className="proCat_app_instock">
-                                          In memo
-                                        </span>
-                                      )} */}
-                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
-                                    </div>
                                     <div
                                       onMouseEnter={() => {
                                         handleImgRollover(productData);
@@ -3220,6 +3217,7 @@ const ProductList = () => {
                                         });
                                       }}
                                       className="smr_ImgandVideoContainer"
+                                      style={{position:'relative'}}
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
                                         true ? (
@@ -3271,17 +3269,101 @@ const ProductList = () => {
                                         // }}
                                         />
                                       )}
+
+                                      <div className="proCat_app_product_label" style={{bottom:'0px'}}>
+                                      {productData?.StatusId == 1 ? (
+                                        <span className="proCat_app_instock">
+                                          In Stock
+                                        </span>
+                                      ) : productData?.StatusId == 2 ? (
+                                        <span className="proCat_app_MEMO">
+                                          In memo
+                                        </span>
+                                      ) : (
+                                        <span className="proCat_app_Make_to_order">
+                                          Make To Order
+                                        </span>
+                                      )}
+
+                                      {/* {productData?.StatusId == 1 && (
+                                        <span className="proCat_app_instock">
+                                          In Stock
+                                        </span>
+                                      )}
+                                      {productData?.StatusId == 2 && (
+                                        <span className="proCat_app_instock">
+                                          In memo
+                                        </span>
+                                      )} */}
+                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
                                     </div>
+                                    </div>
+
+                                      <FormControlLabel
+                                        control={
+                                          <Checkbox
+                                        icon={
+                                          <LocalMallOutlinedIcon
+                                            sx={{
+                                              fontSize: "22px",
+                                              color: "white",
+                                            }}
+                                          />
+                                        }
+                                        checkedIcon={
+                                          <LocalMallIcon
+                                            sx={{
+                                              fontSize: "22px",
+                                              color: "#474747d1",
+                                            }}
+                                          />
+                                          // <LocalMallIcon
+                                          //   sx={{
+                                          //     fontSize: "22px",
+                                          //     color: "red",
+                                          //   }}
+                                          // />
+                                        }
+                                        disableRipple={false}
+                                        onChange={(e) =>
+                                          handleCartandWish(
+                                            e,
+                                            productData,
+                                            "Cart"
+                                          )
+                                        }
+                                        checked={
+                                          cartArr[productData?.autocode] ??
+                                            productData?.IsInCart === 1
+                                            ? true
+                                            : false
+                                        }
+                                      />
+                                        }
+                                        label={ !(cartArr[productData?.autocode] ??
+                                          productData?.IsInCart === 1
+                                          ? true
+                                          : false) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: '#474747d1' }}>Remove From Cart</span> }
+
+                                        // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+                                        className={!(cartArr[productData?.autocode] ??
+                                          productData?.IsInCart === 1
+                                          ? true
+                                          : false) ? "procat_cart_btn" :"procat_cart_btn_alter"}
+                                      />
+
                                     <div className="proCat_prod_card_info">
                                       <div className="smr_prod_Title">
-                                        <p
-                                          className="proCat1_prod_title_with_no_width">
-                                          {productData?.designno}{" "}
-                                          <span className="proCat_produtList_mobileTitle">
-                                            {productData?.TitleLine?.length > 0 &&
-                                              " - " + productData?.TitleLine}
-                                          </span>
-                                        </p>
+                                      <span
+                                          className="proCat1_prod_title_with_no_width"
+                                        >
+                                          {/* {productData?.TitleLine?.length > 0 &&
+                                            "-"}
+                                          {productData?.TitleLine}{" "} */}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                        </span>
                                         {/* <span className="smr_prod_designno">
                                           {productData?.designno}
                                         </span> */}
@@ -3399,6 +3481,7 @@ const ProductList = () => {
                                         }
                                       </div>
                                     </div>
+
                                   </div>
                                 ))}
                               </div>

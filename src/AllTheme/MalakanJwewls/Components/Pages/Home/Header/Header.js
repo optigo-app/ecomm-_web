@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
-import { mala_cartB2CDrawer, mala_CartCount, mala_companyLogo, mala_loginState, mala_WishCount } from "../../../Recoil/atom";
+import { mala_cartB2CDrawer, mala_CartCount, mala_companyLogo, mala_companyLogoM, mala_loginState, mala_WishCount } from "../../../Recoil/atom";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -30,6 +30,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
 
   const compnyLogo = useRecoilValue(mala_companyLogo);
+  const compnyLogoM = useRecoilValue(mala_companyLogoM);
   const [islogin, setislogin] = useRecoilState(mala_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -485,10 +486,20 @@ const Header = () => {
                   onClick={toggleDrawerOverlay}
                 />
               </div>
-              <div className="mala_mobileHeader_top_div2">
+              <div className="mala_mobileHeader_top_div2_web">
                 <a href="/">
                   <img
                     src={compnyLogo}
+                    loading="lazy"
+                    className="mala_logo_header"
+                  />
+                </a>
+              </div>
+
+              <div className="mala_mobileHeader_top_div2_mobile">
+                <a href="/">
+                  <img
+                    src={compnyLogoM}
                     loading="lazy"
                     className="mala_logo_header"
                   />
@@ -833,13 +844,29 @@ const Header = () => {
 
         <div className="mala_Top_header_sub">
           <div className="mala_Top_header_logo_div">
-            <a href="/">
+          <a href="/" className="mala_logo_header_webLogo">
               <img
                 src={compnyLogo}
                 loading="lazy"
                 className="mala_logo_header"
               />
             </a>
+
+            <a href="/" className="mala_logo_header_Mobile">
+              <img
+                src={compnyLogoM}
+                loading="lazy"
+                className="mala_logo_header"
+              />
+            </a>
+
+            <li className="nav_ul_shop_menu_Mobile">
+              <MenuIcon
+                style={{ fontSize: "45px", color: "#F6C2B5" }}
+                className="muIconeMobileHeader"
+                onClick={toggleDrawerOverlay}
+              />
+            </li>
           </div>
           <div className="mala_Top_header_menu_main">
             <div className="mala_Top_header_menu_main">
@@ -863,14 +890,10 @@ const Header = () => {
                   </a>
                 </li>
               </ul> */}
-              <ul className="nav_ul_shop_menu_Mobile">
-                <MenuIcon
-                  style={{ fontSize: "35px", color: "white" }}
-                  className="muIconeMobileHeader"
-                  onClick={toggleDrawerOverlay}
-                />
-              </ul>
+
               <ul className="nav_ul_shop">
+
+
                 <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
@@ -1130,8 +1153,7 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`shop-dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
-            }`}
+          className={`shop-dropdown ${isDropdownOpen ? "open" : ""}`}
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div

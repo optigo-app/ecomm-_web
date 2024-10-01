@@ -71,6 +71,7 @@ const ProductPage = () => {
   const previousPath = "Previous Page";
   const [ShowMangifier, setShowMangifier] = useState(false);
   const [PdImageLoader, setPdImageLoader] = useState(false);
+  const [PdImageLoader, setPdImageLoader] = useState(false);
   const sliderRef = useRef(null);
   const [decodeUrl, setDecodeUrl] = useState({});
   const [loginInfo, setLoginInfo] = useState();
@@ -351,9 +352,9 @@ const ProductPage = () => {
               prod && prod.DefaultSize !== ""
                 ? prod?.DefaultSize
                 : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                    ?.sizename === undefined
-                ? SizeCombo?.rd[0]?.sizename
-                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                  ?.sizename === undefined
+                  ? SizeCombo?.rd[0]?.sizename
+                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
                     ?.sizename;
 
             setSizeData(initialsize);
@@ -603,19 +604,19 @@ const ProductPage = () => {
           diaArr = diaQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[0]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[1])
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[1]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -623,17 +624,17 @@ const ProductPage = () => {
           csArr = csQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[0]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[1])
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[1]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -812,10 +813,12 @@ const ProductPage = () => {
       setPdImageArr((prev) => [...prev, ...VideoMap]);
     }
     setPdImageLoader(false);
+    setPdImageLoader(false);
     return finalprodListimg;
   };
 
   useEffect(() => {
+    setPdImageLoader(true);
     setPdImageLoader(true);
     ProdCardImageFunc();
   }, [singleProd]);
@@ -1041,8 +1044,7 @@ const ProductPage = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     Navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1134,9 +1136,8 @@ const ProductPage = () => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${
-          singleProd?.TitleLine?.length > 0 ? "-" : ""
-        } ${singleProd?.designno ?? ""}`}</title>
+        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
+          } ${singleProd?.designno ?? ""}`}</title>
       </Helmet>
       <div className="hoq_main_Product" style={{ marginBottom: "25px" }}>
         <main>
@@ -1480,8 +1481,8 @@ const ProductPage = () => {
                     </div>
                     <div className="first_row_hoq_new">
                       {storeInit?.IsDiamondCustomization === 1 &&
-                      diaQcCombo?.length > 0 &&
-                      diaList?.length ? (
+                        diaQcCombo?.length > 0 &&
+                        diaList?.length ? (
                         <div className="hoq_single_prod_customize">
                           <label className="hoqmenuItemTimeEleveDeatil">
                             DIAMOND :
@@ -1505,8 +1506,8 @@ const ProductPage = () => {
                         </div>
                       ) : null}
                       {storeInit?.IsCsCustomization === 1 &&
-                      selectCsQc?.length > 0 &&
-                      csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 ? (
+                        selectCsQc?.length > 0 &&
+                        csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 ? (
                         <div className="hoq_single_prod_customize">
                           <label className="hoqmenuItemTimeEleveDeatil">
                             COLOR STONE :
@@ -1577,8 +1578,8 @@ const ProductPage = () => {
                       )}
                     </div>
                     {storeInit?.IsCsCustomization === 1 &&
-                    selectCsQc?.length > 0 &&
-                    csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
+                      selectCsQc?.length > 0 &&
+                      csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
                       ? SizeSorting(SizeCombo?.rd)?.length > 0 &&
                         singleProd?.DefaultSize !== "" && (
                           <div
@@ -1697,8 +1698,8 @@ const ProductPage = () => {
                         </span>
                       </span>
                       {storeInit?.IsDiamondCustomization === 1 &&
-                      diaQcCombo?.length > 0 &&
-                      diaList?.length ? (
+                        diaQcCombo?.length > 0 &&
+                        diaList?.length ? (
                         <span className="smr_prod_short_key">
                           Diamond Quality Color :{" "}
                           <span className="smr_prod_short_val">
@@ -2252,7 +2253,7 @@ const ProductPage = () => {
                         (singleProd1?.Misc_SettingCost
                           ? singleProd1?.Misc_SettingCost
                           : singleProd?.Misc_SettingCost) !==
-                      0 ? (
+                        0 ? (
                         <div
                           style={{
                             display: "flex",

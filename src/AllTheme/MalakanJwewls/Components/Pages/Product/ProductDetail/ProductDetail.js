@@ -1697,7 +1697,7 @@ const ProductDetail = () => {
                             // className="filtercategoryLable"
 
                             >
-                              <Typography sx={{ fontFamily: "TT Commons Regular", fontSize: '18px' }}>Price Breakup</Typography>
+                              <Typography sx={{fontSize: '18px' }}>Price Breakup</Typography>
                             </AccordionSummary>
                             <AccordionDetails
                               sx={{
@@ -1729,73 +1729,73 @@ const ProductDetail = () => {
 
 
                               {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                <Typography className="mala_Price_breakup_label">Metal</Typography>
                                 <span style={{ display: 'flex' }}>
                                   <Typography>
                                     {
-                                      <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                      <span className="mala_currencyFont">
                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                       </span>
                                     }
                                   </Typography>
                                   &nbsp;
-                                  <Typography sx={{ fontFamily: "TT Commons Regular" }} className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                <Typography className="mala_Price_breakup_label">Diamond </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont">
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+                                <Typography className="mala_Price_breakup_label">Stone </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont">
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+                                <Typography className="mala_Price_breakup_label">MISC </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont">
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
                               {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+                                <Typography className="mala_Price_breakup_label">Labour </Typography>
 
                                 <span style={{ display: 'flex' }}>
                                   <Typography>{
-                                    <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                    <span className="mala_currencyFont">
                                       {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                     </span>
                                   }</Typography>
                                   &nbsp;
-                                  <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                  <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                 </span>
                               </div> : null}
 
@@ -1812,16 +1812,16 @@ const ProductDetail = () => {
                                 ) !== 0 ?
 
                                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="mala_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                    <Typography className="mala_Price_breakup_label">Other </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="mala_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="mala_currencyFont">
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="mala_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                      <Typography className="mala_PriceBreakup_Price">{
                                         formatter.format((
 
                                           (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1921,8 +1921,8 @@ const ProductDetail = () => {
                             </div>
                             { 
                             // prodLoading &&
-                            singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                            {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                            singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                            {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                           </div>
                         }
                       </div>}
@@ -2449,7 +2449,6 @@ const ProductDetail = () => {
                     >
                       <p
                         style={{
-                          fontFamily: "FreightDisp Pro Medium",
                           color: "#7d7f85",
                           fontSize: "30px",
                           // display:'none'
@@ -2501,7 +2500,6 @@ const ProductDetail = () => {
                               >
                                 <p
                                   style={{
-                                    fontFamily: "FreightDisp Pro Medium",
                                     color: "#7d7f85",
                                     fontSize: "30px",
                                     display: "none",

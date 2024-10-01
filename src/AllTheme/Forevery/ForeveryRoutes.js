@@ -14,6 +14,7 @@ import LoginWithEmail from "./Components/Pages/Auth/LoginWithEmail/LoginWithEmai
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   for_companyLogo,
+  for_companyLogoM,
   for_loginState,
   for_nav_height,
 } from "./Components/Recoil/atom";
@@ -76,8 +77,12 @@ const ForEveryRoutes = () => {
   const search = location?.search;
   const updatedSearch = search.replace("?LoginRedirect=", "");
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] =
-    useRecoilState(for_companyLogo);
+  // const [companyTitleLogo, setCompanyTitleLogo] =
+  //   useRecoilState(for_companyLogo);
+  const [for_companyTitleLogo, for_setCompanyTitleLogo] = useRecoilState(for_companyLogo)
+  const [for_companyTitleLogoM, for_setCompanyTitleLogoM] = useRecoilState(for_companyLogoM)
+
+
   const navHeight = useRecoilValue(for_nav_height);
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -90,25 +95,34 @@ const ForEveryRoutes = () => {
 
   console.log(navHeight, "stste");
 
+  // useEffect(() => {
+  //   let data = sessionStorage.getItem("storeInit");
+  //   let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  //   let logo = JSON?.parse(data);
+  //   if (Logindata) {
+  //     if (Logindata?.IsPLWOn == 1) {
+  //       setCompanyTitleLogo(Logindata?.Private_label_logo);
+  //     } else {
+  //       setCompanyTitleLogo(logo?.companylogo);
+  //     }
+  //   } else {
+  //     setCompanyTitleLogo(logo?.companylogo);
+  //   }
+  //   setCSSVariable();
+  // });
+
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let Logindata = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-    let logo = JSON?.parse(data);
-    if (Logindata) {
-      if (Logindata?.IsPLWOn == 1) {
-        setCompanyTitleLogo(Logindata?.Private_label_logo);
-      } else {
-        setCompanyTitleLogo(logo?.companylogo);
-      }
-    } else {
-      setCompanyTitleLogo(logo?.companylogo);
-    }
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+
+    for_setCompanyTitleLogo(webLogo);
+    for_setCompanyTitleLogoM(mobileLogo);
+
     setCSSVariable();
   });
 
   useEffect(() => {
 
-    console.log('callllllllllllllllllllll');
     const cookieValue = Cookies.get("userLoginCookie");
     const loginUser = sessionStorage.getItem("LoginUser");
 
@@ -131,9 +145,10 @@ const ForEveryRoutes = () => {
           }
         })
         .catch((err) => console.log(err));
-    } else if (loginUser) {
-      setIsLoginState(true);
     }
+    // else if (loginUser) {
+    //   setIsLoginState(true);
+    // }
 
     const localD = JSON.parse(sessionStorage.getItem("storeInit"));
     setLocalData(localD);
@@ -170,7 +185,7 @@ const ForEveryRoutes = () => {
         className="body"
         style={{
           marginTop: `${navHeight}px`,
-          overflow  :"hidden"
+          overflow: "hidden"
         }}
       >
         <Routes>
@@ -244,21 +259,21 @@ const ForEveryRoutes = () => {
           </>
           <Route path="/appointment" element={<AppointmentPage />} />
           {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-            <Route path="/certified-loose-lab-grown-diamonds/settings/*" element={<SettingPage />} />
-            <Route path="/certified-loose-lab-grown-diamonds/diamond/*" element={<DiamondFilter />} />
-            <Route path="/certified-loose-lab-grown-diamonds/ring/*" element={<RingPage />} />
-            <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/d/*" element={<DetailsRoute />} />
-            <Route path="/p/*" element={<ProductList />} />
-            <Route path="/diamond" element={<Diamond />} />
-            <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
-            <Route path="/Delivery" element={<Delivery />} />
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/Confirmation" element={<Confirmation />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/Lookbook" element={<Lookbook />} />
+          <Route path="/certified-loose-lab-grown-diamonds/settings/*" element={<SettingPage />} />
+          <Route path="/certified-loose-lab-grown-diamonds/diamond/*" element={<DiamondFilter />} />
+          <Route path="/certified-loose-lab-grown-diamonds/ring/*" element={<RingPage />} />
+          <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/d/*" element={<DetailsRoute />} />
+          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/diamond" element={<Diamond />} />
+          <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
+          <Route path="/Delivery" element={<Delivery />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/Confirmation" element={<Confirmation />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/Lookbook" element={<Lookbook />} />
           {/* </Route> */}
           <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
           <Route path="/about-us" element={<AboutUs />} />
