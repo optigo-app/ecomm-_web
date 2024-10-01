@@ -71,7 +71,7 @@ const ProductPage = () => {
   const previousPath = "Previous Page";
   const [ShowMangifier, setShowMangifier] = useState(false);
   const [PdImageLoader, setPdImageLoader] = useState(false);
-  const [PdImageLoader, setPdImageLoader] = useState(false);
+  // const [PdImageLoader, setPdImageLoader] = useState(false);
   const sliderRef = useRef(null);
   const [decodeUrl, setDecodeUrl] = useState({});
   const [loginInfo, setLoginInfo] = useState();
