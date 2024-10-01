@@ -181,6 +181,10 @@ export default function MobileNav({ open, onClose }) {
     <Drawer
       sx={{
         zIndex: 55555,
+        "& .MuiBackdrop-root": {
+          backgroundColor: "rgba(0, 0, 0, 0.2)",
+          backdropFilter: "blur(4px)",
+        },
       }}
       open={open}
       onClose={onClose}

@@ -66,7 +66,7 @@ import Account from "./Components/Pages/Account/Account"
 import LabCreatedRings from "./Components/Pages/labCreated-rings/LabCreatedRings";
 import JewelryInquiryForm from "../../utils/Inquary/JewelryInquiryForm";
 import LabGrownWeddingRing from "./Components/Pages/lab-grown-wedding-rings/LabGrownWeddingRing";
-import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import ZaraStyleSlider from "./Components/Pages/AZara";
 
 const ForEveryRoutes = () => {
   const islogin = useRecoilValue(for_loginState);
@@ -191,6 +191,7 @@ const ForEveryRoutes = () => {
         <Routes>
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/zara" element={<ZaraStyleSlider />} />
             <Route
               path="/LoginOption"
               element={
