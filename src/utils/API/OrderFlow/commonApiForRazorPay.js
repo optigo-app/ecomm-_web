@@ -23,7 +23,7 @@ const APIURL = (window.location.hostname === 'localhost'
     || window.location.hostname === 'elvee.web'
     || window.location.hostname === 'diamondtine.web'
     || window.location.hostname === 'forevery.web'
-    || window.location.hostname === 'hoq.web') ? 'http://zen/api/razorpay.aspx' : 'https://api.optigoapps.com/ReactStore/ReactStore.aspx';
+    || window.location.hostname === 'hoq.web') ? 'http://zen/api/razorpay.aspx' : 'https://api.optigoapps.com/ReactStore/razorpay.aspx';
     // || window.location.hostname === 'hoq.web') ? 'http://zen/api/ReactStore.aspx' : 'https://api.optigoapps.com/test/ReactStore.aspx';
 
 // const APIURL = 'https://api.optigoapps.com/test/store.aspx';
