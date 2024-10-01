@@ -39,8 +39,8 @@ import { HiOutlineUserCircle } from "react-icons/hi2";
 import axios from "axios";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
-const DeskTopLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
-const MobileLogoNew = `${storImagePath()}/logoIcon/webLogo.png`;
+const DeskTopLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+const MobileLogoNew = `${storImagePath()}/logoIcon/mobileLogo.png`;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -566,7 +566,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={is400px ?  MobileLogoNew : `https://i.ibb.co/nn00wPJ/sonasans-Lite-2.png` || DeskTopLogo}
+                  src={is400px ?  MobileLogoNew : DeskTopLogo}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })

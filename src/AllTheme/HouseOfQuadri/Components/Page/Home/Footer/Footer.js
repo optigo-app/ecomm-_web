@@ -157,7 +157,7 @@ const NewsLetter = ({ onsubmit, email, setemail }) => {
   return (
     <div className="footer-section">
       <h4>NEWSLETTER</h4>
-      <p>
+      <p className="address_hoq">
         Subscribe to get special offers, new collection launches, and
         once-in-a-while deals.
       </p>
@@ -186,7 +186,7 @@ const ContactInformation = ({socialLinkStr ,companyInfoData}) => {
   return (
     <div className="footer-section">
       <h4>CONTACT US</h4>
-      <p>
+      <p className="add_hoq_new_kl">
       {companyInfoData?.FrontEndAddress},
         <br />
         {companyInfoData?.FrontEndCity} 

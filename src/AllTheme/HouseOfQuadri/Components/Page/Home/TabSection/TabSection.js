@@ -158,8 +158,8 @@ const TabSection = () => {
             >
               <div className="cardhover">
                 <img
-                  // src={ImageGenrate(val)}
-          src={imageUrl}
+                  src={ImageGenrate(val)}
+          // src={imageUrl}
 
                   alt={val?.id}
                   style={{ mixBlendMode: "multiply", objectFit: "contain" }}
