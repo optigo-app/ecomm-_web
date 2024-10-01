@@ -248,7 +248,7 @@
   // justify-content: center;
 }
 
-.smr_productCard {
+.procat_productCard {
   width: 25%;
   border: 1px solid $primaryBorderColor;
   text-align: center;
@@ -666,7 +666,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .smr_productCard {
+  .procat_productCard {
     width: 49%;
   }
 
