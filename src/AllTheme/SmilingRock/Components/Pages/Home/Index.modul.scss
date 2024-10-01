@@ -2,6 +2,11 @@
 
 $generalColor : lightgray;
 
+
+.smr_authFlowBakcColor {
+    background-color: $backgroundColor;
+}
+
 .Submain {
     background-color: $generalColor;
 }
@@ -13,10 +18,6 @@ $generalColor : lightgray;
 
 .smiling_home_index_Submain {
     background-color: white;
-}
-
-.authFlowBakcColor {
-    background-color: $backgroundColor;
 }
 
 .loader-overlay {

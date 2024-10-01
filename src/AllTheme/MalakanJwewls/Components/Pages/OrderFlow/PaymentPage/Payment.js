@@ -7,24 +7,25 @@ import { toast } from 'react-toastify';
 import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrderAPI';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
 import OrderRemarkModal from '../OrderRemark/OrderRemark';
 import { handleOrderRemark } from '../../../../../../utils/API/OrderRemarkAPI/OrderRemarkAPI';
 import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
 import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
-    const [isPloding, setIsPloding] = useState(false);
+    const [isploding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
-    const [taxAmmount, setTaxAmount] = useState();
+    const [taxAmmountData, setTaxAmountData] = useState();
+    const [storeinit, setStoreInit] = useState();
 
     const setCartCountVal = useSetRecoilState(mala_CartCount);
 
@@ -52,6 +53,8 @@ const Payment = () => {
         handleClose();
     };
 
+    console.log('orderreamrk', orderRemark);
+
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
 
@@ -59,6 +62,7 @@ const Payment = () => {
         const orderRemakdata = sessionStorage.getItem("orderRemark");
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        setStoreInit(storeInit)
         setOrderRemarkData(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
@@ -75,9 +79,11 @@ const Payment = () => {
         setIsPloding(true);
         const fetchData = async () => {
             try {
-                const texData = await fetchEstimateTax();
-                if (texData) {
-                    setTaxAmount(texData[0]?.TaxAmount);
+                const taxData = await fetchEstimateTax();
+
+                if (taxData) {
+                    const data = taxData[0];
+                    setTaxAmountData(data);
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
@@ -104,14 +110,16 @@ const Payment = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
+
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
-            navigate('/Confirmation',{replace :true});
+            navigate('/Confirmation',{replace  :true});
             setIsloding(false);
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
+
                 setCartCountVal(res?.cartcount)
             })
 
@@ -120,17 +128,11 @@ const Payment = () => {
         }
     }
 
-    const handleOrderRemarkChange = () => {
-
-    }
     const handleOrderRemarkFun = async (trimmedRemark) => {
         try {
             const response = await handleOrderRemark(trimmedRemark);
             let resStatus = response?.Data?.rd[0]
             if (resStatus?.stat == 1) {
-                // const updatedCartData = cartData.map(cart =>
-                //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
-                // );
                 setOrderRemarkData(resStatus?.orderremarks)
                 sessionStorage.setItem('orderRemark', trimmedRemark)
             }
@@ -184,38 +186,10 @@ const Payment = () => {
                             </div>
                         </div>
                         <div className='mala_paymentDetailRightSideContent'>
-                            {storeInit?.IsPriceShow == 1 &&
+                            {storeinit?.IsPriceShow == 1 &&
                                 <>
-                                    <h3>Order Summary</h3>
-                                    {/* <div className='mala_paymenttotalpricesummary'>
-                                <p>Subtotal</p>
-                                <p className='mala_PriceTotalTx'>
-                                    <span className="mala_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-
-                                    <span>{formatter(finalTotal)}</span>
-                                </p>
-                            </div>
-                            <div className='mala_paymenttotalpricesummary'>
-                                <p>Estimated Tax</p>
-                                <p className='mala_PriceTotalTx'>
-                                    <span className="mala_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
-                            <div className='mala_paymenttotalpricesummary'>
-                                <p>Estimated Total</p>
-                                <p className='mala_PriceTotalTx'>
-                                    <span className="mala_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                </p>
-                            </div> */}
-                                    {!isPloding ? (
+                                    <h3>Order Summary</h3> 
+                                    {!isploding ? (
                                         <div class="mala_order-summary">
                                             <div class="mala_summary-item">
                                                 <div class="mala_label">Subtotal</div>
@@ -223,7 +197,7 @@ const Payment = () => {
                                                     <span className="mala_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(finalTotal)}</span>
+                                                    <span>{formatter(taxAmmountData?.TotalAmount)}</span>
                                                 </div>
                                             </div>
                                             <div class="mala_summary-item">
@@ -232,7 +206,7 @@ const Payment = () => {
                                                     <span className="mala_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                    <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
                                                 </div>
                                             </div>
                                             <div class="mala_summary-item">
@@ -241,12 +215,12 @@ const Payment = () => {
                                                     <span className="mala_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                    <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     ) :
-                                        <Skeleton className='mala_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                        <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
                                     }
                                 </>
                             }

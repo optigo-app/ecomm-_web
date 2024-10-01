@@ -1,8 +1,10 @@
+import { useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { LuChevronUpCircle } from "react-icons/lu";
 
 const ScrollTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const isTabletView = useMediaQuery('(max-width: 768px)');
   const ScrollTopToBottom = () => {
     window.scrollTo({
       top: "0",
@@ -27,11 +29,14 @@ const ScrollTop = () => {
       style={{
         position: "fixed",
         bottom: "25px",
-        right: "45px",
+        right: isTabletView? "13px" :"45px",
         cursor: "pointer",
         opacity: !isVisible ? "0" : "1",
         display: !isVisible ? "none" : "block",
         transition: "0.3s ease-in-out",
+        zIndex  :99999 ,
+        backgroundColor  :"white",
+        borderRadius  :"50%" ,
       }}
       onClick={ScrollTopToBottom}
     >

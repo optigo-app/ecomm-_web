@@ -86,10 +86,9 @@ const TrendingView = () => {
             finalID = loginUserDetail?.id || '0';
         }
 
-
+        setLoadingHome(false);
         Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID).then(async (response) => {
             if (response?.Data?.rd) {
-                setLoadingHome(false);
                 const data = response.Data.rd;
                 const urls = await Promise.all(data?.map(async (item) => {
                     const url = `${storeInitData?.DesignImageFol}${item.designno}_1.${item.ImageExtension}`;

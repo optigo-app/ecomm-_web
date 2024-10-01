@@ -1,8 +1,13 @@
 import { atom } from "recoil";
 
 export const mala_companyLogo = atom({
-    key:'companyLogo',
-    default:[]
+  key:'companyLogo',
+  default:[]
+})
+
+export const mala_companyLogoM = atom({
+  key:'mala_companyLogoM',
+  default:[]
 })
 
 export const mala_loginState = atom({

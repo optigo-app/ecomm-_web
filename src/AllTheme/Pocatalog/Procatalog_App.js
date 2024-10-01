@@ -174,65 +174,49 @@ const Procatalog_App = () => {
           <Route
             path="/LoginOption"
             element={
-              <div className="authFlowBakcColor">
-                <LoginOption />
-              </div>
+              <LoginOption />
             }
           />
           <Route
             path="/ContinueWithEmail"
             element={
-              <div className="authFlowBakcColor">
-                <ContinueWithEmail />
-              </div>
+              <ContinueWithEmail />
             }
           />
           <Route
             path="/ContimueWithMobile"
             element={
-              <div className="authFlowBakcColor">
-                <ContimueWithMobile />
-              </div>
+              <ContimueWithMobile />
             }
           />
           <Route
             path="/LoginWithEmailCode"
             element={
-              <div className="authFlowBakcColor">
-                <LoginWithEmailCode />
-              </div>
+              <LoginWithEmailCode />
             }
           />
           <Route
             path="/LoginWithMobileCode"
             element={
-              <div className="authFlowBakcColor">
-                <LoginWithMobileCode />
-              </div>
+              <LoginWithMobileCode />
             }
           />
           <Route
             path="/ForgotPass"
             element={
-              <div className="authFlowBakcColor">
-                <ForgotPass />
-              </div>
+              <ForgotPass />
             }
           />
           <Route
             path="/LoginWithEmail"
             element={
-              <div className="authFlowBakcColor">
-                <LoginWithEmail />
-              </div>
+              <LoginWithEmail />
             }
           />
           <Route
             path="/register"
             element={
-              <div className="authFlowBakcColor">
-                <Register />
-              </div>
+              <Register />
             }
           />
           <Route path="/ContactUs" element={<ContactUs />} />

@@ -35,6 +35,7 @@ import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
 import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
+import PaymentFailure from "../../utils/PaymentSuccessFail/PaymentFailure";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
@@ -163,7 +164,7 @@ const SmilingRock_App = () => {
         <Route
           path="/LoginOption"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <LoginOption />
             </div>
           }
@@ -171,7 +172,7 @@ const SmilingRock_App = () => {
         <Route
           path="/ContinueWithEmail"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <ContinueWithEmail />
             </div>
           }
@@ -179,7 +180,7 @@ const SmilingRock_App = () => {
         <Route
           path="/ContimueWithMobile"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <ContimueWithMobile />
             </div>
           }
@@ -187,7 +188,7 @@ const SmilingRock_App = () => {
         <Route
           path="/LoginWithEmailCode"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <LoginWithEmailCode />
             </div>
           }
@@ -195,7 +196,7 @@ const SmilingRock_App = () => {
         <Route
           path="/LoginWithMobileCode"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <LoginWithMobileCode />
             </div>
           }
@@ -203,7 +204,7 @@ const SmilingRock_App = () => {
         <Route
           path="/ForgotPass"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <ForgotPass />
             </div>
           }
@@ -211,7 +212,7 @@ const SmilingRock_App = () => {
         <Route
           path="/LoginWithEmail"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <LoginWithEmail />
             </div>
           }
@@ -219,7 +220,7 @@ const SmilingRock_App = () => {
         <Route
           path="/register"
           element={
-            <div className="authFlowBakcColor">
+            <div className="smr_authFlowBakcColor">
               <Register />
             </div>
           }
@@ -243,6 +244,7 @@ const SmilingRock_App = () => {
         </Route>
         <Route path="/accountdwsr" element={<DWSRprintComp />} />
         <Route path="/Lookbook" element={<Lookbook />} />
+        <Route path="/paymentFailure" element={<PaymentFailure />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
