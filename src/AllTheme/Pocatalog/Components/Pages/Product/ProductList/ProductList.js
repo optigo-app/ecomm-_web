@@ -850,8 +850,8 @@ const ProductList = () => {
       autocode: ele?.autocode,
       Metalid: selectedMetalId ?? ele?.MetalPurityid,
       MetalColorId: ele?.MetalColorid,
-      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
-      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
+      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       Size: ele?.DefaultSize,
       Unitcost: ele?.UnitCost,
       markup: ele?.DesignMarkUp,
@@ -3115,7 +3115,7 @@ const ProductList = () => {
                               {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "smr_productCard"}>
+                                  <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "procat_productCard"}>
 
                                     <div className="cart_and_wishlist_icon" style={{display:'none'}}>
                                       {/* <Checkbox
@@ -3396,7 +3396,7 @@ const ProductList = () => {
                                             )}
                                           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span>|</span>:""}
+                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span style={{fontSize:'13px'}}>|</span>:""}
                                               <span className="smr_prod_wt">
                                                 <span className="smr_keys">
                                                   NWT:
@@ -3412,7 +3412,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                               { (storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span>|</span>:""}
+                                               { (storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span style={{fontSize:'13px'}}>|</span>:""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     DWT:
@@ -3430,7 +3430,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1 )?<span>|</span>:""}
+                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1 )?<span style={{fontSize:'13px'}}>|</span>:""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     CWT:
