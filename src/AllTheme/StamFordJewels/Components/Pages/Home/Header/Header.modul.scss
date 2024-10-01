@@ -14,7 +14,7 @@
     }
 
     .stam_Top_header_div1 {
-        width: 70%;
+        width: 60%;
         display: flex;
         align-items: center;
     }
@@ -22,7 +22,6 @@
     .stam_Top_header_div2_web {
         width: 20%;
         display: flex;
-        justify-content: center;
         align-items: center;
     }
 
@@ -365,7 +364,7 @@
 
     }
 
-    .stam_headerOptionSingleDiv{
+    .stam_headerOptionSingleDiv {
         width: max-content;
     }
 
@@ -422,7 +421,7 @@
         }
 
         .stam_Top_header_div2_web {
-            width: 30% !important;
+            width: 50% !important;
         }
 
         .stam_Top_header_div2_mobile {
@@ -432,7 +431,7 @@
         }
 
         .stam_Top_header_div3 {
-            width: 70% !important;
+            width: 50% !important;
             display: flex;
             justify-content: flex-end;
             padding-right: 15px;

@@ -82,12 +82,10 @@ const StamFordJewels_App = () => {
   }, []);
 
   useEffect(() => {
-    let data = sessionStorage.getItem("storeInit");
-    let logo = JSON?.parse(data);
-    if (logo) {
-      setCompanyTitleLogo(logo?.companylogo);
-      setCompanyTitleLogoM(logo?.companyMlogo);
-    }
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    setCompanyTitleLogo(webLogo);
+    setCompanyTitleLogoM(mobileLogo);
   });
 
   useEffect(() => {

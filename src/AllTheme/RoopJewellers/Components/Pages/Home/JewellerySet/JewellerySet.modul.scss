@@ -27,7 +27,7 @@
     }
 
     .roop_jewels_bannerImg_div {
-        margin-top: 20px;
+        margin-block: 20px;
         position: relative;
         width: 100%;
     }
@@ -76,7 +76,8 @@
     @media screen and (max-width: 600px) {
 
         .roop_jewels_bannerImg_div {
-            margin-top: 0px !important;
+            margin: 0px !important;
+            padding: 5px !important;
         }
 
         .roop_jewls_main_sub {

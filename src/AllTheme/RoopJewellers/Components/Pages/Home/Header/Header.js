@@ -1114,17 +1114,6 @@ const Header = () => {
             </a>
           </li>
 
-          <li
-            className="nav_li_roop nav_li_smining_Mobile"
-            style={{ cursor: "pointer" }}
-            onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
-          >
-            <a href="/FunFact" className="stam_A_link">
-              FUN FACT
-            </a>
-          </li>
-
-
           {/* {IsB2BWebsiteChek === 1 ? (
                 islogin === true ? (
                   <>
