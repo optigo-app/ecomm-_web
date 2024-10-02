@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, forwardRef, lazy } from "react";
+import React, { useEffect, useState, useRef, forwardRef, lazy, useMemo } from "react";
 import "./productlist.scss";
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -41,6 +41,7 @@ const ProductList = () => {
   let maxwidth375px = useMediaQuery('(max-width:375px)')
   let maxwidth1000px = useMediaQuery('(max-width:1000px)')
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const storeINit = JSON.parse(sessionStorage.getItem("storeInit"));
   const [storeInit, setStoreInit] = useState({});
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
@@ -114,7 +115,6 @@ const ProductList = () => {
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
-  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
@@ -309,6 +309,31 @@ const ProductList = () => {
   const getDynamicImages = (designno, extension) => {
     return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
+
+  const getDynamicYellowImage = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${1}_Yellow.${extension}`;
+  }
+
+  const getDynamicRollYellowImage = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${2}_Yellow.${extension}`;
+  }
+
+  const getDynamicWhiteImage = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${1}_White.${extension}`;
+  }
+
+  const getDynamicRollWhiteImage = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${2}_White.${extension}`;
+  }
+
+  const getDynamicRoseImage = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${1}_Rose.${extension}`;
+  }
+
+  const getDynamicRollRoseImage = (designno, extension) => {
+    return `${getDesignImageFol}${designno}_${2}_Rose.${extension}`;
+  }
+
   const getDynamicRollImages = (designno, count, extension) => {
     if (count > 1) {
       return `${getDesignImageFol}${designno}_${2}.${extension}`;
@@ -378,6 +403,7 @@ const ProductList = () => {
         let UrlVal = location?.search?.slice(1).split("/");
 
         let MenuVal = "";
+        let SearchVar = '';
         let productlisttype;
 
         UrlVal.forEach((ele) => {
@@ -386,6 +412,9 @@ const ProductList = () => {
           switch (firstChar) {
             case "M":
               MenuVal = ele;
+              break;
+            case 'S':
+              SearchVar = ele;
               break;
             default:
               return "";
@@ -398,6 +427,10 @@ const ProductList = () => {
           let val = menuDecode?.split("/")[0].split(",");
           setIsBreadcumShow(true)
           productlisttype = [key, val];
+        }
+
+        if (SearchVar) {
+          productlisttype = SearchVar
         }
         setprodListType(productlisttype);
         setIsProdLoading(true);
@@ -502,7 +535,7 @@ const ProductList = () => {
 
   const BreadCumsObj = () => {
 
-    let BreadCum = decodeURI(atob(location?.search?.slice(3)))?.split('/')
+    let BreadCum = decodeURI(atob(location?.search.slice(3)))?.split('/')
 
     const values = BreadCum[0]?.split(',');
     const labels = BreadCum[1]?.split(',');
@@ -512,14 +545,14 @@ const ProductList = () => {
       return acc;
     }, {});
 
-    const result = Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
+    let result = updatedBreadCum && Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0)?.toUpperCase() + key?.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
-
+    result = result || {};
     result.menuname = decodeURI(atob(location?.search?.slice(3)))?.split('/')?.[0]
 
     return result
@@ -578,9 +611,9 @@ const ProductList = () => {
   }
 
   // const menuName = BreadCumsObj()?.menuname || 'Title';
-  const menuName = (BreadCumsObj()?.menuname === 'Ikigai' || BreadCumsObj()?.menuname === 'Heritage' || BreadCumsObj()?.menuname === 'Icon') ? 'High End Jewelry' : '';
+  // const menuName = (BreadCumsObj()?.menuname === 'Ikigai' || BreadCumsObj()?.menuname === 'Heritage' || BreadCumsObj()?.menuname === 'Icon') ? 'High End Jewelry' : JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase();
   const dropdownsData = [
-    { index: 1, title: `${menuName}`, data: ["Ikigai", "Heritage", "Icon"], type: 'high' },
+    // { index: 1, title: `${menuName}`, data: ["Ikigai", "Heritage", "Icon"], type: 'high' },
     { index: 2, title: "All metal", data: metalType, type: 'metal' },
     { index: 3, title: "Diamond quality", data: diamondType, type: 'diamond' },
     // { index: 4, title: "price", data: rangevalue, type: 'range' },
@@ -631,9 +664,9 @@ const ProductList = () => {
     return getCollName.find((item) => item === getCollectionNameFromURL) || "";
   };
 
-  const setDefaultValues = (matchCollName) => {
-    console.log("Default values is callled", matchCollName)
-    setCollectionName(matchCollName);
+  // const setDefaultValues = (matchCollName) => {
+  const setDefaultValues = () => {
+    // setCollectionName(matchCollName);
 
     const ids = typeof selectedDiaId === 'string' ? selectedDiaId.split(',').map(Number) : [];
     const [qualityId, colorId] = ids;
@@ -643,9 +676,10 @@ const ProductList = () => {
       ele.QualityId === qualityId && ele.ColorId === colorId
     );
 
-    if (selectedMetalId && selectedDiaId && selectedValues?.length === 0) {
+    // if (findMetal && findDiamond && matchCollName && selectedValues?.length === 0) {
+    if (findMetal && findDiamond && selectedValues?.length === 0) {
       const defaultValues = [
-        { dropdownIndex: 1, value: matchCollName || "" },
+        // { dropdownIndex: 1, value: matchCollName || "" },
         { dropdownIndex: 2, value: findMetal || "" },
         { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" }
       ];
@@ -655,8 +689,9 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const matchCollName = getMatchCollName();
-    setDefaultValues(matchCollName);
+    // const matchCollName = getMatchCollName();
+    // setDefaultValues(matchCollName);
+    setDefaultValues();
   }, [metalType, diamondType, selectedDiaId, location?.pathname]);
 
   const handleRemoveValues = (index) => {
@@ -665,10 +700,11 @@ const ProductList = () => {
       const updatedValues = prev.filter((_, i) => i !== existingIndex);
 
       if (updatedValues.length === 0) {
-        const matchCollName = getMatchCollName();
+        // const matchCollName = getMatchCollName();
         setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
         setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-        setDefaultValues(matchCollName);
+        // setDefaultValues(matchCollName);
+        setDefaultValues();
         // navigate(`/p/${BreadCumsObj()?.menuname}?M=${location?.search?.slice(3)}`)
       }
 
@@ -682,14 +718,15 @@ const ProductList = () => {
   const handleClearSelectedvalues = () => {
     setSelectedValues([]);
 
-    const matchCollName = getMatchCollName();
+    // const matchCollName = getMatchCollName();
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
 
     setCaratRangeValue([0.96, 41.81]);
     setPriceRangeValue([5000, 250000]);
 
-    setDefaultValues(matchCollName);
+    // setDefaultValues(matchCollName);
+    setDefaultValues();
   };
 
 
@@ -747,7 +784,7 @@ const ProductList = () => {
       m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
-      p: BreadCumsObj(),
+      p: JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase(),
       f: {},
     };
     // compressAndEncode(JSON.stringify(obj))
@@ -791,7 +828,7 @@ const ProductList = () => {
             </div>
           </div>
           <div className="for_productList_breadcrumbs">
-            {IsBreadCumShow && (
+            {productListData?.length > 0 ? (
               <div
                 className="for_breadcrumbs"
                 style={{ marginLeft: "3px" }}
@@ -803,52 +840,66 @@ const ProductList = () => {
                 >
                   {"Home /"}{" "}
                 </span>
-                {BreadCumsObj()?.menuname && (
-                  <span
-                    onClick={() =>
-                      handleBreadcums({
-                        [BreadCumsObj()?.FilterKey]:
-                          BreadCumsObj()?.FilterVal,
-                      })
-                    }
-                  >
-                    {BreadCumsObj()?.menuname}
-                  </span>
-                )}
 
-                {BreadCumsObj()?.FilterVal1 && (
-                  <span
-                    onClick={() =>
-                      handleBreadcums({
-                        [BreadCumsObj()?.FilterKey]:
-                          BreadCumsObj()?.FilterVal,
-                        [BreadCumsObj()?.FilterKey1]:
-                          BreadCumsObj()?.FilterVal1,
-                      })
-                    }
-                  >
-                    {` / ${BreadCumsObj()?.FilterVal1}`}
-                  </span>
-                )}
+                {location?.search?.charAt(1) == "S" ? (
+                  <>
+                    {JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase()}
+                  </>
+                ) : (
+                  <>
+                    {IsBreadCumShow && (
+                      <>
+                        {BreadCumsObj()?.menuname && (
+                          <span
+                            onClick={() =>
+                              handleBreadcums({
+                                [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                              })
+                            }
+                          >
+                            {BreadCumsObj()?.menuname || JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase()}
+                          </span>
+                        )}
 
-                {BreadCumsObj()?.FilterVal2 && (
-                  <span
-                    onClick={() =>
-                      handleBreadcums({
-                        [BreadCumsObj()?.FilterKey]:
-                          BreadCumsObj()?.FilterVal,
-                        [BreadCumsObj()?.FilterKey1]:
-                          BreadCumsObj()?.FilterVal1,
-                        [BreadCumsObj()?.FilterKey2]:
-                          BreadCumsObj()?.FilterVal2,
-                      })
-                    }
-                  >
-                    {` / ${BreadCumsObj()?.FilterVal2}`}
-                  </span>
+                        {BreadCumsObj()?.FilterVal1 && (
+                          <span
+                            onClick={() =>
+                              handleBreadcums({
+                                [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                                [BreadCumsObj()?.FilterKey1]:
+                                  BreadCumsObj()?.FilterVal1,
+                              })
+                            }
+                          >
+                            {` / ${BreadCumsObj()?.FilterVal1}`}
+                          </span>
+                        )}
+
+                        {BreadCumsObj()?.FilterVal2 && (
+                          <span
+                            onClick={() =>
+                              handleBreadcums({
+                                [BreadCumsObj()?.FilterKey]:
+                                  BreadCumsObj()?.FilterVal,
+                                [BreadCumsObj()?.FilterKey1]:
+                                  BreadCumsObj()?.FilterVal1,
+                                [BreadCumsObj()?.FilterKey2]:
+                                  BreadCumsObj()?.FilterVal2,
+                              })
+                            }
+                          >
+                            {` / ${BreadCumsObj()?.FilterVal2}`}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  </>
                 )}
               </div>
-            )}
+            ) : null}
+
           </div>
           <div className="for_productList_filter_mainDiv">
             <div className="for_productList_category_filter_mainDiv">
@@ -903,6 +954,8 @@ const ProductList = () => {
                         selectedMetalId={selectedMetalId}
                         selectedDiaId={selectedDiaId}
                         maxwidth1000px={maxwidth1000px}
+                        collectionName={collectionName}
+                        setCollectionName={setCollectionName}
                       />
                     ))}
 
@@ -927,8 +980,8 @@ const ProductList = () => {
                         <label>Sort by:</label>
                       </div>
                       <div className="for_collection_filter_option_div">
-                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120, background: 'transparent' }}>
-                          <Select
+                        <div variant="standard" sx={{ m: 1, minWidth: 120, background: 'transparent' }}>
+                          <select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
                             value={trend}
@@ -945,16 +998,16 @@ const ProductList = () => {
                               },
                             }}
                           >
-                            <MenuItem value="Recommended">Recommended</MenuItem>
-                            <MenuItem value="New">New</MenuItem>
-                            <MenuItem value="Trending">Trending</MenuItem>
+                            <option value="Recommended">Recommended</option>
+                            <option value="New">New</option>
+                            <option value="Trending">Trending</option>
                             {storeInit?.IsStockWebsite === 1 && (
                               <MenuItem value="In Stock">In Stock</MenuItem>
                             )}
-                            <MenuItem value="PRICE HIGH TO LOW">Price High To Low</MenuItem>
-                            <MenuItem value="PRICE LOW TO HIGH">Price Low To High</MenuItem>
-                          </Select>
-                        </FormControl>
+                            <option value="PRICE HIGH TO LOW">Price High To Low</option>
+                            <option value="PRICE LOW TO HIGH">Price Low To High</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className="for_productList_shipping_div">
@@ -963,7 +1016,7 @@ const ProductList = () => {
                           <label>shipping date </label>
                         </div>
                         <div className="for_collection_filter_option_div_ship">
-                          <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_collection_filter_sort_select_ship"} />
+                          <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} sim={true} className={"for_collection_filter_sort_select_ship"} />
                         </div>
                       </div>
                     </div>
@@ -1130,6 +1183,12 @@ const ProductList = () => {
                     handleMetalColor={handleMetalColor}
                     metalColorType={metalColorType}
                     imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                    yellowImage={getDynamicYellowImage(item.designno, item.ImageExtension)}
+                    whiteImage={getDynamicWhiteImage(item.designno, item.ImageExtension)}
+                    roseImage={getDynamicRoseImage(item.designno, item.ImageExtension)}
+                    yellowRollImage={getDynamicRollYellowImage(item.designno, item.ImageExtension)}
+                    whiteRollImage={getDynamicRollWhiteImage(item.designno, item.ImageExtension)}
+                    roseRollImage={getDynamicRollRoseImage(item.designno, item.ImageExtension)}
                     videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                     RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                     loginCurrency={loginCurrency}
@@ -1190,7 +1249,7 @@ const CollectionDropdown = forwardRef(({
   selectedDiaId,
   maxwidth1000px,
   collectionName,
-  setCollectionName,
+  setCollectionName = () => { },
 }, ref) => {
   const isOpen = maxwidth1000px || open;
   return (
@@ -1233,7 +1292,7 @@ const CollectionDropdown = forwardRef(({
                 type="radio"
                 checked={isChecked}
               />
-              <span>{type === 'diamond' ? `${i.Quality}#${i?.color}` : type === 'metal' ? i?.metaltype : i}</span>
+              <span>{type === 'diamond' ? `${i.Quality}#${i?.color}` : i?.metaltype || i}</span>
             </div>
           );
         })}
@@ -1254,6 +1313,20 @@ const CollectionPriceRange = forwardRef(({
   const handleSliderMouseDown = (event) => {
     event.stopPropagation(); // Prevent click from propagating to parent div
   };
+
+  // const debounce = (func, delay) => {
+  //   let timeoutId;
+  //   return (...args) => {
+  //     if (timeoutId) {
+  //       clearTimeout(timeoutId);
+  //     }
+  //     timeoutId = setTimeout(() => {
+  //       func.apply(null, args);
+  //     }, delay);
+  //   };
+  // };
+
+  // const debouncedHandleSliderChange = useMemo(() => debounce(handleSliderChange, 1000), [handleSliderChange]);
   const isOpen = maxwidth1000px || open;
   return (
     <div
@@ -1270,7 +1343,7 @@ const CollectionPriceRange = forwardRef(({
           <Slider
             value={data}
             onChange={handleSliderChange}
-            onMouseDown={handleSliderMouseDown} // Prevent propagation
+            onMouseDown={handleSliderMouseDown}
             min={5000}
             max={250000}
             aria-labelledby="range-slider"
@@ -1368,9 +1441,16 @@ const Product_Card = ({
   videoRef,
   selectedMetalId,
   metalType,
+  yellowImage,
+  whiteImage,
+  roseImage,
+  yellowRollImage,
+  whiteRollImage,
+  roseRollImage,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
+  console.log('selectedMetalColor: ', selectedMetalColor);
 
   const getGoldType = metalType.filter((item) => item?.Metalid === selectedMetalId)?.[0]?.metaltype.toUpperCase()?.split(' ')[1]?.split('K')[0];
 
@@ -1391,7 +1471,7 @@ const Product_Card = ({
       <div className="for_productCard_mainDiv">
         <div className="for_productList_listing_card_div">
           <div className="for_product_listing_ratings_div">
-            <StyledRating
+            {/* <StyledRating
               name="simple-controlled"
               value={ratingvalue}
               size="small"
@@ -1400,7 +1480,7 @@ const Product_Card = ({
               //   setratingvalue(newValue);
               // }}
               readOnly
-            />
+            /> */}
           </div>
           <div className="forWeb_app_product_label_prd">
             {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
@@ -1424,7 +1504,7 @@ const Product_Card = ({
 
                 {videoUrl === undefined && RollImageUrl !== undefined ? (
                   <div className="for_rollup_img">
-                    <img loading={lazy} src={RollImageUrl} />
+                    <img loading={lazy} src={selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : selectedMetalColor === 1 ? yellowRollImage : RollImageUrl} />
                   </div>
                 ) : null}
               </>
@@ -1432,7 +1512,7 @@ const Product_Card = ({
             <img
               className="for_productList_listing_card_image"
               loading={lazy}
-              src={imageUrl}
+              src={selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : selectedMetalColor === 1 ? yellowImage : imageUrl}
               onError={(e) => {
                 e.target.onerror = null;
                 e.stopPropagation();
@@ -1472,15 +1552,26 @@ const Product_Card = ({
             className="for_productList_listinig_ATC_div"
           />
         </div>
-        <div className="for_productList_card_description" onClick={() => handleMoveToDetail(productData)}>
-          <div className="for_productList_caratWeight">
+        <div className="for_productList_card_description">
+          <div className="for_productList_metaltype_div">
+            {metalColorType?.map((item) => (
+              <div
+                className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
+                key={item?.id}
+                onClick={() => handleClick(item?.id)}
+              >
+                {""}
+              </div>
+            ))}
+          </div>
+          {/* <div className="for_productList_caratWeight">
             <span className="for_carat_title">Carat Weight:</span>
             <div className="for_carat_weights">
               <span className="for_weight_bg">0.25</span>
               <span className="for_weight_divider">To</span>
               <span className="for_weight_bg">2</span>
             </div>
-          </div>
+          </div> */}
           <div className="for_productList_desc_title">
             <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
           </div>

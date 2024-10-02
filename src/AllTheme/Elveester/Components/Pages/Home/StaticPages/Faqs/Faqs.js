@@ -13,8 +13,7 @@ const Faqs = () => {
     return (
         <div className='elv_FaqSection'>
             <div className="image_bar">
-                <img src={`${storImagePath()}/images/HomePage/ImageBannerTab/Faqs.jpg`} alt="img" />
-                <h1>FAQ</h1>
+                <img src={`${storImagePath()}/images/HomePage/Faq/FAQ_Banner.jpg`} alt="faq.png" />
             </div>
             <FaqSecData />
         </div>
