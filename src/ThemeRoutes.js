@@ -32,6 +32,7 @@ import SEO from "./utils/Seo/Seo";
 import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
 import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
 import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
+import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 
 export default function ThemeRoutes() {
 
@@ -55,6 +56,9 @@ export default function ThemeRoutes() {
   
   const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
   const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
+  
+  const stam_setCompanyTitleLogo = useSetRecoilState(stam_companyLogo)
+  const stam_setCompanyTitleLogoM = useSetRecoilState(stam_companyLogoM)
 
   const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
 
@@ -103,6 +107,9 @@ export default function ThemeRoutes() {
 
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
+    
+    stam_setCompanyTitleLogo(webLogo);
+    stam_setCompanyTitleLogoM(mobileLogo);
 
     smrMA_setCompanyTitleLogo(mobileLogo);
   }, []);

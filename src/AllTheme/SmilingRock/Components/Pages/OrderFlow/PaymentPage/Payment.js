@@ -24,7 +24,7 @@ const Payment = () => {
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
-    const [taxAmmount, setTaxAmount] = useState();
+    const [taxAmmountData, setTaxAmountData] = useState();
 
     const setCartCountVal = useSetRecoilState(CartCount);
 
@@ -75,9 +75,11 @@ const Payment = () => {
         setIsPloding(true);
         const fetchData = async () => {
             try {
-                const texData = await fetchEstimateTax();
-                if (texData) {
-                    setTaxAmount(texData[0]?.TaxAmount);
+                const taxData = await fetchEstimateTax();
+
+                if (taxData) {
+                    const data = taxData[0];
+                    setTaxAmountData(data);
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
@@ -187,34 +189,6 @@ const Payment = () => {
                             {storeInit?.IsPriceShow == 1 &&
                                 <>
                                     <h3>Order Summary</h3>
-                                    {/* <div className='smr_paymenttotalpricesummary'>
-                                <p>Subtotal</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-
-                                    <span>{formatter(finalTotal)}</span>
-                                </p>
-                            </div>
-                            <div className='smr_paymenttotalpricesummary'>
-                                <p>Estimated Tax</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
-                            <div className='smr_paymenttotalpricesummary'>
-                                <p>Estimated Total</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                </p>
-                            </div> */}
                                     {!isPloding ? (
                                         <div class="smr_order-summary">
                                             <div class="smr_summary-item">
@@ -223,7 +197,7 @@ const Payment = () => {
                                                     <span className="smr_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(finalTotal)}</span>
+                                                    <span>{formatter(taxAmmountData?.TotalAmount)}</span>
                                                 </div>
                                             </div>
                                             <div class="smr_summary-item">
@@ -232,7 +206,7 @@ const Payment = () => {
                                                     <span className="smr_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                    <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
                                                 </div>
                                             </div>
                                             <div class="smr_summary-item">
@@ -241,7 +215,7 @@ const Payment = () => {
                                                     <span className="smr_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                    <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
                                                 </div>
                                             </div>
                                         </div>

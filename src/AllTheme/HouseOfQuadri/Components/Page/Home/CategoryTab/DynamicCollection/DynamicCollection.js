@@ -36,6 +36,7 @@ import {
   Input,
   Skeleton,
   Slider,
+  useMediaQuery,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
@@ -2536,6 +2537,7 @@ const C_Card = ({
   );
 };
 const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
+  let maxwidth464px = useMediaQuery('(max-width:464px)')
   return (
     <div className="pagination-bar">
       <Pagination
@@ -2544,7 +2546,7 @@ const PaginationBar = ({ totalPages, currentPage, onPageChange }) => {
         onChange={onPageChange}
         shape="rounded"
         className="pagination-btn"
-        siblingCount={0.5}
+        size={maxwidth464px ? "small" : "large"}
         showFirstButton
         showLastButton
       />
@@ -2561,7 +2563,6 @@ const NoProductFound = () => {
     </div>
   );
 };
-
 const NoSearchRes = ({location})=>{
   return  <div className="NoProductFound">
   <div className="">
@@ -2578,6 +2579,15 @@ const LoadingSkeleton = () => {
       <div className="C_Card">
         <div className="image">
           <Skeleton
+           sx={{
+             width: '100%',
+             height: {
+              xs: '200px !important',   
+                sm: '300px !important',    
+                md: '500px !important',    
+              },
+             display: 'block',
+           }}
             key={i}
             variant="rectangular"
             width={"100%"}

@@ -29,7 +29,6 @@ const DesignSet = ({
           >
             <p
               style={{
-                fontFamily: "FreightDisp Pro Medium",
                 color: "#7d7f85",
                 fontSize: "30px",
                 // display:'none'
@@ -82,7 +81,6 @@ const DesignSet = ({
                   >
                     <p
                       style={{
-                        fontFamily: "FreightDisp Pro Medium",
                         color: "#7d7f85",
                         fontSize: "30px",
                         display: "none",
@@ -117,20 +115,20 @@ const DesignSet = ({
                               // src={
                               //   "https://smilingrocks.com/cdn/shop/products/Lab-grown-diamond-white-gold-earrings-sre00362wht_medium.jpg?v=1590473229"
                               // }
-                              className="srthelook_img"
+                              className="hoqthelook_img"
                             />
                           </div>
-                          <div className="srthelook_prodinfo">
+                          <div className="hoqthelook_prodinfo">
                             <div
                               style={{
                                 fontSize: "14px",
                                 color: "#7d7f85",
                                 textTransform: "uppercase",
                               }}
-                              className="srthelook_prodinfo_inner"
+                              className="hoqthelook_prodinfo_inner"
                             >
                               <p>
-                                {ele?.designno} - {ele?.CategoryName}
+                              <span className="name_hoq_ds">  {ele?.designno} - {ele?.CategoryName}</span>
                                 <br />
                                 {check && (<>
                                   <span className="hoq_currencyFont">
@@ -139,12 +137,13 @@ const DesignSet = ({
                                   </span>
                                 
                                 &nbsp;
-                                {
+                                <span className="hoq_currencyFont">  {
                                   formatter(
                                   ele?.UnitCostWithMarkUp
                                   )
                                 
-                                }</>)}
+                                }</span>
+                              </>)}
                               </p>
                             </div>
                             {/* <div>

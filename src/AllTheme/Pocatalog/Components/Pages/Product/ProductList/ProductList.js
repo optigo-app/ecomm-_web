@@ -842,13 +842,16 @@ const ProductList = () => {
   };
 
   const handleCartandWish = (e, ele, type) => {
+
+    console.log("event",e.target.checked)
+
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObj = {
       autocode: ele?.autocode,
       Metalid: selectedMetalId ?? ele?.MetalPurityid,
       MetalColorId: ele?.MetalColorid,
-      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
-      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
+      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
+      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       Size: ele?.DefaultSize,
       Unitcost: ele?.UnitCost,
       markup: ele?.DesignMarkUp,
@@ -3112,7 +3115,7 @@ const ProductList = () => {
                               {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="smr_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
-                                  <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "smr_productCard"}>
+                                  <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "procat_productCard"}>
 
                                     <div className="cart_and_wishlist_icon" style={{display:'none'}}>
                                       {/* <Checkbox
@@ -3189,35 +3192,7 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    <div className="proCat_app_product_label">
-                                      {productData?.StatusId == 1 ? (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      ) : productData?.StatusId == 2 ? (
-                                        <span className="proCat_app_MEMO">
-                                          In memo
-                                        </span>
-                                      ) : (
-                                        <span className="proCat_app_Make_to_order">
-                                          Make To Order
-                                        </span>
-                                      )}
-
-                                      {/* {productData?.StatusId == 1 && (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {productData?.StatusId == 2 && (
-                                        <span className="proCat_app_instock">
-                                          In memo
-                                        </span>
-                                      )} */}
-                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
-                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
-                                    </div>
+                                    
 
                                     <div
                                       onMouseEnter={() => {
@@ -3242,6 +3217,7 @@ const ProductList = () => {
                                         });
                                       }}
                                       className="smr_ImgandVideoContainer"
+                                      style={{position:'relative'}}
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
                                         true ? (
@@ -3293,6 +3269,36 @@ const ProductList = () => {
                                         // }}
                                         />
                                       )}
+
+                                      <div className="proCat_app_product_label" style={{bottom:'0px'}}>
+                                      {productData?.StatusId == 1 ? (
+                                        <span className="proCat_app_instock">
+                                          In Stock
+                                        </span>
+                                      ) : productData?.StatusId == 2 ? (
+                                        <span className="proCat_app_MEMO">
+                                          In memo
+                                        </span>
+                                      ) : (
+                                        <span className="proCat_app_Make_to_order">
+                                          Make To Order
+                                        </span>
+                                      )}
+
+                                      {/* {productData?.StatusId == 1 && (
+                                        <span className="proCat_app_instock">
+                                          In Stock
+                                        </span>
+                                      )}
+                                      {productData?.StatusId == 2 && (
+                                        <span className="proCat_app_instock">
+                                          In memo
+                                        </span>
+                                      )} */}
+                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
+                                    </div>
                                     </div>
 
                                       <FormControlLabel
@@ -3310,7 +3316,7 @@ const ProductList = () => {
                                           <LocalMallIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "white",
+                                              color: "#474747d1",
                                             }}
                                           />
                                           // <LocalMallIcon
@@ -3336,21 +3342,28 @@ const ProductList = () => {
                                         }
                                       />
                                         }
-                                        label={ !(cartArr[productData?.autocode] || productData?.IsInCart === 1) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: 'white' }}>Remove From Cart</span> }
+                                        label={ !(cartArr[productData?.autocode] ??
+                                          productData?.IsInCart === 1
+                                          ? true
+                                          : false) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: '#474747d1' }}>Remove From Cart</span> }
 
-                                        sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+                                        // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+                                        className={!(cartArr[productData?.autocode] ??
+                                          productData?.IsInCart === 1
+                                          ? true
+                                          : false) ? "procat_cart_btn" :"procat_cart_btn_alter"}
                                       />
 
                                     <div className="proCat_prod_card_info">
                                       <div className="smr_prod_Title">
-                                        <p
-                                          className="proCat1_prod_title_with_no_width">
-                                          {productData?.designno}{" "}
-                                          <span className="proCat_produtList_mobileTitle">
-                                            {productData?.TitleLine?.length > 0 &&
-                                              " - " + productData?.TitleLine}
-                                          </span>
-                                        </p>
+                                      <span
+                                          className="proCat1_prod_title_with_no_width"
+                                        >
+                                          {/* {productData?.TitleLine?.length > 0 &&
+                                            "-"}
+                                          {productData?.TitleLine}{" "} */}
+                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                        </span>
                                         {/* <span className="smr_prod_designno">
                                           {productData?.designno}
                                         </span> */}
@@ -3383,7 +3396,7 @@ const ProductList = () => {
                                             )}
                                           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span>|</span>:""}
+                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span style={{fontSize:'13px'}}>|</span>:""}
                                               <span className="smr_prod_wt">
                                                 <span className="smr_keys">
                                                   NWT:
@@ -3399,7 +3412,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                               { (storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span>|</span>:""}
+                                               { (storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span style={{fontSize:'13px'}}>|</span>:""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     DWT:
@@ -3417,7 +3430,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1 )?<span>|</span>:""}
+                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1 )?<span style={{fontSize:'13px'}}>|</span>:""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     CWT:

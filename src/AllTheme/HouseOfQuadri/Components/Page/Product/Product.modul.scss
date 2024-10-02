@@ -202,6 +202,9 @@
         padding: 5px 45px;
         display: flex;
         flex-direction: column;
+        .hoq_single_prod_designno{
+          font-family: $fontDmSans;
+        }
         .desc-p-details{
           .btn_sec_pd{
             display: flex;
@@ -287,8 +290,9 @@
             .hoq_single_prod_customize {
               width: 50%;
               border-radius: 3px;
-              .menuItemTimeEleveDeatil {
+              .hoqmenuItemTimeEleveDeatil {
                 font-size: 13px !important;
+                color: #797a7c;
               }
             }
           }
@@ -358,8 +362,10 @@
           padding: 4px 4px;
           border: 1px solid rgba(220, 220, 220, 0.712);
           margin-top: 2px;
-          .menuItemTimeEleveDeatil {
-            margin-left: 4px;
+          .hoqmenuItemTimeEleveDeatil {
+            color: #797a7c;
+
+              margin-left: 4px;
           }
         }
         .hoq_menuitemSelectoreMain {
@@ -928,7 +934,8 @@
             }
           }
           .hoq_single_prod_customize {
-            .menuItemTimeEleveDeatil {
+            .hoqmenuItemTimeEleveDeatil {
+              color: #797a7c;
               margin-left: 4px;
             }
           }
