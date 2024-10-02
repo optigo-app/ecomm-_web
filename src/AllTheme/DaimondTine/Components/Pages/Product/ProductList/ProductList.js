@@ -101,6 +101,8 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
 
+  const [customFlag,setCustomFlag] =  useState(false);
+
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const setCartCountVal = useSetRecoilState(dt_CartCount);
   const setWishCountVal = useSetRecoilState(dt_WishCount);
@@ -1007,7 +1009,7 @@ const ProductList = () => {
 
     sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
-    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
+    if (customFlag || (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId)) {
       if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
       }
@@ -2062,6 +2064,7 @@ const ProductList = () => {
                               value={selectedMetalId}
                               onChange={(e) => {
                                 setSelectedMetalId(e.target.value);
+                                setCustomFlag(true)
                               }}
                             >
                               {metalTypeCombo?.map((metalele) => (
@@ -2093,7 +2096,10 @@ const ProductList = () => {
                             <select
                               className="sortMenuSelection"
                               value={selectedDiaId}
-                              onChange={(e) => setSelectedDiaId(e.target.value)}
+                              onChange={(e) =>{
+                                setSelectedDiaId(e.target.value)
+                                setCustomFlag(true)
+                              }}
                             >
                               {diaQcCombo?.map((diaQc) => (
                                 <option
@@ -2127,7 +2133,10 @@ const ProductList = () => {
                             <select
                               className="sortMenuSelection"
                               value={selectedCsId}
-                              onChange={(e) => setSelectedCsId(e.target.value)}
+                              onChange={(e) =>{ 
+                                setSelectedCsId(e.target.value)
+                                setCustomFlag(true)
+                              }}
                             >
                               {csQcCombo?.map((csCombo) => (
                                 <option
