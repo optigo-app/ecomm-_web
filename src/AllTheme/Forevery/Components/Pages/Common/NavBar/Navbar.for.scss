@@ -392,9 +392,130 @@
               display: flex;
               height: auto;
               width: 100%;
-              padding: 35px 10px 15px 35px;
-              justify-content: center;
-              gap: 2.5rem;
+              padding: 25px;
+              gap: 2rem;
+              height: auto;
+              ul {
+                padding-left: 0 !important;
+              }
+              .dummy_mas {
+                flex: 0.6;
+                height: 100%;
+                .second_section {
+                  width: 100%;
+                  height: 20rem;
+                  .images {
+                    width: 100%;
+                    height: 100%;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    border: 1px solid #fc9e9e;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end;
+                    padding: 25px;
+
+                    .for-s-card {
+                      flex: 1;
+                      .for_btn {
+                        padding: 5px 18px;
+                      }
+
+                      &:last-child {
+                        text-align: right;
+                        color: white;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: start;
+                        align-content: start;
+
+                        button {
+                          background-color: transparent;
+                          color: white !important;
+                          border: 1px solid white;
+
+                          &:hover {
+                            border: 1px solid black;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              .masonry-layout > div {
+                position: relative; /* Position relative for pseudo-element positioning */
+              }
+
+              .masonry-layout > div::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 1px; /* Width of the border */
+                height: 100%; /* Full height of the item */
+                background-color: #ccc; /* Border color */
+              }
+
+              .masonry-layout > div:last-child::after {
+                display: none; /* Remove the border from the last item */
+              }
+              .masonry-layout {
+                flex: 1;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                gap: 15px;
+
+                .main_menu_for {
+                  flex: 1;
+                  .menu-title {
+                    font-weight: 700;
+                    font-size: 17px;
+                    background-color: #feeeeee8;
+                    margin-right: 1rem;
+                    padding: 4px 6px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    margin-bottom: 4px;
+                    text-decoration: none;
+                    color: inherit;
+                    a{
+                      text-decoration: none;
+                      color: inherit;
+                    }
+                  }
+                  .sub-menu {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+                    padding: 0 !important;
+                    margin: 0;
+                    li {
+                      padding: 1px 0 !important;
+                      margin: 0;
+                      list-style: none;
+                      text-decoration: none;
+                      color: inherit;
+                      font-weight: 400;
+                      font-size: 15px;
+                      line-height: 21px;
+                      cursor: pointer;
+                    }
+                    a {
+                      padding: 1px 0 !important;
+                      margin: 0;
+                      list-style: none;
+                      text-decoration: none;
+                      color: inherit;
+                      font-weight: 400;
+                      font-size: 15px;
+                      line-height: 21px;
+                      cursor: pointer;
+                    }
+                  }
+                }
+              }
 
               .first_Section {
                 display: flex;
@@ -402,7 +523,7 @@
 
                 .for_collection_card {
                   position: relative;
-                  width: 220px;
+                  width: 280px !important;
                   height: 302px;
 
                   .details_col {
@@ -464,6 +585,9 @@
 
                   .for-s-card {
                     flex: 1;
+                    .for_btn {
+                      padding: 5px 18px;
+                    }
 
                     &:last-child {
                       text-align: right;
@@ -936,8 +1060,6 @@
     }
   }
 }
-
-// MODAL SCSS
 
 .for_modal_cancel_btn_nav_div {
   position: absolute;

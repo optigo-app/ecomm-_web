@@ -68,3 +68,10 @@ export const for_Loader = atom({
   key: 'for_Loader',
   default: false,
 })
+
+
+export const for_NavbarItems = atom({
+  key: 'for_NavbarItems',
+  default: [],
+})
+
