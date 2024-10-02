@@ -39,9 +39,7 @@ const DiamondDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const isLoading = useRecoilValue(for_Loader);
-    console.log('location: ', location?.pathname.split('/'));
     const sliderRef = useRef(null);
-    const videoRef = useRef(null);
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let cookie = Cookies.get("visiterId");
     const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
@@ -50,16 +48,10 @@ const DiamondDetails = () => {
     const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
     const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
     const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps);
-    console.log('customizeStep1: ', customizeStep1);
-    console.log('customizeStep-diam: ', customizeStep);
     const [settingSteps, setSettingSteps] = useState();
-    console.log('settingSteps: ', settingSteps?.[1]?.step2);
     const stepsData = JSON.parse(sessionStorage.getItem('custStepData'))
-    console.log('stepsData: ', stepsData);
     const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-    console.log('steps22: ', steps1);
-    console.log('steps21: ', steps);
 
     useEffect(() => {
         setSettingSteps(JSON.parse(sessionStorage.getItem('customizeSteps2')));
@@ -76,7 +68,6 @@ const DiamondDetails = () => {
     };
 
     const [singleDiaData, setSingleDiaData] = useState([]);
-    console.log('singleDiaData: ', singleDiaData);
     const [shape, setShape] = useState()
     const [currentSlide, setCurrentSlide] = useState(0);
     const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -101,7 +92,7 @@ const DiamondDetails = () => {
     const [thumbImgIndex, setThumbImgIndex] = useState()
     const [pdThumbImg, setPdThumbImg] = useState([]);
     const [pdVideoArr, setPdVideoArr] = useState([]);
-    const [selectedThumbImg, setSelectedThumbImg] = useState();
+    const [selectedThumbImg, setSelectedThumbImg] = useState({ type: "video", src: singleDiaData?.[0]?.video_url });
     const [singleProd, setSingleProd] = useState({});
     const [singleProd1, setSingleProd1] = useState({});
     const [diaList, setDiaList] = useState([]);
@@ -115,27 +106,22 @@ const DiamondDetails = () => {
     const [metalWiseColorImg, setMetalWiseColorImg] = useState()
     const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
-    console.log('diamondData: ', diamondData);
     const [settingData, setSettingData] = useState();
-    console.log('settingData: ', settingData);
     const [setshape, setSetShape] = useState();
-    console.log('setshape: ', setshape);
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
     const [addToCardFlag, setAddToCartFlag] = useState(null);
     const [wishListFlag, setWishListFlag] = useState(false);
     const [addwishListFlag, setAddWishListFlag] = useState(null);
-    console.log('addwishListFlag: ', addwishListFlag);
     const [PdImageArr, setPdImageArr] = useState([]);
     const [price, setPrice] = useState();
-    console.log('price: ', price);
     const [ratingvalue, setratingvalue] = useState(5);
     const [filterVal, setFilterVal] = useState();
     const [Swap, setswap] = useState("diamond");
     const breadCrumb = location?.pathname?.split("/")[2];
     const [compSet, setCompSet] = useState(false);
-    console.log('compSet: ', compSet);
+    const [mediaArr, setMediaArr] = useState([]);
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -149,6 +135,16 @@ const DiamondDetails = () => {
     useEffect(() => {
         setCompSet(checkIfSettingCompPage(location?.pathname))
     }, [location?.pathname]);
+
+    useEffect(() => {
+        try {
+            if (singleDiaData === undefined) return;
+            const { image_file_url, video_url } = singleDiaData?.[0];
+            setMediaArr([{ type: 'video', src: video_url }, { type: 'image', src: image_file_url }])
+        } catch (error) {
+            console.log("Error in fetching medias", error)
+        }
+    }, [singleDiaData])
 
     useEffect(() => {
         if (compSet) {
@@ -215,10 +211,6 @@ const DiamondDetails = () => {
         setPrice(totalPrice);
     }, [compSet, totalPrice, steps, steps1]);
 
-
-    console.log('diamondData: ', diamondData);
-    console.log('settingData: ', settingData);
-
     const services = [
         {
             title: 'Free Shipping',
@@ -277,30 +269,6 @@ const DiamondDetails = () => {
             value: '10mm'
         },
     ]
-    console.log('sizeCombo: ', sizeCombo);
-
-    useEffect(() => {
-        const videoElement = videoRef.current;
-
-        if (!videoElement) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        videoElement.play();
-                    } else {
-                        videoElement.pause();
-                    }
-                });
-            },
-            { threshold: 0.5 }
-        );
-        observer.observe(videoElement);
-        return () => {
-            observer.disconnect();
-        };
-    }, []);
 
     useEffect(() => {
         const isInCart = (settingData?.step2Data?.IsInCart ?? settingData?.step1Data?.IsInCart) == 0 ? false : true;
@@ -616,9 +584,7 @@ const DiamondDetails = () => {
 
     useEffect(() => {
         let navVal = location?.search.split("?p=")[1];
-        console.log("ee", navVal.split('=')[1])
         let decodeobj = decodeAndDecompress(navVal);
-        console.log('decodeobj: ', decodeobj);
         getDiamondData(decodeobj?.a, decodeobj?.b);
         setShape(decodeobj?.b)
     }, [location?.pathname]);
@@ -640,7 +606,6 @@ const DiamondDetails = () => {
         setWishListFlag(e?.target?.checked);
         if (value == 'cart') {
             await CartAndWishListAPI('Cart', {}, '', '', stockno).then((res) => {
-                console.log(res?.Data?.rd[0])
                 if (res) {
                     if (res?.Data?.rd[0]?.msg === 'success') {
                         let cartC = res?.Data?.rd[0]?.Cartlistcount
@@ -698,7 +663,6 @@ const DiamondDetails = () => {
             };
 
             let encodeObj = compressAndEncode(JSON.stringify(obj));
-            console.log('encodeObj: ', encodeObj);
 
             navigate(`/d/setting-complete-product/det345/?p=${encodeObj}`);
 
@@ -734,7 +698,6 @@ const DiamondDetails = () => {
         if (value == 'ring') {
             const step1 = JSON.parse(sessionStorage.getItem("customizeSteps"));
             const stepData = JSON.parse(sessionStorage.getItem("custStepData"));
-            console.log('stepData: ', stepData);
             const addCategory = `Ring/category`;
             // const addCategory = `Ring/category/${stockno}`;
             const filterKeyVal = btoa(addCategory)
@@ -958,7 +921,6 @@ const DiamondDetails = () => {
             1 +
             "." +
             ImageExtension;
-        console.log('imgString: ', imgString);
         return imgString
     }
 
@@ -981,242 +943,175 @@ const DiamondDetails = () => {
                         <div className="for_DiamondDet_left_prodImages">
                             <div className="for_slider_container">
                                 <div className="for_images_slider">
-                                    {/* {loadingdata ? (
-                                        <> */}
-                                    {/* <div className="for_slider">
-                                                {Array.from({ length: 3 })?.map((val, i) => {
+                                    {isDataFound ? (
+                                        <>
+                                            <div className="for_slider">
+                                                {Array.from({ length: 3 })?.map((_, i) => {
                                                     return (
-                                                        <div
-                                                            key={i}
-                                                            onClick={() => handleThumbnailClick(i)}
-                                                            style={{
-                                                                backgroundColor: "transparent",
-                                                                width: '100%',
-                                                                height: '50px',
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                justifyContent: "center",
-                                                            }}
-                                                        >
-                                                            <Skeleton
-                                                                sx={{
-                                                                    backgroundColor: "#f0ededb4 !important;",
-                                                                    width: '65px',
-                                                                    height: '65px',
-                                                                    marginBottom: '1rem',
-                                                                }}
-                                                            />
+                                                        <div key={i} className='for_skeleton_thumb_div_dia' >
+                                                            <Skeleton className='for_skeleton_det_thumb_dia' />
                                                         </div>
                                                     );
                                                 })}
                                             </div>
                                             <div
-                                            // className="for_main_image"
+                                                className="for_main_image"
                                             >
-                                                <Skeleton
-                                                    variant='square'
-                                                    sx={{
-                                                        padding: '0',
-                                                        width: '34rem',
-                                                        height: '100%',
-                                                        backgroundColor: '#f0ededb4 !important'
-                                                    }}
-                                                />
-                                            </div> */}
-                                    {/* </>
-                                    ) : ( */}
-                                    {/* <> */}
-                                    <div className="for_slider">
-                                        {compSet && (
-                                            <div
-                                                className={`for_box active`}
-                                            >
-                                                <img
-                                                    src={designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))}
-                                                    alt=""
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src =
-                                                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                                    }}
-                                                />
+                                                <Skeleton variant='square' className='for_skeleton_main_image' />
                                             </div>
-                                        )}
-                                        {/* {PdImageArr?.map((val, i) => {
-                                                    return (
-                                                        <div
-                                                            key={i}
-                                                            className={`for_box ${ i === currentSlide ? "active" : ""}`}
-                                                            onClick={() => handleThumbnailClick(i)}
-                                                        >
-                                                            {val?.type === "img" ? (
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="for_slider">
+                                                {compSet && (
+                                                    <div
+                                                        className={`for_box active`}
+                                                    >
+                                                        <img
+                                                            src={designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))}
+                                                            alt=""
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src =
+                                                                    "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
+
+                                                {!compSet && (
+                                                    <>
+                                                        {mediaArr?.map((item, index) => {
+                                                            return (
+                                                                <div
+                                                                    key={index}
+                                                                    className={`for_box ${index === currentSlide ? "active" : ""}`}
+                                                                    onClick={() => handleThumbnailClick(index)}
+                                                                >
+                                                                    {item?.type === 'video' ? (
+                                                                        <>
+                                                                            {item?.src?.endsWith('.mp4') ? (
+                                                                                <div
+                                                                                    className="for_video_box_dia"
+                                                                                    style={{ position: "relative" }}
+                                                                                >
+                                                                                    <video
+                                                                                        src={item?.src}
+                                                                                        // autoPlay
+                                                                                        muted
+                                                                                        loop
+                                                                                    />
+                                                                                    <IoIosPlayCircle className="for_play_io_icon_dia" />
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div
+                                                                                    className="for_video_box_dia"
+                                                                                    style={{ position: "relative" }}
+                                                                                >
+                                                                                    <img
+                                                                                        src={`${storImagePath()}/images/ProductListing/Diamond/images/360-view.png`}
+                                                                                        onError={(e) => {
+                                                                                            e.target.onerror = null;
+                                                                                            e.target.src = imageNotFound
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            )}
+                                                                        </>
+                                                                    ) : (
+                                                                        item?.type === "image" && (
+                                                                            <img
+                                                                                src={item?.src}
+                                                                                alt=""
+                                                                                onError={(e) => {
+                                                                                    e.target.onerror = null;
+                                                                                    e.target.src = imageNotFound
+                                                                                }}
+                                                                            />
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </>
+                                                )}
+                                            </div>
+
+                                            <div className="for_main_image">
+                                                {!compSet && (
+                                                    <Slider {...settings} ref={sliderRef}
+                                                        lazyLoad="progressive">
+                                                        {mediaArr?.map((item, index) => (
+                                                            <div className="for_slider_card" key={index}>
+                                                                <div className="for_image">
+                                                                    {item?.type === 'video' && (
+                                                                        <>
+                                                                            {item?.src?.endsWith('.mp4') ? (
+                                                                                <div style={{ height: "80%" }}>
+                                                                                    <video
+                                                                                        src={item?.src}
+                                                                                        loop
+                                                                                        autoPlay
+                                                                                        muted
+                                                                                        style={{
+                                                                                            width: "100%",
+                                                                                            height: "100%",
+                                                                                            objectFit: "scale-down",
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div style={{ height: "80%" }}>
+                                                                                    <iframe src={item?.src} width="500px" height="500px" />
+                                                                                </div>
+                                                                            )}
+                                                                        </>
+                                                                    )}
+                                                                    {item?.type === 'image' && (
+                                                                        <img
+                                                                            loading="lazy"
+                                                                            src={item?.src}
+                                                                            alt=""
+                                                                            onLoad={() => setIsImageLoad(false)}
+                                                                            onError={(e) => {
+                                                                                e.target.onerror = null;
+                                                                                e.target.src = imageNotFound;
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </Slider>
+                                                )}
+                                                {compSet && (
+                                                    <Slider
+                                                        {...settings}
+                                                        ref={sliderRef}
+                                                        lazyLoad="progressive"
+                                                    >
+                                                        <div className="for_slider_card">
+                                                            <div className="for_image">
                                                                 <img
-                                                                    src={val?.src}
+                                                                    loading="lazy"
+                                                                    src={designImage(
+                                                                        settingData?.step1Data?.designno ?? settingData?.step2Data?.designno,
+                                                                        settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension
+                                                                    )}
                                                                     alt=""
-                                                                    onClick={() => {
-                                                                        setSelectedThumbImg({
-                                                                            link: val?.src,
-                                                                            type: "img",
-                                                                        });
-                                                                        setThumbImgIndex(i);
-                                                                    }}
+                                                                    onLoad={() => setIsImageLoad(false)}
                                                                     onError={(e) => {
                                                                         e.target.onerror = null;
-                                                                        e.target.src =
-                                                                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
+                                                                        e.target.src = imageNotFound
                                                                     }}
                                                                 />
-                                                            ) : (
-                                                                val?.type === "video" && (
-                                                                    <div
-                                                                        className="for_video_box"
-                                                                        style={{ position: "relative" }}
-                                                                    >
-                                                                        <video
-                                                                            src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
-                                                                            autoPlay
-                                                                            muted
-                                                                            loop
-                                                                            style={{
-                                                                                width: '65px',
-                                                                            }}
-                                                                        />
-                                                                        <IoIosPlayCircle className="for_play_io_icon" />
-                                                                    </div>
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    );
-                                                })} */}
-                                    </div>
-                                    {!compSet && (
-                                        <div
-                                            className="for_video_box_dia"
-                                            style={{ position: "relative" }}
-                                        >
-                                            <video
-                                                src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
-                                                autoPlay
-                                                muted
-                                                loop
-                                                style={{
-                                                    width: '65px',
-                                                }}
-                                            />
-                                            {/* <IoIosPlayCircle className="for_play_io_icon_dia" /> */}
-                                        </div>
-                                    )}
-                                    <div className="for_main_image">
-                                        {/* {PdImageArr?.length > 0 ? ( */}
-                                        <>
-                                            <Slider
-                                                {...settings}
-                                                ref={sliderRef}
-                                                lazyLoad="progressive"
-                                            >
-                                                {/* {PdImageArr?.map((val, i) => {
-                                                    return (
-                                                        <div key={i} className="for_slider_card">
-                                                            <div className="for_image">
-                                                                {val?.type == "img" ? (
-                                                                    <img
-                                                                        loading="lazy"
-                                                                        src={
-                                                                            val?.src ||
-                                                                            "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg"
-                                                                        }
-                                                                        alt={""}
-                                                                        onLoad={() => setIsImageLoad(false)}
-                                                                        onError={(e) => {
-                                                                            e.target.onerror = null;
-                                                                            e.target.src =
-                                                                                "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                                                        }}
-                                                                    />
-                                                                ) : (
-                                                                    <div
-                                                                        style={{
-                                                                            height: "80%",
-                                                                        }}
-                                                                    >
-                                                                        <video
-                                                                            src={'https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'}
-                                                                            ref={videoRef}
-                                                                            loop={true}
-                                                                            autoPlay={true}
-                                                                            muted
-                                                                            style={{
-                                                                                width: "100%",
-                                                                                height: "100%",
-                                                                                objectFit: "scale-down",
-                                                                            }}
-                                                                        />
-                                                                    </div>
-                                                                )}
                                                             </div>
                                                         </div>
-                                                    );
-                                                }
-                                                )} */}
-                                                {compSet && (
-                                                    <div className="for_slider_card">
-                                                        <div className="for_image">
-                                                            <img
-                                                                loading="lazy"
-                                                                src={
-                                                                    designImage((settingData?.step1Data?.designno ?? settingData?.step2Data?.designno), (settingData?.step1Data?.ImageExtension ?? settingData?.step2Data?.ImageExtension))
-                                                                }
-                                                                alt={""}
-                                                                onLoad={() => setIsImageLoad(false)}
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
-                                                                    e.target.src =
-                                                                        "https://www.defindia.org/wp-content/themes/dt-the7/images/noimage.jpg";
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </div>
+                                                    </Slider>
                                                 )}
-                                                {!compSet && (
-                                                    <div
-                                                        style={{
-                                                            height: "80%",
-                                                        }}
-                                                    >
-                                                        <video
-                                                            src='https://videos.gem360.in/gem360/1801231258-230000003696/video.mp4'
-                                                            ref={videoRef}
-                                                            loop={true}
-                                                            autoPlay={true}
-                                                            muted
-                                                            style={{
-                                                                width: "100%",
-                                                                height: "100%",
-                                                                objectFit: "scale-down",
-                                                            }}
-                                                        />
-                                                    </div>
-                                                )}
-                                            </Slider>
+                                            </div>
                                         </>
-                                        {/* ) :
-                                                    <div className="for_main_image">
-                                                        <img
-                                                            src={imageNotFound}
-                                                            alt={""}
-                                                            style={{
-                                                                width: "100%",
-                                                                height: "90%",
-                                                                objectFit: "contain",
-                                                                border: "1px solid #312f2f21",
-                                                                marginTop: "45px",
-                                                            }}
-                                                        />
-                                                    </div>
-                                                } */}
-                                    </div>
-                                    {/* </>
-                                    )} */}
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -1615,7 +1510,6 @@ const DiamondDetails = () => {
 export default DiamondDetails
 
 const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
-    console.log('data2121: ', data?.designno);
     const [storeInit, setStoreInit] = useState({});
     const [loginCurrency, setLoginCurrency] = useState();
     const Navigation = useNavigate();
@@ -1725,7 +1619,6 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 p: pValue,
                 f: {},
             };
-            console.log("ksjkfjkjdkjfkjsdk--", obj);
             let encodeObj = compressAndEncode(JSON.stringify(obj));
 
             handleOpen(null)
@@ -1810,13 +1703,11 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
     const getStepName = location?.pathname.split('/');
     const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
-    console.log('getdiaData: ', getdiaData);
     const setting = getStepName.includes('Ring') || getStepName.includes('Pendant');
     const settingActive = 'Ring' || 'Pendant' || 'Diamond_Pendants' || 'Engagement_Ring';
     const getCustStepData2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
     const getdiaData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
     const getCompleteStep1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
-    console.log('getCompleteStep1: ', getCompleteStep1);
     const getCompleteStep2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
 
     const handleToggle = () => {

@@ -146,8 +146,8 @@ const Career = () => {
                                 APPLY FOR COUNTRY
                             </option>
                             <option value="IN">INDIA</option>
-                            <option value="IN">USA</option>
-                            <option value="IN">UAE</option>
+                            {/* <option value="IN">USA</option>
+                            <option value="IN">UAE</option> */}
                         </select>
                         {/* <textarea placeholder="Message :" className={`elvee_input elvee_textarea`}></textarea> */}
                         <button type="submit" className="elvee_button">

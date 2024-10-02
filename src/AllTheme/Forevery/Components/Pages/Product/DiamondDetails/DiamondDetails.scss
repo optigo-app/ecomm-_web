@@ -9,6 +9,54 @@
             max-width: 82.5rem;
             margin-inline: auto;
 
+            @media (max-width: 1400px) {
+                max-width: 70rem;
+            }
+
+            @media (max-width: 1150px) {
+                max-width: 60rem;
+            }
+
+            @media (max-width: 970px) {
+                max-width: 50rem;
+            }
+
+            @media (max-width: 830px) {
+                max-width: 43rem;
+            }
+
+            @media (max-width: 768px) {
+                max-width: 40rem;
+            }
+
+            @media (max-width: 670px) {
+                max-width: 37rem;
+            }
+
+            @media (max-width: 600px) {
+                max-width: 35rem;
+            }
+
+            @media (max-width: 550px) {
+                max-width: 30rem;
+            }
+
+            @media (max-width: 470px) {
+                max-width: 23rem;
+            }
+
+            @media (max-width: 400px) {
+                max-width: 20rem;
+            }
+
+            @media (max-width: 375px) {
+                max-width: 20rem;
+            }
+
+            @media (max-width: 320px) {
+                max-width: 17rem;
+            }
+
             .for_DiamondDet_navigate_div {
                 width: 100%;
                 display: flex;
@@ -212,12 +260,50 @@
                 align-items: center;
                 gap: 45px;
 
+                @media (max-width: 600px) {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                @media (max-width: 320px) {
+                    max-width: 17rem;
+                    margin-inline: auto;
+                }
+
                 .for_DiamondDet_left_prodImages {
                     flex: 1 50%;
                     height: 36rem;
 
+                    @media (max-width: 1400px) {
+                        flex: 1 30%;
+                    }
+
+                    @media (max-width: 1150px) {
+                        flex: 1 20%;
+                    }
+
+                    @media (max-width: 600px) {
+                        display: none;
+                    }
+
                     .for_slider_container {
                         max-width: 42rem;
+
+                        @media (max-width: 1400px) {
+                            max-width: 35rem;
+                        }
+
+                        @media (max-width: 830px) {
+                            max-width: 19rem;
+                        }
+
+                        @media (max-width: 670px) {
+                            max-width: 15rem;
+                        }
+
+                        @media (max-width: 600px) {
+                            width: 100%;
+                        }
 
                         .for_slick_slider {
 
@@ -241,6 +327,26 @@
                             display: flex;
                             gap: 1.5rem;
 
+                            @media (max-width: 1150px) {
+                                width: 27rem;
+                            }
+
+                            @media (max-width: 970px) {
+                                display: flex;
+                                flex-direction: column-reverse;
+                                justify-content: flex-end;
+                                width: 100%;
+                            }
+
+                            @media (max-width: 830px) {
+                                width: 80% !important;
+                            }
+
+                            @media (max-width: 600px) {
+                                width: 34rem;
+                            }
+
+
                             .for_slider {
                                 width: 13%;
                                 display: flex;
@@ -249,12 +355,46 @@
                                 gap: 0.8rem;
                                 height: 80%;
 
+                                @media (max-width: 970px) {
+                                    display: flex;
+                                    flex-direction: row;
+                                    width: 100%;
+                                    justify-content: center;
+                                }
+
+                                @media (max-width: 830px) {
+                                    width: 19.1rem;
+                                }
+
+                                @media (max-width: 670px) {
+                                    width: 16rem;
+                                }
+
+                                @media (max-width: 600px) {
+                                    width: 100%;
+                                }
+
                                 &::-webkit-scrollbar {
                                     display: none;
                                 }
 
                                 &::-webkit-scrollbar-thumb {
                                     display: block;
+                                }
+
+                                .for_skeleton_thumb_div_dia {
+                                    background-color: transparent;
+                                    width: 100%;
+                                    height: 55px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    .for_skeleton_det_thumb_dia {
+                                        background-color: #f0ededb4 !important;
+                                        width: 65px;
+                                        height: 100px;
+                                    }
                                 }
 
                                 .for_box {
@@ -298,8 +438,8 @@
                                         }
 
                                         video {
-                                            width: inherit;
-                                            height: inherit;
+                                            height: 65px;
+                                            width: 65px;
                                             object-fit: contain;
                                         }
                                     }
@@ -308,26 +448,118 @@
 
                             .for_main_image {
                                 min-width: 32.5rem;
+                                position: relative;
+
+                                @media (max-width: 1400px) {
+                                    min-width: 29rem;
+                                }
+
+                                @media (max-width: 1150px) {
+                                    min-width: 24rem;
+                                }
+
+                                @media (max-width: 970px) {
+                                    width: 25rem;
+                                }
+
+                                @media (max-width: 600px) {
+                                    width: 100% !important;
+                                }
+
+
+                                .for_skeleton_main_image {
+                                    padding: 0;
+                                    width: 34rem;
+                                    height: 100%;
+                                    background-color: #f0ededb4 !important;
+
+                                    @media (max-width: 1400px) {
+                                        width: 30rem;
+                                    }
+
+                                    @media (max-width: 1150px) {
+                                        width: 26rem;
+                                    }
+
+                                    @media (max-width: 970px) {
+                                        width: 25rem;
+                                        height: 28rem;
+                                    }
+
+                                    @media (max-width: 830px) {
+                                        width: 21rem;
+                                        height: 27rem;
+                                    }
+
+                                    @media (max-width: 670px) {
+                                        width: 16rem;
+                                        height: 21rem;
+                                    }
+                                }
 
                                 .for_slider_card {
                                     width: 100%;
                                     height: auto;
                                     margin: 0 !important;
                                     padding: 0 !important;
+                                    margin-top: 5%;
+
+                                    @media (max-width: 830px) {
+                                        width: 80%;
+                                    }
+
+                                    @media (max-width: 600px) {
+                                        width: 100%;
+                                    }
 
                                     .for_image {
-                                        // background-color: rgba(175, 172, 172, 0.164);
-                                        height: 80%;
+                                        // width: 100%;
+                                        // min-height: 570px;
+                                        // height: auto;
+                                        // display: flex;
+                                        // justify-content: center;
+                                        // align-items: center;
+
+                                        height: 570px;
+                                        overflow: hidden;
                                         display: flex;
                                         align-items: center;
                                         justify-content: center;
 
-                                        img {
+                                        @media (max-width: 970px) {
+                                            height: 370px;
                                             width: 100%;
-                                            min-height: 570px;
+                                        }
+
+                                        @media (max-width: 830px) {
+                                            height: 370px;
+                                            width: 19.1rem;
+                                        }
+
+                                        @media (max-width: 670px) {
+                                            height: 270px;
+                                            width: 16rem;
+                                        }
+
+                                        @media (max-width: 600px) {
+                                            height: 470px;
+                                            width: 100%;
+                                        }
+
+
+                                        img {
+                                            // max-height: 100%;
+                                            // max-width: 100%;
+                                            // height: auto;
+                                            // object-fit: contain;
+                                            // object-position: center;
+                                            width: 100%;
+                                            border: 1px solid rgba(255, 228, 234, .451);
                                             object-fit: contain;
                                             object-position: center;
-                                            // mix-blend-mode: multiply !important;
+                                            transform-origin: center center;
+                                            height: 100%;
+                                            width: 100%;
                                         }
 
                                         video {
@@ -335,8 +567,6 @@
                                             height: 100%;
                                         }
                                     }
-
-                                    margin-top: 5%;
                                 }
                             }
                         }
@@ -344,10 +574,372 @@
                     }
                 }
 
+                // krjfgerfgryjefwerjfgerfgjevrvghervgervgrjvgege
+
+                .for_DiamondDet_left_prodImages_mob {
+                    display: flex;
+                    flex: 1 50%;
+                    height: 36rem;
+
+                    .for_slider_container_mob {
+                        max-width: 34rem;
+
+                        .for_slick_slider_mob {
+
+                            .for_DiamondDet_image_div_mob {
+                                width: 100% !important;
+                                height: 100%;
+                                border: none;
+                                outline: none;
+
+                                .for_DiamondDet_image_mob {
+                                    height: 570px;
+                                    outline: none;
+                                }
+                            }
+                        }
+
+                        .forWeb_app_product_label_mob {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 3px;
+                            font-size: 14px;
+                            font-family: $primaryFontFamily;
+                            z-index: 100;
+
+                            .forWeb_app_instock_mob {
+                                background-color: #00b894;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                                font-weight: 500;
+                            }
+
+                            .forWeb_app_bestSeller_mob {
+                                background-color: #ff5100;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+
+                            .forWeb_app_newarrival_mob {
+                                background-color: darkblue;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+
+                            .forWeb_app_intrending_mob {
+                                background-color: darkorange;
+                                color: white;
+                                text-transform: uppercase;
+                                width: 70px;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+
+                        }
+
+
+
+                        .for_images_slider_mob {
+                            width: 34rem;
+                            min-height: 570px;
+                            display: flex;
+                            gap: 1.5rem;
+
+                            @media (max-width: 600px) {
+                                display: flex;
+                                flex-direction: column-reverse;
+                                justify-content: center;
+                            }
+
+                            @media (max-width: 550px) {
+                                justify-content: flex-end;
+                                max-width: 28rem;
+                                margin-inline: auto;
+                            }
+
+                            @media (max-width: 470px) {
+                                max-width: 24rem;
+                                min-height: 480px;
+                                margin-inline: auto;
+                            }
+
+                            @media (max-width: 400px) {
+                                max-width: 22rem;
+                                min-height: 415px;
+                                margin-inline: auto;
+                            }
+
+                            @media (max-width: 374px) {
+                                max-width: 20rem;
+                                margin-inline: auto;
+                            }
+
+                            @media (max-width: 320px) {
+                                max-width: 17rem;
+                                margin-inline: auto;
+                            }
+
+                            .for_slider_mob {
+                                width: 13%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: 0.8rem;
+                                height: 80%;
+
+                                @media (max-width: 600px) {
+                                    width: 100%;
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: center;
+                                }
+
+                                &::-webkit-scrollbar {
+                                    display: none;
+                                }
+
+                                &::-webkit-scrollbar-thumb {
+                                    display: block;
+                                }
+
+                                .for_skeleton_thumb_div_dia_mob {
+                                    background-color: transparent;
+                                    width: 100%;
+                                    height: 55px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+
+
+                                .for_skeleton_det_thumb_dia_mob {
+                                    background-color: #f0ededb4 !important;
+                                    width: 65px;
+                                    height: 100px;
+                                }
+
+                                .for_box_mob {
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background-color: rgba(235, 232, 232, 0.329);
+
+                                    img {
+                                        height: 65px;
+                                        width: 65px;
+                                        object-fit: contain;
+                                        mix-blend-mode: multiply;
+                                    }
+
+                                    &.active {
+                                        opacity: 1;
+                                        border: 1px solid #fbc6c6 !important;
+                                        border-radius: 2px;
+                                    }
+
+                                    .for_video_box_dia_mob {
+                                        overflow: hidden;
+                                        width: 100%;
+                                        height: 100%;
+                                        position: relative;
+                                        border: none;
+                                        outline: none;
+                                        margin: 0;
+                                        padding: 2px;
+
+                                        .for_play_io_icon_dia_mob {
+                                            color: white;
+                                            font-size: 2rem;
+                                            position: absolute;
+                                            top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                        }
+
+                                        video {
+                                            width: inherit;
+                                            height: inherit;
+                                            object-fit: contain;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .for_main_image_mob {
+                                // min-width: 34rem;
+                                position: relative;
+
+                                .for_skeleton_main_image_mob {
+                                    padding: 0;
+                                    width: 34rem;
+                                    height: 100%;
+                                    background-color: #f0ededb4 !important;
+
+                                    @media (max-width: 600px) {
+                                        height: 30rem;
+                                    }
+
+                                    @media (max-width: 550px) {
+                                        height: 30rem;
+                                        width: 28rem;
+                                    }
+
+                                    @media (max-width: 470px) {
+                                        height: 25rem;
+                                        width: 24rem;
+                                    }
+
+                                    @media (max-width: 400px) {
+                                        height: 23rem;
+                                        width: 22rem;
+                                    }
+
+                                    @media (max-width: 375px) {
+                                        height: 21rem;
+                                        width: 20rem;
+                                    }
+
+                                    @media (max-width: 320px) {
+                                        height: 21rem;
+                                        width: 17rem;
+                                    }
+                                }
+
+                                .zoom-lens {
+                                    position: absolute;
+                                    border: 1px solid #d4d4d4;
+                                    border-radius: 50%;
+                                    cursor: none;
+                                    background-repeat: no-repeat;
+                                    pointer-events: none;
+                                }
+
+                                .for_slider_card_mob {
+                                    width: 100%;
+                                    height: auto;
+                                    margin: 0 !important;
+                                    padding: 0 !important;
+                                    margin-top: 5%;
+
+                                    .for_image_mob {
+                                        height: 470px;
+                                        overflow: hidden;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+
+                                        @media (max-width: 470px) {
+                                            height: 370px;
+                                        }
+
+                                        @media (max-width: 400px) {
+                                            height: 300px;
+                                        }
+
+                                        img {
+                                            width: 100%;
+                                            border: 1px solid rgba(255, 228, 234, .451);
+                                            object-fit: contain;
+                                            object-position: center;
+                                            transform-origin: center center;
+                                            height: 100%;
+                                            max-height: 100%;
+                                        }
+
+                                        video {
+                                            width: 100%;
+                                            height: 100%;
+                                        }
+
+                                        // #container {
+                                        //     height: 500px;
+                                        //     width: 500px;
+                                        //     overflow: hidden;
+                                        // }
+                                    }
+
+
+                                    // #container {
+                                    //     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+                                    //     height: 500px;
+                                    //     width: 500px;
+                                    //     overflow: hidden;
+                                    // }
+
+                                    // img {
+                                    //     transform-origin: center center;
+                                    //     object-fit: cover;
+                                    //     height: 100%;
+                                    //     width: 100%;
+                                    // }
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+
                 .for_DiamondDet_right_prodDetails {
                     flex: 1 50%;
                     font-family: $primaryFontFamily;
                     height: 36rem;
+
+                    @media (max-width: 1400px) {
+                        flex: 1 25%;
+                        background-color: white;
+                        z-index: 99;
+                    }
+
+                    @media (max-width: 1150px) {
+                        flex: 1 15%;
+                        background-color: white;
+                        z-index: 99;
+                    }
+
+                    @media (max-width: 768px) {
+                        background-color: white;
+                        z-index: 99;
+                    }
+
+                    @media (max-width: 600px) {
+                        max-width: 34rem;
+                    }
+
+                    @media (max-width: 550px) {
+                        max-width: 28rem;
+                    }
+
+                    @media (max-width: 470px) {
+                        max-width: 24rem;
+                    }
+
+                    @media (max-width: 400px) {
+                        max-width: 22rem;
+                    }
+
+                    @media (max-width: 374px) {
+                        max-width: 20rem;
+                    }
+
+                    @media (max-width: 320px) {
+                        max-width: 17rem;
+                    }
 
                     .for_DiamondDet_breadcrumbs {
                         font-size: 13px;
@@ -675,6 +1267,10 @@
                             height: 44px;
                             font-size: $fontSize4;
                             font-weight: 600;
+
+                            @media (max-width: 600px) {
+                                width: 100%;
+                            }
                         }
                     }
 
@@ -858,6 +1454,35 @@
                 margin-inline: auto;
                 font-family: $primaryFontFamily;
 
+                @media (max-width: 1000px) {
+                    max-width: 55rem;
+                    margin-inline: auto;
+                }
+
+                @media (max-width: 600px) {
+                    max-width: 35rem;
+                }
+
+                @media (max-width: 550px) {
+                    max-width: 30rem;
+                }
+
+                @media (max-width: 470px) {
+                    max-width: 25rem;
+                }
+
+                @media (max-width: 400px) {
+                    max-width: 20rem;
+                }
+
+                @media (max-width: 375px) {
+                    max-width: 20rem;
+                }
+
+                @media (max-width: 320px) {
+                    max-width: 17rem;
+                }
+
                 .for_DiamondDet_desc {
                     display: flex;
                     flex-direction: column;
@@ -958,8 +1583,18 @@
         .for_DiamondDet_trend_coll_banner_div {
             margin-top: 3rem;
 
-            .for_trend_coll_image {
-                width: 100%;
+            .for_trend_coll_image_div {
+                @media (max-width: 1000px) {
+                    max-width: 60rem;
+                    margin-inline: auto;
+                    padding-inline: 10px;
+                }
+
+                .for_trend_coll_image {
+                    width: 100%;
+                    min-height: 400px;
+                    object-fit: none;
+                }
             }
 
             .for_trend_coll_details_div {
@@ -975,11 +1610,29 @@
                     flex-direction: column;
                     margin-top: 7rem;
 
+                    @media (max-width: 1400px) {
+                        margin-top: 4rem;
+                        width: 65%;
+                    }
+
+                    @media (max-width: 1400px) {
+                        width: 100%;
+                        margin-top: 2rem;
+                    }
+
                     .for_trenf_coll_tit1 {
                         text-align: center;
                         font-family: "Parisienne", cursive;
                         font-size: 33px;
                         font-weight: 500;
+
+                        @media (max-width: 500px) {
+                            font-size: 30px;
+                        }
+
+                        @media (max-width: 500px) {
+                            font-size: 25px;
+                        }
                     }
 
                     .for_trenf_coll_tit2 {
@@ -988,6 +1641,14 @@
                         font-size: 35px;
                         text-transform: uppercase;
                         font-weight: 500;
+
+                        @media (max-width: 500px) {
+                            font-size: 30px;
+                        }
+
+                        @media (max-width: 375px) {
+                            font-size: 25px;
+                        }
                     }
 
                     .for_trend_coll_para {
@@ -998,6 +1659,14 @@
                             text-align: center;
                             font-size: $fontSize2;
                             line-height: 23px;
+
+                            @media (max-width: 500px) {
+                                font-size: 12px;
+                            }
+
+                            @media (max-width: 500px) {
+                                font-size: 11px;
+                            }
                         }
                     }
 
@@ -1012,6 +1681,10 @@
                             font-size: $fontSize4;
                             font-weight: 600;
                             background: transparent;
+
+                            @media (max-width: 400px) {
+                                width: 18rem;
+                            }
                         }
                     }
                 }

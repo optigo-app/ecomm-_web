@@ -1,13 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MdDateRange } from "react-icons/md";
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { ImClock2 } from "react-icons/im";
 import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalFunction';
 import './Appointment.scss';
 
 const Appointment = () => {
     const [selectedbox, setselectedbox] = useState(null);
-    const [selectedDate, setSelectedDate] = useState('');
-    const dateRef = useRef(null);
+    const [selectedDate, setSelectedDate] = useState();
+
+    const inputRef = useRef(null);
+
+    const handleClick = () => {
+        if (inputRef.current) {
+            inputRef.current.showPicker()
+        }
+    };
 
     useEffect(() => {
         window.scrollTo({
@@ -16,12 +26,6 @@ const Appointment = () => {
         });
     }, []);
 
-    const handleIconClick = () => {
-        console.log('Icon clicked'); // Debugging line
-        if (dateRef.current) {
-            dateRef.current.showPicker();
-        }
-    };
 
     const appointment = [
         { src: `${storImagePath()}/images/HomePage/Appointment/Collection.jpg`, alt: "Collection" },
@@ -53,7 +57,7 @@ const Appointment = () => {
                 </div>
                 <div className="grid_layout_card">
                     <div className="service_bar">
-                        <span>Select a service</span>
+                        {/* <span>Select a service</span> */}
                     </div>
                     {/* <div className="layout_elvee_grid">
                         {appointment.map((val, i) => (
@@ -75,7 +79,7 @@ const Appointment = () => {
                             <span>Your Appointment</span>
                         </div>
                         <div className="time_grid_elvee">
-                            <label className='elv_lab_1'>
+                            {/* <label className='elv_lab_1'>
                                 <input
                                     type="date"
                                     ref={dateRef}
@@ -98,11 +102,23 @@ const Appointment = () => {
                                     onClick={() => dateRef.current && dateRef.current.focus()} // Focus instead of click
                                     size={26}
                                 />
-                            </label>
+                            </label> */}
                             <label className='elv_lab_2'>
-                                <input type="datetime-local" placeholder="Time: hh:mm" />
-                                <ImClock2 size={26} />
+                                <input type="datetime-local" ref={inputRef} placeholder="Time: hh:mm" />
+                                <ImClock2 className='elv_date_icon' size={26} onClick={() => {
+                                    inputRef.current.showPicker();
+                                }} />
                             </label>
+                            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DateTimePicker']} sx={{ width: '48%' }}>
+                                    <DateTimePicker
+                                        className="elv_date_time_picker"
+                                        label="Select date and time"
+                                        value={selectedDate}
+                                        onChange={(newValue) => setSelectedDate(newValue)}
+                                    />
+                                </DemoContainer>
+                            </LocalizationProvider> */}
                         </div>
                         <div className="service_bar">
                             <span>Your Details</span>
