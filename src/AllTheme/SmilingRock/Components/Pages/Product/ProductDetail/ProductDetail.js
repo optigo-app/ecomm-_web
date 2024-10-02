@@ -85,6 +85,9 @@ const ProductDetail = () => {
 
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  
 
   const [prodLoading, setProdLoading] = useState(true);
 
@@ -109,6 +112,10 @@ const ProductDetail = () => {
   const [cartArr, setCartArr] = useState({});
   let cookie = Cookies.get("visiterId");
   const navigate = useNavigate();
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -1381,7 +1388,7 @@ const ProductDetail = () => {
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {isImageload  && (
+                      {isImageload && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1396,8 +1403,7 @@ const ProductDetail = () => {
                       <div
                         className="smr_main_prod_img"
                         style={{
-                          display:
-                            isImageload  ? "none" : "block",
+                          display: isImageload ? "none" : "block",
                         }}
                       >
                         {/* {isVisionShow && (
@@ -1460,39 +1466,51 @@ const ProductDetail = () => {
                             />
                           )} */}
 
-                        { !isVisionShow ? ((selectedThumbImg?.type == "img") ? (
-                          <img
-                            src={selectedThumbImg?.link}
-                            onError={() => {
-                              setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })
-                            }}
-                            alt={""}
-                            onLoad={() =>{ 
-                              setIsImageLoad(false)
-                            }}
-                            className="smr_prod_img"
-                          />
-                        ) : (
-                          <div className="smr_prod_video">
-                            <video
+                        {!isVisionShow ? (
+                          selectedThumbImg?.type == "img" ? (
+                            <img
                               src={selectedThumbImg?.link}
-                              loop={true}
-                              autoPlay={true}
-                              // poster={ (prodLoading && isImageload) ? ( pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound) : null}
-                              style={{
-                                width: "100%",
-                                objectFit: "cover",
-                                marginTop: "40px",
-                                borderRadius: "8px",
+                              onError={() => {
+                                setSelectedThumbImg({
+                                  link: imageNotFound,
+                                  type: "img",
+                                });
                               }}
+                              alt={""}
+                              onLoad={() => {
+                                setIsImageLoad(false);
+                              }}
+                              className="smr_prod_img"
                             />
-                          </div>
-                        )):
-                        (
-                          <iframe src={vison360}  className="smr_prod_img" style={{height:"80%",overflow:'hidden',border:'none',marginLeft:'5%',marginTop:'5%'}} />
-
-                        )
-                        }
+                          ) : (
+                            <div className="smr_prod_video">
+                              <video
+                                src={selectedThumbImg?.link}
+                                loop={true}
+                                autoPlay={true}
+                                // poster={ (prodLoading && isImageload) ? ( pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound) : null}
+                                style={{
+                                  width: "100%",
+                                  objectFit: "cover",
+                                  marginTop: "40px",
+                                  borderRadius: "8px",
+                                }}
+                              />
+                            </div>
+                          )
+                        ) : (
+                          <iframe
+                            src={vison360}
+                            className="smr_prod_img"
+                            style={{
+                              height: "80%",
+                              overflow: "hidden",
+                              border: "none",
+                              marginLeft: "5%",
+                              marginTop: "5%",
+                            }}
+                          />
+                        )}
 
                         <div className="smr_main_thumb_prod_img">
                           {(pdThumbImg?.length > 1 ||
@@ -1626,14 +1644,56 @@ const ProductDetail = () => {
                                   </span>
                                 </span>
                               ) : null}
-                              <span className="smr_prod_short_key">
+                              {(singleProd1?.Dwt ?? singleProd?.Dwt) !== 0 ? <span className="smr_prod_short_key">
                                 Dia. wt :{" "}
                                 <span className="smr_prod_short_val">
                                   {(
                                     singleProd1?.Dwt ?? singleProd?.Dwt
                                   )?.toFixed(3)}
                                 </span>
-                              </span>
+                              </span> : null}
+                              {singleProd?.description && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    marginTop: "12px",
+                                  }}
+                                >
+                                  <p
+                                    style={{
+                                      color: "#7d7f85",
+                                      fontSize: "14px",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      display: isExpanded
+                                        ? "block"
+                                        : "-webkit-box",
+                                      WebkitBoxOrient: "vertical",
+                                      WebkitLineClamp: isExpanded ? "none" : 3,
+                                      height: isExpanded ? "auto" : "4.5em",
+                                      margin: "0px",
+                                    }}
+                                  >
+                                    {singleProd?.description}
+                                  </p>
+                                  <a
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      toggleExpand();
+                                    }}
+                                    style={{
+                                      color: "#7d7f85",
+                                      fontSize: "13px",
+                                      fontWeight: "500",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    {isExpanded ? "Show less" : "Read more"}
+                                  </a>
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -2357,7 +2417,9 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="smr_material_details_portion">
-                  {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
+                  {(diaList?.length > 0 ||
+                    csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
+                    csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
                     <p className="smr_details_title"> Product Details</p>
                   )}
                   {diaList?.length > 0 && (
@@ -2387,7 +2449,7 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -2398,10 +2460,13 @@ const ProductDetail = () => {
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
                           style={{ fontWeight: 600 }}
-                        >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
-                          (accumulator, data) => accumulator + data.M,
-                          0
-                        )}  ${csList?.filter((ele) => ele?.D !== "MISC")
+                        >{`ColorStone Detail (${csList
+                          ?.filter((ele) => ele?.D !== "MISC")
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data.M,
+                            0
+                          )}  ${csList
+                          ?.filter((ele) => ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2414,28 +2479,31 @@ const ProductDetail = () => {
                         <li className="smr_proDeatilList">Color</li>
                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
-                      {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
-                          </li>
-                        </ul>
-                      ))}
+                      {csList
+                        ?.filter((ele) => ele?.D !== "MISC")
+                        ?.map((data) => (
+                          <ul className="smr_mt_detail_title_ul">
+                            <li className="smr_proDeatilList1">{data?.F}</li>
+                            <li className="smr_proDeatilList1">{data?.H}</li>
+                            <li className="smr_proDeatilList1">{data?.J}</li>
+                            <li className="smr_proDeatilList1">
+                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                            </li>
+                          </ul>
+                        ))}
                     </div>
                   )}
 
                   {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
-                        <li
-                          style={{ fontWeight: 600 }}
-                        >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
-                          (accumulator, data) => accumulator + data.M,
-                          0
-                        )}  ${csList?.filter((ele) => ele?.D === "MISC")
+                        <li style={{ fontWeight: 600 }}>{`MISC Detail (${csList
+                          ?.filter((ele) => ele?.D === "MISC")
+                          ?.reduce(
+                            (accumulator, data) => accumulator + data.M,
+                            0
+                          )}  ${csList
+                          ?.filter((ele) => ele?.D === "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2448,16 +2516,18 @@ const ProductDetail = () => {
                         <li className="smr_proDeatilList">Color</li>
                         <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
                       </ul>
-                      {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
-                        <ul className="smr_mt_detail_title_ul">
-                          <li className="smr_proDeatilList1">{data?.F}</li>
-                          <li className="smr_proDeatilList1">{data?.H}</li>
-                          <li className="smr_proDeatilList1">{data?.J}</li>
-                          <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
-                          </li>
-                        </ul>
-                      ))}
+                      {csList
+                        ?.filter((ele) => ele?.D === "MISC")
+                        ?.map((data) => (
+                          <ul className="smr_mt_detail_title_ul">
+                            <li className="smr_proDeatilList1">{data?.F}</li>
+                            <li className="smr_proDeatilList1">{data?.H}</li>
+                            <li className="smr_proDeatilList1">{data?.J}</li>
+                            <li className="smr_proDeatilList1">
+                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                            </li>
+                          </ul>
+                        ))}
                     </div>
                   )}
                 </div>
