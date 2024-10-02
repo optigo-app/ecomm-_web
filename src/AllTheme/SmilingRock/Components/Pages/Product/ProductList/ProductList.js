@@ -105,6 +105,8 @@ const ProductList = () => {
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   let cookie = Cookies.get('visiterId')
 
+  const [customFlag,setCustomFlag] =  useState(false);
+
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
@@ -822,9 +824,8 @@ const ProductList = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-
-
-    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
+    
+    if (customFlag || (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId)) {
       if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
       }
@@ -2913,7 +2914,10 @@ const ProductList = () => {
                                 <select
                                   className="select"
                                   value={selectedMetalId}
-                                  onChange={(e) => setSelectedMetalId(e.target.value)}
+                                  onChange={(e) =>{ 
+                                    setCustomFlag(true)
+                                    setSelectedMetalId(e.target.value)
+                                  }}
                                 >
                                   {metalTypeCombo?.map((metalele, i) => (
                                     <option
@@ -2933,7 +2937,10 @@ const ProductList = () => {
                                   <select
                                     className="select"
                                     value={selectedDiaId}
-                                    onChange={(e) => setSelectedDiaId(e.target.value)}
+                                    onChange={(e) =>{ 
+                                      setCustomFlag(true)
+                                      setSelectedDiaId(e.target.value)
+                                    }}
                                   >
                                     {diaQcCombo?.map((diaQc, i) => (
                                       <option
@@ -2955,7 +2962,10 @@ const ProductList = () => {
                                   <select
                                     className="select"
                                     value={selectedCsId}
-                                    onChange={(e) => setSelectedCsId(e.target.value)}
+                                    onChange={(e) =>{ 
+                                      setCustomFlag(true)
+                                      setSelectedCsId(e.target.value)
+                                    }}
                                   >
                                     {csQcCombo?.map((csCombo, i) => (
                                       <option
