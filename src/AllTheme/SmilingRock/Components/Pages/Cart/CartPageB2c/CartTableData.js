@@ -18,7 +18,7 @@ const ExampleComponent = ({
     onRemove
 
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const setCartCountVal = useSetRecoilState(CartCount)
     const [storeInitData, setStoreInitData] = useState();
     const visiterId = Cookies.get('visiterId');
@@ -69,11 +69,13 @@ const ExampleComponent = ({
             <tbody>
                 <tr key={cartData.id} className="smr_B2C-cartData-row">
                     <td className='smr_b2cCartImagetd'>
-                        <img
-                            className='smr_b2ccartImage'
-                            src={imageSrc}
-                            alt={`cartData images`}
-                        />
+                        {imageSrc != undefined &&
+                            <img
+                                className='smr_b2ccartImage'
+                                src={imageSrc}
+                                alt={`cartData images`}
+                            />
+                        }
                     </td>
                     <td className='smr_b2ccartContentTd'>
                         <p className='smr_b2ccartContentTitle' title="Titleline">{cartData?.TitleLine}</p>

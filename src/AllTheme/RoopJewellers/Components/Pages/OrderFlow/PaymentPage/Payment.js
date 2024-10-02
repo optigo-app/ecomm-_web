@@ -13,16 +13,19 @@ import Cookies from "js-cookie";
 import { fetchEstimateTax } from '../../../../../../utils/API/OrderFlow/GetTax';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
+import { Skeleton } from '@mui/material';
 
 const Payment = () => {
     const [isloding, setIsloding] = useState(false);
+    const [isploding, setIsPloding] = useState(false);
     const navigate = useNavigate();
     const [selectedAddrData, setSelectedAddrData] = useState();
     const [totalprice, setTotalPrice] = useState();
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
-    const [taxAmmount, setTaxAmount] = useState();
+    const [taxAmmountData, setTaxAmountData] = useState();
+    const [storeinit, setStoreInit] = useState();
 
     const setCartCountVal = useSetRecoilState(roop_CartCount);
 
@@ -43,16 +46,11 @@ const Payment = () => {
     //     handleClose();
     // };
 
-    
+
     const handleSaveInternal = () => {
-        const trimmedRemark = orderRemark.trim();
-    
-        if (trimmedRemark && trimmedRemark !== "null") {
-            handleOrderRemarkFun(trimmedRemark);
-            handleClose();
-        } else {
-            toast.info("Please add a remark first!");
-        }        
+        const trimmedRemark = orderRemark?.trim();
+        handleOrderRemarkFun(trimmedRemark);
+        handleClose();
     };
 
     console.log('orderreamrk', orderRemark);
@@ -64,6 +62,7 @@ const Payment = () => {
         const orderRemakdata = sessionStorage.getItem("orderRemark");
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const storedData = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+        setStoreInit(storeInit)
         setOrderRemarkData(orderRemakdata);
         if (storeInit?.IsB2BWebsite != 0) {
             setCurrencyData(storedData?.Currencysymbol)
@@ -77,18 +76,22 @@ const Payment = () => {
     }
 
     useEffect(() => {
+        setIsPloding(true);
         const fetchData = async () => {
             try {
-                const texData = await fetchEstimateTax();
-                if (texData) {
-                    setTaxAmount(texData[0]?.TaxAmount);
+                const taxData = await fetchEstimateTax();
+
+                if (taxData) {
+                    const data = taxData[0];
+                    setTaxAmountData(data);
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
+            } finally {
+                setIsPloding(false);
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-           
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -107,7 +110,7 @@ const Payment = () => {
         const visiterId = Cookies.get('visiterId');
         setIsloding(true);
         const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-        
+
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
@@ -116,7 +119,7 @@ const Payment = () => {
             sessionStorage.removeItem("orderRemark")
 
             GetCountAPI().then((res) => {
-                
+
                 setCartCountVal(res?.cartcount)
             })
 
@@ -125,17 +128,11 @@ const Payment = () => {
         }
     }
 
-    const handleOrderRemarkChange = () => {
-
-    }
     const handleOrderRemarkFun = async (trimmedRemark) => {
         try {
             const response = await handleOrderRemark(trimmedRemark);
             let resStatus = response?.Data?.rd[0]
             if (resStatus?.stat == 1) {
-                // const updatedCartData = cartData.map(cart =>
-                //     cart.id == data.id ? { ...cart, Remarks: resStatus?.design_remark } : cart
-                // );
                 setOrderRemarkData(resStatus?.orderremarks)
                 sessionStorage.setItem('orderRemark', trimmedRemark)
             }
@@ -159,99 +156,77 @@ const Payment = () => {
     }
 
     return (
-        <div className='stam_paymentMainDiv'>
-            <div className='smr_paymentSecondMainDiv'>
-                <div className='smr_PaymentContainer'>
-                    <div className='smr_paymentBackbtnDiv'>
-                        <IoMdArrowRoundBack className='smr_paymentBackbtn' onClick={handleBackNavigate} />
+        <div className='roop_paymentMainDiv'>
+            <div className='roop_paymentSecondMainDiv'>
+                <div className='roop_PaymentContainer'>
+                    <div className='roop_paymentBackbtnDiv'>
+                        <IoMdArrowRoundBack className='roop_paymentBackbtn' onClick={handleBackNavigate} />
                         <Link
-                            className="smr_addorderRemarkbtn"
+                            className="roop_addorderRemarkbtn"
                             variant="body2"
                             onClick={handleOpen}
                         >
-                            {orderRemakdata == "" ? "Add order Remark" : "Update order Remark"}
+                            {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
                         </Link>
                     </div>
-                    <div className='smr_paymentDetailMainDiv'>
-                        <div className='smr_paymentDetailLeftSideContent'>
+                    <div className='roop_paymentDetailMainDiv'>
+                        <div className='roop_paymentDetailLeftSideContent'>
                             <h2>Payment Card Method</h2>
-                            <div className='smr_billingAddress'>
+                            <div className='roop_billingAddress'>
                                 <h3>Billing Address</h3>
                                 <p>Name : {selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>Address : {selectedAddrData?.street}</p>
                                 <p>City : {selectedAddrData?.city}</p>
                                 <p>State : {selectedAddrData?.state}</p>
                                 <p>Mobile : {selectedAddrData?.shippingmobile}</p>
-                                <p className='smr_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
+                                <p className='roop_orderRemakrPtag' style={{ maxWidth: '400px', wordWrap: 'break-word' }}>
                                     Order Remark : {orderRemakdata}
                                 </p>
-        
+
                             </div>
                         </div>
-                        <div className='smr_paymentDetailRightSideContent'>
-                            <h3>Order Summary</h3>
-                            {/* <div className='smr_paymenttotalpricesummary'>
-                                <p>Subtotal</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-
-                                    <span>{formatter(finalTotal)}</span>
-                                </p>
-                            </div>
-                            <div className='smr_paymenttotalpricesummary'>
-                                <p>Estimated Tax</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                </p>
-                            </div>
-                            <div className='smr_paymenttotalpricesummary'>
-                                <p>Estimated Total</p>
-                                <p className='smr_PriceTotalTx'>
-                                    <span className="smr_currencyFont">
-                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                    </span>&nbsp;
-                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                </p>
-                            </div> */}
-
-                            <div class="smr_order-summary">
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Subtotal</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(finalTotal)}</span>
-                                    </div>
-                                </div>
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Estimated Tax</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                                <div class="smr_summary-item">
-                                    <div class="smr_label">Estimated Total</div>
-                                    <div class="smr_value">
-                                        <span className="smr_currencyFont">
-                                            {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>&nbsp;
-                                        <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className='smr_shippingAddress'>
+                        <div className='roop_paymentDetailRightSideContent'>
+                            {storeinit?.IsPriceShow == 1 &&
+                                <>
+                                    <h3>Order Summary</h3> 
+                                    {!isploding ? (
+                                        <div class="roop_order-summary">
+                                            <div class="roop_summary-item">
+                                                <div class="roop_label">Subtotal</div>
+                                                <div class="roop_value">
+                                                    <span className="roop_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(taxAmmountData?.TotalAmount)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="roop_summary-item">
+                                                <div class="roop_label">Estimated Tax</div>
+                                                <div class="roop_value">
+                                                    <span className="roop_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                            <div class="roop_summary-item">
+                                                <div class="roop_label">Estimated Total</div>
+                                                <div class="roop_value">
+                                                    <span className="roop_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>&nbsp;
+                                                    <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) :
+                                        <Skeleton className='for_CartSkelton' variant="rectangular" width="100%" height={90} animation="wave" />
+                                    }
+                                </>
+                            }
+                            <div className='roop_shippingAddress'>
                                 <h3>Shipping Address</h3>
-                                <p className='smr_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
+                                <p className='roop_paymentUserName'>{selectedAddrData?.shippingfirstname} {selectedAddrData?.shippinglastname}</p>
                                 <p>{selectedAddrData?.street}</p>
                                 <p>{selectedAddrData?.city}-{selectedAddrData?.zip}</p>
                                 <p>{selectedAddrData?.state}</p>
@@ -259,8 +234,8 @@ const Payment = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='smr_paymentButtonDiv'>
-                        <button className='smr_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
+                    <div className='roop_paymentButtonDiv'>
+                        <button className='roop_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
                             {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
                             {isloding && <span className="loader"></span>}
                         </button>

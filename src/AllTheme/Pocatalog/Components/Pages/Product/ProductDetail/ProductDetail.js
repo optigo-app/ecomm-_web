@@ -1220,7 +1220,7 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false)
-              setIsImageLoad(false)
+              // setIsImageLoad(false)
               // setSelectedThumbImg({
               //   link: "",
               //   type: "img",
@@ -1281,6 +1281,10 @@ const ProductDetail = () => {
           }
         })
         .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsImageLoad(false); 
+          setProdLoading(false);         
+        });
     }
 
 
@@ -1534,6 +1538,15 @@ const ProductDetail = () => {
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
+
+  useEffect(()=>{
+    if(isImageload === false){
+      if(!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)){
+         setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+        // setIsImageLoad(false)
+      }
+    }
+  },[isImageload])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
