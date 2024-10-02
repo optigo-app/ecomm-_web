@@ -36,6 +36,7 @@ import Exchange from './Components/Pages/StaticPages/Exchange/Exchange'
 import Location from './Components/Pages/StaticPages/Location/Location'
 import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
 import GoogleAnalytics  from 'react-ga4';
+import PaymentFailure from '../../utils/PaymentSuccessFail/PaymentFailure'
 
 
 
@@ -155,6 +156,7 @@ const DaimondTine_App = () => {
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />
+          <Route path="/failure" element={<PaymentFailure />} />
         </Route>
       </Routes>
       <ScrollToTop />

@@ -24,7 +24,7 @@ const Payment = () => {
     const [totalpriceText, setTotalPriceText] = useState();
     const [finalTotal, setFinlTotal] = useState();
     const [CurrencyData, setCurrencyData] = useState();
-    const [taxAmmount, setTaxAmount] = useState();
+    const [taxAmmountData, setTaxAmountData] = useState();
     const [storeinit, setStoreInit] = useState();
 
     const setCartCountVal = useSetRecoilState(stam_CartCount);
@@ -79,9 +79,11 @@ const Payment = () => {
         setIsPloding(true);
         const fetchData = async () => {
             try {
-                const texData = await fetchEstimateTax();
-                if (texData) {
-                    setTaxAmount(texData[0]?.TaxAmount);
+                const taxData = await fetchEstimateTax();
+
+                if (taxData) {
+                    const data = taxData[0];
+                    setTaxAmountData(data);
                 }
             } catch (error) {
                 console.error('Error fetching tax data:', error);
@@ -90,7 +92,6 @@ const Payment = () => {
             }
 
             const selectedAddressData = JSON.parse(sessionStorage.getItem('selectedAddressId'));
-
             setSelectedAddrData(selectedAddressData);
 
             const totalPriceData = sessionStorage.getItem('TotalPriceData');
@@ -196,7 +197,7 @@ const Payment = () => {
                                                     <span className="stam_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(finalTotal)}</span>
+                                                    <span>{formatter(taxAmmountData?.TotalAmount)}</span>
                                                 </div>
                                             </div>
                                             <div class="stam_summary-item">
@@ -205,7 +206,7 @@ const Payment = () => {
                                                     <span className="stam_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(Number((taxAmmount)?.toFixed(3)))}</span>
+                                                    <span>{formatter(Number((taxAmmountData?.TaxAmount)?.toFixed(3)))}</span>
                                                 </div>
                                             </div>
                                             <div class="stam_summary-item">
@@ -214,7 +215,7 @@ const Payment = () => {
                                                     <span className="stam_currencyFont">
                                                         {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                     </span>&nbsp;
-                                                    <span>{formatter(Number((taxAmmount + finalTotal)?.toFixed(3)))}</span>
+                                                    <span>{formatter(Number((taxAmmountData?.TotalAmountWithTax)?.toFixed(3)))}</span>
                                                 </div>
                                             </div>
                                         </div>
