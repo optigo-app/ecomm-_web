@@ -143,7 +143,6 @@ export default function LoginWithEmail() {
             setIsLoading(false);
             if (response.Data.rd[0].stat === 1) {
                 const visiterID = Cookies.get('visiterId');
-                console.log('responseresponse', response?.Data?.rd[0]?.Token);
                 Cookies.set('userLoginCookie', response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
                 sessionStorage.setItem('registerEmail', email)
                 setIsLoginState(true)
@@ -199,7 +198,15 @@ export default function LoginWithEmail() {
                 // handelCurrencyData()
                 // getAllProdData()
             } else {
-                errors.confirmPassword = 'Password is Invalid'
+                if (response.Data.rd[0].stat_msg == "User Time Off") {
+                    errors.confirmPassword = 'User Time Off'
+                } else if (response.Data.rd[0].stat_msg == 'User Login Off') {
+                    errors.confirmPassword = 'User Login Off'
+                } else if (response.Data.rd[0].stat_msg == 'User Not Active') {
+                    errors.confirmPassword = 'User Not Active'
+                }else{
+                    errors.confirmPassword = 'Password is Invalid'
+                }
             }
         }).catch((err) => console.log(err))
 
