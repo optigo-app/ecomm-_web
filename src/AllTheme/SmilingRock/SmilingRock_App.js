@@ -35,6 +35,7 @@ import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
 import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
+import PaymentFailure from "../../utils/PaymentSuccessFail/PaymentFailure";
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
@@ -243,6 +244,7 @@ const SmilingRock_App = () => {
         </Route>
         <Route path="/accountdwsr" element={<DWSRprintComp />} />
         <Route path="/Lookbook" element={<Lookbook />} />
+        <Route path="/paymentFailure" element={<PaymentFailure />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

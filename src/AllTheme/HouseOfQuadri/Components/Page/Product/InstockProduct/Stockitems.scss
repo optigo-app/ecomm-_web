@@ -8,6 +8,8 @@
   justify-content: center;
   overflow: hidden;
   margin-bottom: 2rem;
+  font-family: $fontDmSans !important;
+
   .hoq_stockItem_div {
     display: flex;
     justify-content: center;
@@ -18,7 +20,7 @@
 
   .hoq_details_title {
     font-size: 30px;
-    font-family: $homePageFontFamily;
+    //font-family: $homePageFontFamily;
     color: $primaryfontcolor2;
   }
 
@@ -83,14 +85,14 @@
     align-items: center;
     padding-inline: 30px;
     gap: 3px;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
     color: $primaryfontcolor2;
   }
 
   .hoq_prod_wt {
     display: flex;
     gap: 2px;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
   }
 
   .hoq_d_keys {
@@ -112,11 +114,11 @@
   .hoq_stockItem_price_type_mt {
     color: $primaryfontcolor;
     font-size: 14px;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
   }
 
   .hoq_prodd_datanotfound {
-    font-family: $primaryFontFamilyMedium;
+    //font-family: $primaryFontFamilyMedium;
     color: $primaryfontcolor;
     font-size: 42px;
   }
@@ -136,7 +138,7 @@
   .hoq_stockItem_table {
     border-collapse: collapse;
     width: 70%;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
     border: 1px solid #dddddd;
   }
 
@@ -147,15 +149,15 @@
   .hoq_Price_breakup_label {
     width: 70px;
     color: #7d7f85;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
   }
 
   .hoq_currencyFont {
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
   }
 
   .hoq_PriceBreakup_Price {
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
   }
 
   @media screen and (max-width: 768px) {

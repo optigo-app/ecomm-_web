@@ -71,6 +71,7 @@ const ProductPage = () => {
   const previousPath = "Previous Page";
   const [ShowMangifier, setShowMangifier] = useState(false);
   const [PdImageLoader, setPdImageLoader] = useState(false);
+  // const [PdImageLoader, setPdImageLoader] = useState(false);
   const sliderRef = useRef(null);
   const [decodeUrl, setDecodeUrl] = useState({});
   const [loginInfo, setLoginInfo] = useState();
@@ -812,10 +813,12 @@ const ProductPage = () => {
       setPdImageArr((prev) => [...prev, ...VideoMap]);
     }
     setPdImageLoader(false);
+    setPdImageLoader(false);
     return finalprodListimg;
   };
 
   useEffect(() => {
+    setPdImageLoader(true);
     setPdImageLoader(true);
     ProdCardImageFunc();
   }, [singleProd]);
@@ -1578,52 +1581,52 @@ const ProductPage = () => {
                       selectCsQc?.length > 0 &&
                       csList?.filter((ele) => ele?.D !== "MISC")?.length > 0
                       ? SizeSorting(SizeCombo?.rd)?.length > 0 &&
-                      singleProd?.DefaultSize !== "" && (
-                        <div
-                          className="hoq_single_prod_customize"
-                          style={{
-                            width: "50%",
-                          }}
-                        >
-                          <label className="hoqmenuItemTimeEleveDeatil">
-                            SIZE:
-                          </label>
-                          {singleProd?.IsMrpBase == 1 ? (
-                            <span
-                              className="hoq_menuitemSelectoreMain"
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft: "4px",
-                              }}
-                            >
-                              {singleProd?.DefaultSize}
-                            </span>
-                          ) : (
-                            <select
-                              className="hoq_menuitemSelectoreMain"
-                              value={sizeData}
-                              // onChange={(e) => {
-                              //   setSizeData(e.target.value);
-                              // }}
-                              onChange={(e) => handleCustomChange(e, "sz")}
-                              style={{ fontSize: "1rem" }}
-                            >
-                              {SizeSorting(SizeCombo?.rd)?.map((ele) => (
-                                <option
-                                  value={ele?.sizename}
-                                  // selected={
-                                  //   singleProd && singleProd.DefaultSize === ele.sizename
-                                  // }
-                                  key={ele?.id}
-                                >
-                                  {ele?.sizename}
-                                </option>
-                              ))}
-                            </select>
-                          )}
-                        </div>
-                      )
+                        singleProd?.DefaultSize !== "" && (
+                          <div
+                            className="hoq_single_prod_customize"
+                            style={{
+                              width: "50%",
+                            }}
+                          >
+                            <label className="hoqmenuItemTimeEleveDeatil">
+                              SIZE:
+                            </label>
+                            {singleProd?.IsMrpBase == 1 ? (
+                              <span
+                                className="hoq_menuitemSelectoreMain"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  marginLeft: "4px",
+                                }}
+                              >
+                                {singleProd?.DefaultSize}
+                              </span>
+                            ) : (
+                              <select
+                                className="hoq_menuitemSelectoreMain"
+                                value={sizeData}
+                                // onChange={(e) => {
+                                //   setSizeData(e.target.value);
+                                // }}
+                                onChange={(e) => handleCustomChange(e, "sz")}
+                                style={{ fontSize: "1rem" }}
+                              >
+                                {SizeSorting(SizeCombo?.rd)?.map((ele) => (
+                                  <option
+                                    value={ele?.sizename}
+                                    // selected={
+                                    //   singleProd && singleProd.DefaultSize === ele.sizename
+                                    // }
+                                    key={ele?.id}
+                                  >
+                                    {ele?.sizename}
+                                  </option>
+                                ))}
+                              </select>
+                            )}
+                          </div>
+                        )
                       : null}
                   </div>
                 )}
@@ -1719,61 +1722,61 @@ const ProductPage = () => {
 
               {(diaList?.length > 0 ||
                 csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
-                  <Accordion
-                    className="accordian"
+                <Accordion
+                  className="accordian"
+                  sx={{
+                    border: "none", // Remove default border
+                    boxShadow: "none", // Remove default shadow
+                    "&:before": {
+                      // Remove the border-top pseudo-element
+                      display: "none",
+                    },
+                  }}
+                  key={2}
+                  expanded={expandedIndex === 2}
+                  onChange={handleChange(2)}
+                >
+                  <AccordionSummary
+                    expandIcon={
+                      expandedIndex === 2 ? (
+                        <RemoveIcon
+                          style={{ fontSize: "1.2rem", color: "black" }}
+                        />
+                      ) : (
+                        <AddIcon
+                          style={{ fontSize: "1.2rem", color: "black" }}
+                        />
+                      )
+                    }
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                    className="summary"
                     sx={{
-                      border: "none", // Remove default border
-                      boxShadow: "none", // Remove default shadow
-                      "&:before": {
-                        // Remove the border-top pseudo-element
-                        display: "none",
-                      },
+                      padding: "0 5px",
                     }}
-                    key={2}
-                    expanded={expandedIndex === 2}
-                    onChange={handleChange(2)}
                   >
-                    <AccordionSummary
-                      expandIcon={
-                        expandedIndex === 2 ? (
-                          <RemoveIcon
-                            style={{ fontSize: "1.2rem", color: "black" }}
-                          />
-                        ) : (
-                          <AddIcon
-                            style={{ fontSize: "1.2rem", color: "black" }}
-                          />
-                        )
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
-                      className="summary"
+                    <Typography
+                      className="title"
                       sx={{
-                        padding: "0 5px",
+                        textAlign: "center",
+                        width: "100%",
+                      }}
+                      style={{
+                        fontSize: "0.9rem",
+                        textTransform: "uppercase",
+                        marginLeft: "3.4px",
                       }}
                     >
-                      <Typography
-                        className="title"
-                        sx={{
-                          textAlign: "center",
-                          width: "100%",
-                        }}
-                        style={{
-                          fontSize: "0.9rem",
-                          textTransform: "uppercase",
-                          marginLeft: "3.4px",
-                        }}
-                      >
-                        PRODUCT DETAILS
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <div className="details_d_C">
-                        <div className="hoq_material_details_portion">
-                          {/* {diaList?.length > 0 && (
+                      PRODUCT DETAILS
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className="details_d_C">
+                      <div className="hoq_material_details_portion">
+                        {/* {diaList?.length > 0 && (
                       <p className="hoq_details_title"> Product Details</p>
                     )} */}
-                          {/* {diaList?.length > 0 && (
+                        {/* {diaList?.length > 0 && (
                       <div className="hoq_material_details_portion_inner">
                         <ul
                           style={{
@@ -1846,30 +1849,78 @@ const ProductPage = () => {
                         ))}
                       </div>
                     )} */}
-                          {diaList?.length > 0 && (
-                            <div className="hoq_material_details_portion_inner">
-                              <ul style={{ margin: "0px 0px 3px 0px" }}>
-                                <li
-                                  style={{ fontWeight: 600 }}
-                                >{`Diamond Detail (${diaList?.reduce(
-                                  (accumulator, data) => accumulator + data.M,
+                        {diaList?.length > 0 && (
+                          <div className="hoq_material_details_portion_inner">
+                            <ul style={{ margin: "0px 0px 3px 0px" }}>
+                              <li
+                                style={{ fontWeight: 600 }}
+                              >{`Diamond Detail (${diaList?.reduce(
+                                (accumulator, data) => accumulator + data.M,
+                                0
+                              )}   ${diaList
+                                ?.reduce(
+                                  (accumulator, data) => accumulator + data?.N,
                                   0
-                                )}   ${diaList
-                                  ?.reduce(
-                                    (accumulator, data) => accumulator + data?.N,
-                                    0
-                                  )
-                                  .toFixed(3)}ct)`}</li>
-                              </ul>
+                                )
+                                .toFixed(3)}ct)`}</li>
+                            </ul>
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList">Shape</li>
+                              <li className="hoq_proDeatilList">Clarity</li>
+                              <li className="hoq_proDeatilList">Color</li>
+                              <li className="hoq_proDeatilList">
+                                Pcs&nbsp;&nbsp;Wt
+                              </li>
+                            </ul>
+                            {diaList?.map((data) => (
                               <ul className="hoq_mt_detail_title_ul">
-                                <li className="hoq_proDeatilList">Shape</li>
-                                <li className="hoq_proDeatilList">Clarity</li>
-                                <li className="hoq_proDeatilList">Color</li>
-                                <li className="hoq_proDeatilList">
-                                  Pcs&nbsp;&nbsp;Wt
+                                <li className="hoq_proDeatilList1">
+                                  {data?.F}
+                                </li>
+                                <li className="hoq_proDeatilList1">
+                                  {data?.H}
+                                </li>
+                                <li className="hoq_proDeatilList1">
+                                  {data?.J}
+                                </li>
+                                <li className="hoq_proDeatilList1">
+                                  {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                                 </li>
                               </ul>
-                              {diaList?.map((data) => (
+                            ))}
+                          </div>
+                        )}
+                        {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
+                        {csList?.filter((ele) => ele?.D !== "MISC")?.length >
+                          0 && (
+                          <div className="hoq_material_details_portion_inner">
+                            <ul style={{ margin: "10px 0px 3px 0px" }}>
+                              <li
+                                style={{ fontWeight: 600 }}
+                              >{`ColorStone Detail (${csList
+                                ?.filter((ele) => ele?.D !== "MISC")
+                                ?.reduce(
+                                  (accumulator, data) => accumulator + data.M,
+                                  0
+                                )} ${csList
+                                ?.filter((ele) => ele?.D !== "MISC")
+                                ?.reduce(
+                                  (accumulator, data) => accumulator + data?.N,
+                                  0
+                                )
+                                .toFixed(3)}ct)`}</li>
+                            </ul>
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList">Shape</li>
+                              <li className="hoq_proDeatilList">Clarity</li>
+                              <li className="hoq_proDeatilList">Color</li>
+                              <li className="hoq_proDeatilList">
+                                Pcs&nbsp;&nbsp;Wt
+                              </li>
+                            </ul>
+                            {csList
+                              ?.filter((ele) => ele?.D !== "MISC")
+                              ?.map((data) => (
                                 <ul className="hoq_mt_detail_title_ul">
                                   <li className="hoq_proDeatilList1">
                                     {data?.F}
@@ -1885,109 +1936,61 @@ const ProductPage = () => {
                                   </li>
                                 </ul>
                               ))}
-                            </div>
-                          )}
-                          {/* {console.log("csListcsList",csList?.filter((ele)=>ele?.D === "MISC"))} */}
-                          {csList?.filter((ele) => ele?.D !== "MISC")?.length >
-                            0 && (
-                              <div className="hoq_material_details_portion_inner">
-                                <ul style={{ margin: "10px 0px 3px 0px" }}>
-                                  <li
-                                    style={{ fontWeight: 600 }}
-                                  >{`ColorStone Detail (${csList
-                                    ?.filter((ele) => ele?.D !== "MISC")
-                                    ?.reduce(
-                                      (accumulator, data) => accumulator + data.M,
-                                      0
-                                    )} ${csList
-                                      ?.filter((ele) => ele?.D !== "MISC")
-                                      ?.reduce(
-                                        (accumulator, data) => accumulator + data?.N,
-                                        0
-                                      )
-                                      .toFixed(3)}ct)`}</li>
-                                </ul>
-                                <ul className="hoq_mt_detail_title_ul">
-                                  <li className="hoq_proDeatilList">Shape</li>
-                                  <li className="hoq_proDeatilList">Clarity</li>
-                                  <li className="hoq_proDeatilList">Color</li>
-                                  <li className="hoq_proDeatilList">
-                                    Pcs&nbsp;&nbsp;Wt
-                                  </li>
-                                </ul>
-                                {csList
-                                  ?.filter((ele) => ele?.D !== "MISC")
-                                  ?.map((data) => (
-                                    <ul className="hoq_mt_detail_title_ul">
-                                      <li className="hoq_proDeatilList1">
-                                        {data?.F}
-                                      </li>
-                                      <li className="hoq_proDeatilList1">
-                                        {data?.H}
-                                      </li>
-                                      <li className="hoq_proDeatilList1">
-                                        {data?.J}
-                                      </li>
-                                      <li className="hoq_proDeatilList1">
-                                        {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
-                                      </li>
-                                    </ul>
-                                  ))}
-                              </div>
-                            )}
+                          </div>
+                        )}
 
-                          {csList?.filter((ele) => ele?.D === "MISC")?.length >
-                            0 && (
-                              <div className="hoq_material_details_portion_inner">
-                                <ul style={{ margin: "10px 0px 3px 0px" }}>
-                                  <li
-                                    style={{ fontWeight: 600 }}
-                                  >{`MISC Detail(${csList
-                                    ?.filter((ele) => ele?.D === "MISC")
-                                    ?.reduce(
-                                      (accumulator, data) => accumulator + data.M,
-                                      0
-                                    )}  ${csList
-                                      ?.filter((ele) => ele?.D === "MISC")
-                                      ?.reduce(
-                                        (accumulator, data) => accumulator + data?.N,
-                                        0
-                                      )
-                                      .toFixed(3)}gm)`}</li>
-                                </ul>
+                        {csList?.filter((ele) => ele?.D === "MISC")?.length >
+                          0 && (
+                          <div className="hoq_material_details_portion_inner">
+                            <ul style={{ margin: "10px 0px 3px 0px" }}>
+                              <li
+                                style={{ fontWeight: 600 }}
+                              >{`MISC Detail(${csList
+                                ?.filter((ele) => ele?.D === "MISC")
+                                ?.reduce(
+                                  (accumulator, data) => accumulator + data.M,
+                                  0
+                                )}  ${csList
+                                ?.filter((ele) => ele?.D === "MISC")
+                                ?.reduce(
+                                  (accumulator, data) => accumulator + data?.N,
+                                  0
+                                )
+                                .toFixed(3)}gm)`}</li>
+                            </ul>
+                            <ul className="hoq_mt_detail_title_ul">
+                              <li className="hoq_proDeatilList">Shape</li>
+                              <li className="hoq_proDeatilList">Clarity</li>
+                              <li className="hoq_proDeatilList">Color</li>
+                              <li className="hoq_proDeatilList">
+                                Pcs&nbsp;&nbsp;Wt
+                              </li>
+                            </ul>
+                            {csList
+                              ?.filter((ele) => ele?.D === "MISC")
+                              ?.map((data) => (
                                 <ul className="hoq_mt_detail_title_ul">
-                                  <li className="hoq_proDeatilList">Shape</li>
-                                  <li className="hoq_proDeatilList">Clarity</li>
-                                  <li className="hoq_proDeatilList">Color</li>
-                                  <li className="hoq_proDeatilList">
-                                    Pcs&nbsp;&nbsp;Wt
+                                  <li className="hoq_proDeatilList1">
+                                    {data?.F}
+                                  </li>
+                                  <li className="hoq_proDeatilList1">
+                                    {data?.H}
+                                  </li>
+                                  <li className="hoq_proDeatilList1">
+                                    {data?.J}
+                                  </li>
+                                  <li className="hoq_proDeatilList1">
+                                    {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
                                   </li>
                                 </ul>
-                                {csList
-                                  ?.filter((ele) => ele?.D === "MISC")
-                                  ?.map((data) => (
-                                    <ul className="hoq_mt_detail_title_ul">
-                                      <li className="hoq_proDeatilList1">
-                                        {data?.F}
-                                      </li>
-                                      <li className="hoq_proDeatilList1">
-                                        {data?.H}
-                                      </li>
-                                      <li className="hoq_proDeatilList1">
-                                        {data?.J}
-                                      </li>
-                                      <li className="hoq_proDeatilList1">
-                                        {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
-                                      </li>
-                                    </ul>
-                                  ))}
-                              </div>
-                            )}
-                        </div>
+                              ))}
+                          </div>
+                        )}
                       </div>
-                    </AccordionDetails>
-                  </Accordion>
-                )}
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+              )}
 
               {storeInit?.IsPriceShow === 1 &&
                 storeInit?.IsPriceBreakUp == 1 &&

@@ -5,13 +5,15 @@
     margin-top:2rem;
     display: flex;
     align-items: center;
-    height: 120px;
+    height: 90px;
     width: 100%;
     justify-content: center;
     flex-direction: column;
-    font-family: $fontTenorSans;
+    font-family: $fontDmSans !important;
+    color: #7D7F85;
     h1 {
-      font-size: 22.75px;
+      font-size: 30px;
+      font-weight: 400;
     }
   }
   .tab_card {
@@ -21,7 +23,7 @@
     justify-content: center;
     flex-wrap: wrap;
     padding: 10px 15px;
-    font-family: $fontCrimsonTextRegular;
+    //font-family: $fontCrimsonTextRegular;
     gap: 1.5rem;
     
     position: relative;
@@ -57,6 +59,7 @@
     }
     .tab_hover_Details {
       padding: 8px 0;
+    font-family: $fontDmSans !important;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -138,7 +141,7 @@
           padding: 10px;
           a {
             text-decoration: none;
-            font-family: $fontCrimsonTextRegular;
+            //font-family: $fontCrimsonTextRegular;
             color: rgb(5, 5, 5);
           }
         }

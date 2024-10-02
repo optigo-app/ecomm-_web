@@ -10,6 +10,8 @@ import "./DiamondFilter.scss";
 import { DiamondLists } from "../../../data/NavbarMenu";
 import { FaChevronDown } from "react-icons/fa";
 import { CgArrowDownO, CgArrowUpO } from "react-icons/cg";
+import { GiDiamondRing } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
 import {
   formatter,
   storImagePath,
@@ -30,6 +32,8 @@ import {
   Pagination,
   Slider,
   useMediaQuery,
+  Drawer,
+  Box,
 } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { json, useLocation, useNavigate } from "react-router-dom";
@@ -140,12 +144,15 @@ const DiamondFilter = () => {
     fluorescence: [],
     culet: [],
   });
+  const isTabletView = useMediaQuery("(max-width: 358px)");
 
-  const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
-  const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
-  const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
+  const [customizeStep, setCustomizeStep] = useRecoilState(
+    for_customizationSteps
+  );
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const stepsData = JSON.parse(sessionStorage.getItem("custStepData"));
+  const stepsData2 = JSON.parse(sessionStorage.getItem("custStepData2"));
 
   const [ApiData, setApiData] = useState([]);
   const [FilterApiOptions, setFilterApiOptions] = useState();
@@ -163,8 +170,9 @@ const DiamondFilter = () => {
     depth: [],
     table: [],
     fluorescence: [],
-    Culet: []
+    Culet: [],
   });
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [AccordianChecked, setAccordianChecked] = useState(false);
   const [sliderLabels, setSliderLabels] = useState([]);
@@ -198,17 +206,21 @@ const DiamondFilter = () => {
     if (location?.pathname) {
       setCheckedItem(location?.pathname?.split("/")[3]);
       if (steps?.[0]?.step1 == true && steps?.[0]?.shape !== null) {
-        updateSteps(checkedItem)
+        updateSteps(checkedItem);
       }
     }
   }, [location?.pathname]);
 
   const getShapeFromURL = () => {
     const getShape = location?.pathname?.split("/")[3];
-    const getPath = location?.pathname?.split('/')?.slice(1, 3)
-    const mergePath = getPath.join('/')
-    if (mergePath == 'certified-loose-lab-grown-diamonds/diamond') {
-      if (stepsData === null && stepsData2 === null && (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)) {
+    const getPath = location?.pathname?.split("/")?.slice(1, 3);
+    const mergePath = getPath.join("/");
+    if (mergePath == "certified-loose-lab-grown-diamonds/diamond") {
+      if (
+        stepsData === null &&
+        stepsData2 === null &&
+        (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
+      ) {
         if (getShape) {
           setCustomizeStep({
             step1: true,
@@ -216,45 +228,50 @@ const DiamondFilter = () => {
             step3: false,
           });
 
-          const step1 = [{ "step1": true, "shape": (getShape ?? '') }];
+          const step1 = [{ step1: true, shape: getShape ?? "" }];
           sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
         }
-      }
-      else if (stepsData != null && (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)) {
+      } else if (
+        stepsData != null &&
+        (steps?.[0]?.step1 == true || steps?.[0]?.step1 != true)
+      ) {
         if (getShape) {
-          const updatedStep1 = steps?.map(step => {
+          const updatedStep1 = steps?.map((step) => {
             if (step.step1 !== undefined) {
-              return { "step1": true, "shape": getShape };
+              return { step1: true, shape: getShape };
             }
             return step;
           });
 
-          if (!updatedStep1?.some(step => step.step1 !== undefined)) {
-            updatedStep1?.push({ "step1": true, "shape": getShape });
+          if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
+            updatedStep1?.push({ step1: true, shape: getShape });
           }
-          sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
+          sessionStorage.setItem(
+            "customizeSteps",
+            JSON.stringify(updatedStep1)
+          );
         }
       }
     }
-  }
+  };
 
   useEffect(() => {
     getShapeFromURL();
   }, [location?.pathname]);
 
   const updateSteps = (shape) => {
-    const updatedStep1 = steps?.map(step => {
+    const updatedStep1 = steps?.map((step) => {
       if (step.step1 !== undefined) {
-        return { "step1": true, "shape": shape };
+        return { step1: true, shape: shape };
       }
       return step;
     });
 
-    if (!updatedStep1?.some(step => step.step1 !== undefined)) {
-      updatedStep1?.push({ "step1": true, "shape": shape });
+    if (!updatedStep1?.some((step) => step.step1 !== undefined)) {
+      updatedStep1?.push({ step1: true, shape: shape });
     }
     sessionStorage?.setItem("customizeSteps", JSON?.stringify(updatedStep1));
-  }
+  };
 
   const handleOpen = (title) => {
     setOpen((prevOpen) => (prevOpen === title ? null : title));
@@ -312,17 +329,21 @@ const DiamondFilter = () => {
   }
 
   function fromBase64(base64) {
-    return new Uint8Array(atob(base64)?.split("")?.map(c => c?.charCodeAt(0)));
+    return new Uint8Array(
+      atob(base64)
+        ?.split("")
+        ?.map((c) => c?.charCodeAt(0))
+    );
   }
 
   function compressAndEncode(url) {
-    const compressed = pako?.deflate(url, { to: 'string' });
+    const compressed = pako?.deflate(url, { to: "string" });
     return toBase64(compressed);
   }
 
   function decodeAndDecompress(encodedUrl) {
     const compressed = fromBase64(encodedUrl);
-    const decompressed = pako?.inflate(compressed, { to: 'string' });
+    const decompressed = pako?.inflate(compressed, { to: "string" });
     return decompressed;
   }
 
@@ -471,7 +492,7 @@ const DiamondFilter = () => {
             HaveCustomization: true,
             ...val,
           },
-          bannerImage ? { img: bannerImage, isBanner: true } : null
+          bannerImage ? { img: bannerImage, isBanner: true } : null,
         ].filter(Boolean);
       });
       setDiamondData(dataWithBanners);
@@ -533,7 +554,6 @@ const DiamondFilter = () => {
     sessionStorage.setItem("filterMenu", JSON.stringify(mergedData));
   }, [state]);
 
-
   const handlePageChange = async (event, newPage) => {
     setCurrentPage(newPage);
     setIsLoading(true);
@@ -571,7 +591,7 @@ const DiamondFilter = () => {
       setSliderState1((prevState) => ({
         ...prevState,
         [sliderType]: newValue,
-      }))
+      }));
       setSliderLabels((prev) => {
         const existingTypeIndex = prev.findIndex(
           (item) => item.type === sliderType
@@ -609,8 +629,7 @@ const DiamondFilter = () => {
             { type: sliderType, labels: [min?.label, max?.label] },
           ];
         }
-      })
-
+      });
     }, 300),
     []
   );
@@ -649,7 +668,7 @@ const DiamondFilter = () => {
         newFiltersData[filterType] = value;
       }
       return newFiltersData;
-    })
+    });
   };
 
   const storedData = sessionStorage.getItem("filterMenu");
@@ -706,13 +725,14 @@ const DiamondFilter = () => {
     fetchData();
   }, [Condition]);
 
-
   useEffect(() => {
     const updatedArray = {
       Price: sliderState1?.price || "",
       Carat: sliderState1?.Carat,
-      Color: sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
-      Clarity: sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
+      Color:
+        sliderLabels1?.find((label) => label.type === "Color")?.labels || [],
+      Clarity:
+        sliderLabels1?.find((label) => label.type === "Clarity")?.labels || [],
       Cut: sliderLabels1?.find((label) => label.type === "Cut")?.labels || [],
       Polish: filtersData1?.Polish,
       Symmetry: filtersData1?.Symmetry,
@@ -724,9 +744,8 @@ const DiamondFilter = () => {
     };
 
     setTimeout(() => {
-      setFinalArray(updatedArray)
+      setFinalArray(updatedArray);
     }, 500);
-
   }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
   useEffect(() => {
@@ -737,38 +756,55 @@ const DiamondFilter = () => {
       const pathname = location?.pathname.split("/");
 
       // Determine which data to use
-      const dataToUse = Object.keys(finalArray).some(key => Array.isArray(finalArray[key]) && finalArray[key].length > 0)
+      const dataToUse = Object.keys(finalArray).some(
+        (key) => Array.isArray(finalArray[key]) && finalArray[key].length > 0
+      )
         ? finalArray
         : parsedData ?? {};
 
       const sliderParams = Object.entries(dataToUse)
-        .filter(([key, value]) => value && (Array.isArray(value) ? value.length > 0 : typeof value === 'string' && value.length > 0))
-        .filter(([key, value]) => Array.isArray(value) ? value.every(v => v !== null && v !== undefined && v !== "") : true)
+        .filter(
+          ([key, value]) =>
+            value &&
+            (Array.isArray(value)
+              ? value.length > 0
+              : typeof value === "string" && value.length > 0)
+        )
+        .filter(([key, value]) =>
+          Array.isArray(value)
+            ? value.every((v) => v !== null && v !== undefined && v !== "")
+            : true
+        )
         .map(([key, value]) =>
           Array.isArray(value) ? `${key}/${value.join(",")}` : `${key}/${value}`
         )
         .join("/");
 
       const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""}`;
+      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${
+        sliderParams ? `/${sliderParams}` : ""
+      }`;
       const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""}`;
+      const newPath = `${pathname.slice(0, 4).join("/")}${
+        sliderParams ? `/f=${encodeUrl}` : ""
+      }`;
       Navigate(newPath);
     }, 600);
   }, [finalArray]);
 
-
   function parseUrlSegment(segment) {
-    const parts = segment?.split('/')?.slice(1);
+    const parts = segment?.split("/")?.slice(1);
     const result = {};
 
     for (let i = 0; i < parts?.length; i += 2) {
       const key = parts[i];
       const value = parts[i + 1];
       if (value) {
-        if (value.includes(',')) {
-          result[key] = value.split(',').map(item => item === 'null' ? "null" : item);
+        if (value.includes(",")) {
+          result[key] = value
+            .split(",")
+            .map((item) => (item === "null" ? "null" : item));
         } else {
           result[key] = value;
         }
@@ -800,7 +836,37 @@ const DiamondFilter = () => {
       <DiamondPage />
       <ScrollTop />
       <div className="for_DiamondFilter">
-        <div className="heading">
+      <Drawer
+          open={isDrawerOpen}
+          onClose={() => {
+            setIsDrawerOpen(false);
+          }}
+          className="forvery_filter_sidebar_mob"
+          sx={{
+            zIndex: 9999999,
+            "& .MuiBackdrop-root": {
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              backdropFilter: "blur(4px)",
+            },
+          }}
+        >
+          <Box
+            role="presentation"
+            className="box_mui_wrapper"
+            sx={{
+              width: {
+                xs: 315,   
+                sm: 600,      
+                md: 800,      
+                lg: 1000,      
+                xl: 1200       
+              }
+            }}
+          >
+            <div onClick={()=>setIsDrawerOpen(false)} className="close_bar_forevery">
+              <button><IoClose size={28}/></button>
+            </div>
+            <div className="heading">
           <h2>select the diamond shape</h2>
           <div className="shape_list">
             {DiamondLists?.slice(0, 10)?.map((val) => (
@@ -817,18 +883,27 @@ const DiamondFilter = () => {
                   id={val?.name}
                   checked={checkedItem === val?.name}
                   onChange={() => {
-                    if (steps1?.[0]?.step1 == true && stepsData2?.[0]?.step1Data?.id > 0) {
+                    if (
+                      steps1?.[0]?.step1 == true &&
+                      stepsData2?.[0]?.step1Data?.id > 0
+                    ) {
                       return;
+                    } else {
+                      handleCheckboxChange(val?.name);
                     }
-                    else {
-                      handleCheckboxChange(val?.name)
-                    }
-                  }
-                  }
+                  }}
                 />
                 <div
-                  className={`shape_card ${checkedItem === val?.name ? "active-checked" : `${steps1?.[0]?.step1 == true && stepsData2?.[0]?.step1Data?.id > 0 ? 'blue-unchecked' : ''}`
-                    }`}
+                  className={`shape_card ${
+                    checkedItem === val?.name
+                      ? "active-checked"
+                      : `${
+                          steps1?.[0]?.step1 == true &&
+                          stepsData2?.[0]?.step1Data?.id > 0
+                            ? "blue-unchecked"
+                            : ""
+                        }`
+                  }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -872,11 +947,188 @@ const DiamondFilter = () => {
                     id={val?.name}
                     checked={checkedItem === val?.name}
                     onChange={() => {
-                      if (steps1?.[0]?.step1 == true && stepsData2?.[0]?.step1Data?.id > 0) {
+                      if (
+                        steps1?.[0]?.step1 == true &&
+                        stepsData2?.[0]?.step1Data?.id > 0
+                      ) {
                         return;
+                      } else {
+                        handleCheckboxChange(val?.name);
                       }
-                      else {
-                        handleCheckboxChange(val?.name)
+                    }}
+                  />
+                </label>
+              ))}
+            </div>
+            <div className="more" onClick={() => setshow(!show)}>
+              <button>
+                More <FaChevronDown />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="filter_Head">
+          <div className="for_price">
+            <span onClick={() => handleOpen("price")}>
+              price 
+            </span>
+            <CollectionPriceRange
+              data={sliderState.price}
+              ref={(el) => (dropdownRefs.current["price"] = el)}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("price", newValue)
+              }
+              open={true}
+              priceVal={FilterApiOptions?.price}
+            />
+          </div>
+          <div className="for_Color">
+            <span onClick={() => handleOpen("Color")}>
+              Color 
+            </span>
+            <CollectionColor
+              handleSliderChange={(newValue, min, max) =>
+                handleSliderChange("Color", newValue, min, max)
+              }
+              data={sliderState?.Color}
+              ref={(el) => (dropdownRefs.current["Color"] = el)}
+              open={true}
+              ColorVal={FilterApiOptions?.Color}
+            />
+          </div>
+          <div className="for_Carat">
+            <span onClick={() => handleOpen("Carat")}>
+              Carat 
+            </span>
+            <CollectionCaratRange
+              open={true}
+              handleSliderChange={(newValue) =>
+                handleSliderChange("Carat", newValue)
+              }
+              data={sliderState?.Carat}
+              ref={(el) => (dropdownRefs.current["Carat"] = el)}
+              CaratVal={FilterApiOptions?.carat}
+            />
+          </div>
+          <div className="for_Clarity">
+            <span onClick={() => handleOpen("Clarity")}>
+              Clarity 
+            </span>
+            <CollectionClarity
+              open={true}
+              handleSliderChange={(newValue, min, max) =>
+                handleSliderChange("Clarity", newValue, min, max)
+              }
+              ref={(el) => (dropdownRefs.current["Clarity"] = el)}
+              data={sliderState?.Clarity}
+              ClarityVal={FilterApiOptions?.Clarity}
+            />
+          </div>
+          <div className="for_Cut">
+            <span onClick={() => handleOpen("Cut")}>
+              Cut 
+            </span>
+            <CollectionCut
+              open={true}
+              data={sliderState?.Cut}
+              handleSliderChange={(newValue, min, max) =>
+                handleSliderChange("Cut", newValue, min, max)
+              }
+              ref={(el) => (dropdownRefs.current["Cut"] = el)}
+              CutVal={FilterApiOptions?.Cut}
+            />
+          </div>
+        </div>
+          </Box>
+        </Drawer>
+        <div className="heading">
+          <h2>select the diamond shape</h2>
+          <div className="shape_list">
+            {DiamondLists?.slice(0, 10)?.map((val) => (
+              <label
+                htmlFor={val?.name}
+                key={val?.name}
+                onClick={() => setshow(false)}
+              >
+                <input
+                  hidden
+                  type="checkbox"
+                  name="shape"
+                  className="input-checked-box"
+                  id={val?.name}
+                  checked={checkedItem === val?.name}
+                  onChange={() => {
+                    if (
+                      steps1?.[0]?.step1 == true &&
+                      stepsData2?.[0]?.step1Data?.id > 0
+                    ) {
+                      return;
+                    } else {
+                      handleCheckboxChange(val?.name);
+                    }
+                  }}
+                />
+                <div
+                  className={`shape_card ${
+                    checkedItem === val?.name
+                      ? "active-checked"
+                      : `${
+                          steps1?.[0]?.step1 == true &&
+                          stepsData2?.[0]?.step1Data?.id > 0
+                            ? "blue-unchecked"
+                            : ""
+                        }`
+                  }`}
+                  id={val?.name}
+                >
+                  <img src={val?.img} alt={val?.name} />
+                  <span
+                    style={{
+                      fontWeight: checkedItem === val?.name ? "800" : "500",
+                    }}
+                  >
+                    {val?.name}
+                  </span>
+                </div>
+              </label>
+            ))}
+            <div
+              className="extra_shape_menu"
+              style={{
+                height: show && "180px",
+                backgroundColor: "white",
+              }}
+            >
+              {DiamondLists?.slice(10, 13)?.map((val) => (
+                <label
+                  htmlFor={val?.name}
+                  className="extra_shape"
+                  key={val?.name}
+                >
+                  <div id={val?.name} className="shape">
+                    <img src={val?.img} alt={val?.name} />
+                    <span
+                      style={{
+                        fontWeight: checkedItem === val?.name ? "800" : "500",
+                      }}
+                    >
+                      {val?.name}
+                    </span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    name="shape"
+                    className="input-checked-box"
+                    id={val?.name}
+                    checked={checkedItem === val?.name}
+                    onChange={() => {
+                      if (
+                        steps1?.[0]?.step1 == true &&
+                        stepsData2?.[0]?.step1Data?.id > 0
+                      ) {
+                        return;
+                      } else {
+                        handleCheckboxChange(val?.name);
                       }
                     }}
                   />
@@ -1034,8 +1286,8 @@ const DiamondFilter = () => {
                         defaultValue={filter?.default}
                         max={filter?.max}
                         step={0.1}
+                        className="sliderRange_mui_range_filter"
                         sx={{
-                          width: "400px",
                           marginLeft: "25px",
                           "& .MuiSlider-thumb": {
                             width: 17,
@@ -1095,7 +1347,7 @@ const DiamondFilter = () => {
         </div>
         <div className="filter_results">
           <hr />
-          <h3>Showing 733 lab grown diamonds</h3>
+          <h3>Showing {diaCount} lab grown diamonds</h3>
           <div className="col_details">
             <div className="desc">
               <p>
@@ -1105,22 +1357,32 @@ const DiamondFilter = () => {
                 know exactly what you are getting.
               </p>
             </div>
-            <div className="sorting_options">
-              <span
-                onClick={() => handleOpen("Sort")}
-                className="title_for_sort"
+            <div className="flex_for_mob">
+              <div className="sorting_options">
+                <span
+                  onClick={() => handleOpen("Sort")}
+                  className="title_for_sort"
+                >
+                  Sort By |
+                  <div>
+                    <span> {selectedsort?.title} </span> {selectedsort?.sort}
+                  </div>
+                </span>
+                <SortingOption
+                  ref={dropdownRefs.current}
+                  open={open === "Sort"}
+                  selectedValues={" Price: Low to High"}
+                  onSortChange={handleSortChange}
+                />
+              </div>
+              <div
+                onClick={() => setIsDrawerOpen(true)}
+                className="filter_bnt_forevery"
               >
-                Sort By |
-                <div>
-                  <span> {selectedsort?.title} </span> {selectedsort?.sort}
-                </div>
-              </span>
-              <SortingOption
-                ref={dropdownRefs.current}
-                open={open === "Sort"}
-                selectedValues={" Price: Low to High"}
-                onSortChange={handleSortChange}
-              />
+                <button>
+                  <GiDiamondRing size={22} color="white" /> Filters
+                </button>
+              </div>
             </div>
           </div>
           <hr />
@@ -1150,7 +1412,7 @@ const DiamondFilter = () => {
                             <>
                               {currentMediaType === "vid" ? (
                                 <>
-                                  {val?.vid?.endsWith('.mp4') ? (
+                                  {val?.vid?.endsWith(".mp4") ? (
                                     <video
                                       src={val?.vid}
                                       width="100%"
@@ -1159,17 +1421,19 @@ const DiamondFilter = () => {
                                       controls={false}
                                       muted
                                       onMouseOver={(e) => handleMouseMove(e, i)}
-                                      onMouseLeave={(e) => handleMouseLeave(e, i)}
+                                      onMouseLeave={(e) =>
+                                        handleMouseLeave(e, i)
+                                      }
                                       onClick={() => HandleDiamondRoute(val)}
                                     />
-                                  ) :
+                                  ) : (
                                     <img
                                       className="dimond-info-img"
                                       src={val?.image_file_url}
                                       alt=""
                                       onClick={() => HandleDiamondRoute(val)}
                                     />
-                                  }
+                                  )}
                                 </>
                               ) : (
                                 <img
@@ -1277,7 +1541,9 @@ const DiamondFilter = () => {
               aria-controls="panel1-content"
               id="panel1-header"
             >
-              <span className="m-faq">Frequently Asked Questions</span>
+              <span className="m-faq">
+                {isTabletView ? "FAQ" : "Frequently Asked Questions"}
+              </span>
             </AccordionSummary>
             <AccordionDetails>
               <Faq data={faqList} />
@@ -1315,7 +1581,7 @@ const CollectionPriceRange = forwardRef(
         className="for_ma_collection_filter_dropdown"
         ref={ref}
         style={{
-          height: open ? "90px" : "0px",
+          height: open ? "110px" : "0px",
         }}
       >
         <div className="for_ma_collection_slider_div">
@@ -1368,7 +1634,7 @@ const CollectionCaratRange = forwardRef(
         className="for_ma_collection_filter_dropdown"
         ref={ref}
         style={{
-          height: open ? "90px" : "0px",
+          height: open ? "110px" : "0px",
         }}
       >
         <div className="for_ma_collection_slider_div">
@@ -1705,170 +1971,3 @@ const SortingOption = forwardRef(({ onSortChange, open }, ref) => {
     </div>
   );
 });
-
-// const getDiamondData = async (shape) => {
-//   setIsloding(true);
-//   try {
-//     const response = await DiamondListData(1, shape);
-//     if (response && response.Data) {
-//       let resData = response.Data?.rd;
-//       //("diamondlistResponse", response.Data);
-//       const Newmap = resData?.map((val, i) => {
-//         return {
-//           img: IMG,
-//           vid: Video,
-//           HaveCustomization: true,
-//           ...val,
-//         };
-//       });
-//       //(Newmap, "swdwkhdwkdbwkbd");
-//       setDiamondData(Newmap);
-//       let count = resData[0]?.icount
-//       setDiaCount(count)
-//       setIsloding(false);
-//     } else {
-//       console.warn("No data found in the response");
-//     }
-//   } catch (error) {
-//     console.error("Error fetching diamond data:", error);
-//   }
-// };
-
-// const Transfromdata = () => {
-//   const resData = JSON?.parse(sessionStorage.getItem("filterMinMax"));
-//   if (resData) {
-//     const transformedData = {
-//       price: {
-//         label: "Price",
-//         type: "range",
-//         min: resData?.minprice,
-//         max: resData?.maxprice,
-//         default: [resData?.minprice, resData?.maxprice],
-//       },
-//       carat: {
-//         label: "Carat",
-//         type: "range",
-//         min: resData?.mincarat,
-//         max: resData?.maxcarat,
-//         default: [resData?.mincarat, resData?.maxcarat],
-//       },
-//       depth: {
-//         label: "Depth",
-//         type: "range",
-//         min: resData?.mindepth,
-//         max: resData?.maxdepth,
-//         default: [resData?.mindepth, resData?.maxdepth],
-//       },
-//       table: {
-//         label: "Table",
-//         type: "range",
-//         min: resData?.mintable,
-//         max: resData?.maxtable,
-//         default: [resData?.mintable, resData?.maxtable],
-//       },
-//     };
-
-//     setApiData((prev) => {
-//       const transformedArray = Object?.values(transformedData);
-//       return [
-//         ...prev?.filter(
-//           (item) =>
-//             !["Price", "Carat", "Depth", "Table"]?.includes(item?.label)
-//         ),
-//         ...transformedArray,
-//       ];
-//     });
-//   }
-// };
-
-// useEffect(() => {
-//   const getFilterdata = JSON?.parse(
-//     sessionStorage?.getItem("diamondFilterData")
-//   );
-//   if (getFilterdata !== null || getFilterdata !== undefined) {
-//     //(getFilterdata, "gt");
-//     setSliderState({
-//       price: [getFilterdata?.Price?.min, getFilterdata?.Price?.max],
-//       Carat: [getFilterdata?.Carat?.min, getFilterdata?.Carat?.max],
-//       Color: [0, 100],
-//       Clarity: [0, 100],
-//       Cut: [0, 100],
-//     });
-//   }
-//   if (getFilterdata !== null || getFilterdata !== undefined) {
-//     getDiamondFilterData();
-//   } else {
-//     //("Filter data already available.");
-//   }
-// }, []);
-{
-  /* {["Depth", "Table"]?.map((filterType) => {
-              const filter = filters[filterType];
-              const filterData = filtersData[filterType] || filter?.default;
-
-              return (
-                <div key={filterType} className="filter_card">
-                  <h4 className="advance_filter_title">
-                    <img src={RoundImage} alt="" /> {filter?.label}
-                  </h4>
-                  <Slider
-                    value={filterData}
-                    min={filter?.min}
-                    max={filter?.max}
-                    step={filter?.step || 0.01}
-                    sx={{
-                      width: "400px",
-                      marginLeft: "25px",
-                      "& .MuiSlider-thumb": {
-                        width: 17,
-                        height: 17,
-                        backgroundColor: "black",
-                        border: "1px solid #000",
-                      },
-                      "& .MuiSlider-rail": {
-                        height: 5,
-                        bgcolor: "black",
-                        border: "none",
-                      },
-                      "& .MuiSlider-track": {
-                        height: 5,
-                        padding: "0 5px",
-                        bgcolor: "black",
-                        border: "none",
-                      },
-                      "& .MuiSlider-markLabel": {
-                        fontSize: "12px !important",
-                      },
-                    }}
-                    onChange={(e, newValue) =>
-                      handleFilterChange(filterType, newValue)
-                    }
-                    valueLabelDisplay="off"
-                    aria-labelledby={`${filterType}-slider`}
-                  />
-                  <div className="advance_filter_input_box">
-                    <input
-                      type="number"
-                      value={filterData[0]}
-                      onChange={(e) =>
-                        handleFilterChange(filterType, [
-                          parseFloat(e.target.value) || filter.min,
-                          filterData[1] || filter?.max,
-                        ])
-                      }
-                    />
-                    <input
-                      type="number"
-                      value={filterData[1]}
-                      onChange={(e) =>
-                        handleFilterChange(filterType, [
-                          filterData[0] || filter?.min,
-                          parseFloat(e.target.value) || filter?.max,
-                        ])
-                      }
-                    />
-                  </div>
-                </div>
-              );
-            })} */
-}

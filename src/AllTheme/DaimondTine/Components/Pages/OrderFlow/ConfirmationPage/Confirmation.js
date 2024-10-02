@@ -46,14 +46,15 @@ const Confirmation = () => {
         }
         sessionStorage.removeItem("TotalPriceData");
     }
-    useEffect(()=>{
-        const timer = setTimeout(() => {
-            navigate("/",{replace  :true})
-        }, 2000);
-        return  ()=>{
-            clearTimeout(timer)
-        }
-    },[])
+    
+    // useEffect(()=>{
+    //     const timer = setTimeout(() => {
+    //         navigate("/", {replace  :true})
+    //     }, 3000);
+    //     return  ()=>{
+    //         clearTimeout(timer)
+    //     }
+    // },[])
 
 
     // const handleNavigate = () => {
