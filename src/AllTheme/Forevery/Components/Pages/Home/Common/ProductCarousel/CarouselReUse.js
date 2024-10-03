@@ -15,7 +15,7 @@ import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
 
-const ProductCarousel = ({showmore = false}) => {
+const NewArrivalCarousel = ({showmore = false}) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -41,15 +41,29 @@ const ProductCarousel = ({showmore = false}) => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID)
-      .then((response) => {
+    // Get_Tren_BestS_NewAr_DesigSet_Album("GETTrending", finalID)
+    //   .then((response) => {
+    //     if (response?.Data?.rd) {
+    //       setTrendingProductlist(response?.Data?.rd);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+
+      Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
+      ?.then((response) => {
         if (response?.Data?.rd) {
-          setTrendingProductlist(response?.Data?.rd);
+            setTrendingProductlist(response?.Data?.rd);
         }
       })
       .catch((err) => console.log(err));
   }, []);
-
+  const ImageGenrate = (product) => {
+    return product?.ImageCount >= 1
+      ? `${imageUrl}${TrendingProductlist && product?.designno}_1.${
+          TrendingProductlist && product?.ImageExtension
+        }`
+      : "noImageFound";
+  };
   const handleMoveToDetail = (designNo, autoCode, titleLine) => {
     let obj = {
       a: autoCode,
@@ -79,12 +93,15 @@ const ProductCarousel = ({showmore = false}) => {
     }
   };
   const NoImageFound = `${storImagePath()}/Forevery/noimage.jpg`;
+  if(!TrendingProductlist){
+    return ;
+  }
 
   return (
     <div className="for_ProductCarousel">
       <div className="heading">
-        <span>Our Best Selling</span>
-        <h2>Top Trending Collections</h2>
+        <span>Explore Our New Jewellery</span>
+        <h2>New Arrivals</h2>
       </div>
       <div className="for_carousel">
         <Swiper
@@ -149,15 +166,7 @@ const ProductCarousel = ({showmore = false}) => {
                       : data?.designno + ` - ${data?.TitleLine}`
                   }
                   SourceImg={
-                    data?.ImageCount >= 1
-                      ? `${imageUrl}${
-                          data?.designno === undefined ? "" : data?.designno
-                        }_1.${
-                          data?.ImageExtension === undefined
-                            ? ""
-                            : data.ImageExtension
-                        }`
-                      : NoImageFound
+                    ImageGenrate(data)
                   }
                   productData={data}
                   storeInit={storeInit}
@@ -202,7 +211,7 @@ const ProductCarousel = ({showmore = false}) => {
   );
 };
 
-export default ProductCarousel;
+export default NewArrivalCarousel;
 
 const ProductCard = ({
   SourceImg,
@@ -212,6 +221,7 @@ const ProductCard = ({
   CurrencyCode,
   onclick,
 }) => {
+    console.log(SourceImg,"img arrival new")
   return (
     <div className="for_product_card">
       <div className="image_box">
@@ -280,3 +290,11 @@ const ProductCard = ({
     </div>
   );
 };
+
+
+// --bs-breakpoint-xs: 0;
+// --bs-breakpoint-sm: 576px;
+// --bs-breakpoint-md: 768px;
+// --bs-breakpoint-lg: 992px;
+// --bs-breakpoint-xl: 1200px;
+// --bs-breakpoint-xxl: 1400px;
