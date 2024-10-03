@@ -53,7 +53,10 @@ const AffiliationData = () => {
 
     return (
         <div>
-            <p className='elv_AffiliationComponents'>Affiliation</p>
+            <div className='elv_affi_div'>
+                <p className='elv_AffiliationComponents'>Affiliation</p>
+                <span className='elv_affi_subtitle'>Partnering for Excellence and Trust.</span>
+            </div>
             <div className='AffiliationClassComponents' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {/* <Swiper
                         slidesPerView={1}

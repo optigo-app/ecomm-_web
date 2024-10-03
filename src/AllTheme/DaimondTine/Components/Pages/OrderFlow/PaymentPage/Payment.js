@@ -113,11 +113,8 @@ const Payment = () => {
 
         fetchData();
     }, []);
-    console.log(webLogo, mobileLogo)
-
 
     const handlePay = async () => {
-        debugger
         const razorPayData = {
             description: orderRemakdata,
             price: Math.round(parseFloat(taxAmmountData?.TotalAmountWithTax) * 100),
@@ -173,6 +170,12 @@ const Payment = () => {
                                         value: loginInfo?.firstname || "Guest User"
                                     });
                                     paymentResponse = await handlePaymentAPI(visiterId, islogin);
+
+                                    if (paymentResponse?.Data?.rd?.[0]?.stat === 1) {
+                                        const orderNumber = paymentResponse.Data?.rd[0]?.orderno;
+                                        sessionStorage.setItem('orderNumber', orderNumber);
+                                    }
+                                    
                                     const cartCount = await GetCountAPI();
                                     setCartCountVal(cartCount?.cartcount);
                                     paymentId = paymentResponse?.razorpay_payment_id;

@@ -27,6 +27,8 @@ const Confirmation = () => {
         });
     }, [])
 
+    
+
     useEffect(() => {
 
         setCSSVariable();

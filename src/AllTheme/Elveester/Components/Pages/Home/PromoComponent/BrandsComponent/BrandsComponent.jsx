@@ -5,9 +5,12 @@ import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalF
 const BrandsComponent = () => {
     return (
         <div id='brandsComponentID' >
-            <p className='brandsCompoents'>introducing our exclusive brands</p>
+            <div className='brandsCompoents'>
+                <p className='elv_brand_title'>introducing our exclusive brands</p>
+                <span className='elv_brand_subtitle'>Unveiling the Finest in Exclusive Brands</span>
+            </div>
             <div className='brandsComponentClass'>
-                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`} style={{ width: '8%'}} />
+                <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`} style={{ width: '8%' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo05.png`} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo04.png`} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo02.png`} />
