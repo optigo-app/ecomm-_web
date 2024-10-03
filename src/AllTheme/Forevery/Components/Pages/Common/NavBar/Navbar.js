@@ -176,73 +176,6 @@ const Navbar = () => {
     setMenuItems(uniqueMenuItems);
   }, [menuData]);
 
-  const handelMenu = (param, param1, param2, event) => {
-    if (
-      event?.ctrlKey || // Ctrl key
-      event?.shiftKey || // Shift key
-      event?.metaKey || // Meta key (Command key on macOS)
-      (event?.button && event?.button === 1) // Middle mouse button
-    ) {
-      // Let the default behavior of the <a> tag handle the new tab opening
-      return;
-    } else {
-      event?.preventDefault();
-      let finalData = {
-        menuname: param?.menuname ?? "",
-        FilterKey: param?.key ?? "",
-        FilterVal: param?.value ?? "",
-        FilterKey1: param1?.key ?? "",
-        FilterVal1: param1?.value ?? "",
-        FilterKey2: param2?.key ?? "",
-        FilterVal2: param2?.value ?? "",
-      };
-      sessionStorage.setItem("menuparams", JSON.stringify(finalData));
-
-      const queryParameters1 = [
-        finalData?.FilterKey && `${finalData.FilterVal}`,
-        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-      ]
-        .filter(Boolean)
-        .join("/");
-
-      const queryParameters = [
-        finalData?.FilterKey && `${finalData.FilterVal}`,
-        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
-        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-      ]
-        // .filter(Boolean)
-        .join(",");
-
-      const otherparamUrl = Object.entries({
-        b: finalData?.FilterKey,
-        g: finalData?.FilterKey1,
-        c: finalData?.FilterKey2,
-      })
-        .filter(([key, value]) => value !== undefined)
-        .map(([key, value]) => value)
-        .filter(Boolean)
-        .join(",");
-
-      const paginationParam = [
-        `page=${finalData.page ?? 1}`,
-        `size=${finalData.size ?? 50}`,
-      ].join("&");
-
-      // console.log("otherparamsUrl--", otherparamUrl);
-
-      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
-      // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
-      const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
-        menuEncoded
-      )}`;
-
-      // let d = new Date();
-      // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
-      Navigate(url);
-    }
-  };
-
   const getMenuApi = async () => {
     const loginUserDetail = JSON.parse(
       sessionStorage?.getItem("loginUserDetail")
@@ -720,7 +653,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-              // }}
+            // }}
             >
               {val?.disabled ? (
                 <div
@@ -1288,6 +1221,74 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 const ThirdNavMenu = ({ data }) => {
   const Navigate = useNavigate();
   const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
+
+  const handelMenu = (param, param1, param2, event) => {
+    if (
+      event?.ctrlKey || // Ctrl key
+      event?.shiftKey || // Shift key
+      event?.metaKey || // Meta key (Command key on macOS)
+      (event?.button && event?.button === 1) // Middle mouse button
+    ) {
+      // Let the default behavior of the <a> tag handle the new tab opening
+      return;
+    } else {
+      event?.preventDefault();
+      let finalData = {
+        menuname: param?.menuname ?? "",
+        FilterKey: param?.key ?? "",
+        FilterVal: param?.value ?? "",
+        FilterKey1: param1?.key ?? "",
+        FilterVal1: param1?.value ?? "",
+        FilterKey2: param2?.key ?? "",
+        FilterVal2: param2?.value ?? "",
+      };
+      sessionStorage.setItem("menuparams", JSON.stringify(finalData));
+
+      const queryParameters1 = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        .filter(Boolean)
+        .join("/");
+
+      const queryParameters = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        // .filter(Boolean)
+        .join(",");
+
+      const otherparamUrl = Object.entries({
+        b: finalData?.FilterKey,
+        g: finalData?.FilterKey1,
+        c: finalData?.FilterKey2,
+      })
+        .filter(([key, value]) => value !== undefined)
+        .map(([key, value]) => value)
+        .filter(Boolean)
+        .join(",");
+
+      const paginationParam = [
+        `page=${finalData.page ?? 1}`,
+        `size=${finalData.size ?? 50}`,
+      ].join("&");
+
+      // console.log("otherparamsUrl--", otherparamUrl);
+
+      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+      // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+      const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+        menuEncoded
+      )}`;
+
+      // let d = new Date();
+      // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+      Navigate(url);
+    }
+  };
+
   return (
     <>
       <div className="Third_Nav_first_Menu">
@@ -1300,10 +1301,10 @@ const ThirdNavMenu = ({ data }) => {
             return (
               hasValidSubMenu && (
                 <div key={menuItem.menuid} className="main_menu_for">
-                  <div className="menu-title">
+                  <div className="menu-title" onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, {}, {}, e)}>
                     <Link to={`/p/${menuItem?.menuname}/?M=${btoa(
-                            `${menuItem?.param0dataname}/${menuItem?.param0name}`
-                          )}`}>{menuItem.menuname}</Link>
+                      `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                    )}`}>{menuItem.menuname}</Link>
                   </div>
                   <ul className="sub-menu">
                     {menuItem?.param1[0]?.param1name !== "" &&
@@ -1311,11 +1312,15 @@ const ThirdNavMenu = ({ data }) => {
                         <li
                           key={subMenuItem.param1dataid}
                           className="sub-menu-item"
+                          onClick={(e) =>
+                            handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e
+                            )
+                          }
                         >
                           <Link to={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                          }/?M=${btoa(
-                            `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
-                          )}`}>{subMenuItem.param1dataname}</Link>
+                            }/?M=${btoa(
+                              `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
+                            )}`}>{subMenuItem.param1dataname}</Link>
                           {/* <ul className="nested-menu">
                        {subMenuItem.param2.map((subSubMenuItem) => (
                            <li key={subSubMenuItem.param2dataid} className="nested-menu-item">
@@ -1341,11 +1346,11 @@ const ThirdNavMenu = ({ data }) => {
                 <h3>Bespoke Jewlery</h3>
                 <button
                   className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                  // onClick={() =>
-                  //   Navigate(
-                  //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  //   )
-                  // }
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
                 >
                   Show More
                 </button>
@@ -1354,11 +1359,11 @@ const ThirdNavMenu = ({ data }) => {
                 <h3>Bespoke Diamonds</h3>
                 <button
                   className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                  // onClick={() =>
-                  //   Navigate(
-                  //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  //   )
-                  // }
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
                 >
                   Show More
                 </button>
