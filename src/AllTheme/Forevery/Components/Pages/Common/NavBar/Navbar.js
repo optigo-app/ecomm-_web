@@ -318,6 +318,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setshowMenu(false);
+    setOpen(false)
   }, [location]);
 
   const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
@@ -1021,6 +1022,7 @@ const FirstNavMenu = ({
     Eternity_Rings: "Eternity Rings/sub_category",
     Half_Eternity_Rings: "Half-Eternity Rings/sub_category",
     Stackable_Rings: "Stackable Rings/sub_category",
+    High_End_Exclusive: "High End Exclusive/sub_category",
   };
 
   const menCategories = {

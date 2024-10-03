@@ -446,7 +446,7 @@
               }
 
               .masonry-layout > div {
-                position: relative; /* Position relative for pseudo-element positioning */
+                position: relative; 
               }
 
               .masonry-layout > div::after {
@@ -481,9 +481,16 @@
                     margin-bottom: 4px;
                     text-decoration: none;
                     color: inherit;
+                    &:hover{
+                    background-color: #f7d5d5ef;
+                    }
                     a{
                       text-decoration: none;
                       color: inherit;
+                      &:hover{
+                        color: rgba(22, 22, 22, 0.822);
+                        
+                      }
                     }
                   }
                   .sub-menu {
@@ -503,6 +510,7 @@
                       cursor: pointer;
                     }
                     a {
+                      transition: 0.3s ease-in-out;
                       padding: 1px 0 !important;
                       margin: 0;
                       list-style: none;
@@ -512,6 +520,9 @@
                       font-size: 15px;
                       line-height: 21px;
                       cursor: pointer;
+                      &:hover{
+                        color: gray;
+                      }
                     }
                   }
                 }
