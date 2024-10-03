@@ -52,6 +52,7 @@ const Header = () => {
   const [searchText, setSearchText] = useState("");
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
+  const IsCartNo = storeinit?.CartNo;
   const [htmlContent, setHtmlContent] = useState("");
   const location = useLocation();
 
@@ -579,9 +580,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={() => {
-                            navigate("/cartPage");
-                          }}
+                          onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1126,7 +1125,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                        onClick={toggleCartDrawer}
+                        onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -1183,9 +1182,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={() => {
-                            navigate("/cartPage");
-                          }}
+                          onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1463,7 +1460,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={toggleCartDrawer}
+                          onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1520,9 +1517,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                            onClick={() => {
-                              navigate("/cartPage");
-                            }}
+                            onClick={IsCartNo == 2 ? toggleCartDrawer : () => navigate("/cartPage")}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -1732,7 +1727,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {IsB2BWebsiteChek != 1 &&
+      {IsCartNo == 2 &&
         <CartDrawer open={isCartOpen} />
       }
     </div>
