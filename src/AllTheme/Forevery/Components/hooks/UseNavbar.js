@@ -31,7 +31,9 @@ const useNavbar = () => {
   useEffect(() => {
     if (logoLoaded) {
       updateNavbarHeight();
+      updateNavbarHeight();
       console.log("Logo has loaded, navbar height:", navbarHeight);
+
     }
   }, [logoLoaded, navbarHeight]);
 
