@@ -14,7 +14,7 @@ import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeCo
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
 import { ColorStoneQualityColorComboAPI } from '../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI';
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
-import { Checkbox, FormControl, Rating, Skeleton } from '@mui/material';
+import { Checkbox, FormControl, Rating, Skeleton, useMediaQuery } from '@mui/material';
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Services from '../../ReusableComponent/OurServives/OurServices';
@@ -30,11 +30,13 @@ import Faq from '../../ReusableComponent/Faq/Faq';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
 import useZoom from '../../../hooks/UseZoom';
+import OurServices from '../../Home/Common/OurServices/OurServices';
 
 
 const ProductDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const mobileView = useMediaQuery('(max-width:600px)');
   const isLoading = useRecoilValue(for_Loader)
   const sliderRef = useRef(null);
   const videoRef = useRef(null);
@@ -118,7 +120,7 @@ const ProductDetail = () => {
   const [addToCardFlag, setAddToCartFlag] = useState(null);
   const [wishListFlag, setWishListFlag] = useState(null);
   const [PdImageArr, setPdImageArr] = useState([]);
-  console.log('PdImageArr: ', PdImageArr);
+  const [imageSrc, setImageSrc] = useState();
   const [ratingvalue, setratingvalue] = useState(5);
 
   useEffect(() => {
@@ -191,6 +193,21 @@ const ProductDetail = () => {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    try {
+      if (PdImageArr == undefined) return;
+
+      if (PdImageArr) {
+        setImageSrc(selectedThumbImg.src);
+      } else {
+        setImageSrc(pdVideoArr?.length > 0 ? imageNotFound : 'p.png');
+      }
+    } catch (error) {
+      console.log("Error in fetching image", error)
+    }
+
+  }, [PdImageArr, pdVideoArr]);
 
 
   const settings = {
@@ -1231,132 +1248,264 @@ const ProductDetail = () => {
             />
           )}
           <div className="for_ProductDet_container_div">
-            <div className="for_ProductDet_left_prodImages">
-              <div className="for_slider_container">
-                <div className="for_images_slider">
-                  {loadingdata || pdImageLoading ? (
-                    <>
-                      <div className="for_slider">
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <div key={i} className='for_skeleton_thumb_div'>
-                            <Skeleton className='for_skeleton_det_thumb' />
+            {
+              !mobileView ? (
+                <div className="for_ProductDet_left_prodImages">
+                  <div className="for_slider_container">
+                    <div className="for_images_slider">
+                      {loadingdata || pdImageLoading ? (
+                        <>
+                          <div className="for_slider">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                              <div key={i} className='for_skeleton_thumb_div'>
+                                <Skeleton className='for_skeleton_det_thumb' />
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
-                      <div className="for_main_image">
-                        <Skeleton variant='square' className='for_skeleton_main_image' />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="for_slider">
-                        {(
-                          PdImageArr.map((val, i) => (
-                            <div
-                              key={i}
-                              className={`for_box ${i === currentSlide ? "active" : ""}`}
-                              onClick={() => handleThumbnailClick(i)}
-                            >
-                              {val?.type === "img" ? (
-                                <img
-                                  src={val?.src}
-                                  alt=""
-                                  onClick={() => {
-                                    setSelectedThumbImg({ link: val?.src, type: "img" });
-                                    setThumbImgIndex(i);
-                                  }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = imageNotFound;
-                                  }}
-                                />
-                              ) : (
-                                <div className="for_video_box" style={{ position: "relative" }}>
-                                  <video
-                                    src={val?.src}
-                                    autoPlay
-                                    muted
-                                    loop
-                                    style={{ width: '65px' }}
-                                  />
-                                  <IoIosPlayCircle className="for_play_io_icon" />
-                                </div>
-                              )}
-                            </div>
-                          ))
-                        )}
-                      </div>
-                      <div className="for_main_image">
-                        <div className="forWeb_app_product_label">
-                          {singleProd?.IsInReadyStock === 1 && <span className="forWeb_app_instock">In Stock</span>}
-                          {singleProd?.IsBestSeller === 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
-                          {singleProd?.IsTrending === 1 && <span className="forWeb_app_intrending">Trending</span>}
-                          {singleProd?.IsNewArrival === 1 && <span className="forWeb_app_newarrival">New</span>}
-                        </div>
-                        {PdImageArr?.length === 0 ? ( // Check if no images are available
-                          <div className="for_slider_card">
-                            <div className="for_image">
-                              <img
-                                src={imageNotFound}
-                                alt=""
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = imageNotFound;
-                                }}
-                              />
-                            </div>
+                          <div className="for_main_image">
+                            <Skeleton variant='square' className='for_skeleton_main_image' />
                           </div>
-                        ) : (
-                          PdImageArr?.length > 1 ? (
-                            <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                              {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
-                                <div key={i} className="for_slider_card">
-                                  <div className="for_image">
-                                    {val?.type === "img" ? (
-                                      <img
-                                        loading="lazy"
+                        </>
+                      ) : (
+                        <>
+                          <div className="for_slider">
+                            {(
+                              PdImageArr.map((val, i) => (
+                                <div
+                                  key={i}
+                                  className={`for_box ${i === currentSlide ? "active" : ""}`}
+                                  onClick={() => handleThumbnailClick(i)}
+                                >
+                                  {val?.type === "img" ? (
+                                    <img
+                                      src={val?.src}
+                                      alt=""
+                                      onClick={() => {
+                                        setSelectedThumbImg({ link: val?.src, type: "img" });
+                                        setThumbImgIndex(i);
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = imageNotFound;
+                                      }}
+                                    />
+                                  ) : (
+                                    <div className="for_video_box" style={{ position: "relative" }}>
+                                      <video
                                         src={val?.src}
-                                        alt=""
-                                        style={{ transition: 'transform 0.3s ease' }}
-                                        onLoad={() => setIsImageLoad(false)}
+                                        autoPlay
+                                        muted
+                                        loop
+                                        style={{ width: '65px' }}
                                       />
-                                    ) : (
-                                      <div style={{ height: "80%" }}>
-                                        <video
-                                          src={val?.src}
-                                          ref={videoRef}
-                                          loop={true}
-                                          autoPlay={true}
-                                          muted
-                                          style={{ width: "100%", height: "100%", objectFit: "scale-down" }}
-                                        />
+                                      <IoIosPlayCircle className="for_play_io_icon" />
+                                    </div>
+                                  )}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                          <div className="for_main_image">
+                            <div className="forWeb_app_product_label">
+                              {singleProd?.IsInReadyStock === 1 && <span className="forWeb_app_instock">In Stock</span>}
+                              {singleProd?.IsBestSeller === 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
+                              {singleProd?.IsTrending === 1 && <span className="forWeb_app_intrending">Trending</span>}
+                              {singleProd?.IsNewArrival === 1 && <span className="forWeb_app_newarrival">New</span>}
+                            </div>
+                            {(
+                              imageSrc || PdImageArr?.length > 1 ? (
+                                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                  {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
+                                    <div key={i} className="for_slider_card">
+                                      <div className="for_image">
+                                        {val?.type === "img" ? (
+                                          <img
+                                            loading="lazy"
+                                            src={val?.src}
+                                            alt=""
+                                            style={{ transition: 'transform 0.3s ease' }}
+                                            onLoad={() => setIsImageLoad(false)}
+                                          />
+                                        ) : (
+                                          <div style={{ height: "80%" }}>
+                                            <video
+                                              src={val?.src}
+                                              ref={videoRef}
+                                              loop={true}
+                                              autoPlay={true}
+                                              muted
+                                              style={{ width: "100%", height: "100%", objectFit: "scale-down" }}
+                                            />
+                                          </div>
+                                        )}
                                       </div>
-                                    )}
+                                    </div>
+                                  ))}
+                                </Slider>
+                              ) : imageSrc || PdImageArr.length === 1 ? (
+                                <div className="for_slider_card">
+                                  <div className="for_image">
+                                    <img
+                                      src={PdImageArr[0]?.src}
+                                      alt=""
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = imageNotFound;
+                                      }}
+                                    />
                                   </div>
                                 </div>
-                              ))}
-                            </Slider>
-                          ) : PdImageArr.length === 1 && (
-                            <div className="for_slider_card">
-                              <div className="for_image">
-                                <img
-                                  src={PdImageArr[0]?.src}
-                                  alt=""
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = imageNotFound;
-                                  }}
-                                />
-                              </div>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </>
-                  )}
+                              ) : imageSrc || PdImageArr?.length === 0 && (
+                                <div className="for_slider_card">
+                                  <div className="for_image">
+                                    <img
+                                      src={imageSrc || 'p.png'}
+                                      alt=""
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = imageNotFound;
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ) : (
+                <div className="for_ProductDet_left_prodImages_mob">
+                  <div className="for_slider_container_mob">
+                    <div className="for_images_slider_mob">
+                      {loadingdata || pdImageLoading ? (
+                        <>
+                          <div className="for_slider_mob">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                              <div key={i} className='for_skeleton_thumb_div_mob'>
+                                <Skeleton className='for_skeleton_det_thumb_mob' />
+                              </div>
+                            ))}
+                          </div>
+                          <div className="for_main_image_mob">
+                            <Skeleton variant='square' className='for_skeleton_main_image_mob' />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="for_slider_mob">
+                            {(
+                              PdImageArr.map((val, i) => (
+                                <div
+                                  key={i}
+                                  className={`for_box_mob ${i === currentSlide ? "active" : ""}`}
+                                  onClick={() => handleThumbnailClick(i)}
+                                >
+                                  {val?.type === "img" ? (
+                                    <img
+                                      src={val?.src}
+                                      alt=""
+                                      onClick={() => {
+                                        setSelectedThumbImg({ link: val?.src, type: "img" });
+                                        setThumbImgIndex(i);
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = imageNotFound;
+                                      }}
+                                    />
+                                  ) : (
+                                    <div className="for_video_box_mob" style={{ position: "relative" }}>
+                                      <video
+                                        src={val?.src}
+                                        autoPlay
+                                        muted
+                                        loop
+                                        style={{ width: '65px' }}
+                                      />
+                                      <IoIosPlayCircle className="for_play_io_icon_mob" />
+                                    </div>
+                                  )}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                          <div className="for_main_image_mob">
+                            <div className="forWeb_app_product_label_mob">
+                              {singleProd?.IsInReadyStock === 1 && <span className="forWeb_app_instock_mob">In Stock</span>}
+                              {singleProd?.IsBestSeller === 1 && <span className="forWeb_app_bestSeller_mob">Best Seller</span>}
+                              {singleProd?.IsTrending === 1 && <span className="forWeb_app_intrending_mob">Trending</span>}
+                              {singleProd?.IsNewArrival === 1 && <span className="forWeb_app_newarrival_mob">New</span>}
+                            </div>
+                            {(
+                              imageSrc || PdImageArr?.length > 1 ? (
+                                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                  {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
+                                    <div key={i} className="for_slider_card_mob">
+                                      <div className="for_image_mob">
+                                        {val?.type === "img" ? (
+                                          <img
+                                            loading="lazy"
+                                            src={val?.src}
+                                            alt=""
+                                            style={{ transition: 'transform 0.3s ease' }}
+                                            onLoad={() => setIsImageLoad(false)}
+                                          />
+                                        ) : (
+                                          <div style={{ height: "80%" }}>
+                                            <video
+                                              src={val?.src}
+                                              ref={videoRef}
+                                              loop={true}
+                                              autoPlay={true}
+                                              muted
+                                              style={{ width: "100%", height: "100%", objectFit: "scale-down" }}
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </Slider>
+                              ) : imageSrc || PdImageArr.length === 1 ? (
+                                <div className="for_slider_card_mob">
+                                  <div className="for_image_mob">
+                                    <img
+                                      src={PdImageArr[0]?.src}
+                                      alt=""
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = imageNotFound;
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              ) : imageSrc || PdImageArr?.length === 0 && (
+                                <div className="for_slider_card_mob">
+                                  <div className="for_image_mob">
+                                    <img
+                                      src={imageSrc || 'p.png'}
+                                      alt=""
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = imageNotFound;
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+
+            }
             <div className="for_ProductDet_right_prodDetails">
               <div className="for_ProductDet_breadcrumbs">
                 <div className="for_ProductDet_breadcrumbs">
@@ -1436,7 +1585,7 @@ const ProductDetail = () => {
                     <div className="for_ProductDet_title">
                       <span>{singleProd?.designno} {singleProd?.TitleLine?.length > 0 && " - " + singleProd?.TitleLine}</span>
                     </div>
-                    <div className="for_ProductDet_rating_div">
+                    {/* <div className="for_ProductDet_rating_div">
                       <div className="">
                         <Rating
                           name="simple-controlled"
@@ -1447,7 +1596,7 @@ const ProductDetail = () => {
                         />
                       </div>
                       <div className='for_productDet_rating_text_div'><span className='for_productDet_rating_text'>4.5</span> Out of 5</div>
-                    </div>
+                    </div> */}
                     <div className="for_ProductDet_title_sku">
                       <span>SKU: FE-CO-YG-0.5CT</span>
                     </div>
@@ -1717,7 +1866,8 @@ const ProductDetail = () => {
             </div>
           </div>
           <div className="for_ProductDet_services_div">
-            <Services title={"Our Exclusive services"} services={services} />
+            {/* <Services title={"Our Exclusive services"} services={services} /> */}
+            <OurServices />
           </div>
           {storeInit?.IsProductDetailSimilarDesign == 1 &&
             SimilarBrandArr?.length > 0 && (
@@ -2248,7 +2398,7 @@ const TableComponents = ({ list, details }) => {
         </li>
       </ul>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-        <table style={{ width: '75rem', marginInline: 'auto', }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead className='for_ProductDet_weight_names_ff' style={{ color: '#7d7f85', fontWeight: '600', textDecoration: 'underline' }}>
             <tr style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <th style={{ flex: '1' }}>Shape</th>

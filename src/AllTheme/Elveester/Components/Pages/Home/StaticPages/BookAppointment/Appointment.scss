@@ -174,6 +174,13 @@
             grid-template-columns: repeat(auto-fit, minmax(85%, 1fr));
           }
 
+          .elv_date_time_picker {
+            .css-v0pjtz-MuiStack-root {
+              width: 100%;
+              border: none;
+            }
+          }
+
           .elv_lab_1 {
             width: 100%;
             padding: 2px 0;
@@ -183,10 +190,10 @@
             justify-content: space-between;
             position: relative;
 
-              .elv_date_icon {
-                position: absolute;
-                right: 0;
-              }
+            .elv_date_icon {
+              position: absolute;
+              right: 0;
+            }
 
 
             input {
@@ -198,7 +205,8 @@
           }
 
           .elv_lab_2 {
-            width: 100%;
+            width: 48%;
+            // width: 100%;
             padding: 2px 0;
             border-bottom: 1px solid rgb(0, 0, 19);
             display: flex;
@@ -208,6 +216,8 @@
 
             .elv_date_icon {
               position: absolute;
+              background-color: white;
+              cursor: pointer;
               right: 0;
             }
 

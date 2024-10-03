@@ -392,6 +392,7 @@ const Header = () => {
 
         let encodeObj = btoa(JSON.stringify(obj))
         navigation(`/p/${searchText}?S=${encodeObj}`);
+        toggleOverlay();
         setSearchText("")
       }
     }

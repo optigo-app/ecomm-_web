@@ -3,10 +3,15 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import {
-    productfaqData,
-    careRepairFAQ,
-    ordersPaymentsFAQ,
-    returnsExchangeFAQ,
+    websiteFaqs,
+    productFaqs,
+    customerServiceFaq,
+    designCustoFaq,
+    qualityAssuranceFaq,
+    paymentFaq,
+    shippingFaq,
+    contactFaq,
+    anyOtherQues,
 } from "../../../Constants/Faqlist";
 import { IoChevronDown } from "react-icons/io5";
 import { IoChevronUp } from "react-icons/io5";
@@ -14,16 +19,63 @@ import { useState } from "react";
 
 const FaqSecData = () => {
     return (
-        <div className="hoq_main_FaqSection">
+        <div className="elv_main_FaqSection">
+            <h2 className="elv_faq_title">FAQ</h2>
             <FAQComponent
-                // data={productfaqData}
-                data={returnsExchangeFAQ}
+                data={websiteFaqs}
                 title={
-                    "orem . Aliquam dicta beatae praesentiumx odit?" ||
-                    "Product & Diamond FAQ"
+                    "Website FAQs:"
                 }
             />
             <FAQComponent
+                data={productFaqs}
+                title={
+                    "Product FAQs:"
+                }
+            />
+            <FAQComponent
+                data={customerServiceFaq}
+                title={
+                    "Customer Service FAQs:"
+                }
+            />
+            <FAQComponent
+                data={designCustoFaq}
+                title={
+                    "Design & Customization FAQs:"
+                }
+            />
+            <FAQComponent
+                data={qualityAssuranceFaq}
+                title={
+                    "Quality Assurance FAQs:"
+                }
+            />
+            <FAQComponent
+                data={paymentFaq}
+                title={
+                    "Payment FAQs:"
+                }
+            />
+            <FAQComponent
+                data={shippingFaq}
+                title={
+                    "Shipping & Delivery FAQs:"
+                }
+            />
+            <FAQComponent
+                data={contactFaq}
+                title={
+                    "Contact FAQs:"
+                }
+            />
+            <FAQComponent
+                data={anyOtherQues}
+                title={
+                    "More questions:"
+                }
+            />
+            {/* <FAQComponent
                 // data={ordersPaymentsFAQ}
                 data={returnsExchangeFAQ}
                 title={
@@ -51,7 +103,7 @@ const FaqSecData = () => {
                     "orem . Aliquam dicta beatae praesentiumx odit?" ||
                     "Returns & Exchange"
                 }
-            />
+            /> */}
         </div>
     );
 };
@@ -88,16 +140,18 @@ const FAQComponent = ({ data = [], title }) => {
                                 )}
                             </button>
                             <h1 className="question">
-                                {`orem . Aliquam dicta beatae praesentium temporibus ex odit?` ||
-                                    faqItem.question}
+                                {faqItem.question}
                             </h1>
                         </AccordionSummary>
                         <AccordionDetails>
                             <p className="answer">
-                                {`orem . Aliquam dicta beatae praesentium temporibus ex odit?
-orem . Aliquam dicta beatae praesentium temporibus ex odit?
-orem . Aliquam dicta beatae praesentium temporibus ex odit?
-orem . Aliquam dicta beatae praesentium temporibus ex odit?` || faqItem.answer}
+                                {faqItem.answer && faqItem.answer.length === 1 ? (
+                                    <span dangerouslySetInnerHTML={{ __html: faqItem.answer[0] }} />
+                                ) : (
+                                    faqItem.answer.map((item, index) => (
+                                        <div key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                                    ))
+                                )}
                             </p>
                         </AccordionDetails>
                     </Accordion>
