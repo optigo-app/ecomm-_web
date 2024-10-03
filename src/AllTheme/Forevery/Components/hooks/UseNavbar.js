@@ -7,15 +7,15 @@ const useNavbar = () => {
   const [navbarHeight, setNavbarHeight] = useState(0);
   const [logoLoaded, setLogoLoaded] = useState(false);
   const [NavHeight, setNavHeight] = useRecoilState(for_nav_height);
+  const updateNavbarHeight = () => {
+    if (navRef.current) {
+      setNavbarHeight(navRef.current.offsetHeight + 25);
+      setNavHeight(navRef.current.offsetHeight + 25);
+      console.log(navRef.current.offsetHeight, "navbar");
+    }
+  };
 
   useEffect(() => {
-    const updateNavbarHeight = () => {
-      if (navRef.current) {
-        setNavbarHeight(navRef.current.offsetHeight + 25);
-        setNavHeight(navRef.current.offsetHeight + 25);
-        console.log(navRef.current.offsetHeight, "navbar");
-      }
-    };
 
     updateNavbarHeight();
 
@@ -30,7 +30,9 @@ const useNavbar = () => {
 
   useEffect(() => {
     if (logoLoaded) {
+      updateNavbarHeight();
       console.log("Logo has loaded, navbar height:", navbarHeight);
+
     }
   }, [logoLoaded, navbarHeight]);
 
