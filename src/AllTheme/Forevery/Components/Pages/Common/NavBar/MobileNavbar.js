@@ -20,6 +20,7 @@ import {
   for_WishCount,
   for_loginState,
 } from "../../../Recoil/atom";
+import LoginIcon from '@mui/icons-material/Login';
 import "./MobileCss.scss";
 import { IoClose } from "react-icons/io5";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
@@ -30,6 +31,7 @@ export default function MobileNav({ open, onClose }) {
   const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
   const [islogin, setislogin] = useRecoilState(for_loginState);
   const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
+  const [LoginUserDetails, setLoginUserDetails] = React.useState(null);
   const navigate = useNavigate();
   const fetchData = () => {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
@@ -37,10 +39,10 @@ export default function MobileNav({ open, onClose }) {
   };
 
   React.useEffect(() => {
+    const data = JSON.parse(sessionStorage.getItem(`loginUserDetail`));
+    setLoginUserDetails(data);
     fetchData();
   }, [islogin]);
-  
-
   React.useEffect(() => {
     const visiterID = Cookies?.get("visiterId");
     GetCountAPI(visiterID)
@@ -179,7 +181,11 @@ export default function MobileNav({ open, onClose }) {
         </div>
         <div className="profile_btn_Section">
           <img src={`${storImagePath()}/forevery/profile.svg`} alt="" />
-          <Link to={"/LoginOption"}>LOGIN</Link>
+          {LoginUserDetails !== null ? (
+            <Link to={"/account"}>Hey , {LoginUserDetails?.firstname}</Link>
+          ) : (
+            <Link to={"/LoginOption"}>LOGIN</Link>
+          )}
         </div>
         <div className="searchbar-m-r">
           <div className="search_mob">
@@ -223,7 +229,17 @@ export default function MobileNav({ open, onClose }) {
                   },
                 }}
               >
-                <span className="title_for_accordian">{`Engagement & Wedding Diamonds `}</span>
+                <span className="title_for_accordian">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                    }}
+                    to={`/lab-created-engagement-rings`}
+                  >
+                    {`Engagement & Wedding Diamonds `}
+                  </Link>
+                </span>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -310,7 +326,7 @@ export default function MobileNav({ open, onClose }) {
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
-                    sx={{ width: "40px", fontSize: "2rem", color: "#000" }}
+                    sx={{ width: "40px", fontSize: "2rem", color: "#000" ,marginRight:"4px" }}
                   />
                 }
                 aria-controls="panel1-content"
@@ -325,7 +341,17 @@ export default function MobileNav({ open, onClose }) {
                   },
                 }}
               >
-                <span className="title_for_accordian">{`Diamond`}</span>
+                <span className="title_for_accordian">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                    }}
+                    to={`/diamond`}
+                  >
+                    {`Diamond`}
+                  </Link>
+                </span>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -393,7 +419,6 @@ export default function MobileNav({ open, onClose }) {
             </Accordion>
           </div>
           <div className="Menu_m_a">
-            {/* Level 1 */}
             <Accordion
               elevation={0}
               sx={{
@@ -427,7 +452,17 @@ export default function MobileNav({ open, onClose }) {
                   },
                 }}
               >
-                <span className="title_for_accordian">{`High End Jewelry`}</span>
+                <span className="title_for_accordian">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                    }}
+                    to={`/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=`}
+                  >
+                    {`High End Jewelry`}
+                  </Link>
+                </span>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -440,7 +475,6 @@ export default function MobileNav({ open, onClose }) {
                 {/* Level 2 */}
                 {menuItems &&
                   menuItems?.map((menuItem, i) => {
-                    console.log(menuItem, "mobile");
                     const { menuname, param1 } = menuItem;
                     return (
                       <React.Fragment key={i}>
@@ -454,7 +488,6 @@ export default function MobileNav({ open, onClose }) {
                           <Accordion
                             elevation={0}
                             sx={{
-                              // borderBottom: "0.2px solid #c7c8c9",
                               borderRadius: 0,
                               padding: 0,
                               margin: 0,
@@ -470,7 +503,7 @@ export default function MobileNav({ open, onClose }) {
                           >
                             <AccordionSummary
                               expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                                <ExpandMoreIcon sx={{ width: "20px",marginRight:"0.5rem" ,color:'black' }} />
                               }
                               aria-controls="panel1-content"
                               id="panel1-header"
@@ -584,7 +617,15 @@ export default function MobileNav({ open, onClose }) {
               </AccordionDetails>
             </Accordion>
           </div>
+          <div className="Menu_m_a_logout">
+          <div className="btn" onClick={()=>handleLogout()}>
+           Logout  <LoginIcon sx={{
+            marginRight:"10px"
+           }}/>
+          </div>
+          </div>
         </div>
+       
       </div>
     </Box>
   );
