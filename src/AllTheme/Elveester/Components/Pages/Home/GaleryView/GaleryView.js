@@ -54,8 +54,9 @@ const sliderData = [
 export default function GaleryView() {
   return (
     <div className='el_mainGalleryConatinerID' id='mainGalleryConatinerID'>
-      <div>
+      <div className='elv_gallery_div'>
         <p className='galeryComponents'>Gallery</p>
+        <span className='elv_gallery_subtitle'>Where Every Piece Tells a Story.</span>
       </div>
       <Swiper
         slidesPerView={1}
