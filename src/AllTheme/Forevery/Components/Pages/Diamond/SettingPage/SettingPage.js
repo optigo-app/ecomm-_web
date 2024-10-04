@@ -1030,7 +1030,7 @@ const Product_Card = ({
         ) : (
           <> */}
         <div className="for_settingList_listing_card_div">
-          <div className="for_product_listing_ratings_div">
+          {/* <div className="for_product_listing_ratings_div">
             <StyledRating
               name="simple-controlled"
               value={ratingvalue}
@@ -1038,7 +1038,7 @@ const Product_Card = ({
               className="for_product_listting_rating"
               readOnly
             />
-          </div>
+          </div> */}
           <div className="forWeb_app_product_label_set">
             {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
             {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
@@ -1072,7 +1072,18 @@ const Product_Card = ({
             ))}
           </div> */}
         </div>
-        <div className="for_settingList_card_description" onClick={() => handleMoveToDetail(productData)}>
+        <div className="for_settingList_card_description">
+          <div className="for_settingList_metaltype_div">
+            {metalColorType?.map((item) => (
+              <div
+                className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
+                key={item?.id}
+                onClick={() => handleClick(item?.id)}
+              >
+                {""}
+              </div>
+            ))}
+          </div>
           <div className="for_settingList_desc_title">
             <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
           </div>

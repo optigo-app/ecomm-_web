@@ -87,7 +87,7 @@ const ProductDetail = () => {
   const [csList, setCsList] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  
+
 
   const [prodLoading, setProdLoading] = useState(true);
 
@@ -375,19 +375,19 @@ const ProductDetail = () => {
           diaArr = diaQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[0]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[1])
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[1]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -395,17 +395,17 @@ const ProductDetail = () => {
           csArr = csQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[0]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[1])
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[1]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -706,9 +706,9 @@ const ProductDetail = () => {
               prod && prod.DefaultSize !== ""
                 ? prod?.DefaultSize
                 : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                    ?.sizename === undefined
-                ? SizeCombo?.rd[0]?.sizename
-                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                  ?.sizename === undefined
+                  ? SizeCombo?.rd[0]?.sizename
+                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
                     ?.sizename;
             setSizeData(initialsize);
           }
@@ -754,8 +754,8 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          setIsImageLoad(false); 
-          setProdLoading(false);         
+          setIsImageLoad(false);
+          setProdLoading(false);
         });
     };
 
@@ -998,19 +998,19 @@ const ProductDetail = () => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
 
-  
+
   // console.log("loading",isImageload === false || prodLoading === false);
-  console.log("loading",pdThumbImg?.length ,pdVideoArr?.length,prodLoading,isImageload);
+  console.log("loading", pdThumbImg?.length, pdVideoArr?.length, prodLoading, isImageload);
 
 
-  useEffect(()=>{
-    if(isImageload === false){
-      if(!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)){
-         setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  useEffect(() => {
+    if (isImageload === false) {
+      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
         // setIsImageLoad(false)
       }
     }
-  },[isImageload])
+  }, [isImageload])
 
   // useEffect(()=>{
   //   if(prodLoading === false){
@@ -1242,8 +1242,7 @@ const ProductDetail = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1363,9 +1362,8 @@ const ProductDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${
-          singleProd?.TitleLine?.length > 0 ? "-" : ""
-        } ${singleProd?.designno ?? ""}`}</title>
+        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
+          } ${singleProd?.designno ?? ""}`}</title>
       </Helmet>
       <div className="smr_prodDetail_bodyContain">
         <div className="smr_prodDetail_outerContain">
@@ -1530,8 +1528,8 @@ const ProductDetail = () => {
                                   setThumbImgIndex(i);
                                   setIsVisionShow(false);
                                 }}
-                                // onError={()=>{
-                                // }}
+                              // onError={()=>{
+                              // }}
                               />
                             ))}
                           {pdVideoArr?.map((data) => (
@@ -1577,8 +1575,8 @@ const ProductDetail = () => {
                               onClick={() => {
                                 setIsVisionShow(true);
                               }}
-                              // onError={()=>{
-                              // }}
+                            // onError={()=>{
+                            // }}
                             />
                           ) : null}
                           {/* <div className="smr_thumb_prod_img">
@@ -1608,7 +1606,7 @@ const ProductDetail = () => {
                                 {singleProd?.designno}
                               </span>
                               {singleProd?.MetalTypePurity !== "" &&
-                              selectMtType ? (
+                                selectMtType ? (
                                 <span className="smr_prod_short_key">
                                   Metal Purity :{" "}
                                   <span className="smr_prod_short_val">
@@ -1631,10 +1629,10 @@ const ProductDetail = () => {
                                 </span>
                               </span>
                               {storeInit?.IsDiamondCustomization == 1 &&
-                              diaQcCombo?.length > 0 &&
-                              diaList?.length &&
-                              singleProd?.DiaQuaCol !== "" &&
-                              selectDiaQc ? (
+                                diaQcCombo?.length > 0 &&
+                                diaList?.length &&
+                                singleProd?.DiaQuaCol !== "" &&
+                                selectDiaQc ? (
                                 <span className="smr_prod_short_key">
                                   Diamond Quality Color :{" "}
                                   <span className="smr_prod_short_val">
@@ -1644,14 +1642,24 @@ const ProductDetail = () => {
                                   </span>
                                 </span>
                               ) : null}
-                              {(singleProd1?.Dwt ?? singleProd?.Dwt) !== 0 ? <span className="smr_prod_short_key">
-                                Dia. wt :{" "}
-                                <span className="smr_prod_short_val">
-                                  {(
-                                    singleProd1?.Dwt ?? singleProd?.Dwt
-                                  )?.toFixed(3)}
-                                </span>
-                              </span> : null}
+                              {(singleProd1?.Dwt ?? singleProd?.Dwt) !== 0 ?
+                                <span className="smr_prod_short_key">
+                                  Dia. wt :{" "}
+                                  <span className="smr_prod_short_val">
+                                    {(
+                                      singleProd1?.Dwt ?? singleProd?.Dwt
+                                    )?.toFixed(3)}
+                                  </span>
+                                </span> : null}
+                              {storeInit?.IsMetalWeight === 1 &&
+                                <span className="smr_prod_short_key">
+                                  Net. wt :{" "}
+                                  <span className="smr_prod_short_val">
+                                    {(
+                                      singleProd1?.Nwt ?? singleProd?.Nwt
+                                    )?.toFixed(3)}
+                                  </span>
+                                </span>}
                               {singleProd?.description && (
                                 <div
                                   style={{
@@ -1723,7 +1731,7 @@ const ProductDetail = () => {
                                         onChange={(e) =>
                                           handleCustomChange(e, "mt")
                                         }
-                                        // onChange={(e) => setSelectMtType(e.target.value)}
+                                      // onChange={(e) => setSelectMtType(e.target.value)}
                                       >
                                         {metalTypeCombo.map((ele) => (
                                           <option
@@ -1776,8 +1784,8 @@ const ProductDetail = () => {
                                   </div>
                                 )}
                               {storeInit?.IsDiamondCustomization == 1 &&
-                              diaQcCombo?.length > 0 &&
-                              diaList?.length ? (
+                                diaQcCombo?.length > 0 &&
+                                diaList?.length ? (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     DIAMOND :
@@ -1806,9 +1814,9 @@ const ProductDetail = () => {
                                 </div>
                               ) : null}
                               {storeInit?.IsCsCustomization === 1 &&
-                              selectCsQc?.length > 0 &&
-                              csList?.filter((ele) => ele?.D !== "MISC")
-                                ?.length > 0 ? (
+                                selectCsQc?.length > 0 &&
+                                csList?.filter((ele) => ele?.D !== "MISC")
+                                  ?.length > 0 ? (
                                 <div className="smr_single_prod_customize_outer">
                                   <label className="menuItemTimeEleveDeatil">
                                     COLOR STONE :
@@ -1885,10 +1893,10 @@ const ProductDetail = () => {
                                   borderBottom: "1px solid #c7c8c9",
                                   borderRadius: 0,
                                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                    {
-                                      borderBottomLeftRadius: "0px",
-                                      borderBottomRightRadius: "0px",
-                                    },
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
                                   "&.MuiPaper-root.MuiAccordion-root:before": {
                                     background: "none",
                                   },
@@ -1909,7 +1917,7 @@ const ProductDetail = () => {
                                       padding: 0,
                                     },
                                   }}
-                                  // className="filtercategoryLable"
+                                // className="filtercategoryLable"
                                 >
                                   <Typography
                                     sx={{
@@ -2223,7 +2231,7 @@ const ProductDetail = () => {
                                     (singleProd1?.Misc_SettingCost
                                       ? singleProd1?.Misc_SettingCost
                                       : singleProd?.Misc_SettingCost) !==
-                                  0 ? (
+                                    0 ? (
                                     <div
                                       style={{
                                         display: "flex",
@@ -2318,7 +2326,7 @@ const ProductDetail = () => {
                               ) : (
                                 formatter.format(
                                   singleProd1?.UnitCostWithMarkUp ??
-                                    singleProd?.UnitCostWithMarkUp
+                                  singleProd?.UnitCostWithMarkUp
                                 )
                               )}
                               {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
@@ -2420,8 +2428,8 @@ const ProductDetail = () => {
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
-                    <p className="smr_details_title"> Product Details</p>
-                  )}
+                      <p className="smr_details_title"> Product Details</p>
+                    )}
                   {diaList?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
@@ -2466,12 +2474,12 @@ const ProductDetail = () => {
                             (accumulator, data) => accumulator + data.M,
                             0
                           )}  ${csList
-                          ?.filter((ele) => ele?.D !== "MISC")
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
-                            0
-                          )
-                          .toFixed(3)}ct)`}</li>
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -2503,12 +2511,12 @@ const ProductDetail = () => {
                             (accumulator, data) => accumulator + data.M,
                             0
                           )}  ${csList
-                          ?.filter((ele) => ele?.D === "MISC")
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
-                            0
-                          )
-                          .toFixed(3)}gm)`}</li>
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}gm)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -2881,11 +2889,11 @@ const ProductDetail = () => {
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.DesignImageFol +
-                                      ele?.designno +
-                                      "_" +
-                                      "1" +
-                                      "." +
-                                      ele?.ImageExtension
+                                    ele?.designno +
+                                    "_" +
+                                    "1" +
+                                    "." +
+                                    ele?.ImageExtension
                                     : imageNotFound
                                 }
                                 alt={""}
@@ -2969,7 +2977,7 @@ const ProductDetail = () => {
                         // slidesPerView={3}
                         navigation
                         pagination={{ clickable: true }}
-                        // scrollbar={{ draggable: true }}
+                      // scrollbar={{ draggable: true }}
                       >
                         {designSetList?.map((designSetList) => (
                           <SwiperSlide>
@@ -2982,9 +2990,9 @@ const ProductDetail = () => {
                                   src={
                                     designSetList?.DefaultImageName
                                       ? storeInit?.DesignSetImageFol +
-                                        designSetList?.designsetuniqueno +
-                                        "/" +
-                                        designSetList?.DefaultImageName
+                                      designSetList?.designsetuniqueno +
+                                      "/" +
+                                      designSetList?.DefaultImageName
                                       : imageNotFound
                                   }
                                   alt={""}
@@ -3030,11 +3038,11 @@ const ProductDetail = () => {
                                           src={
                                             ele?.ImageCount > 0
                                               ? storeInit?.DesignImageFol +
-                                                ele?.designno +
-                                                "_" +
-                                                "1" +
-                                                "." +
-                                                ele?.ImageExtension
+                                              ele?.designno +
+                                              "_" +
+                                              "1" +
+                                              "." +
+                                              ele?.ImageExtension
                                               : imageNotFound
                                           }
                                           alt={""}
