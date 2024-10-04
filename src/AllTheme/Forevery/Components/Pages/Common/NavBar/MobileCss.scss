@@ -72,6 +72,43 @@
           font-size: 17px;
           font-weight: 500;
         }
+        .diamond_list_for_list{
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          margin-bottom: 1.2rem;
+          .diamond_shape_step_li{
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgb(56, 56, 56);
+            font-size: 16px;
+            font-weight: 500;
+            @media screen and (max-width:360px) {
+            font-size: 14.6px;
+            }
+            img{
+              height: 20px;
+              width: 20px;
+              object-fit: contain;
+            }
+          }
+        }
+        .firstlevel_menu_title {
+          font-weight: 500;
+          color: rgb(56, 56, 56);
+          font-size: 16px;
+          @media screen and (max-width:360px) {
+          font-size: 14.6px;
+          }
+        }
+        .Secondlevel_menu_title {
+          font-weight: 350;
+          font-size: 15px;
+          @media screen and (max-width:360px) {
+          font-size: 13.2px;
+          }
+        }
       }
       .Menu_m_a_logout {
         padding: 12px 25px;

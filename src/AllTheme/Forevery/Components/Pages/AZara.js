@@ -140,7 +140,6 @@ export default function ZaraStyleSlider() {
    <div className="menus_bar"
    style={{width  :"300px" ,height  :"150px",backgroundColor:"black",position :"fixed",top :"25px",bottom:"45px"}}
    >
-dwjdwkdjv
    </div>
     <div
       style={{

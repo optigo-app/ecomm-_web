@@ -93,6 +93,12 @@ const ProductCarousel = ({showmore = false}) => {
           spaceBetween={10}
           loop={true}
           breakpoints={{
+            100: {
+              slidesPerView: 1,
+              freeMode: {
+                enabled: false,
+              },
+            },
             320: {
               slidesPerView: 1,
               freeMode: {
