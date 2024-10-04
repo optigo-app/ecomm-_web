@@ -16,7 +16,7 @@ $borderColor: rgba(232, 232, 232, 1);
   .cartMainPageDiv {
     margin-inline: 140px;
     margin-bottom: 2%;
-    // margin-top: 2%;
+    margin-top: 2%;
 
     .cartBtnGroupMainDiv {
       display: flex;
@@ -48,10 +48,10 @@ $borderColor: rgba(232, 232, 232, 1);
 
         button {
           font-family: $primaryFontFamily !important;
-          background-color: $btn1hoverColor;
-          color: $btn1hoverFontColor;
+          background-color: $btn1hoverFontColor;
+          color: $btn1hoverColor;
           font-size: $fontSize2;
-          border: none;
+          border: 1px solid $btn1hoverFontColor;
           outline: none;
           height: 45px;
           border-radius: 0px;
