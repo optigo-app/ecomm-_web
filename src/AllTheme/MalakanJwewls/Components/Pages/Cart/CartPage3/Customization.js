@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './roop3_cartPage.scss';
+import './mala3_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -61,11 +61,11 @@ const Customization = ({
   return (
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-        <div className="roop3_CartCusto_R-details">
-          <p className='roop3_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
-          <Divider className='roop3_dividerline' />
+        <div className="mala3_CartCusto_R-details">
+          <p className='mala3_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
+          <Divider className='mala3_dividerline' />
           {storeInitData?.IsProductWebCustomization == 1 &&
-            <div className="roop3_Cart-options">
+            <div className="mala3_Cart-options">
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
@@ -158,31 +158,31 @@ const Customization = ({
               }
             </div>
           }
-          <div className='roop3_cartQtyPricemainDev'>
+          <div className='mala3_cartQtyPricemainDev'>
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
-                    <span className="roop3_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="mala3_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
-                  <Skeleton className='roop3_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='mala3_CartSkelton' variant="text" width="80%" animation="wave" />
                 }
               </div>
             }
           </div>
-          <div className='roop3_UpdateCartBtn'>
+          <div className='mala3_UpdateCartBtn'>
             <button onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
-        <div className="roop3_CartCusto_R-details">
-          <p className='roop3_cart-Titleline'>{selectedItem?.TitleLine}</p>
-          <Divider className='roop3_dividerline' />
+        <div className="mala3_CartCusto_R-details">
+          <p className='mala3_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <Divider className='mala3_dividerline' />
           {selectedItem?.Sol_StockNo != "" &&
-            <div className='roop3_diaTitleLine'>
+            <div className='mala3_diaTitleLine'>
               <span>
                 {diadata?.carat}{" "}
                 Carat {diadata?.colorname} {diadata?.clarityname}{" "}
@@ -190,7 +190,7 @@ const Customization = ({
               </span>
             </div>
           }
-          <div className="roop3_StockCart-options">
+          <div className="mala3_StockCart-options">
             {selectedItem?.metaltypename != "" &&
               <div className="option">
                 <label htmlFor="metal-type">Metal Type:</label>
@@ -222,7 +222,7 @@ const Customization = ({
               </div>
             }
           </div>
-          <div className="roop3_stockPriceQtyDiv">
+          <div className="mala3_stockPriceQtyDiv">
             {selectedItem?.IsMrpBase == 0 ? (
               <div className="option">
                 <label htmlFor="qty">Qty:</label>
@@ -235,18 +235,18 @@ const Customization = ({
             }
             <div>
               {storeInitData?.IsPriceShow == 1 &&
-                <div className="roop3_Stockproduct-price">
+                <div className="mala3_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
                       {loading == false &&
                         <>
-                          <span className="roop3_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                          <span className="mala3_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                           {formatter(((selectedItem?.FinalCost)))}
                         </>
                       }
                     </span>
                   ) :
-                    <Skeleton className='roop3_CartSkelton' variant="text" width="80%" animation="wave" />
+                    <Skeleton className='mala3_CartSkelton' variant="text" width="80%" animation="wave" />
                   }
                 </div>
               }

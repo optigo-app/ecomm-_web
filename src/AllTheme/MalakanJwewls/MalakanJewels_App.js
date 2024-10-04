@@ -53,10 +53,10 @@ const MalakanJewels_App = () => {
 
   useEffect(() => {
     fetch(`${storImagePath()}/Store_Init.txt`)
-      .then((response) => response.text())
+      .then((response) => response?.text())
       .then((text) => {
         try {
-          const jsonData = JSON.parse(text);
+          const jsonData = JSON?.parse(text);
           setHtmlContent(jsonData);
         } catch (error) {
           console.error("Error parsing JSON:", error);
