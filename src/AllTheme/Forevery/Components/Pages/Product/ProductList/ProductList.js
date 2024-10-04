@@ -303,6 +303,15 @@ const ProductList = () => {
     },
   ]
 
+  function checkImageAvailability(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  }
+
   let getDesignImageFol = storeInit?.DesignImageFol;
   const getDesignVideoFol = (storeInit?.DesignImageFol)?.slice(0, -13) + "video/";
 
@@ -313,6 +322,25 @@ const ProductList = () => {
   const getDynamicYellowImage = (designno, extension) => {
     return `${getDesignImageFol}${designno}_${1}_Yellow.${extension}`;
   }
+
+  // const getDynamicYellowImage = async (designno, extension) => {
+  //   const colorImage = `${getDesignImageFol}${designno}_${1}_Yellow.${extension}`;
+  //   const defaultImage = `${getDesignImageFol}${designno}_${1}.${extension}`;
+
+  //   const isColorImageAvailable = await checkImageAvailability(colorImage);
+  //   const isDefaultImageAvailable = await checkImageAvailability(defaultImage);
+
+  //   let finalImage;
+  //   if (isColorImageAvailable) {
+  //     finalImage = colorImage;
+  //   } else if (isDefaultImageAvailable) {
+  //     finalImage = defaultImage;
+  //   } else {
+  //     finalImage = noImageFound;
+  //   }
+
+  //   return finalImage;
+  // };
 
   const getDynamicRollYellowImage = (designno, extension) => {
     return `${getDesignImageFol}${designno}_${2}_Yellow.${extension}`;
@@ -784,7 +812,7 @@ const ProductList = () => {
       m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
-      p: JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase(),
+      p: BreadCumsObj()?.menuname,
       f: {},
     };
     // compressAndEncode(JSON.stringify(obj))
@@ -798,6 +826,8 @@ const ProductList = () => {
       }${productData?.designno}/?p=${encodeObj}`
     );
   };
+
+  console.log("kiki", decodeURIComponent(location?.pathname?.split("/")[2]))
 
   return (
     <>
@@ -815,9 +845,10 @@ const ProductList = () => {
               }}
               loop
               navigation={false}
+              className="myProductList_swiper"
             >
               {links.map((i, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={index} style={{ maxWidth: '100%' }} className="for_productList_banner_slider">
                   <img src={i?.link} alt={`Slide ${index}`} className="for_productList_Banner_img" />
                 </SwiperSlide>
               ))}
@@ -843,7 +874,7 @@ const ProductList = () => {
 
                 {location?.search?.charAt(1) == "S" ? (
                   <>
-                    {JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase()}
+                    {decodeURIComponent(location?.pathname?.split("/")[2])}
                   </>
                 ) : (
                   <>
@@ -858,7 +889,7 @@ const ProductList = () => {
                               })
                             }
                           >
-                            {BreadCumsObj()?.menuname || JSON.parse(BreadCumsObj()?.menuname)?.b.toUpperCase()}
+                            {BreadCumsObj()?.menuname}
                           </span>
                         )}
 
@@ -873,7 +904,7 @@ const ProductList = () => {
                               })
                             }
                           >
-                            {` / ${BreadCumsObj()?.FilterVal1}`}
+                            {` / ${BreadCumsObj()?.FilterVal1 || BreadCumsObj()?.FilterVal}`}
                           </span>
                         )}
 
@@ -1175,7 +1206,7 @@ const ProductList = () => {
             </div>
             <div className="for_productList_listing_div">
               {isOnlyProdLoading ? <div className="for_global_spinner"></div> : (
-                productListData?.map((item) => (
+                productListData?.map(async (item) => (
                   <Product_Card
                     StyledRating={StyledRating}
                     productData={item}
@@ -1448,9 +1479,12 @@ const Product_Card = ({
   whiteRollImage,
   roseRollImage,
 }) => {
+
+
+  console.log("yt", yellowImage)
+
   const [isHover, setIsHover] = useState(false);
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
-  console.log('selectedMetalColor: ', selectedMetalColor);
 
   const getGoldType = metalType.filter((item) => item?.Metalid === selectedMetalId)?.[0]?.metaltype.toUpperCase()?.split(' ')[1]?.split('K')[0];
 
@@ -1504,7 +1538,7 @@ const Product_Card = ({
 
                 {videoUrl === undefined && RollImageUrl !== undefined ? (
                   <div className="for_rollup_img">
-                    <img loading={lazy} src={selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : selectedMetalColor === 1 ? yellowRollImage : RollImageUrl} />
+                    <img loading={lazy} src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl} />
                   </div>
                 ) : null}
               </>
@@ -1512,7 +1546,7 @@ const Product_Card = ({
             <img
               className="for_productList_listing_card_image"
               loading={lazy}
-              src={selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : selectedMetalColor === 1 ? yellowImage : imageUrl}
+              src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
               onError={(e) => {
                 e.target.onerror = null;
                 e.stopPropagation();
