@@ -15,8 +15,8 @@ import { IoIosCall, IoIosLogOut } from "react-icons/io";
 import React, { useEffect, useRef, useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { IoChevronDown, IoClose } from "react-icons/io5";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import CartDrawer from "../../Cart/DrawerCart/CartDrawer";
+import { Navigate, useLocation,Link , useNavigate } from "react-router-dom";
+import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import { IoSearchOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
@@ -24,13 +24,15 @@ import {
   Hoq_CartCount,
   Hoq_MobilecompanyLogo,
   Hoq_WishCount,
+  Hoq_cartB2CDrawer,
   Hoq_companyLogo,
   Hoq_loginState,
 } from "../../../Recoil/atom";
-import { useRecoilState } from "recoil";
+import MuiLink from '@mui/material/Link';
+import { useRecoilState, useSetRecoilState } from "recoil";
 import Cookies from "js-cookie";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Badge, Drawer, Tooltip, useMediaQuery } from "@mui/material";
+import { Badge, Drawer, Tooltip,  useMediaQuery } from "@mui/material";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Pako from "pako";
 import DummyNav from "./DummyNav";
@@ -49,6 +51,8 @@ const Navbar = () => {
   const [islogin, setislogin] = useRecoilState(Hoq_loginState);
   const [showDrawer, setshowDrawer] = useState(false);
   const [showSearchBar, setshowSearchBar] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const setCartOpenState = useSetRecoilState(Hoq_cartB2CDrawer);
   const prevScrollY = useRef(0);
   const HaveItem = [1, 2];
   const navigate = useNavigate();
@@ -69,6 +73,7 @@ const Navbar = () => {
   const is320px = useMediaQuery("(max-width:320px)");
   const is400px = useMediaQuery("(max-width:401px)");
   const [loading, setLoading] = useState(true);
+const [IsCartNo ,setIsCartNo] = useState();
 
   useEffect(() => {
     setisMobileMenu(false);
@@ -129,6 +134,7 @@ const Navbar = () => {
     const value = JSON.parse(sessionStorage.getItem("LoginUser"));
     setislogin(value);
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+    setIsCartNo(storeInit?.CartNo)
     setCompanyTitleLogo(storeInit?.companylogo);
     setCompanyMobileLogo(storeInit?.companyMlogo);
     window.scroll({ behavior: "smooth", top: 0 });
@@ -200,6 +206,15 @@ const Navbar = () => {
   useEffect(() => {
     fetchData();
   }, [islogin]);
+
+  const toggleCartDrawer = () => {
+    setIsCartOpen((prevState) => !prevState);
+    const isCartDrawerOpen = JSON.parse(sessionStorage.getItem("isCartDrawer"));
+    sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
+    setCartOpenState((prevState) => !prevState);
+  };
+
+  console.log(IsCartNo,"no")
 
   useEffect(() => {
     const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
@@ -566,7 +581,7 @@ const Navbar = () => {
             <div className="logo">
               <Link to={"/"}>
                 <img
-                  src={is400px ?  MobileLogoNew : DeskTopLogo}
+                  src={is400px ? MobileLogoNew : DeskTopLogo}
                   alt=""
                   onClick={() =>
                     window.scrollTo({ behavior: "smooth", top: 0, left: 0 })
@@ -633,11 +648,21 @@ const Navbar = () => {
                       // onClick={open}
                     />
                   </Tooltip> */}
-                    <Link
-                      to={"/cart"}
+                    <MuiLink
+                    sx={{
+                      cursor:"pointer",
+                      padding :"0",
+                      margin:"0"
+                    }}
+                      // to={"/cart"}
                       style={{
                         marginRight: "5px",
                       }}
+                      onClick={
+                        IsCartNo == 2
+                          ? toggleCartDrawer
+                          : () => navigate("/cart")
+                      }
                     >
                       <Badge
                         style={{ size: "2px" }}
@@ -664,15 +689,15 @@ const Navbar = () => {
                           />
                         </Tooltip>
                       </Badge>
-                    </Link>
+                    </MuiLink>
                   </>
                 )}
-                {showDrawer && (
+                {/* {showDrawer && (
                   <CartDrawer
                     width={showDrawer}
                     close={() => setshowDrawer(!showDrawer)}
                   />
-                )}
+                )} */}
                 {islogin ? (
                   <Tooltip title="Logout" className="tooltip-logout">
                     <button
@@ -892,6 +917,7 @@ const Navbar = () => {
         </div>
       </div>
       {isScrolled && <DummyNav />}
+      {IsCartNo == 2 && <CartDrawer open={isCartOpen} />}
     </>
   );
 };
