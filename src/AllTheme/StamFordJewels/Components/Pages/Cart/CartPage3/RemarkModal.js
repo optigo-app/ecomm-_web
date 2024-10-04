@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import './stmpf_RemarkModal.scss';
+import './stam3_RemarkModal.scss';
 
 const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
 
@@ -30,7 +30,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           flexDirection: 'column',
           borderRadius: '8px',
         }}
-        className="stmpf_remarkModalBox"
+        className="stam3_remarkModalBox"
       >
         <Typography id="remark-modal-title" variant="h6" component="h2">
           Add The Item Remark..
@@ -44,13 +44,13 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           value={remark}
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
-          className='stmpf_RemarkMoalInput'
+          className='stam3_RemarkMoalInput'
         />
-        <div className="stmpf_projectRemarkBtn-group">
-          <Button className="stmpf_remarksave-btn" onClick={onSave}>
+        <div className="stam3_projectRemarkBtn-group">
+          <Button className="stam3_remarksave-btn" onClick={onSave}>
             Save
           </Button>
-          <Button className="stmpf_remarkcancel-btn" onClick={onClose}>
+          <Button className="stam3_remarkcancel-btn" onClick={onClose}>
             Cancel
           </Button>
         </div>

@@ -66,7 +66,6 @@ function Home() {
     });
   }, []);
 
-
   return (
     <>
       <div className="for_home_index_main">
@@ -75,10 +74,10 @@ function Home() {
             <TopVideoSection />
             <ShoptheCollections />
             <LabgrownDiamondInfo />
-            {data?.IsHomeNewArrival === 1 && <NewArrivalCarousel/>}
+            {data?.IsHomeNewArrival == 1 && <NewArrivalCarousel />}
             <ShapeSection />
             <DiamondLifeTime />
-            <ProductCarousel  />
+            {data?.IsHomeTrending == 1 && <ProductCarousel />}
             <Bestseller />
             <Banner />
             <OurServices />

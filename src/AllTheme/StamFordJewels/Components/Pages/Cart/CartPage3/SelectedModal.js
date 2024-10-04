@@ -3,24 +3,24 @@ import Modal from '@mui/material/Modal';
 import { IconButton, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Card, CardContent, Divider, CardMedia, CardActionArea, FormControl, InputLabel, Select, MenuItem, Checkbox, CardActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import './stmpf_cartPage.scss';
+import './stam3_cartPage.scss';
 
 
 
 const FilterAccordion = ({ title, items, checkedItems, handleCheckboxChange }) => {
   return (
-    <Accordion className='stmpf_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
+    <Accordion className='stam3_cart-Accordion' style={{ boxShadow: 'none', border: 'none' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ padding: '0' }}>
-        <Typography className='stmpf_FilterTitle'>{title}</Typography>
+        <Typography className='stam3_FilterTitle'>{title}</Typography>
       </AccordionSummary>
-      <AccordionDetails className='stmpf_filterAccordianDetail' style={{ padding: '0' }}>
+      <AccordionDetails className='stam3_filterAccordianDetail' style={{ padding: '0' }}>
         {items?.map(item => (
-          <div className='stmpf_filter-AccrodianDetails' key={item.id}>
-            <Typography className='stmpf_filterAccordianDeatilTitle'>{item.name}</Typography>
+          <div className='stam3_filter-AccrodianDetails' key={item.id}>
+            <Typography className='stam3_filterAccordianDeatilTitle'>{item.name}</Typography>
             <Checkbox
               checked={checkedItems[title]?.[item.id] || false}
               onChange={() => handleCheckboxChange(item.id, title)}
-              className='stmpf_filterCheckbox'
+              className='stam3_filterCheckbox'
             />
           </div>
         ))}
@@ -121,26 +121,26 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
 
   return (
     <Modal
-      className="stmpf_modal"
+      className="stam3_modal"
       open={open}
       onClose={onClose}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
 
     >
-      <div className="stmpf_paper">
-        <div className='stmpf_Modal_Title'>
-          <Typography className='stmpf_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
+      <div className="stam3_paper">
+        <div className='stam3_Modal_Title'>
+          <Typography className='stam3_Modal_TitleTypo' variant="h5" id="modal-title" gutterBottom>
             Update Cart
           </Typography>
-          <IconButton className="stmpf_closeIcon" onClick={onClose}>
+          <IconButton className="stam3_closeIcon" onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </div>
         <Divider />
-        <div className='stmpf_cartmodal_body'>
+        <div className='stam3_cartmodal_body'>
           <div>
-            <div className="stmpf_ShortCutCombo-section">
+            <div className="stam3_ShortCutCombo-section">
               <div>
                 <FormControl className="form-control">
                   <InputLabel id="metalTypeMaster">Metal Type</InputLabel>
@@ -206,49 +206,49 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
               </div>
             </div>
           </div>
-          <div className='stmpf_cartModal-Divider'>
+          <div className='stam3_cartModal-Divider'>
             <Divider />
           </div>
           <Grid container spacing={2}>
             <Grid item xs={6} md={3}>
-              <div className='stmpf_Modal-FilterList'>
+              <div className='stam3_Modal-FilterList'>
                 {generateFilterAccordions(filterArr, checkedItems, handleCheckboxChange)}
               </div>
             </Grid>
             <Grid item xs={6} md={9}>
-              <div className='stmpf_Modal-cardList'>
+              <div className='stam3_Modal-cardList'>
                 <Grid container spacing={2}>
                   {filteredItems?.map(product => (
                     <Grid item key={product.id} xs={12} sm={4} md={4}>
-                      <Card className='stmpf_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
+                      <Card className='stam3_cartListCard' sx={{ maxWidth: 250, position: 'relative' }}>
                         <CardActionArea>
                           <CardMedia
                             component="img"
                             image={"https://cdnfs.optigoapps.com/content-global3/astoreCNARMLXHPFKS6TIY1/Design_Image/boKJ1XRq3zMDAwMzg4Mw==/Red_Thumb/0003883_08052024153602887.png"}
                             alt={product?.TitleLine}
-                            className='stmpf_cartListImage'
+                            className='stam3_cartListImage'
                           />
                           <CardContent>
                             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                               <div>
-                                <Typography variant="body2" className='stmpf_card-ContentData'>
+                                <Typography variant="body2" className='stam3_card-ContentData'>
                                   NWT: {product?.netwt}
                                 </Typography>
-                                <Typography variant="body2" className='stmpf_card-ContentData'>
+                                <Typography variant="body2" className='stam3_card-ContentData'>
                                   DWT: {product?.dwt}
                                 </Typography>
                               </div>
                               <div>
-                                <Typography variant="body2" className='stmpf_card-ContentData'>
+                                <Typography variant="body2" className='stam3_card-ContentData'>
                                   CWT: {product?.cwt}
                                 </Typography>
-                                <Typography variant="body2" className='stmpf_card-ContentData'>
+                                <Typography variant="body2" className='stam3_card-ContentData'>
                                   GWT: {product?.gwt}
                                 </Typography>
                               </div>
                             </div>
                             <div className='designNocartList'>
-                              <p className='stmpf_DesignNoTExt'>{product?.designno}</p>
+                              <p className='stam3_DesignNoTExt'>{product?.designno}</p>
                             </div>
                             <div className='closeCartIconDiv'>
                               <CloseIcon className='closeCartIcon' onClick={(e) => { e.stopPropagation(); onRemove(product); }} />
@@ -263,12 +263,12 @@ const MyModal = ({ open, onClose, selectedItems, onRemove, onUpdateCart, onCance
             </Grid>
           </Grid>
           <Divider sx={{ margin: '10px 0px' }} />
-          <CardActions className='stmpf_projectUpdateCartBtn-group'>
-            <div className="stmpf_projectUpdateCartBtn-group">
-              <button className="stmpf_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
+          <CardActions className='stam3_projectUpdateCartBtn-group'>
+            <div className="stam3_projectUpdateCartBtn-group">
+              <button className="stam3_cartUpdate-btn" onClick={() => onUpdateCart(filteredItems)}>
                 Update
               </button>
-              <button className="stmpf_cartCancel-btn" onClick={onCancelCart}>
+              <button className="stam3_cartCancel-btn" onClick={onCancelCart}>
                 Cancel
               </button>
             </div>

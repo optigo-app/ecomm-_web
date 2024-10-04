@@ -18,29 +18,40 @@ import {
   for_CartCount,
   for_NavbarItems,
   for_WishCount,
+  for_customizationSteps,
+  for_customizationSteps1,
   for_loginState,
 } from "../../../Recoil/atom";
+import LoginIcon from "@mui/icons-material/Login";
 import "./MobileCss.scss";
 import { IoClose } from "react-icons/io5";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { IoIosSearch } from "react-icons/io";
+import { SideItems, diamondShapes } from "../../../data/NavbarMenu";
 
 export default function MobileNav({ open, onClose }) {
   const [cartCountNum, setCartCountNum] = useRecoilState(for_CartCount);
   const [wishCountNum, setWishCountNum] = useRecoilState(for_WishCount);
   const [islogin, setislogin] = useRecoilState(for_loginState);
   const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
+  const [LoginUserDetails, setLoginUserDetails] = React.useState(null);
   const navigate = useNavigate();
   const fetchData = () => {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
   };
+  const [customizeStep, setCustomizeStep] = useRecoilState(
+    for_customizationSteps
+  );
+  const [customizeStep1, setCustomizeStep1] = useRecoilState(
+    for_customizationSteps1
+  );
 
   React.useEffect(() => {
+    const data = JSON.parse(sessionStorage.getItem(`loginUserDetail`));
+    setLoginUserDetails(data);
     fetchData();
   }, [islogin]);
-  
-
   React.useEffect(() => {
     const visiterID = Cookies?.get("visiterId");
     GetCountAPI(visiterID)
@@ -151,6 +162,225 @@ export default function MobileNav({ open, onClose }) {
     },
   ];
 
+  const Navigate = useNavigate();
+
+
+
+  // Diamond All Function or Steps Starts heere
+
+
+  const [showModal, setShowModal] = React.useState(false);
+  const [shape, setShape] = React.useState();
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  };
+
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+
+  const handleCheckSteps = (value) => {
+    if (checkSteps) {
+      setShowModal(true);
+      setShape(value);
+    } else {
+      console.log("Alternative action");
+    }
+  };
+
+  const HandleDiamondNavigation = (shape) => {
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    setCustomizeStep({
+      step1: true,
+      step2: false,
+      step3: false,
+    });
+    const step1 = [{ step1: true, shape: shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+  };
+
+  const handleRemoveData = (shape) => {
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    handleToggle();
+  };
+
+
+  //  fIRST engagement ring making process function and hooks
+
+  // const navigate = useNavigate();
+
+  // const [showModal, setShowModal] = useState(false);
+  // const [checkIndex, setCheckIndex] = useState();
+
+  // const handleToggle = () => {
+  //   setShowModal(!showModal);
+  // };
+
+  // const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  // const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  // const checkSteps =
+  //   (steps?.[2] !== undefined && steps?.[2] !== null) ||
+  //   (steps1?.[2] !== undefined && steps1?.[2] !== null);
+
+  // const handleCheckSteps = (index) => {
+  //   if (checkSteps) {
+  //     setShowModal(true);
+  //     setCheckIndex(index);
+  //   } else {
+  //     console.log("Alternative action");
+  //   }
+  // };
+
+  // const HandleSettingNavigation = () => {
+  //   if (
+  //     (steps?.[0] !== undefined && steps?.[0] !== null) ||
+  //     (steps?.[1] !== undefined && steps?.[1] !== null)
+  //   ) {
+  //     sessionStorage.removeItem("customizeSteps");
+  //     sessionStorage.removeItem("custStepData");
+  //     const addCategory = `Ring/category`;
+  //     const filterKeyVal = btoa(addCategory);
+  //     navigate(
+  //       `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+  //     );
+  //   } else {
+  //     const addCategory = `Ring/category`;
+
+  //     const filterKeyVal = btoa(addCategory);
+  //     navigate(
+  //       `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+  //     );
+  //     setCustomizeStep1({
+  //       step1: true,
+  //     });
+  //     const step1 = [{ step1: true, Setting: "Ring" }];
+  //     sessionStorage.setItem("customizeSteps2", JSON.stringify(step1));
+  //   }
+  // };
+
+  // const HandleDiamondNavigation = () => {
+  //   if (
+  //     (steps1?.[0] !== undefined && steps1?.[0] !== null) ||
+  //     (steps1?.[1] !== undefined && steps1?.[1] !== null)
+  //   ) {
+  //     sessionStorage.removeItem("customizeSteps2");
+  //     sessionStorage.removeItem("custStepData2");
+  //     navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+  //   } else {
+  //     navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+  //     setCustomizeStep({
+  //       step1: true,
+  //     });
+  //     const step1 = [{ step1: true, shape: "Round" }];
+  //     sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+  //   }
+  // };
+
+  // const handleRemoveData = (index) => {
+  //   sessionStorage.removeItem("customizeSteps");
+  //   sessionStorage.removeItem("custStepData");
+  //   sessionStorage.removeItem("customizeSteps2");
+  //   sessionStorage.removeItem("custStepData2");
+  //   if (index === 0) {
+  //     const addCategory = `Ring/category`;
+  //     const filterKeyVal = btoa(addCategory);
+  //     navigate(
+  //       `/certified-loose-lab-grown-diamonds/settings/Ring/M=${filterKeyVal}`
+  //     );
+  //   } else {
+  //     navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`);
+  //   }
+  //   handleToggle();
+  // };
+
+  // // General encoding function
+  // const encodeLink = (link) => btoa(link);
+
+  // const convertLink = (link1, link2) => {
+  //   const [key1, val1] = link1.split("/");
+  //   const [key2, val2] = link2.split("/");
+  //   return btoa(`${key1},${key2}/${val1},${val2}`);
+  // };
+
+  // // Data for styles
+  // const styleLinks = {
+  //   Solitaire: "Solitaire/style",
+  //   Halo: "Halo/style",
+  //   Vintage: "Vintage/style",
+  //   Side_Stone: "Side Stone/style",
+  //   Designer: "Designer/style",
+  // };
+
+  // // Generate encoded style array
+  // const styleArr = Object.entries(styleLinks).map(([title, link]) => ({
+  //   title,
+  //   link: `/certified-loose-lab-grown-diamonds/settings/Ring/${title.replace(
+  //     / /g,
+  //     "_"
+  //   )}/M=${encodeLink(link)}`,
+  // }));
+
+  // // Data for categories
+  // const categoryLinks = {
+  //   Women: "Women/gender",
+  //   Men: "Men/gender",
+  // };
+
+  // const womenCategories = {
+  //   Classic_Rings: "Classic Rings/sub_category",
+  //   Diamond_Rings: "Diamond Rings/sub_category",
+  //   Eternity_Rings: "Eternity Rings/sub_category",
+  //   Half_Eternity_Rings: "Half-Eternity Rings/sub_category",
+  //   Stackable_Rings: "Stackable Rings/sub_category",
+  //   High_End_Exclusive: "High End Exclusive/sub_category",
+  // };
+
+  // const menCategories = {
+  //   Carved_Rings: "Carved Rings/sub_category",
+  //   Diamond_Rings: "Diamond Rings/sub_category",
+  //   Classic_Rings: "Classic Rings/sub_category",
+  // };
+
+  // // Generate encoded category arrays
+  // const generateCategoryArr = (baseLink, categories) =>
+  //   Object.entries(categories).map(([key, subCategory]) => ({
+  //     title: key.replace(/_/g, " "),
+  //     link: `/certified-loose-lab-grown-diamonds/settings/Ring/${key}/M=${convertLink(
+  //       baseLink,
+  //       subCategory
+  //     )}`,
+  //   }));
+
+  // const womenArr = generateCategoryArr(categoryLinks.Women, womenCategories);
+  // const menArr = generateCategoryArr(categoryLinks.Men, menCategories);
+  const encodeLink = (link) => btoa(link);
+  const styleLinks = {
+    Solitaire: "Solitaire/style",
+    Halo: "Halo/style",
+    Vintage: "Vintage/style",
+    Side_Stone: "Side Stone/style",
+    Designer: "Designer/style",
+  };
+
+  // Generate encoded style array
+  const styleArr = Object.entries(styleLinks).map(([title, link]) => ({
+    title,
+    link: `/certified-loose-lab-grown-diamonds/settings/Ring/${title.replace(
+      / /g,
+      "_"
+    )}/M=${encodeLink(link)}`,
+  }));
+
+
+
+
   const DrawerList = (
     <Box
       className="navbar_mobile_drawer"
@@ -179,7 +409,11 @@ export default function MobileNav({ open, onClose }) {
         </div>
         <div className="profile_btn_Section">
           <img src={`${storImagePath()}/forevery/profile.svg`} alt="" />
-          <Link to={"/LoginOption"}>LOGIN</Link>
+          {LoginUserDetails !== null ? (
+            <Link to={"/account"}>Hey , {LoginUserDetails?.firstname}</Link>
+          ) : (
+            <Link to={"/LoginOption"}>LOGIN</Link>
+          )}
         </div>
         <div className="searchbar-m-r">
           <div className="search_mob">
@@ -223,7 +457,17 @@ export default function MobileNav({ open, onClose }) {
                   },
                 }}
               >
-                <span className="title_for_accordian">{`Engagement & Wedding Diamonds `}</span>
+                <span className="title_for_accordian">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                    }}
+                    to={`/lab-created-engagement-rings`}
+                  >
+                    {`Engagement & Wedding Diamonds `}
+                  </Link>
+                </span>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -240,7 +484,7 @@ export default function MobileNav({ open, onClose }) {
                     fontWeight: "700",
                   }}
                 >
-                  {/* Level 2 */}
+                  {/* Level 1 */}
                   <Accordion
                     elevation={0}
                     sx={{
@@ -260,7 +504,7 @@ export default function MobileNav({ open, onClose }) {
                   >
                     <AccordionSummary
                       expandIcon={
-                        <AddIcon
+                        <ExpandMoreIcon
                           sx={{
                             width: "40px",
                             fontSize: "1.6rem",
@@ -280,10 +524,275 @@ export default function MobileNav({ open, onClose }) {
                         },
                       }}
                     >
-                      <span className="title_for_accordian">dummy nav</span>
+                      <span className="title_for_accordian">
+                        Create your own diamond ring
+                      </span>
                     </AccordionSummary>
                     <AccordionDetails>
                       css-smi0hl-MuiAccordionDetails-root
+                    </AccordionDetails>
+                  </Accordion>
+                  {/* Level 1 */}
+                  <Accordion
+                    elevation={0}
+                    sx={{
+                      borderRadius: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="title_for_accordian">Shop by style</span>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{
+                      padding:"0"
+                    }}>
+                      <div className="diamond_list_for_list">
+                    {styleArr?.map((item, index) => (
+                      <span className="diamond_shape_step_li" key={index} onClick={() => navigate(item?.link)}>
+                    {item?.title}
+                  </span>
+                ))}
+                </div>
+                    </AccordionDetails>
+                  </Accordion>
+                  {/* Level 1 */}
+                  <div
+                    style={{
+                      borderRadius: "0",
+                      margin: "0",
+                    }}
+                  >
+                    <div
+                      style={{
+                        color: "black",
+                        fontWeight: "500",
+                        padding: "8px 0",
+                        cursor: "default",
+                      }}
+                    >
+                      <span className="title_for_accordian">Bespoke</span>
+                    </div>
+                  </div>
+
+                  {/* Level 1 */}
+                  <Accordion
+                    elevation={0}
+                    sx={{
+                      borderRadius: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="title_for_accordian">Wedding Ring</span>
+                    </AccordionSummary>
+                    <AccordionDetails
+                    className="diamond_list_for_list"
+                    sx={{
+                      padding:"0",margin:"0"
+                    }}>
+                     {/* level 1 */}
+                     <Accordion
+                    elevation={0}
+                    sx={{
+                      borderRadius: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="diamond_shape_step_li"> 
+                         <img src={`${storImagePath()}/Forevery/women.png`} alt="" />
+                      Womens</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      css-smi0hl-MuiAccordionDetails-root
+                    </AccordionDetails>
+                  </Accordion>
+                  {/* level 2 */}
+                  <Accordion
+                    elevation={0}
+                    sx={{
+                      borderRadius: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="diamond_shape_step_li">
+                      <img src={`${storImagePath()}/Forevery/boy.png`} alt="" /> Men
+                      </span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                     {/* level 1 */}
+                     <Accordion
+                    elevation={0}
+                    sx={{
+                      borderRadius: 0,
+                      margin: 0,
+                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                        borderBottomLeftRadius: "0px",
+                        borderBottomRightRadius: "0px",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                      "&.MuiPaper-root.MuiAccordion-root:before": {
+                        background: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            width: "40px",
+                            fontSize: "1.6rem",
+                            color: "#000",
+                          }}
+                        />
+                      }
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{
+                        color: "black",
+                        borderRadius: 0,
+                        fontWeight: "500",
+
+                        "&.MuiAccordionSummary-root": {
+                          padding: 0,
+                        },
+                      }}
+                    >
+                      <span className="title_for_accordian">Shop by style</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      css-smi0hl-MuiAccordionDetails-root
+                    </AccordionDetails>
+                  </Accordion>
+                    </AccordionDetails>
+                  </Accordion>
                     </AccordionDetails>
                   </Accordion>
                 </span>
@@ -297,6 +806,217 @@ export default function MobileNav({ open, onClose }) {
               sx={{
                 borderRadius: 0,
                 padding: "0 25px",
+                margin: 0,
+                "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                  borderBottomLeftRadius: "0px",
+                  borderBottomRightRadius: "0px",
+                },
+                "&.MuiPaper-root.MuiAccordion-root:before": {
+                  background: "none",
+                },
+              }}
+            >
+              <AccordionSummary
+                expandIcon={
+                  <ExpandMoreIcon
+                    sx={{
+                      width: "40px",
+                      fontSize: "2rem",
+                      color: "#000",
+                      marginRight: "4px",
+                    }}
+                  />
+                }
+                aria-controls="panel1-content"
+                id="panel1-header"
+                sx={{
+                  color: "black",
+                  borderRadius: 0,
+                  fontWeight: "500",
+
+                  "&.MuiAccordionSummary-root": {
+                    padding: 0,
+                  },
+                }}
+              >
+                <span className="title_for_accordian">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                    }}
+                    to={`/diamond`}
+                  >
+                    {`Diamond`}
+                  </Link>
+                </span>
+              </AccordionSummary>
+              <AccordionDetails
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                  padding: "0",
+                }}
+              >
+                {/* Level 1 */}
+                <Accordion
+                  elevation={0}
+                  sx={{
+                    borderRadius: 0,
+                    margin: 0,
+                    "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                      borderBottomLeftRadius: "0px",
+                      borderBottomRightRadius: "0px",
+                    },
+                    "&.MuiPaper-root.MuiAccordion-root:before": {
+                      background: "none",
+                    },
+                    "&.MuiPaper-root.MuiAccordion-root:before": {
+                      background: "none",
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={
+                      <ExpandMoreIcon
+                        sx={{
+                          width: "40px",
+                          fontSize: "1.6rem",
+                          color: "#000",
+                        }}
+                      />
+                    }
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                    sx={{
+                      color: "black",
+                      borderRadius: 0,
+                      fontWeight: "500",
+
+                      "&.MuiAccordionSummary-root": {
+                        padding: 0,
+                      },
+                    }}
+                  >
+                    <span className="diamond_shape_step_li">Shop By Style</span>
+                  </AccordionSummary>
+                  <AccordionDetails
+                    sx={{
+                      padding: "0",
+                    }}
+                  >
+                    <div className="diamond_list_for_list">
+                      {diamondShapes?.map((val, i) => {
+                        return (
+                          <>
+                            {checkSteps ? (
+                              <span
+                                className="diamond_shape_step_li"
+                                onClick={() => handleCheckSteps(val?.name)}
+                              >
+                                <img
+                                  src={val?.img}
+                                  alt=""
+                                  width={15}
+                                  height={15}
+                                />
+                                {val?.name}
+                              </span>
+                            ) : (
+                              <span
+                                className="diamond_shape_step_li"
+                                onClick={() =>
+                                  HandleDiamondNavigation(val?.name)
+                                }
+                              >
+                                <img
+                                  src={val?.img}
+                                  alt=""
+                                  width={15}
+                                  height={15}
+                                />
+                                {val?.name}
+                              </span>
+                            )}
+                          </>
+                        );
+                      })}
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+                {/* Level 2 */}
+                <Accordion
+                  elevation={0}
+                  sx={{
+                    borderRadius: 0,
+                    margin: 0,
+                    "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                      borderBottomLeftRadius: "0px",
+                      borderBottomRightRadius: "0px",
+                    },
+                    "&.MuiPaper-root.MuiAccordion-root:before": {
+                      background: "none",
+                    },
+                    "&.MuiPaper-root.MuiAccordion-root:before": {
+                      background: "none",
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={
+                      <ExpandMoreIcon
+                        sx={{
+                          width: "40px",
+                          fontSize: "1.6rem",
+                          color: "#000",
+                        }}
+                      />
+                    }
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                    sx={{
+                      color: "black",
+                      borderRadius: 0,
+                      fontWeight: "500",
+
+                      "&.MuiAccordionSummary-root": {
+                        padding: 0,
+                      },
+                    }}
+                  >
+                    <span className="diamond_shape_step_li">
+                      Build Your Jewelry
+                    </span>
+                  </AccordionSummary>
+                  <AccordionDetails
+                    sx={{
+                      padding: "0",
+                    }}
+                  >
+                    <div className="diamond_list_for_list">
+                      {SideItems?.map((val, i) => (
+                        <span
+                          className="diamond_shape_step_li"
+                          key={i}
+                          onClick={() => Navigate(val?.link)}
+                        >
+                          <img src={val?.img} alt="" width={18} height={18} />
+                          {val?.name}
+                        </span>
+                      ))}
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+          <div className="Menu_m_a">
+            <Accordion
+              elevation={0}
+              sx={{
+                borderRadius: 0,
+                padding: "0 28px",
                 margin: 0,
                 "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                   borderBottomLeftRadius: "0px",
@@ -325,109 +1045,17 @@ export default function MobileNav({ open, onClose }) {
                   },
                 }}
               >
-                <span className="title_for_accordian">{`Diamond`}</span>
-              </AccordionSummary>
-              <AccordionDetails
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "4px",
-                  padding: "0",
-                }}
-              >
-                <span
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "16px",
-                    fontWeight: "700",
-                  }}
-                >
-                  {/* Level 2 */}
-                  <Accordion
-                    elevation={0}
-                    sx={{
-                      borderRadius: 0,
-                      margin: 0,
-                      "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                        borderBottomLeftRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
-                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                        background: "none",
-                      },
+                <span className="title_for_accordian">
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
                     }}
+                    to={`/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=`}
                   >
-                    <AccordionSummary
-                      expandIcon={
-                        <AddIcon
-                          sx={{
-                            width: "40px",
-                            fontSize: "1.6rem",
-                            color: "#000",
-                          }}
-                        />
-                      }
-                      aria-controls="panel1-content"
-                      id="panel1-header"
-                      sx={{
-                        color: "black",
-                        borderRadius: 0,
-                        fontWeight: "500",
-
-                        "&.MuiAccordionSummary-root": {
-                          padding: 0,
-                        },
-                      }}
-                    >
-                      <span className="title_for_accordian">dummy nav</span>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      css-smi0hl-MuiAccordionDetails-root
-                    </AccordionDetails>
-                  </Accordion>
+                    {`High End Jewelry`}
+                  </Link>
                 </span>
-              </AccordionDetails>
-            </Accordion>
-          </div>
-          <div className="Menu_m_a">
-            {/* Level 1 */}
-            <Accordion
-              elevation={0}
-              sx={{
-                borderRadius: 0,
-                padding: "0 25px",
-                margin: 0,
-                "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                  borderBottomLeftRadius: "0px",
-                  borderBottomRightRadius: "0px",
-                },
-                "&.MuiPaper-root.MuiAccordion-root:before": {
-                  background: "none",
-                },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={
-                  <ExpandMoreIcon
-                    sx={{ width: "40px", fontSize: "2rem", color: "#000" }}
-                  />
-                }
-                aria-controls="panel1-content"
-                id="panel1-header"
-                sx={{
-                  color: "black",
-                  borderRadius: 0,
-                  fontWeight: "500",
-
-                  "&.MuiAccordionSummary-root": {
-                    padding: 0,
-                  },
-                }}
-              >
-                <span className="title_for_accordian">{`High End Jewelry`}</span>
               </AccordionSummary>
               <AccordionDetails
                 sx={{
@@ -453,7 +1081,6 @@ export default function MobileNav({ open, onClose }) {
                           <Accordion
                             elevation={0}
                             sx={{
-                              // borderBottom: "0.2px solid #c7c8c9",
                               borderRadius: 0,
                               padding: 0,
                               margin: 0,
@@ -469,7 +1096,13 @@ export default function MobileNav({ open, onClose }) {
                           >
                             <AccordionSummary
                               expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                                <ExpandMoreIcon
+                                  sx={{
+                                    width: "40px",
+                                    fontSize: "1.6rem",
+                                    color: "#000",
+                                  }}
+                                />
                               }
                               aria-controls="panel1-content"
                               id="panel1-header"
@@ -491,6 +1124,7 @@ export default function MobileNav({ open, onClose }) {
                                     value: menuItem?.param0dataname,
                                   })
                                 }
+                                className="firstlevel_menu_title"
                               >
                                 {menuname}
                               </span>
@@ -500,6 +1134,8 @@ export default function MobileNav({ open, onClose }) {
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: "4px",
+                                padding: "8px 16px 0",
+                                marginBottom: "1rem",
                               }}
                             >
                               <li
@@ -534,7 +1170,7 @@ export default function MobileNav({ open, onClose }) {
                                       margin: "0",
                                       listStyle: "none",
                                       flexDirection: "column",
-                                      gap: "0.5rem",
+                                      gap: "0.1rem",
                                       padding: "0",
                                     }}
                                   >
@@ -550,6 +1186,7 @@ export default function MobileNav({ open, onClose }) {
                                             style={{
                                               cursor: "pointer",
                                             }}
+                                            className="Secondlevel_menu_title"
                                             onClick={() =>
                                               handleMenu(
                                                 {
@@ -583,6 +1220,18 @@ export default function MobileNav({ open, onClose }) {
               </AccordionDetails>
             </Accordion>
           </div>
+          {LoginUserDetails !== null && (
+            <div className="Menu_m_a_logout">
+              <div className="btn" onClick={() => handleLogout()}>
+                Logout{" "}
+                <LoginIcon
+                  sx={{
+                    marginRight: "10px",
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Box>
@@ -597,7 +1246,7 @@ export default function MobileNav({ open, onClose }) {
           backdropFilter: "blur(4px)",
         },
       }}
-      open={open}
+      open={ open}
       onClose={onClose}
     >
       {DrawerList}
