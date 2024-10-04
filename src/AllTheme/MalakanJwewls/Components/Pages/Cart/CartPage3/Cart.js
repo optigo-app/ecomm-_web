@@ -4,12 +4,12 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './roop3_cartPage.scss';
+import './mala3_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
 import CartPageSkeleton from './CartSkelton';
-import { roop_CartCount, roop_loginState } from '../../../Recoil/atom';
+import { mala_CartCount, mala_loginState } from '../../../Recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import MobileCartDetails from "./MobileCartDetails"
@@ -72,8 +72,8 @@ const CartPage = () => {
   const [storeInit, setStoreInit] = useState();
   const [defaultAddr, setDefaultAddr] = useState();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const setCartCountVal = useSetRecoilState(roop_CartCount)
-  const islogin = useRecoilValue(roop_loginState);
+  const setCartCountVal = useSetRecoilState(mala_CartCount)
+  const islogin = useRecoilValue(mala_loginState);
   const visiterId = Cookies.get('visiterId');
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
@@ -167,16 +167,16 @@ const CartPage = () => {
 
 
   return (
-    <div className='roop3_MainBGDiv'>
+    <div className='mala3_MainBGDiv'>
       {isMobileScreen &&
-        <div className="roop3_cart-title">Cart</div>
+        <div className="mala3_cart-title">Cart</div>
       }
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {!isloding && cartData.length !== 0 &&
-            <div className='roop3_cartButton-groups'>
+            <div className='mala3_cartButton-groups'>
               <Link
-                className='roop3_ReomoveAllCartbtn'
+                className='mala3_ReomoveAllCartbtn'
                 variant="body2"
                 onClick={handleRemoveAllDialog}
               >
@@ -184,10 +184,10 @@ const CartPage = () => {
               </Link>
             </div>
           }{!isMobileScreen &&
-            <div className="roop3_cart-title">My Cart</div>
+            <div className="mala3_cart-title">My Cart</div>
           }
           {!isloding && cartData.length !== 0 &&
-            <div className='roop3_placeOrderMainbtnDivs'>
+            <div className='mala3_placeOrderMainbtnDivs'>
               <button onClick={handlePlaceOrder}>Place Order</button>
             </div>
           }
@@ -212,8 +212,8 @@ const CartPage = () => {
               }
             </div>
             {!isloding && cartData.length != 0 ? (
-              <div className="roop3_cartMainPage">
-                <div className="roop3_cart-left-sides">
+              <div className="mala3_cartMainPage">
+                <div className="mala3_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -233,9 +233,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="roop3_cart-right-side">
+                <div className="mala3_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='roop3_pc-cartDetail'>
+                    <div className='mala3_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -260,7 +260,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='roop3_mobile-cartDetails'>
+                    <div className='mala3_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -296,10 +296,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='roop3_noCartlistData'>
-                <p className='roop3_title'>No Data Found!</p>
-                <p className='roop3_desc'>Please First Add Product in Cart</p>
-                <button className='roop3_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='mala3_noCartlistData'>
+                <p className='mala3_title'>No Data Found!</p>
+                <p className='mala3_desc'>Please First Add Product in Cart</p>
+                <button className='mala3_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>

@@ -2,12 +2,12 @@
 
 $borderColor: rgba(232, 232, 232, 1);
 
-.stmpf_MainBGDiv {
+.mala3_MainBGDiv {
   font-family: $primaryFontFamily;
   // margin-top: 140px;
 
 
-  .stmpf_cart-title {
+  .mala3_cart-title {
     color: $titleColor;
     font-size: $fontSize6;
     text-align: center;
@@ -22,14 +22,14 @@ $borderColor: rgba(232, 232, 232, 1);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-block: 20px;
+      // margin-block: 20px;
       margin-bottom: 50px;
 
-      .stmpf_cartButton-groups {
+      .mala3_cartButton-groups {
         flex: 1;
         text-align: left;
 
-        .stmpf_ReomoveAllCartbtn {
+        .mala3_ReomoveAllCartbtn {
           color: $titleColor;
           font-size: $fontSize2;
           text-decoration-color: $titleColor;
@@ -37,12 +37,12 @@ $borderColor: rgba(232, 232, 232, 1);
         }
       }
 
-      .stmpf_cart-title {
+      .mala3_cart-title {
         color: $titleColor;
         font-size: $fontSize7;
       }
 
-      .stmpf_placeOrderMainbtnDivs {
+      .mala3_placeOrderMainbtnDivs {
         flex: 1;
         text-align: right;
 
@@ -68,16 +68,16 @@ $borderColor: rgba(232, 232, 232, 1);
       }
     }
 
-    .stmpf_cartMainPage {
+    .mala3_cartMainPage {
       display: flex;
       justify-content: center;
       gap: 25px;
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 70%;
 
-        .stmpf_RightCartList {
-          .stmpf_tablelable {
+        .mala3_RightCartList {
+          .mala3_tablelable {
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -88,13 +88,13 @@ $borderColor: rgba(232, 232, 232, 1);
             }
           }
 
-          .stmpf_cartMain-item {
+          .mala3_cartMain-item {
             border: 1px solid $borderColor;
             margin-bottom: 1rem;
             position: relative;
             padding: 10px 0px;
 
-            .stmpf_cart-item {
+            .mala3_cart-item {
               display: flex;
               align-items: center;
               padding: 0rem 1rem;
@@ -131,29 +131,29 @@ $borderColor: rgba(232, 232, 232, 1);
                   font-size: $fontSize3;
                 }
 
-                .stmpf_ringSize {
+                .mala3_ringSize {
                   font-size: $fontSize1;
                   margin: 0;
                   margin-top: 5px;
                 }
 
-                .stmpf_change-size {
+                .mala3_change-size {
                   font-size: $fontSize1;
                   color: $titleColor;
                   cursor: pointer;
                   text-decoration: underline;
                 }
 
-                .stmpf_weightsContainer {
+                .mala3_weightsContainer {
                   display: flex;
                   flex-wrap: wrap;
                 }
 
-                .stmpf_diamondSKUNO {
+                .mala3_diamondSKUNO {
                   margin-top: 10px;
                 }
 
-                .stmpf_weightPair {
+                .mala3_weightPair {
                   display: flex;
                   align-items: center;
                   justify-content: center;
@@ -161,11 +161,11 @@ $borderColor: rgba(232, 232, 232, 1);
                   color: $titleColor;
                   font-size: $fontSize2;
 
-                  .stmpf_pipe {
+                  .mala3_pipe {
                     margin-inline: 4px;
                   }
 
-                  .stmpf_weightLabel {
+                  .mala3_weightLabel {
                     text-transform: capitalize;
                     margin-right: 2px;
                   }
@@ -201,7 +201,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 flex: 0.5;
                 text-align: center;
 
-                .stmpf_remove-button {
+                .mala3_remove-button {
                   background-color: transparent;
                   border: none;
                   font-size: $fontSize3;
@@ -216,7 +216,7 @@ $borderColor: rgba(232, 232, 232, 1);
               }
             }
 
-            .stmpf_Diacart-item {
+            .mala3_Diacart-item {
               display: flex;
               align-items: center;
               padding: 0rem 1rem;
@@ -248,28 +248,28 @@ $borderColor: rgba(232, 232, 232, 1);
                   font-size: $fontSize3;
                 }
 
-                .stmpf_ringSize {
+                .mala3_ringSize {
                   font-size: $fontSize1;
                   margin: 0;
                 }
 
-                .stmpf_change-size {
+                .mala3_change-size {
                   font-size: $fontSize1;
                   color: $titleColor;
                   cursor: pointer;
                   text-decoration: underline;
                 }
 
-                .stmpf_weightsContainer {
+                .mala3_weightsContainer {
                   display: flex;
                   flex-wrap: wrap;
                 }
 
-                .stmpf_diamondSKUNO {
+                .mala3_diamondSKUNO {
                   margin-top: 10px;
                 }
 
-                .stmpf_weightPair {
+                .mala3_weightPair {
                   display: flex;
                   align-items: center;
                   justify-content: center;
@@ -277,11 +277,11 @@ $borderColor: rgba(232, 232, 232, 1);
                   color: $titleColor;
                   font-size: $fontSize2;
 
-                  .stmpf_pipe {
+                  .mala3_pipe {
                     margin-inline: 4px;
                   }
 
-                  .stmpf_weightLabel {
+                  .mala3_weightLabel {
                     text-transform: capitalize;
                     margin-right: 2px;
                   }
@@ -317,7 +317,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 flex: 0.5;
                 text-align: center;
 
-                .stmpf_remove-button {
+                .mala3_remove-button {
                   background-color: transparent;
                   border: none;
                   font-size: $fontSize3;
@@ -332,13 +332,13 @@ $borderColor: rgba(232, 232, 232, 1);
               }
             }
 
-            .stmpf_cartDiaTPrice {
+            .mala3_cartDiaTPrice {
               position: absolute;
               right: 122px;
               top: 46%;
             }
 
-            .stmpf_Diacart-item__remove {
+            .mala3_Diacart-item__remove {
               position: absolute;
               right: 44px;
               top: 46%;
@@ -347,7 +347,7 @@ $borderColor: rgba(232, 232, 232, 1);
         }
       }
 
-      .stmpf_cart-right-side {
+      .mala3_cart-right-side {
         width: 30%;
         align-items: start;
         display: flex;
@@ -358,13 +358,13 @@ $borderColor: rgba(232, 232, 232, 1);
         position: sticky;
         top: 125px;
 
-        .stmpf_pc-cartDetail {
-          .stmpf_cart-container {
+        .mala3_pc-cartDetail {
+          .mala3_cart-container {
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            .stmpf_Cart-imageDiv {
+            .mala3_Cart-imageDiv {
               display: flex;
               align-items: center;
               justify-content: center;
@@ -376,7 +376,7 @@ $borderColor: rgba(232, 232, 232, 1);
               border: 1px solid $borderColor;
               // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
 
-              .stmpf_cartDetailImage {
+              .mala3_cartDetailImage {
                 border-radius: 0px;
                 padding: 2px;
                 width: 100%;
@@ -384,11 +384,11 @@ $borderColor: rgba(232, 232, 232, 1);
               }
             }
 
-            .stmpf_CartCusto_R-details {
+            .mala3_CartCusto_R-details {
               flex: 1;
               width: 100%;
 
-              .stmpf_cart-Titleline {
+              .mala3_cart-Titleline {
                 font-size: $fontSize4;
                 color: $titleColor;
                 margin: 10px;
@@ -402,11 +402,11 @@ $borderColor: rgba(232, 232, 232, 1);
                 // text-overflow: ellipsis;
               }
 
-              .stmpf_dividerline {
+              .mala3_dividerline {
                 margin-bottom: 10px !important;
               }
 
-              .stmpf_Cart-options {
+              .mala3_Cart-options {
                 color: $titleColor;
                 display: flex;
                 flex-wrap: wrap;
@@ -439,7 +439,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 }
               }
 
-              .stmpf_cartQtyPricemainDev {
+              .mala3_cartQtyPricemainDev {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -456,7 +456,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 }
               }
 
-              .stmpf_StockCart-options {
+              .mala3_StockCart-options {
                 color: $titleColor;
                 display: flex;
                 flex-wrap: wrap;
@@ -495,7 +495,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 }
               }
 
-              .stmpf_stockPriceQtyDiv {
+              .mala3_stockPriceQtyDiv {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -518,7 +518,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   }
                 }
 
-                .stmpf_Stockproduct-price {
+                .mala3_Stockproduct-price {
                   span {
                     color: $titleColor;
                     font-weight: bold;
@@ -527,7 +527,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 }
               }
 
-              .stmpf_UpdateCartBtn {
+              .mala3_UpdateCartBtn {
                 display: flex;
                 justify-content: flex-end;
                 align-items: end;
@@ -557,22 +557,22 @@ $borderColor: rgba(232, 232, 232, 1);
       }
     }
 
-    .stmpf_noCartlistData {
+    .mala3_noCartlistData {
       text-align: center;
       height: 100%;
       margin-block: 80px;
 
-      .stmpf_title {
+      .mala3_title {
         color: $titleColor;
         font-size: $fontSize6;
       }
 
-      .stmpf_desc {
+      .mala3_desc {
         color: $titleColor;
         font-size: $fontSize4;
       }
 
-      .stmpf_browseOurCollectionbtn {
+      .mala3_browseOurCollectionbtn {
         background-color: $btn1FontColor;
         border: none;
         color: #fff;
@@ -593,13 +593,13 @@ $borderColor: rgba(232, 232, 232, 1);
   }
 }
 
-.stmpf_CartSkelton {
+.mala3_CartSkelton {
   background: #fdf6f6 !important;
 }
 
 // Media queries for responsiveness
 @media (max-width: 1745px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 170px;
     }
@@ -607,7 +607,7 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 1545px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 140px;
     }
@@ -615,7 +615,7 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 1400px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 120px;
     }
@@ -623,7 +623,7 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 1300px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 90px;
     }
@@ -631,7 +631,7 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 1200px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 40px;
     }
@@ -639,35 +639,35 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 1100px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 20px;
 
-      .stmpf_cartMainPage {
-        .stmpf_cart-left-sides {
-          .stmpf_RightCartList {
-            .stmpf_tablelable {
+      .mala3_cartMainPage {
+        .mala3_cart-left-sides {
+          .mala3_RightCartList {
+            .mala3_tablelable {
               p {
                 font-size: $fontSize3;
               }
             }
 
-            .stmpf_cartListMapDiv {
-              .stmpf_cart-item {
-                .stmpf_cart-item__details {
+            .mala3_cartListMapDiv {
+              .mala3_cart-item {
+                .mala3_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
                   }
 
-                  .stmpf_weightsContainer {
-                    .stmpf_weightsContainer {
+                  .mala3_weightsContainer {
+                    .mala3_weightsContainer {
                       font-size: $fontSize2;
                     }
                   }
                 }
 
-                .stmpf_cart-item__price,
-                .stmpf_cart-item__total-price {
+                .mala3_cart-item__price,
+                .mala3_cart-item__total-price {
                   p {
                     font-size: $fontSize3;
                   }
@@ -677,16 +677,16 @@ $borderColor: rgba(232, 232, 232, 1);
           }
         }
 
-        .stmpf_cart-right-side {
-          .stmpf_pc-cartDetail {
-            .stmpf_cart-container {
-              .stmpf_CartCusto_R-details {
-                .stmpf_cart-Titleline {
+        .mala3_cart-right-side {
+          .mala3_pc-cartDetail {
+            .mala3_cart-container {
+              .mala3_CartCusto_R-details {
+                .mala3_cart-Titleline {
                   font-size: $fontSize2;
                 }
 
-                .stmpf_cartQtyPricemainDev {
-                  .stmpf_cart-quantity {
+                .mala3_cartQtyPricemainDev {
+                  .mala3_cart-quantity {
                     display: flex;
                     width: 90px;
                     height: 35px;
@@ -719,7 +719,7 @@ $borderColor: rgba(232, 232, 232, 1);
       }
 
       .cartBtnGroupMainDiv {
-        .stmpf_placeOrderMainbtnDivs {
+        .mala3_placeOrderMainbtnDivs {
           button {
             font-size: $fontSize3;
             height: 35px;
@@ -732,27 +732,27 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 999px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 50px;
 
       .cartBtnGroupMainDiv {
-        .stmpf_placeOrderMainbtnDivs {
+        .mala3_placeOrderMainbtnDivs {
           button {
             font-size: $fontSize3;
           }
         }
       }
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 100% !important;
 
-        .stmpf_RightCartList {
-          .stmpf_cartMain-item {
+        .mala3_RightCartList {
+          .mala3_cartMain-item {
 
-            .stmpf_cart-item,
-            .stmpf_Diacart-item {
-              .stmpf_cart-item__details {
+            .mala3_cart-item,
+            .mala3_Diacart-item {
+              .mala3_cart-item__details {
                 h3 {
                   font-size: $fontSize3;
                 }
@@ -761,8 +761,8 @@ $borderColor: rgba(232, 232, 232, 1);
                   font-size: $fontSize1;
                 }
 
-                .stmpf_weightsContainer {
-                  .stmpf_weightPair {
+                .mala3_weightsContainer {
+                  .mala3_weightPair {
                     font-size: $fontSize1;
                   }
 
@@ -771,29 +771,29 @@ $borderColor: rgba(232, 232, 232, 1);
                   }
                 }
 
-                .stmpf_diamondSKUNO {
+                .mala3_diamondSKUNO {
                   font-size: $fontSize3;
                 }
               }
 
-              .stmpf_cart-item__price {
+              .mala3_cart-item__price {
                 p {
                   font-size: $fontSize3;
                 }
               }
 
-              .stmpf_cart-item__total-price {
+              .mala3_cart-item__total-price {
                 p {
                   font-size: $fontSize3;
                 }
               }
             }
 
-            .stmpf_cartDiaTPrice {
+            .mala3_cartDiaTPrice {
               right: 90px !important;
               top: 40% !important;
 
-              .stmpf_cart-item__total-price p {
+              .mala3_cart-item__total-price p {
                 font-size: $fontSize3;
               }
             }
@@ -801,7 +801,7 @@ $borderColor: rgba(232, 232, 232, 1);
         }
       }
 
-      .stmpf_cart-right-side {
+      .mala3_cart-right-side {
         display: none !important;
       }
     }
@@ -809,26 +809,26 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 768px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 20px;
 
       .cartBtnGroupMainDiv {
-        .stmpf_placeOrderMainbtnDivs {
+        .mala3_placeOrderMainbtnDivs {
           button {
             font-size: $fontSize3;
           }
         }
       }
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 100% !important;
 
-        .stmpf_RightCartList {
-          .stmpf_tablelable {}
+        .mala3_RightCartList {
+          .mala3_tablelable {}
 
-          .stmpf_cart-item {
-            .stmpf_cart-item__details {
+          .mala3_cart-item {
+            .mala3_cart-item__details {
               h3 {
                 font-size: $fontSize2;
               }
@@ -838,13 +838,13 @@ $borderColor: rgba(232, 232, 232, 1);
               }
             }
 
-            .stmpf_cart-item__price {
+            .mala3_cart-item__price {
               p {
                 font-size: $fontSize2;
               }
             }
 
-            .stmpf_cart-item__total-price {
+            .mala3_cart-item__total-price {
               p {
                 font-size: $fontSize2;
               }
@@ -857,43 +857,45 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 650px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 10px;
 
       .cartBtnGroupMainDiv {
-        .stmpf_placeOrderMainbtnDivs {
+        .mala3_placeOrderMainbtnDivs {
           button {
             font-size: $fontSize2;
           }
         }
       }
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 100% !important;
 
-        .stmpf_RightCartList {
-          .stmpf_tablelable {
+        .mala3_RightCartList {
+          .mala3_tablelable {
             display: none !important;
           }
 
-          .stmpf_cartListMapDiv {
+          .mala3_cartListMapDiv {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
             gap: 10px;
 
-            .stmpf_cartMain-item {
+            .mala3_cartMain-item {
               width: 49%;
               position: relative;
               margin-bottom: 0px;
 
-              .stmpf_cart-item,
-              .stmpf_Diacart-item {
+              .mala3_cart-item,
+              .mala3_Diacart-item {
                 display: flex;
                 flex-direction: column;
 
-                .stmpf_cart-item__details {
+                .mala3_cart-item__details {
+                  padding-left: 0;
+                  text-align: center;
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -901,42 +903,46 @@ $borderColor: rgba(232, 232, 232, 1);
                   p {
                     font-size: $fontSize1;
                   }
+                  .mala3_weightsContainer, .mala3_qtyDiv{
+                    justify-content: center;
+                    align-items: center;
+                  }
                 }
 
-                .stmpf_cart-item__price {
+                .mala3_cart-item__price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__total-price {
+                .mala3_cart-item__total-price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__remove {
+                .mala3_cart-item__remove {
                   position: absolute;
                   top: 5px;
                   right: 5px;
                 }
               }
 
-              .stmpf_Diacart-item__remove {
+              .mala3_Diacart-item__remove {
                 position: absolute;
                 right: 5px;
                 top: 5px;
               }
 
-              .stmpf_Diacart-item {
-                .stmpf_cart-item__image {
+              .mala3_Diacart-item {
+                .mala3_cart-item__image {
                   img {
                     width: 50px;
                   }
                 }
               }
 
-              .stmpf_cartDiaTPrice {
+              .mala3_cartDiaTPrice {
                 position: unset;
               }
             }
@@ -948,43 +954,43 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 525px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 10px;
 
       .cartBtnGroupMainDiv {
-        .stmpf_placeOrderMainbtnDivs {
+        .mala3_placeOrderMainbtnDivs {
           button {
             font-size: $fontSize2;
           }
         }
       }
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 100% !important;
 
-        .stmpf_RightCartList {
-          .stmpf_tablelable {
+        .mala3_RightCartList {
+          .mala3_tablelable {
             display: none !important;
           }
 
-          .stmpf_cartListMapDiv {
+          .mala3_cartListMapDiv {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
             gap: 10px;
 
-            .stmpf_cartMain-item {
+            .mala3_cartMain-item {
               width: 48.8%;
               position: relative;
               margin-bottom: 0px;
 
-              .stmpf_cart-item,
-              .stmpf_Diacart-item {
+              .mala3_cart-item,
+              .mala3_Diacart-item {
                 display: flex;
                 flex-direction: column;
 
-                .stmpf_cart-item__details {
+                .mala3_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -994,40 +1000,40 @@ $borderColor: rgba(232, 232, 232, 1);
                   }
                 }
 
-                .stmpf_cart-item__price {
+                .mala3_cart-item__price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__total-price {
+                .mala3_cart-item__total-price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__remove {
+                .mala3_cart-item__remove {
                   position: absolute;
                   top: 5px;
                   right: 5px;
                 }
               }
 
-              .stmpf_Diacart-item__remove {
+              .mala3_Diacart-item__remove {
                 position: absolute;
                 right: 5px;
                 top: 5px;
               }
 
-              .stmpf_Diacart-item {
-                .stmpf_cart-item__image {
+              .mala3_Diacart-item {
+                .mala3_cart-item__image {
                   img {
                     width: 50px;
                   }
                 }
               }
 
-              .stmpf_cartDiaTPrice {
+              .mala3_cartDiaTPrice {
                 position: unset;
               }
             }
@@ -1039,43 +1045,43 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 435px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 10px;
 
       .cartBtnGroupMainDiv {
-        .stmpf_placeOrderMainbtnDivs {
+        .mala3_placeOrderMainbtnDivs {
           button {
             font-size: $fontSize2;
           }
         }
       }
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 100% !important;
 
-        .stmpf_RightCartList {
-          .stmpf_tablelable {
+        .mala3_RightCartList {
+          .mala3_tablelable {
             display: none !important;
           }
 
-          .stmpf_cartListMapDiv {
+          .mala3_cartListMapDiv {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
             gap: 10px;
 
-            .stmpf_cartMain-item {
+            .mala3_cartMain-item {
               width: 48.6%;
               position: relative;
               margin-bottom: 0px;
 
-              .stmpf_cart-item,
-              .stmpf_Diacart-item {
+              .mala3_cart-item,
+              .mala3_Diacart-item {
                 display: flex;
                 flex-direction: column;
 
-                .stmpf_cart-item__details {
+                .mala3_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -1085,40 +1091,40 @@ $borderColor: rgba(232, 232, 232, 1);
                   }
                 }
 
-                .stmpf_cart-item__price {
+                .mala3_cart-item__price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__total-price {
+                .mala3_cart-item__total-price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__remove {
+                .mala3_cart-item__remove {
                   position: absolute;
                   top: 5px;
                   right: 5px;
                 }
               }
 
-              .stmpf_Diacart-item__remove {
+              .mala3_Diacart-item__remove {
                 position: absolute;
                 right: 5px;
                 top: 5px;
               }
 
-              .stmpf_Diacart-item {
-                .stmpf_cart-item__image {
+              .mala3_Diacart-item {
+                .mala3_cart-item__image {
                   img {
                     width: 50px;
                   }
                 }
               }
 
-              .stmpf_cartDiaTPrice {
+              .mala3_cartDiaTPrice {
                 position: unset;
               }
             }
@@ -1130,34 +1136,34 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 @media (max-width: 425px) {
-  .stmpf_MainBGDiv {
+  .mala3_MainBGDiv {
     .cartMainPageDiv {
       margin-inline: 10px;
 
-      .stmpf_cart-left-sides {
+      .mala3_cart-left-sides {
         width: 100% !important;
 
-        .stmpf_RightCartList {
-          .stmpf_tablelable {
+        .mala3_RightCartList {
+          .mala3_tablelable {
             display: none !important;
           }
 
-          .stmpf_cartListMapDiv {
+          .mala3_cartListMapDiv {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
             gap: 10px;
 
-            .stmpf_cartMain-item {
+            .mala3_cartMain-item {
               width: 100%;
               position: relative;
 
-              .stmpf_cart-item,
-              .stmpf_Diacart-item {
+              .mala3_cart-item,
+              .mala3_Diacart-item {
                 display: flex;
                 flex-direction: column;
 
-                .stmpf_cart-item__details {
+                .mala3_cart-item__details {
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -1167,40 +1173,40 @@ $borderColor: rgba(232, 232, 232, 1);
                   }
                 }
 
-                .stmpf_cart-item__price {
+                .mala3_cart-item__price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__total-price {
+                .mala3_cart-item__total-price {
                   p {
                     font-size: $fontSize2;
                   }
                 }
 
-                .stmpf_cart-item__remove {
+                .mala3_cart-item__remove {
                   position: absolute;
                   top: 5px;
                   right: 5px;
                 }
               }
 
-              .stmpf_Diacart-item__remove {
+              .mala3_Diacart-item__remove {
                 position: absolute;
                 right: 5px;
                 top: 5px;
               }
 
-              .stmpf_Diacart-item {
-                .stmpf_cart-item__image {
+              .mala3_Diacart-item {
+                .mala3_cart-item__image {
                   img {
                     width: 50px;
                   }
                 }
               }
 
-              .stmpf_cartDiaTPrice {
+              .mala3_cartDiaTPrice {
                 position: unset;
               }
             }

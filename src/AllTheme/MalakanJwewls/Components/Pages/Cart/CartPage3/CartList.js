@@ -23,8 +23,8 @@ const CartList = ({
 }) => {
 
   return (
-    <div className="stam3_RightCartList">
-      <div className='stam3_tablelable'>
+    <div className="mala3_RightCartList">
+      <div className='mala3_tablelable'>
         <p>Image</p>
         <p>Product Details</p>
         <p>Price</p>
@@ -32,7 +32,7 @@ const CartList = ({
       </div>
 
       <>
-        <div className='stam3_cartListMapDiv'>
+        <div className='mala3_cartListMapDiv'>
           {items.map((item, index) => (
             <CartItem
               key={item.id}
