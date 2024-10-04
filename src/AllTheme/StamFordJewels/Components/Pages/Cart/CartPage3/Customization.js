@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './stmpf_cartPage.scss';
+import './stam3_cartPage.scss';
 import { Divider, Skeleton } from '@mui/material';
 import QuantitySelector from './QuantitySelector';
 import { toast } from 'react-toastify';
@@ -61,11 +61,11 @@ const Customization = ({
   return (
     <>
       {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-        <div className="stmpf_CartCusto_R-details">
-          <p className='stmpf_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
-          <Divider className='stmpf_dividerline' />
+        <div className="stam3_CartCusto_R-details">
+          <p className='stam3_cart-Titleline'>{selectedItem?.designno != "" && selectedItem?.designno}{selectedItem?.TitleLine != "" && " - " + selectedItem?.TitleLine}</p>
+          <Divider className='stam3_dividerline' />
           {storeInitData?.IsProductWebCustomization == 1 &&
-            <div className="stmpf_Cart-options">
+            <div className="stam3_Cart-options">
               {storeInitData?.IsMetalCustomization == 1 &&
                 <div className="option">
                   <label htmlFor="metal-type">Metal Type:</label>
@@ -158,31 +158,31 @@ const Customization = ({
               }
             </div>
           }
-          <div className='stmpf_cartQtyPricemainDev'>
+          <div className='stam3_cartQtyPricemainDev'>
             <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
             {storeInitData?.IsPriceShow == 1 &&
               <div className="product-price">
                 {!ispriceloding ? (
                   <span>
-                    <span className="stmpf_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                    <span className="stam3_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                     {formatter(selectedItem?.FinalCost)}
                   </span>
                 ) :
-                  <Skeleton className='stmpf_CartSkelton' variant="text" width="80%" animation="wave" />
+                  <Skeleton className='stam3_CartSkelton' variant="text" width="80%" animation="wave" />
                 }
               </div>
             }
           </div>
-          <div className='stmpf_UpdateCartBtn'>
+          <div className='stam3_UpdateCartBtn'>
             <button onClick={() => handleUpdateCart(selectedItem)}>Save</button>
           </div>
         </div>
       ) :
-        <div className="stmpf_CartCusto_R-details">
-          <p className='stmpf_cart-Titleline'>{selectedItem?.TitleLine}</p>
-          <Divider className='stmpf_dividerline' />
+        <div className="stam3_CartCusto_R-details">
+          <p className='stam3_cart-Titleline'>{selectedItem?.TitleLine}</p>
+          <Divider className='stam3_dividerline' />
           {selectedItem?.Sol_StockNo != "" &&
-            <div className='stmpf_diaTitleLine'>
+            <div className='stam3_diaTitleLine'>
               <span>
                 {diadata?.carat}{" "}
                 Carat {diadata?.colorname} {diadata?.clarityname}{" "}
@@ -190,7 +190,7 @@ const Customization = ({
               </span>
             </div>
           }
-          <div className="stmpf_StockCart-options">
+          <div className="stam3_StockCart-options">
             {selectedItem?.metaltypename != "" &&
               <div className="option">
                 <label htmlFor="metal-type">Metal Type:</label>
@@ -222,7 +222,7 @@ const Customization = ({
               </div>
             }
           </div>
-          <div className="stmpf_stockPriceQtyDiv">
+          <div className="stam3_stockPriceQtyDiv">
             {selectedItem?.IsMrpBase == 0 ? (
               <div className="option">
                 <label htmlFor="qty">Qty:</label>
@@ -235,18 +235,18 @@ const Customization = ({
             }
             <div>
               {storeInitData?.IsPriceShow == 1 &&
-                <div className="stmpf_Stockproduct-price">
+                <div className="stam3_Stockproduct-price">
                   {!ispriceloding ? (
                     <span>
                       {loading == false &&
                         <>
-                          <span className="stmpf_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
+                          <span className="stam3_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
                           {formatter(((selectedItem?.FinalCost)))}
                         </>
                       }
                     </span>
                   ) :
-                    <Skeleton className='stmpf_CartSkelton' variant="text" width="80%" animation="wave" />
+                    <Skeleton className='stam3_CartSkelton' variant="text" width="80%" animation="wave" />
                   }
                 </div>
               }

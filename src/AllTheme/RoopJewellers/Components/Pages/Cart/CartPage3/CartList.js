@@ -23,8 +23,8 @@ const CartList = ({
 }) => {
 
   return (
-    <div className="rJ_RightCartList">
-      <div className='rJ_tablelable'>
+    <div className="roop3_RightCartList">
+      <div className='roop3_tablelable'>
         <p>Image</p>
         <p>Product Details</p>
         <p>Price</p>
@@ -32,7 +32,7 @@ const CartList = ({
       </div>
 
       <>
-        <div className='rJ_cartListMapDiv'>
+        <div className='roop3_cartListMapDiv'>
           {items.map((item, index) => (
             <CartItem
               key={item.id}

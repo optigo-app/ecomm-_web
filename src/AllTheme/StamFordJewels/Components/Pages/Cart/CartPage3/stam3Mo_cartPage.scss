@@ -2,13 +2,13 @@
 
 $borderColor: rgba(232, 232, 232, 1);
 
-.stmpfMo_cart-modal {
+.stam3Mo_cart-modal {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.stmpfMo_cart-container {
+.stam3Mo_cart-container {
     max-width: 600px;
     width: 100%;
     height: 100vh;
@@ -26,7 +26,7 @@ $borderColor: rgba(232, 232, 232, 1);
     }
 }
 
-.rJ_cart-quantity {
+.stam3_cart-quantity {
     display: flex;
     width: 130px;
     height: 45px;
@@ -75,7 +75,7 @@ $borderColor: rgba(232, 232, 232, 1);
     }
 }
 
-.stmpfMo_Cart-imageDiv {
+.stam3Mo_Cart-imageDiv {
     text-align: center;
     margin-bottom: 20px;
 
@@ -83,7 +83,7 @@ $borderColor: rgba(232, 232, 232, 1);
         margin-bottom: 10px;
     }
 
-    .stmpfMo_cartImage {
+    .stam3Mo_cartImage {
         max-width: 100%;
         height: auto;
         cursor: pointer;
@@ -91,9 +91,9 @@ $borderColor: rgba(232, 232, 232, 1);
     }
 }
 
-.stmpfMo_Cart_R-details,
-.stmpfMo_CartCusto_R-details {
-    .stmpfMo_cart-Titleline {
+.stam3Mo_Cart_R-details,
+.stam3Mo_CartCusto_R-details {
+    .stam3Mo_cart-Titleline {
         font-size: 1.2rem;
         font-weight: bold;
         margin-bottom: 10px;
@@ -103,8 +103,8 @@ $borderColor: rgba(232, 232, 232, 1);
         }
     }
 
-    .stmpfMo_Cart-options,
-    .stmpfMo_StockCart-options {
+    .stam3Mo_Cart-options,
+    .stam3Mo_StockCart-options {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
@@ -145,19 +145,19 @@ $borderColor: rgba(232, 232, 232, 1);
         }
     }
 
-    .stmpfMo_cartQtyPricemainDev {
+    .stam3Mo_cartQtyPricemainDev {
         display: flex;
         align-items: center;
         justify-content: space-between;
         font-family: $primaryFontFamily;
 
         .product-price,
-        .stmpfMo_Stockproduct-price {
+        .stam3Mo_Stockproduct-price {
             font-size: $fontSize4;
             color: $titleColor;
             font-weight: bold;
 
-            .stmpfMo_currencyFont {
+            .stam3Mo_currencyFont {
                 margin-right: 5px;
             }
         }
@@ -166,7 +166,7 @@ $borderColor: rgba(232, 232, 232, 1);
         }
     }
 
-    .stmpfMo_UpdateCartBtn {
+    .stam3Mo_UpdateCartBtn {
         margin-top: 20px;
         display: flex;
         justify-content: end;
@@ -174,7 +174,7 @@ $borderColor: rgba(232, 232, 232, 1);
         font-family: $primaryFontFamily;
 
 
-        .stmpfMo_cartUpdate-button {
+        .stam3Mo_cartUpdate-button {
             background-color: #b1b1b1;
             border: none;
             border-radius: 5px;
@@ -195,7 +195,7 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 
-.stmpfMo_CloseIcon {
+.stam3Mo_CloseIcon {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -204,11 +204,11 @@ $borderColor: rgba(232, 232, 232, 1);
 }
 
 
-.stmpfMo_CartCusto_R-details {
+.stam3Mo_CartCusto_R-details {
     flex: 1;
     width: 100%;
 
-    .stmpfMo_cart-Titleline {
+    .stam3Mo_cart-Titleline {
       font-size: $fontSize4;
       color: $primaryfontcolor2;
       margin: 10px;
@@ -222,11 +222,11 @@ $borderColor: rgba(232, 232, 232, 1);
       // text-overflow: ellipsis;
     }
 
-    .stmpfMo_dividerline {
+    .stam3Mo_dividerline {
       margin-bottom: 10px !important;
     }
 
-    .stmpfMo_Cart-options {
+    .stam3Mo_Cart-options {
       color: $primaryfontcolor2;
       display: flex;
       flex-wrap: wrap;
@@ -259,7 +259,7 @@ $borderColor: rgba(232, 232, 232, 1);
       }
     }
 
-    .stmpfMo_cartQtyPricemainDev {
+    .stam3Mo_cartQtyPricemainDev {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -276,7 +276,7 @@ $borderColor: rgba(232, 232, 232, 1);
       }
     }
 
-    .stmpfMo_StockCart-options {
+    .stam3Mo_StockCart-options {
       color: $primaryfontcolor2;
       display: flex;
       flex-wrap: wrap;
@@ -315,7 +315,7 @@ $borderColor: rgba(232, 232, 232, 1);
       }
     }
 
-    .stmpfMo_stockPriceQtyDiv {
+    .stam3Mo_stockPriceQtyDiv {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -338,7 +338,7 @@ $borderColor: rgba(232, 232, 232, 1);
         }
       }
 
-      .stmpfMo_Stockproduct-price {
+      .stam3Mo_Stockproduct-price {
         span {
           color: $primaryfontcolor2;
           font-weight: bold;
@@ -347,7 +347,7 @@ $borderColor: rgba(232, 232, 232, 1);
       }
     }
 
-    .stmpfMo_UpdateCartBtn {
+    .stam3Mo_UpdateCartBtn {
       display: flex;
       justify-content: flex-end;
       align-items: end;

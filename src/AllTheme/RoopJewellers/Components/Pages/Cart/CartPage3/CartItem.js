@@ -1,25 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { green } from '@mui/material/colors';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } from '@mui/material';
+import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { roop_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
+import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
-import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 const CartItem = ({
   item,
   diamondValue,
+  itemlength,
   index,
   CartCardImageFunc,
   onSelect,
+  CurrencyData,
+  decodeEntities,
   isSelected,
   selectedItem,
+  selectedItemsLength,
+  isActive,
   multiSelect,
   onRemove,
+  itemLength,
+  showRemark,
+  productRemark,
+  handleAddRemark,
   handleRemarkChange,
   handleSave,
+  handleCancel,
+  openHandleUpdateCartModal
 }) => {
   const [imageSrc, setImageSrc] = useState(noImageFound);
   const [open, setOpen] = useState(false);
@@ -95,45 +115,49 @@ const CartItem = ({
 
   return (
     <>
-      <div className="rJ_cartMain-item" onClick={() => onSelect(item)}
+      <div className="roop3_cartMain-item" onClick={() => onSelect(item)}
         style={{
           // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
           boxShadow: "none",
           border: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '1px solid #7d7f85'
         }}
       >
-        <div className="rJ_cart-item">
-          <div className="rJ_cart-item__image">
+        <div className="roop3_cart-item">
+          <div className="roop3_cart-item__image">
             <img src={imageSrc} alt='Product-image' />
           </div>
-          <div className="rJ_cart-item__details">
+          <div className="roop3_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}
               {item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&
             <p>SKU: {item?.sku}</p>
           } */}
-            <div className="rJ_weightsContainer">
+            <div className="roop3_weightsContainer">
               {storeInitData?.IsGrossWeight == 1 &&
-                <div className="rJ_weightPair">
-                  <span className="rJ_weightLabel">Gwt:</span>
-                  <span className="rJ_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
+                <div className="roop3_weightPair">
+                  <span className="roop3_weightLabel">Gwt:</span>
+                  <span className="roop3_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
                 </div>
               }
-              {Number(item?.Nwt) !== 0 && (
-                <div className="rJ_weightPair">
-                  <span className="rJ_pipe">|</span>
-                  <span className="rJ_weightLabel">Nwt:</span>
-                  <span className="rJ_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
-                </div>
-              )}
+              {storeInitData?.IsMetalWeight == 1 &&
+                <>
+                  {Number(item?.Nwt) !== 0 && (
+                    <div className="roop3_weightPair">
+                      <span className="roop3_pipe">|</span>
+                      <span className="roop3_weightLabel">Nwt:</span>
+                      <span className="roop3_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
+                    </div>
+                  )}
+                </>
+              }
               {storeInitData?.IsDiamondWeight == 1 &&
                 <>
                   {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                    <div className="rJ_weightPair">
-                      <span className="rJ_pipe">|</span>
-                      <span className="rJ_weightLabel">Dwt:</span>
-                      <span className="rJ_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                    <div className="roop3_weightPair">
+                      <span className="roop3_pipe">|</span>
+                      <span className="roop3_weightLabel">Dwt:</span>
+                      <span className="roop3_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
                     </div>
                   }
                 </>
@@ -141,39 +165,39 @@ const CartItem = ({
               {storeInitData?.IsGrossWeight == 1 &&
                 <>
                   {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                    <div className="rJ_weightPair">
-                      <span className="rJ_pipe">|</span>
-                      <span className="rJ_weightLabel">Cwt:</span>
-                      <span className="rJ_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                    <div className="roop3_weightPair">
+                      <span className="roop3_pipe">|</span>
+                      <span className="roop3_weightLabel">Cwt:</span>
+                      <span className="roop3_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
                     </div>
                   }
                 </>
               }
             </div>
-            <div style={{ display: 'flex' }}>
-              <p className='rJ_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
+            <div style={{ display: 'flex' }} className="roop3_qtyDiv">
+              <p className='roop3_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
               {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
-                <p className='rJ_ringSize'>Size: {item?.Size}</p>
+                <p className='roop3_ringSize'>Size: {item?.Size}</p>
               }
             </div>
-            {/* <span className="rJ_change-size">CHANGE SIZE</span> */}
+            {/* <span className="roop3_change-size">CHANGE SIZE</span> */}
           </div>
           {storeInitData?.IsPriceShow == 1 &&
-            <div className="rJ_cart-item__price">
+            <div className="roop3_cart-item__price">
               <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
-              <span className="rJ_price-excl-vat">(Excl. VAT)</span>
+              <span className="roop3_price-excl-vat">(Excl. VAT)</span>
             </div>
           }
           <>
             {storeInitData?.IsPriceShow == 1 &&
-              <div className="rJ_cart-item__total-price">
+              <div className="roop3_cart-item__total-price">
                 <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
-                <span className="rJ_price-excl-vat">(Excl. VAT)</span>
+                <span className="roop3_price-excl-vat">(Excl. VAT)</span>
               </div>
             }
           </>
-          <div className="rJ_cart-item__remove">
-            <button className="rJ_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+          <div className="roop3_cart-item__remove">
+            <button className="roop3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
           </div>
         </div>
       </div>

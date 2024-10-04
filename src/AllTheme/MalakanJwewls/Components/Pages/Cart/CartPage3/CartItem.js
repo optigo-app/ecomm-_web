@@ -10,7 +10,7 @@ import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } fr
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
-import { stam_CartCount } from '../../../Recoil/atom';
+import { mala_CartCount } from '../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
@@ -45,7 +45,7 @@ const CartItem = ({
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
-  const setCartCountVal = useSetRecoilState(stam_CartCount)
+  const setCartCountVal = useSetRecoilState(mala_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
 
@@ -115,38 +115,38 @@ const CartItem = ({
 
   return (
     <>
-      <div className="stam3_cartMain-item" onClick={() => onSelect(item)}
+      <div className="mala3_cartMain-item" onClick={() => onSelect(item)}
         style={{
           // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
           boxShadow: "none",
           border: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '1px solid #7d7f85'
         }}
       >
-        <div className="stam3_cart-item">
-          <div className="stam3_cart-item__image">
+        <div className="mala3_cart-item">
+          <div className="mala3_cart-item__image">
             <img src={imageSrc} alt='Product-image' />
           </div>
-          <div className="stam3_cart-item__details">
+          <div className="mala3_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}
               {item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&
             <p>SKU: {item?.sku}</p>
           } */}
-            <div className="stam3_weightsContainer">
+            <div className="mala3_weightsContainer">
               {storeInitData?.IsGrossWeight == 1 &&
-                <div className="stam3_weightPair">
-                  <span className="stam3_weightLabel">Gwt:</span>
-                  <span className="stam3_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
+                <div className="mala3_weightPair">
+                  <span className="mala3_weightLabel">Gwt:</span>
+                  <span className="mala3_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
                 </div>
               }
               {storeInitData?.IsMetalWeight == 1 &&
                 <>
                   {Number(item?.Nwt) !== 0 && (
-                    <div className="stam3_weightPair">
-                      <span className="stam3_pipe">|</span>
-                      <span className="stam3_weightLabel">Nwt:</span>
-                      <span className="stam3_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
+                    <div className="mala3_weightPair">
+                      <span className="mala3_pipe">|</span>
+                      <span className="mala3_weightLabel">Nwt:</span>
+                      <span className="mala3_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
                     </div>
                   )}
                 </>
@@ -154,10 +154,10 @@ const CartItem = ({
               {storeInitData?.IsDiamondWeight == 1 &&
                 <>
                   {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                    <div className="stam3_weightPair">
-                      <span className="stam3_pipe">|</span>
-                      <span className="stam3_weightLabel">Dwt:</span>
-                      <span className="stam3_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                    <div className="mala3_weightPair">
+                      <span className="mala3_pipe">|</span>
+                      <span className="mala3_weightLabel">Dwt:</span>
+                      <span className="mala3_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
                     </div>
                   }
                 </>
@@ -165,39 +165,39 @@ const CartItem = ({
               {storeInitData?.IsGrossWeight == 1 &&
                 <>
                   {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                    <div className="stam3_weightPair">
-                      <span className="stam3_pipe">|</span>
-                      <span className="stam3_weightLabel">Cwt:</span>
-                      <span className="stam3_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                    <div className="mala3_weightPair">
+                      <span className="mala3_pipe">|</span>
+                      <span className="mala3_weightLabel">Cwt:</span>
+                      <span className="mala3_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
                     </div>
                   }
                 </>
               }
             </div>
-            <div style={{ display: 'flex' }} className="stam3_qtyDiv">
-              <p className='stam3_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
+            <div style={{ display: 'flex' }} className="mala3_qtyDiv">
+              <p className='mala3_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
               {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
-                <p className='stam3_ringSize'>Size: {item?.Size}</p>
+                <p className='mala3_ringSize'>Size: {item?.Size}</p>
               }
             </div>
-            {/* <span className="stam3_change-size">CHANGE SIZE</span> */}
+            {/* <span className="mala3_change-size">CHANGE SIZE</span> */}
           </div>
           {storeInitData?.IsPriceShow == 1 &&
-            <div className="stam3_cart-item__price">
+            <div className="mala3_cart-item__price">
               <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
-              <span className="stam3_price-excl-vat">(Excl. VAT)</span>
+              <span className="mala3_price-excl-vat">(Excl. VAT)</span>
             </div>
           }
           <>
             {storeInitData?.IsPriceShow == 1 &&
-              <div className="stam3_cart-item__total-price">
+              <div className="mala3_cart-item__total-price">
                 <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
-                <span className="stam3_price-excl-vat">(Excl. VAT)</span>
+                <span className="mala3_price-excl-vat">(Excl. VAT)</span>
               </div>
             }
           </>
-          <div className="stam3_cart-item__remove">
-            <button className="stam3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+          <div className="mala3_cart-item__remove">
+            <button className="mala3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
           </div>
         </div>
       </div>
