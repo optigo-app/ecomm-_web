@@ -440,7 +440,6 @@ export default function MobileNav({ open, onClose }) {
                 {/* Level 2 */}
                 {menuItems &&
                   menuItems?.map((menuItem, i) => {
-                    console.log(menuItem, "mobile");
                     const { menuname, param1 } = menuItem;
                     return (
                       <React.Fragment key={i}>
