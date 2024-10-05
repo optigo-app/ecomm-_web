@@ -226,7 +226,7 @@ const SmilingRock_App = () => {
           }
         />
         <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/servicePolicy" element={<ServicePolicy />} />
+        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/FunFact" element={<FunFact />} />
         <Route path="/aboutUs" element={<AboutUs />} />

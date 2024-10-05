@@ -1246,7 +1246,7 @@ export default function MobileNav({ open, onClose }) {
           backdropFilter: "blur(4px)",
         },
       }}
-      open={ open}
+      open={true ||  open}
       onClose={onClose}
     >
       {DrawerList}
