@@ -393,10 +393,10 @@ export default function MobileNav({ open, onClose }) {
         "@media (max-width: 540px)": {
           width: 500,
         },
-        "@media (max-width: 420px)": {
-          width: 340,
+        "@media (max-width: 430px)": {
+          width: 350,
         },
-        "@media (max-width: 320px)": {
+        "@media (max-width: 340px)": {
           width: 300,
         },
       }}
