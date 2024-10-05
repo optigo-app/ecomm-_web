@@ -1359,6 +1359,8 @@ const ProductDetail = () => {
   //   }
   // },[pdThumbImg,pdVideoArr])
 
+  const KayraCreation = 1 ;
+
   return (
     <>
       <Helmet>
@@ -1651,7 +1653,7 @@ const ProductDetail = () => {
                                     )?.toFixed(3)}
                                   </span>
                                 </span> : null}
-                              {storeInit?.IsMetalWeight === 1 &&
+                              {KayraCreation === 2 && storeInit?.IsMetalWeight === 1 &&
                                 <span className="smr_prod_short_key">
                                   Net. wt :{" "}
                                   <span className="smr_prod_short_val">
@@ -2424,7 +2426,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                <div className="smr_material_details_portion">
+             {  KayraCreation === 2 && <div className="smr_material_details_portion">
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
@@ -2538,7 +2540,7 @@ const ProductDetail = () => {
                         ))}
                     </div>
                   )}
-                </div>
+                </div>}
 
                 {stockItemArr?.length > 0 &&
                   storeInit?.IsStockWebsite === 1 && (
