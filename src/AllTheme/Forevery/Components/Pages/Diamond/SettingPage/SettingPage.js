@@ -22,8 +22,9 @@ import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { BsHandbag } from 'react-icons/bs';
 import Pako from 'pako';
-import { for_customizationSteps } from '../../../Recoil/atom';
+import { for_customizationSteps, for_MakeMyRingProcessDrawer } from '../../../Recoil/atom';
 import { useRecoilState } from 'recoil';
+import MakeRingProcessModal from '../../ReusableComponent/DiamondStepModal/MakeRingProcessModal';
 
 const SettingPage = () => {
 
@@ -36,6 +37,7 @@ const SettingPage = () => {
   let cookie = Cookies.get("visiterId");
   const dropdownRefs = useRef({})
   const [currPage, setCurrPage] = useState(1);
+  const [modalOpen, setModalOpen] = useRecoilState(for_MakeMyRingProcessDrawer);
   const [imageMap, setImageMap] = useState({});
 
   useEffect(() => {
@@ -43,6 +45,17 @@ const SettingPage = () => {
   }, [])
 
   const encodeLink = (link) => btoa(link);
+
+  useEffect(() => {
+    const showModal = localStorage.getItem('dontShowModal');
+    if (showModal !== 'true') {
+      setModalOpen(true);
+    }
+  }, []);
+
+  const handleButtonClick = () => {
+    setModalOpen(true);
+  };
 
   const styleLinks = {
     Solitaire: "Solitaire/style",
@@ -865,6 +878,9 @@ const SettingPage = () => {
               }
             </div>
           </div>
+          <div class="mr_Modal-imageButton" onClick={handleButtonClick}>
+            <button>How it works</button>
+          </div>
           <div className="for_settingList_product_lists_div">
             {isOnlySettLoading ? <div className="for_global_spinner"></div> : (
               productListData?.map((item, index) => {
@@ -915,6 +931,7 @@ const SettingPage = () => {
             )}
         </div>
       </div >
+      {modalOpen && <MakeRingProcessModal/>}
     </>
   )
 }
