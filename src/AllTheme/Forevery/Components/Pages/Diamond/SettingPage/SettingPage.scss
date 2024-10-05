@@ -653,6 +653,51 @@
 
     }
 
+    .mr_Modal-imageButton {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .mr_Modal-imageButton {
+      display: inline-block;
+      position: relative;
+    }
+    
+    .mr_Modal-imageButton button {
+      position: relative;
+      z-index: 2;
+      background-color: #df647e;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    
+    .mr_Modal-imageButton button::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      background-image: url('https://forevery.one/icons_images/icons/complete-ring-wh.png');
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.3s ease;
+    }
+    
+    .mr_Modal-imageButton button:hover::before {
+      background-image: url('https://forevery.one/icons_images/icons/complete-ring.png');
+    }
+    
+
     .for_settingList_product_lists_div {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
