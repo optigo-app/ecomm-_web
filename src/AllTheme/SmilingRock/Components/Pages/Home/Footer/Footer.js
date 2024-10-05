@@ -28,14 +28,14 @@ const Footer = ({ fromPage }) => {
   }, []);
 
   useEffect(() => {
-    let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
+    let localData = JSON?.parse(sessionStorage?.getItem("storeInit"));
     if (localData) {
       setLocalData(localData);
     }
 
-    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-    if (companyInfoData) {
-      const parsedSocialMediaUrlData = JSON.parse(companyInfoData.SocialLinkObj) ?? [];
+    const companyInfoData = JSON?.parse(sessionStorage?.getItem("CompanyInfoData")) ?? "";
+    if (companyInfoData?.SocialLinkObj) {
+      const parsedSocialMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
       setSocialMediaData(parsedSocialMediaUrlData);
     }
   }, []);

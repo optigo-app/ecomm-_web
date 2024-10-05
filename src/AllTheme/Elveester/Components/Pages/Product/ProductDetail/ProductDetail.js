@@ -1532,7 +1532,11 @@ const ProductDetail = () => {
                             ) : null}
                           </div>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
-                            <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                            {storeInit?.IsMetalWeight === 1 && (
+                              <>
+                                <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                              </>
+                            )}
                           </div>
                           {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
                             <>
@@ -1972,7 +1976,11 @@ const ProductDetail = () => {
                           ) : null}
                         </div>
                         <div>
-                          <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                          {storeInit?.IsMetalWeight === 1 && (
+                            <>
+                              <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                            </>
+                          )}
                         </div>
                         {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
                           <>
