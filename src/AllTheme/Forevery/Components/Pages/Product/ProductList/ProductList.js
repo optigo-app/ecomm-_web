@@ -115,7 +115,6 @@ const ProductList = () => {
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [open, setOpen] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
-  console.log('selectedValues: ', selectedValues);
   const [ratingvalue, setratingvalue] = useState(5);
   const [selectMetalColor, setSelectMetalColor] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(true);
@@ -141,7 +140,6 @@ const ProductList = () => {
   const [currPage, setCurrPage] = useState(1);
   const [colorImgSrc, setColorImgSrc] = useState([]);
   const [imageMap, setImageMap] = useState({});
-  console.log('imageMap: ', imageMap);
 
   const setCartCountVal = useSetRecoilState(for_CartCount);
   const setWishCountVal = useSetRecoilState(for_WishCount);
