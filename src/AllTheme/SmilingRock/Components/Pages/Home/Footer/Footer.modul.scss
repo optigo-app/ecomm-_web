@@ -6,7 +6,7 @@
     justify-content: space-between;
     border-top: 1px solid #e1e1e1;
     padding: 10px 20px 60px 20px;
-    margin-top: 15%;
+    margin-top: 8%;
   }
 
   .footerIconMain {
@@ -30,6 +30,7 @@
     justify-content: center;
     cursor: pointer;
     margin-inline: 5px;
+     
   }
 
   .footerSocialIcon:hover {
@@ -80,7 +81,7 @@
 
   @media screen and (max-width: 1700px) {
     .footerIconMain {
-      width: 25% !important;
+      // width: 25% !important;
     }
 
     .footerMoreOption {
@@ -153,7 +154,7 @@
     justify-content: space-between;
     border-top: 1px solid #e1e1e1;
     padding: 10px 20px;
-    margin-top: 15%;
+    margin-top: 8%;
   }
 
   .footerIconMain {
