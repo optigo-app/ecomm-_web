@@ -87,6 +87,12 @@
                             cursor: pointer;
                         }
 
+                        .for_shapes_img {
+                            @media (max-width: 470px) {
+                                display: none;
+                            }
+                        }
+
                         .disabled {
                             pointer-events: none;
                             cursor: not-allowed;
@@ -263,6 +269,7 @@
                 @media (max-width: 600px) {
                     display: flex;
                     flex-direction: column;
+                    margin-inline: 2%;
                 }
 
                 @media (max-width: 320px) {
@@ -692,7 +699,7 @@
                             }
 
                             .for_slider_mob {
-                                width: 13%;
+                                width: 100%;
                                 display: flex;
                                 flex-direction: column;
                                 align-items: center;
@@ -771,8 +778,8 @@
                                         }
 
                                         video {
-                                            width: inherit;
-                                            height: inherit;
+                                            width: 65px;
+                                            height: 65px;
                                             object-fit: contain;
                                         }
                                     }
@@ -946,14 +953,42 @@
                         color: $primaryfontcolor3;
                         font-family: $primaryFontFamily;
 
+                        .for_breadcrumbs {
+                            margin-left: 3px;
+                            cursor: pointer;
+                            width: 38rem;
+
+                            @media (max-width: 600px) {
+                                width: 33rem;
+                            }
+
+                            @media (max-width: 550px) {
+                                width: 100%;
+                            }
+                        }
+
                         .for_DiamondDet_breadcrumbs {
                             display: grid !important;
                             grid-template-columns: repeat(3, auto);
                             justify-content: left;
 
+
                             .for_bredwish_div {
                                 display: flex;
                                 justify-content: space-between;
+                                width: 100%;
+
+                                @media (max-width: 970px) {
+                                    width: 60%;
+                                }
+
+                                @media (max-width: 768px) {
+                                    width: 50%;
+                                }
+
+                                @media (max-width: 600px) {
+                                    width: 100%;
+                                }
                             }
                         }
                     }
@@ -973,8 +1008,25 @@
                                 text-transform: uppercase;
                                 font-weight: 600;
                                 margin-bottom: 1rem;
-                            }
 
+                                @media (max-width: 970px) {
+                                    font-size: 17px;
+                                }
+
+                                @media (max-width: 840px) {
+                                    font-size: 16px;
+                                }
+
+                                @media (max-width: 768px) {
+                                    font-size: 16px;
+                                    width: 80%;
+                                    text-align: justify;
+                                }
+
+                                @media (max-width: 600px) {
+                                    width: 100%;
+                                }
+                            }
 
                             .for_DiamondDet_rating_div {
                                 margin-bottom: 5px;
@@ -1011,6 +1063,10 @@
                                     margin-top: 0.5rem;
                                     display: flex;
                                     align-items: center;
+
+                                    @media (max-width: 970px) {
+                                        font-size: 16px;
+                                    }
                                 }
                             }
                         }
@@ -1225,9 +1281,28 @@
                         width: 80%;
                         font-family: $primaryFontFamily;
 
+                        @media (max-width: 970px) {
+                            width: 55%;
+                            text-align: justify;
+                        }
+
+                        @media (max-width: 768px) {
+                            width: 45%;
+                            text-align: justify;
+                        }
+
+                        @media (max-width: 600px) {
+                            width: 100%;
+                            text-align: justify;
+                        }
+
                         .for_Diamond_details_span {
                             letter-spacing: .5px;
                             font-size: 15px;
+
+                            @media (max-width: 970px) {
+                                font-size: 14px;
+                            }
                         }
                     }
 
@@ -1237,6 +1312,10 @@
                         font-size: 30px;
                         color: #030303D6;
                         font-weight: 700;
+
+                        @media (max-width: 970px) {
+                            font-size: 25px;
+                        }
 
                         .for_DiamondDet_price {
                             display: flex;
@@ -1253,6 +1332,10 @@
                             height: 44px;
                             font-size: $fontSize4;
                             font-weight: 600;
+
+                            @media (max-width: 600px) {
+                                width: 100%;
+                            }
                         }
 
                         .disabled {
@@ -1396,6 +1479,25 @@
                                 max-width: 500px;
                                 font-weight: 600;
 
+                                @media (max-width: 1024px) {
+                                    max-width: 21rem;
+                                    text-align: justify;
+                                }
+
+                                @media (max-width: 970px) {
+                                    max-width: 19rem;
+                                    text-align: justify;
+                                }
+
+                                @media (max-width: 768px) {
+                                    max-width: 15rem;
+                                    text-align: justify;
+                                }
+
+                                @media (max-width: 600px) {
+                                    max-width: 100%;
+                                }
+
                                 .for_shipp_desc_bold {
                                     font-weight: 700;
                                 }
@@ -1460,7 +1562,8 @@
                 }
 
                 @media (max-width: 600px) {
-                    max-width: 35rem;
+                    max-width: 34rem;
+                    padding-inline: 2%;
                 }
 
                 @media (max-width: 550px) {
@@ -1533,8 +1636,27 @@
                     gap: 10rem;
                     margin-top: 2rem;
 
+                    @media (max-width: 840px) {
+                        gap: 5rem;
+                    }
+
+                    @media (max-width: 680px) {
+                        gap: 3rem;
+                    }
+
+                    @media (max-width: 600px) {
+                        gap: 2rem;
+                        flex-direction: column;
+                        justify-content: center;
+                        width: 100%;
+                    }
+
                     .for_DiamondDet_desc_DiaInfo_1 {
                         width: 50%;
+
+                        @media (max-width: 600px) {
+                            width: 100%;
+                        }
 
                         .for_DiamondDet_desc_title_1 {
                             font-size: $fontSize4;
@@ -1618,6 +1740,7 @@
                     @media (max-width: 1400px) {
                         width: 100%;
                         margin-top: 2rem;
+                        right: 0;
                     }
 
                     .for_trenf_coll_tit1 {
@@ -1628,6 +1751,7 @@
 
                         @media (max-width: 500px) {
                             font-size: 30px;
+                            width: 100%;
                         }
 
                         @media (max-width: 500px) {
