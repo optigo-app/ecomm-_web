@@ -30,6 +30,11 @@ export const for_cartB2CDrawer = atom({
   default: false
 })
 
+export const for_MakeMyRingProcessDrawer = atom({
+  key: 'for_MakeMyRingProcessDrawer',
+  default: false
+})
+
 export const for_DiamondRangeArr = atom({
   key: 'for_DiamondRangeArr',
   default: []

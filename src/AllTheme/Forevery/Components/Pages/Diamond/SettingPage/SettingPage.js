@@ -22,8 +22,9 @@ import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { BsHandbag } from 'react-icons/bs';
 import Pako from 'pako';
-import { for_customizationSteps } from '../../../Recoil/atom';
+import { for_customizationSteps, for_MakeMyRingProcessDrawer } from '../../../Recoil/atom';
 import { useRecoilState } from 'recoil';
+import MakeRingProcessModal from '../../ReusableComponent/DiamondStepModal/MakeRingProcessModal';
 
 const SettingPage = () => {
 
@@ -36,12 +37,25 @@ const SettingPage = () => {
   let cookie = Cookies.get("visiterId");
   const dropdownRefs = useRef({})
   const [currPage, setCurrPage] = useState(1);
+  const [modalOpen, setModalOpen] = useRecoilState(for_MakeMyRingProcessDrawer);
+  const [imageMap, setImageMap] = useState({});
 
   useEffect(() => {
     const aa1234 = JSON.parse(sessionStorage.getItem('custStepData'));
   }, [])
 
   const encodeLink = (link) => btoa(link);
+
+  useEffect(() => {
+    const showModal = localStorage.getItem('dontShowModal');
+    if (showModal !== 'true') {
+      setModalOpen(true);
+    }
+  }, []);
+
+  const handleButtonClick = () => {
+    setModalOpen(true);
+  };
 
   const styleLinks = {
     Solitaire: "Solitaire/style",
@@ -204,9 +218,111 @@ const SettingPage = () => {
   ]
 
   let getDesignImageFol = storeInit?.DesignImageFol;
+
   const getDynamicImages = (designno, extension) => {
     return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
+
+  const getDynamicYellowImage = (item, designno, extension) => {
+    // return `${getDesignImageFol}${designno}_${1}_Yellow.${extension}`;
+    return new Promise((resolve) => {
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+      });
+
+      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const colorImage = item?.ImageCount > 0
+        ? `${baseImagePath}_Yellow.${extension}`
+        : noImageFound;
+      const defaultImage = item?.ImageCount > 0
+        ? `${baseImagePath}.${extension}`
+        : noImageFound;
+
+      loadImage(colorImage)
+        .then(resolve)
+        .catch(() => loadImage(defaultImage)
+          .then(resolve)
+          .catch(() => resolve(noImageFound)));
+    });
+  };
+
+  const getDynamicWhiteImage = (item, designno, extension) => {
+    // return `${getDesignImageFol}${designno}_${1}_White.${extension}`;
+    return new Promise((resolve) => {
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+      });
+
+      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const colorImage = item?.ImageCount > 0
+        ? `${baseImagePath}_White.${extension}`
+        : noImageFound;
+      const defaultImage = item?.ImageCount > 0
+        ? `${baseImagePath}.${extension}`
+        : noImageFound;
+
+      loadImage(colorImage)
+        .then(resolve)
+        .catch(() => loadImage(defaultImage)
+          .then(resolve)
+          .catch(() => resolve(noImageFound)));
+    });
+  }
+
+  const getDynamicRoseImage = (item, designno, extension) => {
+    // return `${getDesignImageFol}${designno}_${1}_Rose.${extension}`;
+    return new Promise((resolve) => {
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+      });
+
+      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const colorImage = item?.ImageCount > 0
+        ? `${baseImagePath}_Rose.${extension}`
+        : noImageFound;
+      const defaultImage = item?.ImageCount > 0
+        ? `${baseImagePath}.${extension}`
+        : noImageFound;
+
+      loadImage(colorImage)
+        .then(resolve)
+        .catch(() => loadImage(defaultImage)
+          .then(resolve)
+          .catch(() => resolve(noImageFound)));
+    });
+  }
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const loadedImages = {};
+      await Promise.all(productListData.map(async (item) => {
+        const yellowImage = await getDynamicYellowImage(item, item.designno, item.ImageExtension);
+        const whiteImage = await getDynamicWhiteImage(item, item.designno, item.ImageExtension);
+        const roseImage = await getDynamicRoseImage(item, item.designno, item.ImageExtension);
+
+        // Store images in an object keyed by design number
+        loadedImages[item.designno] = {
+          yellowImage,
+          whiteImage,
+          roseImage,
+        };
+      }));
+      setImageMap(loadedImages);
+    };
+
+    if (productListData.length > 0) {
+      loadImages();
+    }
+  }, [productListData]);
 
   useEffect(() => {
     const urlPath = location?.pathname?.slice(1).split("/");
@@ -762,25 +878,34 @@ const SettingPage = () => {
               }
             </div>
           </div>
+          <div class="mr_Modal-imageButton" onClick={handleButtonClick}>
+            <button>How it works</button>
+          </div>
           <div className="for_settingList_product_lists_div">
             {isOnlySettLoading ? <div className="for_global_spinner"></div> : (
-              productListData?.map((item, index) => (
-                <Product_Card
-                  StyledRating={StyledRating}
-                  productData={item}
-                  index={index}
-                  ratingvalue={ratingvalue}
-                  handleMetalColor={handleMetalColor}
-                  metalColorType={metalColorType}
-                  imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                  loginCurrency={loginCurrency}
-                  storeInit={storeInit}
-                  handleMoveToDetail={handleMoveToDetail}
-                  selectedMetalId={selectedMetalId}
-                  metalType={metalType}
-                  getBannerImage={getBannerImage}
-                />
-              ))
+              productListData?.map((item, index) => {
+                const images = imageMap[item.designno] || {};
+                return (
+                  <Product_Card
+                    StyledRating={StyledRating}
+                    productData={item}
+                    index={index}
+                    ratingvalue={ratingvalue}
+                    yellowImage={images?.yellowImage || noImageFound}
+                    whiteImage={images?.whiteImage || noImageFound}
+                    roseImage={images?.roseImage || noImageFound}
+                    handleMetalColor={handleMetalColor}
+                    metalColorType={metalColorType}
+                    imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                    loginCurrency={loginCurrency}
+                    storeInit={storeInit}
+                    handleMoveToDetail={handleMoveToDetail}
+                    selectedMetalId={selectedMetalId}
+                    metalType={metalType}
+                    getBannerImage={getBannerImage}
+                  />
+                )
+              })
             )}
           </div>
           {storeInit?.IsProductListPagination == 1 &&
@@ -806,6 +931,7 @@ const SettingPage = () => {
             )}
         </div>
       </div >
+      {modalOpen && <MakeRingProcessModal/>}
     </>
   )
 }
@@ -998,6 +1124,9 @@ const Product_Card = ({
   selectedMetalId,
   metalType,
   getBannerImage,
+  yellowImage,
+  whiteImage,
+  roseImage,
 }) => {
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
 
@@ -1051,7 +1180,7 @@ const Product_Card = ({
             <img
               className="for_settingList_listing_card_image"
               loading="lazy"
-              src={imageUrl}
+              src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
               onError={(e) => {
                 e.target.onerror = null;
                 e.stopPropagation();
