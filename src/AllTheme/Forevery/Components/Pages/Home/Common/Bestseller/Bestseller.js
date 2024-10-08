@@ -4,7 +4,8 @@ import { FaChevronDown } from "react-icons/fa";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { storImagePath } from "../../../../../../../utils/Glob_Functions/GlobalFunction";
 import { useNavigate } from "react-router-dom";
-// created-labgrown
+
+
 const Bestseller = () => {
   const videoRef = useRef(null);
   const VidePath = `${storImagePath()}/Forevery/created-labgrown.mp4`;
@@ -36,7 +37,8 @@ const Bestseller = () => {
       <div className="for_heading">
         <button
           className={`${btnstyle?.btn_for_new} ${btnstyle?.btn_15}`}
-          // onClick={() => Navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}
+          onClick={() => Navigation(`/p/BestSeller/?N=${btoa("BestSeller")}`)}
+          // /p/BestSeller/?N=QmVzdFNlbGxlcg==
         >
           SHOP'S BESTSELLERS{" "}
           <FaChevronDown size={20} style={{ marginTop: "-3px" }} />

@@ -28,11 +28,11 @@ const LoginOption = () => {
                     }}>Use your email or mobile number to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
                         <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
-                            <IoMdMail style={{ height: '25px', width: '25px' }} />
+                            <IoMdMail className='IoMdMail_fg' style={{ height: '25px', width: '25px' }} />
                             <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
                         </div>
                         <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
-                            <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
+                            <FaMobileAlt className='FaMobileAlt_fg' style={{ height: '25px', width: '25px', marginRight: '10px' }} />
                             <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
                         </div>
                     </div>

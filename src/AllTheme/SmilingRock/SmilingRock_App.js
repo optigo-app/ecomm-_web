@@ -36,6 +36,7 @@ import NatualDiamond from "./Components/Pages/naturalDiamond/NaturalDiamond";
 import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
 import DWSRprintComp from "./Components/Pages/Account/DWSRprintComp/DWSRprintComp";
 import PaymentFailure from "../../utils/PaymentSuccessFail/PaymentFailure";
+import TermsPolicy from './Components/Pages/FooterPages/TermsPolicy/TermsPolicy'
 
 const SmilingRock_App = () => {
   const islogin = useRecoilValue(smr_loginState);
@@ -230,6 +231,7 @@ const SmilingRock_App = () => {
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
         <Route path="/FunFact" element={<FunFact />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/TermsPolicy" element={<TermsPolicy />} />
         <Route path="/natural-diamond" element={<NatualDiamond />} />
         <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
           <Route path="/p/*" element={<ProductList />} />

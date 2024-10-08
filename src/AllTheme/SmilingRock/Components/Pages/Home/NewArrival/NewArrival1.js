@@ -169,7 +169,7 @@ const NewArrival = () => {
                                         />
                                     </div>
                                     <CardContent className='smr_newarrproduct-info'>
-                                        <Typography variant='h6' className='smr_newArrTitle'>{product?.TitleLine != "" && product?.TitleLine + " - "}{product?.designno}</Typography>
+                                        <Typography variant='h6' className='smr_newArrTitle'>{product?.designno} {product?.TitleLine && +" - "} {product?.TitleLine != "" && product?.TitleLine }</Typography>
                                         <Typography variant='body2'>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>

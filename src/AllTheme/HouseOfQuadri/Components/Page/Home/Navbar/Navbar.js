@@ -1337,7 +1337,7 @@ const SearchBar = ({
         <input
           type="text"
           ref={searchInputRef}
-          placeholder="Enter Design Number"
+          placeholder="Search..."
           value={searchText}
           autoFocus
           onChange={(e) => setSearchText(e.target.value)}
