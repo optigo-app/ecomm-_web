@@ -2967,7 +2967,7 @@ const ProductDetail = () => {
                             // display:'none'
                           }}
                         >
-                          Complete The Look
+                          Complete The Look  
                         </p>
                       </div>
                     )}

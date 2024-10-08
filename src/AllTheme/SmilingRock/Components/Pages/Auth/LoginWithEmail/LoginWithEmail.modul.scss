@@ -3,7 +3,9 @@
 .smr_loginEmail {
 
   background-color: $backgroundColor;
-
+  .go_pass_fg{
+    margin-top: 0.8rem;
+  }
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
@@ -65,33 +67,39 @@
     @media screen and (max-width: 700px) {
 
         .smr_loginPasswordBox {
-            width: 90%;
+            width: 70%;
         }
 
         .submitBtnForgot {
-            width: 50%;
+            width: 70%;
             height: 50px !important;
         }
 
         .SmilingLoginCodeBtn {
-            width: 50%;
+            width: 70%;
             height: 50px !important;
 
         }
     }
 
     @media screen and (max-width: 500px) {
+        .go_pass_fg{
+            font-size: 13px;
+        }
+        .smr_loginPasswordBox {
+            width: 90%;
+        }
 
         .SmilingLoginCodeBtn {
-            width: 70%;
-            height: 40px !important;
+            width: 90%;
+            height: 45px !important;
             font-size: 12px !important;
 
         }
 
         .submitBtnForgot {
             width: 90%;
-            height: 40px !important;
+            height: 45px !important;
         }
 
         .AuthScreenSubTitle {

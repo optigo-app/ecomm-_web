@@ -206,7 +206,7 @@ const ProductGrid = () => {
                                             />
                                         </div>
                                         <div className="product-info">
-                                            <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
+                                            <h3>{data?.designno} {data?.TitleLine &&" - "} {data?.TitleLine != "" && data?.TitleLine }</h3>
                                             {storeInit?.IsGrossWeight == 1 &&
                                                 <>
                                                     <span className='smr_btdetailDT'>GWT: </span>

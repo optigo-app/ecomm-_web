@@ -633,7 +633,6 @@ const DynamicCollection = () => {
       if (BestSellerVar) {
         productlisttype = BestSellerVar.split("=")[1];
       }
-
       if (AlbumVar) {
         productlisttype = AlbumVar.split("=")[1];
       }

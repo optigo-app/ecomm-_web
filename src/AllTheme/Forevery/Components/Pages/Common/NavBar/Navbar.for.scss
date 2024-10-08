@@ -399,22 +399,26 @@
                 padding-left: 0 !important;
               }
               .dummy_mas {
-                flex: 0.6;
+                flex: 0.4;
                 height: 100%;
+                img{
+                  width: 100%;
+                }
                 .second_section {
                   width: 100%;
-                  height: 20rem;
+                  // height: 20rem;
                   .images {
                     width: 100%;
                     height: 100%;
-                    background-position: center;
-                    background-repeat: no-repeat;
+                    // background-position: center;
+                    // background-repeat: no-repeat;
+                    // object-fit: contain;
                     background-size: cover;
                     border: 1px solid #fc9e9e;
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    padding: 25px;
+                    // padding: 25px;
 
                     .for-s-card {
                       flex: 1;
@@ -493,37 +497,60 @@
                       }
                     }
                   }
-                  .sub-menu {
+                  .sub-menu-for {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+                    grid-template-columns: repeat(auto-fill, minmax(95%, 1fr));
                     padding: 0 !important;
                     margin: 0;
-                    li {
+                    .sub-menu-item-for {
                       padding: 1px 0 !important;
                       margin: 0;
                       list-style: none;
                       text-decoration: none;
                       color: inherit;
                       font-weight: 400;
-                      font-size: 15px;
                       line-height: 21px;
                       cursor: pointer;
-                    }
-                    a {
-                      transition: 0.3s ease-in-out;
-                      padding: 1px 0 !important;
-                      margin: 0;
-                      list-style: none;
-                      text-decoration: none;
-                      color: inherit;
-                      font-weight: 400;
-                      font-size: 15px;
-                      line-height: 21px;
-                      cursor: pointer;
-                      &:hover{
-                        color: gray;
+                      text-wrap: wrap !important;
+                      width: 100%;
+                      flex-wrap: wrap;
+                      display: flex;
+                      a {
+                        transition: 0.3s ease-in-out;
+                        padding: 1px 0 !important;
+                        margin: 0;
+                        list-style: none;
+                        text-decoration: none;
+                        color: inherit;
+                        font-weight: 400;
+                        font-size: 15px;
+                        line-height: 21px;
+                        cursor: pointer;
+                        &:hover{
+                          color: gray;
+                        }
+                        @media (max-width: 1200px) {
+                          font-size: 14px;
+                          line-height: 20px;
+                        }
+                      
+                        @media (max-width: 992px) {
+                          font-size: 13px;
+                          line-height: 19px;
+                        }
+                      
+                        @media (max-width: 768px) {
+                          font-size: 12px;
+                          line-height: 18px;
+                        }
+                      
+                        @media (max-width: 576px) {
+                          font-size: 11px;
+                          line-height: 16px;
+                        }
                       }
                     }
+                   
                   }
                 }
               }
@@ -584,7 +611,7 @@
 
                 .images {
                   width: 100%;
-                  height: 100%;
+                  // height: 100%;
                   background-position: center;
                   background-repeat: no-repeat;
                   background-size: cover;
@@ -592,7 +619,7 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: flex-end;
-                  padding: 25px;
+                  // padding: 25px;
 
                   .for-s-card {
                     flex: 1;

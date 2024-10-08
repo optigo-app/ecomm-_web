@@ -98,22 +98,24 @@
 
     @media screen and (max-width: 700px) {
         .smr_loginmobileBox {
-            width: 90%;
+            width: 70% !important;
         }
 
         .submitBtnForgot {
-            width: 50%;
-            height: 50px !important;
+            width: 70%;
+            // height: 50px !important;
 
         }
 
     }
 
     @media screen and (max-width: 500px) {
-
+        .smr_loginmobileBox {
+            width: 90% !important;
+        }
         .submitBtnForgot {
-            width: 90%;
-            height: 40px !important;
+            width: 90% !important;
+                padding: 15.5px 14px ;
         }
 
         .AuthScreenSubTitle {
