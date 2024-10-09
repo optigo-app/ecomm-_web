@@ -16,7 +16,26 @@
   flex-direction: column;
   justify-content: center;
   margin-bottom: 1rem;
-
+.for_ProductCarousel_banner_image{
+  height: auto;
+    padding-bottom: 20px;
+    width: 88%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media screen and (max-width: 650px) {
+        width: 92%;
+    }
+  
+    @media screen and (max-width: 520px) {
+        width: 100%;
+      }
+  
+    img{
+      width: 100%;
+    }
+}
   .heading {
     display: flex;
     flex-direction: column;

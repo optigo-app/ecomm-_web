@@ -1,7 +1,6 @@
 .smr_Loginoption {
     .loginDailog {
         margin-inline: 6%;
-        background-color: white;
         padding: 15px;
     }
 
@@ -93,7 +92,7 @@
         }
     }
 
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 499px) {
 
         .loginMail {
             width: 100% !important;

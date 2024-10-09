@@ -19,7 +19,8 @@ export default function ContactUs() {
     }, []);
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/contactPage.html`)
+        // fetch(`${storImagePath()}/html/contactPage.html`) 
+        fetch(`${storImagePath()}/html/MairocontactPage.html`)  /* for mairo only */
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

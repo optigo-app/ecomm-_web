@@ -55,6 +55,15 @@ const styleHref = {
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
 const BespokeImage = `${storImagePath()}/Forevery/collections/bespoke-header.webp`;
+
+const BespokeBannerImage = `${storImagePath()}/Forevery/bespoke.jpg`;
+console.log(BespokeBannerImage,"hi")
+
+
+
+
+
+// \\evo\My_Share\4Nidhi\website\forevery\bespoke photo.jpg
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -1306,12 +1315,12 @@ const ThirdNavMenu = ({ data }) => {
                       `${menuItem?.param0dataname}/${menuItem?.param0name}`
                     )}`}>{menuItem.menuname}</Link>
                   </div>
-                  <ul className="sub-menu">
+                  <ul className="sub-menu-for">
                     {menuItem?.param1[0]?.param1name !== "" &&
                       menuItem.param1.map((subMenuItem) => (
                         <li
                           key={subMenuItem.param1dataid}
-                          className="sub-menu-item"
+                          className="sub-menu-item-for"
                           onClick={(e) =>
                             handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e
                             )
@@ -1340,9 +1349,14 @@ const ThirdNavMenu = ({ data }) => {
           <div className="second_section">
             <div
               className="images"
-              style={{ backgroundImage: `url(${BespokeImage})` }}
+              // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
             >
-              <div className="for-s-card">
+              <img src={BespokeBannerImage} alt="" onClick={() =>
+                  Navigate(
+                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                  )
+                } />
+              {/* <div className="for-s-card">
                 <h3>Bespoke Jewlery</h3>
                 <button
                   className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
@@ -1367,7 +1381,7 @@ const ThirdNavMenu = ({ data }) => {
                 >
                   Show More
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </ul>

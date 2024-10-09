@@ -40,7 +40,7 @@ const CartItem = ({
   openHandleUpdateCartModal
 }) => {
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [remark, setRemark] = useState(item.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(CartCount)

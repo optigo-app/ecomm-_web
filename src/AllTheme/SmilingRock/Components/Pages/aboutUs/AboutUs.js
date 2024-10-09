@@ -8,7 +8,8 @@ export default function AboutUs() {
     const [htmlContent, setHtmlContent] = useState('');
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/About.html`)
+        // fetch(`${storImagePath()}/html/About.html`) c:\Users\User\Downloads\favicon_io (1)\MaioraAbout.html
+        fetch(`${storImagePath()}/html/MaioraAbout.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

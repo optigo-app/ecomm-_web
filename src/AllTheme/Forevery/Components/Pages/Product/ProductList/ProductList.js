@@ -572,11 +572,13 @@ const ProductList = () => {
 
         let MenuVal = "";
         let SearchVar = '';
+        let AlbumVar = '';
+      let BestSellerVar = "";
         let productlisttype;
 
         UrlVal.forEach((ele) => {
           let firstChar = ele.charAt(0);
-
+          console.log(firstChar,"firstChar")
           switch (firstChar) {
             case "M":
               MenuVal = ele;
@@ -584,10 +586,17 @@ const ProductList = () => {
             case 'S':
               SearchVar = ele;
               break;
+              case 'A':
+                AlbumVar = ele;
+                break;
+                case "N":
+                  BestSellerVar = ele;
+                  break;
             default:
               return "";
           }
         });
+      
 
         if (MenuVal.length > 0) {
           let menuDecode = atob(MenuVal?.split("=")[1]);
@@ -600,7 +609,13 @@ const ProductList = () => {
         if (SearchVar) {
           productlisttype = SearchVar
         }
-        setprodListType(productlisttype);
+        if (AlbumVar) {
+          productlisttype = AlbumVar.split("=")[1];
+        }
+        if (BestSellerVar) {
+          productlisttype = BestSellerVar.split("=")[1];
+        }
+        setprodListType(productlisttype); 
         setIsProdLoading(true);
 
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "");

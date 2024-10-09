@@ -131,7 +131,7 @@
       border: 1px solid $titleColor;
       background-color: $titleColor;
       text-align: center;
-      padding: 10px 0px;
+      padding: 11px 0px;
       font-weight: 500;
 
       &:hover {
@@ -200,6 +200,9 @@
       border: 1px solid rgba(0, 0, 0, 0.2);
       // box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
       transition: all 0.1s ease-in-out;
+      @media screen and (max-width:400px) {
+        padding: 9px 12px;
+      }
 
       &:hover {
         cursor: pointer;
@@ -537,7 +540,7 @@
         border: 1px solid $titleColor;
         background-color: $titleColor;
         text-align: center;
-        padding: 10px 0px;
+        padding: 11px 0px;
         font-weight: 500;
 
         &:hover {
@@ -574,6 +577,16 @@
   .smr_lb3srthelook_prodinfo_inner {
     font-family: $primaryFontFamilyMedium;
   }
+  // .grid-weight-container{
+  //   display: grid;
+  //   grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  //   gap: 10px;
+  //   div{
+  //     display: flex;
+  //     align-items: center;
+  //     flex-direction: row;
+  //   }
+  // }
 
   .smr1_lb3ctlImg_containe {
     width: 1115px;

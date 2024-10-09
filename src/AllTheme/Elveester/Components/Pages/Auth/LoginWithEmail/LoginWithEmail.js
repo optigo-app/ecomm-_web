@@ -176,13 +176,13 @@ export default function LoginWithEmail() {
                                 }}
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                            <Button className='elv_cancel_le_btn' onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <button className='submitBtnForgot btn-bg-elvee' onClick={handleSubmit}>Login</button>
 
                             <button type='submit' className='submitBtnForgot' onClick={handleNavigation}>Login With a Code instead on email</button>
                             <p style={{ textAlign: 'center', marginTop: '1rem' }}>Go passwordless! we'll send you an email.</p>
 
-                            <p style={{ color: 'blue', cursor: 'pointer', marginBottom: '40px' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                            <p style={{ color: 'blue', cursor: 'pointer', marginBottom: '12px' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                            <button className='submitBtnForgot ' onClick={() => navigation('/LoginOption')}>CANCEL</button>
                         </div>
                     </div>
                 </div>

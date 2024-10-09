@@ -1,6 +1,7 @@
 .smling-forgot-main {
     margin-inline: 6%;
     background-color: white;
+    padding-bottom: 8rem;
 }
 
 .labGrowForgot {
@@ -37,7 +38,7 @@
 
 .submitBtnForgot {
     height: 40px;
-    width: 28rem;
+    width: 27rem;
     border: 1px solid black;
     margin-top: 10px;
     font-size: 14px;
