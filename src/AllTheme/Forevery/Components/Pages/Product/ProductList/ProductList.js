@@ -24,13 +24,14 @@ import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
-import { for_CartCount, for_WishCount } from "../../../Recoil/atom";
-import { useSetRecoilState } from "recoil";
+import { for_CartCount, for_MetalColor_Image, for_WishCount } from "../../../Recoil/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { CheckBox } from "@mui/icons-material";
 import Pako from "pako";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import ShippingDrp from "../../ReusableComponent/ShippingDrp/ShippingDrp";
+import ScrollTop from "../../ReusableComponent/ScrollTop/ScrollTop";
 
 
 const ProductList = () => {
@@ -45,6 +46,7 @@ const ProductList = () => {
   const [storeInit, setStoreInit] = useState({});
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
+  const mtColorLocal = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
   let cookie = Cookies.get("visiterId");
   const videoRef = useRef(null);
 
@@ -289,6 +291,10 @@ const ProductList = () => {
     },
   ]
 
+
+  // const getGoldName = mtColorLocal?.find((ele) => ele)
+  // const getWhiteName = 
+  // const getRoseName = 
 
   const metalColorType = [
     {
@@ -635,7 +641,8 @@ const ProductList = () => {
     if (location?.key) {
       setLocationKey(location?.key);
     }
-  }, [location?.key ,location ,location.pathname ]);
+    setCurrPage(1)
+  }, [location?.key,]);
 
   useEffect(() => {
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
@@ -1381,6 +1388,7 @@ const ProductList = () => {
                       videoRef={videoRef}
                       selectedMetalId={selectedMetalId}
                       metalType={metalType}
+                      location={location}
                     />
                   )
                 })
@@ -1410,7 +1418,9 @@ const ProductList = () => {
           </div>
         </div >
       </div >
-
+      <div>
+        <ScrollTop />
+      </div>
     </>
   );
 };
@@ -1534,12 +1544,26 @@ const CollectionPriceRange = forwardRef(({
             size='small'
             step={1}
             sx={{
-              '& .MuiSlider-thumb': {
-                width: 15,
-                height: 15,
-                backgroundColor: '#fff',
-                border: '1px solid #000',
-              }
+              "& .MuiSlider-thumb": {
+                width: 17,
+                height: 17,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 5, // Adjust height of the rail
+                bgcolor: "black",
+                border: " none",
+              },
+              "& .MuiSlider-track": {
+                height: 5, // Adjust height of the track
+                padding: "0 5px",
+                bgcolor: "black",
+                border: " none",
+              },
+              "& .MuiSlider-markLabel": {
+                fontSize: "12px !important",
+              },
             }}
           />
           <div className='for_collection_slider_input'>
@@ -1589,12 +1613,26 @@ const CollectionCaratRange = forwardRef(({
             size='small'
             step={0.01}
             sx={{
-              '& .MuiSlider-thumb': {
-                width: 15,
-                height: 15,
-                backgroundColor: '#fff',
-                border: '1px solid #000',
-              }
+              "& .MuiSlider-thumb": {
+                width: 17,
+                height: 17,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 5, // Adjust height of the rail
+                bgcolor: "black",
+                border: " none",
+              },
+              "& .MuiSlider-track": {
+                height: 5, // Adjust height of the track
+                padding: "0 5px",
+                bgcolor: "black",
+                border: " none",
+              },
+              "& .MuiSlider-markLabel": {
+                fontSize: "12px !important",
+              },
             }}
           />
           <div className='for_collection_slider_input'>
@@ -1630,10 +1668,28 @@ const Product_Card = ({
   yellowRollImage,
   whiteRollImage,
   roseRollImage,
+  location,
 }) => {
 
   const [isHover, setIsHover] = useState(false);
+  const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
+  const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
+  const activeColorCode = imageColor || getSessImgColor;
+
+  useEffect(() => {
+    if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) && (location?.search?.slice(1).split("/")?.[0].charAt(0) === 'M' || location?.search?.slice(1).split("/")?.[0].charAt(0) === "S")) {
+      setImageColor("");
+      sessionStorage.removeItem("imgColorCode");
+    }
+  }, [location?.search])
+
+  useEffect(() => {
+    if (selectedMetalColor !== null) {
+      setImageColor(selectedMetalColor);
+      sessionStorage.setItem("imgColorCode", JSON.stringify(selectedMetalColor));
+    }
+  }, [selectedMetalColor])
 
   const getGoldType = metalType.filter((item) => item?.Metalid === selectedMetalId)?.[0]?.metaltype.toUpperCase()?.split(' ')[1]?.split('K')[0];
 

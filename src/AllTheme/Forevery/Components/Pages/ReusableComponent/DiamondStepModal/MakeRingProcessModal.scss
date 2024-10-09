@@ -3,6 +3,7 @@
 .mr_MRMainDrawer {
     .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
         max-width: 800px !important;
+        margin-inline: 2%;
     }
 
     .mr_modal-content {
@@ -85,7 +86,7 @@
                 }
 
                 .css-ahj2mt-MuiTypography-root {
-                    font-size: $fontSize1 !important;
+                    font-size: $fontSize1;
                     color: #b0b0b0 !important;
                     letter-spacing: 1.5px !important;
                     text-transform: uppercase !important;
@@ -108,10 +109,10 @@
     @media (max-width: 500px) {
         .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
             max-width: 100% !important;
-            margin: 0px
+            margin-inline: 2%;
         }
 
-        .mr_modal-Title p{
+        .mr_modal-Title p {
             font-size: $fontSize2;
         }
 
@@ -140,6 +141,22 @@
         .mr_ModalBtnGpDiv {
             .mr_continue-button {
                 font-size: $fontSize1 !important;
+            }
+
+        }
+    }
+
+    @media (max-width: 375px) {
+        .mr_ModalBtnGpDiv {
+
+            .mr_dtCheckbox {
+                .mr_checkedIcon {
+                    color: #313131 !important;
+                }
+
+                .css-ahj2mt-MuiTypography-root {
+                    font-size: $fontSize0 !important;
+                }
             }
 
         }

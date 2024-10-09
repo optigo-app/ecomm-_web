@@ -80,3 +80,8 @@ export const for_NavbarItems = atom({
   default: [],
 })
 
+export const for_MetalColor_Image = atom({
+  key: "for_MetalColor_Image",
+  default: "",
+})
+
