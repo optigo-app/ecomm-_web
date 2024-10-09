@@ -157,8 +157,8 @@ const TrendingView1 = () => {
                             <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.png`} alt="modalimages" />
 
                             <div className="smr_lookbookImageRightDT">
-                                <p>SHORESIDE COLLECTION</p>
-                                <h2>FOR LOVE OF SUN & SEA</h2>
+                                {/* <p>SHORESIDE COLLECTION</p>
+                                <h2>FOR LOVE OF SUN & SEA</h2> */}
                                 <button onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</button>
                             </div>
                         </div>
