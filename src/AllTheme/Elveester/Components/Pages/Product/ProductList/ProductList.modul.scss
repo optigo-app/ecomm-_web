@@ -15,6 +15,14 @@
     border: none;
     padding-inline: 0;
     border-radius: 0;
+    .filter_details_mui{
+      height: 28vh;
+      overflow-y: scroll;
+      margin-bottom: 1rem;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+    }
 
     &:not(:last-child) {
       border-radius: 0;

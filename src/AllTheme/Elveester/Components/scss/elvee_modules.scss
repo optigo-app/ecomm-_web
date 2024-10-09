@@ -63,6 +63,9 @@ $backgroundColor: #D4DBE7;
 $dropdownBgColor: #F4F4F4;
 $defaultBgColor: #ffffff;
 
+// elvee button color 
+$btnColor:#10264E;
+
 
 // $backgroundColor:  storeInit?.IsPLW == 1 ? #c4cfdb :#c0bbb1 ;
 $btn1bgColor: #fff;
@@ -126,3 +129,8 @@ $fontSize8: 40px;
 //borderColor
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
+
+.btn-bg-elvee{
+    background-color: $btnColor !important;
+    color: white !important;
+}

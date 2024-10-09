@@ -165,9 +165,9 @@ export default function LoginWithEmailCode() {
                                 helperText={errors.mobileNo}
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                            <button className='submitBtnForgot btn-bg-elvee' onClick={handleSubmit}>Login</button>
                             <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                            <Button className='elv_cancel_lec' style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <button  className='submitBtnForgot ' style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</button>
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,6 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import { Hoq_CartCount } from "../../../Recoil/atom";
 import { useSetRecoilState } from "recoil";
 import noImageFound from "../../../Assets/noImageFound.jpg";
-import { FormControl } from "react-bootstrap";
 import Cookies from "js-cookie";
 
 const CartItem = ({
@@ -112,18 +111,18 @@ const CartItem = ({
   const [pressing, setPressing] = useState(false);
   const pressTimer = useRef(null);
 
-  const handlePress = (action) => {
-    return () => {
-      // if (!multiSelect && selectedItemsLength === 0) return;
-      // else if (multiSelect && selectedItemsLength === 0) return;
-      pressTimer.current = setTimeout(() => {
-        // openHandleUpdateCartModal();
-        // console.log('selectedItemsssssss', selectedItemsLength);
-        alert("Long Pressed Detected...");
-      }, 5000);
-      setPressing(action === "start");
-    };
-  };
+  // const handlePress = (action) => {
+  //   return () => {
+  //     // if (!multiSelect && selectedItemsLength === 0) return;
+  //     // else if (multiSelect && selectedItemsLength === 0) return;
+  //     pressTimer.current = setTimeout(() => {
+  //       // openHandleUpdateCartModal();
+  //       // console.log('selectedItemsssssss', selectedItemsLength);
+  //       alert("Long Pressed Detected...");
+  //     }, 5000);
+  //     setPressing(action === "start");
+  //   };
+  // };
 
   const cancelPress = () => {
     clearTimeout(pressTimer.current);
@@ -172,10 +171,10 @@ const CartItem = ({
         square
         // onDoubleClick={openHandleUpdateCartModal}
 
-        onMouseDown={handlePress("start")}
+        // onMouseDown={handlePress("start")}
         onMouseUp={cancelPress}
         onMouseLeave={cancelPress}
-        onTouchStart={handlePress("start")}
+        // onTouchStart={handlePress("start")}
         onTouchEnd={cancelPress}
       >
         <Box
