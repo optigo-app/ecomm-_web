@@ -547,6 +547,11 @@ const ProductList = () => {
     if (location?.key) {
       setLocationKey(location?.key);
     }
+    setCurrPage(1)
+    window.scrollTo({
+      top:0 ,
+      behavior  :"smooth"
+    })
   }, [location?.key]);
 
   const decodeEntities = (html) => {
@@ -2344,7 +2349,7 @@ const ProductList = () => {
                                       >
                                         {item?.Name}
                                       </AccordionSummary>
-                                      <AccordionDetails>
+                                      <AccordionDetails className="filter_details_mui">
                                         {(JSON.parse(item?.options) ?? []).map(
                                           (opt) => {
                                             return (

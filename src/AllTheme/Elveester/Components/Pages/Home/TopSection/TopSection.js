@@ -40,7 +40,7 @@ const TopSection = () => {
     const handleImageError = () => {
         setImageLoaded(false);
     };
-
+  
     return (
         <div>
             {!islogin ? (

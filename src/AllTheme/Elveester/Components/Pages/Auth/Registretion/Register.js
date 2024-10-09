@@ -366,13 +366,13 @@ export default function Register() {
                 }}
               />
 
-              <button className='submitBtnForgot' onClick={handleSubmit}>CREATE ACCOUNT</button>
+              <button className='submitBtnForgot1 btn-bg-elvee' onClick={handleSubmit}>CREATE ACCOUNT</button>
 
               {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-              <Button className='elv_back_btn_l' onClick={() => navigation('/LoginOption')}>BACK</Button>
+              <button className='submitBtnForgot1 ' onClick={() => navigation('/LoginOption')}>BACK TO LOGIN</button>
             </div>
           </div>
         </div>
