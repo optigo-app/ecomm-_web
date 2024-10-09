@@ -14,7 +14,7 @@ import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeCo
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
 import { ColorStoneQualityColorComboAPI } from '../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI';
 import { MetalColorCombo } from '../../../../../../utils/API/Combo/MetalColorCombo';
-import { Checkbox, FormControl, Rating, Skeleton, useMediaQuery } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControl, Rating, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import { getSizeData } from '../../../../../../utils/API/CartAPI/GetCategorySizeAPI';
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import Services from '../../ReusableComponent/OurServives/OurServices';
@@ -25,8 +25,9 @@ import { IoIosPlayCircle } from 'react-icons/io';
 import { CartAndWishListAPI } from '../../../../../../utils/API/CartAndWishList/CartAndWishListAPI';
 import { RemoveCartAndWishAPI } from '../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { for_CartCount, for_Loader, for_WishCount, for_customizationSteps, for_customizationSteps1, for_loginState } from '../../../Recoil/atom';
+import { for_CartCount, for_Loader, for_MetalColor_Image, for_WishCount, for_customizationSteps, for_customizationSteps1, for_loginState } from '../../../Recoil/atom';
 import Faq from '../../ReusableComponent/Faq/Faq';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
 import useZoom from '../../../hooks/UseZoom';
@@ -49,9 +50,12 @@ const ProductDetail = () => {
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const [customizeStep1, setCustomizeStep1] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const getImageColor = useRecoilValue(for_MetalColor_Image);
+  const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [CustPath, setCustpath] = useState(false);
+  const [loginData, setLoginData] = useState({});
   const [completeSet, setCompleteSet] = useState(false);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
@@ -122,6 +126,12 @@ const ProductDetail = () => {
   const [PdImageArr, setPdImageArr] = useState([]);
   const [imageSrc, setImageSrc] = useState();
   const [ratingvalue, setratingvalue] = useState(5);
+
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChange = () => {
+    setExpanded(!expanded);
+  };
 
   useEffect(() => {
     setCustpath(location?.pathname.split('/')[3])
@@ -625,11 +635,29 @@ const ProductDetail = () => {
 
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
     let mcArr;
+    let mcArr1;
 
-    if (mtColorLocal?.length) {
-      mcArr = mtColorLocal?.filter(
-        (ele) => ele?.id == singleProd?.MetalColorid
-      )[0];
+    const activeColorCode = getImageColor || getSessImgColor;
+
+    if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
+      if (activeColorCode === 1) {
+        const getYellowImage = mtColorLocal.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+        mcArr1 = getYellowImage;
+      }
+      if (activeColorCode === 2) {
+        const getWhiteImage = mtColorLocal.find((ele) => ele?.colorcode === 'White')?.colorcode;
+        mcArr1 = getWhiteImage;
+      }
+      if (activeColorCode === 3) {
+        const getRoseImage = mtColorLocal.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+        mcArr1 = getRoseImage;
+      }
+    } else {
+      if (mtColorLocal?.length) {
+        mcArr = mtColorLocal?.filter(
+          (ele) => ele?.id == singleProd?.MetalColorid
+        )[0];
+      }
     }
 
     if (singleProd?.ColorImageCount > 0) {
@@ -640,7 +668,7 @@ const ProductDetail = () => {
           "_" +
           i +
           "_" +
-          mcArr?.colorcode +
+          (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null ? mcArr1 : mcArr?.colorcode) +
           "." +
           singleProd?.ImageExtension;
 
@@ -829,17 +857,51 @@ const ProductDetail = () => {
 
   };
 
+  const handleMetalWiseColorImgWithFlag = async (e) => {
+
+    let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
+    let mcArr;
+
+    if (mtColorLocal?.length) {
+      mcArr =
+        mtColorLocal?.filter(
+          (ele) => ele?.colorcode == e.target.value
+        )[0]
+    }
+
+    setMetalColor(e.target.value)
+
+  }
+
   useEffect(() => {
     if (metalTypeCombo.length) {
       const mtType = metalTypeCombo.find(ele => ele.Metalid === singleProd?.MetalPurityid)?.metaltype;
       setMetaltype(mtType);
     }
+
+    const activeColorCode = getImageColor || getSessImgColor;
+
     if (metalColorCombo.length) {
-      const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
-      setMetalColor(getCurrentMetalColor);
+      if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
+        if (activeColorCode === 1) {
+          const getYellowImage = mtColorLocal.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+          setMetalColor(getYellowImage)
+        }
+        if (activeColorCode === 2) {
+          const getWhiteImage = mtColorLocal.find((ele) => ele?.colorcode === 'White')?.colorcode;
+          setMetalColor(getWhiteImage)
+        }
+        if (activeColorCode === 3) {
+          const getRoseImage = mtColorLocal.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+          setMetalColor(getRoseImage)
+        }
+      }
+      else {
+        const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
+        setMetalColor(getCurrentMetalColor);
+      }
     }
   }, [singleProd])
-
 
   useEffect(() => {
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
@@ -852,7 +914,28 @@ const ProductDetail = () => {
         )[0]
     }
 
-    setMetalColor(mcArr?.colorname);
+    const activeColorCode = getImageColor || getSessImgColor;
+
+    if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
+      if (activeColorCode === 1) {
+        const getYellowImage = mtColorLocal.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+        setMetalColor(getYellowImage)
+      }
+      if (activeColorCode === 2) {
+        const getWhiteImage = mtColorLocal.find((ele) => ele?.colorcode === 'White')?.colorcode;
+        setMetalColor(getWhiteImage)
+      }
+      if (activeColorCode === 3) {
+        const getRoseImage = mtColorLocal.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+        setMetalColor(getRoseImage)
+      }
+    }
+    else {
+      const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
+      setMetalColor(getCurrentMetalColor);
+    }
+
+    // setMetalColor(mcArr?.colorname);
 
   }, [singleProd])
 
@@ -1053,6 +1136,7 @@ const ProductDetail = () => {
 
     const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData)
+    setLoginData(loginData)
 
     let mtid = loginUserDetail?.MetalId ?? data?.MetalId;
     setSelectedMetalId(mtid);
@@ -1618,17 +1702,17 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="for_ProductDet_prodWeights_div">
-                  {storeInit?.IsProductWebCustomization == 1 &&
-                    metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
-                      <>
+                  {storeInit?.IsProductWebCustomization == 1 && (
+                    <>
+                      {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1 && (
                         <div className="for_prodWeights_metalType_div">
                           <div className="for_prodWeights_metalType_title">
                             Metal:
                           </div>
                           {singleProd?.IsMrpBase == 1 ?
                             <span className="for_prodWeights_weights_drp">
-                              {/* {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype} */}
-                              {singleProd?.MetalTypePurity}
+                              {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                              {/* {singleProd?.MetalTypePurity} */}
                             </span>
                             :
                             <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
@@ -1638,7 +1722,7 @@ const ProductDetail = () => {
                                 onChange={(e) => handleCustomChange(e, 'mt')}
                               >
                                 {metalTypeCombo.map((ele) => (
-                                  <option key={ele?.Metalid} value={ele?.metaltype} onChange={() => selectedMetalId(ele?.Metalid)}>
+                                  <option key={ele?.Metalid} value={ele?.metaltype}>
                                     {ele?.metaltype}
                                   </option>
                                 ))}
@@ -1646,117 +1730,288 @@ const ProductDetail = () => {
                             </FormControl>
                           }
                         </div>
-                        {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-                          <div className="for_prodWeights_metalType_div">
-                            <div className="for_prodWeights_metalType_title">
-                              metal color
-                            </div>
-                            {singleProd?.IsMrpBase == 1 ?
+                      )}
+                      {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
+                        <div className="for_prodWeights_metalType_div">
+                          <div className="for_prodWeights_metalType_title">
+                            metal color
+                          </div>
+                          {singleProd?.IsMrpBase == 1 ?
+                            <span className="for_prodWeights_weights_drp">
+                              {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                            </span>
+                            :
+                            <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              <select
+                                className="for_prodWeights_weights_drp"
+                                value={metalColor}
+                                onChange={(e) =>
+                                  storeInit?.IsColorWiseImages === 1 ?
+                                    handleMetalWiseColorImg(e) :
+                                    handleMetalWiseColorImgWithFlag(e)
+                                }
+                              >
+                                {metalColorCombo?.map((ele) => (
+                                  <option key={ele?.id} value={ele?.colorcode}>
+                                    {ele?.metalcolorname}
+                                  </option>
+                                ))}
+                              </select>
+                            </FormControl>
+                          }
+                        </div>
+                      )}
+                      {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
+                        <div className="for_prodWeights_metalType_div">
+                          <div className="for_prodWeights_metalType_title">
+                            Diamond Quality
+                          </div>
+                          {
+                            singleProd?.IsMrpBase == 1 ? (
                               <span className="for_prodWeights_weights_drp">
-                                {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
+                                {singleProd?.DiaQuaCol}
                               </span>
+                            )
                               :
                               <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                                 <select
                                   className="for_prodWeights_weights_drp"
-                                  value={metalColor}
-                                  onChange={(e) => handleMetalWiseColorImg(e)}
+                                  value={selectDiaQc}
+                                  onChange={(e) => handleCustomChange(e, 'dt')}
                                 >
-                                  {metalColorCombo?.map((ele) => (
-                                    <option key={ele?.id} value={ele?.metalcolorname}>
-                                      {ele?.metalcolorname}
+                                  {diaQcCombo.map((ele) => (
+                                    <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                      {`${ele?.Quality}#${ele?.color}`}
                                     </option>
                                   ))}
                                 </select>
                               </FormControl>
-                            }
+                          }
+                        </div>
+                      ) : null}
+                      {(storeInit?.IsCsCustomization === 1 &&
+                        selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                        <div className="for_prodWeights_metalType_div">
+                          <div className="for_prodWeights_metalType_title">
+                            Color stone quality
                           </div>
-                        )}
-                        {(storeInit?.IsDiamondCustomization === 1 && diaQcCombo?.length > 0 && diaList?.length) ? (
-                          <div className="for_prodWeights_metalType_div">
-                            <div className="for_prodWeights_metalType_title">
-                              Diamond Quality
-                            </div>
-                            {
-                              singleProd?.IsMrpBase == 1 ? (
-                                <span className="for_prodWeights_weights_drp">
-                                  {singleProd?.DiaQuaCol}
-                                </span>
-                              )
-                                :
-                                <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
-                                  <select
-                                    className="for_prodWeights_weights_drp"
-                                    value={selectDiaQc}
-                                    onChange={(e) => handleCustomChange(e, 'dt')}
-                                  >
-                                    {diaQcCombo.map((ele) => (
-                                      <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
-                                        {`${ele?.Quality}#${ele?.color}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </FormControl>
-                            }
-                          </div>
-                        ) : null}
-                        {(storeInit?.IsCsCustomization === 1 &&
-                          selectCsQC?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
-                          <div className="for_prodWeights_metalType_div">
-                            <div className="for_prodWeights_metalType_title">
-                              Color stone quality
-                            </div>
-                            {
-                              singleProd?.IsMrpBase == 1 ? (
-                                <span className="menuitemSelectoreMain">
-                                  {singleProd?.CsQuaCol}
-                                </span>
-                              ) : (
-                                <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
-                                  <select
-                                    className="for_prodWeights_weights_drp"
-                                    value={selectCsQC}
-                                    onChange={(e) => handleCustomChange(e, 'cs')}
-                                  >
-                                    {csQcCombo.map((ele) => (
-                                      <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`} onChange={() => setSelectedCsId(`${ele?.QualityId},${ele?.ColorId}`)}>
-                                        {`${ele?.Quality}#${ele?.color}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </FormControl>
-                              )
-                            }
-                          </div>
-                        ) : null}
-                        {SizeSorting(SizeCombo?.rd)?.length > 0 && (
-                          <div className="for_prodWeights_metalType_div">
-                            <div className="for_prodWeights_metalType_title">
-                              Size
-                            </div>
-                            {singleProd?.IsMrpBase == 1 ?
-                              <span className="for_prodWeights_weights_drp">
-                                {singleProd?.DefaultSize}
+                          {
+                            singleProd?.IsMrpBase == 1 ? (
+                              <span className="menuitemSelectoreMain">
+                                {singleProd?.CsQuaCol}
                               </span>
-                              :
+                            ) : (
                               <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                                 <select
                                   className="for_prodWeights_weights_drp"
-                                  value={sizeData}
-                                  onChange={(e) => handleCustomChange(e, 'size')}
+                                  value={selectCsQC}
+                                  onChange={(e) => handleCustomChange(e, 'cs')}
                                 >
-                                  {SizeSorting(SizeCombo?.rd)?.map((ele) => (
-                                    <option key={ele?.id} value={ele?.sizename}>
-                                      {ele?.sizename}
+                                  {csQcCombo.map((ele) => (
+                                    <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                                      {`${ele?.Quality}#${ele?.color}`}
                                     </option>
                                   ))}
                                 </select>
                               </FormControl>
-                            }
+                            )
+                          }
+                        </div>
+                      ) : null}
+                      {SizeSorting(SizeCombo?.rd)?.length > 0 && (
+                        <div className="for_prodWeights_metalType_div">
+                          <div className="for_prodWeights_metalType_title">
+                            Size
                           </div>
-                        )}
-                      </>
-                    )}
+                          {singleProd?.IsMrpBase == 1 ?
+                            <span className="for_prodWeights_weights_drp">
+                              {singleProd?.DefaultSize}
+                            </span>
+                            :
+                            <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              <select
+                                className="for_prodWeights_weights_drp"
+                                value={sizeData}
+                                onChange={(e) => handleCustomChange(e, 'size')}
+                              >
+                                {/* {SizeSorting(SizeCombo?.rd)?.map((ele) => (
+                                      <option key={ele?.id} value={ele?.sizename}>
+                                        {ele?.sizename}
+                                      </option>
+                                    ))} */}
+                                {SizeCombo?.rd?.map((ele) => (
+                                  <option key={ele?.id} value={ele?.sizename}>
+                                    {ele?.sizename}
+                                  </option>
+                                ))}
+                              </select>
+                            </FormControl>
+                          }
+                        </div>
+                      )}
+                      {(storeInit?.IsPriceShow == 1 && storeInit?.IsPriceBreakUp == 1) && (singleProd ?? singleProd1)?.IsMrpBase != 1 && (
+                        <>
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              // borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before":
+                              {
+                                background: "none",
+                              },
+                              width: '95.5%'
+                            }}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7d7f85 !important",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                            // className="filtercategoryLable"
+
+                            >
+                              <Typography className='for_price_break'>Price Breakup</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                              }}
+                            >
+
+                              {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="for_Price_breakup_label" sx={{ fontFamily: 'Nunito' }}>Metal</Typography>
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>
+                                    {
+                                      <span className="for_currencyFont" sx={{ fontFamily: 'Nunito' }}>
+                                        {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }
+                                  </Typography>
+                                  &nbsp;
+                                  <Typography sx={{ fontFamily: 'Nunito' }} className="for_PriceBreakup_Price">{formatter((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="for_Price_breakup_label" sx={{ fontFamily: 'Nunito' }}>Diamond </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="for_currencyFont" sx={{ fontFamily: 'Nunito' }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="for_PriceBreakup_Price" sx={{ fontFamily: 'Nunito' }}>{formatter((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="for_Price_breakup_label" sx={{ fontFamily: 'Nunito' }}>Stone </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="for_currencyFont" sx={{ fontFamily: 'Nunito' }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="for_PriceBreakup_Price" sx={{ fontFamily: 'Nunito' }}>{formatter((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="for_Price_breakup_label" sx={{ fontFamily: 'Nunito' }}>MISC </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span className="for_currencyFont" sx={{ fontFamily: 'Nunito' }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="for_PriceBreakup_Price" sx={{ fontFamily: 'Nunito' }}>{formatter((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2)) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography className="for_Price_breakup_label" sx={{ fontFamily: 'Nunito' }}>Labour </Typography>
+
+                                <span style={{ display: 'flex' }}>
+                                  <Typography>{
+                                    <span style={{ fontFamily: 'sans-serif' }}>
+                                      {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                    </span>
+                                  }</Typography>
+                                  &nbsp;
+                                  <Typography className="for_PriceBreakup_Price" sx={{ fontFamily: 'Nunito' }}>{formatter((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                </span>
+                              </div> : null}
+
+                              {
+                                (
+
+                                  (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                  (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                  (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                  (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                  (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                  (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                ) !== 0 ?
+
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography className="for_Price_breakup_label" sx={{ fontFamily: 'Nunito' }}>Other </Typography>
+
+                                    <span style={{ display: 'flex' }}>
+                                      <Typography>{
+                                        <span className="for_currencyFont" sx={{ fontFamily: 'Nunito' }}>
+                                          {loginData?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }</Typography>
+                                      &nbsp;
+                                      <Typography className="for_PriceBreakup_Price" sx={{ fontFamily: 'Nunito' }}>{
+                                        formatter((
+
+                                          (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                          (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                          (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                          (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                          (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                          (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                        )?.toFixed(2))
+                                      }</Typography>
+                                    </span>
+                                  </div>
+                                  :
+                                  null
+                              }
+
+                            </AccordionDetails>
+                          </Accordion>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
                 <div className="for_productDet_price_div">
                   <span className='for_productDet_price'>
@@ -1977,7 +2232,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
               setswap("settings");
             }}
           >
-            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={
+            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={
               ((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[1]?.img1 : StepImages[1]?.img) ||
               StepImages[1]?.img
             } alt="" /> Settings
@@ -2007,7 +2262,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
             setswap("diamond");
           }}>
-            <img src={StepImages[0]?.img} alt="" /> Diamond
+            <img className='for_shapes_img' src={StepImages[0]?.img} alt="" /> Diamond
           </span>
           {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
             <HandleDrp
@@ -2031,7 +2286,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
 
         <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
           <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
               StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
           </span>
           {(getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
@@ -2051,7 +2306,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
               Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
               setswap("diamond");
             }}>
-              <img src={StepImages[0]?.img} alt="" /> Diamond
+              <img className='for_shapes_img' src={StepImages[0]?.img} alt="" /> Diamond
             </span>
             {getdiaData?.[0]?.step1Data?.[0] && (
               <HandleDrp
@@ -2080,7 +2335,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                 setswap("settings");
               }}
             >
-              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[1]?.img1 : StepImages[1]?.img) ||
                 StepImages[2]?.img} alt="" /> Settings
             </span>
             {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -2105,7 +2360,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
 
           <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
             <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                 StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
             </span>
             {(getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
@@ -2131,7 +2386,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[0]?.img} alt="" /> Diamond
+                      <img className='for_shapes_img' src={StepImages[0]?.img} alt="" /> Diamond
                     </span>
                   </div>
                 ) : (
@@ -2143,7 +2398,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[1]?.img} alt="" /> Settings
+                      <img className='for_shapes_img' src={StepImages[1]?.img} alt="" /> Settings
                     </span>
                   </div>
                 )}
@@ -2156,7 +2411,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[0]?.img} alt="" /> Diamond
+                      <img className='for_shapes_img' src={StepImages[0]?.img} alt="" /> Diamond
                     </span>
                   </div>
                 ) : (
@@ -2168,13 +2423,13 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[1]?.img} alt="" /> Settings
+                      <img className='for_shapes_img' src={StepImages[1]?.img} alt="" /> Settings
                     </span>
                   </div>
                 )}
                 <div className="for_step d-3">
                   <span style={StyleCondition} onClick={() => Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.step3?.url ?? getCompleteStep2?.[2]?.url)}`)}>
-                    <img src={StepImages[2]?.img} alt="" /> Rings
+                    <img className='for_shapes_img' src={StepImages[2]?.img} alt="" /> Rings
                   </span>
                 </div>
               </div>
@@ -2195,6 +2450,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   const [isRing, setIsRing] = useState(false);
   const getShape1 = JSON.parse(sessionStorage.getItem('customizeSteps'))
   const getShape2 = JSON.parse(sessionStorage.getItem('customizeSteps2'))
+  const forTabletResp = useMediaQuery('(max-width: 1000px)');
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -2320,7 +2576,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     >
       <img
         className="for_dia_step_eye"
-        src={StepImages[0]?.eyeIcon}
+        src={forTabletResp ? StepImages[0]?.downIcon : StepImages[0]?.eyeIcon}
         alt=""
         style={{ cursor: 'pointer' }}
       />
@@ -2339,7 +2595,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={(data?.stockno ? `${storImagePath()}/images/ProductListing/Diamond/images/r.png` : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+              src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
               alt=""
               style={{ cursor: 'default' }}
             />

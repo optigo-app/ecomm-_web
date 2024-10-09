@@ -12,7 +12,7 @@ export const MetalTypeComboAPI = async (finalID) => {
         const islogin = JSON.parse(sessionStorage.getItem("LoginUser")) ?? false;
 
 
-        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? finalID : loginUserDetail.id ?? 0;
+        const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? finalID : loginUserDetail?.id ?? 0;
         const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? finalID : loginUserDetail?.userid ?? "";
 
         const { FrontEnd_RegNo } = storeInit;

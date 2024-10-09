@@ -4,31 +4,56 @@ import CloseIcon from '@mui/icons-material/Close';
 import './MakeRingProcessModal.scss';
 import { for_MakeMyRingProcessDrawer } from '../../../Recoil/atom';
 import { useRecoilState } from 'recoil';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { useLocation } from 'react-router-dom';
 
 const MakeRingProcessModal = () => {
   const [open, setOpen] = useRecoilState(for_MakeMyRingProcessDrawer);
   const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [settingName, setSettingName] = useState([]);
   const isMobile = useMediaQuery('(max-width:800px)');
+  const location = useLocation();
 
   // JSON data for the modal content
   const ringProcessData = [
     {
       count: 1,
-      image: "https://forevery.one/images_new/complete-ring-popup/lg-ring-mount.webp",
+      image: `${storImagePath()}/images/ProductListing/settingModal/ring-mount.webp`,
       title: "Select Ring Setting",
       description: "Explore our Ring settings and choose the style that vibes with your taste."
     },
     {
       count: 2,
-      image: "https://forevery.one/images_new/complete-ring-popup/lg-ring-diamond.webp",
+      image: `${storImagePath()}/images/ProductListing/settingModal/ring-diamond.webp`,
       title: "Choose a Diamond",
       description: "Choose the diamond shape that perfectly fits your ring setting."
     },
     {
       count: 3,
-      image: "https://forevery.one/images_new/complete-ring-popup/lg-complete-ring.webp",
+      image: `${storImagePath()}/images/ProductListing/settingModal/complete-ring.webp`,
       title: "Here's Your Wish",
       description: "Congratulations! Add the ring to your cart and shop it now."
+    }
+  ];
+
+  const pendantProcessData = [
+    {
+      count: 1,
+      image: `${storImagePath()}/images/ProductListing/settingModal/ring-diamond.webp`,
+      title: "Select Diamond Shape",
+      description: "Choose the diamond shape that perfectly fits your pendant setting."
+    },
+    {
+      count: 2,
+      image: `${storImagePath()}/images/ProductListing/settingModal/pendant-mount.webp`,
+      title: "Select Pendant Setting",
+      description: "Explore our Pendant settings and choose the style that vibes with your taste."
+    },
+    {
+      count: 3,
+      image: `${storImagePath()}/images/ProductListing/settingModal/complete-pendant.webp`,
+      title: "Here's Dream Pendant",
+      description: "Congratulations! Add the pendant to your cart and shop it now."
     }
   ];
 
@@ -38,6 +63,15 @@ const MakeRingProcessModal = () => {
       setDontShowAgain(showModal);
     }
   }, []);
+
+  useEffect(() => {
+    const getSettingName = location?.pathname?.split('/')[3];
+    if (getSettingName === 'Ring') {
+      setSettingName(ringProcessData);
+    } else {
+      setSettingName(pendantProcessData);
+    }
+  }, [location])
 
   const handleDontShowAgain = () => {
     setDontShowAgain(!dontShowAgain);
@@ -65,10 +99,10 @@ const MakeRingProcessModal = () => {
           </div>
           <div className="mr_modal-Title">
             <p><span style={{ fontStyle: 'italic', fontWeight: 'bold' }}>Create</span> Your Own</p>
-            <p>Engagement Rings in 3 easy steps</p>
+            <p>{`${settingName === 'Ring' ? "Engagement Rings" : "Pendant"} in 3 easy steps`} </p>
           </div>
           <Grid container spacing={isMobile ? 2 : 11} className="mr_modal-steps">
-            {ringProcessData.map((step) => (
+            {settingName.map((step) => (
               <Grid item xs={4} sm={4} md={4} key={step.count}>
                 <div className="mr_step">
                   <p className='mr_count'>{step.count}</p>
