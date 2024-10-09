@@ -919,7 +919,7 @@ const Header = () => {
                 </li>
               )}
 
-              {/* <li
+              <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -927,7 +927,7 @@ const Header = () => {
                 <a href="/servicePolicy" className="smr_A_link">
                   SERVICE POLICY
                 </a>
-              </li> */}
+              </li>
               {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                 (
                   htmlContent?.rd[0]?.ExtraMenu == 1 &&
@@ -1254,7 +1254,7 @@ const Header = () => {
                   </li>
                 )}
 
-                {/* <li
+                <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -1262,7 +1262,7 @@ const Header = () => {
                   <a href="/servicePolicy" className="smr_A_linkFixed">
                     SERVICE POLICY
                   </a>
-                </li> */}
+                </li>
 
                 {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                   (

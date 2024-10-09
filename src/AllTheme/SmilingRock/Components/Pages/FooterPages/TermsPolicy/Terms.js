@@ -128,3 +128,153 @@ You concur for cancellation of the order without penalty even after you have rec
     ],
   },
 ];
+
+export const MaioraTerms = [
+  {
+    title: `Terms of Service`,
+    bgColor: false,
+    desc: `Welcome to mddesign.com ("the Website"). These Terms of Service ("Terms") govern your access to and use of our website. By accessing or using the Website, you agree to comply with these Terms. If you do not agree to these Terms, please do not use the Website.`,
+    children: [
+      {
+        title: `1. Use of the Website`,
+        htmx  : true ,
+        desc: `
+          • You must be at least 18 years old to use this Website.<br>
+          • You agree to use the Website for lawful purposes only and in compliance with all applicable laws.<br>
+          • You may not use the Website in any way that could damage, disable, or impair the Website.<br>
+          • You are responsible for maintaining the confidentiality of your account and password and for restricting access to your computer.
+        `,
+      },
+      {
+        title: `2. Intellectual Property`,
+        htmx  : true ,
+        desc: `
+          • All content on the Website, including but not limited to text, images, graphics, logos, and software, is the property of Maiora Diamonds, the owner of mddesign.com, or its content suppliers and is protected by intellectual property laws.<br>
+          • Maiora Diamonds holds all intellectual property rights to the content provided on mddesign.com, including the website design, branding, and all associated materials.<br>
+          • You are not permitted to reproduce, distribute, or use any content from the Website without prior written consent from Maiora Diamonds.<br>
+          • If you submit any user-generated content (e.g., comments, feedback), you grant Maiora Diamonds a non-exclusive, royalty-free license to use, reproduce, and display such content.
+        `,
+      },
+      {
+        title: `3. Termination of Use`,
+        htmx  : true ,
+        desc: `
+          • mddesign.com reserves the right to terminate or suspend your access to the Website at its discretion, without notice, if you violate these Terms.<br>
+          • Upon termination, your right to access the Website will immediately cease, and you must discontinue use of any content or services obtained through the Website.
+        `,
+      },
+      {
+        title: `4. Limitation of Liability`,
+        htmx  : true ,
+        desc: `
+          • mddesign.com and Maiora Diamonds are not liable for any direct, indirect, incidental, or consequential damages arising out of your use of the Website.<br>
+          • The Website is provided "as is" without warranties of any kind. mddesign.com makes no representations or warranties regarding the accuracy, reliability, or availability of the Website or its content.
+        `,
+      },
+      {
+        title: `5. Changes to the Terms`,
+        htmx  : true ,
+        desc: `
+          • mddesign.com reserves the right to update or modify these Terms at any time. Changes will be effective immediately upon posting on the Website. Your continued use of the Website after any changes signifies your acceptance of the updated Terms.
+        `,
+      },
+      {
+        title: `6. Governing Law`,
+        htmx  : true ,
+        desc: `
+          • These Terms are governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law principles.
+        `,
+      },
+      {
+        title: `7. Contact Information`,
+        htmx  : true ,
+        desc: `
+          If you have any questions about these Terms, please contact us at:<br>
+          Email: <a href="mailto:info@maioradiamonds.com.au">info@maioradiamonds.com.au</a>
+        `,
+      },
+    ],
+  },
+  {
+    title: `Privacy Policy`,
+    bgColor: false,
+    desc: `At mddesign.com, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect information that you provide when using our Website.`,
+    children: [
+      {
+        title: `1. Information We Collect`,
+        htmx  :true ,
+        desc: `
+          We may collect the following types of information when you use our Website:<br>
+          • Personal Information: This includes your name, email address, phone number, and any other information you provide when contacting us, subscribing to newsletters, or creating an account.<br>
+          • Non-Personal Information: This includes browser type, IP address, device type, and other technical data collected through cookies or similar tracking technologies.
+        `,
+      },
+      {
+        title: `2. How We Use Your Information`,
+        htmx  :true ,
+        desc: `
+          We may use the information we collect for the following purposes:<br>
+          • To provide, operate, and improve our Website and services.<br>
+          • To communicate with you, respond to inquiries, and send updates.<br>
+          • To analyze usage patterns and improve the user experience.<br>
+          • To comply with legal obligations.
+        `,
+      },
+      {
+        title: `3. Sharing Your Information`,
+        htmx  :true ,
+        desc: `
+          • We do not sell or rent your personal information to third parties.<br>
+          • We may share your information with service providers who assist us in operating our Website (e.g., web hosting, analytics) but only to the extent necessary for these services.<br>
+          • We may disclose your information if required by law or to protect the rights, property, or safety of mddesign.com or Maiora Diamonds.
+        `,
+      },
+      {
+        title: `4. Cookies and Tracking Technologies`,
+        htmx  :true ,
+        desc: `
+          • Our Website uses cookies to enhance your browsing experience and analyze site traffic. Cookies are small files that are stored on your device. You can control cookie settings through your browser.<br>
+          • We may also use third-party services such as Google Analytics to monitor and analyze web traffic.
+        `,
+      },
+      {
+        title: `5. Security`,
+        htmx  :true ,
+        desc: `
+          We implement appropriate security measures to protect your personal information from unauthorized access, disclosure, or misuse. However, no data transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+        `,
+      },
+      {
+        title: `6. Data Retention`,
+        htmx  :false ,
+        desc: `
+          We retain your personal data for as long as necessary to fulfill the purposes outlined in this Privacy Policy unless a longer retention period is required by law.
+        `,
+      },
+      {
+        title: `7. Your Rights`,
+        htmx  :true ,
+        desc: `
+          • You have the right to access, update, or delete your personal information.<br>
+          • You can opt out of receiving marketing communications from us by following the unsubscribe instructions in emails or contacting us directly.<br>
+          • If you are located in certain jurisdictions (e.g., the European Union), you may have additional rights under data protection laws, such as the right to request data portability or object to processing.
+        `,
+      },
+      {
+        title: `8. Changes to This Privacy Policy`,
+        htmx  :false ,
+        desc: `
+          mddesign.com and Maiora Diamonds may update this Privacy Policy from time to time. We will post the updated policy on this page and update the “Last Updated” date at the top. Your continued use of the Website signifies your acceptance of the updated Privacy Policy.
+        `,
+      },
+      {
+        title: `9. Contact Information`,
+        htmx  :true ,
+        desc: `
+          If you have any questions about this Privacy Policy, please contact us at:<br>
+          Email: <a href="mailto:info@maioradiamonds.com.au">info@maioradiamonds.com.au</a>
+        `,
+      },
+    ],
+  },
+];

@@ -1,3 +1,9 @@
-.smr_Services_mainDiv {
-    background-color: #c0bbb1;
+@import "../../../scss/variable.scss";
+.smr_Services_mainDiv_q {
+    padding-top: 2rem;
+    font-family: 'Arial' !important;
+    .mairo2_terms_title{
+        font-family: $homePageFontFamily !important;
+        font-weight: 600;
+    }
 }

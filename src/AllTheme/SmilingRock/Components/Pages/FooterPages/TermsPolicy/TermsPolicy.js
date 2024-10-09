@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../../Home/Footer/Footer";
-import { TermsData } from "./Terms";
+import { MaioraTerms, TermsData } from "./Terms";
 import "./TermsPolicy.scss";
 
 function TermsPolicy() {
@@ -28,7 +28,9 @@ function TermsPolicy() {
         <div>
           <div className="smiling-ServicePolicyMain">
             <div className="container2">
-              {TermsData?.map(({ bgColor, children, desc, title }, index) => {
+              {/* By Default TermsDATA */}
+              {/* fOR MAIORA MaioraTerms */}
+              {MaioraTerms?.map(({ bgColor, children, desc, title }, index) => {
                 return (
                   <React.Fragment key={index}>
                     <div className="main_container_for">

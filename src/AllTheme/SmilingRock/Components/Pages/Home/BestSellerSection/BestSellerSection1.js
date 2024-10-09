@@ -255,8 +255,9 @@ const ProductGrid = () => {
                                 {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
                                 <img src={`${storImagePath()}/images/HomePage/BestSeller/promoSetMainBanner.png`} alt="modalimages" />
                                 <div className="smr_lookbookImageRightDT">
-                                    <p>SHORESIDE COLLECTION</p>
-                                    <h2>FOR LOVE OF SUN & SEA</h2>
+                                {/*    not need for maiora  */}
+                                    {/* <p>SHORESIDE COLLECTION</p>
+                                    <h2>FOR LOVE OF SUN & SEA</h2> */}
                                     <button onClick={() => navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</button>
                                 </div>
                             </div>

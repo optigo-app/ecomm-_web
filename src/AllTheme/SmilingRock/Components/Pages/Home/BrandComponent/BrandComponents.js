@@ -19,16 +19,18 @@ const BrandsComponent = () => {
     "logo6.png",
   ];
   const mayrologo = [
+    "logo1.png",
     "logo2.png",
     "logo3.png",
+    "logo4.png",
+    "logo1.png",
     "logo2.png",
     "logo3.png",
+    "logo4.png",
+    "logo1.png",
     "logo2.png",
     "logo3.png",
-    "logo2.png",
-    "logo3.png",
-    "logo2.png",
-    "logo3.png",
+    "logo4.png",
   ];
   const KayralogoElements = kayralogo.map((logo, index) => (
     <img
@@ -58,7 +60,7 @@ const BrandsComponent = () => {
         pauseOnHover={true}
         // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        {KayralogoElements}
+        {MayoralogoElements}
       </Marquee>
     </div>
   );
