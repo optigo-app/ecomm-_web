@@ -509,7 +509,6 @@ const Header2 = () => {
                                 style={{ cursor: "pointer" }}
                                 onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
                             >
-                                {/* IMPACT */}
                                 SERVICE POLICY
                             </li>
 

@@ -22,16 +22,26 @@
     margin: 50px 0px 15px 0px !important;
   }
 
-  .galeryComponents {
-    color: rgba(29, 50, 88, 0.8) !important;
+  .elv_gallery_div {
     text-align: center;
-    font-size: 28px;
-    font-weight: 600;
-    text-transform: capitalize;
-    line-height: 2px;
     margin: 65px 0px 50px 0px !important;
-    font-family: $fontSansSerif;
+
+    .galeryComponents {
+      color: rgba(29, 50, 88, 0.8) !important;
+      font-size: 28px;
+      font-weight: 600;
+      text-transform: capitalize;
+      line-height: 2px;
+      font-family: $fontSansSerif;
+    }
+
+    .elv_gallery_subtitle {
+      font-size: 14px;
+      text-transform: uppercase;
+      font-family: $fontSansSerif;
+    }
   }
+
 
 
   @media (min-width: 445px) and (max-width: 768px) {}

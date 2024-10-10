@@ -19,6 +19,7 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   for_CartCount,
+  for_NavbarItems,
   for_WishCount,
   for_companyLogo,
   for_companyLogoM,
@@ -29,7 +30,15 @@ import {
 import Cookies from "js-cookie";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
-import { Badge, Dialog, DialogContent, useMediaQuery } from "@mui/material";
+import {
+  Badge,
+  ButtonBase,
+  Dialog,
+  DialogContent,
+  List,
+  ListItem,
+  useMediaQuery,
+} from "@mui/material";
 import Pako from "pako";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Preloader from "../../../../../../dum/Load";
@@ -46,6 +55,15 @@ const styleHref = {
 const commonImage = `${storImagePath()}/Forevery/navCommon-image.png`;
 const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`;
 const BespokeImage = `${storImagePath()}/Forevery/collections/bespoke-header.webp`;
+
+const BespokeBannerImage = `${storImagePath()}/Forevery/bespoke.jpg`;
+console.log(BespokeBannerImage,"hi")
+
+
+
+
+
+// \\evo\My_Share\4Nidhi\website\forevery\bespoke photo.jpg
 const Navbar = () => {
   const [ShowSearchBar, setShowSearchBar] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -60,6 +78,8 @@ const Navbar = () => {
   const [showMenu, setshowMenu] = useState(true);
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
+
   const ToggleNav = () => {
     setOpen(!open);
   };
@@ -96,9 +116,74 @@ const Navbar = () => {
     fetchData();
   }, []);
 
-
   const compnyLogo = useRecoilValue(for_companyLogo);
   const compnyLogoM = useRecoilValue(for_companyLogoM);
+
+  useEffect(() => {
+    let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
+    let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
+    if (storeinit?.IsB2BWebsite === 0) {
+      getMenuApi();
+      return;
+    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
+      getMenuApi();
+      return;
+    } else {
+      return;
+    }
+  }, [islogin]);
+
+  useEffect(() => {
+    const uniqueMenuIds = [...new Set(menuData?.map((item) => item?.menuid))];
+    const uniqueMenuItems = uniqueMenuIds.map((menuid) => {
+      const item = menuData?.find((data) => data?.menuid === menuid);
+      const param1DataIds = [
+        ...new Set(
+          menuData
+            ?.filter((data) => data?.menuid === menuid)
+            ?.map((item) => item?.param1dataid)
+        ),
+      ];
+
+      const param1Items = param1DataIds.map((param1dataid) => {
+        const param1Item = menuData?.find(
+          (data) =>
+            data?.menuid === menuid && data?.param1dataid === param1dataid
+        );
+        const param2Items = menuData
+          ?.filter(
+            (data) =>
+              data?.menuid === menuid && data?.param1dataid === param1dataid
+          )
+          ?.map((item) => ({
+            param2dataid: item?.param2dataid,
+            param2dataname: item?.param2dataname,
+            param2id: item?.param2id,
+            param2name: item?.param2name,
+          }));
+        return {
+          menuname: param1Item?.menuname,
+          param1dataid: param1Item?.param1dataid,
+          param1dataname: param1Item?.param1dataname,
+          param1id: param1Item?.param1id,
+          param1name: param1Item?.param1name,
+          param2: param2Items,
+        };
+      });
+
+      return {
+        menuid: item?.menuid,
+        menuname: item?.menuname,
+        param0dataid: item?.param0dataid,
+        param0dataname: item?.param0dataname,
+        param0id: item?.param0id,
+        param0name: item?.param0name,
+        param1: param1Items,
+      };
+    });
+    console.log(uniqueMenuItems, "nvabar list");
+    setMenuItems(uniqueMenuItems);
+  }, [menuData]);
 
   const getMenuApi = async () => {
     const loginUserDetail = JSON.parse(
@@ -122,20 +207,6 @@ const Navbar = () => {
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    let storeinit = JSON.parse(sessionStorage?.getItem("storeInit"));
-    let isUserLogin = JSON.parse(sessionStorage?.getItem("LoginUser"));
-    if (storeinit?.IsB2BWebsite === 0) {
-      getMenuApi();
-      return;
-    } else if (storeinit?.IsB2BWebsite === 1 && isUserLogin === true) {
-      getMenuApi();
-      return;
-    } else {
-      return;
-    }
-  }, [islogin]);
 
   useEffect(() => {
     const visiterID = Cookies?.get("visiterId");
@@ -179,9 +250,9 @@ const Navbar = () => {
           c: loginInfo?.cmboCSQCid ?? storeInit?.cmboCSQCid,
           f: {},
         };
-        let encodeObj = btoa(JSON.stringify(obj))
+        let encodeObj = btoa(JSON.stringify(obj));
         Navigate(`/p/${searchText}?S=${encodeObj}`);
-        setSearchText("")
+        setSearchText("");
         setShowSearchBar(!ShowSearchBar);
       }
     }
@@ -189,6 +260,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setshowMenu(false);
+    setOpen(false)
   }, [location]);
 
   const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
@@ -210,7 +282,12 @@ const Navbar = () => {
           onOpen={ToggleNav}
           onLoad={handleLogoLoad}
         />
-        <NavbarCenter Navigate={Navigate} onLoad={handleLogoLoad} compnyLogo={compnyLogo} compnyLogoM={compnyLogoM} />
+        <NavbarCenter
+          Navigate={Navigate}
+          onLoad={handleLogoLoad}
+          compnyLogo={compnyLogo}
+          compnyLogoM={compnyLogoM}
+        />
         <NavbarRight
           Navigate={Navigate}
           ShowSearchBar={ShowSearchBar}
@@ -344,7 +421,10 @@ const NavbarRight = ({
               onKeyDown={searchDataFucn}
             />
           )}
-          <GrSearch size={19} onClick={() => setShowSearchBar(!ShowSearchBar)} />
+          <GrSearch
+            size={19}
+            onClick={() => setShowSearchBar(!ShowSearchBar)}
+          />
         </span>
         {!islogin ? (
           <>
@@ -402,7 +482,6 @@ const NavbarRight = ({
             </div>
           </>
         )}
-
       </div>
       <div className="for_max_1100_menu">
         <span
@@ -445,7 +524,10 @@ const NavbarRight = ({
             badgeContent={wishCountNum}
             color="primary"
           >
-            <FaRegHeart className="fa-for-heart" style={{ marginRight: "5px" }} />
+            <FaRegHeart
+              className="fa-for-heart"
+              style={{ marginRight: "5px" }}
+            />
           </Badge>
         </span>
         <span
@@ -474,7 +556,10 @@ const NavbarRight = ({
             badgeContent={cartCountNum}
             color="primary"
           >
-            <HiOutlineShoppingBag className="fa-for-shop" style={{ marginRight: "5px" }} />
+            <HiOutlineShoppingBag
+              className="fa-for-shop"
+              style={{ marginRight: "5px" }}
+            />
           </Badge>
         </span>
       </div>
@@ -482,7 +567,7 @@ const NavbarRight = ({
   );
 };
 const NavbarCenter = ({ Navigate, onLoad, compnyLogo, compnyLogoM }) => {
-  const isMobile = useMediaQuery('max-width(425px)');
+  const isMobile = useMediaQuery("max-width(425px)");
   return (
     <div className="center">
       <div
@@ -879,6 +964,7 @@ const FirstNavMenu = ({
     Eternity_Rings: "Eternity Rings/sub_category",
     Half_Eternity_Rings: "Half-Eternity Rings/sub_category",
     Stackable_Rings: "Stackable Rings/sub_category",
+    High_End_Exclusive: "High End Exclusive/sub_category",
   };
 
   const menCategories = {
@@ -1143,61 +1229,162 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
 };
 const ThirdNavMenu = ({ data }) => {
   const Navigate = useNavigate();
+  const [menuItems, setMenuItems] = useRecoilState(for_NavbarItems);
+
+  const handelMenu = (param, param1, param2, event) => {
+    if (
+      event?.ctrlKey || // Ctrl key
+      event?.shiftKey || // Shift key
+      event?.metaKey || // Meta key (Command key on macOS)
+      (event?.button && event?.button === 1) // Middle mouse button
+    ) {
+      // Let the default behavior of the <a> tag handle the new tab opening
+      return;
+    } else {
+      event?.preventDefault();
+      let finalData = {
+        menuname: param?.menuname ?? "",
+        FilterKey: param?.key ?? "",
+        FilterVal: param?.value ?? "",
+        FilterKey1: param1?.key ?? "",
+        FilterVal1: param1?.value ?? "",
+        FilterKey2: param2?.key ?? "",
+        FilterVal2: param2?.value ?? "",
+      };
+      sessionStorage.setItem("menuparams", JSON.stringify(finalData));
+
+      const queryParameters1 = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        .filter(Boolean)
+        .join("/");
+
+      const queryParameters = [
+        finalData?.FilterKey && `${finalData.FilterVal}`,
+        finalData?.FilterKey1 && `${finalData.FilterVal1}`,
+        finalData?.FilterKey2 && `${finalData.FilterVal2}`,
+      ]
+        // .filter(Boolean)
+        .join(",");
+
+      const otherparamUrl = Object.entries({
+        b: finalData?.FilterKey,
+        g: finalData?.FilterKey1,
+        c: finalData?.FilterKey2,
+      })
+        .filter(([key, value]) => value !== undefined)
+        .map(([key, value]) => value)
+        .filter(Boolean)
+        .join(",");
+
+      const paginationParam = [
+        `page=${finalData.page ?? 1}`,
+        `size=${finalData.size ?? 50}`,
+      ].join("&");
+
+      // console.log("otherparamsUrl--", otherparamUrl);
+
+      let menuEncoded = `${queryParameters}/${otherparamUrl}`;
+      // const url = `/productlist?V=${queryParameters}/K=${otherparamUrl}`;
+      const url = `/p/${finalData?.menuname}/${queryParameters1}/?M=${btoa(
+        menuEncoded
+      )}`;
+
+      // let d = new Date();
+      // let randomno = Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())
+      Navigate(url);
+    }
+  };
+
   return (
     <>
       <div className="Third_Nav_first_Menu">
-        <div className="first_Section">
-          {CollectionData?.map((val, i) => {
+        <ul className="masonry-layout">
+          {menuItems?.map((menuItem) => {
+            // console.log();
+            const hasValidSubMenu =
+              menuItem?.param1 && menuItem.param1.length > 0;
+            // console.log(menuItem?.param1[0]?.param1name !== "", "123");
             return (
-              <div className="for_collection_card">
-                <img src={val?.img} alt="" />
-                <div className="details_col">
-                  <span className="for_title">{val?.name}</span>
-                  <span className="for_collection_static">Collection</span>
-                  <button
-                    onClick={() => Navigate(val?.link)}
-                    className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-                  >
-                    Shop the Collection
-                  </button>
+              hasValidSubMenu && (
+                <div key={menuItem.menuid} className="main_menu_for">
+                  <div className="menu-title" onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, {}, {}, e)}>
+                    <Link to={`/p/${menuItem?.menuname}/?M=${btoa(
+                      `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                    )}`}>{menuItem.menuname}</Link>
+                  </div>
+                  <ul className="sub-menu-for">
+                    {menuItem?.param1[0]?.param1name !== "" &&
+                      menuItem.param1.map((subMenuItem) => (
+                        <li
+                          key={subMenuItem.param1dataid}
+                          className="sub-menu-item-for"
+                          onClick={(e) =>
+                            handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e
+                            )
+                          }
+                        >
+                          <Link to={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                            }/?M=${btoa(
+                              `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
+                            )}`}>{subMenuItem.param1dataname}</Link>
+                          {/* <ul className="nested-menu">
+                       {subMenuItem.param2.map((subSubMenuItem) => (
+                           <li key={subSubMenuItem.param2dataid} className="nested-menu-item">
+                               {subSubMenuItem.param2dataname}
+                           </li>
+                       ))}
+                   </ul> */}
+                        </li>
+                      ))}
+                  </ul>
                 </div>
-              </div>
+              )
             );
           })}
-        </div>
-        <div className="second_section">
-          <div
-            className="images"
-            style={{ backgroundImage: `url(${BespokeImage})` }}
-          >
-            <div className="for-s-card">
-              <h3>Bespoke Jewlery</h3>
-              <button
-                className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-              // onClick={() =>
-              //   Navigate(
-              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-              //   )
-              // }
-              >
-                Show More
-              </button>
-            </div>
-            <div className="for-s-card">
-              <h3>Bespoke Diamonds</h3>
-              <button
-                className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
-              // onClick={() =>
-              //   Navigate(
-              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-              //   )
-              // }
-              >
-                Show More
-              </button>
+        </ul>
+        <ul className="dummy_mas">
+          <div className="second_section">
+            <div
+              className="images"
+              // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
+            >
+              <img src={BespokeBannerImage} alt="" onClick={() =>
+                  Navigate(
+                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                  )
+                } />
+              {/* <div className="for-s-card">
+                <h3>Bespoke Jewlery</h3>
+                <button
+                  className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
+                >
+                  Show More
+                </button>
+              </div>
+              <div className="for-s-card">
+                <h3>Bespoke Diamonds</h3>
+                <button
+                  className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                // onClick={() =>
+                //   Navigate(
+                //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+                //   )
+                // }
+                >
+                  Show More
+                </button>
+              </div> */}
             </div>
           </div>
-        </div>
+        </ul>
       </div>
     </>
   );
@@ -1414,3 +1601,142 @@ const Modal = ({ open, handleClose, handleRemoveData, index }) => {
     </>
   );
 };
+
+// Backup
+
+const Backup = [
+  //   {
+  //     third  : [`const ThirdNavMenu = ({ data }) => {
+  //   const Navigate = useNavigate();
+  //   return (
+  //     <>
+  //       <div className="Third_Nav_first_Menu">
+  //         <div className="first_Section">
+  //           {CollectionData?.map((val, i) => {
+  //             return (
+  //               <div className="for_collection_card">
+  //                 <img src={val?.img} alt="" />
+  //                 <div className="details_col">
+  //                   <span className="for_title">{val?.name}</span>
+  //                   <span className="for_collection_static">Collection</span>
+  //                   <button
+  //                     onClick={() => Navigate(val?.link)}
+  //                     className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+  //                   >
+  //                     Shop the Collection
+  //                   </button>
+  //                 </div>
+  //               </div>
+  //             );
+  //           })}
+  //         </div>
+  //         <div className="second_section">
+  //           <div
+  //             className="images"
+  //             style={{ backgroundImage: `url(${BespokeImage})` }}
+  //           >
+  //             <div className="for-s-card">
+  //               <h3>Bespoke Jewlery</h3>
+  //               <button
+  //                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+  //               // onClick={() =>
+  //               //   Navigate(
+  //               //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+  //               //   )
+  //               // }
+  //               >
+  //                 Show More
+  //               </button>
+  //             </div>
+  //             <div className="for-s-card">
+  //               <h3>Bespoke Diamonds</h3>
+  //               <button
+  //                 className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+  //               // onClick={() =>
+  //               //   Navigate(
+  //               //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+  //               //   )
+  //               // }
+  //               >
+  //                 Show More
+  //               </button>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };`]
+  // }
+];
+
+{
+  /* <>
+{menuItem?.param1.map((subMenuItem) => (
+  <div key={subMenuItem.param1dataid}>
+    <p>{subMenuItem.param1dataname}</p>
+    <>
+      {subMenuItem.param2.map((subSubMenuItem) => (
+        <p className="forevery_mobile_subMenu">
+          {subSubMenuItem.param2dataname}
+        </p>
+      ))}
+    </>
+  </div>
+))}
+</> */
+}
+{
+  /* <div className="first_Section">
+          {CollectionData?.map((val, i) => {
+            return (
+              <div className="for_collection_card">
+                <img src={val?.img} alt="" />
+                <div className="details_col">
+                  <span className="for_title">{val?.name}</span>
+                  <span className="for_collection_static">Collection</span>
+                  <button
+                    onClick={() => Navigate(val?.link)}
+                    className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+                  >
+                    Shop the Collection
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="second_section">
+          <div
+            className="images"
+            style={{ backgroundImage: `url(${BespokeImage})` }}
+          >
+            <div className="for-s-card">
+              <h3>Bespoke Jewlery</h3>
+              <button
+                className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
+              >
+                Show More
+              </button>
+            </div>
+            <div className="for-s-card">
+              <h3>Bespoke Diamonds</h3>
+              <button
+                className={`${btnstyle?.btn_for_new} for_btn ${btnstyle?.btn_15}`}
+              // onClick={() =>
+              //   Navigate(
+              //     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
+              //   )
+              // }
+              >
+                Show More
+              </button>
+            </div>
+          </div>
+        </div> */
+}

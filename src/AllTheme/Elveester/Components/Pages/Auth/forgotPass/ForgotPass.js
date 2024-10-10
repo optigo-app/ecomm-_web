@@ -210,8 +210,8 @@ export default function ForgotPass() {
                                 }}
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>Change Password</button>
-                            <Button style={{ marginTop: '10px', color: 'gray' ,marginBottom: '13rem'}} onClick={() => navigation('/')}>CANCEL</Button>
+                            <button className='submitBtnForgot btn-bg-elvee' onClick={handleSubmit}>Change Password</button>
+                            <button className='submitBtnForgot ' onClick={() => navigation('/')}>CANCEL</button>
                         </div>
 
                     </div>

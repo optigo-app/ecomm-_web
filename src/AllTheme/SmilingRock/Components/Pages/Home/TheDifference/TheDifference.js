@@ -3,12 +3,13 @@ import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 import { useNavigate } from 'react-router-dom'
 
-const TheDifference = () => {
+const   TheDifference = () => {
     const navigate = useNavigate();
     const [htmlContent, setHtmlContent] = useState('');
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/smrTheDeffrence.html`)
+        // fetch(`${storImagePath()}/html/smrTheDeffrence.html`)
+        fetch(`${storImagePath()}/html/MdJewells.html`)   /*for maiora */
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

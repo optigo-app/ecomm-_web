@@ -22,7 +22,7 @@
         margin-bottom: 20px;
     }
 
-    .submitBtnForgot {
+    .submitBtnForgot1 {
         height: 40px;
         width: 28rem;
         border: 1px solid black;
@@ -34,10 +34,15 @@
         transition: all 0.5s ease;
         // font-family: 'PT Sans', sans-serif;
         cursor: pointer;
-        background-color: white;
+        background-color: transparent;
+      
+    }
+    .btn-bg-elvee{
+        background-color: $btnColor !important;
+        color: white;
     }
 
-    .submitBtnForgot:hover {
+    .submitBtnForgot1:hover {
         background-color: rgba(66, 66, 66, 0.05);
     }
 
@@ -51,6 +56,7 @@
     .el_LoginSubDivMain {
         background-color: white;
         width: 30%;
+        padding-bottom: 3rem;
     }
 
     @media screen and (max-width: 700px) {
@@ -138,7 +144,7 @@
         }
 
 
-        .submitBtnForgot {
+        .submitBtnForgot1 {
             width: 95% !important;
             height: 50px !important;
 
@@ -159,7 +165,7 @@
             width: 95% !important;
         }
 
-        .submitBtnForgot {
+        .submitBtnForgot1 {
             width: 95%;
             height: 40px !important;
             font-size: 12px;

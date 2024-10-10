@@ -115,38 +115,38 @@ const CartItem = ({
 
   return (
     <>
-      <div className="stmpf_cartMain-item" onClick={() => onSelect(item)}
+      <div className="stam3_cartMain-item" onClick={() => onSelect(item)}
         style={{
           // boxShadow: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '0 3px 8px rgba(223, 100, 126, 0.54)'
           boxShadow: "none",
           border: !multiSelect && !isMobileScreen && selectedItem?.id == item?.id && '1px solid #7d7f85'
         }}
       >
-        <div className="stmpf_cart-item">
-          <div className="stmpf_cart-item__image">
+        <div className="stam3_cart-item">
+          <div className="stam3_cart-item__image">
             <img src={imageSrc} alt='Product-image' />
           </div>
-          <div className="stmpf_cart-item__details">
+          <div className="stam3_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}
               {item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&
             <p>SKU: {item?.sku}</p>
           } */}
-            <div className="stmpf_weightsContainer">
+            <div className="stam3_weightsContainer">
               {storeInitData?.IsGrossWeight == 1 &&
-                <div className="stmpf_weightPair">
-                  <span className="stmpf_weightLabel">Gwt:</span>
-                  <span className="stmpf_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
+                <div className="stam3_weightPair">
+                  <span className="stam3_weightLabel">Gwt:</span>
+                  <span className="stam3_weightValue">{(item?.Gwt || 0)?.toFixed(3)}</span>
                 </div>
               }
               {storeInitData?.IsMetalWeight == 1 &&
                 <>
                   {Number(item?.Nwt) !== 0 && (
-                    <div className="stmpf_weightPair">
-                      <span className="stmpf_pipe">|</span>
-                      <span className="stmpf_weightLabel">Nwt:</span>
-                      <span className="stmpf_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
+                    <div className="stam3_weightPair">
+                      <span className="stam3_pipe">|</span>
+                      <span className="stam3_weightLabel">Nwt:</span>
+                      <span className="stam3_weightValue">{(item?.Nwt || 0)?.toFixed(3)}{' '}</span>
                     </div>
                   )}
                 </>
@@ -154,10 +154,10 @@ const CartItem = ({
               {storeInitData?.IsDiamondWeight == 1 &&
                 <>
                   {(item?.Dwt != "0" || item?.Dpcs != "0") &&
-                    <div className="stmpf_weightPair">
-                      <span className="stmpf_pipe">|</span>
-                      <span className="stmpf_weightLabel">Dwt:</span>
-                      <span className="stmpf_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
+                    <div className="stam3_weightPair">
+                      <span className="stam3_pipe">|</span>
+                      <span className="stam3_weightLabel">Dwt:</span>
+                      <span className="stam3_weightValue">{(item?.Dwt || 0)?.toFixed(3)} / {(item?.Dpcs || 0)}</span>
                     </div>
                   }
                 </>
@@ -165,39 +165,39 @@ const CartItem = ({
               {storeInitData?.IsGrossWeight == 1 &&
                 <>
                   {(item?.CSwt != "0" || item?.CSpcs != "0") &&
-                    <div className="stmpf_weightPair">
-                      <span className="stmpf_pipe">|</span>
-                      <span className="stmpf_weightLabel">Cwt:</span>
-                      <span className="stmpf_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
+                    <div className="stam3_weightPair">
+                      <span className="stam3_pipe">|</span>
+                      <span className="stam3_weightLabel">Cwt:</span>
+                      <span className="stam3_weightValue">{(item?.CSwt || 0)?.toFixed(3)} / {(item?.CSpcs || 0)}{' '}</span>
                     </div>
                   }
                 </>
               }
             </div>
-            <div style={{ display: 'flex' }}>
-              <p className='stmpf_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
+            <div style={{ display: 'flex' }} className="stam3_qtyDiv">
+              <p className='stam3_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
               {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
-                <p className='stmpf_ringSize'>Size: {item?.Size}</p>
+                <p className='stam3_ringSize'>Size: {item?.Size}</p>
               }
             </div>
-            {/* <span className="stmpf_change-size">CHANGE SIZE</span> */}
+            {/* <span className="stam3_change-size">CHANGE SIZE</span> */}
           </div>
           {storeInitData?.IsPriceShow == 1 &&
-            <div className="stmpf_cart-item__price">
+            <div className="stam3_cart-item__price">
               <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
-              <span className="stmpf_price-excl-vat">(Excl. VAT)</span>
+              <span className="stam3_price-excl-vat">(Excl. VAT)</span>
             </div>
           }
           <>
             {storeInitData?.IsPriceShow == 1 &&
-              <div className="stmpf_cart-item__total-price">
+              <div className="stam3_cart-item__total-price">
                 <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
-                <span className="stmpf_price-excl-vat">(Excl. VAT)</span>
+                <span className="stam3_price-excl-vat">(Excl. VAT)</span>
               </div>
             }
           </>
-          <div className="stmpf_cart-item__remove">
-            <button className="stmpf_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+          <div className="stam3_cart-item__remove">
+            <button className="stam3_remove-button" onClick={() => handleRemoveItem(item)}>×</button>
           </div>
         </div>
       </div>

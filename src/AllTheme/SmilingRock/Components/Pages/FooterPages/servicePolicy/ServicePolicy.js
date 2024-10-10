@@ -12,7 +12,9 @@ const ServicePolicy = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/servicePolice.html`)
+    // fetch(`${storImagePath()}/html/servicePolice.html`)   /*  for kayra */
+    fetch(`${storImagePath()}/html/MaioraservicePolice.html`)   /* for mairo */
+    
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -24,8 +26,8 @@ const ServicePolicy = () => {
   }, []);
 
   return (
-    <div className='smr_Services_mainDiv'>
-      <div className='daimondsEveryAbout'>
+    <div className='smr_Services_mainDiv_q'>
+      <div className='daimondsEveryAbout_a'>
         <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>

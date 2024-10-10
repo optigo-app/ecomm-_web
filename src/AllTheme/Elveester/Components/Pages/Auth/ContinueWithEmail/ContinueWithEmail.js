@@ -118,8 +118,8 @@ export default function ContinueWithEmail() {
                             helperText={emailError}
                         />
 
-                        <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button className='elv_cancel_mb_btn' onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <button type='submit' className='submitBtnForgot btn-bg-elvee' onClick={handleSubmit}>SUBMIT</button>
+                        <button className='submitBtnForgot ' onClick={() => navigation(cancelRedireactUrl)}>CANCEL</button>
                     </div>
                 </div>
             </div>

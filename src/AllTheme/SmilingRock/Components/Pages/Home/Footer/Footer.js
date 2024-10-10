@@ -28,14 +28,14 @@ const Footer = ({ fromPage }) => {
   }, []);
 
   useEffect(() => {
-    let localData = JSON?.parse(sessionStorage.getItem("storeInit"));
+    let localData = JSON?.parse(sessionStorage?.getItem("storeInit"));
     if (localData) {
       setLocalData(localData);
     }
 
-    const companyInfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData")) ?? "";
-    if (companyInfoData) {
-      const parsedSocialMediaUrlData = JSON.parse(companyInfoData.SocialLinkObj) ?? [];
+    const companyInfoData = JSON?.parse(sessionStorage?.getItem("CompanyInfoData")) ?? "";
+    if (companyInfoData?.SocialLinkObj) {
+      const parsedSocialMediaUrlData = JSON?.parse(companyInfoData?.SocialLinkObj) ?? [];
       setSocialMediaData(parsedSocialMediaUrlData);
     }
   }, []);
@@ -75,14 +75,7 @@ const Footer = ({ fromPage }) => {
                     )}
                 </div>
                 <div className='footerMoreText'>
-                  <p style={{
-                    color: '#7d7f85',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    marginInline: '15px'
-                  }}>© {new Date()?.getFullYear()}, {localData?.companyname}</p>
-                  {/* // }}>© 2024, optigoapps</p> */}
-
+                  <Copyright localData={localData}/>
                   <p style={{
                     color: '#7d7f85',
                     fontSize: '12px',
@@ -140,3 +133,14 @@ const Footer = ({ fromPage }) => {
 }
 
 export default Footer;
+
+
+const Copyright = ({localData , title})=>{
+  return <p style={{
+    color: '#7d7f85',
+    fontSize: '12px',
+    fontWeight: 500,
+    marginInline: '15px'
+  }}>© { new Date()?.getFullYear()}, {title || localData?.companyname}</p>
+  {/* // }}>© 2024, optigoapps</p> */}
+}

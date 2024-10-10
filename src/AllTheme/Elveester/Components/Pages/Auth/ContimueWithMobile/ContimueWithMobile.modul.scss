@@ -12,6 +12,7 @@
     .smling-forgot-main {
         background-color: white;
         width: 30%;
+        padding-bottom: 4rem;
     }
 
     .smling-forgot-main-Color {
@@ -54,6 +55,10 @@
         font-family: $fontSansSerif !important;
         cursor: pointer;
         background-color: white;
+    }
+    .btn-bg-elvee{
+        background-color: $btnColor !important;
+        color: white;
     }
 
     .submitBtnForgot:hover {

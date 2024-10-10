@@ -112,10 +112,10 @@ export default function ContimueWithMobile() {
                                 helperText={errors.mobileNo}
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>
+                            <button className='submitBtnForgot btn-bg-elvee' onClick={handleSubmit}>
                                 SUBMIT
                             </button>
-                            <Button className='elv_cancel_mb_btn' onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <button className='submitBtnForgot' onClick={() => navigation('/LoginOption')}>CANCEL</button>
                         </div>
                     </div>
                 </div>

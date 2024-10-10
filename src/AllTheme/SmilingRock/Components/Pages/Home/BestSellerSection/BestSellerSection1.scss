@@ -100,8 +100,10 @@
 
             .smr_lookbookImageRightDT {
                 position: absolute;
-                top: 50%;
-                left: 40%;
+                // top: 50%;    kayra default
+                top: 87%;  /* maiora chnages*/
+                // left: 40%; kayra default
+                left: 45%;  /* maiora chnages*/
                 transform: translate(-30%, -70%);
                 font-size: $fontSize6;
                 color: #fff;

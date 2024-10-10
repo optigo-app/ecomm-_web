@@ -1,5 +1,4 @@
 import "./ProductCarousel.scss";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -94,6 +93,12 @@ const ProductCarousel = ({showmore = false}) => {
           spaceBetween={10}
           loop={true}
           breakpoints={{
+            100: {
+              slidesPerView: 1,
+              freeMode: {
+                enabled: false,
+              },
+            },
             320: {
               slidesPerView: 1,
               freeMode: {
@@ -273,10 +278,10 @@ const ProductCard = ({
           )}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-        <h4 className="price_fresj">
+       {storeInit?.IsPriceShow == 1 &&   <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
           {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
-        </h4>
+        </h4>}
       </div>
     </div>
   );

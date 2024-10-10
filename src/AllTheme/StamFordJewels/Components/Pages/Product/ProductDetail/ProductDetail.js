@@ -52,6 +52,7 @@ const ProductDetail = () => {
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
+  console.log('csQcCombo: ', csQcCombo);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [selectMtType, setSelectMtType] = useState();
   const [selectDiaQc, setSelectDiaQc] = useState();
@@ -154,22 +155,25 @@ const ProductDetail = () => {
     setAddToCartFlag(isincart);
   }, [singleProd]);
 
-  const handleCart = (cartflag) => {
-    let metal =
-      metalTypeCombo?.filter((ele) => ele?.metaltype == selectMtType)[0] ??
-      metalTypeCombo[0];
-    let dia =
-      diaQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectDiaQc.split(",")[0] &&
+  const handleCart = async (cartflag) => {
+    const metal =
+      metalTypeCombo?.find((ele) => {
+        return ele?.metaltype == selectMtType
+      }) ?? metalTypeCombo;
+
+      const dia =
+      diaQcCombo?.find((ele) => {
+        return ele?.Quality == selectDiaQc.split(",")[0] &&
           ele?.color == selectDiaQc.split(",")[1]
-      )[0] ?? diaQcCombo[0];
-    let cs =
-      csQcCombo?.filter(
-        (ele) =>
-          ele?.Quality == selectCsQc.split(",")[0] &&
+      }) ?? diaQcCombo;
+
+      const cs =
+      csQcCombo?.find((ele) => {
+        return ele?.Quality == selectCsQc.split(",")[0] &&
           ele?.color == selectCsQc.split(",")[1]
-      )[0] ?? csQcCombo[0];
+      }) ?? csQcCombo;
+
+    console.log('cs: ', cs);
 
     let mcArr = metalColorCombo?.filter(
       (ele) => {
@@ -179,14 +183,12 @@ const ProductDetail = () => {
         else { return ele?.id == (singleProd1?.MetalColorid ?? singleProd?.MetalColorid) }
       })[0];
 
-    console.log("selectMtColor", selectMtColor);
-
     let prodObj = {
       autocode: singleProd?.autocode,
       Metalid: metal?.Metalid,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -195,7 +197,7 @@ const ProductDetail = () => {
     };
 
     if (cartflag) {
-      CartAndWishListAPI("Cart", prodObj, cookie)
+      await CartAndWishListAPI("Cart", prodObj, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -208,7 +210,7 @@ const ProductDetail = () => {
           setAddToCartFlag(cartflag);
         });
     } else {
-      RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie)
+      await RemoveCartAndWishAPI("Cart", singleProd?.autocode, cookie)
         .then((res) => {
           let cartC = res?.Data?.rd[0]?.Cartlistcount;
           let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -254,8 +256,8 @@ const ProductDetail = () => {
       autocode: singleProd?.autocode,
       Metalid: metal?.Metalid,
       MetalColorId: mcArr?.id ?? singleProd?.MetalColorid,
-      DiaQCid: `${dia?.QualityId},${dia?.ColorId}`,
-      CsQCid: `${cs?.QualityId},${cs?.ColorId}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? (singleProd1?.DefaultSize ?? singleProd?.DefaultSize),
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -528,7 +530,7 @@ const ProductDetail = () => {
       metalArr =
         mtTypeLocal?.filter(
           (ele) => ele?.Metalid == decodeobj?.m
-        )[0]?.Metalid
+        )[0]?.Metalid ?? decodeobj?.m
     }
 
     if (diaQcLocal) {
@@ -537,7 +539,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.d?.split(",")[0] &&
             ele?.ColorId == decodeobj?.d?.split(",")[1]
-        )[0];
+        )[0] ?? `${decodeobj?.d?.split(",")[0]},${decodeobj?.d?.split(",")[1]}`;
     }
 
     if (csQcLocal) {
@@ -546,7 +548,7 @@ const ProductDetail = () => {
           (ele) =>
             ele?.QualityId == decodeobj?.c?.split(",")[0] &&
             ele?.ColorId == decodeobj?.c?.split(",")[1]
-        )[0]
+        )[0] ?? `${decodeobj?.c?.split(",")[0]},${decodeobj?.c?.split(",")[1]}`;
     }
 
     // console.log("decodeobj",(diaArr))
@@ -554,11 +556,16 @@ const ProductDetail = () => {
 
     const FetchProductData = async () => {
 
+      // let obj = {
+      //   mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
+      //   diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
+      //   csQc: csArr ? `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
+      // }
       let obj = {
-        mt: metalArr ? metalArr : (logininfoInside?.MetalId ?? storeinitInside?.MetalId),
-        diaQc: diaArr ? `${diaArr?.QualityId},${diaArr?.ColorId}` : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid),
-        csQc: csArr ? `${csArr?.QualityId},${csArr?.ColorId}` : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid)
-      }
+        mt: metalArr,
+        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
+      };
 
       // console.log("objjj",obj)
       setProdLoading(true)
@@ -637,8 +644,8 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          setIsImageLoad(false); 
-          setProdLoading(false);         
+          setIsImageLoad(false);
+          setProdLoading(false);
         });
     }
 

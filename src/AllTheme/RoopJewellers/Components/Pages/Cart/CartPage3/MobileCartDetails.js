@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Divider, Skeleton, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import './rJMo_cartPage.scss';
+import './roop3Mo_cartPage.scss';
 import QuantitySelector from './QuantitySelector';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-toastify';
@@ -76,24 +76,24 @@ const MobileCartDetails = ({
 
 
   return (
-    <Modal open={open} onClose={handleClose} className="stmpfMo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
-      <div className="stmpfMo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
-        <div className="stmpfMo_Cart-imageDiv">
+    <Modal open={open} onClose={handleClose} className="roop3Mo_cart-modal" sx={{ height: '100%', overflow: 'auto' }}>
+      <div className="roop3Mo_cart-container" style={{ background: "#fff", padding: '20px', position: "relative" }}>
+        <div className="roop3Mo_Cart-imageDiv">
           <img
             src={imageSrc}
             alt="Cluster Diamond"
-            className='stmpfMo_cartImage'
+            className='roop3Mo_cartImage'
             onClick={() => handleMoveToDetail(selectedItem)}
             style={{ border: 'none' }}
           />
         </div>
         <>
           {(selectedItem?.StockId == 0 && selectedItem?.IsMrpBase == 0) ? (
-            <div className="stmpfMo_Cart_R-details">
-              <p className='stmpfMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="roop3Mo_Cart_R-details">
+              <p className='roop3Mo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
               {storeInitData?.IsProductWebCustomization == 1 &&
-                <div className="stmpfMo_Cart-options">
+                <div className="roop3Mo_Cart-options">
                   {storeInitData?.IsMetalCustomization == 1 &&
                     <div className="option">
                       <label htmlFor="metal-type">Metal Type:</label>
@@ -186,7 +186,7 @@ const MobileCartDetails = ({
                   }
                 </div>
               }
-              <div className='stmpfMo_cartQtyPricemainDev'>
+              <div className='roop3Mo_cartQtyPricemainDev'>
                 <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
                 {storeInitData?.IsPriceShow == 1 &&
                   <div className="product-price">
@@ -197,23 +197,23 @@ const MobileCartDetails = ({
                         &nbsp; {formatter(selectedItem?.FinalCost)}
                       </span>
                     ) : (
-                      <Skeleton className='stmpfMo_CartSkelton' variant="text" width="80%" animation="wave" />
+                      <Skeleton className='roop3Mo_CartSkelton' variant="text" width="80%" animation="wave" />
                     )}
                   </div>
                 }
               </div>
-              <div className='stmpfMo_UpdateCartBtn'>
-                <Button className="stmpfMo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
+              <div className='roop3Mo_UpdateCartBtn'>
+                <Button className="roop3Mo_cartUpdate-button" onClick={() => handleUpdateCart(selectedItem)}>Save</Button>
               </div>
-              <div className='stmpfMo_CloseIcon' onClick={handleClose}>
+              <div className='roop3Mo_CloseIcon' onClick={handleClose}>
                 <CloseIcon />
               </div>
             </div>
           ) :
-            <div className="stmpfMo_CartCusto_R-details">
-              <p className='stmpfMo_cart-Titleline'>{selectedItem?.TitleLine}</p>
+            <div className="roop3Mo_CartCusto_R-details">
+              <p className='roop3Mo_cart-Titleline'>{selectedItem?.TitleLine}</p>
               <Divider />
-              <div className="stmpfMo_StockCart-options">
+              <div className="roop3Mo_StockCart-options">
                 {selectedItem?.metaltypename != "" &&
                   <div className="option">
                     <label htmlFor="metal-type">Metal Type:</label>
@@ -245,14 +245,20 @@ const MobileCartDetails = ({
                   </div>
                 }
               </div>
-              <div className="stmpfMo_stockPriceQtyDiv">
-                <div className="option">
-                  <label htmlFor="qty">Qty:</label>
-                  <span>{selectedItem?.Quantity}</span>
-                </div>
+              <div className="roop3Mo_stockPriceQtyDiv">
+                {selectedItem?.IsMrpBase == 0 ? (
+                  <div className="option">
+                    <label htmlFor="qty">Qty:</label>
+                    <span>{selectedItem?.Quantity}</span>
+                  </div>
+                ) :
+                  <div>
+                    <QuantitySelector selectedItem={selectedItem} handleIncrement={handleIncrement} handleDecrement={handleDecrement} qtyCount={qtyCount} />
+                  </div>
+                }
                 <div className=''>
                   {storeInitData?.IsPriceShow == 1 &&
-                    <div className="stmpfMo_Stockproduct-price">
+                    <div className="roop3Mo_Stockproduct-price">
                       {!ispriceloding ? (
                         <span>
                           {loginInfo?.CurrencyCode ??
@@ -260,7 +266,7 @@ const MobileCartDetails = ({
                           &nbsp; {formatter(selectedItem?.FinalCost)}
                         </span>
                       ) :
-                        <Skeleton className='stmpfMo_CartSkelton' variant="text" width="80%" animation="wave" />
+                        <Skeleton className='roop3Mo_CartSkelton' variant="text" width="80%" animation="wave" />
                       }
                     </div>
                   }

@@ -157,8 +157,8 @@ const TrendingView1 = () => {
                             <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImgHom2.png`} alt="modalimages" />
 
                             <div className="smr_lookbookImageRightDT">
-                                <p>SHORESIDE COLLECTION</p>
-                                <h2>FOR LOVE OF SUN & SEA</h2>
+                                {/* <p>SHORESIDE COLLECTION</p>
+                                <h2>FOR LOVE OF SUN & SEA</h2> */}
                                 <button onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</button>
                             </div>
                         </div>
@@ -176,7 +176,7 @@ const TrendingView1 = () => {
                                         />
                                     </div>
                                     <div className="product-info">
-                                        <h3>{data?.TitleLine != "" && data?.TitleLine + " - "}{data?.designno}</h3>
+                                        <h3>{data?.designno} {data?.TitleLine && " - "} {data?.TitleLine != "" && data?.TitleLine }</h3>
                                         {storeInit?.IsGrossWeight == 1 &&
                                             <>
                                                 <span className='smr_btdetailDT'>GWT: </span>

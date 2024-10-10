@@ -1532,7 +1532,11 @@ const ProductDetail = () => {
                             ) : null}
                           </div>
                           <div className='elv_ProductDet_prod_text_div_max1000'>
-                            <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                            {storeInit?.IsMetalWeight === 1 && (
+                              <>
+                                <span>Net Wt : </span> <span className='elv_ProductDet_text_max1000'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                              </>
+                            )}
                           </div>
                           {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
                             <>
@@ -1972,7 +1976,11 @@ const ProductDetail = () => {
                           ) : null}
                         </div>
                         <div>
-                          <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                          {storeInit?.IsMetalWeight === 1 && (
+                            <>
+                              <span>Net Wt : </span> <span className='elv_ProductDet_text'>{(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}</span>
+                            </>
+                          )}
                         </div>
                         {(singleProd1?.description ?? singleProd?.description)?.length > 0 && (
                           <>
@@ -2500,7 +2508,7 @@ const TableComponentsDia = ({ list, details }) => {
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
-                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed()}`}</td>
               </tr>
             ))}
           </tbody>
@@ -2569,7 +2577,7 @@ const TableComponentsMISC = ({ list, details }) => {
                     <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
                     <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
                     <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
-                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed(3)}`}</td>
                   </tr>
                 ))}
               </>
@@ -2580,7 +2588,7 @@ const TableComponentsMISC = ({ list, details }) => {
                     <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
                     <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
                     <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
-                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}&nbsp;{(val?.N).toFixed(3)}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed(3)}`}</td>
                   </tr>
                 ))}
               </>

@@ -146,7 +146,7 @@ const ProductList = () => {
   }, [])
 
 
-  console.log("selectedMetalId",selectedMetalId)
+  console.log("selectedMetalId", selectedMetalId)
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -1705,7 +1705,7 @@ const ProductList = () => {
                             // className="filtercategoryLable"
                             >
                               {/* <span> */}
-                              {ele.Name}
+                              {ele.Fil_DisName}
                               {/* </span> */}
                             </AccordionSummary>
                             <AccordionDetails
@@ -1819,7 +1819,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1943,7 +1943,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2000,7 +2000,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2057,7 +2057,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2513,7 +2513,7 @@ const ProductList = () => {
                                         onClick={() => handleScrollHeight()}
                                       >
                                         {/* <span> */}
-                                        {ele.Name}
+                                        {ele.Fil_DisName}
                                         {/* </span> */}
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2631,7 +2631,7 @@ const ProductList = () => {
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2754,7 +2754,7 @@ const ProductList = () => {
                                     // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2811,7 +2811,7 @@ const ProductList = () => {
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2868,7 +2868,7 @@ const ProductList = () => {
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -3189,7 +3189,7 @@ const ProductList = () => {
                                             alignItems: "center",
                                             letterSpacing: maxwidth590px
                                               ? "0px"
-                                              : "1px",
+                                              : "0.4px",
                                             // gap:maxwidth1674px ? '0px':'3px',
                                             flexWrap: "wrap",
                                           }}
@@ -3209,7 +3209,7 @@ const ProductList = () => {
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{fontSize:'14px' , marginInline: '5px'}}>|</span>
+                                              <span className="stm_prod_span">|</span>
                                               <span className="stam_prod_wt">
                                                 <span className="stam_main_keys">NWT:</span>
                                                 <span className="stam_main_val">
@@ -3223,7 +3223,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'14px' , marginInline: '5px'}}>|</span>
+                                                <span className="stm_prod_span">|</span>
                                                 <span className="stam_prod_wt">
                                                   <span className="stam_main_keys">
                                                     DWT:
@@ -3240,7 +3240,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'14px' , marginInline: '5px'}}>|</span>
+                                                <span className="stm_prod_span">|</span>
                                                 <span className="stam_prod_wt">
                                                   <span className="stam_main_keys">
                                                     CWT:

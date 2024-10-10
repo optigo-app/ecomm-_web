@@ -34,6 +34,7 @@ import NewsletterSignup from "../../Pages/ReusableComponent/SubscribeNewsLater/N
 import GetInTouch from "./Common/GetInTouch/GetInTouch";
 import InstagramSection from "./Common/InstagramSection/InstagramSection";
 import Faq from "../ReusableComponent/Faq/Faq";
+import NewArrivalCarousel from "./Common/ProductCarousel/CarouselReUse";
 
 function Home() {
   // const [localData, setLocalData] = useState();
@@ -56,6 +57,14 @@ function Home() {
   // //     backgroundColor
   // //   );
   // // };
+  const data = JSON.parse(sessionStorage.getItem("storeInit"));
+
+  useEffect(() => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  }, []);
 
   return (
     <>
@@ -67,9 +76,10 @@ function Home() {
             <LabgrownDiamondInfo />
             <ShapeSection />
             <DiamondLifeTime />
-            <ProductCarousel  />
+            {data?.IsHomeTrending == 1 && <ProductCarousel />}
             <Bestseller />
             <Banner />
+            {data?.IsHomeNewArrival == 1 && <NewArrivalCarousel />}
             <OurServices />
             <HistoryPage />
             <InstagramSection />

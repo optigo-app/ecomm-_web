@@ -9,6 +9,7 @@ import { useSetRecoilState } from 'recoil';
 import { loginState, smr_loginState } from '../../../Recoil/atom';
 import Cookies from 'js-cookie';
 import OTP from './OTP'; // Make sure the path is correct
+import './LoginWithEmailCode.modul.scss'
 
 export default function LoginWithEmailCode() {
     const [email, setEmail] = useState('');
@@ -136,13 +137,13 @@ export default function LoginWithEmailCode() {
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {email}.</p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
-                        <OTP separator={<span> </span>} value={otp} onChange={setOtp} length={6} onSubmit={handleSubmit}/>
+                    <div className='fg_opt_div' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
+                        <OTP  separator={<span> </span>} value={otp} onChange={setOtp} length={6} onSubmit={handleSubmit}/>
                         {errors.otp && (
                             <p style={{ color: 'red', marginTop: '5px' }}>{errors.otp}</p>
                         )}
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <p style={{ marginTop: '10px' }}>Didn't get the code? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
+                        <p className='fg_resnd_msg' style={{ marginTop: '10px' }}>Didn't get the code? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
                         <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                     <Footer />

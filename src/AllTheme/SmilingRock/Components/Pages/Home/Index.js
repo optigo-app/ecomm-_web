@@ -121,6 +121,7 @@ function Home() {
                   fontSize: "13px",
                   fontWeight: 500,
                   letterSpacing: "1px",
+                  whiteSpace  :"nowrap"
                 }}
                 onClick={() =>
                   window.scrollTo({

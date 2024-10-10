@@ -4,7 +4,7 @@ import CartDetails from './CartDetails';
 import CartList from './CartList';
 import SelectedItemsModal from './SelectedModal';
 import Button from '@mui/material/Button';
-import './stmpf_cartPage.scss';
+import './stam3_cartPage.scss';
 import Footer from '../../Home/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, FormControlLabel, InputLabel, Link, useMediaQuery } from '@mui/material';
@@ -91,7 +91,7 @@ const CartPage = () => {
       navigate(redirectUrl);
       // navigate('/loginOption')
     } else {
-      navigate("/Delivery",{replace  :true});
+      navigate("/Delivery", { replace: true });
     }
     window.scrollTo(0, 0);
   };
@@ -140,6 +140,12 @@ const CartPage = () => {
   }, []);
 
 
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 
   // const handlePay = async () => {
   //   const visiterId = Cookies.get('visiterId');
@@ -161,16 +167,16 @@ const CartPage = () => {
 
 
   return (
-    <div className='stmpf_MainBGDiv'>
+    <div className='stam3_MainBGDiv'>
       {isMobileScreen &&
-        <div className="stmpf_cart-title">Cart</div>
+        <div className="stam3_cart-title">Cart</div>
       }
       <div className='cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {!isloding && cartData.length !== 0 &&
-            <div className='stmpf_cartButton-groups'>
+            <div className='stam3_cartButton-groups'>
               <Link
-                className='stmpf_ReomoveAllCartbtn'
+                className='stam3_ReomoveAllCartbtn'
                 variant="body2"
                 onClick={handleRemoveAllDialog}
               >
@@ -178,10 +184,10 @@ const CartPage = () => {
               </Link>
             </div>
           }{!isMobileScreen &&
-            <div className="stmpf_cart-title">My Cart</div>
+            <div className="stam3_cart-title">My Cart</div>
           }
           {!isloding && cartData.length !== 0 &&
-            <div className='stmpf_placeOrderMainbtnDivs'>
+            <div className='stam3_placeOrderMainbtnDivs'>
               <button onClick={handlePlaceOrder}>Place Order</button>
             </div>
           }
@@ -206,8 +212,8 @@ const CartPage = () => {
               }
             </div>
             {!isloding && cartData.length != 0 ? (
-              <div className="stmpf_cartMainPage">
-                <div className="stmpf_cart-left-sides">
+              <div className="stam3_cartMainPage">
+                <div className="stam3_cart-left-sides">
                   <CartList
                     items={cartData}
                     CartCardImageFunc={CartCardImageFunc}
@@ -227,9 +233,9 @@ const CartPage = () => {
                     openHandleUpdateCartModal={handleOpenModal}
                   />
                 </div>
-                <div className="stmpf_cart-right-side">
+                <div className="stam3_cart-right-side">
                   {isLargeScreen ? (
-                    <div className='stmpf_pc-cartDetail'>
+                    <div className='stam3_pc-cartDetail'>
                       {selectedItem && (
                         <CartDetails
                           ispriceloding={ispriceloding}
@@ -254,7 +260,7 @@ const CartPage = () => {
                       )}
                     </div>
                   ) :
-                    <div className='stmpf_mobile-cartDetails'>
+                    <div className='stam3_mobile-cartDetails'>
                       <MobileCartDetails
                         open={openMobileModal}
                         handleClose={handlecloseMobileModal}
@@ -290,10 +296,10 @@ const CartPage = () => {
                 />
               </div>
             ) :
-              <div className='stmpf_noCartlistData'>
-                <p className='stmpf_title'>No Data Found!</p>
-                <p className='stmpf_desc'>Please First Add Product in Cart</p>
-                <button className='stmpf_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+              <div className='stam3_noCartlistData'>
+                <p className='stam3_title'>No Data Found!</p>
+                <p className='stam3_desc'>Please First Add Product in Cart</p>
+                <button className='stam3_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
               </div>
             }
           </>
@@ -308,6 +314,10 @@ const CartPage = () => {
           content="Are you sure you want to remove all Items?"
         />
 
+        {/* <Footer /> */}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+        <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
       </div>
     </div>
   );

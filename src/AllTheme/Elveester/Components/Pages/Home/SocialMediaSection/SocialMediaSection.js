@@ -33,8 +33,9 @@ const sliderData = [
 export default function SocialMediaSection() {
   return (
     <div className='mainSocialMediaConatiner' id='mainSocialMediaConatinerID'>
-      <div>
+      <div className='elv_socialMed_div'>
         <p className='socialmediaptag'>Social Media</p>
+        <span className='elv_social_subtitle'>Stay Connected, Stay Inspired.</span>
       </div>
       <Swiper
         slidesPerView={1}

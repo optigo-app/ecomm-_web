@@ -78,22 +78,43 @@
             padding-block: 10px !important;
             padding-bottom: 0px !important;
             font-size: 25px !important;
-
         }
 
         .labgrowRegister {
-            width: 80%;
+            width: 80% !important;
             margin: 10px;
         }
 
         .createBtnRegister {
-            width: 80%;
+            width: 80% !important;
             height: 50px !important;
         }
 
         .smling-register-main {
             margin-inline: 2% !important;
+        }
 
+    }
+    @media screen and (max-width: 510px) {
+
+        .AuthScreenRegisterMainTitle {
+            padding-block: 10px !important;
+            padding-bottom: 0px !important;
+            font-size: 25px !important;
+        }
+
+        .labgrowRegister {
+            width: 93% !important;
+            margin: 10px;
+        }
+
+        .createBtnRegister {
+            width: 93% !important;
+            height: 50px !important;
+        }
+
+        .smling-register-main {
+            margin-inline: 2% !important;
         }
 
     }

@@ -7,14 +7,24 @@
 }
 
 .brandsCompoents {
-    color: rgba(29, 50, 88, 0.8) !important;
     text-align: center;
-    font-size: 28px;
-    font-weight: 600;
-    text-transform: capitalize;
-    line-height: 2px;
     margin: 50px 0px 65px 0px !important;
-    font-family: $fontSansSerif;
+
+    .elv_brand_title {
+        font-size: 28px;
+        font-weight: 600;
+        text-transform: capitalize;
+        line-height: 2px;
+        font-family: $fontSansSerif;
+        color: rgba(29, 50, 88, 0.8) !important;
+    }
+
+    .elv_brand_subtitle {
+        font-size: 15px;
+        text-transform: uppercase;
+        font-family: $fontSansSerif;
+        color: rgba(29, 50, 88, 0.8) !important;
+    }
 }
 
 .brandsComponentClass {
@@ -30,15 +40,25 @@
     width: 10%;
 }
 
-.elv_AffiliationComponents {
-    color: rgba(29, 50, 88, 0.8) !important;
+
+.elv_affi_div {
     text-align: center;
-    font-size: 28px;
-    font-weight: 600;
-    text-transform: capitalize;
-    line-height: 2px;
     margin: 80px 0px 60px 0px !important;
-    font-family: $fontSansSerif;
+
+    .elv_AffiliationComponents {
+        color: rgba(29, 50, 88, 0.8) !important;
+        font-size: 28px;
+        font-weight: 600;
+        text-transform: capitalize;
+        line-height: 2px;
+        font-family: $fontSansSerif;
+    }
+
+    .elv_affi_subtitle {
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: $fontSansSerif;
+    }
 }
 
 .elv_affi_cards {

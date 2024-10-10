@@ -249,6 +249,7 @@ const StepImages = [
     name: "Diamond",
     link: "diamond",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
+    downIcon: `${storImagePath()}/images/ProductListing/settingNav/down-arrow.png`,
   },
   {
     img: `${storImagePath()}/Forevery/diamondFilter/mount-icon.svg`,
@@ -256,6 +257,7 @@ const StepImages = [
     name: "Settings",
     link: "settings",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
+    downIcon: `${storImagePath()}/images/ProductListing/settingNav/down-arrow.png`,
   },
   {
     img: `${storImagePath()}/Forevery/diamondFilter/complete-ring-icon.svg`,
@@ -263,6 +265,7 @@ const StepImages = [
     name: "Rings",
     link: "ring",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
+    downIcon: `${storImagePath()}/images/ProductListing/settingNav/down-arrow.png`,
   },
 ];
 

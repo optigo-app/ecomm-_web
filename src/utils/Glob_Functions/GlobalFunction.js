@@ -11,7 +11,7 @@ export function storInitDataPath() {
     : window.location.hostname;
   if (hostName.startsWith('www.')) {
     hostName = hostName.substring(4);
-  } 
+  }
   let statiPath = `${window?.location?.protocol}//${hostName}`;
   return `${statiPath}/Website_Store/WebSiteStaticImage/${hostName}`;
 }

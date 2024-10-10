@@ -9,7 +9,7 @@ import noImageFound from '../../../Assets/image-not-found.jpg'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Checkbox, FormControl, FormControlLabel, MenuItem, Pagination, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
+import { Checkbox, Drawer, FormControl, FormControlLabel, MenuItem, Pagination, Rating, Select, Skeleton, Slider, styled, useMediaQuery } from "@mui/material";
 import { formatter, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { MetalTypeComboAPI } from '../../../../../../utils/API/Combo/MetalTypeComboAPI';
 import { DiamondQualityColorComboAPI } from '../../../../../../utils/API/Combo/DiamondQualityColorComboAPI';
@@ -22,26 +22,46 @@ import ProductListApi from '../../../../../../utils/API/ProductListAPI/ProductLi
 import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 import { BsHandbag } from 'react-icons/bs';
 import Pako from 'pako';
-import { for_customizationSteps } from '../../../Recoil/atom';
+import { for_customizationSteps, for_MakeMyRingProcessDrawer, for_MetalColor_Image } from '../../../Recoil/atom';
 import { useRecoilState } from 'recoil';
+import MakeRingProcessModal from '../../ReusableComponent/DiamondStepModal/MakeRingProcessModal';
+import { IoClose } from 'react-icons/io5';
+import ScrollTop from '../../ReusableComponent/ScrollTop/ScrollTop';
 
 const SettingPage = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
   let maxwidth464px = useMediaQuery('(max-width:464px)')
+  let maxwidth375px = useMediaQuery('(max-width:375px)')
+  let maxwidth1000px = useMediaQuery('(max-width:1000px)')
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
   const diaQcLocal = JSON.parse(sessionStorage.getItem('diamondQualityColorCombo'));
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
   const dropdownRefs = useRef({})
   const [currPage, setCurrPage] = useState(1);
+  const [modalOpen, setModalOpen] = useRecoilState(for_MakeMyRingProcessDrawer);
+  const [imageMap, setImageMap] = useState({});
 
-  useEffect(() => {
-    const aa1234 = JSON.parse(sessionStorage.getItem('custStepData'));
-  }, [])
+  const [open1, setOpen1] = useState(false);
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen1(newOpen);
+  };
 
   const encodeLink = (link) => btoa(link);
+
+  useEffect(() => {
+    const showModal = localStorage.getItem('dontShowModal');
+    if (showModal !== 'true') {
+      setModalOpen(true);
+    }
+  }, []);
+
+  const handleButtonClick = () => {
+    setModalOpen(true);
+  };
 
   const styleLinks = {
     Solitaire: "Solitaire/style",
@@ -92,9 +112,7 @@ const SettingPage = () => {
   const [isRing, setIsRing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [trend, setTrend] = useState('Recommended');
-  const [diamondData, setDiamondData] = useState([])
   const [selectShape, setSelectShape] = useState();
-  console.log('selectShape: ', selectShape);
   const [shippingDrp, setShippingDrp] = useState('ANY DATE');
   const [storeInit, setStoreInit] = useState({})
   const [open, setOpen] = useState(null);
@@ -204,9 +222,111 @@ const SettingPage = () => {
   ]
 
   let getDesignImageFol = storeInit?.DesignImageFol;
+
   const getDynamicImages = (designno, extension) => {
     return `${getDesignImageFol}${designno}_${1}.${extension}`;
   };
+
+  const getDynamicYellowImage = (item, designno, extension) => {
+    // return `${getDesignImageFol}${designno}_${1}_Yellow.${extension}`;
+    return new Promise((resolve) => {
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+      });
+
+      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const colorImage = item?.ImageCount > 0
+        ? `${baseImagePath}_Yellow.${extension}`
+        : noImageFound;
+      const defaultImage = item?.ImageCount > 0
+        ? `${baseImagePath}.${extension}`
+        : noImageFound;
+
+      loadImage(colorImage)
+        .then(resolve)
+        .catch(() => loadImage(defaultImage)
+          .then(resolve)
+          .catch(() => resolve(noImageFound)));
+    });
+  };
+
+  const getDynamicWhiteImage = (item, designno, extension) => {
+    // return `${getDesignImageFol}${designno}_${1}_White.${extension}`;
+    return new Promise((resolve) => {
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+      });
+
+      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const colorImage = item?.ImageCount > 0
+        ? `${baseImagePath}_White.${extension}`
+        : noImageFound;
+      const defaultImage = item?.ImageCount > 0
+        ? `${baseImagePath}.${extension}`
+        : noImageFound;
+
+      loadImage(colorImage)
+        .then(resolve)
+        .catch(() => loadImage(defaultImage)
+          .then(resolve)
+          .catch(() => resolve(noImageFound)));
+    });
+  }
+
+  const getDynamicRoseImage = (item, designno, extension) => {
+    // return `${getDesignImageFol}${designno}_${1}_Rose.${extension}`;
+    return new Promise((resolve) => {
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(src);
+        img.onerror = () => reject(src);
+      });
+
+      const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+      const colorImage = item?.ImageCount > 0
+        ? `${baseImagePath}_Rose.${extension}`
+        : noImageFound;
+      const defaultImage = item?.ImageCount > 0
+        ? `${baseImagePath}.${extension}`
+        : noImageFound;
+
+      loadImage(colorImage)
+        .then(resolve)
+        .catch(() => loadImage(defaultImage)
+          .then(resolve)
+          .catch(() => resolve(noImageFound)));
+    });
+  }
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const loadedImages = {};
+      await Promise.all(productListData.map(async (item) => {
+        const yellowImage = await getDynamicYellowImage(item, item.designno, item.ImageExtension);
+        const whiteImage = await getDynamicWhiteImage(item, item.designno, item.ImageExtension);
+        const roseImage = await getDynamicRoseImage(item, item.designno, item.ImageExtension);
+
+        // Store images in an object keyed by design number
+        loadedImages[item.designno] = {
+          yellowImage,
+          whiteImage,
+          roseImage,
+        };
+      }));
+      setImageMap(loadedImages);
+    };
+
+    if (productListData.length > 0) {
+      loadImages();
+    }
+  }, [productListData]);
 
   useEffect(() => {
     const urlPath = location?.pathname?.slice(1).split("/");
@@ -617,7 +737,7 @@ const SettingPage = () => {
           <div className="for_settingLists_category_lists_div" style={{ display: isRing === 'Ring' ? '' : 'none' }}>
             {categoryArr?.map((item, index) => (
               <div className={`for_settingLists_category_lists ${selectedCategory == item?.title?.toLocaleLowerCase() ? 'selected' : ''}`} key={index} onClick={() => handleClick(item?.id, item?.link)}>
-                <img src={item?.image} alt={item?.title} />
+                <img className='for_settingLists_categ_img' src={item?.image} alt={item?.title} />
                 <span className='for_settingList_categ_title'>{item?.title}</span>
               </div>
             ))}
@@ -625,98 +745,219 @@ const SettingPage = () => {
           <div className="for_settingList_filter_div">
             <div className="for_productList_setting_filter_mainDiv">
               <div className="for_setting_filter_lists">
+                {maxwidth1000px ? (
+                  <>
+                    <Drawer sx={{
+                      zIndex: 9999999,
+                      '& .MuiDrawer-paper': {
+                        width: maxwidth375px ? '18rem' : maxwidth464px ? '22rem' : '25rem',
+                      },
+                    }} open={open1} onClose={toggleDrawer(false)} className="for_productList_drawer_div">
+                      <div className="for_modal_cancel_btn_div_pd" onClick={toggleDrawer(false)}>
+                        <IoClose className='for_modal_cancel_btn_pd' size={28} />
+                      </div>
+                      <h4 className='for_design_h4'>Design Your Own Engagement Rings</h4>
+                      <div className="for_settingLisrt_fillter_div_1" toggleDrawer={toggleDrawer}>
+                        {dropdownsData.map(({ index, title, data, type, diaStep, settStep }) => {
+                          return (
+                            type === 'metal' ? (
+                              <CollectionDropdown
+                                key={index}
+                                handleOpen={handleOpen}
+                                open={open === index}
+                                type={type}
+                                handleButton={(value) => handleButton(index, value)}
+                                check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                                title={title}
+                                index={index}
+                                data={data}
+                                ref={el => dropdownRefs.current[index] = el}
+                                setSelectedMetalId={setSelectedMetalId}
+                                selectedMetalId={selectedMetalId}
+                                maxwidth1000px={maxwidth1000px}
+                              />
+                            ) : (
+                              <>
+                                {(settStep?.[0]?.step1 == true && diaStep?.[0]?.step1 != true) && (
+                                  <CollectionDiamondShape
+                                    key={index}
+                                    handleOpen={handleOpen}
+                                    open={open === index}
+                                    type={type}
+                                    handleButton={(value) => handleButton(index, value)}
+                                    check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                                    title={title}
+                                    index={index}
+                                    data={data}
+                                    ref={el => dropdownRefs.current[index] = el}
+                                    handleShape={handleShape}
+                                    selectShape={selectShape}
+                                    maxwidth1000px={maxwidth1000px}
+                                  />
+                                )}
+                              </>
+                            )
+                          )
+                        })}
 
-                {dropdownsData.map(({ index, title, data, type, diaStep, settStep }) => {
-                  return (
-                    type === 'metal' ? (
-                      <CollectionDropdown
-                        key={index}
-                        handleOpen={handleOpen}
-                        open={open === index}
-                        type={type}
-                        handleButton={(value) => handleButton(index, value)}
-                        check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
-                        title={title}
-                        index={index}
-                        data={data}
-                        ref={el => dropdownRefs.current[index] = el}
-                        setSelectedMetalId={setSelectedMetalId}
-                        selectedMetalId={selectedMetalId}
-                      />
-                    ) : (
-                      <>
-                        {(settStep?.[0]?.step1 == true && diaStep?.[0]?.step1 != true) && (
-                          <CollectionDiamondShape
-                            key={index}
-                            handleOpen={handleOpen}
-                            open={open === index}
-                            type={type}
-                            handleButton={(value) => handleButton(index, value)}
-                            check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
-                            title={title}
-                            index={index}
-                            data={data}
-                            ref={el => dropdownRefs.current[index] = el}
-                            handleShape={handleShape}
-                            selectShape={selectShape}
-                          />
-                        )}
-                      </>
-                    )
-                  )
-                })}
+                        {rangeData?.map(({ index, title, data, type }) => (
+                          type === 'price' && (
+                            <CollectionPriceRange
+                              key={index}
+                              handleOpen={handleOpen}
+                              open={open === index}
+                              title={title}
+                              index={index}
+                              handleSliderChange={handlePriceSliderChange}
+                              data={data}
+                              maxwidth1000px={maxwidth1000px}
+                            />
+                          )
+                        ))}
 
-                {rangeData?.map(({ index, title, data, type }) => (
-                  type === 'price' && (
-                    <CollectionPriceRange
-                      key={index}
-                      handleOpen={handleOpen}
-                      open={open === index}
-                      title={title}
-                      index={index}
-                      handleSliderChange={handlePriceSliderChange}
-                      data={data}
-                    />
-                  )
-                ))}
+                        <div className="for_setting_filter_dropdown_sort">
+                          <div className="for_setting_filter_label">
+                            <label>Sort by:</label>
+                          </div>
+                          <div className="for_setting_filter_option_div">
+                            <div variant="standard" style={{ m: 1, minWidth: 120, background: 'transparent' }}>
+                              <select
+                                labelId="demo-simple-select-standard-label"
+                                id="demo-simple-select-standard"
+                                value={trend}
+                                onChange={(e) => {
+                                  handleSortby(e);
+                                  handleChangeTrend(e);
+                                }}
+                                className="for_setting_filter_sort_select"
+                                MenuProps={{
+                                  PaperProps: {
+                                    style: {
+                                      zIndex: 99999999,
+                                    },
+                                  },
+                                }}
+                              >
+                                <option value="Recommended">Recommended</option>
+                                <option value="New">New</option>
+                                <option value="Trending">Trending</option>
+                                {storeInit?.IsStockWebsite === 1 && (
+                                  <option value="In Stock">In Stock</option>
+                                )}
+                                <option value="PRICE HIGH TO LOW">Price High To Low</option>
+                                <option value="PRICE LOW TO HIGH">Price Low To High</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="for_setting_filter_dropdown_sort_ship">
+                          <div className="for_setting_filter_label_ship">
+                            <label>shipping date </label>
+                          </div>
+                          <div className="for_setting_filter_option_div_ship">
+                            <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} sim={true} className={"for_setting_filter_sort_select_ship"} />
+                          </div>
+                        </div>
+                      </div>
+                    </Drawer>
+                  </>
+                ) : (
+                  <>
+                    {
+                      dropdownsData.map(({ index, title, data, type, diaStep, settStep }) => {
+                        return (
+                          type === 'metal' ? (
+                            <CollectionDropdown
+                              key={index}
+                              handleOpen={handleOpen}
+                              open={open === index}
+                              type={type}
+                              handleButton={(value) => handleButton(index, value)}
+                              check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                              title={title}
+                              index={index}
+                              data={data}
+                              ref={el => dropdownRefs.current[index] = el}
+                              setSelectedMetalId={setSelectedMetalId}
+                              selectedMetalId={selectedMetalId}
+                            />
+                          ) : (
+                            <>
+                              {(settStep?.[0]?.step1 == true && diaStep?.[0]?.step1 != true) && (
+                                <CollectionDiamondShape
+                                  key={index}
+                                  handleOpen={handleOpen}
+                                  open={open === index}
+                                  type={type}
+                                  handleButton={(value) => handleButton(index, value)}
+                                  check1={selectedValues.find(item => item.dropdownIndex === index)?.value || null}
+                                  title={title}
+                                  index={index}
+                                  data={data}
+                                  ref={el => dropdownRefs.current[index] = el}
+                                  handleShape={handleShape}
+                                  selectShape={selectShape}
+                                />
+                              )}
+                            </>
+                          )
+                        )
+                      })
+                    }
 
-                <div className="for_setting_filter_dropdown_sort">
-                  <div className="for_setting_filter_label">
-                    <label>sort by: </label>
-                  </div>
-                  <div className="for_setting_filter_option_div">
-                    <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={trend}
-                        onChange={(e) => {
-                          handleSortby(e);
-                          handleChangeTrend(e);
-                        }}
-                        className="for_setting_filter_sort_select"
-                      >
-                        <MenuItem value='Recommended'>Recommended</MenuItem>
-                        <MenuItem value='New'>New</MenuItem>
-                        <MenuItem value='Trending'>Trending</MenuItem>
-                        {storeInit?.IsStockWebsite == 1 &&
-                          <MenuItem value='In Stock'>In Stock</MenuItem>
-                        }
+                    {rangeData?.map(({ index, title, data, type }) => (
+                      type === 'price' && (
+                        <CollectionPriceRange
+                          key={index}
+                          handleOpen={handleOpen}
+                          open={open === index}
+                          title={title}
+                          index={index}
+                          handleSliderChange={handlePriceSliderChange}
+                          data={data}
+                        />
+                      )
+                    ))}
 
-                        <MenuItem value='PRICE HIGH TO LOW'>Price High To Low</MenuItem>
-                        <MenuItem value='PRICE LOW TO HIGH'> Price Low To High</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-                </div>
-                <div className="for_setting_filter_dropdown_sort_ship">
-                  <div className="for_setting_filter_label_ship">
-                    <label>shipping date </label>
-                  </div>
-                  <div className="for_setting_filter_option_div_ship">
-                    <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_setting_filter_sort_select_ship"} />
-                  </div>
-                </div>
+                    <div className="for_setting_filter_dropdown_sort">
+                      <div className="for_setting_filter_label">
+                        <label>sort by: </label>
+                      </div>
+                      <div className="for_setting_filter_option_div">
+                        <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                          <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={trend}
+                            onChange={(e) => {
+                              handleSortby(e);
+                              handleChangeTrend(e);
+                            }}
+                            className="for_setting_filter_sort_select"
+                          >
+                            <MenuItem value='Recommended'>Recommended</MenuItem>
+                            <MenuItem value='New'>New</MenuItem>
+                            <MenuItem value='Trending'>Trending</MenuItem>
+                            {storeInit?.IsStockWebsite == 1 &&
+                              <MenuItem value='In Stock'>In Stock</MenuItem>
+                            }
+
+                            <MenuItem value='PRICE HIGH TO LOW'>Price High To Low</MenuItem>
+                            <MenuItem value='PRICE LOW TO HIGH'> Price Low To High</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </div>
+                    <div className="for_setting_filter_dropdown_sort_ship">
+                      <div className="for_setting_filter_label_ship">
+                        <label>shipping date </label>
+                      </div>
+                      <div className="for_setting_filter_option_div_ship">
+                        <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_setting_filter_sort_select_ship"} />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -762,25 +1003,46 @@ const SettingPage = () => {
               }
             </div>
           </div>
+          <div class="mr_Modal-imageButton">
+            <div onClick={handleButtonClick}>
+              <button className='mr_Modal_btn'>How it works</button>
+            </div>
+
+
+            {maxwidth1000px && (
+              <div className="for_settingList_collection_filter_mainDiv_tabletView" onClick={toggleDrawer(true)}>
+                <button className="for_settingList_filter_btn">
+                  <img src={`${storImagePath()}/images/ProductListing/Filtericons/filter-ring.png`} alt="filter-icon" />
+                  <span className="for_settingList_filter_span">Filters</span>
+                </button>
+              </div>
+            )}
+          </div>
           <div className="for_settingList_product_lists_div">
             {isOnlySettLoading ? <div className="for_global_spinner"></div> : (
-              productListData?.map((item, index) => (
-                <Product_Card
-                  StyledRating={StyledRating}
-                  productData={item}
-                  index={index}
-                  ratingvalue={ratingvalue}
-                  handleMetalColor={handleMetalColor}
-                  metalColorType={metalColorType}
-                  imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                  loginCurrency={loginCurrency}
-                  storeInit={storeInit}
-                  handleMoveToDetail={handleMoveToDetail}
-                  selectedMetalId={selectedMetalId}
-                  metalType={metalType}
-                  getBannerImage={getBannerImage}
-                />
-              ))
+              productListData?.map((item, index) => {
+                const images = imageMap[item.designno] || {};
+                return (
+                  <Product_Card
+                    StyledRating={StyledRating}
+                    productData={item}
+                    index={index}
+                    ratingvalue={ratingvalue}
+                    yellowImage={images?.yellowImage || noImageFound}
+                    whiteImage={images?.whiteImage || noImageFound}
+                    roseImage={images?.roseImage || noImageFound}
+                    handleMetalColor={handleMetalColor}
+                    metalColorType={metalColorType}
+                    imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
+                    loginCurrency={loginCurrency}
+                    storeInit={storeInit}
+                    handleMoveToDetail={handleMoveToDetail}
+                    selectedMetalId={selectedMetalId}
+                    metalType={metalType}
+                    getBannerImage={getBannerImage}
+                  />
+                )
+              })
             )}
           </div>
           {storeInit?.IsProductListPagination == 1 &&
@@ -804,8 +1066,12 @@ const SettingPage = () => {
                 />
               </div>
             )}
-        </div>
+        </div >
       </div >
+      {modalOpen && <MakeRingProcessModal />}
+      <div>
+        <ScrollTop />
+      </div>
     </>
   )
 }
@@ -823,7 +1089,9 @@ const CollectionDropdown = forwardRef(({
   index,
   data,
   selectedMetalId,
+  maxwidth1000px,
 }, ref) => {
+  const isOpen = maxwidth1000px || open;
   return (
     <div className="for_setting_filter_dropdown" onClick={() => handleOpen(index)} ref={ref}>
       <div className="for_setting_filter_label">
@@ -833,8 +1101,8 @@ const CollectionDropdown = forwardRef(({
       <div
         className='for_setting_filter_option_div'
         style={{
-          height: open ? "90px" : "0px",
-          overflow: open ? "unset" : "hidden",
+          height: isOpen ? "90px" : "0px",
+          overflow: isOpen ? "unset" : "hidden",
         }}
       >
         {data?.map((i) => {
@@ -883,7 +1151,9 @@ const CollectionDiamondShape = forwardRef(({
   data,
   handleShape,
   selectShape,
+  maxwidth1000px,
 }, ref) => {
+  const isOpen = maxwidth1000px || open;
   return (
     <div className="for_setting_filter_dropdown" onClick={() => handleOpen(index)} ref={ref}>
       <div className="for_setting_filter_label">
@@ -891,7 +1161,7 @@ const CollectionDiamondShape = forwardRef(({
         <FaAngleDown />
       </div>
       <div
-        className={`for_setting_filter_option_dia_div ${open ? 'open' : 'close'}`}
+        className={`for_setting_filter_option_dia_div ${isOpen ? 'open' : 'close'}`}
       >
         {data?.map((i) => {
           let isChecked = false;
@@ -933,11 +1203,12 @@ const CollectionPriceRange = forwardRef(({
   index,
   handleSliderChange,
   data,
+  maxwidth1000px,
 }, ref) => {
   const handleSliderMouseDown = (event) => {
     event.stopPropagation();
   };
-
+  const isOpen = maxwidth1000px || open;
   return (
     <div
       className="for_setting_filter_dropdown"
@@ -950,8 +1221,8 @@ const CollectionPriceRange = forwardRef(({
       </div>
       <div className="for_setting_filter_option_div_slide"
         style={{
-          height: open ? "80px" : "0px",
-          overflow: open ? "unset" : "hidden",
+          height: isOpen ? "100px" : "0px",
+          overflow: isOpen ? "unset" : "hidden",
         }}
       >
         <div className='for_setting_slider_div'>
@@ -966,12 +1237,26 @@ const CollectionPriceRange = forwardRef(({
             size='small'
             step={1}
             sx={{
-              '& .MuiSlider-thumb': {
-                width: 15,
-                height: 15,
-                backgroundColor: '#fff',
-                border: '1px solid #000',
-              }
+              "& .MuiSlider-thumb": {
+                width: 17,
+                height: 17,
+                backgroundColor: "black",
+                border: "1px solid #000",
+              },
+              "& .MuiSlider-rail": {
+                height: 5, // Adjust height of the rail
+                bgcolor: "black",
+                border: " none",
+              },
+              "& .MuiSlider-track": {
+                height: 5, // Adjust height of the track
+                padding: "0 5px",
+                bgcolor: "black",
+                border: " none",
+              },
+              "& .MuiSlider-markLabel": {
+                fontSize: "12px !important",
+              },
             }}
           />
           <div className='for_setting_slider_input'>
@@ -998,6 +1283,9 @@ const Product_Card = ({
   selectedMetalId,
   metalType,
   getBannerImage,
+  yellowImage,
+  whiteImage,
+  roseImage,
 }) => {
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
 
@@ -1030,7 +1318,7 @@ const Product_Card = ({
         ) : (
           <> */}
         <div className="for_settingList_listing_card_div">
-          <div className="for_product_listing_ratings_div">
+          {/* <div className="for_product_listing_ratings_div">
             <StyledRating
               name="simple-controlled"
               value={ratingvalue}
@@ -1038,7 +1326,7 @@ const Product_Card = ({
               className="for_product_listting_rating"
               readOnly
             />
-          </div>
+          </div> */}
           <div className="forWeb_app_product_label_set">
             {productData?.IsInReadyStock == 1 && <span className="forWeb_app_instock">In Stock</span>}
             {productData?.IsBestSeller == 1 && <span className="forWeb_app_bestSeller">Best Seller</span>}
@@ -1051,7 +1339,7 @@ const Product_Card = ({
             <img
               className="for_settingList_listing_card_image"
               loading="lazy"
-              src={imageUrl}
+              src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
               onError={(e) => {
                 e.target.onerror = null;
                 e.stopPropagation();
@@ -1072,7 +1360,18 @@ const Product_Card = ({
             ))}
           </div> */}
         </div>
-        <div className="for_settingList_card_description" onClick={() => handleMoveToDetail(productData)}>
+        <div className="for_settingList_card_description">
+          <div className="for_settingList_metaltype_div">
+            {metalColorType?.map((item) => (
+              <div
+                className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
+                key={item?.id}
+                onClick={() => handleClick(item?.id)}
+              >
+                {""}
+              </div>
+            ))}
+          </div>
           <div className="for_settingList_desc_title">
             <span className="for_listing_desc_span">{productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}</span>
           </div>

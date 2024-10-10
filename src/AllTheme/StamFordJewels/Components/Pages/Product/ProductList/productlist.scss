@@ -205,7 +205,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .stam_productCard:hover{
+  .stam_productCard:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
   }
 
@@ -288,6 +288,12 @@
     justify-content: center;
     align-items: center;
     gap: 3px;
+
+    .stm_prod_span {
+      font-size: 14px;
+      margin-inline: 3px;
+    }
+
   }
 
   .stam_por {
@@ -326,14 +332,6 @@
     color: $primaryfontcolor;
     gap: 2px;
     font-size: 14px;
-    // font-weight: 600;
-
-    // .stam_currencyFont{
-
-    // }
-    // .stam_pricePort{
-
-    // }
   }
 
   .stam_mui_checkbox_label {
@@ -610,6 +608,12 @@
 
   }
 
+  @media screen and (max-width: 405px) {
+    .stam_productCard {
+      width: 48%;
+    }
+  }
+
   @media screen and (max-width: 650px) {
     .stam_productListCard_Image {
       object-fit: scale-down;
@@ -681,6 +685,47 @@
   @media screen and (max-width:1674px) {
     .stam_prod_Allwt {
       padding-inline: 0 !important;
+    }
+
+    .stam_main_keys {
+      font-size: 9px !important;
+    }
+
+    .stam_main_val {
+      font-size: 9px !important;
+    }
+  }
+
+  @media screen and (max-width:1500px) {
+
+    .stam_main_keys {
+      font-size: 7.5px !important;
+    }
+
+    .stam_main_val {
+      font-size: 7.5px !important;
+    }
+  }
+
+  @media screen and (max-width:1200px) {
+
+    .stam_main_keys {
+      font-size: 8px !important;
+    }
+
+    .stam_main_val {
+      font-size: 8px !important;
+    }
+  }
+
+  @media screen and (max-width:768px) {
+
+    .stam_main_keys {
+      font-size: 9.8px !important;
+    }
+
+    .stam_main_val {
+      font-size: 9.8px !important;
     }
   }
 

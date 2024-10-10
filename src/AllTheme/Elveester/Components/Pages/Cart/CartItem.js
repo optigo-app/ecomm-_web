@@ -15,7 +15,7 @@ import { Box, Checkbox, useMediaQuery } from '@mui/material';
 import noImageFound from "../../Assets/image-not-found.jpg"
 import { el_CartCount } from '../../Recoil/atom';
 import { GetCountAPI } from '../../../../../utils/API/GetCount/GetCountAPI';
-import { Link } from 'react-router-dom';
+import { Link, useFormAction } from 'react-router-dom';
 import RemarkDialog from './OrderRemarkDialog';
 import ItemRemarkDialog from './ItemRemarkDialog';
 import ConfirmationDialog from '../../../../../utils/Glob_Functions/ConfirmationDialog/ConfirmationDialog';
@@ -172,9 +172,15 @@ const CartItem = ({
         onTouchStart={handlePress('start')}
         onTouchEnd={cancelPress}
         style={{
-          border: isSelectedItems ? '1px solid brown' : '1px solid #e1e1e1'
+          boxShadow:
+          !multiSelect &&
+          !isMobileScreen &&
+          selectedItem?.id == item?.id &&
+          "#c20000 1px 1px 1px 0px, #c20000 0px 0px 0px 1px !important",
+        border: selectedItem?.id == item?.id && '1px solid #c20000',
+          // border: isSelectedItems ? '1px solid brown' : '1px solid #e1e1e1'
         }}
-      >
+      > 
         {item?.StockId != 0 &&
           <div className="elv_inStockbadgeDiv">
             <span className="elv_inStockbadgeSpan">In Stock</span>
@@ -184,7 +190,7 @@ const CartItem = ({
           {imageSrc !== undefined && (
             <img className='elv_cardImage_img' src={imageSrc} alt=""
               onClick={() => {
-                handleIsSelected();
+                // handleIsSelected();
                 onSelect(item)
               }}
             />

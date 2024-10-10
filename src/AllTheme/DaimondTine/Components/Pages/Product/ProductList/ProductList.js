@@ -101,6 +101,8 @@ const ProductList = () => {
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
 
+  const [customFlag, setCustomFlag] = useState(false);
+
   const [afterCountStatus, setAfterCountStatus] = useState(false);
   const setCartCountVal = useSetRecoilState(dt_CartCount);
   const setWishCountVal = useSetRecoilState(dt_WishCount);
@@ -439,30 +441,30 @@ const ProductList = () => {
 
     const formatCheckboxData = (data) => {
       return Object.values(data)
-        .filter(item => item.checked) 
-        .map(item => ({ id: item.id, type: item.type, value: item.value })) 
+        .filter(item => item.checked)
+        .map(item => ({ id: item.id, type: item.type, value: item.value }))
         .reduce((acc, curr) => {
           acc[curr.type] = acc[curr.type] || [];
-          acc[curr.type].push(curr); 
+          acc[curr.type].push(curr);
           return acc;
         }, {});
     };
-    
-      const formattedData = formatCheckboxData(filterChecked);
-      const labelString = JSON?.stringify(formattedData);
-      const labelSizeLimit = 2000; 
 
-      const eventLabel = labelString?.length > labelSizeLimit ? 
-      labelString?.substring(0, labelSizeLimit) + '...' : 
+    const formattedData = formatCheckboxData(filterChecked);
+    const labelString = JSON?.stringify(formattedData);
+    const labelSizeLimit = 2000;
+
+    const eventLabel = labelString?.length > labelSizeLimit ?
+      labelString?.substring(0, labelSizeLimit) + '...' :
       labelString;
 
-      GoogleAnalytics.event({
-       action: "Product Listing Filter",
+    GoogleAnalytics.event({
+      action: "Product Listing Filter",
       category: `Filter Interaction Through Product Listing && Filter by User ${loginUserDetail?.firstname}`,
-        label: eventLabel ,
-        value: loginUserDetail?.firstname ?? 'User Not Login',
-      });
-  
+      label: eventLabel,
+      value: loginUserDetail?.firstname ?? 'User Not Login',
+    });
+
     const priceValues = onlyTrueFilterValue
       .filter((item) => item.type === "Price")
       .map((item) => item.value);
@@ -849,7 +851,7 @@ const ProductList = () => {
     GoogleAnalytics.event({
       action: "Navigate From Product Listing to Product Detail",
       category: `Product Interaction Through Product Listing Page`,
-      label: productData?.designNo || productData?.titleLine || productData?.autocode ,
+      label: productData?.designNo || productData?.titleLine || productData?.autocode,
       value: loginUserDetail?.firstname ?? 'User Not Login',
     });
     decodeAndDecompress();
@@ -884,7 +886,7 @@ const ProductList = () => {
         action: ` Item Added in Wishlist  by User ${loginUserDetail?.firstname || 'Guest'}`,
         category: `Wishlist Interaction on Product Listing Page`,
         label: ele?.designNo || ele?.titleLine || ele?.autocode || 'Unknown Product',
-        value: loginUserDetail?.firstname 
+        value: loginUserDetail?.firstname
       });
       CartAndWishListAPI(type, prodObj, cookie)
         .then((res) => {
@@ -1007,7 +1009,7 @@ const ProductList = () => {
 
     sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
 
-    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
+    if (customFlag || (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId)) {
       if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
       }
@@ -1510,7 +1512,7 @@ const ProductList = () => {
                                 // className="filtercategoryLable"
                                 >
                                   {/* <span> */}
-                                  {ele.Name}
+                                  {ele.Fil_DisName}
                                   {/* </span> */}
                                 </AccordionSummary>
                                 <AccordionDetails
@@ -1623,7 +1625,7 @@ const ProductList = () => {
                               // className="filtercategoryLable"
                               >
                                 {/* <span> */}
-                                {ele.Name}
+                                {ele.Fil_DisName}
                                 {/* </span> */}
                               </AccordionSummary>
                               <AccordionDetails
@@ -1746,7 +1748,7 @@ const ProductList = () => {
                               // className="filtercategoryLable"
                               >
                                 {/* <span> */}
-                                {ele.Name}
+                                {ele.Fil_DisName}
                                 {/* </span> */}
                               </AccordionSummary>
                               <AccordionDetails
@@ -1802,7 +1804,7 @@ const ProductList = () => {
                               // className="filtercategoryLable"
                               >
                                 {/* <span> */}
-                                {ele.Name}
+                                {ele.Fil_DisName}
                                 {/* </span> */}
                               </AccordionSummary>
                               <AccordionDetails
@@ -1858,7 +1860,7 @@ const ProductList = () => {
                               // className="filtercategoryLable"
                               >
                                 {/* <span> */}
-                                {ele.Name}
+                                {ele.Fil_DisName}
                                 {/* </span> */}
                               </AccordionSummary>
                               <AccordionDetails
@@ -1962,7 +1964,7 @@ const ProductList = () => {
                   {location?.search.charAt(1) == "S" && (
                     <div
                       className="smr_breadcums_port_app"
-                      // style={{ marginLeft: "3px" }}
+                    // style={{ marginLeft: "3px" }}
                     >
                       <span>{location?.pathname?.split("/")[2]}</span>
                     </div>
@@ -2062,6 +2064,7 @@ const ProductList = () => {
                               value={selectedMetalId}
                               onChange={(e) => {
                                 setSelectedMetalId(e.target.value);
+                                setCustomFlag(true)
                               }}
                             >
                               {metalTypeCombo?.map((metalele) => (
@@ -2093,7 +2096,10 @@ const ProductList = () => {
                             <select
                               className="sortMenuSelection"
                               value={selectedDiaId}
-                              onChange={(e) => setSelectedDiaId(e.target.value)}
+                              onChange={(e) => {
+                                setSelectedDiaId(e.target.value)
+                                setCustomFlag(true)
+                              }}
                             >
                               {diaQcCombo?.map((diaQc) => (
                                 <option
@@ -2127,7 +2133,10 @@ const ProductList = () => {
                             <select
                               className="sortMenuSelection"
                               value={selectedCsId}
-                              onChange={(e) => setSelectedCsId(e.target.value)}
+                              onChange={(e) => {
+                                setSelectedCsId(e.target.value)
+                                setCustomFlag(true)
+                              }}
                             >
                               {csQcCombo?.map((csCombo) => (
                                 <option
@@ -2308,7 +2317,7 @@ const ProductList = () => {
                                           },
                                         }}
                                       >
-                                        {ele.Name}
+                                        {ele.Fil_DisName}
                                       </AccordionSummary>
                                       <AccordionDetails
                                         sx={{
@@ -2360,7 +2369,7 @@ const ProductList = () => {
                                                   />
                                                 }
                                                 className="dt_mui_checkbox_label"
-                                                label={opt.Name}
+                                                label={opt.Fil_DisName}
                                               />
                                             </div>
                                           )
@@ -2404,7 +2413,7 @@ const ProductList = () => {
                                     // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2514,7 +2523,7 @@ const ProductList = () => {
                                         },
                                       }}
                                     >
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2566,7 +2575,7 @@ const ProductList = () => {
                                         },
                                       }}
                                     >
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2621,7 +2630,7 @@ const ProductList = () => {
                                     // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
