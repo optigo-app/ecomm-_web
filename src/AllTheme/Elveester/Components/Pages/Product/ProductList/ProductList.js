@@ -136,16 +136,16 @@ const ProductList = () => {
     setActiveIcon(
       openGridModal ? "double_view" : filter ? "view_grid" : "apps"
     );
-    if(showFilter){
+    if (showFilter) {
       setActiveIcon(
         openGridModal ? "double_view" : filter ? "apps" : "view_grid"
       );
-    }else{
+    } else {
       setActiveIcon(
         openGridModal ? "double_view" : filter ? "view_grid" : "apps"
       );
     }
-  }, [openGridModal, filter,showFilter]);
+  }, [openGridModal, filter, showFilter]);
 
   let getDesignImageFol = storeInit?.DesignImageFol;
 
@@ -549,8 +549,8 @@ const ProductList = () => {
     }
     setCurrPage(1)
     window.scrollTo({
-      top:0 ,
-      behavior  :"smooth"
+      top: 0,
+      behavior: "smooth"
     })
   }, [location?.key]);
 
@@ -1212,8 +1212,7 @@ const ProductList = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1439,10 +1438,9 @@ const ProductList = () => {
                                       })
                                     }
                                   >
-                                    {` > ${
-                                      BreadCumsObj()?.FilterVal1 ||
+                                    {` > ${BreadCumsObj()?.FilterVal1 ||
                                       BreadCumsObj()?.FilterVal
-                                    }`}
+                                      }`}
                                   </span>
                                 )}
 
@@ -1487,20 +1485,18 @@ const ProductList = () => {
               <div className="elv_filteration_rows">
                 <div
                   onClick={handleShowFilter}
-                  className={`${
-                    filter
-                      ? "elv_filteration_rows_1_filter"
-                      : "elv_filteration_rows_1"
-                  }`}
+                  className={`${filter
+                    ? "elv_filteration_rows_1_filter"
+                    : "elv_filteration_rows_1"
+                    }`}
                 >
                   {filter ? (
                     <>
                       <span
-                        className={`${
-                          filter
-                            ? "elv_filter_content_1_filter"
-                            : "elv_filter_content_1"
-                        }`}
+                        className={`${filter
+                          ? "elv_filter_content_1_filter"
+                          : "elv_filter_content_1"
+                          }`}
                         onClick={toggleDrawer(true)}
                       >
                         Filter
@@ -1523,11 +1519,10 @@ const ProductList = () => {
                   )}
                 </div>
                 <div
-                  className={`${
-                    filter
-                      ? "elv_filteration_rows_2_filter"
-                      : "elv_filteration_rows_2"
-                  }`}
+                  className={`${filter
+                    ? "elv_filteration_rows_2_filter"
+                    : "elv_filteration_rows_2"
+                    }`}
                 >
                   <div
                     className={
@@ -1577,11 +1572,10 @@ const ProductList = () => {
                   <>
                     <div className={`elv_filteration_rows_3_combo`}>
                       <span
-                        className={`${
-                          filter
-                            ? "elv_filter_content_2_filter"
-                            : "elv_filter_content_2"
-                        }`}
+                        className={`${filter
+                          ? "elv_filter_content_2_filter"
+                          : "elv_filter_content_2"
+                          }`}
                         onClick={handleOpen}
                       >
                         Combo
@@ -1774,16 +1768,14 @@ const ProductList = () => {
                     <div
                       className={
                         openGridModal
-                          ? `${
-                              filter
-                                ? "elv_filteration_rows_5_filter_dots"
-                                : "elv_filteration_rows_5"
-                            }`
-                          : `${
-                              filter
-                                ? "elv_filteration_rows_5_filter"
-                                : "elv_filteration_rows_5"
-                            }`
+                          ? `${filter
+                            ? "elv_filteration_rows_5_filter_dots"
+                            : "elv_filteration_rows_5"
+                          }`
+                          : `${filter
+                            ? "elv_filteration_rows_5_filter"
+                            : "elv_filteration_rows_5"
+                          }`
                       }
                     >
                       <div className="elv_grid_view">
@@ -1851,8 +1843,8 @@ const ProductList = () => {
                                       iconConfig.name === "single_view"
                                         ? "Single View"
                                         : iconConfig.name === "double_view"
-                                        ? "Double View"
-                                        : null;
+                                          ? "Double View"
+                                          : null;
 
                                     return (
                                       label && (
@@ -1887,8 +1879,8 @@ const ProductList = () => {
                                 iconConfig.name === "window"
                                   ? WindowIcon
                                   : iconConfig.name === "apps"
-                                  ? AppsIcon
-                                  : null;
+                                    ? AppsIcon
+                                    : null;
 
                               return (
                                 IconComponent && (
@@ -1915,11 +1907,10 @@ const ProductList = () => {
                 ) : (
                   <>
                     <div
-                      className={`${
-                        filter
-                          ? "elv_filteration_rows_5_filter"
-                          : "elv_filteration_rows_5"
-                      }`}
+                      className={`${filter
+                        ? "elv_filteration_rows_5_filter"
+                        : "elv_filteration_rows_5"
+                        }`}
                     >
                       <div className="elv_grid_view">
                         {activeIconsBtns.map((iconConfig, index) => {
@@ -2001,8 +1992,8 @@ const ProductList = () => {
                     <div
                       className={
                         showFilter === false &&
-                        filter === false &&
-                        filterData?.length > 0
+                          filter === false &&
+                          filterData?.length > 0
                           ? "elv_filtered_data_category"
                           : "elv_filtered_data_category_other"
                       }
@@ -2033,7 +2024,7 @@ const ProductList = () => {
                                           id="panel1-header"
                                           className="elv_category_names"
                                         >
-                                          {item?.Name}
+                                          {item?.Fil_DisName}
                                         </AccordionSummary>
                                         <AccordionDetails>
                                           {(
@@ -2057,8 +2048,8 @@ const ProductList = () => {
                                                         ]?.checked === undefined
                                                           ? false
                                                           : filterChecked[
-                                                              `${item?.id}${opt?.id}`
-                                                            ]?.checked
+                                                            `${item?.id}${opt?.id}`
+                                                          ]?.checked
                                                       }
                                                       style={{
                                                         color: "#7f7d85",
@@ -2102,7 +2093,7 @@ const ProductList = () => {
                                         id="panel1-header"
                                       >
                                         <span className="elv_category_names">
-                                          {item.Name}
+                                          {item.Fil_DisName}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2128,8 +2119,8 @@ const ProductList = () => {
                                                       ]?.checked === undefined
                                                         ? false
                                                         : filterChecked[
-                                                            `Price${i}${i}`
-                                                          ]?.checked
+                                                          `Price${i}${i}`
+                                                        ]?.checked
                                                     }
                                                     style={{
                                                       color: "#7f7d85",
@@ -2158,26 +2149,26 @@ const ProductList = () => {
                                                     text={
                                                       opt?.Minval == 0
                                                         ? `Under ${decodeEntities(
-                                                            loginCurrency?.CurrencyCode ??
-                                                              storeInit?.CurrencyCode
-                                                          )} ${formatter(
-                                                            opt?.Maxval
-                                                          )}`
+                                                          loginCurrency?.CurrencyCode ??
+                                                          storeInit?.CurrencyCode
+                                                        )} ${formatter(
+                                                          opt?.Maxval
+                                                        )}`
                                                         : opt?.Maxval == 0
-                                                        ? `Over ${decodeEntities(
+                                                          ? `Over ${decodeEntities(
                                                             loginCurrency?.CurrencyCode ??
-                                                              storeInit?.CurrencyCode
+                                                            storeInit?.CurrencyCode
                                                           )} ${formatter(
                                                             opt?.Minval
                                                           )}`
-                                                        : `${decodeEntities(
+                                                          : `${decodeEntities(
                                                             loginCurrency?.CurrencyCode ??
-                                                              storeInit?.CurrencyCode
+                                                            storeInit?.CurrencyCode
                                                           )} ${formatter(
                                                             opt?.Minval
                                                           )} - ${decodeEntities(
                                                             loginCurrency?.CurrencyCode ??
-                                                              storeInit?.CurrencyCode
+                                                            storeInit?.CurrencyCode
                                                           )} ${formatter(
                                                             opt?.Maxval
                                                           )}`
@@ -2202,7 +2193,7 @@ const ProductList = () => {
                                         }
                                       >
                                         <span className="elv_category_names">
-                                          {item?.Name}
+                                          {item?.Fil_DisName}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2241,7 +2232,7 @@ const ProductList = () => {
                                         }
                                       >
                                         <span className="elv_category_names">
-                                          {item?.Name}
+                                          {item?.Fil_DisName}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2280,7 +2271,7 @@ const ProductList = () => {
                                         }
                                       >
                                         <span className="elv_category_names">
-                                          {item?.Name}
+                                          {item?.Fil_DisName}
                                         </span>
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2326,9 +2317,8 @@ const ProductList = () => {
                               )?.length > 0 ? (
                                 "Clear All"
                               ) : (
-                                <span>{`Total Products: ${
-                                  afterFilterCount || 0
-                                }`}</span>
+                                <span>{`Total Products: ${afterFilterCount || 0
+                                  }`}</span>
                               )}
                             </div>
                           </div>
@@ -2347,7 +2337,7 @@ const ProductList = () => {
                                         id="panel1-header"
                                         className="elv_category_names"
                                       >
-                                        {item?.Name}
+                                        {item?.Fil_DisName}
                                       </AccordionSummary>
                                       <AccordionDetails className="filter_details_mui">
                                         {(JSON.parse(item?.options) ?? []).map(
@@ -2371,8 +2361,8 @@ const ProductList = () => {
                                                         ]?.checked === undefined
                                                           ? false
                                                           : filterChecked[
-                                                              `${item?.id}${opt?.id}`
-                                                            ]?.checked
+                                                            `${item?.id}${opt?.id}`
+                                                          ]?.checked
                                                       }
                                                       style={{
                                                         color: "#7f7d85",
@@ -2413,7 +2403,7 @@ const ProductList = () => {
                                       id="panel1-header"
                                     >
                                       <span className="elv_category_names">
-                                        {item.Name}
+                                        {item.Fil_DisName}
                                       </span>
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2447,8 +2437,8 @@ const ProductList = () => {
                                                     ]?.checked === undefined
                                                       ? false
                                                       : filterChecked[
-                                                          `Price${i}${i}`
-                                                        ]?.checked
+                                                        `Price${i}${i}`
+                                                      ]?.checked
                                                   }
                                                   style={{
                                                     color: "#7f7d85",
@@ -2476,26 +2466,26 @@ const ProductList = () => {
                                                   text={
                                                     opt?.Minval == 0
                                                       ? `Under ${decodeEntities(
-                                                          loginCurrency?.CurrencyCode ??
-                                                            storeInit?.CurrencyCode
-                                                        )} ${formatter(
-                                                          opt?.Maxval
-                                                        )}`
+                                                        loginCurrency?.CurrencyCode ??
+                                                        storeInit?.CurrencyCode
+                                                      )} ${formatter(
+                                                        opt?.Maxval
+                                                      )}`
                                                       : opt?.Maxval == 0
-                                                      ? `Over ${decodeEntities(
+                                                        ? `Over ${decodeEntities(
                                                           loginCurrency?.CurrencyCode ??
-                                                            storeInit?.CurrencyCode
+                                                          storeInit?.CurrencyCode
                                                         )} ${formatter(
                                                           opt?.Minval
                                                         )}`
-                                                      : `${decodeEntities(
+                                                        : `${decodeEntities(
                                                           loginCurrency?.CurrencyCode ??
-                                                            storeInit?.CurrencyCode
+                                                          storeInit?.CurrencyCode
                                                         )} ${formatter(
                                                           opt?.Minval
                                                         )} - ${decodeEntities(
                                                           loginCurrency?.CurrencyCode ??
-                                                            storeInit?.CurrencyCode
+                                                          storeInit?.CurrencyCode
                                                         )} ${formatter(
                                                           opt?.Maxval
                                                         )}`
@@ -2520,7 +2510,7 @@ const ProductList = () => {
                                       }
                                     >
                                       <span className="elv_category_names">
-                                        {item.Name}
+                                        {item.Fil_DisName}
                                       </span>
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2555,7 +2545,7 @@ const ProductList = () => {
                                       }
                                     >
                                       <span className="elv_category_names">
-                                        {item.Name}
+                                        {item.Fil_DisName}
                                       </span>
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2590,7 +2580,7 @@ const ProductList = () => {
                                       }
                                     >
                                       <span className="elv_category_names">
-                                        {item.Name}
+                                        {item.Fil_DisName}
                                       </span>
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2857,7 +2847,7 @@ const Product_Card = ({
                 )}
               </div>
               {isHover &&
-              (videoUrl !== undefined || RollImageUrl !== undefined) ? (
+                (videoUrl !== undefined || RollImageUrl !== undefined) ? (
                 <>
                   {videoUrl !== undefined ? (
                     <div className="elv_rollup_video">
@@ -2885,8 +2875,8 @@ const Product_Card = ({
                       ? class3
                       : class2
                     : filterData?.length > 0
-                    ? class2
-                    : class3
+                      ? class2
+                      : class3
                 }
                 loading={lazy}
                 src={imageUrl}
@@ -2946,7 +2936,7 @@ const Product_Card = ({
                       {productData?.Gwt?.toFixed(3)}
                     </span>
                   </div>
-                )}  
+                )}
             </div>
             <div className="elv_filtered_prod_price">
               <span className="elv_prod_weight_span_1_design">

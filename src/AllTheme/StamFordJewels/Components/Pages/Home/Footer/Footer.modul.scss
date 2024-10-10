@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #e1e1e1;
-    padding: 10px 20px 100px 20px;
+    padding: 30px 20px;
     margin-top: 2%;
   }
 
@@ -18,6 +18,8 @@
     display: flex;
     width: 33.33%;
     justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
   }
 
   .footerSocialIcon {
@@ -49,6 +51,8 @@
     display: flex;
     width: 33.33%;
     justify-content: flex-end;
+    align-items: center;
+    margin-top: 1rem;
   }
 
   .footerMoreOptionData {
@@ -91,6 +95,7 @@
       width: 25% !important;
     }
   }
+
   @media screen and (max-width: 1024px) {
     .stam_footerBottomMain {
       display: flex;
@@ -105,7 +110,7 @@
     .footerIconMain {
       display: flex;
       justify-content: center;
-      width: 100%!important;
+      width: 100% !important;
     }
 
     .footerMoreOption {

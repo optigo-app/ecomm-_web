@@ -52,6 +52,9 @@ const ProductDetail = () => {
   const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
   const getImageColor = useRecoilValue(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
+  const getCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
+  const [colorImgFromURL, setColorImgFromURL] = useState();
+  const [colorImgFromCartWish, setColorImgFromCartWish] = useState();
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [CustPath, setCustpath] = useState(false);
@@ -487,6 +490,8 @@ const ProductDetail = () => {
     if (decodeobj) {
       setDecodeUrl(decodeobj);
       setpath(decodeobj?.p)
+      setColorImgFromURL(decodeobj?.cmc)
+      setColorImgFromCartWish(decodeobj?.mc)
     }
 
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
@@ -637,20 +642,25 @@ const ProductDetail = () => {
     let mcArr;
     let mcArr1;
 
-    const activeColorCode = getImageColor || getSessImgColor;
+    // const activeColorCode = getImageColor || getSessImgColor;
+    const activeColorCode = colorImgFromURL ?? colorImgFromCartWish;
 
     if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
-      if (activeColorCode === 1) {
-        const getYellowImage = mtColorLocal.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+      const getAllMetalColor = mtColorLocal?.find((ele) => ele?.id === colorImgFromCartWish);
+      if (getAllMetalColor?.id) {
+        mcArr1 = getAllMetalColor?.colorcode;
+      }
+      if (colorImgFromURL === 1) {
+        const getYellowImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
         mcArr1 = getYellowImage;
       }
-      if (activeColorCode === 2) {
-        const getWhiteImage = mtColorLocal.find((ele) => ele?.colorcode === 'White')?.colorcode;
-        mcArr1 = getWhiteImage;
+      if (colorImgFromURL === 2) {
+        const getWhiteImage = mtColorLocal?.find((ele) => ele?.colorcode === 'White')?.colorcode;
+        mcArr1 = getWhiteImage
       }
-      if (activeColorCode === 3) {
-        const getRoseImage = mtColorLocal.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
-        mcArr1 = getRoseImage;
+      if (colorImgFromURL === 3) {
+        const getRoseImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+        mcArr1 = getRoseImage
       }
     } else {
       if (mtColorLocal?.length) {
@@ -875,29 +885,34 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (metalTypeCombo.length) {
-      const mtType = metalTypeCombo.find(ele => ele.Metalid === singleProd?.MetalPurityid)?.metaltype;
+      const mtType = metalTypeCombo?.find(ele => ele.Metalid === singleProd?.MetalPurityid)?.metaltype;
       setMetaltype(mtType);
     }
 
-    const activeColorCode = getImageColor || getSessImgColor;
-
+    // const activeColorCode = getImageColor || getSessImgColor;
+    // const activeColorCode = colorImgFromURL ?? getSessImgColor;
+    const activeColorCode = colorImgFromURL ?? colorImgFromCartWish;
     if (metalColorCombo.length) {
       if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
-        if (activeColorCode === 1) {
-          const getYellowImage = mtColorLocal.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+        const getAllMetalColor = mtColorLocal?.find((ele) => ele?.id === colorImgFromCartWish);
+        if (getAllMetalColor?.id) {
+          setMetalColor(getAllMetalColor?.colorcode);
+        }
+        if (colorImgFromURL === 1) {
+          const getYellowImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
           setMetalColor(getYellowImage)
         }
-        if (activeColorCode === 2) {
-          const getWhiteImage = mtColorLocal.find((ele) => ele?.colorcode === 'White')?.colorcode;
+        if (colorImgFromURL === 2) {
+          const getWhiteImage = mtColorLocal?.find((ele) => ele?.colorcode === 'White')?.colorcode;
           setMetalColor(getWhiteImage)
         }
-        if (activeColorCode === 3) {
-          const getRoseImage = mtColorLocal.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+        if (colorImgFromURL === 3) {
+          const getRoseImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
           setMetalColor(getRoseImage)
         }
       }
       else {
-        const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
+        const getCurrentMetalColor = mtColorLocal?.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
         setMetalColor(getCurrentMetalColor);
       }
     }
@@ -914,24 +929,30 @@ const ProductDetail = () => {
         )[0]
     }
 
-    const activeColorCode = getImageColor || getSessImgColor;
+    // const activeColorCode = colorImgFromURL ?? getSessImgColor;
+    // const activeColorCode = getImageColor || getSessImgColor;
+    const activeColorCode = colorImgFromURL ?? colorImgFromCartWish;
 
     if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
-      if (activeColorCode === 1) {
-        const getYellowImage = mtColorLocal.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+      const getAllMetalColor = mtColorLocal?.find((ele) => ele?.id === colorImgFromCartWish);
+      if (getAllMetalColor?.id) {
+        setMetalColor(getAllMetalColor?.colorcode);
+      }
+      if (colorImgFromURL === 1) {
+        const getYellowImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
         setMetalColor(getYellowImage)
       }
-      if (activeColorCode === 2) {
-        const getWhiteImage = mtColorLocal.find((ele) => ele?.colorcode === 'White')?.colorcode;
+      if (colorImgFromURL === 2) {
+        const getWhiteImage = mtColorLocal?.find((ele) => ele?.colorcode === 'White')?.colorcode;
         setMetalColor(getWhiteImage)
       }
-      if (activeColorCode === 3) {
-        const getRoseImage = mtColorLocal.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+      if (colorImgFromURL === 3) {
+        const getRoseImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
         setMetalColor(getRoseImage)
       }
     }
     else {
-      const getCurrentMetalColor = mtColorLocal.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
+      const getCurrentMetalColor = mtColorLocal?.find((ele) => ele?.id === singleProd?.MetalColorid)?.colorcode;
       setMetalColor(getCurrentMetalColor);
     }
 
@@ -962,15 +983,44 @@ const ProductDetail = () => {
           ele?.color == selectCsQC?.split(",")[1]
       }) ?? csQcCombo;
 
-    const mcArr =
+    let mcArr;
+    let mcArr1;
+
+    // const activeColorCode = colorImgFromURL || getSessImgColor;
+    // const activeColorCode = getImageColor || getSessImgColor;
+    const activeColorCode = colorImgFromURL ?? colorImgFromCartWish;
+
+    if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
+      const getAllMetalColor = mtColorLocal?.find((ele) => ele?.id === colorImgFromCartWish);
+      if (getAllMetalColor?.id) {
+        mcArr1 = getAllMetalColor?.colorcode;
+      }
+      if (colorImgFromURL === 1) {
+        const getYellowImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+        mcArr1 = getYellowImage;
+      }
+      if (colorImgFromURL === 2) {
+        const getWhiteImage = mtColorLocal?.find((ele) => ele?.colorcode === 'White')?.colorcode;
+        mcArr1 = getWhiteImage
+      }
+      if (colorImgFromURL === 3) {
+        const getRoseImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+        mcArr1 = getRoseImage
+      }
+    }
+
+    mcArr =
       metalColorCombo?.find((ele) => {
-        return ele?.metalcolorname == metalColor
+        return ele?.colorcode == metalColor
       }) ?? metalColorCombo;
+
+    setImageSrc(mcArr?.id);
+    sessionStorage.setItem('cartWishImgColor', JSON.stringify(mcArr?.id))
 
     const prodObj = {
       autocode: singleProd?.autocode ?? 0,
       Metalid: metal?.Metalid ?? 0,
-      MetalColorId: `${(mcArr?.id ?? singleProd?.MetalColorid) ?? 0}`,
+      MetalColorId: `${(mcArr1 === mcArr?.id ? mcArr1 : (mcArr?.id ?? singleProd?.MetalColorid)) ?? 0}`,
       DiaQCid: `${`${dia?.QualityId},${dia?.ColorId}` ?? '0,0'}`,
       CsQCid: `${`${cs?.QualityId},${cs?.ColorId}` ?? '0,0'}`,
       Size: sizeData ?? singleProd?.DefaultSize,
@@ -1228,7 +1278,7 @@ const ProductDetail = () => {
         const step1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
         const stepData = JSON.parse(sessionStorage.getItem("custStepData2"));
 
-        const step1Index = stepData.findIndex(item => item.step1Data !== undefined);
+        const step1Index = stepData?.findIndex(item => item.step1Data !== undefined);
 
         const updatedStepData = [...stepData];
         if (step1Index !== -1) {
