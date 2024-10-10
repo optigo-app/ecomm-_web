@@ -573,12 +573,11 @@ const ProductList = () => {
         let MenuVal = "";
         let SearchVar = '';
         let AlbumVar = '';
-      let BestSellerVar = "";
+        let BestSellerVar = "";
         let productlisttype;
 
         UrlVal.forEach((ele) => {
           let firstChar = ele.charAt(0);
-          console.log(firstChar,"firstChar")
           switch (firstChar) {
             case "M":
               MenuVal = ele;
@@ -586,17 +585,17 @@ const ProductList = () => {
             case 'S':
               SearchVar = ele;
               break;
-              case 'A':
-                AlbumVar = ele;
-                break;
-                case "N":
-                  BestSellerVar = ele;
-                  break;
+            case 'A':
+              AlbumVar = ele;
+              break;
+            case "N":
+              BestSellerVar = ele;
+              break;
             default:
               return "";
           }
         });
-      
+
 
         if (MenuVal.length > 0) {
           let menuDecode = atob(MenuVal?.split("=")[1]);
@@ -615,7 +614,7 @@ const ProductList = () => {
         if (BestSellerVar) {
           productlisttype = BestSellerVar.split("=")[1];
         }
-        setprodListType(productlisttype); 
+        setprodListType(productlisttype);
         setIsProdLoading(true);
 
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie, "");
@@ -961,13 +960,16 @@ const ProductList = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
+  const handleMoveToDetail = (productData, metalColor) => {
+    console.log('metalColor: ', metalColor);
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
       m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
+      cmc: metalColor,
+      // mc: metalColor ?? productData?.MetalColorId,
       p: BreadCumsObj()?.menuname,
       f: {},
     };
@@ -982,8 +984,6 @@ const ProductList = () => {
       }${productData?.designno}/?p=${encodeObj}`
     );
   };
-
-  console.log("kiki", decodeURIComponent(location?.pathname?.split("/")[2]))
 
   return (
     <>
@@ -1678,9 +1678,11 @@ const Product_Card = ({
   const activeColorCode = imageColor || getSessImgColor;
 
   useEffect(() => {
-    if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) && (location?.search?.slice(1).split("/")?.[0].charAt(0) === 'M' || location?.search?.slice(1).split("/")?.[0].charAt(0) === "S")) {
+    if ((activeColorCode !== "" || activeColorCode !== undefined || activeColorCode !== null)) {
       setImageColor("");
       sessionStorage.removeItem("imgColorCode");
+      sessionStorage.removeItem("cartWishImgColor");
+      setSelectedMetalColor(null);
     }
   }, [location?.search])
 
@@ -1688,6 +1690,9 @@ const Product_Card = ({
     if (selectedMetalColor !== null) {
       setImageColor(selectedMetalColor);
       sessionStorage.setItem("imgColorCode", JSON.stringify(selectedMetalColor));
+    } else {
+      sessionStorage.removeItem("imgColorCode");
+      setImageColor("");
     }
   }, [selectedMetalColor])
 
@@ -1731,7 +1736,7 @@ const Product_Card = ({
             onMouseOver={() => setIsHover(true)}
             onMouseOut={() => setIsHover(false)}
             onMouseLeave={() => setIsHover(false)}
-            onClick={() => handleMoveToDetail(productData)}
+            onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
           >
             {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
               <>
