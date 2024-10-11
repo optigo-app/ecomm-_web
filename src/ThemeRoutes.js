@@ -10,10 +10,26 @@ import { ColorStoneQualityColorComboAPI } from "./utils/API/Combo/ColorStoneQual
 import { DiamondQualityColorComboAPI } from "./utils/API/Combo/DiamondQualityColorComboAPI";
 import { MetalTypeComboAPI } from "./utils/API/Combo/MetalTypeComboAPI";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { el_companyLogo, el_companyLogoM } from "./AllTheme/Elveester/Components/Recoil/atom";
-import { for_companyLogo, for_companyLogoM } from "./AllTheme/Forevery/Components/Recoil/atom";
-import { companyLogo, companyLogoM, loginState, smr_companyLogo, smr_companyLogoM, smr_loginState } from "./AllTheme/SmilingRock/Components/Recoil/atom";
-import { dt_companyLogo, dt_companyLogoM } from "./AllTheme/DaimondTine/Components/Recoil/atom";
+import {
+  el_companyLogo,
+  el_companyLogoM,
+} from "./AllTheme/Elveester/Components/Recoil/atom";
+import {
+  for_companyLogo,
+  for_companyLogoM,
+} from "./AllTheme/Forevery/Components/Recoil/atom";
+import {
+  companyLogo,
+  companyLogoM,
+  loginState,
+  smr_companyLogo,
+  smr_companyLogoM,
+  smr_loginState,
+} from "./AllTheme/SmilingRock/Components/Recoil/atom";
+import {
+  dt_companyLogo,
+  dt_companyLogoM,
+} from "./AllTheme/DaimondTine/Components/Recoil/atom";
 // import { el_companyLogo } from "./AllTheme/Elveester/Components/Recoil/atom";
 import SmilingRock_MobileApp_App from "./AllTheme/MobileApp/SmilingRock_MobileApp/SmilingRock_MobileApp_App";
 import { smrMA_companyLogo } from "./AllTheme/MobileApp/SmilingRock_MobileApp/Components/Recoil/atom";
@@ -26,48 +42,61 @@ import Procatalog_MobileApp_App from "./AllTheme/MobileApp/Procatalog_MobileApp/
 import StamFordJewels_App from "./AllTheme/StamFordJewels/StamFordJewels_App";
 import RoopJewellers_App from "./AllTheme/RoopJewellers/RoopJewellers_App";
 import MalakanJewels_App from "./AllTheme/MalakanJwewls/MalakanJewels_App";
-import { storImagePath, storInitDataPath } from "./utils/Glob_Functions/GlobalFunction";
+import {
+  storImagePath,
+  storInitDataPath,
+} from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
 import SEO from "./utils/Seo/Seo";
-import { proCat_companyLogo, proCat_companyLogoM } from "./AllTheme/Pocatalog/Components/Recoil/atom";
-import { roop_companyLogo, roop_companyLogoM } from "./AllTheme/RoopJewellers/Components/Recoil/atom";
-import { mala_companyLogo, mala_companyLogoM } from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
-import { stam_companyLogo, stam_companyLogoM } from "./AllTheme/StamFordJewels/Components/Recoil/atom";
+import {
+  proCat_companyLogo,
+  proCat_companyLogoM,
+} from "./AllTheme/Pocatalog/Components/Recoil/atom";
+import {
+  roop_companyLogo,
+  roop_companyLogoM,
+} from "./AllTheme/RoopJewellers/Components/Recoil/atom";
+import {
+  mala_companyLogo,
+  mala_companyLogoM,
+} from "./AllTheme/MalakanJwewls/Components/Recoil/atom";
+import {
+  stam_companyLogo,
+  stam_companyLogoM,
+} from "./AllTheme/StamFordJewels/Components/Recoil/atom";
 
 export default function ThemeRoutes() {
+  const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo);
+  const smr_SetCompanyTitleLogoM = useSetRecoilState(smr_companyLogoM);
 
-  const smr_SetCompanyTitleLogo = useSetRecoilState(smr_companyLogo)
-  const smr_SetCompanyTitleLogoM = useSetRecoilState(smr_companyLogoM)
-
-  const proCat_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogo)
-  const proCatM_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogoM)
+  const proCat_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogo);
+  const proCatM_setCompanyTitleLogo = useSetRecoilState(proCat_companyLogoM);
 
   const setRoopWebLogo = useSetRecoilState(roop_companyLogo);
   const setRoopMobileLogo = useSetRecoilState(roop_companyLogoM);
 
-  const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM)
-  const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo)
+  const el_setCompanyTitleLogoM = useSetRecoilState(el_companyLogoM);
+  const el_setCompanyTitleLogo = useSetRecoilState(el_companyLogo);
 
-  const for_setCompanyTitleLogoM = useSetRecoilState(for_companyLogoM)
-  const for_setCompanyTitleLogo = useSetRecoilState(for_companyLogo)
+  const for_setCompanyTitleLogoM = useSetRecoilState(for_companyLogoM);
+  const for_setCompanyTitleLogo = useSetRecoilState(for_companyLogo);
 
-  const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
-  const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
-  
-  const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
-  const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
-  
-  const stam_setCompanyTitleLogo = useSetRecoilState(stam_companyLogo)
-  const stam_setCompanyTitleLogoM = useSetRecoilState(stam_companyLogoM)
+  const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo);
+  const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM);
 
-  const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo)
+  const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo);
+  const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM);
+
+  const stam_setCompanyTitleLogo = useSetRecoilState(stam_companyLogo);
+  const stam_setCompanyTitleLogoM = useSetRecoilState(stam_companyLogoM);
+
+  const smrMA_setCompanyTitleLogo = useSetRecoilState(smrMA_companyLogo);
 
   const [title, setTitle] = useState();
   const [htmlContent, setHtmlContent] = useState("");
   const [storeInitData, setStoreInitData] = useState();
 
   useEffect(() => {
-    console.log(`path..........  ${storInitDataPath()}/StoreInit.json`);
     fetch(`${storInitDataPath()}/StoreInit.json`)
       .then((response) => response.text())
       .then((text) => {
@@ -76,8 +105,14 @@ export default function ThemeRoutes() {
           setHtmlContent(jsonData);
           if (jsonData) {
             sessionStorage.setItem("storeInit", JSON.stringify(jsonData.rd[0]));
-            sessionStorage.setItem("myAccountFlags", JSON.stringify(jsonData.rd1));
-            sessionStorage.setItem("CompanyInfoData", JSON.stringify(jsonData.rd2[0]));
+            sessionStorage.setItem(
+              "myAccountFlags",
+              JSON.stringify(jsonData.rd1)
+            );
+            sessionStorage.setItem(
+              "CompanyInfoData",
+              JSON.stringify(jsonData.rd2[0])
+            );
           }
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -107,7 +142,7 @@ export default function ThemeRoutes() {
 
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
-    
+
     stam_setCompanyTitleLogo(webLogo);
     stam_setCompanyTitleLogoM(mobileLogo);
 
@@ -115,15 +150,19 @@ export default function ThemeRoutes() {
   }, []);
 
   useEffect(() => {
+    console.log("initial call")
     setTitle(title);
     let visiterId = htmlContent?.VisitorId;
     const existingVisitorId = Cookies.get("visiterId");
+
     if (!existingVisitorId) {
+    console.log("existingVisitorId not have call")
       Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
     } else {
       try {
         const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
-        const expirationDate = visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
+        const expirationDate =
+          visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
         if (expirationDate && expirationDate <= new Date()) {
           Cookies.remove("visiterId", { path: "/" });
         }
@@ -131,19 +170,22 @@ export default function ThemeRoutes() {
         console.error("Error parsing visiterId cookie:", e);
       }
     }
-
+    console.log("worked call")
     if (htmlContent) {
+      console.log("worked htmlcontent")
       callAllApi(htmlContent?.rd[0]);
     }
-  }, []);
+  }, [htmlContent]);
 
   const callAllApi = (Data) => {
-    const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON?.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
     const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
     const visiterID = Cookies.get("visiterId");
     let finalID;
     if (Data?.IsB2BWebsite == 0) {
-      finalID = (LoginUser === false) ? visiterID : loginUserDetail?.id || "0";
+      finalID = LoginUser === false ? visiterID : loginUserDetail?.id || "0";
     } else {
       finalID = loginUserDetail?.id || "0";
     }
@@ -163,16 +205,17 @@ export default function ThemeRoutes() {
           let data = JSON.stringify(response?.Data?.rd);
           sessionStorage.setItem("diamondQualityColorCombo", data);
         }
-      }
-      )
+      })
       .catch((err) => console.log(err));
 
-    MetalColorCombo(finalID).then((response) => {
-      if (response?.Data?.rd) {
-        let data = JSON.stringify(response?.Data?.rd)
-        sessionStorage.setItem('MetalColorCombo', data)
-      }
-    }).catch((err) => console.log(err))
+    MetalColorCombo(finalID)
+      .then((response) => {
+        if (response?.Data?.rd) {
+          let data = JSON.stringify(response?.Data?.rd);
+          sessionStorage.setItem("MetalColorCombo", data);
+        }
+      })
+      .catch((err) => console.log(err));
 
     ColorStoneQualityColorComboAPI(finalID)
       .then((response) => {
@@ -205,91 +248,119 @@ export default function ThemeRoutes() {
 
   return (
     <>
-    <h1>heellooooo</h1>
       {storeInitData?.DomainForNo == 2 ? (
         <div>
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={title} />
-            <link rel="icon" href={storeInitData?.favicon} type="image/x-icon" />
-            <link rel="apple-touch-icon" sizes="180x180" href={storeInitData?.favicon} />
-            <link rel="icon" type="image/png" sizes="192x192" href={storeInitData?.favicon} />
-            <link rel="icon" type="image/png" sizes="512x512" href={storeInitData?.favicon} />
+            <link
+              rel="icon"
+              href={storeInitData?.favicon}
+              type="image/x-icon"
+            />
+            <link
+              rel="apple-touch-icon"
+              sizes="180x180"
+              href={storeInitData?.favicon}
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="192x192"
+              href={storeInitData?.favicon}
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="512x512"
+              href={storeInitData?.favicon}
+            />
             <link rel="mask-icon" href={storeInitData?.favicon} />
             <meta name="msapplication-TileColor" content="#ffffff" />
-            <meta name="msapplication-TileImage" content={storeInitData?.favicon} />
+            <meta
+              name="msapplication-TileImage"
+              content={storeInitData?.favicon}
+            />
             <meta
               name="viewport"
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
           </Helmet>
         </div>
-      ) :
+      ) : (
         <div>
           <Helmet>
             <title>{title}</title>
             <meta name="description" content={title} />
-            <link rel="icon" href={`${storImagePath()}/logoIcon/favicon1.png`} type="image/x-icon" />
-            <link rel="apple-touch-icon" sizes="180x180" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
-            <link rel="icon" type="image/png" sizes="192x192" href={`${storImagePath()}/logoIcon/androidCh1.png`} />
-            <link rel="icon" type="image/png" sizes="512x512" href={`${storImagePath()}/logoIcon/androidCh2.png`} />
-            <link rel="mask-icon" href={`${storImagePath()}/logoIcon/apple-touch-icon.png`} />
+            <link
+              rel="icon"
+              href={`${storImagePath()}/logoIcon/favicon1.png`}
+              type="image/x-icon"
+            />
+            <link
+              rel="apple-touch-icon"
+              sizes="180x180"
+              href={`${storImagePath()}/logoIcon/apple-touch-icon.png`}
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="192x192"
+              href={`${storImagePath()}/logoIcon/androidCh1.png`}
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="512x512"
+              href={`${storImagePath()}/logoIcon/androidCh2.png`}
+            />
+            <link
+              rel="mask-icon"
+              href={`${storImagePath()}/logoIcon/apple-touch-icon.png`}
+            />
             <meta name="msapplication-TileColor" content="#ffffff" />
-            <meta name="msapplication-TileImage" content={`${storImagePath()}/logoIcon/androidCh2.png`} />
+            <meta
+              name="msapplication-TileImage"
+              content={`${storImagePath()}/logoIcon/androidCh2.png`}
+            />
             <meta
               name="viewport"
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
           </Helmet>
         </div>
-      }
+      )}
 
-      {htmlContent?.rd && htmlContent?.rd.length > 0 &&
-        (
-          <>
-            {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
+      {htmlContent?.rd && htmlContent?.rd.length > 0 && (
+        <>
+          {htmlContent?.rd[0]?.Themeno === 1 && <SmilingRock_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
+          {htmlContent?.rd[0]?.Themeno === 2 && <DaimondTine_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
+          {htmlContent?.rd[0]?.Themeno === 3 && <Elveester_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
+          {htmlContent?.rd[0]?.Themeno === 4 && <SmilingRock_MobileApp_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
+          {htmlContent?.rd[0]?.Themeno === 5 && <HemratnaProcatalog_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
+          {htmlContent?.rd[0]?.Themeno === 6 && <Procatalog_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
+          {htmlContent?.rd[0]?.Themeno === 7 && <HouseOfQuadri_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
+          {htmlContent?.rd[0]?.Themeno === 8 && <ForEveryRoutes />}
 
-            {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
+          {htmlContent?.rd[0]?.Themeno === 9 && <Procatalog_MobileApp_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
+          {htmlContent?.rd[0]?.Themeno === 10 && <StamFordJewels_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
+          {htmlContent?.rd[0]?.Themeno === 11 && <RoopJewellers_App />}
 
-            {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
-          </>
-        )
-      }
+          {htmlContent?.rd[0]?.Themeno === 12 && <MalakanJewels_App />}
+        </>
+      )}
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useEffect, useState } from "react";
 // import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
@@ -477,7 +548,6 @@ export default function ThemeRoutes() {
 //       }
 //       )
 //       .catch((err) => console.log(err));
-
 
 //     MetalColorCombo(finalID).then((response) => {
 //       if (response?.Data?.rd) {

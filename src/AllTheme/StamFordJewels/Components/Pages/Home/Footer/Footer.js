@@ -61,7 +61,7 @@ const Footer = ({ fromPage }) => {
     <div>
       <div className='stam_Footer1_main'>
         <div className='stam_footerBottomMain'>
-          <div className='footerIconMain'>
+          <div className='Stm_footerIconMain'>
             {socialMediaData?.map((social, index) => (
               <div className='footerSocialIcon'>
                 <a key={index} href={`${social.SLink}`} target="_blank" rel="noopener noreferrer">
