@@ -805,6 +805,7 @@ const Header = () => {
                   borderBottom: "1px solid white",
                   alignItems: "end",
                   marginInline: "15px",
+                  marginBottom :"1.5rem"
                 }}
               >
                 <input
