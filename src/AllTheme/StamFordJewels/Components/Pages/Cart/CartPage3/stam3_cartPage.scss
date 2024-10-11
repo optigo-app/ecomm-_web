@@ -4,13 +4,18 @@ $borderColor: rgba(232, 232, 232, 1);
 
 .stam3_MainBGDiv {
   font-family: $primaryFontFamily;
-  // margin-top: 140px;
-
+  margin-top: 40px;
+  @media screen and (max-width  : 320px) {
+    overflow: hidden;
+  }
 
   .stam3_cart-title {
     color: $titleColor;
     font-size: $fontSize6;
     text-align: center;
+    @media screen and (max-width:768px) {
+      margin-bottom: 1rem;
+    }
   }
 
   .cartMainPageDiv {

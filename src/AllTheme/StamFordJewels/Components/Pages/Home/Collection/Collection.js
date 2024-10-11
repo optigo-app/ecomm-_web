@@ -175,7 +175,7 @@ const MobileCollection = ({
   };
 
   return (
-    <div className=" mobile-collection">
+    <div className="mobile-collection">
       <Slider {...settings}>
         {designSetList?.slice(0, 4)?.map((val, i) => {
           return (

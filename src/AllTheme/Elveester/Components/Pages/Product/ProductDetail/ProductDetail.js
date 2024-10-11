@@ -2508,7 +2508,7 @@ const TableComponentsDia = ({ list, details }) => {
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
-                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed()}`}</td>
+                <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed(3)}`}</td>
               </tr>
             ))}
           </tbody>

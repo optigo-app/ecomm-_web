@@ -457,6 +457,11 @@ const ProductList = () => {
     if (location?.key) {
       setLocationKey(location?.key)
     }
+    setCurrPage(1)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
 
   }, [location?.key])
 
@@ -1433,13 +1438,18 @@ const ProductList = () => {
           }}
           className="stam_filterDrawer"
         >
+          <div className="stam_menu_drawer"
+          style={{
+            padding:"15px"
+          }}
+          >
           <div
             style={{
               display: "flex",
               width: "100%",
               alignItems: "center",
               justifyContent: "end",
-              padding: "8px 8px 0px 0px",
+              // padding: "8px 8px 0px 0px",
             }}
           >
             <CloseIcon
@@ -1450,8 +1460,8 @@ const ProductList = () => {
           </div>
           <div
             style={{
-              marginLeft: "15px",
-              marginBottom: "20px",
+              // marginLeft: "15px",
+              // marginBottom: "20px",
               display: "flex",
               gap: "5px",
               flexDirection: "column",
@@ -1630,8 +1640,18 @@ const ProductList = () => {
           </div>
           <div className="stam_mobile_filter_portion">
             {filterData?.length > 0 && (
-              <div className="stam_mobile_filter_portion_outter">
-                <span className="stam_filter_text">
+              <div className="stam_mobile_filter_portion_outter"
+              style={{
+                marginTop:"1rem"
+              }}>
+                <span className="stam_filter_text"
+                style={{
+                  display  :"flex",
+                  alignItems:"center",
+                  justifyContent:"space-between",
+                  width:"100%"
+                }}
+                >
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0
@@ -1737,6 +1757,15 @@ const ProductList = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
+                                  sx={{
+                                    display:"flex",
+                                    alignItems:"center",
+                                    justifyContent:"space-between",
+                                    flexDirection:"row-reverse",
+                                    width:"100%" ,
+                                    padding:"0",
+                                    margin:"0"
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -2081,6 +2110,7 @@ const ProductList = () => {
                 </div>
               </div>
             )}
+          </div>
           </div>
         </Drawer>
         <div className="stam_bodyContain">
