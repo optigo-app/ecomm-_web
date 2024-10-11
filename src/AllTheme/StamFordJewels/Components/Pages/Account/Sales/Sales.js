@@ -25,13 +25,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { headCells_Sales as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
-const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, PrintUrl) => {
+const createData = (SrNo, Date, StockDocumentNo, TotalDesign, Amount, Currencycode, PrintUrl) => {
     return {
         SrNo,
         Date,
         StockDocumentNo,
         TotalDesign,
         Amount,
+        Currencycode,
         PrintUrl
     };
 }
@@ -318,7 +319,7 @@ const Sales = () => {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, printUrl);
+                    let dataa = createData(i + 1, e?.Date, e?.StockDocumentNo, e?.TotalDesign, e?.Amount, e?.Currencycode, printUrl);
                     rows?.push(dataa)
                 });
                 setData(rows);
@@ -656,7 +657,7 @@ const Sales = () => {
                                             </TableCell>
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="right"><span dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
                                             <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
                                                             <PrintIcon   />
                                                         </div></TableCell>
