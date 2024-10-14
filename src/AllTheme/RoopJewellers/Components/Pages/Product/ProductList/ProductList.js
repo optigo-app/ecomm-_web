@@ -1150,6 +1150,7 @@ const ProductList = () => {
 
 
   }
+  console.log(afterCountStatus , "afterCountStatus")
   const handleRangeFilterApi1 = async (Rangeval1) => {
 
     let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
@@ -1451,11 +1452,12 @@ const ProductList = () => {
           </div>
           <div
             style={{
-              marginLeft: "15px",
+              // marginLeft: "15px",
               marginBottom: "20px",
               display: "flex",
               gap: "5px",
               flexDirection: "column",
+              padding:"0 16px"
             }}
           >
             <Typography
@@ -1616,6 +1618,9 @@ const ProductList = () => {
                   <option className="option" value="Trending">
                     Trending
                   </option>
+                  {/*<option className="option" value="Bestseller">
+                                    Bestseller
+                                    </option>*/}
                   <option className="option" value="In Stock">
                     In stock
                   </option>
@@ -1632,7 +1637,15 @@ const ProductList = () => {
           <div className="roop_mobile_filter_portion">
             {filterData?.length > 0 && (
               <div className="roop_mobile_filter_portion_outter">
-                <span className="roop_filter_text">
+                <span className="roop_filter_text"
+                style={{
+                  width:"100%",
+                  display:"flex",
+                  alignItems:"center",
+                  justifyContent:"space-between" ,
+                  padding:"0 16px"
+                }}
+                >
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0
@@ -1647,12 +1660,15 @@ const ProductList = () => {
                           className="pSkelton"
                         />
                       ) :
-                        <span>{`Product Found:: ${afterFilterCount}`}</span>
+                        <span>{`Product Found : ${afterFilterCount}`}</span>
                       }
                       </>
                     }
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span style={{
+                    fontWeight :"500",
+                    cursor:"pointer"
+                  }} onClick={() => handelFilterClearAll()}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
@@ -1670,7 +1686,9 @@ const ProductList = () => {
                     }
                   </span>
                 </span>
-                <div style={{ marginTop: "12px" }}>
+                <div style={{ marginTop: "12px" ,
+              padding:"0 16px"
+                 }}>
                   {filterData?.map((ele) => (
                     <>
                       {!ele?.id?.includes("Range") &&
@@ -1717,6 +1735,7 @@ const ProductList = () => {
                                 minHeight: "fit-content",
                                 maxHeight: "300px",
                                 overflow: "auto",
+                                margin:0,
                               }}
                             >
                               {(JSON.parse(ele?.options) ?? []).map((opt) => (
@@ -1738,6 +1757,13 @@ const ProductList = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
+                                  sx={{
+                                    display:"flex",
+                                    width:"100%",
+                                    alignItems:"center" ,
+                                    justifyContent:"space-between",
+                                    flexDirection:"row-reverse"
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1853,6 +1879,13 @@ const ProductList = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
+                                   sx={{
+                                    display:"flex",
+                                    alignItems:"center",
+                                    width:"100%",
+                                    flexDirection:"row-reverse",
+                                    justifyContent:"space-between"
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`Price${i}${i}`}
@@ -2995,6 +3028,9 @@ const ProductList = () => {
                                     <option className="option" value="Trending">
                                       Trending
                                     </option>
+                                    {/*<option className="option" value="Bestseller">
+                                    Bestseller
+                                    </option>*/}
                                     {storeInit?.IsStockWebsite == 1 &&
                                       <option className="option" value="In Stock">
                                         In stock

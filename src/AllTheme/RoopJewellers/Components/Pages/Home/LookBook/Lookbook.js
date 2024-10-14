@@ -730,6 +730,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
+                              sx={{
+                                display:"flex",
+                                alignItems:"center",
+                                width:"100%",
+                                flexDirection:"row-reverse",
+                                justifyContent:"space-between"
+                              }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -797,8 +804,7 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                          color: "#7d7f85 !important",
-                          borderRadius: 0,
+                                                   borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
@@ -839,6 +845,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                             <FormControlLabel
+                             sx={{
+                              display:"flex",
+                              alignItems:"center",
+                              width:"100%",
+                              flexDirection:"row-reverse",
+                              justifyContent:"space-between"
+                            }}
                               control={
                                 <Checkbox
                                   name={`Price${i}${i}`}
@@ -979,6 +992,13 @@ const Lookbook = () => {
                         key={opt?.id}
                       >
                         <FormControlLabel
+                         sx={{
+                          display:"flex",
+                          alignItems:"center",
+                          width:"100%",
+                          flexDirection:"row-reverse",
+                          justifyContent:"space-between"
+                        }}
                           control={
                             <Checkbox
                               name={`${ele?.id}${opt?.id}`}
@@ -1046,7 +1066,6 @@ const Lookbook = () => {
                   style={{
                     background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
                     color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
-                    marginRight: '20px'
                   }}
                 >
                   Set View
@@ -1182,6 +1201,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                     <FormControlLabel
+                                     sx={{
+                                      display:"flex",
+                                      alignItems:"center",
+                                      width:"100%",
+                                      flexDirection:"row-reverse",
+                                      justifyContent:"space-between"
+                                    }}
                                       control={
                                         <Checkbox
                                           name={`${ele?.id}${opt?.id}`}
@@ -1295,6 +1321,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                     <FormControlLabel
+                                     sx={{
+                                      display:"flex",
+                                      alignItems:"center",
+                                      width:"100%",
+                                      flexDirection:"row-reverse",
+                                      justifyContent:"space-between"
+                                    }}
                                       control={
                                         <Checkbox
                                           name={`Price${i}${i}`}

@@ -21,8 +21,17 @@ import Cookies from "js-cookie";
 import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
-import { roop_cartB2CDrawer, roop_CartCount, roop_CartNo, roop_companyLogo, roop_companyLogoM, roop_loginState, roop_WishCount } from "../../../Recoil/atom";
+import {
+  roop_cartB2CDrawer,
+  roop_CartCount,
+  roop_CartNo,
+  roop_companyLogo,
+  roop_companyLogoM,
+  roop_loginState,
+  roop_WishCount,
+} from "../../../Recoil/atom";
 import { MdAccountBox } from "react-icons/md";
+import { MdAccountCircle } from "react-icons/md";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -45,7 +54,6 @@ const Header = () => {
   const IsCartNo = storeinit?.CartNo;
   const location = useLocation();
   const cartTheameNo = useRecoilValue(roop_CartNo);
-
 
   let navigate = useNavigate();
   let cookie = Cookies.get("visiterId");
@@ -164,7 +172,9 @@ const Header = () => {
   };
 
   const getMenuApi = async () => {
-    const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetail = JSON.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
     const visiterID = Cookies.get("visiterId");
@@ -226,12 +236,10 @@ const Header = () => {
   };
 
   const handelMenu = (param, param1, param2, event) => {
-
-
     if (
-      event?.ctrlKey ||     // Ctrl key
-      event?.shiftKey ||    // Shift key
-      event?.metaKey ||     // Meta key (Command key on macOS)
+      event?.ctrlKey || // Ctrl key
+      event?.shiftKey || // Shift key
+      event?.metaKey || // Meta key (Command key on macOS)
       (event?.button && event?.button === 1) // Middle mouse button
     ) {
       // Let the default behavior of the <a> tag handle the new tab opening
@@ -295,8 +303,6 @@ const Header = () => {
       navigate(url);
     }
   };
-
-
 
   //mobileMenu.................
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -368,10 +374,10 @@ const Header = () => {
           f: {},
         };
 
-        let encodeObj = btoa(JSON.stringify(obj))
+        let encodeObj = btoa(JSON.stringify(obj));
         setDrawerShowOverlay(false);
         navigation(`/p/${searchText}?S=${encodeObj}`);
-        setSearchText("")
+        setSearchText("");
       }
     }
   };
@@ -382,23 +388,24 @@ const Header = () => {
     setTimeout(() => {
       if (cartTheameNo == 2) {
         setIsCartOpen((prevState) => !prevState);
-        const isCartDrawerOpen = JSON.parse(sessionStorage.getItem("isCartDrawer"));
+        const isCartDrawerOpen = JSON.parse(
+          sessionStorage.getItem("isCartDrawer")
+        );
         sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
         setCartOpenState((prevState) => !prevState);
       } else {
-        navigate('/cartPage');
+        navigate("/cartPage");
       }
     }, 500);
   };
 
-  const handleContextMenu = (e) => { };
+  const handleContextMenu = (e) => {};
 
   const handleMouseDown = (e) => {
     // console.log("rrrrrrrrrrrrrrrrrrr", e);
     if (e.button === 1) {
     }
   };
-
 
   const hanldeStaticPageNavigation = (event, path) => {
     if (
@@ -413,7 +420,7 @@ const Header = () => {
       navigation(path);
       window.scrollTo(0, 0);
     }
-  }
+  };
   return (
     <div className="roop_headerMain_div">
       {/* {serachsShowOverlay && (
@@ -555,7 +562,11 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={
+                            IsCartNo == 3
+                              ? toggleCartDrawer
+                              : () => navigate("/cartPage")
+                          }
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -575,9 +586,12 @@ const Header = () => {
                   display: "flex",
                   border: "1px solid white",
                   alignItems: "center",
-                  height: '40px',
-                  justifyContent: 'center',
+                  height: "40px",
+                  justifyContent: "center",
                   marginInline: "5px",
+                  paddingBlock: "15px",
+                  marginBottom: "10px",
+                  paddingInline: "8px",
                 }}
               >
                 <input
@@ -597,7 +611,6 @@ const Header = () => {
                     color: "white",
                     fontSize: "17px",
                   }}
-                 
                 />
                 <IoSearchOutline
                   style={{
@@ -764,24 +777,25 @@ const Header = () => {
               <p className="roop_menuStaicMobilePage">About us</p>
             </div>
 
-            {islogin == true && <div>
-              <p
-                className="roop_menuStaicMobilePageLink"
-                style={{ marginTop: "10px" }}
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  navigation("/myWishList");
-                }}
-              >
-                WishList
-              </p>
-            </div>
-            }
+            {islogin == true && (
+              <div>
+                <p
+                  className="roop_menuStaicMobilePageLink"
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    navigation("/myWishList");
+                  }}
+                >
+                  WishList
+                </p>
+              </div>
+            )}
 
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
                 <>
-                  {storeinit?.IsDesignSetInMenu == 1 &&
+                  {storeinit?.IsDesignSetInMenu == 1 && (
                     <p
                       className="roop_menuStaicMobilePageLink"
                       style={{ marginTop: "10px" }}
@@ -793,14 +807,14 @@ const Header = () => {
                       {storeinit?.DesignSetInMenu}
                       {/* LOOKBOOK */}
                     </p>
-                  }
+                  )}
                 </>
               ) : (
                 ""
               )
             ) : (
               <>
-                {storeinit?.IsDesignSetInMenu == 1 &&
+                {storeinit?.IsDesignSetInMenu == 1 && (
                   <p
                     className="roop_menuStaicMobilePageLink"
                     style={{ marginTop: "10px" }}
@@ -812,12 +826,11 @@ const Header = () => {
                     {storeinit?.DesignSetInMenu}
                     {/* LOOKBOOK */}
                   </p>
-                }
+                )}
               </>
             )}
 
-            {
-              islogin &&
+            {islogin && (
               <>
                 <div>
                   <p
@@ -842,14 +855,16 @@ const Header = () => {
                   </p>
                 </div>
               </>
-            }
+            )}
           </div>
         </>
       )}
 
       <div className="roop_Top_header">
         <div className="roop_header_top_line">
-          <p className="roop_header_top_line_text">Welcome To Roop Jewellers's Offical Website</p>
+          <p className="roop_header_top_line_text">
+            Welcome To Roop Jewellers's Offical Website
+          </p>
         </div>
         <div className="roop_Top_header_sub">
           <div className="roop_Top2_header_div1">
@@ -925,7 +940,11 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                       onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                        onClick={
+                          IsCartNo == 3
+                            ? toggleCartDrawer
+                            : () => navigate("/cartPage")
+                        }
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -969,7 +988,11 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                         onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={
+                            IsCartNo == 3
+                              ? toggleCartDrawer
+                              : () => navigate("/cartPage")
+                          }
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -983,18 +1006,15 @@ const Header = () => {
               )}
 
               {islogin ? (
-                <li
-                  className="nav_li_smining_Icone"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigation("/account")}
-                >
-                  <MdAccountBox style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    width: "20px",
-                  }} />
-                </li>
-
+                <Tooltip title="Account">
+                  <li
+                    className="nav_li_smining_Icone"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigation("/account")}
+                  >
+                    <MdAccountCircle size={23} />
+                  </li>
+                </Tooltip>
               ) : (
                 <li
                   className="nav_li_roop"
@@ -1094,7 +1114,9 @@ const Header = () => {
           <li
             className="nav_li_roop nav_li_smining_Mobile"
             style={{ cursor: "pointer" }}
-            onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
+            onClick={(event) =>
+              hanldeStaticPageNavigation(event, "/servicePolicy")
+            }
           >
             <a href="/servicePolicy" className="stam_A_link">
               SERVICE POLICY
@@ -1104,7 +1126,9 @@ const Header = () => {
           <li
             className="nav_li_roop nav_li_smining_Mobile"
             style={{ cursor: "pointer" }}
-            onClick={(event) => hanldeStaticPageNavigation(event, "/ExpertAdvice")}
+            onClick={(event) =>
+              hanldeStaticPageNavigation(event, "/ExpertAdvice")
+            }
           >
             <a href="/ExpertAdvice" className="stam_A_link">
               EXPERT ADVICE
@@ -1461,8 +1485,9 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`roop_shop_dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
-            }`}
+          className={`roop_shop_dropdown ${isDropdownOpen ? "open" : ""} ${
+            isHeaderFixed ? "fixed" : ""
+          }`}
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
@@ -1474,8 +1499,8 @@ const Header = () => {
               backgroundColor: "white",
               gap: "50px",
               justifyContent: "space-between",
-              backgroundColor: '#e9e9e9',
-              borderTop: '3px solid #3d3dae'
+              backgroundColor: "#e9e9e9",
+              borderTop: "3px solid #d14a61",
               // marginTop: isHeaderFixed && "20px",
             }}
             className="roop_showDropOptionMainDiv"
@@ -1489,18 +1514,18 @@ const Header = () => {
                   className="roop_headerOptionSingleDiv"
                   style={{
                     minWidth: "fitContent",
-                    borderRight: "1px solid lightgray",
                     paddingLeft: "25px",
                   }}
                 >
                   <ButtonBase
                     component="div"
                     onClick={(e) =>
-                      handelMenu({
-                        menuname: menuItem?.menuname,
-                        key: menuItem?.param0name,
-                        value: menuItem?.param0dataname,
-                      },
+                      handelMenu(
+                        {
+                          menuname: menuItem?.menuname,
+                          key: menuItem?.param0name,
+                          value: menuItem?.param0dataname,
+                        },
                         {},
                         {},
                         e
@@ -1512,13 +1537,13 @@ const Header = () => {
                         `${menuItem?.param0dataname}/${menuItem?.param0name}`
                       )}`}
                       className="roop_menuSubTitle"
-                    // onClick={() =>
-                    //   handelMenu({
-                    //     menuname: menuItem?.menuname,
-                    //     key: menuItem?.param0name,
-                    //     value: menuItem?.param0dataname,
-                    //   })
-                    // }
+                      // onClick={() =>
+                      //   handelMenu({
+                      //     menuname: menuItem?.menuname,
+                      //     key: menuItem?.param0name,
+                      //     value: menuItem?.param0dataname,
+                      //   })
+                      // }
                     >
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </a>
@@ -1543,17 +1568,32 @@ const Header = () => {
                               justifyContent: "start",
                               height: "25px",
                             }}
-                            onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e)}
+                            onClick={(e) =>
+                              handelMenu(
+                                {
+                                  menuname: menuItem?.menuname,
+                                  key: menuItem?.param0name,
+                                  value: menuItem?.param0dataname,
+                                },
+                                {
+                                  key: subMenuItem.param1name,
+                                  value: subMenuItem.param1dataname,
+                                },
+                                {},
+                                e
+                              )
+                            }
                           >
                             {/* <a href='#' className='roop_menuSubTitle'> */}
                             <a
-                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                                }/?M=${btoa(
-                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                                )}`}
+                              href={`/p/${menuItem?.menuname}/${
+                                menuItem?.param0dataname
+                              }/${subMenuItem.param1dataname}/?M=${btoa(
+                                `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                              )}`}
                               className="roop_menuSubTitle"
 
-                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                              // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                             >
                               <p
                                 style={{
@@ -1597,29 +1637,31 @@ const Header = () => {
                                   }
                                 >
                                   <a
-                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                                      }/${subSubMenuItem.param2dataname
-                                      }/?M=${btoa(
-                                        `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                                      )}`}
+                                    href={`/p/${menuItem?.menuname}/${
+                                      menuItem?.param0dataname
+                                    }/${subMenuItem.param1dataname}/${
+                                      subSubMenuItem.param2dataname
+                                    }/?M=${btoa(
+                                      `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                    )}`}
                                     className="roop_menuSubTitle"
-                                  // onClick={() =>
-                                  //   handelMenu(
-                                  //     {
-                                  //       menuname: menuItem?.menuname,
-                                  //       key: menuItem?.param0name,
-                                  //       value: menuItem?.param0dataname,
-                                  //     },
-                                  //     {
-                                  //       key: subMenuItem.param1name,
-                                  //       value: subMenuItem.param1dataname,
-                                  //     },
-                                  //     {
-                                  //       key: subSubMenuItem.param2name,
-                                  //       value: subSubMenuItem.param2dataname,
-                                  //     }
-                                  //   )
-                                  // }
+                                    // onClick={() =>
+                                    //   handelMenu(
+                                    //     {
+                                    //       menuname: menuItem?.menuname,
+                                    //       key: menuItem?.param0name,
+                                    //       value: menuItem?.param0dataname,
+                                    //     },
+                                    //     {
+                                    //       key: subMenuItem.param1name,
+                                    //       value: subMenuItem.param1dataname,
+                                    //     },
+                                    //     {
+                                    //       key: subSubMenuItem.param2name,
+                                    //       value: subSubMenuItem.param2dataname,
+                                    //     }
+                                    //   )
+                                    // }
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                                     <p className="muilist2ndSubMenutext">
@@ -1653,9 +1695,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {IsCartNo == 3 &&
-        <CartDrawer open={isCartOpen} />
-      }
+      {IsCartNo == 3 && <CartDrawer open={isCartOpen} />}
     </div>
   );
 };

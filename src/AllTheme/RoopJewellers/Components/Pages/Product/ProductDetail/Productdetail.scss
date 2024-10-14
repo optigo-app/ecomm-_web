@@ -1,10 +1,10 @@
 @import "../../../scss/variable";
 
-.stam_prodDetail_bodyContain {
+.roop_prodDetail_bodyContain {
     height: 100%;
     width: 100%;
 
-    .smr_prodDetail_outerContain {
+    .roop_prodDetail_outerContain {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -29,6 +29,9 @@
         width: 60%;
         display: flex;
         justify-content: center;
+        @media screen and (max-width:420px) {
+            margin-left: -21px;
+        }
     }
 
     .smr_prod_shortInfo {
@@ -51,6 +54,19 @@
         position: inherit;
         width: 100%;
         object-fit: scale-down;
+        @media screen and (max-width:720px) {
+            margin-bottom: 15px ;
+            margin-top: 15px ;
+        }
+        @media screen and (max-width : 1200px) {
+         margin-left: -56px;   
+        }
+        @media screen and (max-width : 940px) {
+            margin-left: 0px;   
+           }
+           @media screen and (max-width :768px) {
+            margin-bottom: 15px ;
+           }
     }
 
     .smr_prod_video {
@@ -77,7 +93,7 @@
         position: absolute;
         // left:15px;
         // top:20px
-        padding: 35px 0px 0px 15px;
+        padding: 0px 0px 2px 6px;
         left: -86px;
         top: 0;
         display: flex;
@@ -265,6 +281,9 @@
         flex-direction: column;
         margin-bottom: 110px;
         margin-top: 70px;
+        @media screen and (max-width:420px) {
+            margin-left: -13px;
+        }
     }
 
     .smr_stockItem_div {

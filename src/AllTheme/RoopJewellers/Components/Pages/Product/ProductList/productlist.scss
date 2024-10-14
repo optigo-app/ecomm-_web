@@ -132,7 +132,7 @@
 
   .roop_filter_portion_outter {
     // padding: 6% 18%;
-    padding: 6% 12% 6% 18% !important;
+    padding: 6% 2% 6% 18% !important;
   }
 
   .roop_mobile_filter_portion_outter {
@@ -153,6 +153,9 @@
     align-items: baseline;
     margin: 20px 50px 0px 0px;
     flex-direction: column;
+    @media screen and (max-width : 1200px) {
+      margin: 0;
+    }
     // position: sticky;
     // top: 50px;
     // overflow-y: scroll;
@@ -174,30 +177,59 @@
     width: 100%;
   }
 
+  // .roop_breadcums_port {
+  //   // position: absolute;
+  //   // top: -40px;
+  //   // z-index: 999;
+  //   font-family: $primaryFontFamily;
+  //   font-size: 0.85rem;
+  //   color: $primaryfontcolorLight;
+  //   // margin-left:72px;
+  //   margin-top: 10px;
+  //   cursor: pointer;
+  // }
+
+  // .roop_inner_portion {
+  //   width: 100%;
+  //   display: flex;
+  //   align-items: center;
+  //   flex-wrap: wrap;
+  //   // justify-content: end;
+  // }
+
+  .roop_inner_portion {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+    gap: 10px; 
+    width: 100%;
+    align-items: center; 
+    padding: 15px;
+    @media screen and (max-width : 1150px) {
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+    }
+    @media screen and (max-width : 840px) {
+      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+      }
+      @media screen and (max-width : 420px) {
+        padding: 5px;
+        }
+        @media screen and (max-width : 280px) {
+          grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+          }
+  }
+  
   .roop_breadcums_port {
-    // position: absolute;
-    // top: -40px;
-    // z-index: 999;
     font-family: $primaryFontFamily;
     font-size: 0.85rem;
     color: $primaryfontcolorLight;
-    // margin-left:72px;
     margin-top: 10px;
     cursor: pointer;
   }
-
-  .roop_inner_portion {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    // justify-content: end;
-  }
-
+  
   .roop_productCard {
-    width: 20%;
+    width: 100%;
     text-align: center;
-    margin: 15px;
+    // margin: 15px;
     border: 1px solid #dadada;
     color: $primaryfontcolor;
     position: relative;
@@ -512,7 +544,7 @@
 
     .roop_productList {
       width: 100%;
-      margin: 00px 0px 0px 18px;
+      // margin: 00px 0px 0px 18px;    /* width from left*/
       // display: flex;
       // justify-content: center;
       // align-items: center;
@@ -580,18 +612,16 @@
 
 
   @media screen and (max-width: 768px) {
-    .roop_productCard {
-      width: 49%;
-    }
-
-
+    // .roop_productCard {
+    //   width: 49%;
+    // }
   }
 
   @media screen and (max-width: 650px) {
     .roop_productListCard_Image {
       object-fit: scale-down;
-      height: 250px;
-      min-height: 250px;
+      // height: 250px;
+      // min-height: 250px;
     }
 
     .roop_productCard_video {

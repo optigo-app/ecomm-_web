@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../../Home/Footer/Footer";
 import { MaioraTerms, TermsData } from "./Terms";
 import "./TermsPolicy.scss";
 
 function TermsPolicy() {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   return (
     <div className="smr_Expert_FooterTopMain">
       <div className="smr_Expert_FooterTopMain_sub">
@@ -30,7 +36,7 @@ function TermsPolicy() {
             <div className="container2">
               {/* By Default TermsDATA */}
               {/* fOR MAIORA MaioraTerms */}
-              {MaioraTerms?.map(({ bgColor, children, desc, title }, index) => {
+              {TermsData?.map(({ bgColor, children, desc, title }, index) => {
                 return (
                   <React.Fragment key={index}>
                     <div className="main_container_for">
@@ -66,7 +72,7 @@ function TermsPolicy() {
                           />
                         </div>
                       )}
-                      {children && (  
+                      {children && (
                         <div
                           className="list"
                           style={{
@@ -90,16 +96,16 @@ function TermsPolicy() {
                                     {menu?.title}
                                   </span>
                                   <br />
-                                 
-                                    {menu.htmx ? (
-                                      <p
-                                        dangerouslySetInnerHTML={{
-                                          __html: menu?.desc,
-                                        }}
-                                      ></p>
-                                    ) : 
-                                        <p>{menu?.desc}</p>
-                                  }
+
+                                  {menu.htmx ? (
+                                    <p
+                                      dangerouslySetInnerHTML={{
+                                        __html: menu?.desc,
+                                      }}
+                                    ></p>
+                                  ) : (
+                                    <p>{menu?.desc}</p>
+                                  )}
                                 </div>
                               </React.Fragment>
                             );
@@ -114,19 +120,12 @@ function TermsPolicy() {
             <Footer />
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingBlock: "30px",
-          }}
-        >
+        <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' ,backgroundColor:"#C0BBB1" ,color:"white" }}>
           <p
             style={{
               margin: "0px",
               fontWeight: 500,
               width: "100px",
-              color: "black",
               cursor: "pointer",
             }}
             onClick={() => window.scrollTo(0, 0)}

@@ -78,6 +78,7 @@ $borderColor: rgba(232, 232, 232, 1);
 .roop3Mo_Cart-imageDiv {
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 2.2rem;
 
     @media (max-width: 1050px) {
         margin-bottom: 10px;
@@ -88,6 +89,7 @@ $borderColor: rgba(232, 232, 232, 1);
         height: auto;
         cursor: pointer;
         border-radius: 4px;
+      
     }
 }
 
@@ -109,7 +111,7 @@ $borderColor: rgba(232, 232, 232, 1);
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
         margin-bottom: 15px;
-
+margin-top: 1rem;
         .option {
             display: flex;
             flex-direction: column;
@@ -186,6 +188,9 @@ $borderColor: rgba(232, 232, 232, 1);
             margin-bottom: 20px;
             width: 100px;
             font-family: $primaryFontFamily;
+            @media screen and (max-width:420px) {
+            width: 100%;
+            }
 
             &:hover {
                 background-color: #bcbcbc;
