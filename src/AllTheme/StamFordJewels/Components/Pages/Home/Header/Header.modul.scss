@@ -1,7 +1,6 @@
 @import '../../../scss/variable';
 
 .stam_headerMain_div {
-
     .stam_Top_header {
         height: 110px;
         background-color: $stambackcolor;
@@ -179,6 +178,7 @@
         z-index: 111111;
         width: 88%;
         margin-left: 5.7%;
+        z-index: 9999;
         // margin-left: 6%;
         margin-top: 37px;
         transition: all 0.5s ease;

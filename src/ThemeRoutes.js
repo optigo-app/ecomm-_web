@@ -53,10 +53,10 @@ export default function ThemeRoutes() {
 
   const dt_setCompanyTitleLogo = useSetRecoilState(dt_companyLogo)
   const dt_setCompanyTitleLogoM = useSetRecoilState(dt_companyLogoM)
-  
+
   const mala_setCompanyTitleLogo = useSetRecoilState(mala_companyLogo)
   const mala_setCompanyTitleLogoM = useSetRecoilState(mala_companyLogoM)
-  
+
   const stam_setCompanyTitleLogo = useSetRecoilState(stam_companyLogo)
   const stam_setCompanyTitleLogoM = useSetRecoilState(stam_companyLogoM)
 
@@ -107,7 +107,7 @@ export default function ThemeRoutes() {
 
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
-    
+
     stam_setCompanyTitleLogo(webLogo);
     stam_setCompanyTitleLogoM(mobileLogo);
 
@@ -205,7 +205,6 @@ export default function ThemeRoutes() {
 
   return (
     <>
-    <h1>heellooooo</h1>
       {storeInitData?.DomainForNo == 2 ? (
         <div>
           <Helmet>

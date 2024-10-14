@@ -1450,10 +1450,10 @@ const ProductList = () => {
           </div>
           <div
             style={{
-              marginLeft: "15px",
               marginBottom: "20px",
               display: "flex",
               gap: "5px",
+              paddingInline: '15px',
               flexDirection: "column",
             }}
           >

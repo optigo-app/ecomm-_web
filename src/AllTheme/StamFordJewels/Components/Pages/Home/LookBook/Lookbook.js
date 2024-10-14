@@ -106,7 +106,7 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth} = SwiperSlideRef.current;
+      const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
@@ -1022,7 +1022,7 @@ const Lookbook = () => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              margin: "0px 5px 25px 5px",
+              margin: "0px 10px 25px 10px",
               gap: '20px'
             }}
           >
@@ -1030,7 +1030,7 @@ const Lookbook = () => {
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>
-            <div style={{ display: 'flex' }}>
+            <div classname="stam_lookbook_filter_div" style={{ display: 'flex' }}>
               <FilterAltIcon
                 fontSize="large"
                 style={{ color: "#c0bbb1" }}
@@ -1086,7 +1086,7 @@ const Lookbook = () => {
             </div>
           </div>
           <div className="stam_SubDiv_LookBookSubMainDiv">
-            <div className="stam_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
+            <div className="stam_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '999', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
 
               {filterData?.length > 0 && (
                 <div className="smr1_lookBookFilterSubDiv">
@@ -1416,8 +1416,8 @@ const Lookbook = () => {
                                 </div>
                               )}
                               <p className="stam_lb2designList_title">
-                            {slide?.designsetno}
-                          </p>
+                                {slide?.designsetno}
+                              </p>
                             </div>
                             <div
                               className="stam_lookBookImgDeatil"
@@ -2186,7 +2186,7 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
+                                  <SwiperSlide key={index} ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img

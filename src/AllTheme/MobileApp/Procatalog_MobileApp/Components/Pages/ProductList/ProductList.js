@@ -1525,7 +1525,7 @@ const ProductList = () => {
                       // className="filtercategoryLable"
                       >
                         {/* <span> */}
-                        {ele.Name}
+                        {ele.Fil_DisName}
                         {/* </span> */}
                       </AccordionSummary>
                       <AccordionDetails
@@ -1639,7 +1639,7 @@ const ProductList = () => {
                       // className="filtercategoryLable"
                       >
                         {/* <span> */}
-                        {ele.Name}
+                        {ele.Fil_DisName}
                         {/* </span> */}
                       </AccordionSummary>
                       <AccordionDetails
@@ -1761,7 +1761,7 @@ const ProductList = () => {
                         }}
                       >
                         {/* <span> */}
-                        {ele.Name}
+                        {ele.Fil_DisName}
                         {/* </span> */}
                       </AccordionSummary>
                       <AccordionDetails
@@ -1817,7 +1817,7 @@ const ProductList = () => {
                       // className="filtercategoryLable"
                       >
                         {/* <span> */}
-                        {ele.Name}
+                        {ele.Fil_DisName}
                         {/* </span> */}
                       </AccordionSummary>
                       <AccordionDetails
@@ -1873,7 +1873,7 @@ const ProductList = () => {
                       // className="filtercategoryLable"
                       >
                         {/* <span> */}
-                        {ele.Name}
+                        {ele.Fil_DisName}
                         {/* </span> */}
                       </AccordionSummary>
                       <AccordionDetails
@@ -2096,7 +2096,7 @@ const ProductList = () => {
                                         },
                                       }}
                                     >
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{

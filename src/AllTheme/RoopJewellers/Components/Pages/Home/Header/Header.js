@@ -23,6 +23,7 @@ import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
 import { roop_cartB2CDrawer, roop_CartCount, roop_CartNo, roop_companyLogo, roop_companyLogoM, roop_loginState, roop_WishCount } from "../../../Recoil/atom";
 import { MdAccountBox } from "react-icons/md";
+import { IoLogOut } from "react-icons/io5";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -597,7 +598,7 @@ const Header = () => {
                     color: "white",
                     fontSize: "17px",
                   }}
-                 
+
                 />
                 <IoSearchOutline
                   style={{
@@ -925,7 +926,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                       onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -969,7 +970,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                         onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1002,6 +1003,20 @@ const Header = () => {
                   onClick={() => navigation("/LoginOption")}
                 >
                   LOG IN
+                </li>
+              )}
+
+              {islogin && (
+                <li
+                  className="nav_li_roop"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleLogout()}
+                >
+                  <IoLogOut style={{
+                    height: "20px",
+                    cursor: "pointer",
+                    width: "20px",
+                  }} />
                 </li>
               )}
             </ul>
