@@ -1359,7 +1359,7 @@ const ProductDetail = () => {
   //   }
   // },[pdThumbImg,pdVideoArr])
 
-  const KayraCreation = 2 ;
+  const KayraCreation = 1 ;
 
   return (
     <>

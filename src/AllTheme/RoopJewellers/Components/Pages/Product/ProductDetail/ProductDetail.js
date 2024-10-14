@@ -1301,7 +1301,7 @@ const ProductDetail = () => {
         <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? '-' : ''} ${singleProd?.designno ?? ''}`}</title>
       </Helmet>
       <div className="roop_prodDetail_bodyContain">
-        <div className="smr_prodDetail_outerContain">
+        <div className="roop_prodDetail_outerContain">
           <div className="roop_prodDetail_whiteInnerContain">
             {isDataFound ? (
               <div

@@ -64,7 +64,7 @@ const Footer = ({ fromPage }) => {
                 </div>
                 <div className='footerMoreOption'>
                   <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
-                  <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
+                  {/* <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p> */}
                   {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                     (
                       htmlContent?.rd[0]?.ExtraMenu == 1 &&
@@ -97,7 +97,7 @@ const Footer = ({ fromPage }) => {
                 <div className='footerMoreOption'>
                   <p className='footerMoreOptionData' onClick={() => { navigation('/contactUs'); window.scrollTo(0, 0); }}>CONTACT US</p>
                   {/* <p className='footerMoreOptionData' onClick={() => {navigation('/faq'); window.scrollTo(0, 0); }}>FAQ</p> */}
-                  <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p>
+                  {/* <p className='footerMoreOptionData' onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}>SERVICE POLICY</p> */}
                   {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                     (
                       htmlContent?.rd[0]?.ExtraMenu == 1 &&

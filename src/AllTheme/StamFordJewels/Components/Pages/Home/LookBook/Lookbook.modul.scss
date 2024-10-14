@@ -75,6 +75,17 @@
     align-items: center;
     font-weight: 500;
   }
+  .stam_filter_Ste_view{
+    margin-bottom: -1rem;
+    .stam_lookBookSelectViewBtn{
+      margin-right: 20px;
+    }
+    .lb-switch-field{
+      label{
+        padding: 8px 12px;
+      }
+    }
+  }
 
   .stam_lookbook_filter_div {
     display: flex;
@@ -227,6 +238,20 @@
 
   .smr1_lookBookFilterSubDiv {
     margin: 10px 10px 0px 10px;
+    .stam_filter_text{
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      .stam_filter_title_l{
+        font-weight: 500;
+        color: gray;
+      }
+      .stam_clear_all{
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
   }
 
   .stam_lookBookImgDivMain {

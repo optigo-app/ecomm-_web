@@ -27,13 +27,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { headCells_Quotation as headCells } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPageColumns";
 
-const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, PrintUrl) => {
+const createData = (SrNo, Date, SKUNo, TotalDesign, Amount, Currencycode, PrintUrl) => {
     return {
         SrNo,
         Date,
         SKUNo,
         TotalDesign,
         Amount,
+        Currencycode,
         PrintUrl
     };
 }
@@ -343,7 +344,7 @@ const QuotationQuote = () => {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
                     let printUrl = atob(e?.PrintUrl);
-                    let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
+                    let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, e?.Currencycode,  printUrl);
                     rows?.push(dataa)
                 });
             
@@ -682,7 +683,7 @@ const QuotationQuote = () => {
                                 stickyHeader
                             />
                             <TableBody>
-                                {visibleRows.map((row, index) => {
+                                {visibleRows?.map((row, index) => {
                                 
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -690,27 +691,18 @@ const QuotationQuote = () => {
                                         <TableRow
                                             hover
                                             onClick={(event) => handleClick(event, index)}
-                                        
                                             tabIndex={-1}
                                             key={index}
-                                      
                                             sx={{ cursor: 'pointer' }}
                                         >
 
-                                            <TableCell
-                                                component="td"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                align="center"
-                                            >
-                                            
+                                            <TableCell component="td" id={labelId} scope="row" padding="none" align="center" >
                                                 {page * rowsPerPage + index + 1}
                                             </TableCell>
                                             <TableCell align="center">{row.Date}</TableCell>
                                             <TableCell align="center">{row.SKUNo}</TableCell>
                                             <TableCell align="center">{row.TotalDesign}</TableCell>
-                                            <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
+                                            <TableCell align="right"><span dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp;{formatAmount(row.Amount)}</TableCell>
                                             <TableCell align="center">
                                                 
                                                

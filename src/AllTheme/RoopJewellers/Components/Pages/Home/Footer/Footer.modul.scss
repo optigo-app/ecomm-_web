@@ -4,7 +4,7 @@
   .footerBottomMain {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #e1e1e1;
+    border-top: 1px solid #e1e1e16e;
     padding: 10px 20px;
     margin-top: 2%;
   }
@@ -81,6 +81,9 @@
   @media screen and (max-width: 1700px) {
     .footerIconMain {
       width: 25% !important;
+      @media screen and (max-width:768px) {
+      width: 100% !important;
+      }
     }
 
     .footerMoreOption {

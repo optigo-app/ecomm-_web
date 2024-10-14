@@ -128,18 +128,17 @@
   .stam_mobile_filter_portion {
     min-width: 300px;
     font-family: $primaryFontFamily;
-    padding-inline: 15px !important;
+    padding: 5px 10px 5px 0px;
   }
 
   .stam_filter_portion_outter {
-    // padding: 6% 18%;
     padding: 6% 12% 6% 18% !important;
   }
 
   .stam_mobile_filter_portion_outter {
     padding: 6% 6%;
   }
-
+  
   .stam_filter_text {
     font-weight: bold;
     font-family: $primaryFontFamily;

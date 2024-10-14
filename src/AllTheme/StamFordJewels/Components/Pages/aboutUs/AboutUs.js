@@ -2,29 +2,31 @@ import React, { useEffect, useState } from 'react'
 import './AboutUs.modul.scss'
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import Footer from '../Home/Footer/Footer';
+import AboutS from './AboutS';
 
 export default function AboutUs() {
 
-    const [htmlContent, setHtmlContent] = useState('');
+    // const [htmlContent, setHtmlContent] = useState('');
 
-    useEffect(() => {
-        fetch(`${storImagePath()}/html/About.html`)
-            .then((response) => response.text())
-            .then((html) => {
-                setHtmlContent(html);
-            })
-            .catch((error) => {
-                console.error('Error fetching the HTML file:', error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch(`${storImagePath()}/html/About.html`)
+    //         .then((response) => response.text())
+    //         .then((html) => {
+    //             setHtmlContent(html);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error fetching the HTML file:', error);
+    //         });
+    // }, []);
 
     return (
         <div className='stam_contactMain'>
-            <div className='daimondsEveryAbout'>
+            <AboutS/>
+            {/* <div className='daimondsEveryAbout'>
                 <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
@@ -46,7 +48,7 @@ export default function AboutUs() {
                     fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
                 }}>About Us</p>
             </div> */}
-
+{
 // <div className='daimondsEveryAboutSub'>
 // <div style={{
 //     paddingBlock: '70px'
@@ -119,4 +121,4 @@ export default function AboutUs() {
                     </div>
                 </div> */}
 
-{/* <ContactForm /> */ }
+{/* <ContactForm /> */ }}

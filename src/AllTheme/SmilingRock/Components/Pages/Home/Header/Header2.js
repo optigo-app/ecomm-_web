@@ -504,13 +504,13 @@ const Header2 = () => {
                                 </span>
                             </li>
 
-                            <li
+                            {/* <li
                                 className="nav_li_smining nav_li_smining_Mobile"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
                             >
                                 SERVICE POLICY
-                            </li>
+                            </li> */}
 
                             <li
                                 className="nav_li_smining nav_li_smining_Mobile"
@@ -667,13 +667,13 @@ const Header2 = () => {
                                     </span>
                                 </li>
 
-                                <li
+                                {/* <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                                     style={{ cursor: "pointer" }}
                                     onClick={() => { navigation('/servicePolicy'); window.scrollTo(0, 0); }}
                                 >
                                     SERVICE POLICY
-                                </li>
+                                </li> */}
 
                                 <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
