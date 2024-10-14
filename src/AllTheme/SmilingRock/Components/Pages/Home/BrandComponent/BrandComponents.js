@@ -55,12 +55,12 @@ const BrandsComponent = () => {
       <p className="smr_brandsCompoents">Participation In Exhibitions</p>
       <Marquee
         className="smr_brandsComponentClass"
-        gradient={false}
+        gradient={false}j
         speed={40}
         pauseOnHover={true}
         // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        {MayoralogoElements}
+        {KayralogoElements}
       </Marquee>
     </div>
   );

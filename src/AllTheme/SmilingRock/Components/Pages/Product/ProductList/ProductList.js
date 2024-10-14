@@ -1599,6 +1599,9 @@ const ProductList = () => {
                   <option className="option" value="Trending">
                     Trending
                   </option>
+                  <option className="option" value="Bestseller">
+                  Bestseller
+                  </option>
                   <option className="option" value="In Stock">
                     In stock
                   </option>
@@ -2998,6 +3001,9 @@ const ProductList = () => {
                                     <option className="option" value="Trending">
                                       Trending
                                     </option>
+                                    {/*<option className="option" value="Bestseller">
+                                    Bestseller
+                                    </option>*/}
                                     {storeInit?.IsStockWebsite == 1 &&
                                       <option className="option" value="In Stock">
                                         In stock

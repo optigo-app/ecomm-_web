@@ -2,10 +2,9 @@
 @import '../../../scss/variable';
 
 
-.Fo-contactMain {
+.rp_stam_contactMain {
     background-color: white;
     margin-inline: 6%;
-}
 .daimondsEveryAbout{
   background-color: white;
   margin-inline: 6%;  
@@ -55,12 +54,15 @@
 
 .Fo-contactBox1BtnSub {
     height: 60px;
-    width: 300px;
+    width: 93%;
     margin-top: 30px;
     border: 0;
-    background-color: #7d7f85;
+    background-color: #d14a61;
     color: white;
     transition: all 0.4s ease;
+    @media screen and (max-width:420px) {
+        width: 236px;
+    }
 }
 
 .Fo-contactBox1BtnSub:hover {
@@ -93,7 +95,7 @@
   }
   
   .tab-buttons button.active {
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid #d14a61;
   }
 
 @media screen and (min-width:1441px) {
@@ -149,4 +151,5 @@
     .stam_contactMain{
         padding-top: 10px!important;
     }
+}
 }

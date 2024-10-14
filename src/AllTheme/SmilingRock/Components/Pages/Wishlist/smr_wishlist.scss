@@ -58,7 +58,7 @@
 .smr_WlMainPage {
     display: flex;
     gap: 30px;
-    margin-bottom: -8%;
+    // //margin-bottom: -8% ;;
 }
 
 .WlBtnGroupMainDiv {
@@ -143,7 +143,7 @@
 
 .smr_WlListData {
     padding: 60px 14px 10px 15px;
-    margin-bottom: -8%;
+    // //margin-bottom: -8% ;;
 
     .smr_wlListGrid {
         display: flex !important;
@@ -354,7 +354,7 @@
 @media (max-width: 768px) {
     .smr_WlListData {
         padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
+        // //margin-bottom: -8% ;;
     }
 
     .smr_card-ContentData .smr_DesignNoTExt .smr_Wl-Cartbtn {
@@ -365,7 +365,7 @@
 @media (max-width: 600px) {
     .smr_WlListData {
         padding: 10px 10px 10px 10px;
-        margin-bottom: -8%;
+        //margin-bottom: -8% ;;
     }
 
     .WlBtnGroupMainDiv {
@@ -415,7 +415,7 @@
 @media (max-width: 320px) {
     .smr_WlListData {
         padding: 6px;
-        margin-bottom: -8%;
+        //margin-bottom: -8% ;;
     }
 
     .WlBtnGroupMainDiv {

@@ -34,8 +34,8 @@
     .cardText {
         flex: 1;
         padding: 10px;
-        max-height: 150px;
-        height: 110px;
+        // max-height: 150px;
+        height: auto !important;
     }
 }
 

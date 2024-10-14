@@ -1558,6 +1558,9 @@ const ProductList = () => {
                         {storeInit?.IsStockWebsite === 1 && (
                           <option value="In Stock">In Stock</option>
                         )}
+                          {/*<option className="option" value="Bestseller">
+                                    Bestseller
+                                    </option>*/}
                         <option value="PRICE LOW TO HIGH">
                           Price Low to High
                         </option>

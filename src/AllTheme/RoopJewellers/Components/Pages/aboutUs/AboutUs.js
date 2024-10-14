@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { storImagePath } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import AXboutUs from './AQbout';
 
 export default function AboutUs() {
 
@@ -19,9 +20,10 @@ export default function AboutUs() {
 
     return (
         <div className='stam_contactMain'>
-            <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
+            {/* <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
                 <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-            </div>
+            </div> */}
+            <AXboutUs/>
         </div>
     )
 }
