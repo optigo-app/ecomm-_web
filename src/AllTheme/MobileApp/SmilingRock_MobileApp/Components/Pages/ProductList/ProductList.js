@@ -62,19 +62,19 @@ const ProductList = () => {
   const [selectedMetalId, setSelectedMetalId] = useState();
   const [selectedDiaId, setSelectedDiaId] = useState();
   const [selectedCsId, setSelectedCsId] = useState();
-  const [IsBreadCumShow,setIsBreadcumShow] = useState(false);
+  const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
-  const [isDrawerOpen,setIsDrawerOpen] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  const[isSortByDrawerOpen,setIsSortByDrawerOpen] =  useState(false)
-  const[isImgViewDrawerOpen,setIsImgViewDrawerOpen] = useState(false)
+  const [isSortByDrawerOpen, setIsSortByDrawerOpen] = useState(false)
+  const [isImgViewDrawerOpen, setIsImgViewDrawerOpen] = useState(false)
 
-  const [rollOverImgPd,setRolloverImgPd] = useState()
+  const [rollOverImgPd, setRolloverImgPd] = useState()
   const [activeTab, setActiveTab] = useState("/");
 
-  const[isSingleView,setIsSingleView] = useState(false);
-  const[isDoubleView,setIsDoubleView] = useState(true);
-  const [locationKey,setLocationKey] = useState()
+  const [isSingleView, setIsSingleView] = useState(false);
+  const [isDoubleView, setIsDoubleView] = useState(true);
+  const [locationKey, setLocationKey] = useState()
 
 
   const [prodListType, setprodListType] = useState();
@@ -181,7 +181,7 @@ const ProductList = () => {
         })
         .catch((err) => console.log(err));
     }
-     else {
+    else {
       setMetalTypeCombo(mtTypeLocal);
     }
 
@@ -190,12 +190,12 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            sessionStorage.setItem("diamondQualityColorCombo",JSON.stringify(data));
+            sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
             setDiaQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    } 
+    }
     else {
       setDiaQcCombo(diaQcLocal);
     }
@@ -205,12 +205,12 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data) );
+            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
             setCsQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    } 
+    }
     else {
       setCsQcCombo(csQcLocal);
     }
@@ -234,14 +234,14 @@ const ProductList = () => {
 
     let mtid = loginUserDetail?.MetalId ?? storeinit?.MetalId
     setSelectedMetalId(mtid)
-    
+
     let diaid = loginUserDetail?.cmboDiaQCid ?? storeinit?.cmboDiaQCid
     setSelectedDiaId(diaid)
 
     let csid = loginUserDetail?.cmboCSQCid ?? storeinit?.cmboCSQCid;
     setSelectedCsId(csid)
 
-    console.log("selectedCustom",mtid,diaid,csid);
+    console.log("selectedCustom", mtid, diaid, csid);
 
   }, [location?.key])
 
@@ -288,10 +288,10 @@ const ProductList = () => {
 
   useEffect(() => {
     let param = JSON.parse(sessionStorage.getItem("menuparams"))
-    if(location?.state?.SearchVal === undefined){
+    if (location?.state?.SearchVal === undefined) {
       setMenuParams(param)
-     }
-  },[location?.key,productListData,filterChecked])
+    }
+  }, [location?.key, productListData, filterChecked])
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
@@ -452,17 +452,17 @@ const ProductList = () => {
         ?.filter((pda) => pda.A == product.autocode)
         .reduce((acc, obj) => acc + obj.S, 0);
 
-        let pdImgList = [];
+      let pdImgList = [];
 
-        if(product?.ImageCount > 0){
-          for(let i = 1; i <= product?.ImageCount; i++){
-            let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
-            pdImgList.push(imgString)
-          }
+      if (product?.ImageCount > 0) {
+        for (let i = 1; i <= product?.ImageCount; i++) {
+          let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
+          pdImgList.push(imgString)
         }
-        else{
-          pdImgList.push(imageNotFound)
-        }
+      }
+      else {
+        pdImgList.push(imageNotFound)
+      }
 
       let price = 0;
       let markup = 0;
@@ -526,22 +526,22 @@ const ProductList = () => {
     setFinalProductListData(finalProdWithPrice);
   }, [productListData, priceListData]);
 
-  const ProdCardImageFunc = (pd,j) => {
+  const ProdCardImageFunc = (pd, j) => {
     let finalprodListimg;
     let pdImgList = [];
 
-    if(pd?.ImageCount > 0){
-      for(let i = 1; i <= pd?.ImageCount; i++){
+    if (pd?.ImageCount > 0) {
+      for (let i = 1; i <= pd?.ImageCount; i++) {
         let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
         pdImgList.push(imgString)
       }
     }
-    else{
+    else {
       finalprodListimg = imageNotFound;
     }
-    if(pdImgList?.length > 0){
+    if (pdImgList?.length > 0) {
       finalprodListimg = pdImgList[j]
-      if(j>0 && (!finalprodListimg || finalprodListimg == undefined)){
+      if (j > 0 && (!finalprodListimg || finalprodListimg == undefined)) {
         finalprodListimg = pdImgList[0]
       }
     }
@@ -567,7 +567,7 @@ const ProductList = () => {
     }
   }
 
-  const handleCheckboxChange = (e,listname,val) =>{
+  const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
     // setAfterCountStatus(false);
     setAfterCountStatus(true);
@@ -583,10 +583,10 @@ const ProductList = () => {
 
   const FilterValueWithCheckedOnly = () => {
     let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
-    
+
     const priceValues = onlyTrueFilterValue
-    .filter(item => item.type === "Price")
-    .map(item => item.value);
+      .filter(item => item.type === "Price")
+      .map(item => item.value);
 
     const output = {};
 
@@ -611,7 +611,7 @@ const ProductList = () => {
 
     return output
   }
-  
+
   useEffect(() => {
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
@@ -641,8 +641,8 @@ const ProductList = () => {
         //    return res
         //  })
         .catch((err) => console.log("err", err))
-        .finally(() => { 
-          setIsProdLoading(false) 
+        .finally(() => {
+          setIsProdLoading(false)
           setAfterCountStatus(false)
         })
     }
@@ -793,9 +793,9 @@ const ProductList = () => {
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-    
-    if(loginInfo?.MetalId !== selectedMetalId  || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId){ 
-      if(selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
+
+    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
+      if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
         handelCustomCombo(obj)
       }
     }
@@ -865,9 +865,9 @@ const ProductList = () => {
   }
 
 
-  const handleImgRollover = (pd,i) =>{
-    if(pd?.images?.length >=1){
-      setRolloverImgPd((prev)=>{ return {...prev,[i]:pd?.images[1] }})
+  const handleImgRollover = (pd, i) => {
+    if (pd?.images?.length >= 1) {
+      setRolloverImgPd((prev) => { return { ...prev, [i]: pd?.images[1] } })
     }
   }
 
@@ -881,16 +881,16 @@ const ProductList = () => {
     let ValObj = {};
 
     key.forEach((value, index) => {
-        let keyName = `FilterKey${index === 0 ? '' : index}`;
-        KeyObj[keyName] = value;
+      let keyName = `FilterKey${index === 0 ? '' : index}`;
+      KeyObj[keyName] = value;
     });
 
     val.forEach((value, index) => {
-        let keyName = `FilterVal${index === 0 ? '' : index}`;
-        ValObj[keyName] = value;
+      let keyName = `FilterVal${index === 0 ? '' : index}`;
+      ValObj[keyName] = value;
     });
 
-    let finalData = {...KeyObj,...ValObj}
+    let finalData = { ...KeyObj, ...ValObj }
 
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
@@ -908,15 +908,15 @@ const ProductList = () => {
       .filter(Boolean)
       .join('&');
 
-      const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
+    const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
-      navigate(url);
+    navigate(url);
 
-    console.log("mparams",KeyObj,ValObj)
+    console.log("mparams", KeyObj, ValObj)
 
   }
 
-  console.log("isSortByDrawerOpen",isSortByDrawerOpen);
+  console.log("isSortByDrawerOpen", isSortByDrawerOpen);
 
   const handleSortby = async (ele) => {
     setSortBySelect(ele)
@@ -942,7 +942,7 @@ const ProductList = () => {
         // setIsOnlyProdLoading(false)
         setIsProdLoading(false)
         setIsSortByDrawerOpen(false)
-        
+
       })
   }
 
@@ -950,8 +950,8 @@ const ProductList = () => {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, height: 'auto' }}
       role="presentation"
-      onClick={()=>setIsSortByDrawerOpen(()=>false)}
-      onKeyDown={()=>setIsSortByDrawerOpen(()=>false)}
+      onClick={() => setIsSortByDrawerOpen(() => false)}
+      onKeyDown={() => setIsSortByDrawerOpen(() => false)}
     >
       <div>
         <label className="sortItemLabelProduct" style={{ color: '#888', paddingInline: '15px' }}>
@@ -992,13 +992,13 @@ const ProductList = () => {
           </label>
 
           <label className="sortItemLabelProduct">
-            Trending                                                  
+            Trending
             <input
               checked={sortBySelect === 'Trending'}
               type="radio"
               name="sortOption"
               value="Trending"
-              onClick={() =>  handleSortby('Trending')}
+              onClick={() => handleSortby('Trending')}
             />
           </label>
 
@@ -1021,7 +1021,7 @@ const ProductList = () => {
               type="radio"
               name="sortOption"
               value="PRICE LOW TO HIGH"
-              onClick={() =>  handleSortby('PRICE LOW TO HIGH')}
+              onClick={() => handleSortby('PRICE LOW TO HIGH')}
             />
           </label>
         </div>
@@ -1029,24 +1029,24 @@ const ProductList = () => {
     </Box>
   );
 
-  const handleSingleView = () =>{
+  const handleSingleView = () => {
     setIsImgViewDrawerOpen(false)
-    setIsDoubleView(false) 
+    setIsDoubleView(false)
     setIsSingleView(true)
   }
 
-  const handleDoubleView = () =>{
+  const handleDoubleView = () => {
     setIsImgViewDrawerOpen(false)
     setIsSingleView(false)
-    setIsDoubleView(true) 
+    setIsDoubleView(true)
   }
 
   const NewlistImageView = (anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, height: 'auto' }}
       role="presentation"
-      // onClick={()=>setIsImgViewDrawerOpen((prev)=>!prev)}
-      // onKeyDown={()=>setIsImgViewDrawerOpen((prev)=>!prev)}
+    // onClick={()=>setIsImgViewDrawerOpen((prev)=>!prev)}
+    // onKeyDown={()=>setIsImgViewDrawerOpen((prev)=>!prev)}
     >
       <div>
         <label className="sortItemLabelProduct" style={{ color: '#888', paddingInline: '15px' }}>
@@ -1090,7 +1090,7 @@ const ProductList = () => {
 
     let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
     let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] )? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
@@ -1116,9 +1116,9 @@ const ProductList = () => {
     let output = FilterValueWithCheckedOnly()
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1] ) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1])  ? "" : sliderValue[1] }
+    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1] ) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
 
     await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
@@ -1205,7 +1205,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue}
-              onChange={(event, newValue)=>setSliderValue(newValue)}
+              onChange={(event, newValue) => setSliderValue(newValue)}
               onChangeCommitted={handleSliderChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1253,7 +1253,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue1}
-              onChange={(event, newValue)=>setSliderValue1(newValue)}
+              onChange={(event, newValue) => setSliderValue1(newValue)}
               onChangeCommitted={handleSliderChange1}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1300,7 +1300,7 @@ const ProductList = () => {
           <div>
             <Slider
               value={sliderValue2}
-              onChange={(event, newValue)=>setSliderValue2(newValue)}
+              onChange={(event, newValue) => setSliderValue2(newValue)}
               onChangeCommitted={handleSliderChange2}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
@@ -1344,63 +1344,63 @@ const ProductList = () => {
 
   return (
     <div id="top">
-      <Drawer open={isDrawerOpen} onClose={() => {setIsDrawerOpen(false)}} className="smr_filterDrawer"  >
-        <div style={{display:'flex',width:'100%',alignItems:'center',justifyContent:'end',padding:'8px 8px 0px 0px',marginTop:'12px'}} >
-          <CloseIcon onClick={() => {setIsDrawerOpen(false)}}/>
+      <Drawer open={isDrawerOpen} onClose={() => { setIsDrawerOpen(false) }} className="smr_filterDrawer"  >
+        <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end', padding: '8px 8px 0px 0px', marginTop: '12px' }} >
+          <CloseIcon onClick={() => { setIsDrawerOpen(false) }} />
         </div>
-      <div style={{marginLeft:'15px',marginBottom:'20px',display:'flex',gap:'5px',flexDirection:'column'}}>
-                    <Typography  sx={{color:'#7f7d85',fontSize:'16px',fontFamily:'TT Commons Medium',marginTop:'12px'}}>
-                      Customization
-                    </Typography>
-                    <div 
-                    // className="smr_metal_custom"
-                    
-                    >
-                      <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
-                        Metal:&nbsp;
-                      </Typography>
-                      <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}}  className="select" value={selectedMetalId} onChange={(e) => {setSelectedMetalId(e.target.value)}}>
-                        {
-                          metalTypeCombo?.map((metalele) => (
-                            <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
-                          ))
-                        }
-                      </select>
-                    </div>
+        <div style={{ marginLeft: '15px', marginBottom: '20px', display: 'flex', gap: '5px', flexDirection: 'column' }}>
+          <Typography sx={{ color: '#7f7d85', fontSize: '16px', fontFamily: 'TT Commons Medium', marginTop: '12px' }}>
+            Customization
+          </Typography>
+          <div
+          // className="smr_metal_custom"
 
-                    {storeInit?.IsDiamondCustomization === 1 && 
-                    <div 
-                    // className="smr_dia_custom"
-                    >
-                      <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
-                        Diamond:&nbsp;
-                      </Typography>
-                      <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
-                        {
-                          diaQcCombo?.map((diaQc) => (
-                            <option className="option" key={diaQc.QualityId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
-                          ))
-                        }
-                      </select>
-                    </div>}
+          >
+            <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+              Metal:&nbsp;
+            </Typography>
+            <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedMetalId} onChange={(e) => { setSelectedMetalId(e.target.value) }}>
+              {
+                metalTypeCombo?.map((metalele) => (
+                  <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
+                ))
+              }
+            </select>
+          </div>
 
-                    {storeInit?.IsCsCustomization === 1 && 
-                    <div 
-                    // className="smr_cs_custom"
-                    >
-                      <Typography className="label" sx={{color:'#7f7d85',fontSize:'14px',fontFamily:'TT Commons Regular'}}>
-                        color stone:&nbsp;
-                      </Typography>
-                      <select style={{border:'1px solid #e1e1e1',borderRadius:'8px',minWidth:'270px'}} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
-                        {
-                          csQcCombo?.map((csCombo) => (
-                            <option className="option" key={csCombo.QualityId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
-                          ))
-                        }
-                      </select>
-                    </div>}
+          {storeInit?.IsDiamondCustomization === 1 &&
+            <div
+            // className="smr_dia_custom"
+            >
+              <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+                Diamond:&nbsp;
+              </Typography>
+              <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
+                {
+                  diaQcCombo?.map((diaQc) => (
+                    <option className="option" key={diaQc.QualityId} value={`${diaQc.QualityId},${diaQc.ColorId}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                  ))
+                }
+              </select>
+            </div>}
 
-                    {/* <div 
+          {storeInit?.IsCsCustomization === 1 &&
+            <div
+            // className="smr_cs_custom"
+            >
+              <Typography className="label" sx={{ color: '#7f7d85', fontSize: '14px', fontFamily: 'TT Commons Regular' }}>
+                color stone:&nbsp;
+              </Typography>
+              <select style={{ border: '1px solid #e1e1e1', borderRadius: '8px', minWidth: '270px' }} className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
+                {
+                  csQcCombo?.map((csCombo) => (
+                    <option className="option" key={csCombo.QualityId} value={`${csCombo.QualityId},${csCombo.ColorId}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                  ))
+                }
+              </select>
+            </div>}
+
+          {/* <div 
                       // className="smr_sorting_custom"
                       >
                       <div
@@ -1440,590 +1440,592 @@ const ProductList = () => {
                         </select>
                       </div>
                     </div> */}
-                  </div>
-                  <div className="smr_mobile_filter_portion" >
-                        {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
-                          <span className="smr_filter_text">
-                          <span>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length === 0
-                                ? "Filters"
-                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                                : <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Product Found: ${afterFilterCount}`}</span>
-                                }
-                                </>}
-                            </span>
-                            <span onClick={() => { if(Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length > 0){handelFilterClearAll()}else{ return;}}}>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length > 0
-                                ? "Clear All"
-                                :
-                                <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Total Products: ${afterFilterCount}`}</span>
-                                }
-                                </>
+        </div>
+        <div className="smr_mobile_filter_portion" >
+          {filterData?.length > 0 && <div className="smr_mobile_filter_portion_outter">
+            <span className="smr_filter_text">
+              <span>
+                {Object.values(filterChecked).filter(
+                  (ele) => ele.checked
+                )?.length === 0
+                  ? "Filters"
+                  // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                  : <>{afterCountStatus == true ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={140}
+                      height={22}
+                      className="pSkelton"
+                    />
+                  ) :
+                    <span>{`Product Found: ${afterFilterCount}`}</span>
+                  }
+                  </>}
+              </span>
+              <span onClick={() => {
+                if (Object.values(filterChecked).filter(
+                  (ele) => ele.checked
+                )?.length > 0) { handelFilterClearAll() } else { return; }
+              }}>
+                {Object.values(filterChecked).filter(
+                  (ele) => ele.checked
+                )?.length > 0
+                  ? "Clear All"
+                  :
+                  <>{afterCountStatus == true ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={140}
+                      height={22}
+                      className="pSkelton"
+                    />
+                  ) :
+                    <span>{`Total Products: ${afterFilterCount}`}</span>
+                  }
+                  </>
+                }
+              </span>
+            </span>
+            <div style={{ marginTop: "12px" }}>
+              {filterData?.map((ele) => (
+                <>
+                  {!(ele?.id)?.includes("Range") && !ele?.id?.includes("Price") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                        {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                      }}
+                    // expanded={accExpanded}
+                    // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7d7f85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+
+                        }}
+                      // className="filtercategoryLable"
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: "12px",
+                            }}
+                            key={opt?.id}
+                          >
+                            {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  name={`${ele?.id}${opt?.id}`}
+                                  // checked={
+                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                  //     : false
+                                  // }
+                                  checked={
+                                    filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
+                                      undefined
+                                      ? false
+                                      : filterChecked[`${ele?.id}${opt?.id}`]?.checked
+                                  }
+                                  style={{
+                                    color: "#7f7d85",
+                                    padding: 0,
+                                    width: "10px",
+                                  }}
+                                  onClick={(e) =>
+                                    handleCheckboxChange(
+                                      e,
+                                      ele?.id,
+                                      opt?.Name
+                                    )
+                                  }
+                                  size="small"
+                                />
                               }
-                            </span>
-                          </span>
-                          <div style={{ marginTop: "12px" }}>
-                            {filterData?.map((ele) => (
-                              <>
-                                {!(ele?.id)?.includes("Range") && !ele?.id?.includes("Price") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before": {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7d7f85",
-                                        borderRadius: 0,
 
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
+                              // sx={{
+                              //   display: "flex",
+                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                              //   width: "100%",
+                              //   flexDirection: "row-reverse", // Align items to the right
+                              //   fontFamily:'TT Commons Regular'
+                              // }}
+                              className="smr_mui_checkbox_label"
+                              label={opt.Name}
+                            />
 
-                                      }}
-                                      // className="filtercategoryLable"
-                                    >
-                                      {/* <span> */}
-                                      {ele.Name}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {(JSON.parse(ele?.options) ?? []).map((opt) => (
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            gap: "12px",
-                                          }}
-                                          key={opt?.id}
-                                        >
-                                          {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                      <FormControlLabel
-                                      control={
-                                      <Checkbox
-                                        name={`${ele?.id}${opt?.id}`}
-                                        // checked={
-                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                        //     : false
-                                        // }
-                                        checked={
-                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
-                                          undefined
-                                            ? false
-                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
-                                        }
-                                        style={{
-                                          color: "#7f7d85",
-                                          padding: 0,
-                                          width: "10px",
-                                        }}
-                                        onClick={(e) =>
-                                          handleCheckboxChange(
-                                            e,
-                                            ele?.id,
-                                            opt?.Name
-                                          )
-                                        }
-                                        size="small"
-                                        />
-                                      }
-                                      
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="smr_mui_checkbox_label"
-                                      label={opt.Name}
-                                      />
-                                      
-                                    </div>
-                                  ))}
-                                </AccordionDetails>
-                              </Accordion>
-                            )}
-                            {ele?.id?.includes("Price") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                    >
-                                      {/* <span> */}
-                                      {ele.Name}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {(JSON.parse(ele?.options) ?? []).map(
-                                        (opt, i) => (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "space-between",
-                                              gap: "12px",
-                                            }}
-                                            key={i}
-                                          >
-                                            {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                            <FormControlLabel
-                                              control={
-                                                <Checkbox
-                                                  name={`Price${i}${i}`}
-                                                  // checked={
-                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                  //     : false
-                                                  // }
-                                                  checked={
-                                                    filterChecked[`Price${i}${i}`]
-                                                      ?.checked === undefined
-                                                      ? false
-                                                      : filterChecked[
-                                                        `Price${i}${i}`
-                                                      ]?.checked
-                                                  }
-                                                  style={{
-                                                    color: "#7f7d85",
-                                                    padding: 0,
-                                                    width: "10px",
-                                                  }}
-                                                  onClick={(e) =>
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      ele?.id,
-                                                      opt
-                                                    )
-                                                  }
-                                                  size="small"
-                                                />
-                                              }
-                                              // sx={{
-                                              //   display: "flex",
-                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                              //   width: "100%",
-                                              //   flexDirection: "row-reverse", // Align items to the right
-                                              //   fontFamily:'TT Commons Regular'
-                                              // }}
-                                              className="smr_mui_checkbox_label"
-                                              label={
-                                                opt?.Minval == 0
-                                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                                  : opt?.Maxval == 0
-                                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
-                                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
-                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                              }
-                                            />
-                                          </div>
-                                        )
-                                      )}
-                                    </AccordionDetails>
-                                  </Accordion>
-                            )}
-                            {ele?.Name?.includes("Diamond") && (
-                        <Accordion
-                          elevation={0}
-                          sx={{
-                            borderBottom: "1px solid #c7c8c9",
-                            borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
-                              borderBottomLeftRadius: "0px",
-                              borderBottomRightRadius: "0px",
-                            },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
-                              background: "none",
-                            },
-                          }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
-                        >
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMoreIcon sx={{ width: "20px" }} />
-                            }
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            sx={{
-                              color: "#7f7d85",
-                              borderRadius: 0,
-
-                              "&.MuiAccordionSummary-root": {
-                                padding: 0,
-                              },
-                            }}
-                          >
-                            {/* <span> */}
-                            {ele.Name}
-                            {/* </span> */}
-                          </AccordionSummary>
-                          <AccordionDetails
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "4px",
-                              minHeight: "fit-content",
-                              maxHeight: "300px",
-                              overflow: "auto",
-                            }}
-                          >
-                            {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 203, height: 88 }}>
-                              {RangeFilterView(ele)}
-                            </Box>
-                          </AccordionDetails>
-                        </Accordion>
-                            )}
-                            {ele?.Name?.includes("NetWt") && (
-                        <Accordion
-                          elevation={0}
-                          sx={{
-                            borderBottom: "1px solid #c7c8c9",
-                            borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
-                              borderBottomLeftRadius: "0px",
-                              borderBottomRightRadius: "0px",
-                            },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
-                              background: "none",
-                            },
-                          }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
-                        >
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMoreIcon sx={{ width: "20px" }} />
-                            }
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            sx={{
-                              color: "#7f7d85",
-                              borderRadius: 0,
-
-                              "&.MuiAccordionSummary-root": {
-                                padding: 0,
-                              },
-                            }}
-                            // className="filtercategoryLable"
-                          >
-                            {/* <span> */}
-                            {ele.Name}
-                            {/* </span> */}
-                          </AccordionSummary>
-                          <AccordionDetails
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "4px",
-                              minHeight: "fit-content",
-                              maxHeight: "300px",
-                              overflow: "auto",
-                            }}
-                          >
-                            {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                            <Box sx={{ width: 204, height: 88 }}>
-                              {RangeFilterView1(ele)}
-                            </Box>
-                          </AccordionDetails>
-                        </Accordion>
-                            )}
-                            {ele?.Name?.includes("Gross") && (
-                        <Accordion
-                          elevation={0}
-                          sx={{
-                            borderBottom: "1px solid #c7c8c9",
-                            borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
-                              borderBottomLeftRadius: "0px",
-                              borderBottomRightRadius: "0px",
-                            },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
-                              background: "none",
-                            },
-                          }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
-                        >
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMoreIcon sx={{ width: "20px" }} />
-                            }
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                            sx={{
-                              color: "#7f7d85",
-                              borderRadius: 0,
-
-                              "&.MuiAccordionSummary-root": {
-                                padding: 0,
-                              },
-                            }}
-                            // className="filtercategoryLable"
-                          >
-                            {/* <span> */}
-                            {ele.Name}
-                            {/* </span> */}
-                          </AccordionSummary>
-                          <AccordionDetails
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "4px",
-                              minHeight: "fit-content",
-                              maxHeight: "300px",
-                              overflow: "auto",
-                            }}
-                          >
-                            <Box sx={{ width: 204, height: 88 }}>
-                              {RangeFilterView2(ele)}
-                            </Box>
-                          </AccordionDetails>
-                        </Accordion>
-                            )}
-                          </>
+                          </div>
                         ))}
-                      </div>
-                    </div>}
-                  </div>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                  {ele?.id?.includes("Price") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                        {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before":
+                        {
+                          background: "none",
+                        },
+                      }}
+                    // expanded={accExpanded}
+                    // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      // className="filtercategoryLable"
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        {(JSON.parse(ele?.options) ?? []).map(
+                          (opt, i) => (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: "12px",
+                              }}
+                              key={i}
+                            >
+                              {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    name={`Price${i}${i}`}
+                                    // checked={
+                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                    //     : false
+                                    // }
+                                    checked={
+                                      filterChecked[`Price${i}${i}`]
+                                        ?.checked === undefined
+                                        ? false
+                                        : filterChecked[
+                                          `Price${i}${i}`
+                                        ]?.checked
+                                    }
+                                    style={{
+                                      color: "#7f7d85",
+                                      padding: 0,
+                                      width: "10px",
+                                    }}
+                                    onClick={(e) =>
+                                      handleCheckboxChange(
+                                        e,
+                                        ele?.id,
+                                        opt
+                                      )
+                                    }
+                                    size="small"
+                                  />
+                                }
+                                // sx={{
+                                //   display: "flex",
+                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                //   width: "100%",
+                                //   flexDirection: "row-reverse", // Align items to the right
+                                //   fontFamily:'TT Commons Regular'
+                                // }}
+                                className="smr_mui_checkbox_label"
+                                label={
+                                  opt?.Minval == 0
+                                    ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                    : opt?.Maxval == 0
+                                      ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
+                                      : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
+                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                }
+                              />
+                            </div>
+                          )
+                        )}
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                  {ele?.Name?.includes("Diamond") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                        {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before":
+                        {
+                          background: "none",
+                        },
+                      }}
+                    // expanded={accExpanded}
+                    // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                        <Box sx={{ width: 203, height: 88 }}>
+                          {RangeFilterView(ele)}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                  {ele?.Name?.includes("NetWt") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                        {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before":
+                        {
+                          background: "none",
+                        },
+                      }}
+                    // expanded={accExpanded}
+                    // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      // className="filtercategoryLable"
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                        <Box sx={{ width: 204, height: 88 }}>
+                          {RangeFilterView1(ele)}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                  {ele?.Name?.includes("Gross") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                        {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before":
+                        {
+                          background: "none",
+                        },
+                      }}
+                    // expanded={accExpanded}
+                    // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon sx={{ width: "20px" }} />
+                        }
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                      // className="filtercategoryLable"
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        <Box sx={{ width: 204, height: 88 }}>
+                          {RangeFilterView2(ele)}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                </>
+              ))}
+            </div>
+          </div>}
+        </div>
       </Drawer>
       <div className="smrMA_bodyContain">
         <div className="smr_outerContain">
           <div className="smrMA_whiteInnerContain ">
             {
-            
-            isProdLoading ? 
-            // true ? 
-            (
-              <ProductListSkeleton />
-            ) : (
-              <>
-                { !minwidth1201px ? 
-                <div className="smrMA_mobile_prodSorting">
-                  <Checkbox
-                  sx={{padding:'0px 9px 0px 9px'}}
-                  icon={<FilterAltIcon fontSize="large"/>}
-                  checkedIcon={<FilterAltOffIcon fontSize="large" style={{color:'#666666'}}/>}
-                  checked={isDrawerOpen}
-                  onChange={(e)=>setIsDrawerOpen(e.target.value)}
-                />
-                </div>
-                : <div className="smr_prodSorting">
-                  <div className="empty_sorting_div">
-                    <span className="smr_breadcums_port " style={{marginLeft:'72px'}} onClick={()=>{navigate('/')}}>{'Home >'}{" "}</span>
-                     { IsBreadCumShow && <div className="smr_breadcums_port">
-                           {menuParams?.menuname && <span onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal})}>{menuParams?.menuname}</span>}
 
-                           {menuParams?.FilterVal1 && <span 
-                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1})}
-                           >
-                            {` > ${menuParams?.FilterVal1}`}
+              isProdLoading ?
+                // true ? 
+                (
+                  <ProductListSkeleton />
+                ) : (
+                  <>
+                    {!minwidth1201px ?
+                      <div className="smrMA_mobile_prodSorting">
+                        <Checkbox
+                          sx={{ padding: '0px 9px 0px 9px' }}
+                          icon={<FilterAltIcon fontSize="large" />}
+                          checkedIcon={<FilterAltOffIcon fontSize="large" style={{ color: '#666666' }} />}
+                          checked={isDrawerOpen}
+                          onChange={(e) => setIsDrawerOpen(e.target.value)}
+                        />
+                      </div>
+                      : <div className="smr_prodSorting">
+                        <div className="empty_sorting_div">
+                          <span className="smr_breadcums_port " style={{ marginLeft: '72px' }} onClick={() => { navigate('/') }}>{'Home >'}{" "}</span>
+                          {IsBreadCumShow && <div className="smr_breadcums_port">
+                            {menuParams?.menuname && <span onClick={() => handleBreadcums({ [menuParams?.FilterKey]: menuParams?.FilterVal })}>{menuParams?.menuname}</span>}
+
+                            {menuParams?.FilterVal1 && <span
+                              onClick={() => handleBreadcums({ [menuParams?.FilterKey]: menuParams?.FilterVal, [menuParams?.FilterKey1]: menuParams?.FilterVal1 })}
+                            >
+                              {` > ${menuParams?.FilterVal1}`}
                             </span>}
 
-                           {menuParams?.FilterVal2 && <span
-                            onClick={() => handleBreadcums({[menuParams?.FilterKey]:menuParams?.FilterVal,[menuParams?.FilterKey1]:menuParams?.FilterVal1,[menuParams?.FilterKey2]:menuParams?.FilterVal2})}
-                           > 
-                           {` > ${menuParams?.FilterVal2}`}
-                           </span>}
-                        </div>
-                     }
-                  </div>
-
-                      <div className="smr_main_sorting_div">
-                        <div className="smr_metal_custom">
-                          <label className="label">
-                            Metal:&nbsp;
-                          </label>
-                          <select className="select" value={selectedMetalId} onChange={(e) => setSelectedMetalId(e.target.value)}>
-                            {
-                              metalTypeCombo?.map((metalele) => (
-                                <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
-                              ))
-                            }
-                          </select>
+                            {menuParams?.FilterVal2 && <span
+                              onClick={() => handleBreadcums({ [menuParams?.FilterKey]: menuParams?.FilterVal, [menuParams?.FilterKey1]: menuParams?.FilterVal1, [menuParams?.FilterKey2]: menuParams?.FilterVal2 })}
+                            >
+                              {` > ${menuParams?.FilterVal2}`}
+                            </span>}
+                          </div>
+                          }
                         </div>
 
-                        {storeInit?.IsDiamondCustomization === 1 && <div className="smr_dia_custom">
-                          <label className="label">
-                            Diamond:&nbsp;
-                          </label>
-                          <select className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
-                            {
-
-                              diaQcCombo?.map((diaQc) => (
-                                <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
-                              ))
-                            }
-                          </select>
-                        </div>}
-
-                        {storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
-                          <label className="label">
-                            color stone:&nbsp;
-                          </label>
-                          <select className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
-                            {
-                              csQcCombo?.map((csCombo) => (
-                                <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
-                              ))
-                            }
-                          </select>
-                        </div>}
-
-                        <div className="smr_sorting_custom">
-                          <div className="container">
+                        <div className="smr_main_sorting_div">
+                          <div className="smr_metal_custom">
                             <label className="label">
-                              Sort By:&nbsp;
+                              Metal:&nbsp;
                             </label>
-                            <select className="select">
-                              <option
-                                className="option"
-                                value="Recommended"
-                              >
-                                Recommended
-                              </option>
-                              <option className="option" value="New">
-                                New
-                              </option>
-                              <option
-                                className="option"
-                                value="In Stock"
-                              >
-                                In stock
-                              </option>
-                              <option
-                                className="option"
-                                value="PRICE HIGH TO LOW"
-                              >
-                                Price High To Low
-                              </option>
-                              <option
-                                className="option"
-                                value="PRICE LOW TO HIGH"
-                              >
-                                Price Low To High
-                              </option>
+                            <select className="select" value={selectedMetalId} onChange={(e) => setSelectedMetalId(e.target.value)}>
+                              {
+                                metalTypeCombo?.map((metalele) => (
+                                  <option className="option" key={metalele?.Metalid} value={metalele?.Metalid}>{metalele?.metaltype.toUpperCase()}</option>
+                                ))
+                              }
                             </select>
                           </div>
+
+                          {storeInit?.IsDiamondCustomization === 1 && <div className="smr_dia_custom">
+                            <label className="label">
+                              Diamond:&nbsp;
+                            </label>
+                            <select className="select" value={selectedDiaId} onChange={(e) => setSelectedDiaId(e.target.value)}>
+                              {
+
+                                diaQcCombo?.map((diaQc) => (
+                                  <option className="option" key={diaQc.ColorId} value={`${diaQc.Quality},${diaQc.color}`}> {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}</option>
+                                ))
+                              }
+                            </select>
+                          </div>}
+
+                          {storeInit?.IsCsCustomization === 1 && <div className="smr_cs_custom">
+                            <label className="label">
+                              color stone:&nbsp;
+                            </label>
+                            <select className="select" value={selectedCsId} onChange={(e) => setSelectedCsId(e.target.value)}>
+                              {
+                                csQcCombo?.map((csCombo) => (
+                                  <option className="option" key={csCombo.ColorId} value={`${csCombo.Quality},${csCombo.color}`}> {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}</option>
+                                ))
+                              }
+                            </select>
+                          </div>}
+
+                          <div className="smr_sorting_custom">
+                            <div className="container">
+                              <label className="label">
+                                Sort By:&nbsp;
+                              </label>
+                              <select className="select">
+                                <option
+                                  className="option"
+                                  value="Recommended"
+                                >
+                                  Recommended
+                                </option>
+                                <option className="option" value="New">
+                                  New
+                                </option>
+                                <option
+                                  className="option"
+                                  value="In Stock"
+                                >
+                                  In stock
+                                </option>
+                                <option
+                                  className="option"
+                                  value="PRICE HIGH TO LOW"
+                                >
+                                  Price High To Low
+                                </option>
+                                <option
+                                  className="option"
+                                  value="PRICE LOW TO HIGH"
+                                >
+                                  Price Low To High
+                                </option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                      </div>
 
-                    </div>}
+                      </div>}
 
-                    <div className="smr_mainPortion" style={{marginTop:'50px'}}>
+                    <div className="smr_mainPortion" style={{ marginTop: '50px' }}>
                       <div className="smr_filter_portion">
                         {filterData?.length > 0 && <div className="smr_filter_portion_outter">
                           <span className="smr_filter_text">
-                          <span>
+                            <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length === 0
@@ -2094,7 +2096,7 @@ const ProductList = () => {
                                         },
                                       }}
                                     >
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                     </AccordionSummary>
                                     <AccordionDetails
                                       sx={{
@@ -2124,261 +2126,261 @@ const ProductList = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                      <FormControlLabel
-                                      control={
-                                      <Checkbox
-                                        name={`${ele?.id}${opt?.id}`}
-                                        // checked={
-                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                        //     : false
-                                        // }
-                                        checked={
-                                          filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
-                                          undefined
-                                            ? false
-                                            : filterChecked[`${ele?.id}${opt?.id}`]?.checked
-                                        }
-                                        style={{
-                                          color: "#7f7d85",
-                                          padding: 0,
-                                          width: "10px",
-                                        }}
-                                        onClick={(e) =>
-                                          handleCheckboxChange(
-                                            e,
-                                            ele?.id,
-                                            opt?.Name
-                                          )
-                                        }
-                                        size="small"
-                                        />
-                                      }
-                                      
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="smr_mui_checkbox_label"
-                                      label={opt.Name}
-                                      />
-                                      
-                                    </div>
-                                  ))}
-                                </AccordionDetails>
-                              </Accordion>
-                            )}
-                          </>
-                        ))}
-                      </div>
-                    </div>}
-                  </div>
-                  {
-                    filterProdListEmpty ? 
-                    <div style={{display:'flex',justifyContent:'center',width:'100%',alignItems:'center',height:'500px'}}>
-                      <span className="smr_prod_datanotfound">
-                        Products Not found !!!
-                      </span>
-                    </div>
-                    :
-                    <div className="smr_productList">
-                    {
-                    //  isOnlyProdLoading ? 
-                     isProdLoading ? 
-                    (
-                      <ProductListSkeleton  />
-                    ) : (
-                      <div className="smr_outer_portion">
-                      {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
-                      <div className="smrMA_inner_portion">
-                        {finalProductListData?.map((productData,i) => (
-                          <div className="smrMA_productCard" style={{width: (isSingleView && '98%') || (isDoubleView && '49%')}}>
-                            <div className="cart_and_wishlist_icon">
-                              {/* <Button className="smr_cart-icon"> */}
-                                <Checkbox
-                                  icon={
-                                    <LocalMallOutlinedIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#7d7f85",
-                                        opacity: ".7",
-                                      }}
-                                    />
-                                  }
-                                  checkedIcon={
-                                    <LocalMallIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#009500",
-                                      }}
-                                    />
-                                  }
-                                  disableRipple={false}
-                                  sx={{ padding: "10px" }}
+                                          <FormControlLabel
+                                            control={
+                                              <Checkbox
+                                                name={`${ele?.id}${opt?.id}`}
+                                                // checked={
+                                                //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                                //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                                //     : false
+                                                // }
+                                                checked={
+                                                  filterChecked[`${ele?.id}${opt?.id}`]?.checked ===
+                                                    undefined
+                                                    ? false
+                                                    : filterChecked[`${ele?.id}${opt?.id}`]?.checked
+                                                }
+                                                style={{
+                                                  color: "#7f7d85",
+                                                  padding: 0,
+                                                  width: "10px",
+                                                }}
+                                                onClick={(e) =>
+                                                  handleCheckboxChange(
+                                                    e,
+                                                    ele?.id,
+                                                    opt?.Name
+                                                  )
+                                                }
+                                                size="small"
+                                              />
+                                            }
 
-                                          onChange={(e) => handleCartandWish(e, productData, "Cart")}
-                                          checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1 ? true : false}
-                                        />
-                                        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                        {/* </Button> */}
-                                        {/* <Button className="smr_wish-icon"> */}
-                                        <Checkbox
-                                          icon={
-                                            <FavoriteBorderIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#7d7f85",
-                                                opacity: ".7",
-                                              }}
-                                            />
-                                          }
-                                          checkedIcon={
-                                            <FavoriteIcon
-                                              sx={{
-                                                fontSize: "22px",
-                                                color: "#e31b23",
-                                              }}
-                                            />
-                                          }
-                                          disableRipple={false}
-                                          sx={{ padding: "10px",display:"none"}}
+                                            // sx={{
+                                            //   display: "flex",
+                                            //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                            //   width: "100%",
+                                            //   flexDirection: "row-reverse", // Align items to the right
+                                            //   fontFamily:'TT Commons Regular'
+                                            // }}
+                                            className="smr_mui_checkbox_label"
+                                            label={opt.Name}
+                                          />
 
-                                          onChange={(e) => handleCartandWish(e, productData, "Wish")}
-                                          // checked={productData?.IsInWish}
-                                          checked={wishArr[productData?.autocode] ?? productData?.IsInWish === 1 ? true : false}
-                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                        // onChange={(e) => handelWishList(e, products)}
-                                        />
-                                        {/* </Button> */}
-                                      </div>
-
-                                      <div className="smrMA_app_product_label">
-                                        {productData?.IsInReadyStock == 1 && 
-                                        <span className="smrMA_app_instock">In Stock</span>
-                                         } 
-                                        {productData?.IsBestSeller == 1 && <span className="smrMA_app_bestSeller">Best Seller</span>}
-                                        {productData?.IsTrending == 1 && 
-                                        <span className="smrMA_app_intrending">Trending</span>
-                                        } 
-                                        {productData?.IsNewArrival == 1 &&
-                                         <span className="smrMA_app_newarrival">New</span>
-                                         } 
-                                      </div>
-                                      <img
-                                        className="smr_productCard_Image"
-                                        style={{height: (isSingleView && '412px') || (isDoubleView && '200px'),minHeight:(isSingleView && '412px') || (isDoubleView && '200px')}}
-
-                              id={`smr_productCard_Image${productData?.autocode}`}
-                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                              // src={ ProdCardImageFunc(productData,0)}
-                              src={productData?.images?.length > 0 ? productData?.images[0] :  imageNotFound}
-                              alt=""
-                              onClick={()=>handleMoveToDetail(productData)}
-                              onMouseEnter={()=>{handleImgRollover(productData,i)}}
-                            />
-                            <div className="smr_prod_Title" >
-                              <span
-                                className={
-                                  // productData?.TitleLine?.length > 30
-                                    // ? 
-                                    "smr_prod_title_with_width"
-                                    // : 
-                                    // "smr_prod_title_with_no_width"
-                                }
-                              >
-                                {productData?.TitleLine?.length > 0 && "-"}
-                                {productData?.TitleLine}{" "}
-                              </span>
-                              <span className="smrMA_prod_designno">
-                                {productData?.designno}
-                              </span>
-                            </div>
-                            <div className="smr_app_prod_Allwt" >
-                              <div style={{display:'flex',justifyContent:'center',alignItems:'center',letterSpacing:maxwidth590px ? '0px':'1px',gap:maxwidth1674px ? '0px':'3px',flexWrap:'wrap'}}> 
-                              {/* <span className="smr_por"> */}
-                              { (storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
-                                <span className="smr_keys">GWT:</span>
-                                    <span className="smr_val">
-                                      {(productData?.Gwt)?.toFixed(3)}
-                                    </span>
-                                </span>
-                              }
-
-                              {(Number(productData?.Nwt !== 0))&& 
-                                <>
-                                <span style={{fontSize:"10px",marginBottom:"2px"}}>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">NWT:</span>
-                                  <span className="smr_val">
-                                    {(productData?.Nwt)?.toFixed(3)}
-                                  </span>
-                                </span>
-                              </>
-                              }
-                              {/* </span> */}
-                              {/* <span className="smr_por"> */}
-                               { (storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
-                               <>
-                               <span style={{fontSize:"10px",marginBottom:"2px"}}>|</span>
-                                <span className="smr_prod_wt">
-                                  <span className="smr_keys">DWT:</span>
-                                  <span className="smr_val">
-                                    {(productData?.Dwt)?.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
-                                  </span>
-                                </span>
-                               </>
-                                }
-                                {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
-                                  <>
-                                    <span style={{fontSize:"10px",marginBottom:"2px"}}>|</span>
-                                    <span className="smr_prod_wt">
-                                      <span className="smr_keys">CWT:</span>
-                                      <span className="smr_val">
-                                        {(productData?.CSwt)?.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
-                                      </span>
-                                    </span>
-                                  </>
-                                }
-                                          {/* </span> */}
                                         </div>
-                                      </div>
-                                      <div className="smrMA_prod_mtcolr_price">
-                                        <span className="smr_prod_metal_col">
-                                          {findMetalColor(
-                                            productData?.MetalColorid
-                                          )?.[0]?.metalcolorname.toUpperCase()}
-                                          {findMetalColor(
-                                            productData?.MetalColorid
-                                          )?.[0]?.metalcolorname.toUpperCase() && '-'}
-                                          {
-                                            findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
-                                              ?.metaltype
-                                          }
-                                        </span>
-                                        <span>/</span>
-                                        <span className="smrMA_price">
-                                          <span className="smr_currencyFont">
-                                           {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                          </span>
+                                      ))}
+                                    </AccordionDetails>
+                                  </Accordion>
+                                )}
+                              </>
+                            ))}
+                          </div>
+                        </div>}
+                      </div>
+                      {
+                        filterProdListEmpty ?
+                          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', alignItems: 'center', height: '500px' }}>
+                            <span className="smr_prod_datanotfound">
+                              Products Not found !!!
+                            </span>
+                          </div>
+                          :
+                          <div className="smr_productList">
+                            {
+                              //  isOnlyProdLoading ? 
+                              isProdLoading ?
+                                (
+                                  <ProductListSkeleton />
+                                ) : (
+                                  <div className="smr_outer_portion">
+                                    {/* <div className="smr_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
+                                    <div className="smrMA_inner_portion">
+                                      {finalProductListData?.map((productData, i) => (
+                                        <div className="smrMA_productCard" style={{ width: (isSingleView && '98%') || (isDoubleView && '49%') }}>
+                                          <div className="cart_and_wishlist_icon">
+                                            {/* <Button className="smr_cart-icon"> */}
+                                            <Checkbox
+                                              icon={
+                                                <LocalMallOutlinedIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#7d7f85",
+                                                    opacity: ".7",
+                                                  }}
+                                                />
+                                              }
+                                              checkedIcon={
+                                                <LocalMallIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#009500",
+                                                  }}
+                                                />
+                                              }
+                                              disableRipple={false}
+                                              sx={{ padding: "10px" }}
 
-                                          <span className="smr_pricePort">
-                                            {formatter.format(productData?.UnitCostWithMarkUp)}
-                                          </span>
-                                        </span>
-                                      </div>
+                                              onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                              checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1 ? true : false}
+                                            />
+                                            {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+                                            {/* </Button> */}
+                                            {/* <Button className="smr_wish-icon"> */}
+                                            <Checkbox
+                                              icon={
+                                                <FavoriteBorderIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#7d7f85",
+                                                    opacity: ".7",
+                                                  }}
+                                                />
+                                              }
+                                              checkedIcon={
+                                                <FavoriteIcon
+                                                  sx={{
+                                                    fontSize: "22px",
+                                                    color: "#e31b23",
+                                                  }}
+                                                />
+                                              }
+                                              disableRipple={false}
+                                              sx={{ padding: "10px", display: "none" }}
+
+                                              onChange={(e) => handleCartandWish(e, productData, "Wish")}
+                                              // checked={productData?.IsInWish}
+                                              checked={wishArr[productData?.autocode] ?? productData?.IsInWish === 1 ? true : false}
+                                            // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+                                            // onChange={(e) => handelWishList(e, products)}
+                                            />
+                                            {/* </Button> */}
+                                          </div>
+
+                                          <div className="smrMA_app_product_label">
+                                            {productData?.IsInReadyStock == 1 &&
+                                              <span className="smrMA_app_instock">In Stock</span>
+                                            }
+                                            {productData?.IsBestSeller == 1 && <span className="smrMA_app_bestSeller">Best Seller</span>}
+                                            {productData?.IsTrending == 1 &&
+                                              <span className="smrMA_app_intrending">Trending</span>
+                                            }
+                                            {productData?.IsNewArrival == 1 &&
+                                              <span className="smrMA_app_newarrival">New</span>
+                                            }
+                                          </div>
+                                          <img
+                                            className="smr_productCard_Image"
+                                            style={{ height: (isSingleView && '412px') || (isDoubleView && '200px'), minHeight: (isSingleView && '412px') || (isDoubleView && '200px') }}
+
+                                            id={`smr_productCard_Image${productData?.autocode}`}
+                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                            // src={ ProdCardImageFunc(productData,0)}
+                                            src={productData?.images?.length > 0 ? productData?.images[0] : imageNotFound}
+                                            alt=""
+                                            onClick={() => handleMoveToDetail(productData)}
+                                            onMouseEnter={() => { handleImgRollover(productData, i) }}
+                                          />
+                                          <div className="smr_prod_Title" >
+                                            <span
+                                              className={
+                                                // productData?.TitleLine?.length > 30
+                                                // ? 
+                                                "smr_prod_title_with_width"
+                                                // : 
+                                                // "smr_prod_title_with_no_width"
+                                              }
+                                            >
+                                              {productData?.TitleLine?.length > 0 && "-"}
+                                              {productData?.TitleLine}{" "}
+                                            </span>
+                                            <span className="smrMA_prod_designno">
+                                              {productData?.designno}
+                                            </span>
+                                          </div>
+                                          <div className="smr_app_prod_Allwt" >
+                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: maxwidth590px ? '0px' : '1px', gap: maxwidth1674px ? '0px' : '3px', flexWrap: 'wrap' }}>
+                                              {/* <span className="smr_por"> */}
+                                              {(storeInit?.IsGrossWeight == 1 && (Number(productData?.Gwt) !== 0)) && <span className="smr_prod_wt">
+                                                <span className="smr_keys">GWT:</span>
+                                                <span className="smr_val">
+                                                  {(productData?.Gwt)?.toFixed(3)}
+                                                </span>
+                                              </span>
+                                              }
+
+                                              {(Number(productData?.Nwt !== 0)) &&
+                                                <>
+                                                  <span style={{ fontSize: "10px", marginBottom: "2px" }}>|</span>
+                                                  <span className="smr_prod_wt">
+                                                    <span className="smr_keys">NWT:</span>
+                                                    <span className="smr_val">
+                                                      {(productData?.Nwt)?.toFixed(3)}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              }
+                                              {/* </span> */}
+                                              {/* <span className="smr_por"> */}
+                                              {(storeInit?.IsDiamondWeight == 1 && Number(productData?.Dwt) !== 0) &&
+                                                <>
+                                                  <span style={{ fontSize: "10px", marginBottom: "2px" }}>|</span>
+                                                  <span className="smr_prod_wt">
+                                                    <span className="smr_keys">DWT:</span>
+                                                    <span className="smr_val">
+                                                      {(productData?.Dwt)?.toFixed(3)}{storeInit?.IsDiamondPcs === 1 ? `/${productData?.Dpcs}` : null}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              }
+                                              {(storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0) &&
+                                                <>
+                                                  <span style={{ fontSize: "10px", marginBottom: "2px" }}>|</span>
+                                                  <span className="smr_prod_wt">
+                                                    <span className="smr_keys">CWT:</span>
+                                                    <span className="smr_val">
+                                                      {(productData?.CSwt)?.toFixed(3)}{storeInit?.IsStonePcs === 1 ? `/${productData?.CSpcs}` : null}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              }
+                                              {/* </span> */}
+                                            </div>
+                                          </div>
+                                          <div className="smrMA_prod_mtcolr_price">
+                                            <span className="smr_prod_metal_col">
+                                              {findMetalColor(
+                                                productData?.MetalColorid
+                                              )?.[0]?.metalcolorname.toUpperCase()}
+                                              {findMetalColor(
+                                                productData?.MetalColorid
+                                              )?.[0]?.metalcolorname.toUpperCase() && '-'}
+                                              {
+                                                findMetalType(selectedMetalId ?? productData?.MetalPurityid)[0]
+                                                  ?.metaltype
+                                              }
+                                            </span>
+                                            <span>/</span>
+                                            <span className="smrMA_price">
+                                              <span className="smr_currencyFont">
+                                                {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                              </span>
+
+                                              <span className="smr_pricePort">
+                                                {formatter.format(productData?.UnitCostWithMarkUp)}
+                                              </span>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      ))}
                                     </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
+                                  </div>
+                                )}
                           </div>}
                     </div>
                   </>
                 )}
-            {( (storeInit?.IsProductListPagination == 1  && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && !filterProdListEmpty) ? <div
+            {((storeInit?.IsProductListPagination == 1 && Math.ceil(afterFilterCount / storeInit.PageSize) > 1) && !filterProdListEmpty) ? <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -2388,16 +2390,16 @@ const ProductList = () => {
             >
               <Pagination
                 count={Math.ceil(afterFilterCount / storeInit.PageSize)}
-                size={maxwidth464px ? "small" :"large"}
+                size={maxwidth464px ? "small" : "large"}
                 shape="circular"
                 onChange={handelPageChange}
-                showFirstButton 
+                showFirstButton
                 showLastButton
               />
             </div>
-          :
-          null  
-          }
+              :
+              null
+            }
           </div>
         </div>
       </div>
@@ -2405,7 +2407,7 @@ const ProductList = () => {
       <Drawer
         anchor="bottom"
         open={isSortByDrawerOpen}
-        onClose={()=>setIsSortByDrawerOpen(false)}
+        onClose={() => setIsSortByDrawerOpen(false)}
       >
         {Newlist("bottom")}
       </Drawer>
@@ -2413,22 +2415,22 @@ const ProductList = () => {
       <Drawer
         anchor="bottom"
         open={isImgViewDrawerOpen}
-        onClose={()=>setIsImgViewDrawerOpen(false)}
+        onClose={() => setIsImgViewDrawerOpen(false)}
       >
         {NewlistImageView("bottom")}
       </Drawer>
 
       <div style={styles.container}>
-        <div style={styles.tab} onClick={()=>setIsDrawerOpen(true)}>
+        <div style={styles.tab} onClick={() => setIsDrawerOpen(true)}>
           <FaFilter style={activeTab === "/" ? styles.activeIcon : styles.icon} />
           <span style={activeTab === "/" ? styles.activeText : styles.text}>Filter</span>
         </div>
-        <div style={styles.tab} onClick={()=>setIsSortByDrawerOpen(true)}>
+        <div style={styles.tab} onClick={() => setIsSortByDrawerOpen(true)}>
           <BsFilterLeft style={activeTab === "/shortBy" ? styles.activeIcon : styles.icon} />
           <span style={activeTab === "/shortBy" ? styles.activeText : styles.text}>Sort By</span>
         </div>
 
-        <div style={styles.tab} onClick={()=>setIsImgViewDrawerOpen(true)}>
+        <div style={styles.tab} onClick={() => setIsImgViewDrawerOpen(true)}>
           <FaEye style={styles.icon} />
           <span style={styles.text}>Image View</span>
         </div>

@@ -560,11 +560,11 @@
     }
   }
 
-  @media screen and (max-width: 600px) {
-    .roop_mobileHideIcone {
-      display: none !important;
+    @media screen and (max-width: 600px) {
+        // .roop_mobileHideIcone {
+        //     display: none !important;
+        // }
     }
-  }
 
   @media screen and (min-width: 426px) {
     .roop_top_header3_logo_mobile {

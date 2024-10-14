@@ -174,10 +174,10 @@ const CartItem = ({
                 </>
               }
             </div>
-            <div style={{ display: 'flex' }} className="stam3_qtyDiv">
-              <p className='stam3_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
+            <div style={{ display: 'flex' }} className="stam3_qtyDiv stam3_qtyDiv_qty">
+              <p className='stam3_ringSize'>Quantity: <span className='stam3_sizeNo'>{item?.Quantity}</span></p>&nbsp;
               {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
-                <p className='stam3_ringSize'>Size: {item?.Size}</p>
+                <p className='stam3_ringSize'>Size: <span className='stam3_sizeNo'>{item?.Size}</span></p>
               }
             </div>
             {/* <span className="stam3_change-size">CHANGE SIZE</span> */}

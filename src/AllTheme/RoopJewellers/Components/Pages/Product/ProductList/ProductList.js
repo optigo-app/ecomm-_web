@@ -1724,7 +1724,7 @@ const ProductList = () => {
                             // className="filtercategoryLable"
                             >
                               {/* <span> */}
-                              {ele.Name}
+                              {ele.Fil_DisName}
                               {/* </span> */}
                             </AccordionSummary>
                             <AccordionDetails
@@ -1846,7 +1846,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1977,7 +1977,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2034,7 +2034,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2091,7 +2091,7 @@ const ProductList = () => {
                             onClick={() => handleScrollHeight()}
                           >
                             {/* <span> */}
-                            {ele.Name}
+                            {ele.Fil_DisName}
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2547,7 +2547,7 @@ const ProductList = () => {
                                         onClick={() => handleScrollHeight()}
                                       >
                                         {/* <span> */}
-                                        {ele.Name}
+                                        {ele.Fil_DisName}
                                         {/* </span> */}
                                       </AccordionSummary>
                                       <AccordionDetails
@@ -2665,7 +2665,7 @@ const ProductList = () => {
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2788,7 +2788,7 @@ const ProductList = () => {
                                     // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2845,7 +2845,7 @@ const ProductList = () => {
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails
@@ -2902,7 +2902,7 @@ const ProductList = () => {
                                       onClick={() => handleScrollHeight()}
                                     >
                                       {/* <span> */}
-                                      {ele.Name}
+                                      {ele.Fil_DisName}
                                       {/* </span> */}
                                     </AccordionSummary>
                                     <AccordionDetails

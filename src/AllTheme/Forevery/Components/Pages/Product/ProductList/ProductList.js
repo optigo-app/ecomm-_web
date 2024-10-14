@@ -1674,11 +1674,12 @@ const Product_Card = ({
   const [isHover, setIsHover] = useState(false);
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
+  const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
-  const activeColorCode = imageColor || getSessImgColor;
+  const activeColorCode = getSessImgColor || getSessCartWishImgColor;
 
   useEffect(() => {
-    if ((activeColorCode !== "" || activeColorCode !== undefined || activeColorCode !== null)) {
+    if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null)) {
       setImageColor("");
       sessionStorage.removeItem("imgColorCode");
       sessionStorage.removeItem("cartWishImgColor");

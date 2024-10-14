@@ -87,6 +87,10 @@
     }
   }
 
+  .stam_lookbook_filter_div {
+    display: flex;
+  }
+
 
   .stam_lb2designList_title {
     position: absolute;
@@ -187,7 +191,7 @@
     display: flex;
     margin-bottom: 36px;
     overflow: hidden;
-    width: 120px;
+    width: 130px;
     height: 35px;
     border-radius: 0;
 
@@ -912,6 +916,18 @@
     width: 70% !important;
   }
 
+}
+
+@media (max-width: 375px) {
+  .stam_LookBookMain {
+    .lb-switch-field {
+      width: 100%;
+    }
+
+    .stam_lookBookSelectViewBtn {
+      width: 14rem;
+    }
+  }
 }
 
 .stam_LookBookMobileThridViewMain {
