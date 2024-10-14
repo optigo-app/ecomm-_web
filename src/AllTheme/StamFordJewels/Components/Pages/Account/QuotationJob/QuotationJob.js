@@ -1267,7 +1267,7 @@ const scrollToTop = () => {
                                     : 
                                     column?.format && typeof value === 'number'
                                       ? column.format(value)
-                                      : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                                      : column?.id === 'FinalAmount' ? <><span dangerouslySetInnerHTML={{__html: row?.Currencycode }}></span>&nbsp;{formatAmount(value)}</> : value}
                               </TableCell>
                               );
                             })}
