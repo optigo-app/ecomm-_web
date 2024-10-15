@@ -32,6 +32,7 @@ import { responsiveConfig } from '../../../Config/ProductSliderConfig';
 import { StepImages } from '../../../data/NavbarMenu';
 import useZoom from '../../../hooks/UseZoom';
 import OurServices from '../../Home/Common/OurServices/OurServices';
+import Stockitems from '../InstockProduct/Stockitems';
 
 
 const ProductDetail = () => {
@@ -41,6 +42,7 @@ const ProductDetail = () => {
   const isLoading = useRecoilValue(for_Loader)
   const sliderRef = useRef(null);
   const videoRef = useRef(null);
+  const [stockItemArr, setStockItemArr] = useState([]);
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   let cookie = Cookies.get("visiterId");
   const mTypeLocal = JSON.parse(sessionStorage.getItem('metalTypeCombo'));
@@ -99,6 +101,7 @@ const ProductDetail = () => {
   const [setshape, setSetShape] = useState();
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData2'))
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
+  const [cartArr, setCartArr] = useState({});
 
   const [Swap, setswap] = useState("diamond");
   const breadCrumb = location?.pathname?.split("/")[2];
@@ -590,6 +593,11 @@ const ProductDetail = () => {
                 setSizeCombo(res?.Data);
               })
               .catch((err) => console.log("SizeErr", err));
+              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
+              .then((res) => {
+                setStockItemArr(res?.Data?.rd);
+              })
+              .catch((err) => console.log("stockItemErr", err));
 
             if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
               await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
@@ -1125,6 +1133,51 @@ const ProductDetail = () => {
       }
     }
   }
+
+  const handleCartandWish = (e, ele, type) => {
+    // console.log("event", e.target.checked, ele, type);
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let prodObj = {
+      StockId: ele?.StockId,
+      // "autocode": ele?.autocode,
+      // "Metalid": ele?.MetalPurityid,
+      // "MetalColorId": ele?.MetalColorid,
+      // "DiaQCid": loginInfo?.cmboDiaQCid,
+      // "CsQCid": loginInfo?.cmboCSQCid,
+      // "Size": ele?.Size,
+      Unitcost: ele?.Amount,
+      // "UnitCostWithmarkup": ele?.Amount,
+      // "Remark": ""
+    };
+
+    if (e.target.checked == true) {
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    } else {
+      RemoveCartAndWishAPI(type, ele?.StockId, cookie, true)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
+    }
+
+    if (type === "Cart") {
+      setCartArr((prev) => ({
+        ...prev,
+        [ele?.StockId]: e.target.checked,
+      }));
+    }
+  };
 
 
   const handleBreadcums = (mparams) => {
@@ -2183,6 +2236,12 @@ const ProductDetail = () => {
                   storeInit={storeInit}
                   loginInfo={loginUserDetail}
                 />
+                { stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && 
+                 <Stockitems loginInfo={loginUserDetail} storeInit={storeInit} check={storeInit?.IsPriceShow === 1}
+            handleCartandWish={handleCartandWish}
+            cartArr={cartArr}
+            stockItemArr={stockItemArr}
+                />}
               </div>
             )}
         </div>
