@@ -153,9 +153,11 @@
     align-items: baseline;
     margin: 20px 50px 0px 0px;
     flex-direction: column;
+
     @media screen and (max-width : 1200px) {
       margin: 0;
     }
+
     // position: sticky;
     // top: 50px;
     // overflow-y: scroll;
@@ -200,24 +202,28 @@
   .roop_inner_portion {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-    gap: 10px; 
+    gap: 10px;
     width: 100%;
-    align-items: center; 
+    align-items: center;
     padding: 15px;
+
     @media screen and (max-width : 1150px) {
-    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
     }
+
     @media screen and (max-width : 840px) {
       grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
-      }
-      @media screen and (max-width : 420px) {
-        padding: 5px;
-        }
-        @media screen and (max-width : 280px) {
-          grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-          }
+    }
+
+    @media screen and (max-width : 420px) {
+      padding: 5px;
+    }
+
+    @media screen and (max-width : 280px) {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
   }
-  
+
   .roop_breadcums_port {
     font-family: $primaryFontFamily;
     font-size: 0.85rem;
@@ -225,7 +231,7 @@
     margin-top: 10px;
     cursor: pointer;
   }
-  
+
   .roop_productCard {
     width: 100%;
     text-align: center;
@@ -237,7 +243,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .roop_productCard:hover{
+  .roop_productCard:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
   }
 
@@ -328,11 +334,11 @@
   }
 
   .roop_main_keys {
-    font-size: 11px;
+    font-size: 10.3px;
   }
 
   .roop_main_val {
-    font-size: 11px;
+    font-size: 10.3px;
   }
 
   .roop_prod_mtcolr_price {
@@ -352,9 +358,10 @@
     font-size: 14px;
     // font-weight: 600;
 
-    // .roop_currencyFont{
+    .roop_currencyFont {
+      font-weight: 800;
+    }
 
-    // }
     // .roop_pricePort{
 
     // }
