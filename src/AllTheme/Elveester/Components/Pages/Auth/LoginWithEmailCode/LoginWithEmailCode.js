@@ -13,7 +13,7 @@ export default function LoginWithEmailCode() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
-    const [mobileNo, setMobileNo] = useState('');
+    const [otp, setOtp] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
 
     const location = useLocation();
@@ -66,24 +66,24 @@ export default function LoginWithEmailCode() {
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
         setter(value);
-        if (fieldName === 'mobileNo') {
+        if (fieldName === 'otp') {
             if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Code is required' }));
+                setErrors(prevErrors => ({ ...prevErrors, otp: 'Code is required' }));
             } else {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
+                setErrors(prevErrors => ({ ...prevErrors, otp: '' }));
             }
         }
     };
 
     const handleSubmit = async () => {
-        if (!mobileNo.trim()) {
+        if (!otp.trim()) {
             errors.mobileNo = 'Password is required';
             return;
         }
 
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login').then((response) => {
+        LoginWithEmailAPI(email, '', otp, 'otp_email_login').then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 setIsLoginState(true)
@@ -156,8 +156,8 @@ export default function LoginWithEmailCode() {
                                         handleSubmit();
                                     }
                                 }}
-                                value={mobileNo}
-                                onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
+                                value={otp}
+                                onChange={(e) => handleInputChange(e, setOtp, 'opt')}
                                 error={!!errors.mobileNo}
                                 helperText={errors.mobileNo}
                             />

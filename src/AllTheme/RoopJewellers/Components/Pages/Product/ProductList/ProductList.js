@@ -1150,7 +1150,7 @@ const ProductList = () => {
 
 
   }
-  console.log(afterCountStatus , "afterCountStatus")
+  console.log(afterCountStatus, "afterCountStatus")
   const handleRangeFilterApi1 = async (Rangeval1) => {
 
     let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
@@ -1457,7 +1457,7 @@ const ProductList = () => {
               display: "flex",
               gap: "5px",
               flexDirection: "column",
-              padding:"0 16px"
+              padding: "0 16px"
             }}
           >
             <Typography
@@ -1638,13 +1638,13 @@ const ProductList = () => {
             {filterData?.length > 0 && (
               <div className="roop_mobile_filter_portion_outter">
                 <span className="roop_filter_text"
-                style={{
-                  width:"100%",
-                  display:"flex",
-                  alignItems:"center",
-                  justifyContent:"space-between" ,
-                  padding:"0 16px"
-                }}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0 16px"
+                  }}
                 >
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
@@ -1666,8 +1666,8 @@ const ProductList = () => {
                     }
                   </span>
                   <span style={{
-                    fontWeight :"500",
-                    cursor:"pointer"
+                    fontWeight: "500",
+                    cursor: "pointer"
                   }} onClick={() => handelFilterClearAll()}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
@@ -1686,9 +1686,10 @@ const ProductList = () => {
                     }
                   </span>
                 </span>
-                <div style={{ marginTop: "12px" ,
-              padding:"0 16px"
-                 }}>
+                <div style={{
+                  marginTop: "12px",
+                  padding: "0 16px"
+                }}>
                   {filterData?.map((ele) => (
                     <>
                       {!ele?.id?.includes("Range") &&
@@ -1735,7 +1736,7 @@ const ProductList = () => {
                                 minHeight: "fit-content",
                                 maxHeight: "300px",
                                 overflow: "auto",
-                                margin:0,
+                                margin: 0,
                               }}
                             >
                               {(JSON.parse(ele?.options) ?? []).map((opt) => (
@@ -1757,13 +1758,13 @@ const ProductList = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
-                                  sx={{
-                                    display:"flex",
-                                    width:"100%",
-                                    alignItems:"center" ,
-                                    justifyContent:"space-between",
-                                    flexDirection:"row-reverse"
-                                  }}
+                                    sx={{
+                                      display: "flex",
+                                      width: "100%",
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                      flexDirection: "row-reverse"
+                                    }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1879,13 +1880,13 @@ const ProductList = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
-                                   sx={{
-                                    display:"flex",
-                                    alignItems:"center",
-                                    width:"100%",
-                                    flexDirection:"row-reverse",
-                                    justifyContent:"space-between"
-                                  }}
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      width: "100%",
+                                      flexDirection: "row-reverse",
+                                      justifyContent: "space-between"
+                                    }}
                                     control={
                                       <Checkbox
                                         name={`Price${i}${i}`}
@@ -3201,13 +3202,14 @@ const ProductList = () => {
                                     <div className="roop_prod_card_info">
                                       <div className="roop_prod_Title">
                                         <span
-                                          className={
-                                            (productData?.TitleLine?.length > 30)
-                                              ?
-                                              "roop1_prod_title_with_width"
-                                              :
-                                              "roop1_prod_title_with_no_width"
-                                          }
+                                          className="roop1_prod_title_with_width"
+                                        // className={
+                                        //   (productData?.TitleLine?.length > 30)
+                                        //     ?
+                                        //     "roop1_prod_title_with_width"
+                                        //     :
+                                        //     "roop1_prod_title_with_no_width"
+                                        // }
                                         >
                                           {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
                                         </span>
@@ -3221,6 +3223,7 @@ const ProductList = () => {
                                               ? "0px"
                                               : "1px",
                                             flexWrap: "wrap",
+                                            justifyContent: 'center',
                                           }}
                                         >
                                           {storeInit?.IsGrossWeight == 1 &&
