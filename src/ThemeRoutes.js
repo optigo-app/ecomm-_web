@@ -143,6 +143,7 @@ export default function ThemeRoutes() {
     dt_setCompanyTitleLogo(webLogo);
     dt_setCompanyTitleLogoM(mobileLogo);
 
+
     stam_setCompanyTitleLogo(webLogo);
     stam_setCompanyTitleLogoM(mobileLogo);
 

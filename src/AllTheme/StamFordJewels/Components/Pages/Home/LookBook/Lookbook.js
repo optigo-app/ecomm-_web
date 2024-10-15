@@ -106,7 +106,7 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth} = SwiperSlideRef.current;
+      const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
@@ -1040,7 +1040,7 @@ const Lookbook = () => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              margin: "0px 5px 25px 5px",
+              margin: "0px 10px 25px 10px",
               gap: '20px'
             }}
           >
@@ -1443,8 +1443,8 @@ const Lookbook = () => {
                                 </div>
                               )}
                               <p className="stam_lb2designList_title">
-                            {slide?.designsetno}
-                          </p>
+                                {slide?.designsetno}
+                              </p>
                             </div>
                             <div
                               className="stam_lookBookImgDeatil"
@@ -2217,7 +2217,7 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
+                                  <SwiperSlide key={index} ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img

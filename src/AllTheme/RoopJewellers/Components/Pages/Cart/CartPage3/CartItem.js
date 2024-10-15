@@ -197,7 +197,7 @@ const CartItem = ({
             }
           </>
           <div className="roop3_cart-item__remove">
-            <button className="roop3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+            <button className="roop3_remove-button" onClick={() => handleRemoveItem(item)}>×</button>
           </div>
         </div>
       </div>

@@ -15,11 +15,13 @@
     border: none;
     padding-inline: 0;
     border-radius: 0;
-    .filter_details_mui{
+
+    .filter_details_mui {
       height: 28vh;
       overflow-y: scroll;
       margin-bottom: 1rem;
-      &::-webkit-scrollbar{
+
+      &::-webkit-scrollbar {
         display: none;
       }
     }
@@ -658,7 +660,7 @@
     width: 100%;
     // background-size: cover;
     object-fit: contain;
-    transition: all 0.7s ease;
+    // transition: all 0.7s ease;
     animation: enlarge_image_1 1s forwards;
   }
 
@@ -704,7 +706,7 @@
     // height: 100%;
     overflow: hidden;
     position: relative;
-    transition: all 0.7s ease;
+    transition: all 1.5s ease;
 
     .elv_rollup_video {
       position: absolute;
@@ -813,7 +815,7 @@
     // min-height: 412px;
     object-fit: contain;
     // background-size: cover;
-    transition: all 0.7s ease;
+    // transition: all 0.7s ease;
     animation: enlarge_image_2 1s forwards;
   }
 
@@ -834,7 +836,7 @@
     // height: 500px;
     object-fit: contain;
     // background-size: cover;
-    transition: all 0.7s ease;
+    // transition: all 0.7s ease;
     animation: enlarge_image_2_filter 1s forwards;
   }
 
@@ -857,7 +859,7 @@
     // max-width: 100%;
     // min-height: 250px;
     width: 100%;
-    transition: all 0.7s ease;
+    // transition: all 0.7s ease;
     animation: enlarge_image_3 1s alternate;
   }
 
@@ -1072,16 +1074,18 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 8px;
-    div{
+
+    div {
       flex: 1;
       display: flex;
       align-items: center;
-      &:nth-child(even){
-      justify-content: flex-end;
-      padding-right: 10px;
+
+      &:nth-child(even) {
+        justify-content: flex-end;
+        padding-right: 10px;
       }
     }
-    
+
   }
 
   .elv_prod_weight_span_1 {
@@ -1288,7 +1292,7 @@
       // min-height: 350px;
       object-fit: contain;
       // background-size: cover;
-      transition: all 0.7s ease;
+      // transition: all 0.7s ease;
       animation: enlarge_image_2 1s forwards;
     }
 

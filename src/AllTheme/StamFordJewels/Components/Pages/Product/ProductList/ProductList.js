@@ -1464,6 +1464,7 @@ const ProductList = () => {
               // marginBottom: "20px",
               display: "flex",
               gap: "5px",
+              paddingInline: '15px',
               flexDirection: "column",
             }}
           >

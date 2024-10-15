@@ -901,6 +901,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_cart-item__details {
                   padding-left: 0;
                   text-align: center;
+
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -908,9 +909,26 @@ $borderColor: rgba(232, 232, 232, 1);
                   p {
                     font-size: $fontSize1;
                   }
-                  .stam3_weightsContainer, .stam3_qtyDiv{
+
+                  .stam3_weightsContainer,
+                  .stam3_qtyDiv {
                     justify-content: center;
                     align-items: center;
+
+                  }
+
+                  .stam3_qtyDiv_qty {
+                    @media (max-width: 650px) {
+                      gap: 0.5rem;
+                      padding-top: 0.2rem;
+                      padding-bottom: 0.5rem;
+                    }
+                  }
+
+                  .stam3_sizeNo{
+                    @media (max-width: 650px) {
+                      font-weight: 700;
+                    }
                   }
                 }
 

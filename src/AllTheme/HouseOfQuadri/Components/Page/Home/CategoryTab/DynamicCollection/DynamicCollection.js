@@ -1670,7 +1670,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                               {/* </span> */}
                             </AccordionSummary>
                             <AccordionDetails
@@ -1786,7 +1786,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1932,7 +1932,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1996,7 +1996,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2060,7 +2060,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
