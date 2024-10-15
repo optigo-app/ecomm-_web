@@ -83,6 +83,7 @@ const NavbarMenu = [
     category: "High End Jewelry",
     link: "/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=",
     disabled: false,
+    IsB2b : true ,
   },
   // {
   //   category: "Fine Jewelry",
