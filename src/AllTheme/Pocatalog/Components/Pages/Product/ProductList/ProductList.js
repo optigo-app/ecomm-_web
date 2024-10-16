@@ -3216,7 +3216,7 @@ const ProductList = () => {
                                           [productData?.autocode]: false,
                                         });
                                       }}
-                                      className="smr_ImgandVideoContainer"
+                                      className="proCat_ImgandVideoContainer"
                                       style={{position:'relative'}}
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
@@ -3244,7 +3244,7 @@ const ProductList = () => {
                                         />
                                       ) : (
                                         <img
-                                          className="smr_productListCard_Image"
+                                          className="proCat_productListCard_Image"
                                           id={`smr_productListCard_Image${productData?.autocode}`}
                                           // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
                                           // src={ ProdCardImageFunc(productData,0)}

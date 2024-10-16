@@ -40,6 +40,7 @@ import Cookies from 'js-cookie'
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import { Helmet } from "react-helmet";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
+import { IoArrowBack } from "react-icons/io5";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -74,7 +75,7 @@ const ProductDetail = () => {
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [prodLoading, setProdLoading] = useState(false);
-  const [albumView,setAlbumView] = useState([]);
+  const [albumView, setAlbumView] = useState([]);
 
 
   const setCartCountVal = useSetRecoilState(proCat_CartCount)
@@ -724,7 +725,7 @@ const ProductDetail = () => {
     setAddToCartFlag(isincart);
   }, [singleProd]);
 
-  
+
 
   const handleCart = (cartflag) => {
 
@@ -1282,19 +1283,19 @@ const ProductDetail = () => {
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
-          setIsImageLoad(false); 
-          setProdLoading(false);         
+          setIsImageLoad(false);
+          setProdLoading(false);
         });
     }
 
 
-    const productlistDataFetch20 = async() =>{
-       let obj = { mt:decodeobj?.m , dia: decodeobj?.d, cs: decodeobj?.c };
+    const productlistDataFetch20 = async () => {
+      let obj = { mt: decodeobj?.m, dia: decodeobj?.d, cs: decodeobj?.c };
 
-       console.log("detailparam",{}, 1, obj, decodeobj?.pl, cookie , decodeobj?.sb ,{},{},{},"",decodeobj?.b,decodeobj?.n);
-       
+      console.log("detailparam", {}, 1, obj, decodeobj?.pl, cookie, decodeobj?.sb, {}, {}, {}, "", decodeobj?.b, decodeobj?.n);
 
-       await ProductListApi({}, 1, obj, decodeobj?.pl, cookie , decodeobj?.sb ,{},{},{},"",decodeobj?.b,decodeobj?.n)
+
+      await ProductListApi({}, 1, obj, decodeobj?.pl, cookie, decodeobj?.sb, {}, {}, {}, "", decodeobj?.b, decodeobj?.n)
         .then((res) => {
           if (res) {
             console.log("productList", res);
@@ -1303,11 +1304,11 @@ const ProductDetail = () => {
           return res;
         }).catch((err) => console.log("err", err));
 
-    } 
+    }
 
     FetchProductData()
     productlistDataFetch20()
- 
+
     window.scroll({
       top: 0,
       behavior: "smooth",
@@ -1316,8 +1317,8 @@ const ProductDetail = () => {
   }, [location?.key]);
 
 
-  console.log("decodeurl",decodeUrl);
-  
+  console.log("decodeurl", decodeUrl);
+
 
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
@@ -1539,14 +1540,14 @@ const ProductDetail = () => {
     ProdCardImageFunc();
   }, [singleProd, location?.key]);
 
-  useEffect(()=>{
-    if(isImageload === false){
-      if(!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)){
-         setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  useEffect(() => {
+    if (isImageload === false) {
+      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
         // setIsImageLoad(false)
       }
     }
-  },[isImageload])
+  }, [isImageload])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1910,10 +1911,22 @@ const ProductDetail = () => {
             ) : (
               <>
                 <div className="smr_prod_detail_main">
+                  <IoArrowBack
+                    style={{
+                      height: "35px",
+                      width: "35px",
+                      margin: '20px 0px 0px 50px',
+                      cursor: "pointer",
+                      color: "rgba(143, 140, 139, 0.9019607843)",
+                    }}
+                    onClick={() => navigate(-1)}
+                  />
                   <div className="smr_prod_image_shortInfo">
                     {/* <div>
                       <span>{"<"}</span>
                     </div> */}
+
+
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
                       {isImageload && (
@@ -2011,7 +2024,7 @@ const ProductDetail = () => {
                       </div>
                     </div>
                     <div className="smr_prod_shortInfo">
-                      <div className="smr_prod_shortInfo_inner">
+                      <div className="proCat_prod_shortInfo_inner">
                         <p className="smr_prod_titleLine">
                           {singleProd?.TitleLine}
                         </p>
@@ -3003,7 +3016,7 @@ const ProductDetail = () => {
                                   {ele?.designno}
                                 </span>
 
-                                { storeInit?.IsPriceShow == 1 ? <div
+                                {storeInit?.IsPriceShow == 1 ? <div
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
@@ -3024,7 +3037,7 @@ const ProductDetail = () => {
                                       ele?.UnitCostWithMarkUp
                                     )
                                   }</span>
-                                </div> :  null}
+                                </div> : null}
                               </div>
                             </div>
                           ))}

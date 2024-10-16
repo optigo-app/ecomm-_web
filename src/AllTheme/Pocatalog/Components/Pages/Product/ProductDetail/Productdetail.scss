@@ -87,8 +87,8 @@
     gap: 5px;
 }
 
-.smr_prod_shortInfo_inner {
-    margin: 50px 100px 0px;
+.proCat_prod_shortInfo_inner {
+    margin: 0px 100px 0px;
     width: 60%;
     // margin-top: 100px;
 }
@@ -591,14 +591,14 @@
         margin-left: 7%;
     }
 
-    .smr_prod_shortInfo_inner {
+    .proCat_prod_shortInfo_inner {
         margin: 0;
         width: 80%
     }
 }
 
 @media screen and (max-width:1400px) {
-    .smr_prod_shortInfo_inner {
+    .proCat_prod_shortInfo_inner {
         margin: 70px 0px 0px;
         width: 90%;
     }
@@ -609,7 +609,7 @@
         font-size: 30px;
     }
 
-    .smr_prod_shortInfo_inner {
+    .proCat_prod_shortInfo_inner {
         width: 100%;
         margin: 70px 20px;
     }
