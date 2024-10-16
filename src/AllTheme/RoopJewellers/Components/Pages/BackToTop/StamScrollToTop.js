@@ -29,10 +29,10 @@ const StamScrollToTop = () => {
   }, []);
 
   return (
-    <div className="stam_scroll-to-top">
+    <div className="roop_scroll-to-top">
       {isVisible && (
-        <div onClick={scrollToTop} className="scroll-icon">
-          <FaAngleUp style={{height: '20px' , width: '20px'}}/>
+        <div onClick={scrollToTop} className="rp_scroll-icon">
+          <FaAngleUp style={{ height: '20px', width: '20px' }} />
         </div>
       )}
     </div>

@@ -93,7 +93,7 @@ export default function ContimueWithMobile() {
     };
 
     return (
-        <div className='stam_continuMobile'>
+        <div className='roop_continuMobile'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -144,7 +144,7 @@ export default function ContimueWithMobile() {
                         <button className='submitBtnForgot' onClick={handleSubmit}>
                             SUBMIT
                         </button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='rp_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

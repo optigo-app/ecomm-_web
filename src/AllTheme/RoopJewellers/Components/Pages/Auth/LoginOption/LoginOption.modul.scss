@@ -1,4 +1,6 @@
-.smr_Loginoption {
+@import '../../../scss/variable.scss';
+
+.roop_Loginoption {
     .loginDailog {
         margin-inline: 6%;
         background-color: white;
@@ -25,7 +27,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #888;
+        background-color: $btnprimarycolor !important;
         color: white;
         margin-inline: 7px;
         height: 55px;
@@ -38,7 +40,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #888;
+        background-color: $btnprimarycolor !important;
         color: white;
         margin-inline: 7px;
         height: 55px;

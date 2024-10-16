@@ -1600,7 +1600,7 @@ const ProductList = () => {
                     Trending
                   </option>
                   <option className="option" value="Bestseller">
-                  Bestseller
+                    Bestseller
                   </option>
                   <option className="option" value="In Stock">
                     In stock
@@ -1633,12 +1633,14 @@ const ProductList = () => {
                           className="pSkelton"
                         />
                       ) :
-                        <span>{`Product Found:: ${afterFilterCount}`}</span>
+                        <span>{`Product Found: ${afterFilterCount}`}</span>
                       }
                       </>
                     }
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span
+                  // onClick={() => handelFilterClearAll()}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
@@ -2444,11 +2446,13 @@ const ProductList = () => {
                                         className="pSkelton"
                                       />
                                     ) :
-                                      <span>{`Product Found:: ${afterFilterCount}`}</span>
+                                      <span>{`Product Found: ${afterFilterCount}`}</span>
                                     }
                                     </>}
                                 </span>
-                                <span onClick={() => handelFilterClearAll()}>
+                                <span
+                                // onClick={() => handelFilterClearAll()}
+                                >
                                   {Object.values(filterChecked).filter(
                                     (ele) => ele.checked
                                   )?.length > 0

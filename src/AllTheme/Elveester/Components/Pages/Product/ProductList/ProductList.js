@@ -51,6 +51,7 @@ import {
   formatter,
   storImagePath,
 } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { Helmet } from "react-helmet";
 
 const ProductList = () => {
   const location = useLocation();
@@ -1275,10 +1276,11 @@ const ProductList = () => {
   };
 
   const DynamicListPageTitleLineFunc = () => {
-    if (location?.search.split("=")[0]?.slice(1) == "M") {
-      return menuParams?.menuname;
+    if (location?.search?.charAt(1) === "S") {
+      return decodeURIComponent(location?.pathname?.split("/")[2]) || "ELvee Jewels Pvt. Ltd.";
     } else {
-      return location?.pathname.split("/")[2];
+      const menuName = BreadCumsObj()?.menuname;
+      return menuName ? menuName : "ELvee Jewels Pvt. Ltd.";
     }
   };
 
@@ -1349,10 +1351,11 @@ const ProductList = () => {
     flexDirection: "row-reverse",
   }));
 
-  console.log("kkk", decodeURIComponent(location?.pathname?.split("/")[2]));
-
   return (
     <>
+      <Helmet>
+        <title>{DynamicListPageTitleLineFunc()}</title>
+      </Helmet>
       <div className="elv_Productlists_Main_div">
         <div className="elv_Productlists_lists_div">
           <div className="elv_Productlists_lists_header">

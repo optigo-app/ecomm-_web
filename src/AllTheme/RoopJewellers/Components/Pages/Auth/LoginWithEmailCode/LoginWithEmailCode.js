@@ -165,7 +165,7 @@ export default function LoginWithEmailCode() {
     };
 
     return (
-        <div className='smr_loginwithemailCode'>
+        <div className='roop_loginwithemailCode'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -213,9 +213,9 @@ export default function LoginWithEmailCode() {
                             helperText={errors.mobileNo}
                         />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                        <button className='rp_submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='rp_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

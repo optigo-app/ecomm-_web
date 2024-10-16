@@ -34,13 +34,13 @@ export default function ContinueWithEmail() {
     return regex.test(email);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-      behavior  :"smooth",
-      top  : 0,
-      left : 0
+      behavior: "smooth",
+      top: 0,
+      left: 0
     })
-  },[])
+  }, [])
 
   const handleEmailChange = (event) => {
     const { value } = event.target;
@@ -202,6 +202,7 @@ export default function ContinueWithEmail() {
               SUBMIT
             </button>
             <Button
+              className="for_cancleForgot"
               disableRipple={true}
               style={{ marginTop: "10px", color: "black" }}
               onClick={() => navigation(cancelRedireactUrl)}

@@ -1,4 +1,6 @@
-.smr_registerMain {
+@import '../../../scss/variable.scss';
+
+.roop_registerMain {
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -20,28 +22,31 @@
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: $btnprimarycolor !important;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         font-weight: 500;
-        letter-spacing: 1;
+        letter-spacing: 1px;
         cursor: pointer;
-        transition: all 0.5s ease;
+        transition: transform 0.5s ease;
     }
 
     .createBtnRegister:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
+        transform: scale(1.02);
     }
 
-    .SmilingSignInHere {
+    .rp_SmilingSignInHere {
         color: #7d7f85;
         font-size: 12px;
-        margin-top: 10px;
+        margin-top: 25px;
         font-weight: 500;
-
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
         position: relative;
         text-decoration: none;
         transition: color 0.3s;

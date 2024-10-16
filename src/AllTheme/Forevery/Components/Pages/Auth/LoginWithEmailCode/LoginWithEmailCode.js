@@ -165,14 +165,14 @@ export default function LoginWithEmailCode() {
         // }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         window.scrollTo({
-          behavior  :"smooth",
-          top  : 0,
-          left : 0
+            behavior: "smooth",
+            top: 0,
+            left: 0
         })
-      },[])
-    
+    }, [])
+
 
     return (
         <div className='fore_loginwithemailCode' style={{ backgroundColor: 'white', paddingTop: '10px' }}>
@@ -221,7 +221,7 @@ export default function LoginWithEmailCode() {
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'black', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className="for_cancleForgot" style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

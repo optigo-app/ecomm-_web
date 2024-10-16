@@ -1,6 +1,4 @@
-@import "../../../scss/variable";
-
-
+@import "../../../scss/variable.scss";
 
 .stam_lookSubCtSaveBtn {
   height: 30px;
@@ -17,6 +15,21 @@
   cursor: pointer;
 }
 
+.stam_lookbook_resp_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  // padding-inline: 2.3%;
+}
+
+.stam_lookBookMobileTopLine {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 5px 25px 5px;
+  gap: 20px;
+}
+
 .stam_LookBookMain {
   // background-color: $backgroundColor;
 
@@ -26,7 +39,6 @@
     top: 0;
     height: 80vh;
     width: 20%;
-    overflow: auto;
   }
 
   .stam_lookBookViveBoxSet {
@@ -47,13 +59,6 @@
     min-height: 800px;
     padding-top: 60px;
     position: relative;
-
-    .lpDiv {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-bottom: 40px;
-    }
   }
 
   .stam_SubDiv_LookBookSubMainDiv {
@@ -69,28 +74,13 @@
     background-color: #7b7b7b;
     cursor: pointer;
     width: 120px;
-    height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 500;
+    font-size: 11px;
+    font-family: $primaryFontFamily !important;
   }
-  .stam_filter_Ste_view{
-    margin-bottom: -1rem;
-    .stam_lookBookSelectViewBtn{
-      margin-right: 20px;
-    }
-    .lb-switch-field{
-      label{
-        padding: 8px 12px;
-      }
-    }
-  }
-
-  .stam_lookbook_filter_div {
-    display: flex;
-  }
-
 
   .stam_lb2designList_title {
     position: absolute;
@@ -100,7 +90,8 @@
     font-size: $fontSize6;
     color: #fff;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
+    font-family: $primaryFontFamily !important;
   }
 
   .stam_lb1designList_title {
@@ -111,7 +102,8 @@
     font-size: $fontSize4;
     color: #fff;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
+    font-family: $primaryFontFamily !important;
   }
 
   .stam_lb3designList_title {
@@ -119,8 +111,11 @@
     font-size: $fontSize6;
     color: $titleColor;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    //font-family: $primaryFontFamily;
+    font-family: $primaryFontFamily !important;
   }
+
+  .stam_filterDrawer {}
 
   .stam_lb3TotalBtnGroups {
     display: flex;
@@ -150,10 +145,11 @@
       font-weight: 500;
 
       &:hover {
-        color: $titleColor;
-        background-color: #fff;
+        color: #fff;
+        background-color: #b1b2b5;
         cursor: pointer;
         border: none;
+        padding: 11px 0px;
       }
     }
   }
@@ -187,71 +183,50 @@
     background: none;
   }
 
-  .lb-switch-field {
+  .stam_mui_checkbox_label {
     display: flex;
-    margin-bottom: 36px;
-    overflow: hidden;
-    width: 130px;
-    height: 35px;
-    border-radius: 0;
-
-    input {
-      position: absolute !important;
-      clip: rect(0, 0, 0, 0);
-      height: 1px;
-      width: 1px;
-      border: 0;
-      overflow: hidden;
-    }
-
-    label {
-      background-color: #fff;
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 14px;
-      line-height: 1;
-      text-align: center;
-      padding: 8px 16px;
-      margin-right: -1px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      // box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
-      transition: all 0.1s ease-in-out;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    input:checked+label {
-      background-color: $titleColor;
-      color: #fff;
-      box-shadow: none;
-    }
-
-    label:first-of-type {
-      border-radius: 0;
-    }
-
-    label:last-of-type {
-      border-radius: 0;
-    }
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+    font-family: $primaryFontFamily !important;
   }
 
-  .smr1_lookBookFilterSubDiv {
+  .stam_lookBookFilterSubDiv {
     margin: 10px 10px 0px 10px;
-    .stam_filter_text{
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+
+    .stam_filter_text {
+      font-weight: bold;
+      font-family: $primaryFontFamily !important;
+      color: rgba(143, 140, 139, 0.9019607843);
       display: flex;
-      width: 100%;
-      align-items: center;
       justify-content: space-between;
-      .stam_filter_title_l{
-        font-weight: 500;
-        color: gray;
-      }
-      .stam_clear_all{
-        font-weight: 500;
-        cursor: pointer;
-      }
     }
+
+    // .stam_filter_text {
+    //   font-weight: bold;
+    //   font-family: $primaryFontFamily !important;
+    //   color: rgba(143, 140, 139, 0.9019607843);
+    //   display: flex;
+    //   justify-content: space-between;
+    // }
+
+    .stam_filtercategoryLable {
+      font-family: $primaryFontFamily !important;
+      text-transform: uppercase;
+    }
+
+
+    .stam_mui_checkbox_label {
+      display: flex !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      flex-direction: row-reverse !important;
+      font-family: $primaryFontFamily;
+    }
+
   }
 
   .stam_lookBookImgDivMain {
@@ -269,6 +244,13 @@
   .stam_lookBookSubImgMain {
     display: flex;
     // overflow: auto;
+  }
+
+  .stam_lpDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 40px;
   }
 
   .stam_lookBookSubImgMain::-webkit-scrollbar {
@@ -570,10 +552,11 @@
         font-weight: 500;
 
         &:hover {
-          color: $titleColor;
-          background-color: #fff;
+          color: #fff;
+          background-color: #b1b2b5;
           cursor: pointer;
           border: none;
+          padding: 11px 0px;
         }
       }
     }
@@ -601,7 +584,14 @@
   }
 
   .stam_lb3srthelook_prodinfo_inner {
-    font-family: $primaryFontFamilyMedium;
+    //font-family: $primaryFontFamilyMedium;
+    font-family: $primaryFontFamily !important;
+  }
+
+  .stam_currencyFont {
+    font-family: $primaryFontFamily !important;
+    font-size: 15px;
+    font-weight: bold;
   }
 
   .smr1_lb3ctlImg_containe {
@@ -609,8 +599,8 @@
     height: 632px;
   }
 
-  .stam_lb3ctl_img_new {
-    object-fit: contain;
+  .stam_lb3ctl_img {
+    object-fit: cover;
     width: 100%;
     height: 100%;
     margin-top: 12px;
@@ -918,18 +908,6 @@
 
 }
 
-@media (max-width: 375px) {
-  .stam_LookBookMain {
-    .lb-switch-field {
-      width: 100%;
-    }
-
-    .stam_lookBookSelectViewBtn {
-      width: 14rem;
-    }
-  }
-}
-
 .stam_LookBookMobileThridViewMain {
   width: 200px;
   margin-bottom: 10px;
@@ -937,4 +915,10 @@
 
 .stam_LookBookMobileThridViewMain_swiper_w {
   width: 100% !important;
+}
+
+@media (max-width: 375px) {
+  .stam_lookbook_resp_head {
+    padding-inline: 0;
+  }
 }

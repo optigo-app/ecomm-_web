@@ -65,16 +65,16 @@ export default function LoginWithMobileCode() {
             errors.otp = 'Code is required';
             return;
         }
-        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '',visiterId).then((response) => {
+        LoginWithEmailAPI('', mobileNo, enterOTP, 'otp_mobile_login', '', visiterId).then((response) => {
             if (response.Data.rd[0].stat === 1) {
                 sessionStorage.setItem('LoginUser', true)
                 setIsLoginState(true)
                 sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
                 sessionStorage.setItem('registerMobile', mobileNo);
 
-                if(redirectMobileUrl){
+                if (redirectMobileUrl) {
                     navigation(redirectMobileUrl);
-                }else{
+                } else {
                     navigation('/')
                 }
 
@@ -99,7 +99,7 @@ export default function LoginWithMobileCode() {
     };
 
     return (
-        <div className='smr_loginmobileCodeMain'>
+        <div className='roop_loginmobileCodeMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -146,9 +146,9 @@ export default function LoginWithMobileCode() {
                             helperText={errors.otp}
                         />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                        <button className='rp_submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='rp_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

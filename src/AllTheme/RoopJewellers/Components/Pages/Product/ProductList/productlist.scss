@@ -529,7 +529,7 @@
     }
 
     .roop_productListCard_Image {
-      object-fit: scale-down;
+      object-fit: cover;
       height: 350px;
       min-height: 350px;
     }
@@ -563,7 +563,7 @@
     // }
 
     .roop_productListCard_Image {
-      object-fit: scale-down;
+      object-fit: cover;
       height: 312px;
       min-height: 312px;
     }
@@ -626,7 +626,7 @@
 
   @media screen and (max-width: 650px) {
     .roop_productListCard_Image {
-      object-fit: scale-down;
+      object-fit: cover;
       // height: 250px;
       // min-height: 250px;
     }
@@ -708,7 +708,7 @@
 
   @media screen and (max-width:425px) {
     .roop_productListCard_Image {
-      object-fit: scale-down;
+      object-fit: contain;
       height: 200px;
       min-height: 200px;
     }

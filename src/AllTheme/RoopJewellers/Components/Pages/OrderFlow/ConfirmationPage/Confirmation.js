@@ -15,16 +15,16 @@ const Confirmation = () => {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
-          "--background-color",
-          backgroundColor
+            "--background-color",
+            backgroundColor
         );
-      };
-    
+    };
+
 
     useEffect(() => {
 
         setCSSVariable();
-        
+
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         setStoreInit(storeInit);
         let orderNo = sessionStorage.getItem('orderNumber')
@@ -40,7 +40,7 @@ const Confirmation = () => {
         }
         sessionStorage.removeItem("TotalPriceData");
     }
-    
+
     function scrollToTop() {
         window.scrollTo({
             top: 0,
@@ -48,28 +48,28 @@ const Confirmation = () => {
         });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const timer = setTimeout(() => {
-            navigate("/",{replace  :true})
+            navigate("/", { replace: true })
         }, 2000);
-        return  ()=>{
+        return () => {
             clearTimeout(timer)
         }
-    },[])
+    }, [])
 
     return (
-        <div className='stam_confirMaindiv'>
-            <div className='smr_confirSecondMaindiv'>
+        <div className='roop_confirMaindiv'>
+            <div className='roop_confirSecondMaindiv'>
                 <div className="thankYouContainer">
                     <div className="thankYouContent">
                         <div className="thankYouMessage">
-                            <img src={ThankYouImage} className='smr_orderCnfThankyouImage' />
+                            <img src={ThankYouImage} className='roop_orderCnfThankyouImage' />
                         </div>
                         <div className="orderNumber">
                             <p>Your Order number is <span>{orderNo}</span></p>
                         </div>
                         {storeInit?.IsPLW != 0 &&
-                            <div className='smr_plwlPrintDiv'>
+                            <div className='roop_plwlPrintDiv'>
                                 <button className="icon-button">
                                     <FaPrint className="icon" />
                                     Print
@@ -77,7 +77,7 @@ const Confirmation = () => {
                                 <p>Comming soon...</p>
                             </div>
                         }
-                        <button className="smr_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
+                        <button className="roop_continueShoppingBtns" onClick={handleNavigate}>Continue Shopping</button>
                     </div>
                 </div>
             </div>

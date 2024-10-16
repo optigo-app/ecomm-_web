@@ -178,17 +178,17 @@ const SmilingRock_App = () => {
             </div>
           }
         />
-                    {/* Maiora not needed */}
-            {/* for kAYRA CRAETEION NEEDED */}
+        {/* Maiora not needed */}
+        {/* for kAYRA CRAETEION NEEDED */}
 
-        {/* <Route
+        <Route
           path="/ContimueWithMobile"
           element={
             <div className="smr_authFlowBakcColor">
               <ContimueWithMobile />
             </div>
           }
-        /> */}
+        />
         <Route
           path="/LoginWithEmailCode"
           element={
@@ -197,17 +197,17 @@ const SmilingRock_App = () => {
             </div>
           }
         />
-                    {/* Maiora not needed */}
-            {/* for kAYRA CRAETEION NEEDED */}
+        {/* Maiora not needed */}
+        {/* for kAYRA CRAETEION NEEDED */}
 
-        {/* <Route
+        <Route
           path="/LoginWithMobileCode"
           element={
             <div className="smr_authFlowBakcColor">
               <LoginWithMobileCode />
             </div>
           }
-        /> */}
+        />
         <Route
           path="/ForgotPass"
           element={
