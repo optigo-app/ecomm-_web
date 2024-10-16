@@ -16,6 +16,16 @@
     padding-inline: 0;
     border-radius: 0;
 
+    .filter_details_mui {
+      height: 28vh;
+      overflow-y: scroll;
+      margin-bottom: 1rem;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
     &:not(:last-child) {
       border-radius: 0;
       border-bottom: 1px solid rgba(134, 134, 134, 0.623);
@@ -503,22 +513,25 @@
     flex: 1 1 50%;
     flex-wrap: wrap;
     // gap: 7px;
+    margin-top: -10px;
   }
 
   .elv_filtered_prodlists_1 {
     width: 50%;
     height: auto;
     background-color: $defaultBgColor;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    // border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    padding: 8px;
   }
 
   .elv_filtered_prodlists_2 {
     width: 33.33%;
     height: auto;
     background-color: $defaultBgColor;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    // border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    padding: 8px;
   }
 
   .elv_filtered_prodlists_3 {
@@ -526,8 +539,9 @@
     // width: 24.47%;
     height: auto;
     background-color: $defaultBgColor;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    // border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    padding: 8px;
   }
 
   .elv_filtered_prodlists_4 {
@@ -535,22 +549,26 @@
     // max-width: fit-content;
     height: auto;
     background-color: $defaultBgColor;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    // border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    padding: 8px;
   }
 
   .elv_filtered_prodlists_5 {
     width: 50%;
     height: auto;
     background-color: $defaultBgColor;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    // border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    padding: 8px;
   }
 
   .elv_filtered_prods {
     display: flex;
     flex-direction: column;
     position: relative;
+    box-shadow: rgba(17, 17, 26, 0.014) 0px 1px 0px, rgba(17, 17, 26, 0.055) 0px 0px 8px;
+    border-radius: 2px;
   }
 
   .elv_filtered_icons {
@@ -642,8 +660,8 @@
     width: 100%;
     // background-size: cover;
     object-fit: contain;
-    transition: all 0.7s ease;
-    // animation: enlarge_image_1 1s forwards;
+    // transition: all 0.7s ease;
+    animation: enlarge_image_1 1s forwards;
   }
 
   @keyframes enlarge_image_1 {
@@ -688,7 +706,7 @@
     // height: 100%;
     overflow: hidden;
     position: relative;
-    transition: all 0.7s ease;
+    transition: all 1.5s ease;
 
     .elv_rollup_video {
       position: absolute;
@@ -797,8 +815,8 @@
     // min-height: 412px;
     object-fit: contain;
     // background-size: cover;
-    transition: all 0.7s ease;
-    // animation: enlarge_image_2 1s forwards;
+    // transition: all 0.7s ease;
+    animation: enlarge_image_2 1s forwards;
   }
 
   @keyframes enlarge_image_2 {
@@ -818,7 +836,7 @@
     // height: 500px;
     object-fit: contain;
     // background-size: cover;
-    transition: all 0.7s ease;
+    // transition: all 0.7s ease;
     animation: enlarge_image_2_filter 1s forwards;
   }
 
@@ -841,8 +859,8 @@
     // max-width: 100%;
     // min-height: 250px;
     width: 100%;
-    transition: all 0.7s ease;
-    // animation: enlarge_image_3 1s alternate;
+    // transition: all 0.7s ease;
+    animation: enlarge_image_3 1s alternate;
   }
 
   @keyframes enlarge_image_3 {
@@ -853,8 +871,8 @@
     }
 
     100% {
-      // height: 250px;
-      height: auto;
+      height: 250px;
+      // height: auto;
       width: 100%;
     }
   }
@@ -930,10 +948,11 @@
 
   .elv_filtered_prod_details {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     position: sticky;
     bottom: 0;
-    border-top: 1px solid #F5F5F5;
+    // border-top: 1px solid #F5F5F5;
+    flex-direction: column-reverse;
   }
 
   .elv_pd {
@@ -944,7 +963,8 @@
     color: #1f1919;
     // font-family: "PT Sans", sans-serif;
     font-family: $fontSansSerif !important;
-    font-size: 14px;
+    font-size: 13.8px;
+    padding-block: 3px;
     visibility: visible;
     width: 100%;
     display: inline-block;
@@ -959,7 +979,8 @@
     color: #1f1919;
     // font-family: "PT Sans", sans-serif;
     font-family: $fontSansSerif !important;
-    font-size: 14px;
+    font-size: 13.8px;
+    padding-block: 3px;
     visibility: hidden;
     width: 100%;
     display: inline-block;
@@ -1043,13 +1064,28 @@
   }
 
   .elv_filtered_prod_weights {
-    display: flex;
+    // display: flex;
     margin-left: 10px;
-    flex-direction: column;
+    // flex-direction: column;
     // font-family: "PT Sans", sans-serif;
     font-family: $fontSansSerif !important;
     // font-size: 11px;
     font-size: 9px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 8px;
+
+    div {
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      &:nth-child(even) {
+        justify-content: flex-end;
+        padding-right: 10px;
+      }
+    }
+
   }
 
   .elv_prod_weight_span_1 {
@@ -1058,25 +1094,34 @@
 
   .elv_prod_weight_span_1_design {
     // font-size: 14px;
-    font-size: 11px;
+    // font-size: 11px;
+    // font-weight: 600;
+    font-weight: 600;
+    font-size: 13.5px;
+    margin-bottom: 3px;
   }
 
   .elv_prod_weight_span_2 {
     color: #292727;
+
   }
 
   .elv_filtered_prod_price {
     display: flex;
-    flex-direction: column;
-    align-items: end;
-    margin-right: 10px;
+    // flex-direction: column;
+    // align-items: end;
+    justify-content: space-between;
+    padding-inline: 10px;
+    // margin-right: 10px;
 
     .elv_price_div {
       text-align: left;
       // font-family: "PT Sans", sans-serif;
       font-family: $fontSansSerif !important;
       // font-size: 14px;
-      font-size: 13px;
+      font-weight: 600;
+      font-size: 13.5px;
+      margin-bottom: 3px;
     }
 
     .elv_price_tags {
@@ -1247,7 +1292,7 @@
       // min-height: 350px;
       object-fit: contain;
       // background-size: cover;
-      transition: all 0.7s ease;
+      // transition: all 0.7s ease;
       animation: enlarge_image_2 1s forwards;
     }
 
@@ -1315,10 +1360,11 @@
 
     .elv_filtered_prod_details {
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       position: sticky;
       bottom: 0;
       border-top: 1px solid #F5F5F5;
+      flex-direction: column-reverse;
     }
 
     .elv_filtered_prod_weights {

@@ -13,7 +13,7 @@ export default function LoginWithEmailCode() {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigate();
-    const [mobileNo, setMobileNo] = useState('');
+    const [otp, setOtp] = useState('');
     const [resendTimer, setResendTimer] = useState(120);
 
     const location = useLocation();
@@ -25,26 +25,23 @@ export default function LoginWithEmailCode() {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const storedEmail = sessionStorage.getItem('registerEmail');
-                const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
-                if (storedEmail) {
-                    setEmail(storedEmail);
-                    const value = sessionStorage.getItem('LoginCodeEmail');
-                    if (value === 'true') {
-                        sessionStorage.setItem('LoginCodeEmail', 'false');
-                        LoginWithEmailCodeAPI(email).then((response) => {
-                            console.log('response: ', response);
-                            if (response.Data.Table1[0].stat === '1') {
-                                toast.success('OTP send Sucssessfully');
-                            } else {
-                                toast.error('OTP send Error');
-                            }
-                        }).catch((err) => console.log(err))
-                    }
+            const storedEmail = sessionStorage.getItem('registerEmail');
+            if (storedEmail) {
+                setEmail(storedEmail);
+                const value = sessionStorage.getItem('LoginCodeEmail');
+                if (value === 'true') {
+                    sessionStorage.setItem('LoginCodeEmail', 'false');
+                    LoginWithEmailCodeAPI(storedEmail).then((response) => {
+                        if (response.Data.Table1[0].stat === '1') {
+                            toast.success('OTP sent successfully');
+                        } else {
+                            toast.error('OTP send error');
+                        }
+                    }).catch((err) => console.log(err));
                 }
-            } catch (error) {
-                console.error('Error:', error);
+            }
+            else {
+                toast.error('OTP send error');
             }
         };
         fetchData();
@@ -69,24 +66,24 @@ export default function LoginWithEmailCode() {
     const handleInputChange = (e, setter, fieldName) => {
         const { value } = e.target;
         setter(value);
-        if (fieldName === 'mobileNo') {
+        if (fieldName === 'otp') {
             if (!value.trim()) {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: 'Code is required' }));
+                setErrors(prevErrors => ({ ...prevErrors, otp: 'Code is required' }));
             } else {
-                setErrors(prevErrors => ({ ...prevErrors, mobileNo: '' }));
+                setErrors(prevErrors => ({ ...prevErrors, otp: '' }));
             }
         }
     };
 
     const handleSubmit = async () => {
-        if (!mobileNo.trim()) {
+        if (!otp.trim()) {
             errors.mobileNo = 'Password is required';
             return;
         }
 
 
         setIsLoading(true);
-        LoginWithEmailAPI(email, mobileNo, 'otp_email_login').then((response) => {
+        LoginWithEmailAPI(email, '', otp, 'otp_email_login').then((response) => {
             setIsLoading(false);
             if (response?.Data?.rd[0]?.stat === 1) {
                 setIsLoginState(true)
@@ -159,15 +156,15 @@ export default function LoginWithEmailCode() {
                                         handleSubmit();
                                     }
                                 }}
-                                value={mobileNo}
-                                onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
+                                value={otp}
+                                onChange={(e) => handleInputChange(e, setOtp, 'opt')}
                                 error={!!errors.mobileNo}
                                 helperText={errors.mobileNo}
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                            <button className='submitBtnForgot btn-bg-elvee' onClick={handleSubmit}>Login</button>
                             <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                            <Button className='elv_cancel_lec' style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <button className='submitBtnForgot ' style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</button>
                         </div>
                     </div>
                 </div>

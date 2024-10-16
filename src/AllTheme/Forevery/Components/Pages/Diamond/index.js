@@ -5,7 +5,9 @@ import { formatter, storImagePath } from "../../../../../utils/Glob_Functions/Gl
 import { forwardRef, useEffect, useRef, useState } from "react";
 import Pako from "pako";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { for_Loader, for_customizationSteps } from "../../Recoil/atom";
+import { useMediaQuery } from "@mui/material";
 
 const DiamondPage = () => {
   const Navigation = useNavigate();
@@ -95,6 +97,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   const [isRing, setIsRing] = useState(false);
   const getShape1 = JSON.parse(sessionStorage.getItem('customizeSteps'))
   const getShape2 = JSON.parse(sessionStorage.getItem('customizeSteps2'))
+  const forTabletResp = useMediaQuery('(max-width:1000px)')
 
   useEffect(() => {
     setIsRing(location?.pathname.split('/')[3])
@@ -219,7 +222,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     >
       <img
         className="for_dia_step_eye"
-        src={StepImages[0]?.eyeIcon}
+        src={forTabletResp ? StepImages[0]?.downIcon : StepImages[0]?.eyeIcon}
         alt=""
         style={{ cursor: 'pointer' }}
       />
@@ -238,7 +241,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={(data?.stockno ? `${storImagePath()}/images/ProductListing/Diamond/images/r.png` : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+              src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
               alt=""
               style={{ cursor: 'default' }}
             />
@@ -335,7 +338,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
               setswap("settings");
             }}
           >
-            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={
+            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={
               (getCustStepData2?.[0]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
               StepImages[1]?.img
             } alt="" /> Settings
@@ -366,7 +369,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
             Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`)
             setswap("diamond");
           }}>
-            <img src={StepImages[0]?.img} alt="" /> Diamond
+            <img className="for_shapes_img" src={StepImages[0]?.img} alt="" /> Diamond
           </span>
           {(getdiaData2?.[1]?.step2Data ?? getdiaData2?.[0]?.step2Data) && (
             <HandleDrp
@@ -390,7 +393,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
 
         <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
           <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+            <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
               StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
           </span>
           {(getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
@@ -412,7 +415,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
               Navigation(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`);
               setswap("diamond");
             }}>
-              <img src={StepImages[0]?.img} alt="" /> Diamond
+              <img className="for_shapes_img" src={StepImages[0]?.img} alt="" /> Diamond
             </span>
             {getdiaData?.[0]?.step1Data?.[0] && (
               <HandleDrp
@@ -441,7 +444,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                 setswap("settings");
               }}
             >
-              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
+              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={(getCustStepData?.[1]?.Setting === 'Pendant' ? StepImages[1]?.img1 : StepImages[1]?.img) ||
                 StepImages[2]?.img} alt="" /> Settings
             </span>
             {(getdiaData?.[1]?.step2Data ?? getdiaData?.[0]?.step2Data) && (
@@ -466,7 +469,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
 
           <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
             <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
-              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
+              <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : 'for_shapes_img'} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                 StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
             </span>
             {(getCompleteStep1?.[2]?.step3 == true || getCompleteStep2?.[2]?.step3 == true) && (
@@ -492,7 +495,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[0]?.img} alt="" /> Diamond
+                      <img className="for_shapes_img" src={StepImages[0]?.img} alt="" /> Diamond
                     </span>
                   </div>
                 ) : (
@@ -504,7 +507,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[1]?.img} alt="" /> Settings
+                      <img className="for_shapes_img" src={StepImages[1]?.img} alt="" /> Settings
                     </span>
                   </div>
                 )}
@@ -517,7 +520,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[0]?.img} alt="" /> Diamond
+                      <img className="for_shapes_img" src={StepImages[0]?.img} alt="" /> Diamond
                     </span>
                   </div>
                 ) : (
@@ -529,13 +532,13 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
                     }}
                   >
                     <span style={StyleCondition}>
-                      <img src={StepImages[1]?.img} alt="" /> Settings
+                      <img className="for_shapes_img" src={StepImages[1]?.img} alt="" /> Settings
                     </span>
                   </div>
                 )}
                 <div className="step finish_set d-3">
                   <span style={StyleCondition}>
-                    <img src={StepImages[2]?.img} alt="" /> Rings
+                    <img className="for_shapes_img" src={StepImages[2]?.img} alt="" /> Rings
                   </span>
                 </div>
               </div>

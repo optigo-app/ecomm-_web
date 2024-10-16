@@ -637,6 +637,7 @@ const Lookbook = () => {
       top: 0
     })
   };
+  console.log(filteredDesignSetLstData , "filteredDesignSetLstData")
 
   return (
     <div className="smr_LookBookMain">
@@ -1749,7 +1750,7 @@ const Lookbook = () => {
                                           className="smr_lookBookSubImage"
                                           loading="lazy"
                                           src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                          alt={`Sub image ${subIndex} for slide ${index}`}
+                                          // alt={`Sub image ${subIndex} for slide ${index}`}
                                           onClick={() =>
                                             handleNavigation(
                                               detail?.designno,
@@ -1759,6 +1760,10 @@ const Lookbook = () => {
                                                 : ""
                                             )
                                           }
+                                          onError={(e)=>{
+                                            e.target.src = imageNotFound ; 
+                                            e.target.alt = ''
+                                          }}
                                         />
                                         <div
                                           style={{
@@ -2057,11 +2062,12 @@ const Lookbook = () => {
                                                         }
                                                       </>
                                                     }
+                                                   {(ele?.CSwt != "0" || ele?.CSpcs != "0") && <br />}
                                                     {storeInit?.IsStoneWeight == 1 &&
                                                       <>
                                                         {(ele?.CSwt != "0" || ele?.CSpcs != "0") &&
                                                           <>
-                                                            <span className='smr_lb3pipe'> | </span>
+                                                            {/* <span className='smr_lb3pipe'> | </span> */}
                                                             <span className='smr_lb3detailDT'>CWT: </span>
                                                             <span className='smr_lb3detailDT'>{(ele?.CSwt || 0)?.toFixed(3)} /{(ele?.CSpcs || 0)}</span>
                                                           </>

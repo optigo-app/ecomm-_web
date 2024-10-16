@@ -92,12 +92,12 @@ export default function ContactUs() {
 
 
     return (
-        <div className='stam_contactMain' >
+        <div className='rp_stam_contactMain' >
             <div className='Fo-contactMain'>
                 <div>
-                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
+                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center',fontWeight:'600',color:"#d14a61"}}>Contact Us</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <p style={{ width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or question? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
+                        <p style={{ width: '500px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or question? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
                     </div>
                     <div className='Fo-contactBoxMain'>
                         <div className='Fo-contactBox1'>

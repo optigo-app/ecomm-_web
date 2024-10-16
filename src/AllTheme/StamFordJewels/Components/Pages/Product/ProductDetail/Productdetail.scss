@@ -485,8 +485,10 @@
     }
 
     @media screen and (max-width:917px) {
+
+        // Make it 100% for tablet View
         .stam_Swiper_designSet {
-            max-width: 600px;
+            max-width: 100%;
         }
 
         .compeletethelook_cont {

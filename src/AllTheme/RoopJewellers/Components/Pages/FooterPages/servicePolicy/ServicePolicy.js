@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import ServicePolicyX from './ServiceX';
 
 const ServicePolicy = () => {
 
@@ -22,9 +23,10 @@ const ServicePolicy = () => {
 
   return (
     <div className='stam_contactMain'>
-        <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
+        {/* <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      </div>
+      </div> */}
+      <ServicePolicyX/>
     </div>
   )
 }

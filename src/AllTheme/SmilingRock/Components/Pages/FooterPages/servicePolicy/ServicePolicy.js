@@ -7,32 +7,38 @@ const ServicePolicy = () => {
 
   const [htmlContent, setHtmlContent] = useState('');
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/servicePolice.html`)
+    // fetch(`${storImagePath()}/html/servicePolice.html`)   /*  for kayra */
+    fetch(`${storImagePath()}/html/MaioraservicePolice.html`)   /* for mairo */
+    
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
-        console.log('htmlssssssss', html);
       })
       .catch((error) => {
-        console.error('Error fetching the HTML file:', error);
+        throw new Error(error)
       });
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+  
   return (
-    <div className='smr_Services_mainDiv'>
-      <div className='daimondsEveryAbout'>
-        <div style={{ marginInline: '6%', paddingBottom: '80px', minHeight: '400px' }}>
+    <div className='smr_Services_mainDiv_q'>
+      <div className='daimondsEveryAbout_a'>
+        <div className='service_Wrraper_main'
+        >
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-        </div>
         <Footer />
+        </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' ,backgroundColor:"#C0BBB1" ,color:"white" }}>
+        <p style={{ margin: '0px', fontWeight: 500,  cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
       </div>
     </div>
   )

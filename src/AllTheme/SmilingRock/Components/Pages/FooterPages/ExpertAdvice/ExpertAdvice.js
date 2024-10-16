@@ -39,10 +39,17 @@
 
 // export default ExpertAdvice
 
+import { useEffect } from 'react';
 import Footer from '../../Home/Footer/Footer';
 import './ExpertAdvice.modul.scss'
 
 function ExpertAdvice() {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   return (
     <div className="smr_Expert_FooterTopMain" >
       <div className="smr_Expert_FooterTopMain_sub" >
@@ -20419,8 +20426,8 @@ function ExpertAdvice() {
             <Footer />
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-          <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'black', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+        <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px',backgroundColor:"#C0BBB1" ,color:"white" }}>
+          <p style={{ margin: '0px', fontWeight: 500, width: '100px', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
         </div>
       </div>
     </div>

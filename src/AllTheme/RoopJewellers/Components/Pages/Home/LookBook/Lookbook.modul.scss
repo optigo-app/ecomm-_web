@@ -170,6 +170,12 @@
     color: $titleColor;
     border: 1px solid $titleColor;
     background: none;
+    margin-right: 20px;
+
+    @media screen and (max-width:500px) {
+  width: 140px;
+  margin-right: 12px;
+    }
   }
 
   .lb-switch-field {

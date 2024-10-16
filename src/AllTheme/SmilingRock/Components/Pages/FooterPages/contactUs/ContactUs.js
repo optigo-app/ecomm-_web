@@ -15,11 +15,15 @@ export default function ContactUs() {
     };
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, []);
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/contactPage.html`)
+        fetch(`${storImagePath()}/html/contactPage.html`) 
+        // fetch(`${storImagePath()}/html/MairocontactPage.html`)  /* for mairo only */
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

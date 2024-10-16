@@ -19,16 +19,18 @@ const BrandsComponent = () => {
     "logo6.png",
   ];
   const mayrologo = [
+    "logo1.png",
     "logo2.png",
     "logo3.png",
+    "logo4.png",
+    "logo1.png",
     "logo2.png",
     "logo3.png",
+    "logo4.png",
+    "logo1.png",
     "logo2.png",
     "logo3.png",
-    "logo2.png",
-    "logo3.png",
-    "logo2.png",
-    "logo3.png",
+    "logo4.png",
   ];
   const KayralogoElements = kayralogo.map((logo, index) => (
     <img
@@ -53,7 +55,7 @@ const BrandsComponent = () => {
       <p className="smr_brandsCompoents">Participation In Exhibitions</p>
       <Marquee
         className="smr_brandsComponentClass"
-        gradient={false}
+        gradient={false}j
         speed={40}
         pauseOnHover={true}
         // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}

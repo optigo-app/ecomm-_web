@@ -44,6 +44,11 @@ export default function MobileNav({ open, onClose }) {
     const value = JSON.parse(sessionStorage?.getItem("LoginUser"));
     setislogin(value);
   };
+  const [storeinit, setstoreinit] = React.useState(null);
+  React.useEffect(() => {
+    let storeInt = JSON.parse(sessionStorage?.getItem("storeInit"));
+    setstoreinit(storeInt);
+  }, []);
   const [customizeStep, setCustomizeStep] = useRecoilState(
     for_customizationSteps
   );
@@ -1016,7 +1021,7 @@ export default function MobileNav({ open, onClose }) {
               </AccordionDetails>
             </Accordion>
           </div>
-          <div className="Menu_m_a">
+          {storeinit?.IsB2BWebsite === 1 && <div className="Menu_m_a">
             <Accordion
               elevation={0}
               sx={{
@@ -1224,7 +1229,7 @@ export default function MobileNav({ open, onClose }) {
                   })}
               </AccordionDetails>
             </Accordion>
-          </div>
+          </div>}
           {LoginUserDetails !== null && (
             <div className="Menu_m_a_logout">
               <div className="btn" onClick={() => handleLogout()}>
@@ -1251,8 +1256,7 @@ export default function MobileNav({ open, onClose }) {
           backdropFilter: "blur(4px)",
         },
       }}
-      open={true ||  open}
-      open={open}
+      open={ open}
       onClose={onClose}
     >
       {DrawerList}

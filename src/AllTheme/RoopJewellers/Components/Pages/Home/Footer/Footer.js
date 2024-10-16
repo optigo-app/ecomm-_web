@@ -11,6 +11,8 @@ const Footer = ({ fromPage }) => {
     if (companyInfoData) {
       const parsedSocialMediaUrlData = JSON.parse(companyInfoData.SocialLinkObj) ?? [];
       setSocialMediaData(parsedSocialMediaUrlData);
+      console.log(JSON.parse(companyInfoData?.SocialLinkObj)
+,"footer"      )
     }
   }, [])
 

@@ -119,8 +119,8 @@
     cursor: pointer;
   }
 
-  // .stam_filterDrawer .MuiPaper-root{
-  //   // width: 400px !important;
+  // .stam_filterDrawer .MuiPaper-root {
+  //   width: 400px !important;
   //   display: flex;
   //   flex-direction: column-reverse;
   // }
@@ -128,17 +128,17 @@
   .stam_mobile_filter_portion {
     min-width: 300px;
     font-family: $primaryFontFamily;
+    padding: 5px 10px 5px 0px;
   }
 
   .stam_filter_portion_outter {
-    // padding: 6% 18%;
     padding: 6% 12% 6% 18% !important;
   }
 
   .stam_mobile_filter_portion_outter {
     padding: 6% 6%;
   }
-
+  
   .stam_filter_text {
     font-weight: bold;
     font-family: $primaryFontFamily;
@@ -205,7 +205,7 @@
     font-family: $primaryFontFamily;
   }
 
-  .stam_productCard:hover{
+  .stam_productCard:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
   }
 
@@ -288,6 +288,12 @@
     justify-content: center;
     align-items: center;
     gap: 3px;
+
+    .stm_prod_span {
+      font-size: 14px;
+      margin-inline: 3px;
+    }
+
   }
 
   .stam_por {
@@ -326,14 +332,6 @@
     color: $primaryfontcolor;
     gap: 2px;
     font-size: 14px;
-    // font-weight: 600;
-
-    // .stam_currencyFont{
-
-    // }
-    // .stam_pricePort{
-
-    // }
   }
 
   .stam_mui_checkbox_label {
@@ -610,6 +608,12 @@
 
   }
 
+  @media screen and (max-width: 405px) {
+    .stam_productCard {
+      width: 48%;
+    }
+  }
+
   @media screen and (max-width: 650px) {
     .stam_productListCard_Image {
       object-fit: scale-down;
@@ -682,6 +686,47 @@
     .stam_prod_Allwt {
       padding-inline: 0 !important;
     }
+
+    .stam_main_keys {
+      font-size: 9px !important;
+    }
+
+    .stam_main_val {
+      font-size: 9px !important;
+    }
+  }
+
+  @media screen and (max-width:1500px) {
+
+    .stam_main_keys {
+      font-size: 7.5px !important;
+    }
+
+    .stam_main_val {
+      font-size: 7.5px !important;
+    }
+  }
+
+  @media screen and (max-width:1200px) {
+
+    .stam_main_keys {
+      font-size: 8px !important;
+    }
+
+    .stam_main_val {
+      font-size: 8px !important;
+    }
+  }
+
+  @media screen and (max-width:768px) {
+
+    .stam_main_keys {
+      font-size: 9.8px !important;
+    }
+
+    .stam_main_val {
+      font-size: 9.8px !important;
+    }
   }
 
   @media screen and (max-width:590px) {
@@ -727,4 +772,18 @@
       margin: 0px 0px 0px 13px;
     }
   }
+}
+
+.stam_mobile_filter_portion {
+  min-width: 300px;
+  font-family: $primaryFontFamily;
+  padding-inline: 15px !important;
+}
+
+.stam_mui_checkbox_label {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row-reverse;
+  font-family: $primaryFontFamily;
 }

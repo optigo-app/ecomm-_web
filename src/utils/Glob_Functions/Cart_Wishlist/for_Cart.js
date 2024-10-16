@@ -76,7 +76,7 @@ const useCart = () => {
     const isLargeScreen = useMediaQuery('(min-width:1050px)');
     const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
     const cartStatus = sessionStorage.getItem('isCartDrawer')
-
+    const setCartWishImgColor = sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID))
 
     useEffect(() => {
         const visiterIdVal = Cookies.get('visiterId');
@@ -119,7 +119,7 @@ const useCart = () => {
                     setQtyCount(item?.Quantity)
                     handleCategorySize(item);
                     setMetalID(response?.Data?.rd[0]?.metaltypeid)
-                    setMetalCOLORID(response?.Data?.rd[0]?.metalcolorid)
+                    setMetalCOLORID(sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID)) ?? response?.Data?.rd[0]?.metalcolorid)
                     setdiaID(response?.Data?.rd[0]?.diamondqualityid + ',' + response?.Data?.rd[0]?.diamondcolorid)
                     setColorStoneID(response?.Data?.rd[0]?.colorstonequalityid + ',' + response?.Data?.rd[0]?.colorstonecolorid)
                 }
@@ -151,7 +151,7 @@ const useCart = () => {
             }
         } catch (error) {
             console.error("Error fetching diamond data:", error);
-        }finally {
+        } finally {
             setIsLoading(false);
         }
     };
@@ -478,7 +478,7 @@ const useCart = () => {
         const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
         if (selectedMetal) {
             const selectedMetalId = selectedMetal.id;
-            setMetalCOLORID(selectedMetalId);
+            setMetalCOLORID(sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID)) ?? selectedMetalId);
         }
     };
 
@@ -653,7 +653,8 @@ const useCart = () => {
         }
     };
 
-    const handleMoveToDetail = (cartData) => {
+    const handleMoveToDetail = (cartData, metalColor) => {
+        console.log('cartData: ', cartData);
         const keyToCheck = "stockno"
         if (selectedItem?.hasOwnProperty(keyToCheck)) {
             const obj = {
@@ -672,6 +673,7 @@ const useCart = () => {
                 m: cartData?.metaltypeid,
                 d: diaIDData,
                 c: colorStoneID,
+                mc: metalColor ?? cartData?.MetalColorid,
                 f: {}
             }
             compressAndEncode(JSON?.stringify(obj))

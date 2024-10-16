@@ -93,12 +93,16 @@ const NewArrivalCarousel = ({showmore = false}) => {
     }
   };
   const NoImageFound = `${storImagePath()}/Forevery/noimage.jpg`;
+  const BannerImage = `${storImagePath()}/Forevery/banner/1.jpg`;
   if(!TrendingProductlist){
     return ;
   }
 
   return (
     <div className="for_ProductCarousel">
+      <div className="for_ProductCarousel_banner_image">
+        <img src={BannerImage} alt="" />
+      </div>
       <div className="heading">
         <span>Explore Our New Jewellery</span>
         <h2>New Arrivals</h2>
@@ -288,10 +292,10 @@ const ProductCard = ({
           )}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-        <h4 className="price_fresj">
+       {storeInit?.IsPriceShow == 1 &&  <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
           {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
-        </h4>
+        </h4>}
       </div>
     </div>
   );

@@ -4,12 +4,12 @@
   .stam_footerBottomMain {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #e1e1e1;
-    padding: 10px 20px 100px 20px;
+    // border-top: 1px solid #e1e1e1;
+    padding: 30px 20px;
     margin-top: 2%;
   }
 
-  .footerIconMain {
+  .Stm_footerIconMain {
     display: flex;
     width: 33.33%;
   }
@@ -18,6 +18,8 @@
     display: flex;
     width: 33.33%;
     justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
   }
 
   .footerSocialIcon {
@@ -49,6 +51,8 @@
     display: flex;
     width: 33.33%;
     justify-content: flex-end;
+    align-items: center;
+    margin-top: 1rem;
   }
 
   .footerMoreOptionData {
@@ -79,18 +83,25 @@
   }
 
   @media screen and (max-width: 1700px) {
-    .footerIconMain {
-      width: 25% !important;
+    .Stm_footerIconMain {
+      // width: 50% !important;
+      flex: 1 !important;
     }
 
     .footerMoreOption {
-      width: 50% !important;
+      // width: 50% !important;
+      flex: 1 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .footerMoreText {
-      width: 25% !important;
+      // width: 25% !important;
+      flex: 1 !important;
     }
   }
+
   @media screen and (max-width: 1024px) {
     .stam_footerBottomMain {
       display: flex;
@@ -102,10 +113,10 @@
       width: 100% !important;
     }
 
-    .footerIconMain {
+    .Stm_footerIconMain {
       display: flex;
       justify-content: center;
-      width: 100%!important;
+      width: 100% !important;
     }
 
     .footerMoreOption {

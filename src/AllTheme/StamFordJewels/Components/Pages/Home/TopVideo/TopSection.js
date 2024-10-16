@@ -36,7 +36,7 @@ const TopSection = () => {
           autoPlay
           muted
           controls={!videoStarted}
-          loop
+          // loop
           style={{ height: "auto", width: "100%" }}
           onLoadedData={handleVideoLoad}
           onPlay={handleVideoPlay}

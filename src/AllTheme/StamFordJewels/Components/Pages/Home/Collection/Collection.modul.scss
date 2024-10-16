@@ -13,8 +13,8 @@
     display: flex;
     align-items: center;
     text-align: center;
-    height: 40px;
     justify-content: center;
+    padding: 3rem 0;
 
     h1 {
       margin: 10px 0px 0px 0px;
@@ -116,14 +116,38 @@
     }
   }
 
+  @media screen and (max-width: 1900px) {
+    .collection_cards {
+      gap: 0.5rem !important;
+    }
+  }
+
+  @media (max-width: 1830px) {
+    .collection_cards {
+      .c_card {
+        width: 400px !important;
+        height: 600px !important;
+      }
+    }
+  }
+
+  @media (max-width: 1635px) {
+    .collection_cards {
+      .c_card {
+        width: 350px !important;
+        height: 600px !important;
+      }
+    }
+  }
+
   @media screen and (max-width: 1442px) {
     .collection_cards {
       padding: 0 5px;
       gap: 0.5em;
 
       .c_card {
-        width: 280px;
-        height: 570px;
+        width: 280px !important;
+        height: 570px !important;
       }
     }
   }

@@ -74,12 +74,12 @@ function Home() {
             <TopVideoSection />
             <ShoptheCollections />
             <LabgrownDiamondInfo />
-            {data?.IsHomeNewArrival == 1 && <NewArrivalCarousel />}
             <ShapeSection />
             <DiamondLifeTime />
             {data?.IsHomeTrending == 1 && <ProductCarousel />}
             <Bestseller />
             <Banner />
+            {data?.IsHomeNewArrival == 1 && <NewArrivalCarousel />}
             <OurServices />
             <HistoryPage />
             <InstagramSection />

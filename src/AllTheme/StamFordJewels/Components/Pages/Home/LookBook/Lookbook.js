@@ -106,7 +106,7 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth} = SwiperSlideRef.current;
+      const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
@@ -730,6 +730,15 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
+                              sx={{
+                                width  :"100%",
+                                display:"flex",
+                                alignItems:"center",
+                                justifyContent:"space-between",
+                                flexDirection  :"row-reverse" ,
+                                padding :"0",
+                                margin:0
+                              }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -917,7 +926,7 @@ const Lookbook = () => {
           sx={{
             position: "absolute",
             top: "50%",
-            left: "50%",
+            left: "48%",
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
@@ -979,6 +988,15 @@ const Lookbook = () => {
                         key={opt?.id}
                       >
                         <FormControlLabel
+                        sx={{
+                          width  :"100%",
+                          display:"flex",
+                          alignItems:"center",
+                          justifyContent:"space-between",
+                          flexDirection  :"row-reverse" ,
+                          padding :"0",
+                          margin:0
+                        }}
                           control={
                             <Checkbox
                               name={`${ele?.id}${opt?.id}`}
@@ -1022,7 +1040,7 @@ const Lookbook = () => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              margin: "0px 5px 25px 5px",
+              margin: "0px 10px 25px 10px",
               gap: '20px'
             }}
           >
@@ -1030,7 +1048,7 @@ const Lookbook = () => {
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex' }} className="stam_filter_Ste_view">
               <FilterAltIcon
                 fontSize="large"
                 style={{ color: "#c0bbb1" }}
@@ -1046,7 +1064,6 @@ const Lookbook = () => {
                   style={{
                     background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
                     color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
-                    marginRight: '20px'
                   }}
                 >
                   Set View
@@ -1086,12 +1103,12 @@ const Lookbook = () => {
             </div>
           </div>
           <div className="stam_SubDiv_LookBookSubMainDiv">
-            <div className="stam_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
+            <div className="stam_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '999', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
 
               {filterData?.length > 0 && (
                 <div className="smr1_lookBookFilterSubDiv">
                   <span className="stam_filter_text">
-                    <span>Filters</span>
+                    <span className="stam_filter_title_l">Filters</span>
 
 
                     {/* <span>
@@ -1104,7 +1121,7 @@ const Lookbook = () => {
                                             `Product Found:
                                              ${afterFilterCount}`}
                                     </span> */}
-                    <span onClick={() => handelFilterClearAll()}>
+                    <span className="stam_clear_all" onClick={() => handelFilterClearAll()}>
                       {Object.values(filterChecked).filter((ele) => ele.checked)
                         ?.length > 0
                         ? "Clear All"
@@ -1182,6 +1199,15 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                     <FormControlLabel
+                                     sx={{
+                                      width  :"100%",
+                                      display:"flex",
+                                      alignItems:"center",
+                                      justifyContent:"space-between",
+                                      flexDirection  :"row-reverse" ,
+                                      padding :"0",
+                                      margin:0
+                                    }}
                                       control={
                                         <Checkbox
                                           name={`${ele?.id}${opt?.id}`}
@@ -1198,6 +1224,7 @@ const Lookbook = () => {
                                                 `${ele?.id}${opt?.id}`
                                               ]?.checked
                                           }
+                                         
                                           style={{
                                             color: "#7f7d85",
                                             padding: 0,
@@ -1416,8 +1443,8 @@ const Lookbook = () => {
                                 </div>
                               )}
                               <p className="stam_lb2designList_title">
-                            {slide?.designsetno}
-                          </p>
+                                {slide?.designsetno}
+                              </p>
                             </div>
                             <div
                               className="stam_lookBookImgDeatil"
@@ -1743,7 +1770,11 @@ const Lookbook = () => {
                                           className="stam_lookBookSubImage"
                                           loading="lazy"
                                           src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                          alt={`Sub image ${subIndex} for slide ${index}`}
+                                          // alt={`Sub image ${subIndex} for slide ${index}`}
+                                          onError={(e)=>{
+                                            e.target.src = imageNotFound ;
+                                            e.target.alt = "no-image"
+                                          }}
                                           onClick={() =>
                                             handleNavigation(
                                               detail?.designno,
@@ -2186,7 +2217,7 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
+                                  <SwiperSlide key={index} ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img

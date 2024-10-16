@@ -62,14 +62,18 @@ import Test from "./Components/Pages/ReusableComponent/Test";
 import Education from "./Components/Pages/staticpages/Education/Education";
 import PrivacyPage from "./Components/Pages/staticpages/PrivacyPage/PrivacyPage";
 import TermsAndCondition from "./Components/Pages/staticpages/TermsAndCondition/TermsAndCondition";
-import Account from "./Components/Pages/Account/Account"
+import Account from "./Components/Pages/Account/Account";
 import LabCreatedRings from "./Components/Pages/labCreated-rings/LabCreatedRings";
 import JewelryInquiryForm from "../../utils/Inquary/JewelryInquiryForm";
 import LabGrownWeddingRing from "./Components/Pages/lab-grown-wedding-rings/LabGrownWeddingRing";
 import ZaraStyleSlider from "./Components/Pages/AZara";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import PromotionalBanner from "./Components/Pages/PromotionalBanner/PromotionalBanner";
+import usePromotionalBanner from "./Components/hooks/usePromotionalBanner";
 
 const ForEveryRoutes = () => {
+  const { openPromotionalBanner, handleCloseBanner } =
+    usePromotionalBanner();
   const islogin = useRecoilValue(for_loginState);
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
@@ -80,9 +84,11 @@ const ForEveryRoutes = () => {
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
   // const [companyTitleLogo, setCompanyTitleLogo] =
   //   useRecoilState(for_companyLogo);
-  const [for_companyTitleLogo, for_setCompanyTitleLogo] = useRecoilState(for_companyLogo)
-  const [for_companyTitleLogoM, for_setCompanyTitleLogoM] = useRecoilState(for_companyLogoM)
-
+  const [for_companyTitleLogo, for_setCompanyTitleLogo] =
+    useRecoilState(for_companyLogo);
+  const [for_companyTitleLogoM, for_setCompanyTitleLogoM] =
+    useRecoilState(for_companyLogoM);
+  const [OpenPromotionalBanner, setOpenPromotionalBanner] = useState(false);
 
   const navHeight = useRecoilValue(for_nav_height);
   const setCSSVariable = () => {
@@ -123,7 +129,6 @@ const ForEveryRoutes = () => {
   });
 
   useEffect(() => {
-
     const cookieValue = Cookies.get("userLoginCookie");
     const loginUser = sessionStorage.getItem("LoginUser");
 
@@ -172,6 +177,8 @@ const ForEveryRoutes = () => {
     }
   }
 
+  console.log(openPromotionalBanner , "openPromotionalBanner")
+
   return (
     <>
       <Helmet>
@@ -179,6 +186,9 @@ const ForEveryRoutes = () => {
       </Helmet>
       <div>
         <Preloader />
+        {          openPromotionalBanner  && (
+            <PromotionalBanner onClose={handleCloseBanner} />
+          )}
         <TopBar />
         <Navbar />
       </div>
@@ -186,7 +196,7 @@ const ForEveryRoutes = () => {
         className="body"
         style={{
           marginTop: `${navHeight}px`,
-          overflow: "hidden"
+          overflow: "hidden",
         }}
       >
         <Routes>
@@ -261,16 +271,28 @@ const ForEveryRoutes = () => {
           </>
           <Route path="/appointment" element={<AppointmentPage />} />
           {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-          <Route path="/certified-loose-lab-grown-diamonds/settings/*" element={<SettingPage />} />
-          <Route path="/certified-loose-lab-grown-diamonds/diamond/*" element={<DiamondFilter />} />
-          <Route path="/certified-loose-lab-grown-diamonds/ring/*" element={<RingPage />} />
+          <Route
+            path="/certified-loose-lab-grown-diamonds/settings/*"
+            element={<SettingPage />}
+          />
+          <Route
+            path="/certified-loose-lab-grown-diamonds/diamond/*"
+            element={<DiamondFilter />}
+          />
+          <Route
+            path="/certified-loose-lab-grown-diamonds/ring/*"
+            element={<RingPage />}
+          />
           <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/d/*" element={<DetailsRoute />} />
           <Route path="/p/*" element={<ProductList />} />
           <Route path="/diamond" element={<Diamond />} />
-          <Route path="/lab-created-engagement-rings" element={<LabCreatedRings />} />
+          <Route
+            path="/lab-created-engagement-rings"
+            element={<LabCreatedRings />}
+          />
           <Route path="/Delivery" element={<Delivery />} />
           <Route path="/Payment" element={<Payment />} />
           <Route path="/Confirmation" element={<Confirmation />} />

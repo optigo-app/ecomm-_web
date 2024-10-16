@@ -4,13 +4,16 @@ $borderColor: rgba(232, 232, 232, 1);
 
 .roop3_MainBGDiv {
   font-family: $primaryFontFamily;
-  // margin-top: 140px;
+  margin-top: 32px;
 
 
   .roop3_cart-title {
     color: $titleColor;
     font-size: $fontSize6;
     text-align: center;
+    @media screen and (max-width:768px) {
+      margin-bottom: 1.2rem !important;
+      }
   }
 
   .cartMainPageDiv {
@@ -40,6 +43,7 @@ $borderColor: rgba(232, 232, 232, 1);
       .roop3_cart-title {
         color: $titleColor;
         font-size: $fontSize7;
+       
       }
 
       .roop3_placeOrderMainbtnDivs {

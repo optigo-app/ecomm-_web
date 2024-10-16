@@ -2179,7 +2179,8 @@ const ProductDetail = () => {
                                           fontFamily: "TT Commons Regular",
                                         }}
                                       >
-                                        Labour{" "}
+                                        {/* Labour By Default  MAIORA CHNAGES NEEDED Making */}
+                                        Making{" "}
                                       </Typography>
 
                                       <span style={{ display: "flex" }}>
@@ -2426,7 +2427,9 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-             {  KayraCreation === 2 && <div className="smr_material_details_portion">
+
+{/* Maiora chnages Need the / in website for other not need right now !! */}
+             {  KayraCreation === 2 && <div className="smr_material_details_portion"> 
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
@@ -2440,7 +2443,7 @@ const ProductDetail = () => {
                         >{`Diamond Detail (${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${diaList
+                        )} / ${diaList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2459,7 +2462,7 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                            {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -2475,7 +2478,7 @@ const ProductDetail = () => {
                           ?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
-                          )}  ${csList
+                          )} / ${csList
                             ?.filter((ele) => ele?.D !== "MISC")
                             ?.reduce(
                               (accumulator, data) => accumulator + data?.N,
@@ -2497,7 +2500,7 @@ const ProductDetail = () => {
                             <li className="smr_proDeatilList1">{data?.H}</li>
                             <li className="smr_proDeatilList1">{data?.J}</li>
                             <li className="smr_proDeatilList1">
-                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                              {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
@@ -2512,7 +2515,7 @@ const ProductDetail = () => {
                           ?.reduce(
                             (accumulator, data) => accumulator + data.M,
                             0
-                          )}  ${csList
+                          )} / ${csList
                             ?.filter((ele) => ele?.D === "MISC")
                             ?.reduce(
                               (accumulator, data) => accumulator + data?.N,
@@ -2534,7 +2537,7 @@ const ProductDetail = () => {
                             <li className="smr_proDeatilList1">{data?.H}</li>
                             <li className="smr_proDeatilList1">{data?.J}</li>
                             <li className="smr_proDeatilList1">
-                              {data.M}&nbsp;&nbsp;{data?.N?.toFixed(3)}
+                              {data.M}&nbsp;/&nbsp;{data?.N?.toFixed(3)}
                             </li>
                           </ul>
                         ))}
@@ -2967,7 +2970,7 @@ const ProductDetail = () => {
                             // display:'none'
                           }}
                         >
-                          Complete The Look
+                          Complete The Look  
                         </p>
                       </div>
                     )}

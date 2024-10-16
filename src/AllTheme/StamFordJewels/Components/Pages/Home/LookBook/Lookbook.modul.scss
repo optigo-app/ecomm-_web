@@ -75,6 +75,21 @@
     align-items: center;
     font-weight: 500;
   }
+  .stam_filter_Ste_view{
+    margin-bottom: -1rem;
+    .stam_lookBookSelectViewBtn{
+      margin-right: 20px;
+    }
+    .lb-switch-field{
+      label{
+        padding: 8px 12px;
+      }
+    }
+  }
+
+  .stam_lookbook_filter_div {
+    display: flex;
+  }
 
 
   .stam_lb2designList_title {
@@ -176,7 +191,7 @@
     display: flex;
     margin-bottom: 36px;
     overflow: hidden;
-    width: 120px;
+    width: 130px;
     height: 35px;
     border-radius: 0;
 
@@ -223,6 +238,20 @@
 
   .smr1_lookBookFilterSubDiv {
     margin: 10px 10px 0px 10px;
+    .stam_filter_text{
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      .stam_filter_title_l{
+        font-weight: 500;
+        color: gray;
+      }
+      .stam_clear_all{
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
   }
 
   .stam_lookBookImgDivMain {
@@ -887,6 +916,18 @@
     width: 70% !important;
   }
 
+}
+
+@media (max-width: 375px) {
+  .stam_LookBookMain {
+    .lb-switch-field {
+      width: 100%;
+    }
+
+    .stam_lookBookSelectViewBtn {
+      width: 14rem;
+    }
+  }
 }
 
 .stam_LookBookMobileThridViewMain {

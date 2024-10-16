@@ -633,7 +633,6 @@ const DynamicCollection = () => {
       if (BestSellerVar) {
         productlisttype = BestSellerVar.split("=")[1];
       }
-
       if (AlbumVar) {
         productlisttype = AlbumVar.split("=")[1];
       }
@@ -1544,6 +1543,9 @@ const DynamicCollection = () => {
                   <option className="option" value="Trending">
                     Trending
                   </option>
+                  {/*<option className="option" value="Bestseller">
+                                    Bestseller
+                                    </option>*/}
                   <option className="option" value="In Stock">
                     In stock
                   </option>
@@ -1668,7 +1670,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                               {/* </span> */}
                             </AccordionSummary>
                             <AccordionDetails
@@ -1784,7 +1786,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1930,7 +1932,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1994,7 +1996,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2058,7 +2060,7 @@ const DynamicCollection = () => {
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
                                 fontWeight :"500 !important",
-                              }}>  {ele.Name}</Typography>
+                              }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails

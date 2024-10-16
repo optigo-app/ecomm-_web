@@ -83,6 +83,7 @@ const NavbarMenu = [
     category: "High End Jewelry",
     link: "/p/Ikigai/?M=SWtpZ2FpL2NvbGxlY3Rpb24=",
     disabled: false,
+    IsB2b : true ,
   },
   // {
   //   category: "Fine Jewelry",
@@ -249,6 +250,7 @@ const StepImages = [
     name: "Diamond",
     link: "diamond",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
+    downIcon: `${storImagePath()}/images/ProductListing/settingNav/down-arrow.png`,
   },
   {
     img: `${storImagePath()}/Forevery/diamondFilter/mount-icon.svg`,
@@ -256,6 +258,7 @@ const StepImages = [
     name: "Settings",
     link: "settings",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
+    downIcon: `${storImagePath()}/images/ProductListing/settingNav/down-arrow.png`,
   },
   {
     img: `${storImagePath()}/Forevery/diamondFilter/complete-ring-icon.svg`,
@@ -263,6 +266,7 @@ const StepImages = [
     name: "Rings",
     link: "ring",
     eyeIcon: `${storImagePath()}/images/ProductListing/settingNav/eye.png`,
+    downIcon: `${storImagePath()}/images/ProductListing/settingNav/down-arrow.png`,
   },
 ];
 

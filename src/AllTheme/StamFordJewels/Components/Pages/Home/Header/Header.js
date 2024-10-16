@@ -375,10 +375,10 @@ const Header = () => {
   };
 
   const toggleCartDrawer = () => {
-        setIsCartOpen((prevState) => !prevState);
-        const isCartDrawerOpen = JSON.parse(sessionStorage.getItem("isCartDrawer"));
-        sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
-        setCartOpenState((prevState) => !prevState);
+    setIsCartOpen((prevState) => !prevState);
+    const isCartDrawerOpen = JSON.parse(sessionStorage.getItem("isCartDrawer"));
+    sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
+    setCartOpenState((prevState) => !prevState);
   };
 
   const handleContextMenu = (e) => { };
@@ -805,6 +805,7 @@ const Header = () => {
                   borderBottom: "1px solid white",
                   alignItems: "end",
                   marginInline: "15px",
+                  marginBottom :"1.5rem"
                 }}
               >
                 <input
@@ -1056,7 +1057,7 @@ const Header = () => {
                   >
                     <Tooltip title="Cart">
                       <li
-                       onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
                         className="nav_li_smining_Icone"
                       >
                         <ShoppingCartOutlinedIcon
@@ -1364,7 +1365,7 @@ const Header = () => {
                     >
                       <Tooltip title="Cart">
                         <li
-                         onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                          onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
                           className="nav_li_smining_Fixed_Icone"
                         >
                           <ShoppingCartOutlinedIcon
@@ -1421,7 +1422,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                           onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
                             className="nav_li_smining_Fixed_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -1527,6 +1528,7 @@ const Header = () => {
                               display: "flex",
                               justifyContent: "start",
                               height: "25px",
+                              paddingRight: "10px",
                             }}
                             onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e)}
                           >
