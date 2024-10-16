@@ -148,7 +148,7 @@ export default function ContimueWithMobile() {
                         <button className='submitBtnForgot' onClick={handleSubmit}>
                             SUBMIT
                         </button>
-                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className="for_cancleForgot" style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

@@ -5,11 +5,9 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Backdrop,
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   Drawer,
   FormControlLabel,
   IconButton,
@@ -25,20 +23,12 @@ import {
 import MuiPagination from '@mui/material/Pagination';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
-import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
-import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
 import Cookies from "js-cookie";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { stam_CartCount, stam_loginState } from "../../../Recoil/atom";
 import imageNotFound from "../../../Assets/image-not-found.jpg";
-import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
-import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from "swiper/react";
-import LookbookSkelton from "./lookbookSkelton"
 
 import {
   Pagination,
@@ -49,15 +39,21 @@ import {
   Keyboard,
   Mousewheel
 } from "swiper/modules";
-import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
-import ProductListSkeleton from "../../Product/ProductList/productlist_skeleton/ProductListSkeleton";
 import Pako from "pako";
 import { IoClose } from "react-icons/io5";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { Get_Tren_BestS_NewAr_DesigSet_Album } from "../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album";
+import { LookBookAPI } from "../../../../../../utils/API/FilterAPI/LookBookAPI";
+import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import ProductListSkeleton from "../../../../../SmilingRock/Components/Pages/Product/ProductList/productlist_skeleton/ProductListSkeleton";
+import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import LookbookSkeleton from "./lookbookSkelton";
+import { stam_CartCount, stam_loginState } from "../../../Recoil/atom";
 
 const Lookbook = () => {
   let location = useLocation();
@@ -68,7 +64,6 @@ const Lookbook = () => {
 
   const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
   const [designSetLstData, setDesignSetListData] = useState();
-  const [dstCount, setDstCount] = useState();
   const [filterData, setFilterData] = useState([]);
   const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
@@ -88,13 +83,16 @@ const Lookbook = () => {
   const [storeInit, setStoreInit] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [isProdLoading, setIsProdLoading] = useState(true);
-  const [isPgLoading, setIsPgLoading] = useState(false);
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen1, setIsDrawerOpen1] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [isShowfilter, setIsShowFilter] = useState(false);
+  const [imageSources, setImageSources] = React.useState({});
   const SwiperSlideRef = useRef();
   const [DynamicSize, setDynamicSize] = useState({ w: 0, h: 0 });
+  const [dstCount, setDstCount] = useState();
+  const [isPgLoading, setIsPgLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   let maxwidth464px = useMediaQuery('(max-width:464px)')
@@ -148,10 +146,6 @@ const Lookbook = () => {
     };
   }, []);
 
-
-
-
-
   const handlePrevious = () => {
     if (swiper !== null) {
       swiper.slidePrev();
@@ -183,18 +177,18 @@ const Lookbook = () => {
       finalID = loginUserDetail?.id || "0";
     }
 
-    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID, {}, currentPage, itemsPerPage)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETDesignSet_List", finalID)
       .then((response) => {
         if (response?.Data?.rd) {
           setDesignSetListData(response?.Data?.rd);
           setDstCount(response?.Data?.rd1[0]?.TotalCount)
-
           const initialCartItems = response?.Data?.rd.flatMap((slide) =>
             parseDesignDetails(slide?.Designdetail)
               .filter((detail) => detail?.IsInCart === 1)
               .map((detail) => detail.autocode)
           );
           setIsProdLoading(false);
+          setIsPgLoading(false)
           setCartItems((prevCartItems) => [
             ...new Set([...prevCartItems, ...initialCartItems]),
           ]); // Use Set to avoid duplicates
@@ -203,10 +197,12 @@ const Lookbook = () => {
       .catch((err) => console.log(err))
       .finally(() => {
         setIsProdLoading(false);
+        setIsPgLoading(false);
       });
   }, []);
 
   useEffect(() => {
+    console.log("cartItemscartItemscartItems", filterData);
     const loginUserDetail = JSON?.parse(sessionStorage.getItem("loginUserDetail"));
     const storeInit = JSON?.parse(sessionStorage.getItem("storeInit"));
     const { IsB2BWebsite } = storeInit;
@@ -388,6 +384,10 @@ const Lookbook = () => {
         const updatedCartItems = prevCartItems.filter(
           (item) => item !== ele?.autocode
         );
+        console.log(
+          "Updated cartItems inside setState callback:",
+          updatedCartItems
+        );
         return updatedCartItems;
       });
     } catch (err) {
@@ -489,18 +489,28 @@ const Lookbook = () => {
   };
 
   const filterDesignSetsByCategory = (designSetLstData, selectedCategories) => {
+    // Return the original data if no categories are selected
     if (selectedCategories.length === 0) return designSetLstData;
 
     return designSetLstData
-      ?.map((set) => ({
-        ...set,
-        Designdetail: JSON?.stringify(
-          JSON?.parse(set.Designdetail)?.filter((detail) =>
-            selectedCategories?.includes(detail.CategoryName)
-          )
-        ),
-      }))
-      ?.filter((set) => JSON?.parse(set.Designdetail).length > 0);
+      ?.map((set) => {
+        const details = JSON?.parse(set?.Designdetail);
+        // Filter details based on selected categories
+        const filteredDetails = details.filter((detail) =>
+          selectedCategories.includes(detail.CategoryName)
+        );
+
+        // Return the modified set only if there are filtered details
+        return {
+          ...set,
+          Designdetail: JSON.stringify(filteredDetails), // Convert back to string
+        };
+      })
+      ?.filter((set) => {
+        // Keep sets that have non-empty Designdetail
+        const details = JSON.parse(set.Designdetail);
+        return details.length > 0;
+      });
   };
 
   const filteredDesignSetLstData = filterDesignSetsByCategory(
@@ -555,8 +565,7 @@ const Lookbook = () => {
   //   setSelectedValue(event.target.value);
   // };
 
-  const handleChange = (event) => {
-    const newValue = parseInt(event.target.value);
+  const handleChange = (event, newValue) => {
     if (newValue !== null) {
       setSelectedValue(newValue);
       setThumbsSwiper(null);
@@ -585,6 +594,7 @@ const Lookbook = () => {
     </div>
   );
 
+
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -594,43 +604,63 @@ const Lookbook = () => {
     });
   }
 
-  const [imageSources, setImageSources] = React.useState({});
+  const CustomLabel = ({ text }) => (
+    <Typography
+      sx={{
+        fontFamily: "sans-serif",
+        fontSize: {
+          xs: "13.2px !important", // Mobile screens
+          sm: "14.1px !important", // Tablets
+          md: "15.2px !important", // Desktop screens
+          lg: "15.6px !important", // Large desktops
+          xl: "15.8px !important", // Extra large screens
+        },
+      }}
+    >
+      {text}
+    </Typography>
+  );
 
-  // useEffect(() => {
-  //   if (filteredDesignSetLstData) {
-  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-  //         const isAvailable = await checkImageAvailability(designImageUrl);
-  //         return {
-  //           designno: detail?.designno,
-  //           src: isAvailable ? designImageUrl : imageNotFound
-  //         };
-  //       })
-  //     );
+  const isCategoryPresent = filterData?.some(ele => ele?.Name === "Category" && ele?.id === "category");
 
-  //     Promise.all(imagePromises).then((results) => {
-  //       // Update state with the resolved image sources
-  //       const newImageSources = results.reduce((acc, { designno, src }) => {
-  //         acc[designno] = src;
-  //         return acc;
-  //       }, {});
-  //       setImageSources(newImageSources);
-  //     });
-  //   }
-  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
-
-
-  // pagination HandleChange Function for change page
   const handelPageChange = (event, value) => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0
+    })
     setCurrentPage(value);
     setThumbsSwiper(null);
     setIsPgLoading(true);
-    window.scrollTo({
-      behavior: 'smooth',
-      top: 0
-    })
   };
+
+  useEffect(() => {
+    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound,
+          };
+        })
+      );
+
+      Promise.all(imagePromises).then((results) => {
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
+
+        setImageSources((prevSources) => {
+          const isDifferent = Object.keys(newImageSources).some(
+            (key) => newImageSources[key] !== prevSources[key]
+          );
+          return isDifferent ? newImageSources : prevSources;
+        });
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
   return (
     <div className="stam_LookBookMain">
@@ -642,7 +672,7 @@ const Lookbook = () => {
         className="stam_filterDrawer"
       >
         {filterData?.length > 0 && (
-          <div className="smr1_lookBookFilterSubDiv" style={{ padding: "20px" }}>
+          <div className="stam_lookBookFilterSubDiv" style={{ padding: "20px" }}>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <IoClose
                 style={{
@@ -653,15 +683,23 @@ const Lookbook = () => {
                 onClick={() => setIsDrawerOpen(false)}
               />
             </div>
-            <span className="stam_filter_text">
-              <span>Filters</span>
+            <div style={{ marginTop: '3rem' }}>
+              <Box className="stam_filter_text">
+                <Typography sx={{
+                  color: "gray !important",
+                  borderRadius: 0,
+                  fontWeight: 500,
+                  fontSize: "18px",
+                  fontFamily: "sans-serif",
+                }}>Filters</Typography>
+              </Box>
               <span onClick={() => handelFilterClearAll()}>
                 {Object.values(filterChecked).filter((ele) => ele.checked)
                   ?.length > 0
                   ? "Clear All"
                   : ""}
               </span>
-            </span>
+            </div>
             <div style={{ marginTop: "12px", width: "250px" }}>
               {filterData?.map((ele) => (
                 <>
@@ -730,15 +768,6 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
-                              sx={{
-                                width  :"100%",
-                                display:"flex",
-                                alignItems:"center",
-                                justifyContent:"space-between",
-                                flexDirection  :"row-reverse" ,
-                                padding :"0",
-                                margin:0
-                              }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -769,15 +798,15 @@ const Lookbook = () => {
                                     size="small"
                                   />
                                 }
-                                // sx={{
-                                //   display: "flex",
-                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                //   width: "100%",
-                                //   flexDirection: "row-reverse", // Align items to the right
-                                //   fontFamily:'TT Commons Regular'
-                                // }}
-                                className="stam_mui_checkbox_label"
-                                label={opt.Name}
+                                sx={{
+                                  display: "flex !important",
+                                  justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                  width: "100% !important",
+                                  flexDirection: "row-reverse !important", // Align items to the right
+                                  fontFamily: 'sans-serif'
+                                }}
+                                // className="stam_mui_checkbox_label"
+                                label={<CustomLabel text={opt?.Name} />}
                               />
                             </div>
                           ))}
@@ -873,14 +902,14 @@ const Lookbook = () => {
                                   size="small"
                                 />
                               }
-                              // sx={{
-                              //   display: "flex",
-                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                              //   width: "100%",
-                              //   flexDirection: "row-reverse", // Align items to the right
-                              //   fontFamily:'TT Commons Regular'
-                              // }}
-                              className="stam_mui_checkbox_label"
+                              sx={{
+                                display: "flex !important",
+                                justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                width: "100% !important",
+                                flexDirection: "row-reverse !important", // Align items to the right
+                                fontFamily: 'sans-serif'
+                              }}
+                              // className="stam_mui_checkbox_label"
                               // label={
                               //   opt?.Minval == 0
                               //     ? `Under ${decodeEntities(
@@ -897,11 +926,23 @@ const Lookbook = () => {
                               //       )}${opt?.Maxval}`
                               // }
                               label={
-                                opt?.Minval == 0
-                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                  : opt?.Maxval == 0
-                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                <CustomLabel
+                                  text={
+                                    opt?.Minval == 0
+                                      ? `Under ${loginUserDetail?.CurrencyCode ??
+                                      storeInit?.CurrencyCode
+                                      } ${formatter(opt?.Maxval)}`
+                                      : opt?.Maxval == 0
+                                        ? `Over ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
+                                        } ${formatter(opt?.Minval)}`
+                                        : `${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
+                                        } ${formatter(opt?.Minval)} - ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
+                                        } ${formatter(opt?.Maxval)}`
+                                  }
+                                />
                               }
                             />
                           </div>
@@ -926,7 +967,7 @@ const Lookbook = () => {
           sx={{
             position: "absolute",
             top: "50%",
-            left: "48%",
+            left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
@@ -988,15 +1029,6 @@ const Lookbook = () => {
                         key={opt?.id}
                       >
                         <FormControlLabel
-                        sx={{
-                          width  :"100%",
-                          display:"flex",
-                          alignItems:"center",
-                          justifyContent:"space-between",
-                          flexDirection  :"row-reverse" ,
-                          padding :"0",
-                          margin:0
-                        }}
                           control={
                             <Checkbox
                               name={`${ele?.id}${opt?.id}`}
@@ -1012,8 +1044,15 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
-                          className="stam_mui_checkbox_label"
-                          label={opt.Name}
+                          // className="stam_mui_checkbox_label"
+                          sx={{
+                            display: "flex !important",
+                            justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                            width: "100% !important",
+                            flexDirection: "row-reverse !important", // Align items to the right
+                            fontFamily: 'sans-serif'
+                          }}
+                          label={<CustomLabel text={opt?.Name} />}
                         />
                       </div>
                     ))}
@@ -1026,7 +1065,6 @@ const Lookbook = () => {
       </Modal>
 
 
-
       {isProdLoading ? (
         // true ?
         <div style={{ marginInline: "6%", backgroundColor: "white" }}>
@@ -1037,109 +1075,250 @@ const Lookbook = () => {
         <div className="smr1_LookBookSubMainDiv">
           <div
             className="stam_lookBookMobileTopLine"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              margin: "0px 10px 25px 10px",
-              gap: '20px'
-            }}
           >
-            <div className="stam_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
-              {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
-              <FilterListIcon style={{ color: 'white' }} />
-            </div>
-            <div style={{ display: 'flex' }} className="stam_filter_Ste_view">
-              <FilterAltIcon
-                fontSize="large"
-                style={{ color: "#c0bbb1" }}
-                className="stam_lookBookMobileFilter"
-                onClick={() => setIsDrawerOpen(true)}
-              />
-              <HtmlTooltip
-                title={<CustomTooltipContent categories={selectedCategories} />}
-              >
-                <button
+            {filterData?.length > 0 && (
+              <div className="stam_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)}>
+                {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
+                <FilterListIcon style={{ color: 'white' }} />
+              </div>
+            )}
+            <div className="stam_lookbook_resp_head">
+              {filterData?.length > 0 && (
+                <div>
+                  <FilterAltIcon
+                    fontSize="large"
+                    style={{ color: "#c0bbb1" }}
+                    className="stam_lookBookMobileFilter"
+                    onClick={() => setIsDrawerOpen(true)}
+                  />
+                </div>
+              )}
+              <div>
+                {/* <HtmlTooltip
+                  title={selectedCategories?.length != 0 && <CustomTooltipContent categories={selectedCategories} />}
+                > */}
+                {isCategoryPresent && <button
                   onClick={handleOpen}
                   className="stam_lookBookSelectViewBtn"
                   style={{
-                    background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
-                    color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
+                    background: "#7d7f85",
+                    color: "#fff",
+                    marginRight: '20px'
                   }}
                 >
                   Set View
-                </button>
-              </HtmlTooltip>
-              <div className="lb-switch-field">
-                <input
-                  type="radio"
-                  id="lb-radio-three"
-                  name="switch-two"
-                  value={1}
-                  checked={selectedValue === 1}
+                </button>}
+                {/* </HtmlTooltip> */}
+                <ToggleButtonGroup
+                  size="medium"
+                  value={selectedValue}
+                  exclusive
                   onChange={handleChange}
-                />
-                <label htmlFor="lb-radio-three">|</label>
-
-                <input
-                  type="radio"
-                  id="lb-radio-four"
-                  name="switch-two"
-                  value={2}
-                  checked={selectedValue === 2}
-                  onChange={handleChange}
-                />
-                <label htmlFor="lb-radio-four">||</label>
-
-                <input
-                  type="radio"
-                  id="lb-radio-five"
-                  name="switch-two"
-                  value={3}
-                  checked={selectedValue === 3}
-                  onChange={handleChange}
-                />
-                <label htmlFor="lb-radio-five">|||</label>
+                  aria-label="text alignment"
+                  sx={{
+                    height: "35px",
+                    borderRadius: '0px',
+                    '.Mui-selected': {
+                      backgroundColor: '#7d7f856e',
+                      color: '#fff',
+                    },
+                    '.MuiToggleButton-root': {
+                      borderRadius: '0px',
+                      '&:not(.Mui-selected)': {
+                        backgroundColor: 'transparent',
+                        color: '#000',
+                      }
+                    }
+                  }}
+                >
+                  <ToggleButton value={1} aria-label="left aligned">
+                    {/* <RxGrid /> */}|
+                  </ToggleButton>
+                  <ToggleButton value={2} aria-label="centered">
+                    {/* <TfiLayoutGrid2 /> */}
+                    ||
+                  </ToggleButton>
+                  <ToggleButton value={3} aria-label="right aligned">
+                    {/* <TfiLayoutGrid3 /> */}
+                    |||
+                  </ToggleButton>
+                </ToggleButtonGroup>
               </div>
             </div>
           </div>
           <div className="stam_SubDiv_LookBookSubMainDiv">
-            <div className="stam_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '999', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
+            <div className="stam_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', left: '-500%', width: `19%`, position: 'absolute', top: '100px' }}>
+              <Drawer
+                PaperProps={{
+                  sx: {
+                    width: '20rem',
+                    paddingInline: '1.5rem'
+                  }
+                }}
+                open={isDrawerOpen1}
+                onClose={() => {
+                  setIsDrawerOpen1(false);
+                }}
+                className="stam_filterDrawer"
+              >
+                {filterData?.length > 0 && (
+                  <div className="stam_lookBookFilterSubDiv">
+                    <div style={{ position: 'absolute', right: '0' }}>
+                      <IoClose
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          marginRight: '0.5rem',
+                          marginTop: '1rem',
+                          color: "rgba(143, 140, 139, 0.9019607843)",
+                        }}
+                        onClick={() => setIsDrawerOpen1(false)}
+                      />
+                    </div>
+                    <div style={{ marginTop: '3rem' }}>
+                      <Box className="stam_filter_text" >
+                        <Typography sx={{
+                          color: "gray !important",
+                          borderRadius: 0,
+                          fontWeight: 500,
+                          fontSize: "18px",
+                          fontFamily: "sans-serif",
+                        }}>Filters</Typography>
+                      </Box>
+                      <span onClick={() => handelFilterClearAll()}>
+                        {Object.values(filterChecked).filter((ele) => ele.checked)
+                          ?.length > 0
+                          ? "Clear All"
+                          : ""}
+                      </span>
+                    </div>
+                    <div style={{ marginTop: "12px" }}>
+                      {filterData?.map((ele) => (
+                        <>
+                          {!ele?.id?.includes("Range") &&
+                            !ele?.id?.includes("Price") && (
+                              <Accordion
+                                elevation={0}
+                                sx={{
+                                  borderBottom: "1px solid #c7c8c9",
+                                  borderRadius: 0,
+                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
+                                  "&.MuiPaper-root.MuiAccordion-root:before": {
+                                    background: "none",
+                                  },
+                                }}
+                              // expanded={accExpanded}
+                              // defaultExpanded={}
+                              >
+                                <AccordionSummary
+                                  expandIcon={
+                                    <ExpandMoreIcon sx={{ width: "20px" }} />
+                                  }
+                                  aria-controls="panel1-content"
+                                  id="panel1-header"
+                                  sx={{
+                                    color: "#7d7f85 !important",
+                                    borderRadius: 0,
 
-              {filterData?.length > 0 && (
-                <div className="smr1_lookBookFilterSubDiv">
-                  <span className="stam_filter_text">
-                    <span className="stam_filter_title_l">Filters</span>
-
-
-                    {/* <span>
-                                        {Object.values(filterChecked).filter(
-                                            (ele) => ele.checked
-                                        )?.length === 0
-                                            ? 
-                                            "Filters"
-                                            : 
-                                            `Product Found:
-                                             ${afterFilterCount}`}
-                                    </span> */}
-                    <span className="stam_clear_all" onClick={() => handelFilterClearAll()}>
-                      {Object.values(filterChecked).filter((ele) => ele.checked)
-                        ?.length > 0
-                        ? "Clear All"
-                        : ""}
-                    </span>
-                  </span>
-                  <div style={{ marginTop: "12px" }}>
-                    {filterData?.map((ele) => (
-                      <>
-                        {!ele?.id?.includes("Range") &&
-                          !ele?.id?.includes("Price") && (
+                                    "&.MuiAccordionSummary-root": {
+                                      padding: 0,
+                                    },
+                                    textTransform: 'uppercase',
+                                    fontSize: '15px',
+                                    fontFamily: 'sans-serif',
+                                  }}
+                                  className="stam_filtercategoryLable"
+                                >
+                                  {/* <span> */}
+                                  {ele.Name}
+                                  {/* </span> */}
+                                </AccordionSummary>
+                                <AccordionDetails
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "4px",
+                                    minHeight: "fit-content",
+                                    maxHeight: "300px",
+                                    overflow: "auto",
+                                  }}
+                                >
+                                  {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        gap: "12px",
+                                      }}
+                                      key={opt?.id}
+                                    >
+                                      {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                      <FormControlLabel
+                                        control={
+                                          <Checkbox
+                                            name={`${ele?.id}${opt?.id}`}
+                                            // checked={
+                                            //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                            //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                            //     : false
+                                            // }
+                                            checked={
+                                              filterChecked[`${ele?.id}${opt?.id}`]
+                                                ?.checked === undefined
+                                                ? false
+                                                : filterChecked[
+                                                  `${ele?.id}${opt?.id}`
+                                                ]?.checked
+                                            }
+                                            style={{
+                                              color: "#7f7d85",
+                                              padding: 0,
+                                              width: "10px",
+                                            }}
+                                            onClick={(e) =>
+                                              handleCheckboxChange(
+                                                e,
+                                                ele?.id,
+                                                opt?.Name
+                                              )
+                                            }
+                                            size="small"
+                                          />
+                                        }
+                                        sx={{
+                                          display: "flex !important",
+                                          justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                          width: "100% !important",
+                                          flexDirection: "row-reverse !important", // Align items to the right
+                                          fontFamily: 'sans-serif'
+                                        }}
+                                        // className="stam_mui_checkbox_label"
+                                        label={<CustomLabel text={opt?.Name} />}
+                                      />
+                                    </div>
+                                  ))}
+                                </AccordionDetails>
+                              </Accordion>
+                            )}
+                          {ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
+                                "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                                   borderBottomLeftRadius: "0px",
                                   borderBottomRightRadius: "0px",
                                 },
@@ -1163,6 +1342,9 @@ const Lookbook = () => {
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,
                                   },
+                                  textTransform: 'uppercase',
+                                  fontSize: '15px',
+                                  fontFamily: 'sans-serif',
                                 }}
                               // className="filtercategoryLable"
                               >
@@ -1180,17 +1362,18 @@ const Lookbook = () => {
                                   overflow: "auto",
                                 }}
                               >
-                                {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={opt?.id}
-                                  >
-                                    {/* <small
+                                {(JSON?.parse(ele?.options) ?? [])?.map(
+                                  (opt, i) => (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        gap: "12px",
+                                      }}
+                                      key={i}
+                                    >
+                                      {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -1198,204 +1381,95 @@ const Lookbook = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                    <FormControlLabel
-                                     sx={{
-                                      width  :"100%",
-                                      display:"flex",
-                                      alignItems:"center",
-                                      justifyContent:"space-between",
-                                      flexDirection  :"row-reverse" ,
-                                      padding :"0",
-                                      margin:0
-                                    }}
-                                      control={
-                                        <Checkbox
-                                          name={`${ele?.id}${opt?.id}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`${ele?.id}${opt?.id}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
-                                          }
-                                         
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(
-                                              e,
-                                              ele?.id,
-                                              opt?.Name
-                                            )
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="stam_mui_checkbox_label"
-                                      label={opt.Name}
-                                    />
-                                  </div>
-                                ))}
+                                      <FormControlLabel
+                                        control={
+                                          <Checkbox
+                                            name={`Price${i}${i}`}
+                                            // checked={
+                                            //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                            //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                            //     : false
+                                            // }
+                                            checked={
+                                              filterChecked[`Price${i}${i}`]
+                                                ?.checked === undefined
+                                                ? false
+                                                : filterChecked[`Price${i}${i}`]
+                                                  ?.checked
+                                            }
+                                            style={{
+                                              color: "#7f7d85",
+                                              padding: 0,
+                                              width: "10px",
+                                            }}
+                                            onClick={(e) =>
+                                              handleCheckboxChange(e, ele?.id, opt)
+                                            }
+                                            size="small"
+                                          />
+                                        }
+                                        sx={{
+                                          display: "flex !important",
+                                          justifyContent: "space-between !important", // Adjust spacing between checkbox and label
+                                          width: "100% !important",
+                                          flexDirection: "row-reverse !important", // Align items to the right
+                                          fontFamily: 'sans-serif'
+                                        }}
+                                        // className="stam_mui_checkbox_label"
+                                        // label={
+                                        //   opt?.Minval == 0
+                                        //     ? `Under ${decodeEntities(
+                                        //       storeInit?.Currencysymbol
+                                        //     )}${opt?.Maxval}`
+                                        //     : opt?.Maxval == 0
+                                        //       ? `Over ${decodeEntities(
+                                        //         storeInit?.Currencysymbol
+                                        //       )}${opt?.Minval}`
+                                        //       : `${decodeEntities(
+                                        //         storeInit?.Currencysymbol
+                                        //       )}${opt?.Minval} - ${decodeEntities(
+                                        //         storeInit?.Currencysymbol
+                                        //       )}${opt?.Maxval}`
+                                        // }
+                                        label={
+                                          <CustomLabel
+                                            text={
+                                              opt?.Minval == 0
+                                                ? `Under ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${formatter(opt?.Maxval)}`
+                                                : opt?.Maxval == 0
+                                                  ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                  } ${formatter(opt?.Minval)}`
+                                                  : `${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                  } ${formatter(opt?.Minval)} - ${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                  } ${formatter(opt?.Maxval)}`
+                                            }
+                                          />
+                                        }
+                                      />
+                                    </div>
+                                  )
+                                )}
                               </AccordionDetails>
                             </Accordion>
                           )}
-                        {ele?.id?.includes("Price") && (
-                          <Accordion
-                            elevation={0}
-                            sx={{
-                              borderBottom: "1px solid #c7c8c9",
-                              borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
-                              "&.MuiPaper-root.MuiAccordion-root:before": {
-                                background: "none",
-                              },
-                            }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
-                              }
-                              aria-controls="panel1-content"
-                              id="panel1-header"
-                              sx={{
-                                color: "#7d7f85 !important",
-                                borderRadius: 0,
-
-                                "&.MuiAccordionSummary-root": {
-                                  padding: 0,
-                                },
-                              }}
-                            // className="filtercategoryLable"
-                            >
-                              {/* <span> */}
-                              {ele.Name}
-                              {/* </span> */}
-                            </AccordionSummary>
-                            <AccordionDetails
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                minHeight: "fit-content",
-                                maxHeight: "300px",
-                                overflow: "auto",
-                              }}
-                            >
-                              {(JSON?.parse(ele?.options) ?? [])?.map(
-                                (opt, i) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={i}
-                                  >
-                                    {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                    <FormControlLabel
-                                      control={
-                                        <Checkbox
-                                          name={`Price${i}${i}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`Price${i}${i}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[`Price${i}${i}`]
-                                                ?.checked
-                                          }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(e, ele?.id, opt)
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="stam_mui_checkbox_label"
-                                      // label={
-                                      //   opt?.Minval == 0
-                                      //     ? `Under ${decodeEntities(
-                                      //       storeInit?.Currencysymbol
-                                      //     )}${opt?.Maxval}`
-                                      //     : opt?.Maxval == 0
-                                      //       ? `Over ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval}`
-                                      //       : `${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval} - ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Maxval}`
-                                      // }
-                                      label={
-                                        opt?.Minval == 0
-                                          ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                          : opt?.Maxval == 0
-                                            ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                            : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                      }
-                                    />
-                                  </div>
-                                )
-                              )}
-                            </AccordionDetails>
-                          </Accordion>
-                        )}
-                      </>
-                    ))}
+                        </>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </Drawer>
             </div>
             <div className="stam_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
 
+
               {selectedValue == 2 && (
                 <>
-                  {!isPgLoading ? (
+                  {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
                     <div className="stam_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="stam_noProductFoundLookBookDiv">
@@ -1417,9 +1491,9 @@ const Lookbook = () => {
                                   loading="lazy"
                                   src={ProdCardImageFunc(slide)}
                                   alt={`Slide ${index}`}
-                                  onError={() => handleImageError(index)}
                                   onMouseEnter={() => handleHoverImages(index)}
                                   onMouseLeave={() => seyDataKey(null)}
+                                  onError={() => handleImageError(index)}
                                   style={{
                                     height: dataKey == index ? "100%" : "250px",
                                     cursor: "pointer",
@@ -1435,8 +1509,8 @@ const Lookbook = () => {
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    backgroundColor: "rgb(191, 200, 255)",
                                     cursor: "pointer",
+                                    backgroundColor: "rgb(191, 200, 255)",
                                   }}
                                 >
                                   {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
@@ -1488,13 +1562,13 @@ const Lookbook = () => {
                                     {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                   </span>
                                   {/* <span
-                              className="stam_currencyFont"
-                              dangerouslySetInnerHTML={{
-                                __html: decodeEntities(
-                                  storeInit?.Currencysymbol
-                                ),
-                              }}
-                            /> */}
+                                className="stam_currencyFont"
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    storeInit?.Currencysymbol
+                                  ),
+                                }}
+                              /> */}
                                   &nbsp;
                                   {formatter(calculateTotalUnitCostWithMarkUp(
                                     JSON?.parse(slide.Designdetail)
@@ -1520,26 +1594,43 @@ const Lookbook = () => {
                                 slidesPerView={4}
                                 spaceBetween={10}
                                 navigation={true}
+                                // pagination={{ clickable: true }}
                                 loop={false}
                                 modules={[Pagination, Navigation]}
                                 className="stam_LookBookmySwiper"
                                 breakpoints={{
-                                  320: { slidesPerView: 1, spaceBetween: 10 },
-                                  480: { slidesPerView: 2, spaceBetween: 20 },
-                                  640: { slidesPerView: 3, spaceBetween: 30 },
+                                  320: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 10,
+                                  },
+                                  480: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 20,
+                                  },
+                                  640: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 30,
+                                  },
                                 }}
                               >
                                 {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
                                   const imageSrc = imageSources[detail?.designno] || imageNotFound;
-
                                   return (
-                                    <div className="stam_lookBookSubImageDiv" key={subIndex}>
+                                    <div
+                                      className="stam_lookBookSubImageDiv"
+                                      key={subIndex}
+                                    >
                                       <SwiperSlide
                                         className="stam_lookBookSliderSubDiv"
-                                        style={{ marginRight: "0px", cursor: "pointer" }}
+                                        style={{
+                                          marginRight: "0px",
+                                          cursor: "pointer",
+                                        }}
                                       >
                                         {detail?.IsInReadyStock == 1 && (
-                                          <span className="stam_LookBookinstock">In Stock</span>
+                                          <span className="stam_LookBookinstock">
+                                            In Stock
+                                          </span>
                                         )}
                                         <img
                                           className="stam_lookBookSubImage"
@@ -1554,7 +1645,14 @@ const Lookbook = () => {
                                             )
                                           }
                                         />
-                                        <div style={{ display: "flex", justifyContent: "center", marginBottom: "5px" }}>
+                                        {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            marginBottom: "5px",
+                                          }}
+                                        >
                                           {cartItems.includes(detail?.autocode) ? (
                                             <button
                                               className="stam_lookBookINCartBtn"
@@ -1573,7 +1671,7 @@ const Lookbook = () => {
                                         </div>
                                       </SwiperSlide>
                                     </div>
-                                  );
+                                  )
                                 })}
                               </Swiper>
                             </div>
@@ -1581,16 +1679,13 @@ const Lookbook = () => {
                         ))
                       )}
                     </div>
-                  ) :
-                    <LookbookSkelton param={selectedValue} />
-                  }
+                  )}
                 </>
               )}
 
-
               {selectedValue == 3 && (
                 <>
-                  {!isPgLoading ? (
+                  {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
                     <div className="stam_lookBookImgDivMain">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="stam_noProductFoundLookBookDiv">
@@ -1747,70 +1842,67 @@ const Lookbook = () => {
                                     },
                                   }}
                                 >
-                                  {sortDesignDetailsBySrNo(
-                                    parseDesignDetails(slide?.Designdetail)
-                                  )?.map((detail, subIndex) => (
-                                    <div
-                                      className="stam_lookBookSubImageDiv"
-                                      key={subIndex}
-                                    >
-                                      <SwiperSlide
-                                        className="stam_lookBookSliderSubDiv"
-                                        style={{
-                                          marginRight: "0px",
-                                          cursor: "pointer",
-                                        }}
+                                  {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                                    const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                                    return (
+                                      <div
+                                        className="stam_lookBookSubImageDiv"
+                                        key={subIndex}
                                       >
-                                        {detail?.IsInReadyStock == 1 && (
-                                          <span className="stam_LookBookinstock">
-                                            In Stock
-                                          </span>
-                                        )}
-                                        <img
-                                          className="stam_lookBookSubImage"
-                                          loading="lazy"
-                                          src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                          // alt={`Sub image ${subIndex} for slide ${index}`}
-                                          onError={(e)=>{
-                                            e.target.src = imageNotFound ;
-                                            e.target.alt = "no-image"
-                                          }}
-                                          onClick={() =>
-                                            handleNavigation(
-                                              detail?.designno,
-                                              detail?.autocode,
-                                              detail?.TitleLine
-                                                ? detail?.TitleLine
-                                                : ""
-                                            )
-                                          }
-                                        />
-                                        <div
+                                        <SwiperSlide
+                                          className="stam_lookBookSliderSubDiv"
                                           style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            marginBottom: "5px",
+                                            marginRight: "0px",
+                                            cursor: "pointer",
                                           }}
                                         >
-                                          {cartItems.includes(detail?.autocode) ? (
-                                            <button
-                                              className="stam_lookBookINCartBtn"
-                                              onClick={() => handleRemoveCart(detail)}
-                                            >
-                                              REMOVE CART
-                                            </button>
-                                          ) : (
-                                            <button
-                                              className="stam_lookBookAddtoCartBtn"
-                                              onClick={() => handleAddToCart(detail)}
-                                            >
-                                              ADD TO CART +
-                                            </button>
+                                          {detail?.IsInReadyStock == 1 && (
+                                            <span className="stam_LookBookinstock">
+                                              In Stock
+                                            </span>
                                           )}
-                                        </div>
-                                      </SwiperSlide>
-                                    </div>
-                                  ))}
+                                          <img
+                                            className="stam_lookBookSubImage"
+                                            loading="lazy"
+                                            src={imageSrc}
+                                            alt={`Sub image ${subIndex} for slide ${index}`}
+                                            onClick={() =>
+                                              handleNavigation(
+                                                detail?.designno,
+                                                detail?.autocode,
+                                                detail?.TitleLine
+                                                  ? detail?.TitleLine
+                                                  : ""
+                                              )
+                                            }
+                                          />
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              marginBottom: "5px",
+                                            }}
+                                          >
+                                            {cartItems.includes(detail?.autocode) ? (
+                                              <button
+                                                className="stam_lookBookINCartBtn"
+                                                onClick={() => handleRemoveCart(detail)}
+                                              >
+                                                REMOVE CART
+                                              </button>
+                                            ) : (
+                                              <button
+                                                className="stam_lookBookAddtoCartBtn"
+                                                onClick={() => handleAddToCart(detail)}
+                                              >
+                                                ADD TO CART +
+                                              </button>
+                                            )}
+                                          </div>
+                                        </SwiperSlide>
+                                      </div>
+                                    )
+                                  })}
                                 </Swiper>
 
 
@@ -1825,66 +1917,67 @@ const Lookbook = () => {
                                       navigation
                                       pagination
                                     >
-                                      {sortDesignDetailsBySrNo(
-                                        parseDesignDetails(slide?.Designdetail)
-                                      )?.map((detail, subIndex) => (
-                                        <div
-                                          className="stam_lookBookSubImageDiv"
-                                          key={subIndex}
-                                        >
-                                          <SwiperSlide
-                                            key={`detail-${detail?.id}`}
-                                            style={{
-                                              marginRight: "0px",
-                                              cursor: "pointer",
-                                            }}
+                                      {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((detail, subIndex) => {
+                                        const imageSrc = imageSources[detail?.designno] || imageNotFound;
+                                        return (
+                                          <div
+                                            className="stam_lookBookSubImageDiv"
+                                            key={subIndex}
                                           >
-                                            {detail?.IsInReadyStock == 1 && (
-                                              <span className="stam_LookBookinstock">
-                                                In Stock
-                                              </span>
-                                            )}
-                                            <img
-                                              className="stam_lookBookSubImage"
-                                              loading="lazy"
-                                              src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                              alt={`Sub image ${subIndex} for slide ${index}`}
-                                              onClick={() =>
-                                                handleNavigation(
-                                                  detail?.designno,
-                                                  detail?.autocode,
-                                                  detail?.TitleLine
-                                                    ? detail?.TitleLine
-                                                    : ""
-                                                )
-                                              }
-                                            />
-                                            <div
+                                            <SwiperSlide
+                                              key={`detail-${detail?.id}`}
                                               style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                marginBottom: "5px",
+                                                marginRight: "0px",
+                                                cursor: "pointer",
                                               }}
                                             >
-                                              {cartItems.includes(detail?.autocode) ? (
-                                                <button
-                                                  className="stam_lookBookINCartBtn"
-                                                  onClick={() => handleRemoveCart(detail)}
-                                                >
-                                                  REMOVE CART
-                                                </button>
-                                              ) : (
-                                                <button
-                                                  className="stam_lookBookAddtoCartBtn"
-                                                  onClick={() => handleAddToCart(detail)}
-                                                >
-                                                  ADD TO CART +
-                                                </button>
+                                              {detail?.IsInReadyStock == 1 && (
+                                                <span className="stam_LookBookinstock">
+                                                  In Stock
+                                                </span>
                                               )}
-                                            </div>
-                                          </SwiperSlide>
-                                        </div>
-                                      ))}
+                                              <img
+                                                className="stam_lookBookSubImage"
+                                                loading="lazy"
+                                                src={imageSrc}
+                                                alt={`Sub image ${subIndex} for slide ${index}`}
+                                                onClick={() =>
+                                                  handleNavigation(
+                                                    detail?.designno,
+                                                    detail?.autocode,
+                                                    detail?.TitleLine
+                                                      ? detail?.TitleLine
+                                                      : ""
+                                                  )
+                                                }
+                                              />
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  marginBottom: "5px",
+                                                }}
+                                              >
+                                                {cartItems.includes(detail?.autocode) ? (
+                                                  <button
+                                                    className="stam_lookBookINCartBtn"
+                                                    onClick={() => handleRemoveCart(detail)}
+                                                  >
+                                                    REMOVE CART
+                                                  </button>
+                                                ) : (
+                                                  <button
+                                                    className="stam_lookBookAddtoCartBtn"
+                                                    onClick={() => handleAddToCart(detail)}
+                                                  >
+                                                    ADD TO CART +
+                                                  </button>
+                                                )}
+                                              </div>
+                                            </SwiperSlide>
+                                          </div>
+                                        )
+                                      })}
                                     </Swiper>
                                   </div>
                                   {/* <div className="btnflex">
@@ -1900,16 +1993,13 @@ const Lookbook = () => {
                         </>
                       )}
                     </div>
-                  ) :
-                    <LookbookSkelton param={selectedValue} />
-                  }
+                  )}
                 </>
               )}
 
-
               {selectedValue == 1 && (
                 <>
-                  {!isPgLoading ? (
+                  {isPgLoading ? <LookbookSkeleton param={selectedValue} /> : (
                     <div className="stam_lookbook3MainDiv">
                       {filteredDesignSetLstData?.length == 0 ? (
                         <div className="stam_noProductFoundLookBookDiv">
@@ -1918,7 +2008,6 @@ const Lookbook = () => {
                       ) : (
                         <>
                           <Swiper
-                            initialSlide={0}
                             slidesPerView={1}
                             spaceBetween={10}
                             navigation={true}
@@ -1937,9 +2026,9 @@ const Lookbook = () => {
                                       {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                         <img
                                           src={ProdCardImageFunc(slide)}
-                                          alt={`Slide ${index}`}
+                                          alt=""
+                                          className="stam_lb3ctl_img"
                                           onError={() => handleImageError(index)}
-                                          className="stam_lb3ctl_img_new"
                                           style={{
                                             backgroundColor: ProdCardImageFunc(slide) === null ? "rgb(191, 200, 255)" : getRandomBgColor(index),
                                           }}
@@ -1956,7 +2045,7 @@ const Lookbook = () => {
                                             cursor: "pointer",
                                             backgroundColor: "rgb(191, 200, 255)",
                                           }}
-                                          className="stam_lb3ctl_img_new"
+                                          className="stam_lb3ctl_img"
                                         >
                                           {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                         </div>
@@ -1989,9 +2078,7 @@ const Lookbook = () => {
                                     >
                                       <p className="stam_lb3designList_title" >{slide?.designsetno}</p>
                                       <div className="stam_lb3_prodtDivs2">
-                                        {sortDesignDetailsBySrNo(
-                                          parseDesignDetails(slide?.Designdetail)
-                                        )?.map((ele, subIndex) => (
+                                        {sortDesignDetailsBySrNo(parseDesignDetails(slide?.Designdetail))?.map((ele, subIndex) => (
                                           <div
                                             key={subIndex}
                                             className="stam_lb3completethelook_outer"
@@ -2060,17 +2147,15 @@ const Lookbook = () => {
                                                         <span className='stam_lb3detailDT'>{(ele?.Gwt || 0)?.toFixed(3)}</span>
                                                       </>
                                                     }
-                                                    {storeInit?.IsMetalWeight == 1 &&
+
+                                                    {Number(ele?.Nwt) !== 0 && (
                                                       <>
-                                                        {Number(ele?.Nwt) !== 0 && (
-                                                          <>
-                                                            <span className='stam_lb3pipe'> | </span>
-                                                            <span className='stam_lb3detailDT'>NWT : </span>
-                                                            <span className='stam_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
-                                                          </>
-                                                        )}
+                                                        <span className='stam_lb3pipe'> | </span>
+                                                        <span className='stam_lb3detailDT'>NWT : </span>
+                                                        <span className='stam_lb3detailDT'>{(ele?.Nwt || 0)?.toFixed(3)}</span>
                                                       </>
-                                                    }
+                                                    )}
+
                                                     {storeInit?.IsGrossWeight == 1 &&
                                                       <>
                                                         {(ele?.Dwt != "0" || ele?.Dpcs != "0") &&
@@ -2179,7 +2264,6 @@ const Lookbook = () => {
                           <div className="stam_lookbook3thumbMainDiv">
                             {filteredDesignSetLstData?.length != 0 && (
                               <Swiper
-                                initialSlide={0}
                                 onSwiper={setThumbsSwiper}
                                 spaceBetween={10}
                                 slidesPerView={20}
@@ -2225,9 +2309,7 @@ const Lookbook = () => {
                                         alt=""
                                         className="ctl_Paginationimg"
                                         // ref={SwiperSlideRef}
-                                        onLoad={() => {
-                                          handleImageLoad();
-                                        }}
+                                        onLoad={handleImageLoad}
                                         onError={() => handleImageError(index)}
                                         style={{
                                           height: DynamicSize.h || "66.5px",
@@ -2238,20 +2320,17 @@ const Lookbook = () => {
                                     ) : (
                                       <div
                                         style={{
-                                          // height: "100%",
-                                          // width: "100%",
+                                          height: DynamicSize.h || "66.5px",
+                                          width: DynamicSize.w || "66.5x",
+                                          margin: 0,
                                           ...getRandomBgColor(index),
                                           display: "flex",
                                           alignItems: "center",
                                           justifyContent: "center",
-                                          height: DynamicSize.h || "66.5px",
-                                          width: DynamicSize.w || "66.5x",
-                                          backgroundColor: "rgb(191, 200, 255)",
                                           cursor: "pointer",
-                                          margin: 0,
-                                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px"
+                                          backgroundColor: "rgb(191, 200, 255)",
                                         }}
-                                        className="stam_lb3ctl_img_new"
+                                        className="stam_lb3ctl_img"
                                       >
                                         {/* <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p> */}
                                       </div>
@@ -2264,28 +2343,15 @@ const Lookbook = () => {
                         </>
                       )}
                     </div>
-                  ) :
-                    <LookbookSkelton param={selectedValue} />
-                  }
+                  )}
                 </>
               )}
 
             </div>
           </div>
-          <div className="lpDiv">
-            <MuiPagination
-              count={Math.ceil(dstCount / itemsPerPage)}
-              size={maxwidth464px ? "small" : "large"}
-              shape="circular"
-              onChange={handelPageChange}
-              page={currentPage}
-            // showFirstButton
-            // showLastButton
-            />
-          </div>
         </div>
       )}
-      <div>
+      {/* <div>
         <p
           style={{
             paddingBlock: "30px",
@@ -2306,6 +2372,17 @@ const Lookbook = () => {
         >
           BACK TO TOP
         </p>
+      </div> */}
+      <div className="stam_lpDiv">
+        <MuiPagination
+          count={Math.ceil(dstCount / itemsPerPage)}
+          size={maxwidth464px ? "small" : "large"}
+          shape="circular"
+          onChange={handelPageChange}
+          page={currentPage}
+        // showFirstButton
+        // showLastButton
+        />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
         <Dialog open={open} onClose={handleClose}>
             <form onSubmit={handleSubmit}>
                 <DialogTitle className='smr_dialogTitle'>{isEditMode ? 'Edit Shipping Address' : 'Add Shipping Address'}</DialogTitle>
-                <Divider/>
+                <Divider />
                 <DialogContent>
                     <TextField
                         label="First Name"
@@ -84,12 +84,12 @@ export default function AddressForm({ open, handleClose, handleCancel, handleInp
                         className='smr_addressTextFields'
                     />
                 </DialogContent>
-                <DialogActions>
-                    <div className='smr_AddressBtnGroup'>
-                    <button type='submit' className='smr_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
-                    <button type='button' className='smr_Cancelbtn' onClick={handleCancel}>Cancel</button>
+                <div className='roop_cardActionBtn'>
+                    <div className='roop_AddressModalBtnGroup'>
+                        <button type='submit' className='roop_AddNewAddrModalbtn'>{isEditMode ? 'Save Changes' : 'Add Address'}</button>
+                        <button type='button' className='roop_Cancelbtn' onClick={handleCancel}>Cancel</button>
                     </div>
-                </DialogActions>
+                </div>
             </form>
         </Dialog>
     );

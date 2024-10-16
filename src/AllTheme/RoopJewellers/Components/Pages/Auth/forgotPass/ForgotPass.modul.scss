@@ -1,4 +1,6 @@
-.stam_forgotMain {
+@import '../../../scss/variable.scss';
+
+.roop_forgotMain {
 
     .smling-forgot-main {
         margin-inline: 6%;
@@ -63,16 +65,17 @@
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
+
     .smr_forgotBox {
         width: 420px;
         margin: 10px;
     }
 
-    .createBtnRegister {
+    .rp_createBtnRegister {
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: $btnprimarycolor !important;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
@@ -82,11 +85,37 @@
         transition: all 0.5s ease;
     }
 
+    .rp_createBtnRegister:hover {
+        transform: scale(1.02);
+    }
+
     .createBtnRegister:hover {
         background-color: white;
         color: #7d7f85;
         border: 1px solid #7d7f85;
     }
+
+    .rp_cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
+
+    .rp_cancleForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
 
 
     .smr_forgotSubDiv {
@@ -100,8 +129,8 @@
             padding-bottom: 50px !important;
         }
 
-        .AuthScreenSubTitle{
-            margin-top: -60px!important;
+        .AuthScreenSubTitle {
+            margin-top: -60px !important;
         }
     }
 

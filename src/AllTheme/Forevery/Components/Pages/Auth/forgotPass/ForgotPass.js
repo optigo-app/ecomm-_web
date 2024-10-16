@@ -213,7 +213,7 @@ export default function ForgotPass() {
                         />
 
                         <button className='for_createBtnRegister' onClick={handleSubmit}>Change Password</button>
-                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation('/')}>CANCEL</Button>
+                        <Button className="for_cancleForgot" style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
                 </div>
             </div>

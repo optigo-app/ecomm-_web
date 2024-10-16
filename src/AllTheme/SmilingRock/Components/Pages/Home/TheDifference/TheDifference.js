@@ -3,7 +3,7 @@ import './TheDifference.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
 import { useNavigate } from 'react-router-dom'
 
-const   TheDifference = () => {
+const TheDifference = () => {
     const navigate = useNavigate();
     const [htmlContent, setHtmlContent] = useState('');
 
@@ -38,7 +38,7 @@ const   TheDifference = () => {
 
 
     return (
-        <div style={{marginBlock: '10px'}}>
+        <div style={{ marginBlock: '10px' }}>
             {/* <p className='smilingTitle'>The KayraCreation Difference</p> */}
             <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
             {/* <div className='smilingRock'>

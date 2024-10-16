@@ -44,11 +44,11 @@ const OrderRemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => 
           sx={{ mt: 2 }}
           className='smr_orderRemarkMoalInput'
         />
-        <div className="smr_projectRemarkBtn-group">
-          <Button className="smr_remarksave-btn" onClick={onSave}>
+        <div className="roop_projectRemarkBtn-group">
+          <Button className="roop_remarksave-btn" onClick={onSave}>
             Save
           </Button>
-          <Button className="smr_remarkcancel-btn" onClick={onClose}>
+          <Button className="roop_remarkcancel-btn" onClick={onClose}>
             Cancel
           </Button>
         </div>

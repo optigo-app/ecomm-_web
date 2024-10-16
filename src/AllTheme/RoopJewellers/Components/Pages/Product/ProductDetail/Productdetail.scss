@@ -29,6 +29,7 @@
         width: 60%;
         display: flex;
         justify-content: center;
+
         @media screen and (max-width:420px) {
             margin-left: -21px;
         }
@@ -54,19 +55,23 @@
         position: inherit;
         width: 100%;
         object-fit: scale-down;
+
         @media screen and (max-width:720px) {
-            margin-bottom: 15px ;
-            margin-top: 15px ;
+            margin-bottom: 15px;
+            margin-top: 15px;
         }
+
         @media screen and (max-width : 1200px) {
-         margin-left: -56px;   
+            margin-left: -56px;
         }
+
         @media screen and (max-width : 940px) {
-            margin-left: 0px;   
-           }
-           @media screen and (max-width :768px) {
-            margin-bottom: 15px ;
-           }
+            margin-left: 0px;
+        }
+
+        @media screen and (max-width :768px) {
+            margin-bottom: 15px;
+        }
     }
 
     .smr_prod_video {
@@ -102,8 +107,10 @@
     }
 
     .smr_prod_shortInfo_inner {
-        margin: 50px 100px 0px;
-        width: 60%;
+        // margin: 50px 100px 0px;
+        // width: 60%;
+        margin: 50px 0px 0px 50px;
+        width: 100%;
         // margin-top: 100px;
     }
 
@@ -213,7 +220,7 @@
     }
 
     .smr_AddToCart_btn {
-        border: 1px solid #7d7f85;
+        border: 1px solid $btnprimarycolor;
         width: 80%;
         height: 30%;
         display: flex;
@@ -221,12 +228,17 @@
         align-items: center;
         min-height: 49px;
         cursor: pointer;
-        color: #7d7f85;
-        background-color: white;
+        color: #fff;
+        background-color: $btnprimarycolor;
+        transition: background-color 0.3s;
+    }
+
+    .smr_AddToCart_btn:hover {
+        background-color: #e54e68;
     }
 
     .smr_AddToCart_btn_afterCart {
-        border: 1px solid #7d7f85;
+        border: 1px solid $btnprimarycolor;
         width: 80%;
         height: 30%;
         display: flex;
@@ -235,7 +247,12 @@
         min-height: 49px;
         cursor: pointer;
         color: white;
-        background-color: #7d7f85;
+        background-color: $btnprimarycolor;
+        transition: background-color 0.3s;
+    }
+
+    .smr_AddToCart_btn_afterCart:hover {
+        background-color: #e54e68;
     }
 
     .smr_addtocart_btn_txt {
@@ -243,7 +260,7 @@
         font-size: 15px;
         letter-spacing: 1.5px;
         position: relative;
-        color: $primaryfontcolor2;
+        color: $btn1hoverFontColor;
     }
 
     .Smr_wishlistcont {
@@ -281,6 +298,7 @@
         flex-direction: column;
         margin-bottom: 110px;
         margin-top: 70px;
+
         @media screen and (max-width:420px) {
             margin-left: -13px;
         }

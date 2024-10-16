@@ -37,6 +37,7 @@
         letter-spacing: 1;
         transition: all 0.5s ease;
         border-radius: 2px;
+        border-radius: 4px;
     }
 
     .submitBtnForgot:hover {
@@ -55,6 +56,27 @@
         text-decoration: none;
         transition: color 0.3s;
         cursor: pointer;
+    }
+
+    .for_cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
+
+    .for_cancleForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
     }
 
     .cancleForgot::before {
@@ -80,7 +102,7 @@
         width: 420px;
         margin: 10px;
     }
-    
+
     @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
             font-size: 25px !important;
@@ -105,9 +127,13 @@
         }
 
         .submitBtnForgot {
-            width: 50%;
+            width: 90%;
             height: 50px !important;
+        }
 
+        .for_cancleForgot {
+            width: 90%;
+            height: 50px !important;
         }
 
     }
@@ -115,6 +141,11 @@
     @media screen and (max-width: 500px) {
 
         .submitBtnForgot {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .for_cancleForgot {
             width: 90%;
             height: 40px !important;
         }

@@ -13,23 +13,23 @@ const LoginOption = () => {
 
   const redirectMobileUrl = `/ContimueWithMobile/${search}`;
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-      behavior  :"smooth",
-      top  : 0,
-      left : 0
+      behavior: "smooth",
+      top: 0,
+      left: 0
     })
-  },[])
+  }, [])
 
   return (
     <div className="for_Loginoption" style={{
-        backgroundColor  :"#fff"
+      backgroundColor: "#fff"
     }}>
       <div className="for_loginDailog">
         <div>
           <p className="for_loginDiTile">Log in or sign up in seconds</p>
           <p
-          className="for_login_text"
+            className="for_login_text"
           >
             Use your email or mobile number to continue with the organization.
           </p>
@@ -40,13 +40,7 @@ const LoginOption = () => {
             >
               <IoMdMail style={{ height: "25px", width: "25px" }} />
               <p
-                style={{
-                  margin: "0px",
-                  fontSize: "20px",
-                  fontWeight: 500,
-                  paddingLeft: "25px",
-                }}
-              >
+                className="for_loginOption_text">
                 Continue with email
               </p>
             </div>
@@ -57,14 +51,7 @@ const LoginOption = () => {
               <FaMobileAlt
                 style={{ height: "25px", width: "25px", marginRight: "10px" }}
               />
-              <p
-                style={{
-                  margin: "0px",
-                  fontSize: "20px",
-                  fontWeight: 500,
-                  paddingLeft: "25px",
-                }}
-              >
+              <p className="for_loginOption_text">
                 Log in with mobile
               </p>
             </div>

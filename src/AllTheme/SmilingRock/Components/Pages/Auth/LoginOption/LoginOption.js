@@ -55,10 +55,10 @@ const LoginOption = () => {
                             <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
                         </div> */}
             {/* for kAYRA CRAETEION NEEDED */}
-            {/* <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
-                            <FaMobileAlt className='FaMobileAlt_fg' style={{ height: '25px', width: '25px', marginRight: '10px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
-                        </div> */}
+            <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
+              <FaMobileAlt className='FaMobileAlt_fg' style={{ height: '25px', width: '25px', marginRight: '10px' }} />
+              <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
+            </div>
           </div>
           <p
             style={{

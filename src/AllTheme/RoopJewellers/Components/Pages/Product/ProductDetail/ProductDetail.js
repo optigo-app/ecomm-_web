@@ -1914,12 +1914,12 @@ const ProductDetail = () => {
                                   <Checkbox
                                     icon={
                                       <StarBorderIcon
-                                        sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                        sx={{ fontSize: "25px", color: "#D14A61" }}
                                       />
                                     }
                                     checkedIcon={
                                       <StarIcon
-                                        sx={{ fontSize: "25px", color: "#7d7f85" }}
+                                        sx={{ fontSize: "25px", color: "#D14A61" }}
                                       />
                                     }
                                     disableRipple={true}
