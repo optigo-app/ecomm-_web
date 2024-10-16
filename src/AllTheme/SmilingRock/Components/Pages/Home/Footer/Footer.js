@@ -40,6 +40,7 @@ const Footer = ({ fromPage }) => {
     }
   }, []);
 
+  
   useEffect(() => {
     let localD = JSON?.parse(sessionStorage?.getItem('storeInit'));
     setLocalData(localD);

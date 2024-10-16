@@ -9,7 +9,7 @@ const TheDifference = () => {
 
     useEffect(() => {
         fetch(`${storImagePath()}/html/smrTheDeffrence.html`)
-            // fetch(`${storImagePath()}/html/MdJewells.html`)   /*for maiora */
+        // fetch(`${storImagePath()}/html/MdJewells.html`)   /*for maiora */
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

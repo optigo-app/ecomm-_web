@@ -57,11 +57,7 @@ const LetterImage = `${storImagePath()}/Forevery/letter-diamond-menu-banner.png`
 const BespokeImage = `${storImagePath()}/Forevery/collections/bespoke-header.webp`;
 
 const BespokeBannerImage = `${storImagePath()}/Forevery/bespoke.jpg`;
-console.log(BespokeBannerImage,"hi")
-
-
-
-
+console.log(BespokeBannerImage, "hi");
 
 // \\evo\My_Share\4Nidhi\website\forevery\bespoke photo.jpg
 const Navbar = () => {
@@ -260,7 +256,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setshowMenu(false);
-    setOpen(false)
+    setOpen(false);
   }, [location]);
 
   const { navRef, navbarHeight, handleLogoLoad } = UseNavbar();
@@ -620,6 +616,11 @@ const NavbarLeft = ({
 }) => {
   const Navigate = useNavigate();
   const NavItemsHeight = height - 25;
+  const [storeinit, setstoreinit] = useState(null);
+  useEffect(() => {
+    let storeInt = JSON.parse(sessionStorage?.getItem("storeInit"));
+    setstoreinit(storeInt);
+  }, []);
   return (
     <>
       <div className="left">
@@ -628,12 +629,16 @@ const NavbarLeft = ({
           <MobileLogo onLoad={onLoad} Navigate={Navigate} />
         </div>
         {NavbarMenu?.map((val, i) => {
+          if (val?.category === "High End Jewelry" && storeinit?.IsB2BWebsite !== 1) {
+            return null; 
+          }
           return (
             <div
               className="for_menu_items"
               key={i}
               style={{
                 height: `${NavItemsHeight}px`,
+                display: val?.category === "High End Jewelry" ? (storeinit?.IsB2BWebsite === 1 ? "" : "none") : "",
               }}
               // onMouseOver={() => {
               //   setActiveMenu({ menu: val, index: i });
@@ -662,7 +667,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-            // }}
+              // }}
             >
               {val?.disabled ? (
                 <div
@@ -1310,10 +1315,28 @@ const ThirdNavMenu = ({ data }) => {
             return (
               hasValidSubMenu && (
                 <div key={menuItem.menuid} className="main_menu_for">
-                  <div className="menu-title" onClick={(e) => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, {}, {}, e)}>
-                    <Link to={`/p/${menuItem?.menuname}/?M=${btoa(
-                      `${menuItem?.param0dataname}/${menuItem?.param0name}`
-                    )}`}>{menuItem.menuname}</Link>
+                  <div
+                    className="menu-title"
+                    onClick={(e) =>
+                      handelMenu(
+                        {
+                          menuname: menuItem?.menuname,
+                          key: menuItem?.param0name,
+                          value: menuItem?.param0dataname,
+                        },
+                        {},
+                        {},
+                        e
+                      )
+                    }
+                  >
+                    <Link
+                      to={`/p/${menuItem?.menuname}/?M=${btoa(
+                        `${menuItem?.param0dataname}/${menuItem?.param0name}`
+                      )}`}
+                    >
+                      {menuItem.menuname}
+                    </Link>
                   </div>
                   <ul className="sub-menu-for">
                     {menuItem?.param1[0]?.param1name !== "" &&
@@ -1322,14 +1345,30 @@ const ThirdNavMenu = ({ data }) => {
                           key={subMenuItem.param1dataid}
                           className="sub-menu-item-for"
                           onClick={(e) =>
-                            handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, {}, e
+                            handelMenu(
+                              {
+                                menuname: menuItem?.menuname,
+                                key: menuItem?.param0name,
+                                value: menuItem?.param0dataname,
+                              },
+                              {
+                                key: subMenuItem.param1name,
+                                value: subMenuItem.param1dataname,
+                              },
+                              {},
+                              e
                             )
                           }
                         >
-                          <Link to={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                          <Link
+                            to={`/p/${menuItem?.param0dataname}/${
+                              subMenuItem.param1dataname
                             }/?M=${btoa(
                               `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
-                            )}`}>{subMenuItem.param1dataname}</Link>
+                            )}`}
+                          >
+                            {subMenuItem.param1dataname}
+                          </Link>
                           {/* <ul className="nested-menu">
                        {subMenuItem.param2.map((subSubMenuItem) => (
                            <li key={subSubMenuItem.param2dataid} className="nested-menu-item">
@@ -1351,11 +1390,15 @@ const ThirdNavMenu = ({ data }) => {
               className="images"
               // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
             >
-              <img src={BespokeBannerImage} alt="" onClick={() =>
+              <img
+                src={BespokeBannerImage}
+                alt=""
+                onClick={() =>
                   Navigate(
                     `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
                   )
-                } />
+                }
+              />
               {/* <div className="for-s-card">
                 <h3>Bespoke Jewlery</h3>
                 <button

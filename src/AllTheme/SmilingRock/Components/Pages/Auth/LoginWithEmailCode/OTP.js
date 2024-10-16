@@ -9,9 +9,7 @@ function OTP({
   onChange,
   onSubmit, // Add onSubmit prop
 }) {
-  // Initialize inputRefs without TypeScript types
   const inputRefs = React.useRef(new Array(length).fill(null));
-
   React.useEffect(() => {
     if (inputRefs.current[0]) {
       inputRefs.current[0].focus();
