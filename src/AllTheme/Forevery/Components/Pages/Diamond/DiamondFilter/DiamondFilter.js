@@ -836,7 +836,7 @@ const DiamondFilter = () => {
       <DiamondPage />
       <ScrollTop />
       <div className="for_DiamondFilter">
-      <Drawer
+        <Drawer
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
@@ -855,190 +855,186 @@ const DiamondFilter = () => {
             className="box_mui_wrapper"
             sx={{
               width: {
-                xs: 315,   
-                sm: 600,      
-                md: 800,      
-                lg: 1000,      
-                xl: 1200       
-              }
+                xs: 315,
+                sm: 600,
+                md: 800,
+                lg: 1000,
+                xl: 1200,
+              },
             }}
           >
-            <div onClick={()=>setIsDrawerOpen(false)} className="close_bar_forevery">
-              <button><IoClose size={28}/></button>
-            </div>
-            <div className="heading">
-          <h2>select the diamond shape</h2>
-          <div className="shape_list">
-            {DiamondLists?.slice(0, 10)?.map((val) => (
-              <label
-                htmlFor={val?.name}
-                key={val?.name}
-                onClick={() => setshow(false)}
-              >
-                <input
-                  hidden
-                  type="checkbox"
-                  name="shape"
-                  className="input-checked-box"
-                  id={val?.name}
-                  checked={checkedItem === val?.name}
-                  onChange={() => {
-                    if (
-                      steps1?.[0]?.step1 == true &&
-                      stepsData2?.[0]?.step1Data?.id > 0
-                    ) {
-                      return;
-                    } else {
-                      handleCheckboxChange(val?.name);
-                    }
-                  }}
-                />
-                <div
-                  className={`shape_card ${
-                    checkedItem === val?.name
-                      ? "active-checked"
-                      : `${
-                          steps1?.[0]?.step1 == true &&
-                          stepsData2?.[0]?.step1Data?.id > 0
-                            ? "blue-unchecked"
-                            : ""
-                        }`
-                  }`}
-                  id={val?.name}
-                >
-                  <img src={val?.img} alt={val?.name} />
-                  <span
-                    style={{
-                      fontWeight: checkedItem === val?.name ? "800" : "500",
-                    }}
-                  >
-                    {val?.name}
-                  </span>
-                </div>
-              </label>
-            ))}
             <div
-              className="extra_shape_menu"
-              style={{
-                height: show && "180px",
-                backgroundColor: "white",
-              }}
+              onClick={() => setIsDrawerOpen(false)}
+              className="close_bar_forevery"
             >
-              {DiamondLists?.slice(10, 13)?.map((val) => (
-                <label
-                  htmlFor={val?.name}
-                  className="extra_shape"
-                  key={val?.name}
-                >
-                  <div id={val?.name} className="shape">
-                    <img src={val?.img} alt={val?.name} />
-                    <span
-                      style={{
-                        fontWeight: checkedItem === val?.name ? "800" : "500",
-                      }}
-                    >
-                      {val?.name}
-                    </span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    name="shape"
-                    className="input-checked-box"
-                    id={val?.name}
-                    checked={checkedItem === val?.name}
-                    onChange={() => {
-                      if (
-                        steps1?.[0]?.step1 == true &&
-                        stepsData2?.[0]?.step1Data?.id > 0
-                      ) {
-                        return;
-                      } else {
-                        handleCheckboxChange(val?.name);
-                      }
-                    }}
-                  />
-                </label>
-              ))}
-            </div>
-            <div className="more" onClick={() => setshow(!show)}>
               <button>
-                More <FaChevronDown />
+                <IoClose size={28} />
               </button>
             </div>
-          </div>
-        </div>
-        <div className="filter_Head">
-          <div className="for_price">
-            <span onClick={() => handleOpen("price")}>
-              price 
-            </span>
-            <CollectionPriceRange
-              data={sliderState.price}
-              ref={(el) => (dropdownRefs.current["price"] = el)}
-              handleSliderChange={(newValue) =>
-                handleSliderChange("price", newValue)
-              }
-              open={true}
-              priceVal={FilterApiOptions?.price}
-            />
-          </div>
-          <div className="for_Color">
-            <span onClick={() => handleOpen("Color")}>
-              Color 
-            </span>
-            <CollectionColor
-              handleSliderChange={(newValue, min, max) =>
-                handleSliderChange("Color", newValue, min, max)
-              }
-              data={sliderState?.Color}
-              ref={(el) => (dropdownRefs.current["Color"] = el)}
-              open={true}
-              ColorVal={FilterApiOptions?.Color}
-            />
-          </div>
-          <div className="for_Carat">
-            <span onClick={() => handleOpen("Carat")}>
-              Carat 
-            </span>
-            <CollectionCaratRange
-              open={true}
-              handleSliderChange={(newValue) =>
-                handleSliderChange("Carat", newValue)
-              }
-              data={sliderState?.Carat}
-              ref={(el) => (dropdownRefs.current["Carat"] = el)}
-              CaratVal={FilterApiOptions?.carat}
-            />
-          </div>
-          <div className="for_Clarity">
-            <span onClick={() => handleOpen("Clarity")}>
-              Clarity 
-            </span>
-            <CollectionClarity
-              open={true}
-              handleSliderChange={(newValue, min, max) =>
-                handleSliderChange("Clarity", newValue, min, max)
-              }
-              ref={(el) => (dropdownRefs.current["Clarity"] = el)}
-              data={sliderState?.Clarity}
-              ClarityVal={FilterApiOptions?.Clarity}
-            />
-          </div>
-          <div className="for_Cut">
-            <span onClick={() => handleOpen("Cut")}>
-              Cut 
-            </span>
-            <CollectionCut
-              open={true}
-              data={sliderState?.Cut}
-              handleSliderChange={(newValue, min, max) =>
-                handleSliderChange("Cut", newValue, min, max)
-              }
-              ref={(el) => (dropdownRefs.current["Cut"] = el)}
-              CutVal={FilterApiOptions?.Cut}
-            />
-          </div>
-        </div>
+            <div className="heading">
+              <h2>select the diamond shape</h2>
+              <div className="shape_list">
+                {DiamondLists?.slice(0, 10)?.map((val) => (
+                  <label
+                    htmlFor={val?.name}
+                    key={val?.name}
+                    onClick={() => setshow(false)}
+                  >
+                    <input
+                      hidden
+                      type="checkbox"
+                      name="shape"
+                      className="input-checked-box"
+                      id={val?.name}
+                      checked={checkedItem === val?.name}
+                      onChange={() => {
+                        if (
+                          steps1?.[0]?.step1 == true &&
+                          stepsData2?.[0]?.step1Data?.id > 0
+                        ) {
+                          return;
+                        } else {
+                          handleCheckboxChange(val?.name);
+                        }
+                      }}
+                    />
+                    <div
+                      className={`shape_card ${
+                        checkedItem === val?.name
+                          ? "active-checked"
+                          : `${
+                              steps1?.[0]?.step1 == true &&
+                              stepsData2?.[0]?.step1Data?.id > 0
+                                ? "blue-unchecked"
+                                : ""
+                            }`
+                      }`}
+                      id={val?.name}
+                    >
+                      <img src={val?.img} alt={val?.name} />
+                      <span
+                        style={{
+                          fontWeight: checkedItem === val?.name ? "800" : "500",
+                        }}
+                      >
+                        {val?.name}
+                      </span>
+                    </div>
+                  </label>
+                ))}
+                <div
+                  className="extra_shape_menu"
+                  style={{
+                    height: show && "180px",
+                    backgroundColor: "white",
+                  }}
+                >
+                  {DiamondLists?.slice(10, 13)?.map((val) => (
+                    <label
+                      htmlFor={val?.name}
+                      className="extra_shape"
+                      key={val?.name}
+                    >
+                      <div id={val?.name} className="shape">
+                        <img src={val?.img} alt={val?.name} />
+                        <span
+                          style={{
+                            fontWeight:
+                              checkedItem === val?.name ? "800" : "500",
+                          }}
+                        >
+                          {val?.name}
+                        </span>
+                      </div>
+                      <input
+                        type="checkbox"
+                        name="shape"
+                        className="input-checked-box"
+                        id={val?.name}
+                        checked={checkedItem === val?.name}
+                        onChange={() => {
+                          if (
+                            steps1?.[0]?.step1 == true &&
+                            stepsData2?.[0]?.step1Data?.id > 0
+                          ) {
+                            return;
+                          } else {
+                            handleCheckboxChange(val?.name);
+                          }
+                        }}
+                      />
+                    </label>
+                  ))}
+                </div>
+                <div className="more" onClick={() => setshow(!show)}>
+                  <button>
+                    More <FaChevronDown />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="filter_Head">
+              <div className="for_price">
+                <span onClick={() => handleOpen("price")}>price</span>
+                <CollectionPriceRange
+                  data={sliderState.price}
+                  ref={(el) => (dropdownRefs.current["price"] = el)}
+                  handleSliderChange={(newValue) =>
+                    handleSliderChange("price", newValue)
+                  }
+                  open={true}
+                  priceVal={FilterApiOptions?.price}
+                />
+              </div>
+              <div className="for_Color">
+                <span onClick={() => handleOpen("Color")}>Color</span>
+                <CollectionColor
+                  handleSliderChange={(newValue, min, max) =>
+                    handleSliderChange("Color", newValue, min, max)
+                  }
+                  data={sliderState?.Color}
+                  ref={(el) => (dropdownRefs.current["Color"] = el)}
+                  open={true}
+                  ColorVal={FilterApiOptions?.Color}
+                />
+              </div>
+              <div className="for_Carat">
+                <span onClick={() => handleOpen("Carat")}>Carat</span>
+                <CollectionCaratRange
+                  open={true}
+                  handleSliderChange={(newValue) =>
+                    handleSliderChange("Carat", newValue)
+                  }
+                  data={sliderState?.Carat}
+                  ref={(el) => (dropdownRefs.current["Carat"] = el)}
+                  CaratVal={FilterApiOptions?.carat}
+                />
+              </div>
+              <div className="for_Clarity">
+                <span onClick={() => handleOpen("Clarity")}>Clarity</span>
+                <CollectionClarity
+                  open={true}
+                  handleSliderChange={(newValue, min, max) =>
+                    handleSliderChange("Clarity", newValue, min, max)
+                  }
+                  ref={(el) => (dropdownRefs.current["Clarity"] = el)}
+                  data={sliderState?.Clarity}
+                  ClarityVal={FilterApiOptions?.Clarity}
+                />
+              </div>
+              <div className="for_Cut">
+                <span onClick={() => handleOpen("Cut")}>Cut</span>
+                <CollectionCut
+                  open={true}
+                  data={sliderState?.Cut}
+                  handleSliderChange={(newValue, min, max) =>
+                    handleSliderChange("Cut", newValue, min, max)
+                  }
+                  ref={(el) => (dropdownRefs.current["Cut"] = el)}
+                  CutVal={FilterApiOptions?.Cut}
+                />
+              </div>
+            </div>
           </Box>
         </Drawer>
         <div className="heading">
@@ -1407,6 +1403,7 @@ const DiamondFilter = () => {
                               src={val?.img}
                               alt="bannerImage"
                               width={"100%"}
+                              loading="lazy"
                             />
                           ) : (
                             <>
@@ -1424,20 +1421,32 @@ const DiamondFilter = () => {
                                       onMouseLeave={(e) =>
                                         handleMouseLeave(e, i)
                                       }
+                                      loading="lazy"
                                       onClick={() => HandleDiamondRoute(val)}
                                     />
-                                  ) : (
+                                  ) : val?.image_file_url !== "" ? (
                                     <img
                                       className="dimond-info-img"
                                       src={val?.image_file_url}
                                       alt=""
                                       onClick={() => HandleDiamondRoute(val)}
+                                      loading="lazy"
                                     />
+                                  ) : (
+                                    <>
+                                      <img
+                                        src={val?.img}
+                                        alt="bannerImage"
+                                        width={"100%"}
+                                        loading="lazy"
+                                      />
+                                    </>
                                   )}
                                 </>
                               ) : (
                                 <img
                                   className="dimond-info-img"
+                                  loading="lazy"
                                   src={val?.img}
                                   alt=""
                                   onClick={() => HandleDiamondRoute(val)}
@@ -1460,6 +1469,7 @@ const DiamondFilter = () => {
                                 <img
                                   src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
                                   alt=""
+                                  loading="lazy"
                                 />
                               </span>
                               <span onClick={() => HandleMedia("vid", i)}>

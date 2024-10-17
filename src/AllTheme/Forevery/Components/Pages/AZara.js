@@ -93,7 +93,7 @@ export default function ZaraStyleSlider() {
                 const index = Math.floor(
                   (scrollTop / totalScrollableHeight) * (products.length - 1)
                 );
-                if (scrollTop > clientHeight * 0.2) {
+                if (scrollTop > clientHeight * 0.8) {
                   handleScroll(index);
                 }
               }}
@@ -103,7 +103,7 @@ export default function ZaraStyleSlider() {
                 className="zara_slider_card"
                   key={title}
                   initial={{ scale: 1 }}
-                  animate={{ scale: scrollIndex === index && scrollIndex !== -1 ? 0.92 : 1 }} 
+                  animate={{ scale: scrollIndex === index && scrollIndex !== -1 ? 0.96 : 1 }} 
                   transition={{
                     repeatType: "easeInOut",
                     duration: 0.4, 
