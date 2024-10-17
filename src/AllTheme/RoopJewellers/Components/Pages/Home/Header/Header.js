@@ -400,7 +400,7 @@ const Header = () => {
     }, 500);
   };
 
-  const handleContextMenu = (e) => {};
+  const handleContextMenu = (e) => { };
 
   const handleMouseDown = (e) => {
     // console.log("rrrrrrrrrrrrrrrrrrr", e);
@@ -535,6 +535,8 @@ const Header = () => {
                               height: "20px",
                               cursor: "pointer",
                               width: "20px",
+                              fontWeight: "600",
+                              color: "#D14A61"
                             }}
                           />
                         </li>
@@ -558,7 +560,7 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix"
+                      className="badgeColorFix roop_mobileHideIcone"
                       style={{ marginInline: "15px" }}
                     >
                       <Tooltip title="Cart">
@@ -901,9 +903,10 @@ const Header = () => {
                   <Badge
                     badgeContent={wishCountNum}
                     max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    className="badgeColorFix roop_mobileHideIcone"
+                    overlap="rectangular"
+                    color="primary"
+                    style={{ backgroundColor: '#D14A61', color: '#fff' }}
+                    className="badgeColorFix roop_mobileHideIcone custom-badge"
                   >
                     <Tooltip title="WishList">
                       <li
@@ -915,6 +918,8 @@ const Header = () => {
                             height: "20px",
                             cursor: "pointer",
                             width: "20px",
+                            // fontWeight: "600",
+                            // color: "#D14A61",
                           }}
                         />
                       </li>
@@ -938,7 +943,7 @@ const Header = () => {
                     max={1000}
                     overlap={"rectangular"}
                     color="secondary"
-                    className="badgeColorFix"
+                    className="badgeColorFix roop_mobileHideIcone"
                   >
                     <Tooltip title="Cart">
                       <li
@@ -982,7 +987,7 @@ const Header = () => {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
-                      className="badgeColorFix"
+                      className="badgeColorFix roop_mobileHideIcone"
                     >
                       <Tooltip title="Cart">
                         <li
@@ -1493,9 +1498,8 @@ const Header = () => {
         <div
           onMouseEnter={handleDropdownOpen}
           onMouseLeave={handleDropdownClose}
-          className={`roop_shop_dropdown ${isDropdownOpen ? "open" : ""} ${
-            isHeaderFixed ? "fixed" : ""
-          }`}
+          className={`roop_shop_dropdown ${isDropdownOpen ? "open" : ""} ${isHeaderFixed ? "fixed" : ""
+            }`}
           style={{ backgroundColor: isHeaderFixed && "transparent" }}
         >
           <div
@@ -1545,13 +1549,13 @@ const Header = () => {
                         `${menuItem?.param0dataname}/${menuItem?.param0name}`
                       )}`}
                       className="roop_menuSubTitle"
-                      // onClick={() =>
-                      //   handelMenu({
-                      //     menuname: menuItem?.menuname,
-                      //     key: menuItem?.param0name,
-                      //     value: menuItem?.param0dataname,
-                      //   })
-                      // }
+                    // onClick={() =>
+                    //   handelMenu({
+                    //     menuname: menuItem?.menuname,
+                    //     key: menuItem?.param0name,
+                    //     value: menuItem?.param0dataname,
+                    //   })
+                    // }
                     >
                       <p className="muilistMenutext">{menuItem.menuname}</p>
                     </a>
@@ -1594,14 +1598,13 @@ const Header = () => {
                           >
                             {/* <a href='#' className='roop_menuSubTitle'> */}
                             <a
-                              href={`/p/${menuItem?.menuname}/${
-                                menuItem?.param0dataname
-                              }/${subMenuItem.param1dataname}/?M=${btoa(
-                                `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
-                              )}`}
+                              href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                                }/${subMenuItem.param1dataname}/?M=${btoa(
+                                  `${menuItem?.param0dataname},${subMenuItem.param1dataname}/${menuItem?.param0name},${subMenuItem.param1name}`
+                                )}`}
                               className="roop_menuSubTitle"
 
-                              // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
+                            // onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                             >
                               <p
                                 style={{
@@ -1645,31 +1648,29 @@ const Header = () => {
                                   }
                                 >
                                   <a
-                                    href={`/p/${menuItem?.menuname}/${
-                                      menuItem?.param0dataname
-                                    }/${subMenuItem.param1dataname}/${
-                                      subSubMenuItem.param2dataname
-                                    }/?M=${btoa(
-                                      `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
-                                    )}`}
+                                    href={`/p/${menuItem?.menuname}/${menuItem?.param0dataname
+                                      }/${subMenuItem.param1dataname}/${subSubMenuItem.param2dataname
+                                      }/?M=${btoa(
+                                        `${menuItem?.param0dataname},${subMenuItem.param1dataname},${subSubMenuItem.param2dataname}/${menuItem?.param0name},${subMenuItem.param1name},${subSubMenuItem.param2name}`
+                                      )}`}
                                     className="roop_menuSubTitle"
-                                    // onClick={() =>
-                                    //   handelMenu(
-                                    //     {
-                                    //       menuname: menuItem?.menuname,
-                                    //       key: menuItem?.param0name,
-                                    //       value: menuItem?.param0dataname,
-                                    //     },
-                                    //     {
-                                    //       key: subMenuItem.param1name,
-                                    //       value: subMenuItem.param1dataname,
-                                    //     },
-                                    //     {
-                                    //       key: subSubMenuItem.param2name,
-                                    //       value: subSubMenuItem.param2dataname,
-                                    //     }
-                                    //   )
-                                    // }
+                                  // onClick={() =>
+                                  //   handelMenu(
+                                  //     {
+                                  //       menuname: menuItem?.menuname,
+                                  //       key: menuItem?.param0name,
+                                  //       value: menuItem?.param0dataname,
+                                  //     },
+                                  //     {
+                                  //       key: subMenuItem.param1name,
+                                  //       value: subMenuItem.param1dataname,
+                                  //     },
+                                  //     {
+                                  //       key: subSubMenuItem.param2name,
+                                  //       value: subSubMenuItem.param2dataname,
+                                  //     }
+                                  //   )
+                                  // }
                                   >
                                     {/* <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '0px', paddingTop: '0px', paddingBottom: '0px' }}> */}
                                     <p className="muilist2ndSubMenutext">

@@ -321,19 +321,22 @@ const ProductDetail = () => {
         let diaArr
         let csArr
 
+        let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
+        let logininfoInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
 
         if (mtTypeLocal?.length) {
           metalArr =
-            mtTypeLocal?.filter((ele) => ele?.Metalid == decodeobj?.m)[0] ??
-            mtTypeLocal[0];
+            mtTypeLocal?.filter((ele) => ele?.Metalid == (decodeobj?.m ? decodeobj?.m : (logininfoInside?.MetalId ?? storeinitInside?.MetalId)))[0]
         }
 
         if (diaQcLocal?.length) {
           diaArr =
             diaQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.d?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.d?.split(",")[1]
+                ele?.QualityId == (decodeobj?.d ? decodeobj?.d?.split(",")[0] :
+                  (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.d ? decodeobj?.d?.split(",")[1] : (logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid).split(",")[1])
             )[0] ?? diaQcLocal[0];
         }
 
@@ -341,11 +344,10 @@ const ProductDetail = () => {
           csArr =
             csQcLocal?.filter(
               (ele) =>
-                ele?.QualityId == decodeobj?.c?.split(",")[0] &&
-                ele?.ColorId == decodeobj?.c?.split(",")[1]
-            )[0] ?? csQcLocal[0];
+                ele?.QualityId == (decodeobj?.c ? decodeobj?.c?.split(",")[0] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[0]) &&
+                ele?.ColorId == (decodeobj?.c ? decodeobj?.c?.split(",")[1] : (logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid).split(",")[1])
+            )[0]
         }
-
         setMetaltype(metalArr?.metaltype);
 
         setSelectDiaQc(`${diaArr?.Quality},${diaArr?.color}`);
@@ -542,8 +544,7 @@ const ProductDetail = () => {
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
-        // csQc: `${csArr?.QualityId},${csArr?.ColorId}`,
-        csQc: csArr,
+        csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
       };
 
       setisPriceLoading(true);
@@ -1029,8 +1030,8 @@ const ProductDetail = () => {
       autocode: singleProd?.autocode ?? 0,
       Metalid: metal?.Metalid ?? 0,
       MetalColorId: `${(mcArr1 === mcArr?.id ? mcArr1 : (mcArr?.id ?? singleProd?.MetalColorid)) ?? 0}`,
-      DiaQCid: `${`${dia?.QualityId},${dia?.ColorId}` ?? '0,0'}`,
-      CsQCid: `${`${cs?.QualityId},${cs?.ColorId}` ?? '0,0'}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,
@@ -1097,8 +1098,8 @@ const ProductDetail = () => {
       autocode: singleProd?.autocode ?? 0,
       Metalid: metal?.Metalid ?? 0,
       MetalColorId: `${(mcArr?.id ?? singleProd?.MetalColorid) ?? 0}`,
-      DiaQCid: `${`${dia?.QualityId},${dia?.ColorId}` ?? '0,0'}`,
-      CsQCid: `${`${cs?.QualityId},${cs?.ColorId}` ?? '0,0'}`,
+      DiaQCid: `${dia?.QualityId ?? 0},${dia?.ColorId ?? 0}`,
+      CsQCid: `${cs?.QualityId ?? 0},${cs?.ColorId ?? 0}`,
       Size: sizeData ?? singleProd?.DefaultSize,
       Unitcost: singleProd1?.UnitCost ?? singleProd?.UnitCost,
       markup: singleProd1?.DesignMarkUp ?? singleProd?.DesignMarkUp,

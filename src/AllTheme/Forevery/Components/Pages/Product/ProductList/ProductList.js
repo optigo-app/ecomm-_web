@@ -254,31 +254,6 @@ const ProductList = () => {
 
   }, []);
 
-  useEffect(() => {
-    const videoElement = videoRef.current;
-
-    if (!videoElement) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            videoElement.play();
-          } else {
-            videoElement.pause();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(videoElement);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-
-
   const links = [
     {
       link: `${storImagePath()}/images/ProductListing/Banner/1.jpg`,
@@ -961,7 +936,6 @@ const ProductList = () => {
   };
 
   const handleMoveToDetail = (productData, metalColor) => {
-    console.log('metalColor: ', metalColor);
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
@@ -1362,12 +1336,13 @@ const ProductList = () => {
             </div>
             <div className="for_productList_listing_div">
               {isOnlyProdLoading ? <div className="for_global_spinner"></div> : (
-                productListData?.map((item) => {
+                productListData?.map((item, index) => {
                   const images = imageMap[item.designno] || {};
                   return (
                     <Product_Card
                       StyledRating={StyledRating}
                       productData={item}
+                      index={index}
                       ratingvalue={ratingvalue}
                       handleMetalColor={handleMetalColor}
                       metalColorType={metalColorType}
@@ -1649,6 +1624,7 @@ const Product_Card = ({
   StyledRating,
   productData,
   ratingvalue,
+  index,
   handleMetalColor,
   metalColorType,
   imageUrl,
@@ -1672,11 +1648,15 @@ const Product_Card = ({
 }) => {
 
   const [isHover, setIsHover] = useState(false);
+  const [hovered, setHovered] = useState(null);
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
-  const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
+  const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
+
   const activeColorCode = getSessImgColor || getSessCartWishImgColor;
+
+  const videoRefs = useRef([]);
 
   useEffect(() => {
     if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null)) {
@@ -1711,6 +1691,39 @@ const Product_Card = ({
   };
 
   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
+
+  const handleMouseEnter = (index) => {
+    setIsHover(true);
+
+    // Pause all video
+    // videoRefs.current.forEach((ref, i) => {
+    //   if (ref && i !== index) {
+    //     ref.pause();
+    //   }
+    // });
+
+    // Play the hovered video
+    if (videoRefs.current[index] && videoUrl !== undefined) {
+      videoRefs.current[index].play();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (videoUrl !== undefined) {
+      setIsHover(true);
+    }
+    else {
+      setIsHover(false);
+    }
+
+    // Pause all videos on mouse leave
+    videoRefs.current.forEach(ref => {
+      if (ref) {
+        ref.pause();
+      }
+    });
+  };
+
   return (
     <>
       <div className="for_productCard_mainDiv">
@@ -1734,29 +1747,29 @@ const Product_Card = ({
             {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
           <div className="for_productList_listing_card_image_div"
-            onMouseOver={() => setIsHover(true)}
-            onMouseOut={() => setIsHover(false)}
-            onMouseLeave={() => setIsHover(false)}
+            // onMouseOver={() => setIsHover(true)}
+            // onMouseOut={() => setIsHover(false)}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
             onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
           >
             {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
               <>
                 {videoUrl !== undefined ? (
                   <div className="for_rollup_video">
-                    <video loading={lazy} src={videoUrl} autoPlay muted loop ref={videoRef} />
+                    <video src={videoUrl} muted loop ref={(el) => (videoRefs.current[index] = el)} />
                   </div>
                 ) : null}
 
                 {videoUrl === undefined && RollImageUrl !== undefined ? (
                   <div className="for_rollup_img">
-                    <img loading={lazy} src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl} />
+                    <img src={selectedMetalColor === 1 ? yellowRollImage : selectedMetalColor === 2 ? whiteRollImage : selectedMetalColor === 3 ? roseRollImage : RollImageUrl} />
                   </div>
                 ) : null}
               </>
             ) : null}
             <img
               className="for_productList_listing_card_image"
-              loading={lazy}
               src={selectedMetalColor === 1 ? yellowImage : selectedMetalColor === 2 ? whiteImage : selectedMetalColor === 3 ? roseImage : imageUrl}
               onError={(e) => {
                 e.target.onerror = null;

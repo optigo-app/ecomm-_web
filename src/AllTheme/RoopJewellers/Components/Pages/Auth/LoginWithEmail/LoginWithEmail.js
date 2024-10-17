@@ -368,13 +368,13 @@ export default function LoginWithEmail() {
                             }}
                         />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <button className='rp_submitBtnForgot' onClick={handleSubmit}>Login</button>
 
-                        <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
-                        <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
+                        <button type='submit' className='rp_SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
+                        <p style={{ textAlign: 'center', marginTop: '15px' }}>Go passwordless! we'll send you an email.</p>
 
                         <p style={{ color: 'blue', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                        <Button className='rp_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

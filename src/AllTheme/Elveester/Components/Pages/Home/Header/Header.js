@@ -41,6 +41,7 @@ const Header = () => {
   const isTabletResponsive = useMediaQuery('(max-width:1000px)');
   const isDesktopResp = useMediaQuery('(max-width:1650px)');
   const isMobile = useMediaQuery('(max-width:425px)');
+  const IsB2BWebsiteChek = storeinit?.IsB2BWebsite;
 
 
   const compnyLogo = useRecoilValue(el_companyLogo);
@@ -50,13 +51,13 @@ const Header = () => {
   //   const value = JSON.parse(sessionStorage.getItem("LoginUser"));
   //   setislogin(value);
 
-    // if (titleImg) {
-    //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
-    //   setCompanyTitleLogo(storeInit?.companylogo);
-    // }
-    // setTimeout(() => {
-    //   setLodingLogo(false);
-    // }, 100);
+  // if (titleImg) {
+  //   const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   setCompanyTitleLogo(storeInit?.companylogo);
+  // }
+  // setTimeout(() => {
+  //   setLodingLogo(false);
+  // }, 100);
   // }, []);
 
   const GetCompanyLogo = async () => {
@@ -485,9 +486,6 @@ const Header = () => {
   return (
     <>
       <div className="el_header_main">
-        {/* <div className="elv_top_head_banner">
-        <Link>Explore our <div><span>Lookbook</span></div> to discover curated design sets</Link>
-      </div> */}
         {!islogin ? (
           isTabletResponsive ? (
             <>
@@ -620,6 +618,8 @@ const Header = () => {
                     )}
                   </a>
                   <ul className="el_login_header_main_div1_ul">
+                    {/* {IsB2BWebsiteChek == 1 && (
+                      <> */}
                     {menuItems.map((item, index) => {
                       return (
                         <li
@@ -649,6 +649,10 @@ const Header = () => {
                         </li>
                       );
                     })}
+                    {/* </>
+                    )} */}
+                    {/* {IsB2BWebsiteChek == 1 && (
+                      <> */}
                     {storeinit?.IsDesignSetInMenu == 1 && (
                       <Link
                         to={"/Lookbook"}
@@ -682,6 +686,8 @@ const Header = () => {
                         </small>
                         {storeinit?.DesignSetInMenu}
                       </Link>
+                      //   )}
+                      // </>
                     )}
                   </ul>
                 </div>
@@ -774,6 +780,8 @@ const Header = () => {
                       </div>
                     </li>
                     {/* </Tooltip> */}
+                    {/* {IsB2BWebsiteChek == 1 && islogin ? (
+                      <> */}
                     <Badge
                       badgeContent={wishCount}
                       max={1000}
@@ -821,6 +829,8 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
+                    {/* </>
+                    ) : null} */}
                   </>
                 )}
               </>
@@ -938,6 +948,8 @@ const Header = () => {
                   )}
                 </li>
               )}
+              {/* {storeinit?.IsPLW == 0 && (IsB2BWebsiteChek == 1 && islogin) ? (
+                <> */}
               <Tooltip title="Account">
                 <li
                   className="el_login_header_main_div2_li"
@@ -955,6 +967,9 @@ const Header = () => {
                   />
                 </li>
               </Tooltip>
+              {/* </>
+              ) : null} */}
+
               <li
                 className="el_login_header_main_div2_li"
                 style={{ cursor: "pointer", marginTop: "0" }}

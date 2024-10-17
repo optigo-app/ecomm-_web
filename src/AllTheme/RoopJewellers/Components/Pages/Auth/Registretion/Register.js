@@ -242,7 +242,7 @@ export default function Register() {
   };
 
   return (
-    <div className='smr_registerMain'>
+    <div className='roop_registerMain'>
       {isLoading && (
         <div className="loader-overlay">
           <CircularProgress className='loadingBarManage' />
@@ -309,7 +309,7 @@ export default function Register() {
             <TextField
               id="outlined-basic"
               label="Email"
-              autoComplete="smr_registerEmail"
+              autoComplete="roop_registerEmail"
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
@@ -389,7 +389,7 @@ export default function Register() {
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
+            <Button className='rp_SmilingSignInHere' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
           </div>
         </div>
       </div>

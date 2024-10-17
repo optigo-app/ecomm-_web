@@ -1,4 +1,6 @@
-.smr_loginmobileCodeMain {
+@import '../../../scss/variable.scss';
+
+.roop_loginmobileCodeMain {
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
         margin-left: 0px !important;
@@ -19,9 +21,6 @@
         margin-inline: 6%;
         background-color: white;
     }
-
- 
-
 
 
     .createBtnRegister {
@@ -70,19 +69,45 @@
         width: 100%;
     }
 
-    .submitBtnForgot {
+    .rp_submitBtnForgot {
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: $btnprimarycolor !important;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
+        cursor: pointer;
         font-weight: 500;
         letter-spacing: 1;
-        cursor: pointer;
         transition: all 0.5s ease;
     }
+
+    .rp_submitBtnForgot:hover {
+        transform: scale(1.02);
+    }
+
+    .rp_cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
+
+    .rp_cancleForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
+
 
     .submitBtnForgot:hover {
         background-color: white;
@@ -97,8 +122,8 @@
             padding-bottom: 50px !important;
         }
 
-        .AuthScreenSubTitle{
-            margin-top: -60px!important;
+        .AuthScreenSubTitle {
+            margin-top: -60px !important;
         }
     }
 
@@ -120,10 +145,10 @@
         }
     }
 
-    
+
     @media screen and (max-width: 500px) {
 
-        
+
         .submitBtnForgot {
             width: 90%;
             height: 40px !important;

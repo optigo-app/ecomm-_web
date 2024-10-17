@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const checkUserLogin = () => {
   const user = JSON.parse(sessionStorage.getItem("LoginUser"));
-  return !!user; 
+  return !!user;
 };
 
 const usePromotionalBanner = () => {
@@ -11,26 +11,27 @@ const usePromotionalBanner = () => {
 
   const handleCloseBanner = () => {
     setOpenPromotionalBanner(false);
-    checkLoginAndShowBanner(); 
+    checkLoginAndShowBanner();
   };
 
   const checkLoginAndShowBanner = () => {
     const userLoggedIn = checkUserLogin();
-    
+
     if (!userLoggedIn) {
       const newTimer = setTimeout(() => {
         setOpenPromotionalBanner(true);
-      }, 15000);
+      }, 3600000);
+      // }, 15000);
       setTimer(newTimer);
     }
   };
 
   useEffect(() => {
-    checkLoginAndShowBanner(); 
+    checkLoginAndShowBanner();
 
     return () => {
       if (timer) {
-        clearTimeout(timer); 
+        clearTimeout(timer);
       }
     };
   }, []);

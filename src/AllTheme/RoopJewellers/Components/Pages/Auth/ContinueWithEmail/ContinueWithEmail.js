@@ -26,7 +26,7 @@ export default function ContinueWithEmail() {
 
     useEffect(() => {
         setCSSVariable();
-    },[])
+    }, [])
     const validateEmail = (email) => {
         // const regex = /^[a-zA-Z][\w@$&#]*@[a-zA-Z]+\.[a-zA-Z]+(\.[a-zA-Z]+)?$/;
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,10 +50,10 @@ export default function ContinueWithEmail() {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
         const backgroundColor = storeInit?.IsPLW == 1 ? "#c4cfdb" : "#c0bbb1";
         document.documentElement.style.setProperty(
-          "--background-color",
-          backgroundColor
+            "--background-color",
+            backgroundColor
         );
-      };
+    };
 
 
 
@@ -113,7 +113,7 @@ export default function ContinueWithEmail() {
     };
 
     return (
-        <div className='stam_continuemail'>
+        <div className='roop_continuemail'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -173,7 +173,7 @@ export default function ContinueWithEmail() {
                         </button> */}
 
                         <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <button type='submit' className='rp_cancleForgot' onClick={() => navigation(cancelRedireactUrl)}>CANCEL</button>
                     </div>
                 </div>
             </div>

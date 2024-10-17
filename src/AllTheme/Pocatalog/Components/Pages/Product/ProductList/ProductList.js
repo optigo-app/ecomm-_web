@@ -843,7 +843,7 @@ const ProductList = () => {
 
   const handleCartandWish = (e, ele, type) => {
 
-    console.log("event",e.target.checked)
+    console.log("event", e.target.checked)
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     let prodObj = {
@@ -1001,8 +1001,8 @@ const ProductList = () => {
       f: output,
       // n: decodeURI(extractedPart)
       n: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ?? "",
-      pl:prodListType ?? "",
-      sb:sortBySelect ?? ""
+      pl: prodListType ?? "",
+      sb: sortBySelect ?? ""
     };
 
     console.log("selectedMetalId", obj);
@@ -1807,7 +1807,9 @@ const ProductList = () => {
                       </>
                     )}
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span
+                  // onClick={() => handelFilterClearAll()}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0 ? (
                       "Clear All"
@@ -2456,7 +2458,7 @@ const ProductList = () => {
                   <div className="smr_mainPortion">
                     <div
                       className="smr_filter_portion"
-                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%', display:'none',width:'0%'}}
+                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%', display: 'none', width: '0%' }}
                     >
                       {filterData?.length > 0 && <div
                         className="proCat_topTitleList"
@@ -2504,7 +2506,9 @@ const ProductList = () => {
                                 </>
                               )}
                             </span>
-                            <span onClick={() => handelFilterClearAll()}>
+                            <span
+                            //  onClick={() => handelFilterClearAll()}
+                             >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0 ? (
@@ -2983,7 +2987,7 @@ const ProductList = () => {
                       </div>
                     ) : (
                       // <div className="smr_productList" style={{ width: filterData?.length <= 0 && '100%', margin: filterData?.length <= 0 && '20px 50px 0px 65px' }}>
-                      <div className="procat_productList" style={{ width: '100%'}}>
+                      <div className="procat_productList" style={{ width: '100%' }}>
                         {isOnlyProdLoading ? (
                           <ProductListSkeleton
                             fromPage={"Prodlist"}
@@ -2992,26 +2996,26 @@ const ProductList = () => {
                         ) : (
                           <>
                             <div className="smr_main_sorting_div_proCat">
-                            <div
-                                  className="proCat_topTitleList"
-                                  style={{ display: "flex", alignItems: "center" }}
-                                >
-                                  <div className="proCat_mpty_sorting_div_NoData">
-                                    <IoArrowBack
-                                      style={{
-                                        height: "25px",
-                                        width: "25px",
-                                        cursor: "pointer",
-                                        color: "rgba(143, 140, 139, 0.9019607843)",
-                                      }}
-                                      onClick={() => navigate("/")}
-                                    />
-                                  </div>
-                                  <p className="proCat_NameTopShow">
-                                    {/* {decodeURI(extractedPart)} */}
-                                    {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
-                                  </p>
+                              <div
+                                className="proCat_topTitleList"
+                                style={{ display: "flex", alignItems: "center" }}
+                              >
+                                <div className="proCat_mpty_sorting_div_NoData">
+                                  <IoArrowBack
+                                    style={{
+                                      height: "25px",
+                                      width: "25px",
+                                      cursor: "pointer",
+                                      color: "rgba(143, 140, 139, 0.9019607843)",
+                                    }}
+                                    onClick={() => navigate("/")}
+                                  />
                                 </div>
+                                <p className="proCat_NameTopShow">
+                                  {/* {decodeURI(extractedPart)} */}
+                                  {decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0])}
+                                </p>
+                              </div>
                               <div
                                 className="proCat_topTitleList_mobile"
                                 style={{
@@ -3120,7 +3124,7 @@ const ProductList = () => {
                                 {finalProductListData?.map((productData, i) => (
                                   <div className={filterData?.length <= 0 ? "smr_productCard_noFil" : "procat_productCard"}>
 
-                                    <div className="cart_and_wishlist_icon" style={{display:'none'}}>
+                                    <div className="cart_and_wishlist_icon" style={{ display: 'none' }}>
                                       {/* <Checkbox
                                         icon={
                                           <LocalMallOutlinedIcon
@@ -3195,7 +3199,7 @@ const ProductList = () => {
                                       {/* </Button> */}
                                     </div>
 
-                                    
+
 
                                     <div
                                       onMouseEnter={() => {
@@ -3273,22 +3277,22 @@ const ProductList = () => {
                                         />
                                       )}
 
-                                      <div className="proCat_app_product_label" style={{bottom:'0px'}}>
-                                      {productData?.StatusId == 1 ? (
-                                        <span className="proCat_app_instock">
-                                          In Stock
-                                        </span>
-                                      ) : productData?.StatusId == 2 ? (
-                                        <span className="proCat_app_MEMO">
-                                          In memo
-                                        </span>
-                                      ) : (
-                                        <span className="proCat_app_Make_to_order">
-                                          Make To Order
-                                        </span>
-                                      )}
+                                      <div className="proCat_app_product_label" style={{ bottom: '0px' }}>
+                                        {productData?.StatusId == 1 ? (
+                                          <span className="proCat_app_instock">
+                                            In Stock
+                                          </span>
+                                        ) : productData?.StatusId == 2 ? (
+                                          <span className="proCat_app_MEMO">
+                                            In memo
+                                          </span>
+                                        ) : (
+                                          <span className="proCat_app_Make_to_order">
+                                            Make To Order
+                                          </span>
+                                        )}
 
-                                      {/* {productData?.StatusId == 1 && (
+                                        {/* {productData?.StatusId == 1 && (
                                         <span className="proCat_app_instock">
                                           In Stock
                                         </span>
@@ -3298,68 +3302,68 @@ const ProductList = () => {
                                           In memo
                                         </span>
                                       )} */}
-                                      {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
+                                        {/* {productData?.IsBestSeller == 1 && <span className="smr_app_bestSeller">Best Seller</span>}
                                         {productData?.IsTrending == 1 && <span className="smr_app_intrending">Trending</span>}
                                         {productData?.IsNewArrival == 1 && <span className="smr_app_newarrival">New</span>} */}
-                                    </div>
+                                      </div>
                                     </div>
 
-                                      <FormControlLabel
-                                        control={
-                                          <Checkbox
-                                        icon={
-                                          <LocalMallOutlinedIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "white",
-                                            }}
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <LocalMallIcon
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#474747d1",
-                                            }}
-                                          />
-                                          // <LocalMallIcon
-                                          //   sx={{
-                                          //     fontSize: "22px",
-                                          //     color: "red",
-                                          //   }}
-                                          // />
-                                        }
-                                        disableRipple={false}
-                                        onChange={(e) =>
-                                          handleCartandWish(
-                                            e,
-                                            productData,
-                                            "Cart"
-                                          )
-                                        }
-                                        checked={
-                                          cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
-                                            ? true
-                                            : false
-                                        }
-                                      />
-                                        }
-                                        label={ !(cartArr[productData?.autocode] ??
-                                          productData?.IsInCart === 1
-                                          ? true
-                                          : false) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: '#474747d1' }}>Remove From Cart</span> }
+                                    <FormControlLabel
+                                      control={
+                                        <Checkbox
+                                          icon={
+                                            <LocalMallOutlinedIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "white",
+                                              }}
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <LocalMallIcon
+                                              sx={{
+                                                fontSize: "22px",
+                                                color: "#474747d1",
+                                              }}
+                                            />
+                                            // <LocalMallIcon
+                                            //   sx={{
+                                            //     fontSize: "22px",
+                                            //     color: "red",
+                                            //   }}
+                                            // />
+                                          }
+                                          disableRipple={false}
+                                          onChange={(e) =>
+                                            handleCartandWish(
+                                              e,
+                                              productData,
+                                              "Cart"
+                                            )
+                                          }
+                                          checked={
+                                            cartArr[productData?.autocode] ??
+                                              productData?.IsInCart === 1
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                      }
+                                      label={!(cartArr[productData?.autocode] ??
+                                        productData?.IsInCart === 1
+                                        ? true
+                                        : false) ? <span style={{ color: 'white' }}>Add To Cart</span> : <span style={{ color: '#474747d1' }}>Remove From Cart</span>}
 
-                                        // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
-                                        className={!(cartArr[productData?.autocode] ??
-                                          productData?.IsInCart === 1
-                                          ? true
-                                          : false) ? "procat_cart_btn" :"procat_cart_btn_alter"}
-                                      />
+                                      // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
+                                      className={!(cartArr[productData?.autocode] ??
+                                        productData?.IsInCart === 1
+                                        ? true
+                                        : false) ? "procat_cart_btn" : "procat_cart_btn_alter"}
+                                    />
 
                                     <div className="proCat_prod_card_info">
                                       <div className="smr_prod_Title">
-                                      <span
+                                        <span
                                           className="proCat1_prod_title_with_no_width"
                                         >
                                           {/* {productData?.TitleLine?.length > 0 &&
@@ -3399,7 +3403,7 @@ const ProductList = () => {
                                             )}
                                           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span style={{fontSize:'13px'}}>|</span>:""}
+                                              {(storeInit?.IsGrossWeight == 1 && storeInit?.IsMetalWeight == 1) ? <span style={{ fontSize: '13px' }}>|</span> : ""}
                                               <span className="smr_prod_wt">
                                                 <span className="smr_keys">
                                                   NWT:
@@ -3415,7 +3419,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                               { (storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ?<span style={{fontSize:'13px'}}>|</span>:""}
+                                                {(storeInit?.IsDiamondWeight == 1 && storeInit?.IsMetalWeight == 1) ? <span style={{ fontSize: '13px' }}>|</span> : ""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     DWT:
@@ -3433,7 +3437,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1 )?<span style={{fontSize:'13px'}}>|</span>:""}
+                                                {(storeInit?.IsStoneWeight == 1 && storeInit?.IsDiamondWeight == 1) ? <span style={{ fontSize: '13px' }}>|</span> : ""}
                                                 <span className="smr_prod_wt">
                                                   <span className="smr_keys">
                                                     CWT:
@@ -3464,11 +3468,11 @@ const ProductList = () => {
                                                 productData?.MetalPurityid
                                             )[0]?.metaltype
                                           }
-                                        </span> :  ""}
+                                        </span> : ""}
                                         {
                                           storeInit?.IsPriceShow == 1 &&
                                           <>
-                                            {(storeInit?.IsPriceShow == 1 && storeInit?.IsMetalTypeWithColor == 1 )?<span>/</span>:""}
+                                            {(storeInit?.IsPriceShow == 1 && storeInit?.IsMetalTypeWithColor == 1) ? <span>/</span> : ""}
                                             <span className="smr_price">
                                               <span className="smr_currencyFont">
                                                 {loginUserDetail?.CurrencyCode ??

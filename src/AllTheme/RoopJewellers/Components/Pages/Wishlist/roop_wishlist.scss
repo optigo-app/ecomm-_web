@@ -12,7 +12,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        
+
     }
 
     .roop_WlListImage {
@@ -81,7 +81,7 @@
 
         .roop_WlAddToCartBtn {
             font-family: $primaryFontFamily !important;
-            background-color: $btn1hoverColor;
+            background-color: $btnprimarycolor;
             color: $btn1hoverFontColor;
             font-size: $fontSize2;
             border: none;
@@ -94,12 +94,12 @@
             transition: background-color 0.3s;
 
             &:hover {
-                background-color: #666;
+                background-color: $btn1hoverColor;
             }
 
 
             &.roop_cartActivebtn {
-                background-color: $btn1ActivebgColor;
+                background-color: $btn1hoverColor;
                 color: $btn1hoverFontColor;
             }
         }
@@ -241,7 +241,7 @@
 
         &:hover {
             color: $btn1hoverFontColor;
-            background-color: $btn1ActivebgColor;
+            background-color: $btnprimarycolor;
         }
     }
 }

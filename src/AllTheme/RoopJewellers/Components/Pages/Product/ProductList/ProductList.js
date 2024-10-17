@@ -1398,15 +1398,15 @@ const ProductList = () => {
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum?.[0].split(',');
+    const labels = BreadCum?.[1].split(',');
 
     const updatedBreadCum = labels.reduce((acc, label, index) => {
       acc[label] = values[index] || '';
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
+    const result = Object.entries(updatedBreadCum ?? {}).reduce((acc, [key, value], index) => {
       acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
@@ -1414,7 +1414,11 @@ const ProductList = () => {
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    if (result) {
+      result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
+    } else {
+      result = {}
+    }
 
     return result
   }
@@ -1668,7 +1672,9 @@ const ProductList = () => {
                   <span style={{
                     fontWeight: "500",
                     cursor: "pointer"
-                  }} onClick={() => handelFilterClearAll()}>
+                  }}
+                  // onClick={() => handelFilterClearAll()}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
@@ -2485,7 +2491,9 @@ const ProductList = () => {
                                 }
                                 </>}
                             </span>
-                            <span onClick={() => handelFilterClearAll()}>
+                            <span
+                            // onClick={() => handelFilterClearAll()}
+                            >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
@@ -3074,7 +3082,7 @@ const ProductList = () => {
                                           <LocalMallIcon
                                             sx={{
                                               fontSize: "22px",
-                                              color: "#009500",
+                                              color: "#000",
                                             }}
                                           />
                                         }
@@ -3096,36 +3104,25 @@ const ProductList = () => {
                                       <Checkbox
                                         icon={
                                           <MdFavoriteBorder
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#7d7f85",
-                                              opacity: ".7",
-                                            }}
+                                            opacity="0.7"
+                                            fontSize="22px"
+                                            color="#7d7f85"
                                           />
                                         }
                                         checkedIcon={
                                           <MdFavorite
-                                            sx={{
-                                              fontSize: "22px",
-                                              color: "#ffd200",
-                                            }}
+                                            fontSize="22px"
+                                            color="#D14A61"
                                           />
                                         }
                                         disableRipple={false}
                                         sx={{ padding: "10px" }}
-                                        onChange={(e) =>
-                                          handleCartandWish(e, productData, "Wish")
-                                        }
-                                        // checked={productData?.IsInWish}
+                                        onChange={(e) => handleCartandWish(e, productData, "Wish")}
                                         checked={
-                                          wishArr[productData?.autocode] ??
-                                            productData?.IsInWish === 1
-                                            ? true
-                                            : false
+                                          wishArr[productData?.autocode] ?? productData?.IsInWish === 1
                                         }
-                                      // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                      // onChange={(e) => handelWishList(e, products)}
                                       />
+
                                       {/* </Button> */}
                                     </div>
 

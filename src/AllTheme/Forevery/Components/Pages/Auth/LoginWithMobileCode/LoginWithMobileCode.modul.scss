@@ -1,5 +1,5 @@
 @import "../../../scss/variable.scss";
-   
+
 .for_loginmobileCodeMain {
     height: 75vh;
     margin-top: 0 !important;
@@ -8,6 +8,7 @@
     flex-direction: column;
     justify-content: center;
     font-family: $primaryFontFamily;
+
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
         margin-left: 0px !important;
@@ -29,9 +30,26 @@
         background-color: white;
     }
 
- 
+    .for_cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
 
-
+    .for_cancleForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
 
     .createBtnRegister {
         height: 60px;
@@ -93,6 +111,7 @@
         border-radius: 2px;
         cursor: pointer;
         transition: all 0.5s ease;
+        border-radius: 4px;
     }
 
     // .submitBtnForgot:hover {
@@ -108,8 +127,8 @@
             padding-bottom: 50px !important;
         }
 
-        .AuthScreenSubTitle{
-            margin-top: -60px!important;
+        .AuthScreenSubTitle {
+            margin-top: -60px !important;
         }
     }
 
@@ -125,19 +144,40 @@
         }
 
         .submitBtnForgot {
-            width: 50%;
+            width: 90%;
             height: 50px !important;
+        }
 
+        .for_cancleForgot {
+            width: 90%;
+            height: 50px !important;
         }
     }
 
-    
+
     @media screen and (max-width: 500px) {
 
-        
+
         .submitBtnForgot {
             width: 90%;
             height: 40px !important;
+        }
+
+        .for_cancleForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+    }
+
+    @media screen and (max-width: 430px) {
+        .submitBtnForgot {
+            width: 100%;
+            height: 40px !important;
+        }
+
+        .for_cancleForgot {
+            width: 100%;
+            height: 50px !important;
         }
     }
 }

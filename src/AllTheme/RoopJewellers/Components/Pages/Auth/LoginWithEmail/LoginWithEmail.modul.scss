@@ -11,25 +11,32 @@
         margin-inline: 6%;
     }
 
-    .SmilingLoginCodeBtn {
-        height: 60px;
-        width: 420px;
-        color: white;
-        background-color: #7d7f85;
-        border: 0;
-        margin-top: 10px;
-        font-size: 13px;
+    .rp_SmilingLoginCodeBtn {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
         font-weight: 500;
-        letter-spacing: 1;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
         transition: all 0.5s ease;
+        cursor: pointer;
     }
 
+    .rp_SmilingLoginCodeBtn:hover {
+        background-color: rgba(66, 66, 66, 0.05);
+    }
 
-    .submitBtnForgot {
+    .rp_submitBtnForgot {
         height: 60px;
         width: 420px;
         color: white;
-        background-color: #7d7f85;
+        background-color: $btnprimarycolor !important;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
@@ -39,11 +46,35 @@
         transition: all 0.5s ease;
     }
 
+    .rp_submitBtnForgot:hover {
+        transform: scale(1.02);
+    }
 
     .SmilingLoginCodeBtn:hover {
         background-color: white;
         color: #7d7f85;
         border: 1px solid #7d7f85;
+    }
+
+    .rp_cancleForgot {
+        color: #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #7d7f85;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
+
+    .rp_cancleForgot:hover {
+        background-color: rgba(66, 66, 66, 0.05);
     }
 
     .smr_loginPasswordBox {
@@ -52,7 +83,7 @@
     }
 
 
-    
+
     @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
             font-size: 25px !important;
