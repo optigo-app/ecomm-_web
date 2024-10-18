@@ -3,6 +3,14 @@
 .mala_prodDetail_bodyContain {
     height: 100%;
     width: 100%;
+    margin-top: 220px;
+    color: white;
+    font-family: $rown !important;
+    @media screen and (max-width: 1200px) {
+      margin-top: 80px;
+      padding-block: 36px;
+    }
+
 
     .mala_prodDetail_outerContain {
         display: flex;

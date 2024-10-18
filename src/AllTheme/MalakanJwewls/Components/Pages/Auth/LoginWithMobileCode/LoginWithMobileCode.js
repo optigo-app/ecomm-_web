@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEmailAPI';
 import Cookies from 'js-cookie';
 import { mala_loginState } from '../../../Recoil/atom';
+import {MuiInputPlaceholder} from '../style'
 
 export default function LoginWithMobileCode() {
     const [errors, setErrors] = useState({});
@@ -113,8 +114,7 @@ export default function LoginWithMobileCode() {
                         padding: '0px',
                         margin: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Code</p>
@@ -122,14 +122,14 @@ export default function LoginWithMobileCode() {
                         textAlign: 'center',
                         margin: '0px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {mobileNo}.</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
                         <TextField
+                        sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-basic"
                             label="Enter Code"
@@ -148,7 +148,7 @@ export default function LoginWithMobileCode() {
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: '#fff',fontFamily:"Rowan1" }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

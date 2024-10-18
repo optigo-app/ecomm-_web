@@ -1,11 +1,18 @@
-@import '../../../scss/variable.scss';
+@import "../../../scss/variable.scss";
 
 $borderColor: rgba(232, 232, 232, 1);
 
 .mala3_MainBGDiv {
   font-family: $primaryFontFamily;
   // margin-top: 140px;
-
+  font-family: $primaryFontFamily;
+  margin-top: 220px;
+  color: white;
+  font-family: $rown !important;
+  @media screen and (max-width: 1200px) {
+    margin-top: 80px;
+    padding-block: 65px;
+  }
 
   .mala3_cart-title {
     color: $titleColor;
@@ -190,7 +197,6 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
-
                 p,
                 span {
                   color: $titleColor;
@@ -209,7 +215,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   color: #fff;
                   background-color: $titleColor;
                   border-radius: 50%;
-                  opacity: .5;
+                  opacity: 0.5;
                   cursor: pointer;
                   padding: 0px 8px;
                 }
@@ -306,7 +312,6 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
-
                 p,
                 span {
                   color: #df647e;
@@ -325,7 +330,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   color: #fff;
                   background-color: #f2b1b7;
                   border-radius: 50%;
-                  opacity: .5;
+                  opacity: 0.5;
                   cursor: pointer;
                   padding: 0px 8px;
                 }
@@ -464,7 +469,6 @@ $borderColor: rgba(232, 232, 232, 1);
                 margin-bottom: 20px;
                 margin-top: 20px;
 
-
                 .option {
                   color: $titleColor;
                   flex: 1 1 45%;
@@ -509,7 +513,6 @@ $borderColor: rgba(232, 232, 232, 1);
                   label {
                     color: $titleColor;
                     font-weight: bold;
-
                   }
 
                   span {
@@ -749,7 +752,6 @@ $borderColor: rgba(232, 232, 232, 1);
 
         .mala3_RightCartList {
           .mala3_cartMain-item {
-
             .mala3_cart-item,
             .mala3_Diacart-item {
               .mala3_cart-item__details {
@@ -825,7 +827,8 @@ $borderColor: rgba(232, 232, 232, 1);
         width: 100% !important;
 
         .mala3_RightCartList {
-          .mala3_tablelable {}
+          .mala3_tablelable {
+          }
 
           .mala3_cart-item {
             .mala3_cart-item__details {
@@ -903,7 +906,8 @@ $borderColor: rgba(232, 232, 232, 1);
                   p {
                     font-size: $fontSize1;
                   }
-                  .mala3_weightsContainer, .mala3_qtyDiv{
+                  .mala3_weightsContainer,
+                  .mala3_qtyDiv {
                     justify-content: center;
                     align-items: center;
                   }

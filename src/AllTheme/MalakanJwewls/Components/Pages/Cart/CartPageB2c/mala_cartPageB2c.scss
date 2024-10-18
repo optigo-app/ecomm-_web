@@ -6,6 +6,14 @@
   padding: 0px;
   position: relative;
   font-family: $primaryFontFamily;
+  font-family: $primaryFontFamily;
+  margin-top: 220px;
+color: white;
+font-family: $rown !important;
+@media screen and (max-width: 1200px) {
+margin-top: 80px;
+padding-block: 45px;
+}
 }
 
 .mala_B2C-container {
