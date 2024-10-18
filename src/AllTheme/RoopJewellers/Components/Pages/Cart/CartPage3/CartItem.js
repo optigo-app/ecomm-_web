@@ -174,7 +174,7 @@ const CartItem = ({
                 </>
               }
             </div>
-            <div style={{ display: 'flex' }} className="roop3_qtyDiv">
+            <div style={{ display: 'flex' }} className="roop3_qtyDiv roop3_qtyDiv_qty">
               <p className='roop3_ringSize'>Quantity: {item?.Quantity}</p>&nbsp;
               {(item?.Size != "" && item?.Size != undefined && item?.Size != null) &&
                 <p className='roop3_ringSize'>Size: {item?.Size}</p>

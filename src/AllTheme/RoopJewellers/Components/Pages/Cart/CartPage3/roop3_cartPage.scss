@@ -11,9 +11,10 @@ $borderColor: rgba(232, 232, 232, 1);
     color: $titleColor;
     font-size: $fontSize6;
     text-align: center;
+
     @media screen and (max-width:768px) {
       margin-bottom: 1.2rem !important;
-      }
+    }
   }
 
   .cartMainPageDiv {
@@ -43,7 +44,7 @@ $borderColor: rgba(232, 232, 232, 1);
       .roop3_cart-title {
         color: $titleColor;
         font-size: $fontSize7;
-       
+
       }
 
       .roop3_placeOrderMainbtnDivs {
@@ -52,7 +53,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
         button {
           font-family: $primaryFontFamily !important;
-          background-color: $btn1hoverColor;
+          background-color: $btnprimarycolor;
           color: $btn1hoverFontColor;
           font-size: $fontSize2;
           border: none;
@@ -66,7 +67,7 @@ $borderColor: rgba(232, 232, 232, 1);
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: #666;
+            background-color: $btn1hoverColor;
           }
         }
       }
@@ -538,7 +539,7 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 button {
                   font-family: $primaryFontFamily !important;
-                  background-color: $btn1hoverColor;
+                  background-color: $btnprimarycolor;
                   color: $btn1hoverFontColor;
                   font-size: $fontSize2;
                   border: none;
@@ -551,7 +552,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   transition: background-color 0.3s;
 
                   &:hover {
-                    background-color: #666;
+                    background-color: $btn1hoverColor;
                   }
                 }
               }
@@ -900,6 +901,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .roop3_cart-item__details {
                   padding-left: 0;
                   text-align: center;
+
                   h3 {
                     font-size: $fontSize2;
                   }
@@ -907,9 +909,19 @@ $borderColor: rgba(232, 232, 232, 1);
                   p {
                     font-size: $fontSize1;
                   }
-                  .roop3_weightsContainer, .roop3_qtyDiv{
+
+                  .roop3_weightsContainer,
+                  .roop3_qtyDiv {
                     justify-content: center;
                     align-items: center;
+                  }
+
+                  .roop3_qtyDiv_qty {
+                    @media (max-width: 650px) {
+                      gap: 0.5rem;
+                      padding-top: 0.2rem;
+                      padding-bottom: 0.5rem;
+                    }
                   }
                 }
 

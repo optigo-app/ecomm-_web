@@ -41,7 +41,7 @@ const AddressManagement = () => {
     }
 
     return (
-        <div className='stam_DeliverMainDiv'>
+        <div className='roop_DeliverMainDiv'>
             <div className='smr_secondMaindivAdd'>
                 <div className='smr_addMainDiv'>
                     <div className='smr_TitleDetailMainDiv'>

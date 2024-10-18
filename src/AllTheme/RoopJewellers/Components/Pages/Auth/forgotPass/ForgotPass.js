@@ -117,7 +117,7 @@ export default function ForgotPass() {
 
 
     return (
-        <div className='stam_forgotMain'>
+        <div className='roop_forgotMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
@@ -208,8 +208,8 @@ export default function ForgotPass() {
                             }}
                         />
 
-                        <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
+                        <button className='rp_createBtnRegister' onClick={handleSubmit}>Change Password</button>
+                        <Button className='rp_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
                 </div>
             </div>

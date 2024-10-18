@@ -862,11 +862,9 @@ const ProductList = () => {
       c: selectedCsId ?? logininfoDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: output,
       // n: decodeURI(extractedPart)
-      n:
-        decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ??
-        "",
+      n: decodeURIComponent(location.pathname?.split("/p/")[1].split("/")[0]) ?? "",
       pl: prodListType ?? "",
-      sb: sortBySelect ?? "",
+      sb: sortBySelect ?? ""
     };
     decodeAndDecompress();
     let encodeObj = compressAndEncode(JSON.stringify(obj));
@@ -1655,7 +1653,9 @@ const ProductList = () => {
                       </>
                     )}
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span
+                  // onClick={() => handelFilterClearAll()}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0 ? (
                       "Clear All"
@@ -2092,11 +2092,8 @@ const ProductList = () => {
 
                   <div className="smr_mainPortion">
                     <div
-                      className="proCat_filter_portion"
-                      style={{
-                        marginTop: "20px",
-                        width: filterData?.length <= 0 && "0%",
-                      }}
+                      className="smr_filter_portion"
+                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%', display: 'none', width: '0%' }}
                     >
                       {filterData?.length > 0 && (
                         <div
@@ -2145,7 +2142,9 @@ const ProductList = () => {
                                 </>
                               )}
                             </span>
-                            <span onClick={() => handelFilterClearAll()}>
+                            <span
+                            //  onClick={() => handelFilterClearAll()}
+                             >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0 ? (
@@ -2626,7 +2625,7 @@ const ProductList = () => {
                       </div>
                     ) : (
                       // <div className="smr_productList" style={{ width: filterData?.length <= 0 && '100%', margin: filterData?.length <= 0 && '20px 50px 0px 65px' }}>
-                      <div className="procat_productList">
+                      <div className="procat_productList" style={{ width: '100%' }}>
                         {isOnlyProdLoading ? (
                           <ProductListSkeleton
                             fromPage={"Prodlist"}

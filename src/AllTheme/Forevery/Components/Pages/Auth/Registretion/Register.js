@@ -209,7 +209,7 @@ export default function Register() {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
           navigation(singupRedirectUrl);
-          
+
           // sessionStorage.setItem('LoginUser', true)
           // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           // setIsLoginState(true)
@@ -243,13 +243,13 @@ export default function Register() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-      behavior  :"smooth",
-      top  : 0,
-      left : 0
+      behavior: "smooth",
+      top: 0,
+      left: 0
     })
-  },[])
+  }, [])
 
   return (
     <div className='fore_registerMain'>
@@ -393,7 +393,7 @@ export default function Register() {
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
+            <Button className="for_cancleForgot" style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
           </div>
         </div>
       </div>

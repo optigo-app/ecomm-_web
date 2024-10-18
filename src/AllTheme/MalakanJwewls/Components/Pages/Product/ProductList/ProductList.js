@@ -146,7 +146,7 @@ const ProductList = () => {
   }, [])
 
 
-  console.log("selectedMetalId",selectedMetalId)
+  console.log("selectedMetalId", selectedMetalId)
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -1654,7 +1654,9 @@ const ProductList = () => {
                       </>
                     }
                   </span>
-                  <span onClick={() => handelFilterClearAll()}>
+                  <span
+                  // onClick={() => handelFilterClearAll()}
+                  >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
                       ? "Clear All"
@@ -2453,7 +2455,9 @@ const ProductList = () => {
                                 }
                                 </>}
                             </span>
-                            <span onClick={() => handelFilterClearAll()}>
+                            <span
+                            // onClick={() => handelFilterClearAll()}
+                            >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0
@@ -3215,7 +3219,7 @@ const ProductList = () => {
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{fontSize:'13px', marginInline: '5px'}}>|</span>
+                                              <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
                                               <span className="mala_prod_wt">
                                                 <span className="mala_main_keys">NWT:</span>
                                                 <span className="mala_main_val">
@@ -3229,7 +3233,7 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'13px', marginInline: '5px'}}>|</span>
+                                                <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
                                                 <span className="mala_prod_wt">
                                                   <span className="mala_main_keys">
                                                     DWT:
@@ -3246,7 +3250,7 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{fontSize:'13px', marginInline: '5px'}}>|</span>
+                                                <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
                                                 <span className="mala_prod_wt">
                                                   <span className="mala_main_keys">
                                                     CWT:

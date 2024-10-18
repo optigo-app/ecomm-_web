@@ -72,14 +72,14 @@ export default function LoginWithEmail() {
     //     })
     // }
 
-    useEffect(()=>{
+    useEffect(() => {
         window.scrollTo({
-          behavior  :"smooth",
-          top  : 0,
-          left : 0
+            behavior: "smooth",
+            top: 0,
+            left: 0
         })
-      },[])
-    
+    }, [])
+
 
     useEffect(() => {
 
@@ -304,7 +304,7 @@ export default function LoginWithEmail() {
         // }
     }
     return (
-        <div className='for_loginEmail' style={{backgroundColor  :"white"}}>
+        <div className='for_loginEmail' style={{ backgroundColor: "white" }}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -313,17 +313,11 @@ export default function LoginWithEmail() {
             )}
             <div>
                 <div className='for_loginEmailD'>
-                    <p style={{
-                        textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '0px',
-                        fontSize: '40px',
-                    }}
-                        className='AuthScreenMainTitle'
+                    <p className='AuthScreenMainTitle'
                     >Login With Password</p>
                     <p style={{
                         textAlign: 'center',
-                        marginTop: '-80px',
+                        marginTop: '-70px',
                         fontSize: '15px',
                     }}
                         className='AuthScreenSubTitle'
@@ -364,12 +358,12 @@ export default function LoginWithEmail() {
                         />
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <Button style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
 
-                        <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
-                        <p style={{ textAlign: 'center' ,marginTop : "10px" }}>Go passwordless! we'll send you an email.</p>
+                        <button type='submit' className='for_SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
+                        <p style={{ textAlign: 'center', marginTop: "10px", width: "90%" }}>Go passwordless! we'll send you an email.</p>
 
                         <p style={{ color: 'black', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                        <Button className="for_cancleForgot" style={{ marginTop: '10px', color: 'black' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>
