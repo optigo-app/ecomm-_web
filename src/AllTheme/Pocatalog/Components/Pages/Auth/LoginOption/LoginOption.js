@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './LoginOption.modul.scss'
 import { useNavigate, useLocation } from 'react-router';
 
 import { FaMobileAlt } from 'react-icons/fa';
 import { IoMdMail } from 'react-icons/io';
 import Footer from '../../Home/Footer/Footer';
+import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 
 
 const LoginOption = () => {
@@ -14,9 +15,27 @@ const LoginOption = () => {
 
     const search = location?.search
 
-    console.log('locationlocationlocation',location);
+    console.log('locationlocationlocation', location);
     const redirectEmailUrl = `/ContinueWithEmail/${search}`;
     const redirectMobileUrl = `/ContimueWithMobile/${search}`;
+
+    useEffect(() => {
+        fetch(`${storImagePath()}/ColorTheme.txt`)
+            .then((response) => response.text())
+            .then((text) => {
+                try {
+                    const styleTag = document.createElement("style");
+                    styleTag.type = "text/css";
+                    styleTag.innerHTML = text;
+                    document.head.appendChild(styleTag);
+                } catch (error) {
+                    console.error("Error processing the text file:", error);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching the file:", error);
+            });
+    }, []);
 
     return (
         <div className='proCat_Loginoption'>
@@ -28,13 +47,13 @@ const LoginOption = () => {
                         color: '#7d7f85',
                     }}>Use your email or mobile no to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
-                        <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
+                        <div className='loginMail btnColorProCat' onClick={() => navigation(redirectEmailUrl)}>
                             <IoMdMail style={{ height: '25px', width: '25px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
+                            <p className='pro_loginText'>Continue with email</p>
                         </div>
-                        <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
+                        <div className='loginMobile btnColorProCat' onClick={() => navigation(redirectMobileUrl)}>
                             <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
+                            <p className='pro_loginText_mobile'>Log in with mobile</p>
                         </div>
                     </div>
                     <p style={{

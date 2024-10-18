@@ -467,7 +467,17 @@
       flex-direction: column;
     }
 
+    .stam_lookBookImgDeatil_sel2 {
+      display: flex;
+      // flex-direction: column;
+    }
+
     .stam_lookBookImgDeatilSub {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .stam_lookBookImgDeatilSub_sel2 {
       display: flex;
       justify-content: space-between;
     }
@@ -856,10 +866,22 @@
     align-items: start !important;
   }
 
+  .stam_lookBookImgDeatil_sel2 {
+    display: flex;
+    // flex-direction: column !important;
+    // align-items: start !important;
+  }
+
   .stam_lookBookImgDeatilSub {
     display: flex !important;
     justify-content: flex-end !important;
     width: 100%;
+  }
+
+  .stam_lookBookImgDeatilSub_sel2 {
+    display: flex !important;
+    justify-content: flex-end !important;
+    // width: 100%;
   }
 }
 
@@ -894,6 +916,12 @@
     align-items: center !important;
     justify-content: center !important;
   }
+
+  // .stam_lookBookImgDeatilSub_sel2 {
+  //   display: flex !important;
+  //   align-items: center !important;
+  //   justify-content: center !important;
+  // }
 }
 
 @media screen and (max-width: 500px) {

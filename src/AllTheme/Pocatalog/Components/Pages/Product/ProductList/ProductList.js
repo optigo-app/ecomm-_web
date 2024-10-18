@@ -345,22 +345,22 @@ const ProductList = () => {
                   res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    )[0]
                     : [];
                 let diafilter1 =
                   res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    )[0]
                     : [];
                 let diafilter2 =
                   res?.filter((ele) => ele?.Name == "Gross")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    )[0]
                     : [];
                 setSliderValue([diafilter?.Min, diafilter?.Max]);
                 setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
@@ -869,8 +869,7 @@ const ProductList = () => {
     decodeAndDecompress();
     let encodeObj = compressAndEncode(JSON.stringify(obj));
     navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1686,10 +1685,10 @@ const ProductList = () => {
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
@@ -1741,8 +1740,8 @@ const ProductList = () => {
                                             ?.checked === undefined
                                             ? false
                                             : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -1830,7 +1829,7 @@ const ProductList = () => {
                                           ?.checked === undefined
                                           ? false
                                           : filterChecked[`Price${i}${i}`]
-                                              ?.checked
+                                            ?.checked
                                       }
                                       style={{
                                         color: "#7f7d85",
@@ -1854,23 +1853,19 @@ const ProductList = () => {
                                   label={
                                     // <div style={{fontSize:'0.6vw !important'}}>
                                     opt?.Minval == 0
-                                      ? `Under ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${formatter.format(opt?.Maxval)}`
+                                      ? `Under ${loginUserDetail?.CurrencyCode ??
+                                      storeInit?.CurrencyCode
+                                      } ${formatter.format(opt?.Maxval)}`
                                       : opt?.Maxval == 0
-                                      ? `Over ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
+                                        ? `Over ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
                                         }${formatter.format(opt?.Minval)}`
-                                      : `${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
+                                        : `${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
                                         } ${formatter.format(opt?.Minval)} 
-                                                     - ${
-                                                       loginUserDetail?.CurrencyCode ??
-                                                       storeInit?.CurrencyCode
-                                                     } ${formatter.format(
+                                                     - ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
+                                        } ${formatter.format(
                                           opt?.Maxval
                                         )}`
                                     // </div>
@@ -1895,8 +1890,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1950,8 +1945,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2005,8 +2000,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2073,20 +2068,20 @@ const ProductList = () => {
                         />
                       </div>
 
-                          <div className="smr_mobile_prodSorting">
-                          <Checkbox
-                            sx={{ padding: "0px 9px 0px 9px" }}
-                            icon={<FilterAltIcon fontSize="large" />}
-                            checkedIcon={
-                              <FilterAltOffIcon
-                                fontSize="large"
-                                style={{ color: "#666666" }}
-                              />
-                            }
-                            checked={isDrawerOpen}
-                            onChange={(e) => setIsDrawerOpen(e.target.value)}
-                          />
-                        </div>
+                      <div className="smr_mobile_prodSorting">
+                        <Checkbox
+                          sx={{ padding: "0px 9px 0px 9px" }}
+                          icon={<FilterAltIcon fontSize="large" />}
+                          checkedIcon={
+                            <FilterAltOffIcon
+                              fontSize="large"
+                              style={{ color: "#666666" }}
+                            />
+                          }
+                          checked={isDrawerOpen}
+                          onChange={(e) => setIsDrawerOpen(e.target.value)}
+                        />
+                      </div>
                     </div>
                   ) : null}
 
@@ -2129,7 +2124,6 @@ const ProductList = () => {
                               ) : (
                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                                 <>
-                                  {afterCountStatus == true ? (
                                   {afterCountStatus == true ? (
                                     <Skeleton
                                       variant="rounded"
@@ -2177,17 +2171,17 @@ const ProductList = () => {
                                         borderBottom: "1px solid #c7c8c9",
                                         borderRadius: 0,
                                         "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                          {
-                                            borderBottomLeftRadius: "0px",
-                                            borderBottomRightRadius: "0px",
-                                          },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
                                         "&.MuiPaper-root.MuiAccordion-root:before":
-                                          {
-                                            background: "none",
-                                          },
+                                        {
+                                          background: "none",
+                                        },
                                       }}
-                                      // expanded={accExpanded}
-                                      // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                     >
                                       <AccordionSummary
                                         expandIcon={
@@ -2256,8 +2250,8 @@ const ProductList = () => {
                                                       ]?.checked === undefined
                                                         ? false
                                                         : filterChecked[
-                                                            `${ele?.id}${opt?.id}`
-                                                          ]?.checked
+                                                          `${ele?.id}${opt?.id}`
+                                                        ]?.checked
                                                     }
                                                     style={{
                                                       color:
@@ -2298,17 +2292,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2377,8 +2371,8 @@ const ProductList = () => {
                                                     ]?.checked === undefined
                                                       ? false
                                                       : filterChecked[
-                                                          `Price${i}${i}`
-                                                        ]?.checked
+                                                        `Price${i}${i}`
+                                                      ]?.checked
                                                   }
                                                   style={{
                                                     color: "#7f7d85",
@@ -2405,22 +2399,18 @@ const ProductList = () => {
                                               className="smr_mui_checkbox_label"
                                               label={
                                                 opt?.Minval == 0
-                                                  ? `Under ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Maxval}`
+                                                  ? `Under ${loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                  } ${opt?.Maxval}`
                                                   : opt?.Maxval == 0
-                                                  ? `Over ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
+                                                    ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                    storeInit?.CurrencyCode
                                                     } ${opt?.Minval}`
-                                                  : `${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
+                                                    : `${loginUserDetail?.CurrencyCode ??
+                                                    storeInit?.CurrencyCode
                                                     } ${opt?.Minval} 
-                                                    - ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
+                                                    - ${loginUserDetail?.CurrencyCode ??
+                                                    storeInit?.CurrencyCode
                                                     } ${opt?.Maxval}`
                                               }
                                             />
@@ -2437,17 +2427,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2465,7 +2455,7 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                      // className="filtercategoryLable"
+                                    // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
                                       {ele.Fil_DisName}
@@ -2495,17 +2485,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2553,17 +2543,17 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                      {
+                                        borderBottomLeftRadius: "0px",
+                                        borderBottomRightRadius: "0px",
+                                      },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                      {
+                                        background: "none",
+                                      },
                                     }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                  // expanded={accExpanded}
+                                  // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
@@ -2893,27 +2883,27 @@ const ProductList = () => {
                                       style={{ position: 'relative' }}
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
-                                      true ? (
+                                        true ? (
                                         <video
                                           //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
                                           src={
                                             productData?.VideoCount > 0
                                               ? (storeInit?.DesignImageFol).slice(
-                                                  0,
-                                                  -13
-                                                ) +
-                                                "video/" +
-                                                productData?.designno +
-                                                "_" +
-                                                1 +
-                                                "." +
-                                                productData?.VideoExtension
+                                                0,
+                                                -13
+                                              ) +
+                                              "video/" +
+                                              productData?.designno +
+                                              "_" +
+                                              1 +
+                                              "." +
+                                              productData?.VideoExtension
                                               : ""
                                           }
                                           loop={true}
                                           autoPlay={true}
                                           className="proCat_productCard_video"
-                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                        // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
                                         />
                                       ) : (
                                         <img
@@ -2924,22 +2914,22 @@ const ProductList = () => {
                                           src={
                                             rollOverImgPd[productData?.autocode]
                                               ? rollOverImgPd[
-                                                  productData?.autocode
-                                                ]
+                                              productData?.autocode
+                                              ]
                                               : productData?.images?.length > 0
-                                              ? productData?.images[0]
-                                              : imageNotFound
+                                                ? productData?.images[0]
+                                                : imageNotFound
                                           }
                                           alt=""
-                                          // onClick={() =>
-                                          //   handleMoveToDetail(productData)
-                                          // }
-                                          // onMouseEnter={() => {
-                                          //   handleImgRollover(productData);
-                                          // }}
-                                          // onMouseLeave={() => {
-                                          //   handleLeaveImgRolloverImg(productData);
-                                          // }}
+                                        // onClick={() =>
+                                        //   handleMoveToDetail(productData)
+                                        // }
+                                        // onMouseEnter={() => {
+                                        //   handleImgRollover(productData);
+                                        // }}
+                                        // onMouseLeave={() => {
+                                        //   handleLeaveImgRolloverImg(productData);
+                                        // }}
                                         />
                                       )}
 
@@ -2963,7 +2953,7 @@ const ProductList = () => {
                                       <span className="proCat1_prod_title_with_no_width">
                                         {productData?.designno}
                                       </span>
-                                      <p className="proCatPriceMobile" style={{ display: "flex" , margin: '0px'}}>
+                                      <p className="proCatPriceMobile" style={{ display: "flex", margin: '0px' }}>
                                         {productData?.Gwt &&
                                           `GWT - ${productData?.Gwt} / `}
                                         {storeInit?.IsPriceShow === 1 && (
@@ -3014,7 +3004,7 @@ const ProductList = () => {
                                           }
                                           checked={
                                             cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
+                                              productData?.IsInCart === 1
                                               ? true
                                               : false
                                           }
@@ -3022,7 +3012,7 @@ const ProductList = () => {
                                       }
                                       label={
                                         !(cartArr[productData?.autocode] ??
-                                        productData?.IsInCart === 1
+                                          productData?.IsInCart === 1
                                           ? true
                                           : false) ? (
                                           <span style={{ color: "#594646" }}>
@@ -3037,7 +3027,7 @@ const ProductList = () => {
                                       // sx={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',backgroundColor:'#474747d1',marginLeft:'0px',color:'white'}}
                                       className={
                                         !(cartArr[productData?.autocode] ??
-                                        productData?.IsInCart === 1
+                                          productData?.IsInCart === 1
                                           ? true
                                           : false)
                                           ? "procat_cart_btn"
@@ -3050,7 +3040,7 @@ const ProductList = () => {
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
                               Math.ceil(afterFilterCount / storeInit.PageSize) >
-                                1 && (
+                              1 && (
                                 <div
                                   style={{
                                     display: "flex",

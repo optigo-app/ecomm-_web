@@ -48,6 +48,7 @@ const CartItem = ({
   const setCartCountVal = useSetRecoilState(stam_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
+  const maxwidth650px = useMediaQuery('(max-width: 650px)');
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -184,14 +185,14 @@ const CartItem = ({
           </div>
           {storeInitData?.IsPriceShow == 1 &&
             <div className="stam3_cart-item__price">
-              <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
+              <p> {maxwidth650px && "Price"} {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
               <span className="stam3_price-excl-vat">(Excl. VAT)</span>
             </div>
           }
           <>
             {storeInitData?.IsPriceShow == 1 &&
               <div className="stam3_cart-item__total-price">
-                <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
+                <p> {maxwidth650px && "Total Price"} {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
                 <span className="stam3_price-excl-vat">(Excl. VAT)</span>
               </div>
             }

@@ -31,9 +31,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #888;
-        color: white;
+        // background-color: #888;
+        // color: white;
         margin-inline: 7px;
+        border-radius: 4px;
         height: 55px;
         cursor: pointer;
         width: 25%;
@@ -44,13 +45,39 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #888;
-        color: white;
+        // background-color: #888;
+        // color: white;
         margin-inline: 7px;
+        border-radius: 4px;
         height: 55px;
         cursor: pointer;
         margin-top: 25px;
         width: 25%;
+    }
+
+    .pro_loginText {
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 25px;
+    }
+
+    .pro_loginText_mobile {
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 18px;
+    }
+
+    @media screen and (max-width: 1400px) {
+
+        .loginMail {
+            width: 40% !important;
+        }
+
+        .loginMobile {
+            width: 40% !important;
+        }
     }
 
     @media screen and (max-width: 1150px) {
@@ -104,6 +131,18 @@
 
         .loginMobile {
             width: 100% !important;
+        }
+
+        .loginDiTile {
+            font-size: 22px;
+        }
+
+        .pro_loginText {
+            font-size: 17px !important;
+        }
+
+        .pro_loginText_mobile {
+            font-size: 17px !important;
         }
 
     }
