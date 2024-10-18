@@ -21,25 +21,48 @@
         margin: 10px;
     }
 
-    .createBtnRegister {
+    .pro_createBtnRegister {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        // color: white;
+        // background-color: #7d7f85;
         border: 0;
         margin-top: 10px;
-        font-size: 13px;
+        font-size: 15px;
+        border-radius: 4px;
         font-weight: 500;
         letter-spacing: 1;
         cursor: pointer;
         transition: all 0.5s ease;
     }
 
-    .createBtnRegister:hover {
-        background-color: white;
+    .pro_cancleForgot {
         color: #7d7f85;
-        border: 1px solid #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #c7c7c9;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
     }
+
+    .pro_cancleForgot:hover {
+        background-color: #deeaf7;
+    }
+
+
+    // .pro_createBtnRegister:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
     .SmilingSignInHere {
         color: #7d7f85;
@@ -88,8 +111,17 @@
             padding-block: 10px !important;
             padding-bottom: 0px !important;
             font-size: 25px !important;
-
         }
+
+        // .pro_createBtnRegister {
+        //     width: 68% !important;
+        //     height: 50px !important;
+        // }
+
+        // .pro_cancleForgot {
+        //     width: 68% !important;
+        //     height: 50px !important;
+        // }
 
 
     }
@@ -100,10 +132,16 @@
             margin: 10px;
         }
 
-        .createBtnRegister {
+        .pro_createBtnRegister {
             width: 90% !important;
-            height: 50px !important;
+            height: 40px !important;
         }
+
+        .pro_cancleForgot {
+            width: 90% !important;
+            height: 40px !important;
+        }
+
 
     }
 }

@@ -93,6 +93,7 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [decodeUrl, setDecodeUrl] = useState({})
+  console.log('decodeUrl: ', decodeUrl);
   const [loadingdata, setloadingdata] = useState(false);
   const [pdImageLoading, setPdImageLoading] = useState(false);
   const [path, setpath] = useState();
@@ -594,7 +595,7 @@ const ProductDetail = () => {
                 setSizeCombo(res?.Data);
               })
               .catch((err) => console.log("SizeErr", err));
-              await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
+            await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
               .then((res) => {
                 setStockItemArr(res?.Data?.rd);
               })
@@ -1326,6 +1327,38 @@ const ProductDetail = () => {
     const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
     const SettingSteps = JSON.parse(sessionStorage.getItem('customizeSteps2'));
 
+    let mcArr;
+    let mcArr1;
+
+    const activeColorCode = colorImgFromURL ?? colorImgFromCartWish;
+
+    if (activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null) {
+      const getAllMetalColor = mtColorLocal?.find((ele) => ele?.id === colorImgFromCartWish);
+      if (getAllMetalColor?.id) {
+        mcArr1 = getAllMetalColor?.colorcode;
+      }
+      if (colorImgFromURL === 1) {
+        const getYellowImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Yellow')?.colorcode;
+        mcArr1 = getYellowImage;
+      }
+      if (colorImgFromURL === 2) {
+        const getWhiteImage = mtColorLocal?.find((ele) => ele?.colorcode === 'White')?.colorcode;
+        mcArr1 = getWhiteImage
+      }
+      if (colorImgFromURL === 3) {
+        const getRoseImage = mtColorLocal?.find((ele) => ele?.colorcode === 'Rose')?.colorcode;
+        mcArr1 = getRoseImage
+      }
+    }
+
+    mcArr =
+      metalColorCombo?.find((ele) => {
+        return ele?.colorcode == metalColor
+      }) ?? metalColorCombo;
+
+    setImageSrc(mcArr?.id);
+    sessionStorage.setItem('cartWishImgColor', JSON.stringify(mcArr?.id))
+
     if ((steps?.[0] == undefined || steps?.[0] == null) || (steps?.[1] == undefined || steps?.[1] == null)) {
 
       if (type === "hasData") {
@@ -1709,60 +1742,36 @@ const ProductDetail = () => {
                       >
                         {"Home /"}{" "}
                       </span>
-                      {path?.menuname && (
+                      {path?.menuname ? (
                         <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [path?.FilterKey]:
-                                path?.FilterVal,
-                            })
-                          }
+                        // onClick={() =>
+                        //   handleBreadcums({
+                        //     [path?.FilterKey]:
+                        //       path?.FilterVal,
+                        //   })
+                        // }
                         >
                           {path?.menuname}
                         </span>
-                      )}
+                      ) : CustPath}
 
                       {path?.FilterVal1 && (
                         <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [path?.FilterKey]:
-                                path?.FilterVal,
-                              [path?.FilterKey1]:
-                                path?.FilterVal1,
-                            })
-                          }
+                        // onClick={() =>
+                        //   handleBreadcums({
+                        //     [path?.FilterKey]:
+                        //       path?.FilterVal,
+                        //     [path?.FilterKey1]:
+                        //       path?.FilterVal1,
+                        //   })
+                        // }
                         >
                           {` / ${path?.FilterVal1}`}
                         </span>
                       )}
-
-                      {path?.FilterVal2 && (
-                        <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [path?.FilterKey]:
-                                path?.FilterVal,
-                              [path?.FilterKey1]:
-                                path?.FilterVal1,
-                              [path?.FilterKey2]:
-                                path?.FilterVal2,
-                            })
-                          }
-                        >
-                          {` / ${path?.FilterVal2}`}
-                        </span>
-                      )}
-                      {BreadCumsObj()?.menuname && (
-                        <span
-                          onClick={() =>
-                            handleBreadcums({
-                              [BreadCumsObj()?.FilterKey]:
-                                BreadCumsObj()?.FilterVal,
-                            })
-                          }
-                        >
-                          {` / ${BreadCumsObj()?.menuname}`}
+                      {decodeUrl && (
+                        <span>
+                          {` / ${decodeUrl?.b}`}
                         </span>
                       )}
                     </div>
@@ -2237,12 +2246,12 @@ const ProductDetail = () => {
                   storeInit={storeInit}
                   loginInfo={loginUserDetail}
                 />
-                { stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 && 
-                 <Stockitems loginInfo={loginUserDetail} storeInit={storeInit} check={storeInit?.IsPriceShow === 1}
-            handleCartandWish={handleCartandWish}
-            cartArr={cartArr}
-            stockItemArr={stockItemArr}
-                />}
+                {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 &&
+                  <Stockitems loginInfo={loginUserDetail} storeInit={storeInit} check={storeInit?.IsPriceShow === 1}
+                    handleCartandWish={handleCartandWish}
+                    cartArr={cartArr}
+                    stockItemArr={stockItemArr}
+                  />}
               </div>
             )}
         </div>

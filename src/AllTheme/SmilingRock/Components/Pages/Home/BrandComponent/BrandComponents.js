@@ -20,15 +20,15 @@ const BrandsComponent = () => {
   ];
   const mayrologo = [
     "logo1.png",
-    "logo2.png",
+    "logo2.jpg",
     "logo3.png",
     "logo4.png",
     "logo1.png",
-    "logo2.png",
+    "logo2.jpg",
     "logo3.png",
     "logo4.png",
     "logo1.png",
-    "logo2.png",
+    "logo2.jpg",
     "logo3.png",
     "logo4.png",
   ];
@@ -52,15 +52,18 @@ const BrandsComponent = () => {
   ));
   return (
     <div id="brandsComponentID" className="smr_brandsComponentsDiv">
-      <p className="smr_brandsCompoents">Participation In Exhibitions</p>
+    {/* For kayra */}
+      {/* <p className="smr_brandsCompoents">Participation In Exhibitions</p> */}
+      {/* For miora */}
+      <p className="smr_brandsCompoents">In Affiliation With</p>
       <Marquee
         className="smr_brandsComponentClass"
         gradient={false}
         speed={40}
         pauseOnHover={true}
-        // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        {KayralogoElements}
+        {MayoralogoElements}
       </Marquee>
     </div>
   );

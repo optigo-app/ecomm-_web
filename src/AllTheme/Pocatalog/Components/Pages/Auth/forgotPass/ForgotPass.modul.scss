@@ -13,21 +13,43 @@
     .submitBtnForgot {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        // color: white;
+        // background-color: #7d7f85;
         border: 0;
+        border-radius: 4px;
         margin-top: 10px;
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 500;
         letter-spacing: 1;
         transition: all 0.5s ease;
     }
 
-    .submitBtnForgot:hover {
-        background-color: white;
+    .pro_cancleForgot {
         color: #7d7f85;
-        border: 1px solid #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #c7c7c9;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
     }
+
+    .pro_cancleForgot:hover {
+        background-color: #deeaf7;
+    }
+
+    // .submitBtnForgot:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
     .cancleForgot {
         color: #7d7f85;
@@ -63,30 +85,32 @@
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
+
     .smr_forgotBox {
         width: 420px;
         margin: 10px;
     }
 
-    .createBtnRegister {
+    .pro_createBtnRegister {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        // color: white;
+        // background-color: #7d7f85;
         border: 0;
         margin-top: 10px;
-        font-size: 13px;
+        border-radius: 4px;
+        font-size: 15px;
         cursor: pointer;
         font-weight: 500;
         letter-spacing: 1;
         transition: all 0.5s ease;
     }
 
-    .createBtnRegister:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
-    }
+    // .pro_createBtnRegister:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
 
 
     .smr_forgotSubDiv {
@@ -99,21 +123,21 @@
             margin-inline: 1% !important;
         }
     }
-    
+
     @media screen and (max-width: 950px) {
         .AuthScreenMainTitle {
-            font-size: 25px !important;
+            font-size: 30px !important;
             padding-bottom: 50px !important;
         }
 
-        .AuthScreenSubTitle{
-            margin-top: -60px!important;
+        .AuthScreenSubTitle {
+            margin-top: -60px !important;
         }
     }
 
     @media screen and (max-width: 700px) {
 
-        .createBtnRegister {
+        .pro_createBtnRegister {
             width: 90%;
             height: 50px !important;
         }
@@ -128,7 +152,32 @@
         }
 
         .submitBtnForgot {
-            width: 80%;
+            width: 80% !important;
+            height: 50px !important;
+        }
+
+        .pro_cancleForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+
+    }
+
+    @media (max-width: 500px) {
+
+        .AuthScreenMainTitle {
+            font-size: 27px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .pro_createBtnRegister {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .pro_cancleForgot {
+            width: 90%;
+            height: 40px !important;
         }
 
     }

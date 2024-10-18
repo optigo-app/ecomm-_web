@@ -63,6 +63,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoChevronLeft } from "react-icons/go";
 import { HiOutlineChevronRight } from "react-icons/hi2";
+import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
   let location = useLocation();
@@ -189,6 +190,24 @@ const ProductDetail = () => {
     let isincart = singleProd?.IsInCart == 0 ? false : true;
     setAddToCartFlag(isincart);
   }, [singleProd]);
+
+  useEffect(() => {
+    fetch(`${storImagePath()}/ColorTheme.txt`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          const styleTag = document.createElement("style");
+          styleTag.type = "text/css";
+          styleTag.innerHTML = text;
+          document.head.appendChild(styleTag);
+        } catch (error) {
+          console.error("Error processing the text file:", error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the file:", error);
+      });
+  }, []);
 
 
 
@@ -395,19 +414,19 @@ const ProductDetail = () => {
           diaArr = diaQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[0]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.d
-                  ? decodeobj?.d?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboDiaQCid ??
-                      storeinitInside?.cmboDiaQCid
-                    ).split(",")[1])
+              (decodeobj?.d
+                ? decodeobj?.d?.split(",")[1]
+                : (
+                  logininfoInside?.cmboDiaQCid ??
+                  storeinitInside?.cmboDiaQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -415,17 +434,17 @@ const ProductDetail = () => {
           csArr = csQcLocal?.filter(
             (ele) =>
               ele?.QualityId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[0]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[0]) &&
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[0]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[0]) &&
               ele?.ColorId ==
-                (decodeobj?.c
-                  ? decodeobj?.c?.split(",")[1]
-                  : (
-                      logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
-                    ).split(",")[1])
+              (decodeobj?.c
+                ? decodeobj?.c?.split(",")[1]
+                : (
+                  logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid
+                ).split(",")[1])
           )[0];
         }
 
@@ -736,9 +755,9 @@ const ProductDetail = () => {
               prod && prod.DefaultSize !== ""
                 ? prod?.DefaultSize
                 : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
-                    ?.sizename === undefined
-                ? SizeCombo?.rd[0]?.sizename
-                : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
+                  ?.sizename === undefined
+                  ? SizeCombo?.rd[0]?.sizename
+                  : SizeCombo?.rd?.find((size) => size.IsDefaultSize === 1)
                     ?.sizename;
             setSizeData(initialsize);
 
@@ -1295,8 +1314,7 @@ const ProductDetail = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1420,11 +1438,11 @@ const ProductDetail = () => {
   };
 
   const handleNext = () => {
-  console.log('finalProdWithPricefinalProdWithPrice',allListDataSlide);
+    console.log('finalProdWithPricefinalProdWithPrice', allListDataSlide);
     const nextIndex = (currentIndex + 1) % allListDataSlide?.length;
     swiperMainRef?.current.swiper.slideTo(nextIndex);
-    console.log('allListDataSlide',allListDataSlide);
-    console.log('nextIndex',nextIndex);
+    console.log('allListDataSlide', allListDataSlide);
+    console.log('nextIndex', nextIndex);
     handleProductDetail(nextIndex);
   };
 
@@ -1443,20 +1461,19 @@ const ProductDetail = () => {
         if (allListDataSlide.length) handlePrev();
       }
     };
-    
+
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [allListDataSlide, handleNext, handlePrev]); 
-  
+  }, [allListDataSlide, handleNext, handlePrev]);
+
 
   return (
     <>
       <Helmet>
-        <title>{`${singleProd?.TitleLine ?? "loading..."} ${
-          singleProd?.TitleLine?.length > 0 ? "-" : ""
-        } ${singleProd?.designno ?? ""}`}</title>
+        <title>{`${singleProd?.TitleLine ?? "loading..."} ${singleProd?.TitleLine?.length > 0 ? "-" : ""
+          } ${singleProd?.designno ?? ""}`}</title>
       </Helmet>
       <div className="proCat_prodDetail_bodyContain">
         <div className="proCat_prodDetail_outerContain">
@@ -1494,7 +1511,7 @@ const ProductDetail = () => {
                   modules={[Keyboard, FreeMode, Navigation]}
                   keyboard={{ enabled: true }}
                   pagination={false}
-                  onSlideChange={onSlideChange} 
+                  onSlideChange={onSlideChange}
                 >
                   <div className="smr_prod_detail_main">
                     <IoArrowBack
@@ -1656,8 +1673,8 @@ const ProductDetail = () => {
                                 </span>
                               </span>
                               {storeInit?.IsDiamondCustomization === 1 &&
-                              diaQcCombo?.length > 0 &&
-                              diaList?.length ? (
+                                diaQcCombo?.length > 0 &&
+                                diaList?.length ? (
                                 <span className="smr_prod_short_key">
                                   Diamond Quality Color :{" "}
                                   <span className="smr_prod_short_val">
@@ -1700,7 +1717,7 @@ const ProductDetail = () => {
                                       onChange={(e) =>
                                         handleCustomChange(e, "mt")
                                       }
-                                      // onChange={(e) => setSelectMtType(e.target.value)}
+                                    // onChange={(e) => setSelectMtType(e.target.value)}
                                     >
                                       {metalTypeCombo.map((ele) => (
                                         <option
@@ -1750,8 +1767,8 @@ const ProductDetail = () => {
                                     </div>
                                   )}
                                 {storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 &&
-                                diaList?.length ? (
+                                  diaQcCombo?.length > 0 &&
+                                  diaList?.length ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       DIAMOND :
@@ -1780,9 +1797,9 @@ const ProductDetail = () => {
                                   </div>
                                 ) : null}
                                 {storeInit?.IsCsCustomization === 1 &&
-                                selectCsQc?.length > 0 &&
-                                csList?.filter((ele) => ele?.D !== "MISC")
-                                  ?.length > 0 ? (
+                                  selectCsQc?.length > 0 &&
+                                  csList?.filter((ele) => ele?.D !== "MISC")
+                                    ?.length > 0 ? (
                                   <div className="smr_single_prod_customize_outer">
                                     <label className="menuItemTimeEleveDeatil">
                                       COLOR STONE :
@@ -1859,10 +1876,10 @@ const ProductDetail = () => {
                                   borderBottom: "1px solid #c7c8c9",
                                   borderRadius: 0,
                                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                    {
-                                      borderBottomLeftRadius: "0px",
-                                      borderBottomRightRadius: "0px",
-                                    },
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
                                   "&.MuiPaper-root.MuiAccordion-root:before": {
                                     background: "none",
                                   },
@@ -1883,7 +1900,7 @@ const ProductDetail = () => {
                                       padding: 0,
                                     },
                                   }}
-                                  // className="filtercategoryLable"
+                                // className="filtercategoryLable"
                                 >
                                   <Typography
                                     sx={{
@@ -2179,7 +2196,7 @@ const ProductDetail = () => {
                                     (singleProd1?.Misc_SettingCost
                                       ? singleProd1?.Misc_SettingCost
                                       : singleProd?.Misc_SettingCost) !==
-                                  0 ? (
+                                    0 ? (
                                     <div
                                       style={{
                                         display: "flex",
@@ -2268,7 +2285,7 @@ const ProductDetail = () => {
                               ) : (
                                 formatter.format(
                                   singleProd1?.UnitCostWithMarkUp ??
-                                    singleProd?.UnitCostWithMarkUp
+                                  singleProd?.UnitCostWithMarkUp
                                 )
                               )}
                             </div>
@@ -2280,13 +2297,13 @@ const ProductDetail = () => {
                                 <button
                                   className={
                                     !addToCartFlag
-                                      ? "proCat_AddToCart_btn"
-                                      : "proCat_AddToCart_btn_afterCart"
+                                      ? "proCat_AddToCart_btn btnColorProCat"
+                                      : "proCat_AddToCart_btn_afterCart btnColorProCatSelected"
                                   }
                                   onClick={() => handleCart(!addToCartFlag)}
                                 >
                                   <span
-                                    className="smr_addtocart_btn_txt"
+                                    className="pro_addtocart_btn_txt"
                                   >
                                     {!addToCartFlag
                                       ? "ADD TO CART"
@@ -2460,12 +2477,12 @@ const ProductDetail = () => {
                             (accumulator, data) => accumulator + data.M,
                             0
                           )}/${csList
-                          ?.filter((ele) => ele?.D !== "MISC")
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
-                            0
-                          )
-                          .toFixed(3)}ct)`}</li>
+                            ?.filter((ele) => ele?.D !== "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}ct)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -2499,12 +2516,12 @@ const ProductDetail = () => {
                             (accumulator, data) => accumulator + data.M,
                             0
                           )}/${csList
-                          ?.filter((ele) => ele?.D === "MISC")
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
-                            0
-                          )
-                          .toFixed(3)}gm)`}</li>
+                            ?.filter((ele) => ele?.D === "MISC")
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)}gm)`}</li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -2765,7 +2782,7 @@ const ProductDetail = () => {
                                       }
                                       checked={
                                         cartArr[ele?.StockId] ??
-                                        ele?.IsInCart === 1
+                                          ele?.IsInCart === 1
                                           ? true
                                           : false
                                       }
@@ -2773,7 +2790,7 @@ const ProductDetail = () => {
                                   }
                                   label={
                                     cartArr[ele?.StockId] ??
-                                    ele?.IsInCart === 1 ? (
+                                      ele?.IsInCart === 1 ? (
                                       <span style={{ color: "#474747d1" }}>
                                         Remove From Cart
                                       </span>
@@ -2994,11 +3011,11 @@ const ProductDetail = () => {
                                 src={
                                   ele?.ImageCount > 0
                                     ? storeInit?.DesignImageFol +
-                                      ele?.designno +
-                                      "_" +
-                                      "1" +
-                                      "." +
-                                      ele?.ImageExtension
+                                    ele?.designno +
+                                    "_" +
+                                    "1" +
+                                    "." +
+                                    ele?.ImageExtension
                                     : imageNotFound
                                 }
                                 alt={""}
