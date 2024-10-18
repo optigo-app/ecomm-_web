@@ -6,6 +6,7 @@ import CryptoJS from 'crypto-js';
 import { useNavigate } from 'react-router'
 import Footer from '../../Home/Footer/Footer';
 import { ResetPasswordAPI } from '../../../../../../utils/API/Auth/ResetPasswordAPI';
+import {MuiInputPlaceholder} from '../style'
 
 export default function ForgotPass() {
 
@@ -117,21 +118,20 @@ export default function ForgotPass() {
 
 
     return (
-        <div className='mala_forgotMain'>
+        <div className='malan_forgotMain'>
             {isLoading && (
                 <div className="loader-overlay">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div style={{ backgroundColor: '#c0bbb1' }}>
-                <div className='mala_forgotSubDiv'>
+            <div >
+                <div className='malan_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
                         padding: '60px',
                         margin: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
 
                         className='AuthScreenMainTitle'
@@ -140,8 +140,7 @@ export default function ForgotPass() {
                         textAlign: 'center',
                         marginTop: '-60px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
 
                         className='AuthScreenSubTitle'
@@ -149,6 +148,7 @@ export default function ForgotPass() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
+                        sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-password-input"
                             label="Password"
@@ -182,6 +182,7 @@ export default function ForgotPass() {
                         />
 
                         <TextField
+                        sx={MuiInputPlaceholder}
                             id="outlined-confirm-password-input"
                             label="Confirm Password"
                             type={showConfirmPassword ? 'text' : 'password'}
@@ -209,15 +210,11 @@ export default function ForgotPass() {
                         />
 
                         <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: '#fff' ,fontFamily:"Rowan1"}} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
-                    <Footer />
+                        </div>
+            </div>
 
-                </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-                <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div>
         </div>
     )
 }

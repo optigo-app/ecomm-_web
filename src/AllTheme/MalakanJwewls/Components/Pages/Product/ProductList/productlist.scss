@@ -3,7 +3,14 @@
 .mala_bodyContain {
   height: 100%;
   width: 100%;
-
+  margin-top: 220px;
+  background-color: #17372f;
+  color: white;
+  font-family: $rown !important;
+  @media screen and (max-width: 1200px) {
+    margin-top: 80px;
+    padding-block: 36px;
+  }
   .mala_outerContain {
     display: flex;
     justify-content: center;
@@ -13,6 +20,7 @@
     position: sticky;
     top: 0;
   }
+
 
   .mala_whiteInnerContain {
     background-color: #fff;
@@ -176,15 +184,11 @@
   }
 
   .mala_breadcums_port {
-    // position: absolute;
-    // top: -40px;
-    // z-index: 999;
     font-family: $primaryFontFamily;
     font-size: 0.85rem;
-    color: $primaryfontcolorLight;
-    // margin-left:72px;
     margin-top: 10px;
     cursor: pointer;
+    color: gray;
   }
 
   .mala_inner_portion {

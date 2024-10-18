@@ -15,7 +15,8 @@ export default function ShipingReturn() {
 
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/ShipingReturn.html`)
+        // fetch(`${storImagePath()}/html/ShipingReturn.html`)
+        fetch(`${storImagePath()}/html/ShipingReturnsona.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

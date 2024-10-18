@@ -68,8 +68,12 @@ const DaimondTine_App = () => {
   }, [location]);
 
   useEffect(() => {
-    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
-    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    // let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    // let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    
+    let webLogo = `${storImagePath()}/logoIcon/sona/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/sona/mobileLogo.png`;
+    
     
     setCompanyTitleLogo(webLogo);
     setCompanyTitleLogoM(mobileLogo);
