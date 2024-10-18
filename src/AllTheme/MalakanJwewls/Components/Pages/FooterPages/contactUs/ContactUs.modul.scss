@@ -1,14 +1,42 @@
 
 @import '../../../scss/variable';
 
-
-.Fo-contactMain {
-    background-color: white;
-    margin-inline: 6%;
+.mal-contactMain {
+    margin-top: 220px;
+    background-color: #17372f;
+    color: white;
+    padding-bottom: 4rem;
+    font-family: $rown !important;
+    @media screen and (max-width: 1200px) {
+      margin-top: 80px;
+    }
+    .content_malkana {
+        max-width: 1200px;
+        margin: 0 auto;
+        .title {
+          width: 100%;
+          padding: 1.2rem 0;
+          text-transform: uppercase;
+          h2 {
+            font-size: 62px;
+            font-weight: 800;
+            color: #f6c2b5;
+            font-family: $primaryFontFamilyMedium;
+            @media screen and (max-width: 504px) {
+              font-size: 42px;
+              margin-top: 2rem;
+            }
+          }
+          p{
+            font-family: $rown;
+          }
+        }
+    
+      }
+    
 }
 .daimondsEveryAbout{
   background-color: white;
-  margin-inline: 6%;  
 }
 
 .Fo-contactBoxMain {

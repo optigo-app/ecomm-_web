@@ -58,7 +58,7 @@ const BrandsComponent = () => {
       <p className="smr_brandsCompoents">In Affiliation With</p>
       <Marquee
         className="smr_brandsComponentClass"
-        gradient={false} 
+        gradient={false}
         speed={40}
         pauseOnHover={true}
       // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}

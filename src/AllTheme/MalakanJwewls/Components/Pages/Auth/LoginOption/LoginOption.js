@@ -24,7 +24,7 @@ const LoginOption = () => {
                     <p className='loginDiTile'>Log in or sign up in seconds</p>
                     <p style={{
                         textAlign: 'center',
-                        color: '#7d7f85',
+                        color: '#fff',
                     }}>Use your email or mobile number to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
                         <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
@@ -38,7 +38,7 @@ const LoginOption = () => {
                     </div>
                     <p style={{
                         marginTop: '40px', fontSize: '14px',
-                        color: '#7d7f85',
+                        color: '#fff',
                         textAlign: 'center'
                     }}>By continuing, you agree to our Terms of Use. Read our Privacy Policy.</p>
                 </div>

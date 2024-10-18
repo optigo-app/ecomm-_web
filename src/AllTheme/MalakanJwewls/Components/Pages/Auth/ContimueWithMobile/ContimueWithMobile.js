@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Footer from '../../Home/Footer/Footer';
 import { ContimueWithMobileAPI } from '../../../../../../utils/API/Auth/ContimueWithMobileAPI';
 import './ContimueWithMobile.modul.scss'
+import {MuiInputPlaceholder} from '../style'
 
 export default function ContimueWithMobile() {
     const [mobileNo, setMobileNo] = useState('');
@@ -93,7 +94,7 @@ export default function ContimueWithMobile() {
     };
 
     return (
-        <div className='mala_continuMobile'>
+        <div className='malan_continuMobile'>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -107,8 +108,7 @@ export default function ContimueWithMobile() {
                         padding: '0px',
                         margin: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
                         className='AuthScreenMainTitle'
                     >Continue With Mobile</p>
@@ -116,14 +116,14 @@ export default function ContimueWithMobile() {
                         textAlign: 'center',
                         margin: '0px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
                         className='AuthScreenSubTitle'
                     >We'll check if you have an account, and help create one if you don't.</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
+                        sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-basic"
                             label="Enter Mobile No"
@@ -144,7 +144,7 @@ export default function ContimueWithMobile() {
                         <button className='submitBtnForgot' onClick={handleSubmit}>
                             SUBMIT
                         </button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'white',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

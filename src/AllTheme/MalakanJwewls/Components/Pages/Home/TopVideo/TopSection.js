@@ -3,15 +3,17 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 import "./TopSection.modul.scss";
 
 const TopSection = () => {
+  const style = {
+    backgroundImage: `url(${storImagePath()}/images/HomePage/TopSection/topBanner.jpg)`,
+  };
   return (
-    <div className="mala_topVideoMain" style={{ minHeight: "650px"}}>
-      <div style={{ position: 'absolute', top: '0px', width: '100%', height: '100%' }}>
-        <img
-          src={`${storImagePath()}/images/HomePage/TopSection/topBanner.jpg`}
-          alt="Top Banner"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
-      </div>
+    <div className="mala_topVideoMain"
+    style={style}>
+       <div className="details_text">
+    <h1>Made</h1>
+    <h1>Without</h1>
+    <h1>Rules</h1>
+  </div>
     </div>
   );
 };

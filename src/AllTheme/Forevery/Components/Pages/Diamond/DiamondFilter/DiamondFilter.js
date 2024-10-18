@@ -836,6 +836,7 @@ const DiamondFilter = () => {
       <ScrollTop />
       <div className="for_DiamondFilter">
         <Drawer
+        <Drawer
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
@@ -858,12 +859,17 @@ const DiamondFilter = () => {
                 sm: 600,
                 md: 800,
                 lg: 1000,
-                xl: 1200
-              }
+                xl: 1200,
+              },
             }}
           >
-            <div onClick={() => setIsDrawerOpen(false)} className="close_bar_forevery">
-              <button><IoClose size={28} /></button>
+            <div
+              onClick={() => setIsDrawerOpen(false)}
+              className="close_bar_forevery"
+            >
+              <button>
+                <IoClose size={28} />
+              </button>
             </div>
             <div className="heading">
               <h2>select the diamond shape</h2>
@@ -893,14 +899,16 @@ const DiamondFilter = () => {
                       }}
                     />
                     <div
-                      className={`shape_card ${checkedItem === val?.name
+                      className={`shape_card ${
+                        checkedItem === val?.name
                           ? "active-checked"
-                          : `${steps1?.[0]?.step1 == true &&
-                            stepsData2?.[0]?.step1Data?.id > 0
-                            ? "blue-unchecked"
-                            : ""
-                          }`
-                        }`}
+                          : `${
+                              steps1?.[0]?.step1 == true &&
+                              stepsData2?.[0]?.step1Data?.id > 0
+                                ? "blue-unchecked"
+                                : ""
+                            }`
+                      }`}
                       id={val?.name}
                     >
                       <img src={val?.img} alt={val?.name} />
@@ -931,7 +939,8 @@ const DiamondFilter = () => {
                         <img src={val?.img} alt={val?.name} />
                         <span
                           style={{
-                            fontWeight: checkedItem === val?.name ? "800" : "500",
+                            fontWeight:
+                              checkedItem === val?.name ? "800" : "500",
                           }}
                         >
                           {val?.name}
@@ -966,9 +975,7 @@ const DiamondFilter = () => {
             </div>
             <div className="filter_Head">
               <div className="for_price">
-                <span onClick={() => handleOpen("price")}>
-                  price
-                </span>
+                <span onClick={() => handleOpen("price")}>price</span>
                 <CollectionPriceRange
                   data={sliderState.price}
                   ref={(el) => (dropdownRefs.current["price"] = el)}
@@ -980,9 +987,7 @@ const DiamondFilter = () => {
                 />
               </div>
               <div className="for_Color">
-                <span onClick={() => handleOpen("Color")}>
-                  Color
-                </span>
+                <span onClick={() => handleOpen("Color")}>Color</span>
                 <CollectionColor
                   handleSliderChange={(newValue, min, max) =>
                     handleSliderChange("Color", newValue, min, max)
@@ -994,9 +999,7 @@ const DiamondFilter = () => {
                 />
               </div>
               <div className="for_Carat">
-                <span onClick={() => handleOpen("Carat")}>
-                  Carat
-                </span>
+                <span onClick={() => handleOpen("Carat")}>Carat</span>
                 <CollectionCaratRange
                   open={true}
                   handleSliderChange={(newValue) =>
@@ -1008,9 +1011,7 @@ const DiamondFilter = () => {
                 />
               </div>
               <div className="for_Clarity">
-                <span onClick={() => handleOpen("Clarity")}>
-                  Clarity
-                </span>
+                <span onClick={() => handleOpen("Clarity")}>Clarity</span>
                 <CollectionClarity
                   open={true}
                   handleSliderChange={(newValue, min, max) =>
@@ -1022,9 +1023,7 @@ const DiamondFilter = () => {
                 />
               </div>
               <div className="for_Cut">
-                <span onClick={() => handleOpen("Cut")}>
-                  Cut
-                </span>
+                <span onClick={() => handleOpen("Cut")}>Cut</span>
                 <CollectionCut
                   open={true}
                   data={sliderState?.Cut}
@@ -1402,6 +1401,7 @@ const DiamondFilter = () => {
                               src={val?.img}
                               alt="bannerImage"
                               width={"100%"}
+                              loading="lazy"
                             />
                           ) : (
                             <>
@@ -1419,20 +1419,32 @@ const DiamondFilter = () => {
                                       onMouseLeave={(e) =>
                                         handleMouseLeave(e, i)
                                       }
+                                      loading="lazy"
                                       onClick={() => HandleDiamondRoute(val)}
                                     />
-                                  ) : (
+                                  ) : val?.image_file_url !== "" ? (
                                     <img
                                       className="dimond-info-img"
                                       src={val?.image_file_url}
                                       alt=""
                                       onClick={() => HandleDiamondRoute(val)}
+                                      loading="lazy"
                                     />
+                                  ) : (
+                                    <>
+                                      <img
+                                        src={val?.img}
+                                        alt="bannerImage"
+                                        width={"100%"}
+                                        loading="lazy"
+                                      />
+                                    </>
                                   )}
                                 </>
                               ) : (
                                 <img
                                   className="dimond-info-img"
+                                  loading="lazy"
                                   src={val?.img}
                                   alt=""
                                   onClick={() => HandleDiamondRoute(val)}
@@ -1455,6 +1467,7 @@ const DiamondFilter = () => {
                                 <img
                                   src={`${storImagePath()}/Forevery/diamondFilter/t-1.png`}
                                   alt=""
+                                  loading="lazy"
                                 />
                               </span>
                               <span onClick={() => HandleMedia("vid", i)}>

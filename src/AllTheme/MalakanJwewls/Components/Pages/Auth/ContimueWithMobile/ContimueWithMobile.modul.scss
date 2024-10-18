@@ -1,8 +1,17 @@
 @import '../../../scss/variable.scss';
 
 
-.mala_continuMobile {
-    padding-block: 70px;
+.malan_continuMobile {
+    margin-top: 220px;
+    background-color: #17372f;
+    color: white;
+    padding-bottom: 4rem;
+    font-family: $rown !important;
+    padding-block: 100px;
+    @media screen and (max-width: 1200px) {
+      margin-top: 80px;
+    }
+    
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -10,33 +19,37 @@
     }
 
     .smling-forgot-main {
-        margin-inline: 6%;
-        background-color: white;
+        background-color: inherit;
     }
 
     .mala_loginmobileBox {
         width: 420px;
         margin: 10px;
+        .MuiInputBase-input {
+            font-family: $rown !important;
+            color: white !important ;
+          }
     }
 
     .submitBtnForgot {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
         border: 0;
         margin-top: 10px;
         font-size: 13px;
         cursor: pointer;
         font-weight: 500;
         letter-spacing: 1;
-        transition: all 0.5s ease;
-    }
-
-    .submitBtnForgot:hover {
-        background-color: white;
-        color: #7d7f85;
-        border: 1px solid #7d7f85;
+        background-color: #fda994;
+        color: #17372f;
+        font-family: $primaryFontFamilyMedium;
+        cursor: pointer;
+        letter-spacing: 1;
+        transition: 0.2s ease-in;
+        border-radius: 3px;
+        &:hover {
+          background-color: #ff8e72;
+        }
     }
 
     .cancleForgot {

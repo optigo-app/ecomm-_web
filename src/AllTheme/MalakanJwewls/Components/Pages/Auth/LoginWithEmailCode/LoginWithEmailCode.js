@@ -10,6 +10,7 @@ import { LoginWithEmailAPI } from '../../../../../../utils/API/Auth/LoginWithEma
 import { useSetRecoilState } from 'recoil';
 import Cookies from 'js-cookie';
 import { mala_loginState } from '../../../Recoil/atom';
+import {MuiInputPlaceholder} from '../style'
 
 export default function LoginWithEmailCode() {
     const [email, setEmail] = useState('');
@@ -179,8 +180,7 @@ export default function LoginWithEmailCode() {
                         padding: '0px',
                         margin: '0px',
                         fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
                         className='AuthScreenMainTitle'
                     >Login With Code</p>
@@ -188,14 +188,14 @@ export default function LoginWithEmailCode() {
                         textAlign: 'center',
                         marginTop: '0px',
                         fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        color: '#fff',
                     }}
                         className='AuthScreenSubTitle'
                     >Last step! To secure your account, enter the code we just sent to {email}.</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
                         <TextField
+                        sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-basic"
                             label="Enter Code"
@@ -215,7 +215,7 @@ export default function LoginWithEmailCode() {
 
                         <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: 'white',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

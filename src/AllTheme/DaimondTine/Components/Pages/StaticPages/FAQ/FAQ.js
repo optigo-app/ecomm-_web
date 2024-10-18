@@ -15,7 +15,8 @@ export default function FAQ() {
 
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/accoridan.html`)
+        // fetch(`${storImagePath()}/html/accoridan.html`)
+        fetch(`${storImagePath()}/html/accoridansona.html`) 
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);
