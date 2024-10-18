@@ -2323,7 +2323,8 @@ const ProductList = () => {
                                           },
                                         }}
                                       >
-                                        {ele.Fil_DisName}
+                                        {ele
+                                        ?.Fil_DisName}
                                       </AccordionSummary>
                                       <AccordionDetails
                                         sx={{
@@ -2375,7 +2376,7 @@ const ProductList = () => {
                                                   />
                                                 }
                                                 className="dt_mui_checkbox_label"
-                                                label={opt.Fil_DisName}
+                                                label={opt?.Name}
                                               />
                                             </div>
                                           )

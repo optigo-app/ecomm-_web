@@ -295,34 +295,34 @@ export default function ThemeRoutes() {
             <meta name="description" content={title} />
             <link
               rel="icon"
-              href={`${storImagePath()}/logoIcon/favicon1.png`}
+              href={`${storImagePath()}/logoIcon/sona/favicon1.png`}
               type="image/x-icon"
             />
             <link
               rel="apple-touch-icon"
               sizes="180x180"
-              href={`${storImagePath()}/logoIcon/apple-touch-icon.png`}
+              href={`${storImagePath()}/logoIcon/sona/apple-touch-icon.png`}
             />
             <link
               rel="icon"
               type="image/png"
               sizes="192x192"
-              href={`${storImagePath()}/logoIcon/androidCh1.png`}
+              href={`${storImagePath()}/logoIcon/sona/androidCh1.png`}
             />
             <link
               rel="icon"
               type="image/png"
               sizes="512x512"
-              href={`${storImagePath()}/logoIcon/androidCh2.png`}
+              href={`${storImagePath()}/logoIcon/sona/androidCh2.png`}
             />
             <link
               rel="mask-icon"
-              href={`${storImagePath()}/logoIcon/apple-touch-icon.png`}
+              href={`${storImagePath()}/logoIcon/sona/apple-touch-icon.png`}
             />
             <meta name="msapplication-TileColor" content="#ffffff" />
             <meta
               name="msapplication-TileImage"
-              content={`${storImagePath()}/logoIcon/androidCh2.png`}
+              content={`${storImagePath()}/logoIcon/sona/androidCh2.png`}
             />
             <meta
               name="viewport"

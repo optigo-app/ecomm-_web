@@ -55,7 +55,7 @@ const BrandsComponent = () => {
       <p className="smr_brandsCompoents">Participation In Exhibitions</p>
       <Marquee
         className="smr_brandsComponentClass"
-        gradient={false}j
+        gradient={false}
         speed={40}
         pauseOnHover={true}
         // style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}

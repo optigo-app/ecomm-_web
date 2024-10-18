@@ -412,11 +412,11 @@ const Header = () => {
           <div className="mala_smlingSearchoverlay">
             <div className="mala_smlingTopSerachOver">
               <IoSearchOutline
-                style={{ height: "15px", width: "15px", marginRight: "10px" }}
+                style={{ height: "25px", width: "25px", marginRight: "10px" }}
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -445,7 +445,7 @@ const Header = () => {
               />
               <input
                 type="text"
-                placeholder="Enter Design Number"
+                placeholder="Search..."
                 value={searchText}
                 autoFocus
                 onChange={(e) => setSearchText(e.target.value)}
@@ -476,14 +476,13 @@ const Header = () => {
                 justifyContent: "space-between",
               }}
             >
-              <div className="mala_mobileHeader_top_div1">
+              <div className="mala_mobileHeader_top_div1"
+              
+              >
                 <IoClose
-                  style={{
-                    height: "30px",
-                    width: "30px",
-                    color: "white",
-                    cursor: "pointer",
-                  }}
+                size={38}
+                color="#F6C2B5"
+                cursor={'pointer'}
                   onClick={toggleDrawerOverlay}
                 />
               </div>
@@ -570,6 +569,25 @@ const Header = () => {
               </div>
             </div>
             <div className="mala_mobileMenuSubDivMain">
+            {islogin && (
+              <div
+              className="mlakna_mob_search"
+              >
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="mobileSideBarSearch"
+                />
+                <IoSearchOutline
+                  style={{
+                    height: "20px",
+                    cursor: "pointer",
+                    color: "white",
+                    width: "20px",
+                  }}
+                />
+              </div>
+            )}
               <List
                 className="mala_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
@@ -649,10 +667,10 @@ const Header = () => {
                                 style={{ width: "100%" }}
                               >
                                 <p
+                                className="malkan_sec_menu"
                                   style={{
                                     margin: "0px 0px 0px 15px",
                                     width: "100%",
-                                    fontWeight: "600",
                                     color: "white",
                                   }}
                                 >
@@ -799,42 +817,7 @@ const Header = () => {
               </p>
             </div>
 
-            {islogin && (
-              <div
-                style={{
-                  display: "flex",
-                  borderBottom: "1px solid white",
-                  alignItems: "end",
-                  marginInline: "15px",
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Search"
-                  style={{
-                    width: "100%",
-                    borderBottom: "1px solid white",
-                    border: "none",
-                    outline: "none",
-                    backgroundColor: "rgba(192, 187, 177, 1.8)",
-                    marginTop: "15px",
-                    fontWeight: 500,
-                    color: "white",
-                    fontSize: "17px",
-                  }}
-                  className="mobileSideBarSearch"
-                />
-                <IoSearchOutline
-                  style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    color: "white",
-                    width: "20px",
-                    marginInline: "5px",
-                  }}
-                />
-              </div>
-            )}
+     
           </div>
         </>
       )}
@@ -853,7 +836,7 @@ const Header = () => {
 
             <a href="/" className="mala_logo_header_Mobile">
               <img
-                src={compnyLogoM}
+                src={`https://malakan.com/wp-content/uploads/2023/04/malakan-logo-header.png`||compnyLogoM}
                 loading="lazy"
                 className="mala_logo_header"
               />
@@ -1046,6 +1029,7 @@ const Header = () => {
                               cursor: "pointer",
                               width: "20px",
                             }}
+                            className="malkan_logo_nav"
                           />
                         </li>
                       </Tooltip>
@@ -1061,6 +1045,7 @@ const Header = () => {
                           cursor: "pointer",
                           width: "20px",
                         }}
+                        className="malkan_logo_nav"
                       />
                     </li>
                     <Badge
@@ -1076,7 +1061,8 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: "30px", width: "30px" }}
+                            sx={{ height: "20px", width: "20px" }}
+                            className="malkan_logo_nav"
                           />
                         </li>
                       </Tooltip>
@@ -1091,6 +1077,7 @@ const Header = () => {
                         style={{}}
                       >
                         <IoSearchOutline
+                        className="malkan_logo_nav"
                           style={{
                             height: "20px",
                             cursor: "pointer",
@@ -1111,6 +1098,7 @@ const Header = () => {
                             onClick={() => navigation("/myWishList")}
                           >
                             <PiStarThin
+                            className="malkan_logo_nav"
                               style={{
                                 height: "20px",
                                 cursor: "pointer",
@@ -1134,7 +1122,8 @@ const Header = () => {
                             className="nav_li_smining_Icone"
                           >
                             <ShoppingCartOutlinedIcon
-                              sx={{ height: "30px", width: "30px" }}
+                              sx={{ height: "22px", width: "22px" }}
+                              className="malkan_logo_nav"
                             />
                           </li>
                         </Tooltip>
@@ -1158,11 +1147,8 @@ const Header = () => {
             style={{
               display: "flex",
               padding: "25px",
-              color: "#7d7f85",
-              backgroundColor: "white",
               gap: "50px",
               justifyContent: "space-between",
-              // marginTop: isHeaderFixed && "20px",
             }}
             className="mala_showDropOptionMainDiv"
             onMouseEnter={handleDropdownOpen}
@@ -1173,11 +1159,6 @@ const Header = () => {
                 <div
                   key={menuItem.menuid}
                   className="mala_headerOptionSingleDiv"
-                  style={{
-                    minWidth: "fitContent",
-                    borderRight: "1px solid lightgray",
-                    paddingLeft: "25px",
-                  }}
                 >
                   <ButtonBase
                     component="div"

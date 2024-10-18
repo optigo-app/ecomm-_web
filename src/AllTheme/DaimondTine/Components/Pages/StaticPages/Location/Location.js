@@ -15,7 +15,8 @@ export default function Location() {
 
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/Location.html`)
+        // fetch(`${storImagePath()}/html/Location.html`)
+        fetch(`${storImagePath()}/html/Locationsona.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);
@@ -33,7 +34,7 @@ export default function Location() {
                 </div>
 
                 <p className='dt_contactBox2Title'>Studio Address
-                    <p className='dt_contactBox2Desc'>E-4, South EX-|| New Delhi 110049</p>
+                    <p className='dt_contactBox2Desc'>E-4, South EX-|| New Mars 0000000</p>
 
                     <p className='dt_contactBox2Title'>Opening Hours
                         <p className='dt_contactBox2Desc'>Monday - Friday 11am - 6pm <br /> Saturday 12am - 6pm</p>
