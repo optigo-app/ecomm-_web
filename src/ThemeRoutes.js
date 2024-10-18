@@ -151,13 +151,11 @@ export default function ThemeRoutes() {
   }, []);
 
   useEffect(() => {
-    console.log("initial call")
     setTitle(title);
-    let visiterId = htmlContent?.VisitorId;
-    const existingVisitorId = Cookies.get("visiterId");
-
+    let Data = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
+    let visiterId = Data?.VisitorId;
+    const existingVisitorId = Cookies.get("visiterId") ?? '';
     if (!existingVisitorId) {
-    console.log("existingVisitorId not have call")
       Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
     } else {
       try {

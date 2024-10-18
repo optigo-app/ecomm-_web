@@ -8,8 +8,6 @@ $generalColor: lightgray;
 
 .ProCat_home_index_main {
   // background-color: $backgroundColor;
-  padding-inline: 6%;
-
   .smiling_home_index_Submain {
     background-color: white;
   }
@@ -29,5 +27,18 @@ $generalColor: lightgray;
 
   @media screen and (max-width: 1200px) {
     padding-inline: 1% !important;
+  }
+}
+
+.proCatMinHeightSet{
+  min-height: 650px;
+  background-color: white;
+  margin-inline: 6%;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .proCatMinHeightSet{
+    margin-inline: 1%!important;
   }
 }

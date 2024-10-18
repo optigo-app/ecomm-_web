@@ -188,7 +188,7 @@ const CartPage = () => {
 
   return (
     <div className='proCat_MainBGDiv'>
-      <div className='cartMainPageDiv'>
+      <div className='proCat_cartMainPageDiv'>
         <div className="cartBtnGroupMainDiv">
           {isMobileScreen &&
             <div className="proCat_cart-title">My Cart</div>

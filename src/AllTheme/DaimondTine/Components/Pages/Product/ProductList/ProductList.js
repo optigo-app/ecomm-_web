@@ -1461,7 +1461,9 @@ const ProductList = () => {
                           </>
                         }
                       </span>
-                      <span onClick={() => { if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) { handelFilterClearAll() } }}>
+                      <span
+                       onClick={() => { if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) { handelFilterClearAll() } }}
+                       >
                         {Object.values(filterChecked).filter((ele) => ele.checked)
                           ?.length > 0
                           ? "Clear All"
