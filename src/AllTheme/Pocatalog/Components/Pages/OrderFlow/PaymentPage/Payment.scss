@@ -4,16 +4,8 @@
     background-color: $backgroundColor;
 
     .proCat_paymentSecondMainDiv {
-        margin-inline: 6%;
         background-color: #fff;
     }
-
-    @media (max-width: 1200px) {
-        .proCat_paymentSecondMainDiv {
-            margin-inline: 1% !important;
-        }
-    }
-
 
     .proCat_PaymentContainer {
         margin-inline: 4%;
