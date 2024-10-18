@@ -4,7 +4,6 @@
   background-color: $backgroundColor;
 
   .proCat_secondMaindivAdd {
-    margin-inline: 6%;
     background-color: #fff;
   }
 
@@ -188,12 +187,6 @@
     .proCat_DeleteIcon {
       font-size: 20px;
       color: $titleColor
-    }
-  }
-
-  @media(max-width:500px) {
-    .proCat_secondMaindivAdd {
-      margin-inline: 1%;
     }
   }
 

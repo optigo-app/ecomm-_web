@@ -44,8 +44,12 @@ import { LoginWithEmailAPI } from "../../utils/API/Auth/LoginWithEmailAPI";
 import Lookbook from "./Components/Pages/Home/LookBook/Lookbook";
 import ProCat_PrivateRoutes from "./ProCat_PrivateRoutes";
 import ConnectionManager from "../../utils/SoketConnection/ConnectionManager";
-import { storImagePath, storInitDataPath } from "../../utils/Glob_Functions/GlobalFunction";
+import {
+  storImagePath,
+  storInitDataPath,
+} from "../../utils/Glob_Functions/GlobalFunction";
 import Footer from "./Components/Pages/Home/Footer/Footer";
+import ProcatAppChatMenu from "./Components/Pages/Home/ChatMenu/ProcatAppChatMenu";
 
 const Procatalog_App = () => {
   const navigation = useNavigate();
@@ -56,8 +60,10 @@ const Procatalog_App = () => {
   const updatedSearch = search.replace("?LoginRedirect=", "");
 
   const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
-  const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(proCat_companyLogo);
-  const [companyTitleLogoM, setCompanyTitleLogoM] = useRecoilState(proCat_companyLogoM);
+  const [companyTitleLogo, setCompanyTitleLogo] =
+    useRecoilState(proCat_companyLogo);
+  const [companyTitleLogoM, setCompanyTitleLogoM] =
+    useRecoilState(proCat_companyLogoM);
   const [htmlContent, setHtmlContent] = useState("");
   const [localData, setLocalData] = useState();
 
@@ -84,8 +90,8 @@ const Procatalog_App = () => {
         try {
           const styleTag = document.createElement("style");
           styleTag.type = "text/css";
-          styleTag.innerHTML = text; // Inject the content of the file as CSS
-          document.head.appendChild(styleTag); // Append to the <head> section
+          styleTag.innerHTML = text;
+          document.head.appendChild(styleTag);
         } catch (error) {
           console.error("Error processing the text file:", error);
         }
@@ -107,8 +113,8 @@ const Procatalog_App = () => {
 
   useEffect(() => {
     // let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
-    // let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;  
-    let storeinit = JSON.parse(sessionStorage.getItem('storeInit'))
+    // let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setCompanyTitleLogo(storeinit?.companylogo);
     setCompanyTitleLogoM(storeinit?.companyMlogo);
   }, []);
@@ -119,7 +125,10 @@ const Procatalog_App = () => {
       LoginWithEmailAPI("", "", "", "", cookieValue)
         .then((response) => {
           if (response.Data.rd[0].stat === 1) {
-            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token, { path: "/", expires: 30 });
+            Cookies.set("userLoginCookie", response?.Data?.rd[0]?.Token, {
+              path: "/",
+              expires: 30,
+            });
             setIsLoginState(true);
             // sessionStorage.setItem("LoginUser", true);
             // sessionStorage.setItem(
@@ -145,80 +154,41 @@ const Procatalog_App = () => {
 
   if (islogin === true) {
     const restrictedPaths = [
-      '/LoginOption',
-      '/ContinueWithEmail',
-      '/ContinueWithMobile',
-      '/LoginWithEmailCode',
-      '/LoginWithMobileCode',
-      '/ForgotPass',
-      '/LoginWithEmail',
-      '/register'
+      "/LoginOption",
+      "/ContinueWithEmail",
+      "/ContinueWithMobile",
+      "/LoginWithEmailCode",
+      "/LoginWithMobileCode",
+      "/ForgotPass",
+      "/LoginWithEmail",
+      "/register",
     ];
 
-    if (restrictedPaths?.some(path => location.pathname.startsWith(path))) {
+    if (restrictedPaths?.some((path) => location.pathname.startsWith(path))) {
       return navigation("/");
     }
   }
 
   return (
-    <>
-      <div className="setFullThemeBack">
-        {localData?.Headerno === 1 && <Header />}
-        {localData?.Headerno === 2 && <Header2 />}
-      </div>
+    <div className="setFullThemeBack">
+      {localData?.Headerno === 1 && <Header />}
+      {localData?.Headerno === 2 && <Header2 />}
       <ConnectionManager />
-      <div className="setFullThemeBack">
-        {/* <div style={{ backgroundColor: '#f1e9dd' }}> */}
+      <ProcatAppChatMenu />
+      <div className="proCatMinHeightSet">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/LoginOption"
-            element={
-              <LoginOption />
-            }
-          />
-          <Route
-            path="/ContinueWithEmail"
-            element={
-              <ContinueWithEmail />
-            }
-          />
-          <Route
-            path="/ContimueWithMobile"
-            element={
-              <ContimueWithMobile />
-            }
-          />
-          <Route
-            path="/LoginWithEmailCode"
-            element={
-              <LoginWithEmailCode />
-            }
-          />
+          <Route path="/LoginOption" element={<LoginOption />} />
+          <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
+          <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
+          <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
           <Route
             path="/LoginWithMobileCode"
-            element={
-              <LoginWithMobileCode />
-            }
+            element={<LoginWithMobileCode />}
           />
-          <Route
-            path="/ForgotPass"
-            element={
-              <ForgotPass />
-            }
-          />
-          <Route
-            path="/LoginWithEmail"
-            element={
-              <LoginWithEmail />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <Register />
-            }
-          />
+          <Route path="/ForgotPass" element={<ForgotPass />} />
+          <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/servicePolicy" element={<ServicePolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
@@ -241,24 +211,31 @@ const Procatalog_App = () => {
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer />
-        <div>
-          <p style={{
-            paddingBlock: '30px',
-            margin: '0px',
-            textAlign: 'center',
-            color: 'black',
-            cursor: 'pointer',
-            fontSize: '13px',
-            fontWeight: 500,
-            letterSpacing: '1px'
-          }} onClick={() => window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          })}>BACK TO TOP</p>
-        </div>
       </div>
-    </>
+      <Footer />
+      <div>
+        <p
+          style={{
+            paddingBlock: "30px",
+            margin: "0px",
+            textAlign: "center",
+            color: "black",
+            cursor: "pointer",
+            fontSize: "13px",
+            fontWeight: 500,
+            letterSpacing: "1px",
+          }}
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            })
+          }
+        >
+          BACK TO TOP
+        </p>
+      </div>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import { CommonAPI } from "../../CommonAPI/CommonAPI";
 
 export const Get_Procatalog = async (mode, customerID, ALCID) => {
+
     let response;
     try {
         const storeInit = JSON.parse(sessionStorage.getItem("storeInit")) ?? ""
@@ -8,7 +9,7 @@ export const Get_Procatalog = async (mode, customerID, ALCID) => {
         const combinedValue = JSON.stringify({
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
             // "FrontEnd_RegNo": `${RegNo}`,
-            "Customerid": `${customerID}`,
+            "Customerid": `${customerID ?? ""}`,
             "ALC": `${ALCID ?? ""}`,
             "DomainForNo": `${storeInit?.DomainForNo ?? ''}`
         })
@@ -16,7 +17,7 @@ export const Get_Procatalog = async (mode, customerID, ALCID) => {
 
             "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
             // "FrontEnd_RegNo": `${RegNo}`,
-            "Customerid": `${customerID}`,
+            "Customerid": `${customerID ?? ""}`,
             "ALC": `${ALCID ?? ""}`,
             "DomainForNo": `${storeInit?.DomainForNo ?? ''}`
         })
