@@ -99,3 +99,30 @@
   <meta name="application-name" content="Kayra Creation Limited">
   <link rel="icon" sizes="192x192" content="https://kayracreation.com/WebSiteStaticImage/logoIcon/androidCh2.png" />  -->
 
+
+    <!-- elvee.in -->
+
+    <!-- <meta name="description"
+    content="A prestigious bridal jewelry brand that weaves tales of romance and timeless sophistication." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://elvee.in/" />
+  <meta property="og:title" content="Elvee Jewels Private Limited
+" />
+  <meta property="og:description"
+    content="A prestigious bridal jewelry brand that weaves tales of romance and timeless sophistication." />
+  <meta property="og:image" content="https://elvee.in/WebSiteStaticImage/logoIcon/MetaShareImage.jpg" />
+  <link rel="shortcut icon" href="https://elvee.in/WebSiteStaticImage/logoIcon/favicon2.png"> -->
+  <!-- <meta property="twitter:card" content="summary_large_image" /> -->
+  <!-- <meta property="twitter:url" content="https://elvee.in/" />
+  <meta property="twitter:title" content="Elvee Jewels Private Limited
+" />
+  <meta property="twitter:description"
+    content="A prestigious bridal jewelry brand that weaves tales of romance and timeless sophistication." />
+  <meta property="twitter:image" content="https://elvee.in/WebSiteStaticImage/logoIcon/MetaShareImage.jpg" />
+  <link rel="apple-touch-icon" sizes="180x180"
+    href="https://elvee.in/WebSiteStaticImage/logoIcon/apple-touch-icon.png" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Elvee Jewels Private Limited
+">
+  <link rel="icon" sizes="192x192" content="https://elvee.in/WebSiteStaticImage/logoIcon/androidCh2.png" /> -->
+

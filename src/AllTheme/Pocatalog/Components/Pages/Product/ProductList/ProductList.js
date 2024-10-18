@@ -795,7 +795,7 @@ const ProductList = () => {
   }, [filterChecked]);
 
   const handelFilterClearAll = () => {
-    setAfterCountStatus(true);
+    // setAfterCountStatus(true);
     if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
       setFilterChecked({});
     }
@@ -1794,37 +1794,37 @@ const ProductList = () => {
                       "Filters"
                     ) : (
                       <>
-                        {/* {afterCountStatus == true ? (
+                        {afterCountStatus == true ? (
                           <Skeleton
                             variant="rounded"
                             width={140}
                             height={22}
                             className="pSkelton"
                           />
-                        ) : ( */}
-                        <span>{`Product Found:: ${afterFilterCount}`}</span>
-                        {/* )} */}
+                        ) : (
+                          <span>{`Product Found:: ${afterFilterCount}`}</span>
+                        )}
                       </>
                     )}
                   </span>
                   <span
-                  // onClick={() => handelFilterClearAll()}
+                    onClick={() => handelFilterClearAll()}
                   >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0 ? (
                       "Clear All"
                     ) : (
                       <>
-                        {/* {afterCountStatus == true ? (
+                        {afterCountStatus == true ? (
                           <Skeleton
                             variant="rounded"
                             width={140}
                             height={22}
                             className="pSkelton"
                           />
-                        ) : ( */}
-                        <span>{`Total Products: ${afterFilterCount}`}</span>
-                        {/* )} */}
+                        ) : (
+                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                        )}
                       </>
                     )}
                   </span>
@@ -2493,38 +2493,38 @@ const ProductList = () => {
                               ) : (
                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
                                 <>
-                                  {/* {afterCountStatus == true ? (
+                                  {afterCountStatus == true ? (
                                     <Skeleton
                                       variant="rounded"
                                       width={140}
                                       height={22}
                                       className="pSkelton"
                                     />
-                                  ) : ( */}
-                                  <span>{`Product Found:: ${afterFilterCount}`}</span>
-                                  {/* )} */}
+                                  ) : (
+                                    <span>{`Product Found:: ${afterFilterCount}`}</span>
+                                  )}
                                 </>
                               )}
                             </span>
                             <span
-                            //  onClick={() => handelFilterClearAll()}
-                             >
+                              onClick={() => handelFilterClearAll()}
+                            >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
                               )?.length > 0 ? (
                                 "Clear All"
                               ) : (
                                 <>
-                                  {/* {afterCountStatus == true ? (
+                                  {afterCountStatus == true ? (
                                     <Skeleton
                                       variant="rounded"
                                       width={140}
                                       height={22}
                                       className="pSkelton"
                                     />
-                                  ) : ( */}
-                                  <span>{`Total Products: ${afterFilterCount}`}</span>
-                                  {/* )} */}
+                                  ) : (
+                                    <span>{`Total Products: ${afterFilterCount}`}</span>
+                                  )}
                                 </>
                               )}
                             </span>
@@ -3224,7 +3224,7 @@ const ProductList = () => {
                                         });
                                       }}
                                       className="proCat_ImgandVideoContainer"
-                                      style={{position:'relative'}}
+                                      style={{ position: 'relative' }}
                                     >
                                       {isRollOverVideo[productData?.autocode] ==
                                         true ? (

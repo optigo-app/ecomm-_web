@@ -78,8 +78,9 @@
         background-color: $btnprimarycolor !important;
         border: 0;
         margin-top: 10px;
-        font-size: 13px;
+        font-size: 15px;
         cursor: pointer;
+        border-radius: 4px;
         font-weight: 500;
         letter-spacing: 1;
         transition: all 0.5s ease;
@@ -146,6 +147,16 @@
             margin: 10px;
         }
 
+        .rp_createBtnRegister {
+            width: 90%;
+            height: 50px !important;
+        }
+
+        .rp_cancleForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+
         .labGrowForgot {
             width: 80%;
         }
@@ -154,5 +165,17 @@
             width: 80%;
         }
 
+    }
+
+    @media (max-width: 500px) {
+        .rp_createBtnRegister {
+            width: 90%;
+            height: 40px !important;
+        }
+
+        .rp_cancleForgot {
+            width: 90%;
+            height: 40px !important;
+        }
     }
 }

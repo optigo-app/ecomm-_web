@@ -181,14 +181,14 @@ const SmilingRock_App = () => {
         {/* Maiora not needed */}
         {/* for kAYRA CRAETEION NEEDED */}
 
-        <Route
+        {/* <Route
           path="/ContimueWithMobile"
           element={
             <div className="smr_authFlowBakcColor">
               <ContimueWithMobile />
             </div>
           }
-        />
+        /> */}
         <Route
           path="/LoginWithEmailCode"
           element={
@@ -200,14 +200,14 @@ const SmilingRock_App = () => {
         {/* Maiora not needed */}
         {/* for kAYRA CRAETEION NEEDED */}
 
-        <Route
+        {/* <Route
           path="/LoginWithMobileCode"
           element={
             <div className="smr_authFlowBakcColor">
               <LoginWithMobileCode />
             </div>
           }
-        />
+        /> */}
         <Route
           path="/ForgotPass"
           element={
@@ -233,9 +233,14 @@ const SmilingRock_App = () => {
           }
         />
         <Route path="/ContactUs" element={<ContactUs />} />
-        {/* <Route path="/servicePolicy" element={<ServicePolicy />} /> */}
+        {/* Maiora needed servicePolicy */}
+        {/* Kayra not needed */}
+        <Route path="/servicePolicy" element={<ServicePolicy />} />
         <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
-        <Route path="/FunFact" element={<FunFact />} />
+
+        {/* Maiora not needed fun facts */}
+        {/* Kayra needed */}
+        {/* <Route path="/FunFact" element={<FunFact />} /> */}
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/TermsPolicy" element={<TermsPolicy />} />
         <Route path="/natural-diamond" element={<NatualDiamond />} />

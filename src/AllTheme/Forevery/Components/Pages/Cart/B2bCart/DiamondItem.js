@@ -43,7 +43,7 @@ const DiamondItems = ({
     handleCancel,
     openHandleUpdateCartModal
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const [open, setOpen] = useState(false);
     const [remark, setRemark] = useState(diaData?.Remarks || '');
     const [isSelectedItems, setIsSelectedItems] = useState();
