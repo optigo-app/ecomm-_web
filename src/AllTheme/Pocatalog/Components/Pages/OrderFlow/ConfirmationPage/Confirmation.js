@@ -38,14 +38,14 @@ const Confirmation = () => {
             behavior: 'smooth'
         });
     }
-    useEffect(()=>{
-        const timer = setTimeout(() => {
-            navigate("/",{replace  :true})
-        }, 2000);
-        return  ()=>{
-            clearTimeout(timer)
-        }
-    },[])
+    // useEffect(()=>{
+    //     const timer = setTimeout(() => {
+    //         navigate("/",{replace  :true})
+    //     }, 2000);
+    //     return  ()=>{
+    //         clearTimeout(timer)
+    //     }
+    // },[])
 
     return (
         <div className='proCat_confirMaindiv'>

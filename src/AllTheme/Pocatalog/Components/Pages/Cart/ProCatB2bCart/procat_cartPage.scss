@@ -6,9 +6,8 @@ $cartUpdateBtncolor: #b1b1b1;
   background-color: $backgroundColor;
   font-family: $primaryFontFamily;
 
-  .cartMainPageDiv {
+  .proCat_cartMainPageDiv {
     background-color: #fff;
-    margin-inline: 6%;
     min-height: 51.8vh;
   }
 
@@ -96,8 +95,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .proCat_place-order-btn {
       font-family: $primaryFontFamily !important;
-      background-color: $btn1hoverColor;
-      color: $btn1hoverFontColor;
+      background-color: #98b8d9 !important;
+      color: black;
       font-size: $fontSize2;
       border: none;
       outline: none;
@@ -522,9 +521,8 @@ $cartUpdateBtncolor: #b1b1b1;
       display: block;
       height: 40px;
       width: 100px;
-      // padding: 15px;
-      background-color: $cartUpdateBtncolor;
-      color: white;
+      background-color: #98b8d9 !important;
+      color: black;
       border: none;
       border-radius: 0px;
       font-size: $fontSize3;
@@ -815,7 +813,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width:1200px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       margin-inline: 1%;
     }
   }
@@ -873,7 +871,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 1500px) and (min-width:1440px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       .proCat_cartMainPage {
         .proCat_cart-left-sides {
           max-width: 80%;
@@ -900,7 +898,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 1439px) and (min-width:1360px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       .proCat_cartMainPage {
         .proCat_cart-left-sides {
           max-width: 80%;
@@ -933,7 +931,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 1359px) and (min-width:1000px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       .proCat_cartMainPage {
         .proCat_cart-left-sides {
           max-width: 75%;
@@ -966,7 +964,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 999px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       .proCat_cartMainPage {
         .proCat_cart-left-sides {
           max-width: 100%;
@@ -997,7 +995,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 849px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       .proCat_cartMainPage {
         .proCat_cart-left-sides {
           max-width: 100%;
@@ -1019,7 +1017,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   @media(max-width: 570px) {
-    .cartMainPageDiv {
+    .proCat_cartMainPageDiv {
       .proCat_cartMainPage {
         padding: 0;
 
@@ -1088,7 +1086,7 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
   // @media(max-width: 570px) {
-  //   .cartMainPageDiv {
+  //   .proCat_cartMainPageDiv {
   //     .proCat_cartMainPage {
   //       padding: 0;
 

@@ -53,8 +53,13 @@ const Album = () => {
       const visiterID = Cookies.get("visiterId");
       const queryParams = new URLSearchParams(window.location.search);
       const ALCVAL = queryParams.get('ALC');
-      const finalID = storeInit?.IsB2BWebsite === 0 ? (islogin ? loginUserDetail?.id || "0" : visiterID) : loginUserDetail?.id || "0";
+      // const finalID = storeInit?.IsB2BWebsite === 0 ? (islogin ? loginUserDetail?.id || "0" : visiterID) : loginUserDetail?.id || "0";
+      const finalID = storeInit?.IsB2BWebsite === 0 
+      ? (islogin ? (loginUserDetail?.id || "") : visiterID) 
+      : (loginUserDetail?.id || "");
 
+      console.log('customerIDcustomerID customerIDcustomerID', visiterID);
+      
       if (ALCVAL) {
         sessionStorage.setItem('ALCVALUE', ALCVAL);
         await fetchAndSetAlbumData(ALCVAL, finalID);
