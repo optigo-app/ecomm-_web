@@ -90,6 +90,7 @@ const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsLoading] = useRecoilState(for_Loader);
   const [diamondData, setDiamondData] = useState();
+  console.log('diamondData: ', diamondData);
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
   const dropdownRefs = useRef({});
@@ -781,14 +782,12 @@ const DiamondFilter = () => {
         .join("/");
 
       const shape = location?.pathname?.split("/")[3];
-      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${
-        sliderParams ? `/${sliderParams}` : ""
-      }`;
+      const urlToEncode = `${shape ? `/${shape}/${shape}` : ""}${sliderParams ? `/${sliderParams}` : ""
+        }`;
       const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname.slice(0, 4).join("/")}${
-        sliderParams ? `/f=${encodeUrl}` : ""
-      }`;
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+        }`;
       Navigate(newPath);
     }, 600);
   }, [finalArray]);
@@ -836,6 +835,7 @@ const DiamondFilter = () => {
       <DiamondPage />
       <ScrollTop />
       <div className="for_DiamondFilter">
+        <Drawer
         <Drawer
           open={isDrawerOpen}
           onClose={() => {
@@ -1065,16 +1065,14 @@ const DiamondFilter = () => {
                   }}
                 />
                 <div
-                  className={`shape_card ${
-                    checkedItem === val?.name
+                  className={`shape_card ${checkedItem === val?.name
                       ? "active-checked"
-                      : `${
-                          steps1?.[0]?.step1 == true &&
-                          stepsData2?.[0]?.step1Data?.id > 0
-                            ? "blue-unchecked"
-                            : ""
-                        }`
-                  }`}
+                      : `${steps1?.[0]?.step1 == true &&
+                        stepsData2?.[0]?.step1Data?.id > 0
+                        ? "blue-unchecked"
+                        : ""
+                      }`
+                    }`}
                   id={val?.name}
                 >
                   <img src={val?.img} alt={val?.name} />
@@ -1389,7 +1387,7 @@ const DiamondFilter = () => {
           </div>
         ) : (
           <>
-            {diamondData?.length != 0 ? (
+            {diamondData?.length != 0 && diamondData?.[0]?.stat !== 0 ? (
               <>
                 <div className="diamond_listing">
                   {diamondData?.map((val, i) => {

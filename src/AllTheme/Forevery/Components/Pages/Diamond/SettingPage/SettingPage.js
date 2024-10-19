@@ -417,33 +417,28 @@ const SettingPage = () => {
   }
 
 
+  // useEffect(() => {
+  //   // Check if the current values differ from the previous values
+  //   const hasChanges = selectedMetalId !== previousSelections.selectedMetalId
+  //     || selectedDiaId !== previousSelections.selectedDiaId
+  //     || selectedCsId !== previousSelections.selectedCsId || selectShape
+
+  //   if (hasChanges) {
+  //     filterData(selectedMetalId, selectedDiaId, selectedCsId, selectShape);
+
+  //     setPreviousSelections({
+  //       selectedMetalId,
+  //       selectedDiaId,
+  //       selectedCsId
+  //     });
+  //   }
+  // }, [selectedMetalId, selectedDiaId, selectShape]);
+
   useEffect(() => {
-    // Check if the current values differ from the previous values
-    const hasChanges = selectedMetalId !== previousSelections.selectedMetalId
-      || selectedDiaId !== previousSelections.selectedDiaId
-      || selectedCsId !== previousSelections.selectedCsId || selectShape
-
-    if (hasChanges) {
-      // Call filterData function
-      filterData(selectedMetalId, selectedDiaId, selectedCsId, selectShape);
-
-      // Update the previousSelections with current state values
-      setPreviousSelections({
-        selectedMetalId,
-        selectedDiaId,
-        selectedCsId
-      });
-    }
-  }, [selectedMetalId, selectedDiaId, selectedCsId, selectShape]);
-
-
-  const filterData = (selectedMetalId, selectedDiaId, selectedCsId, shape) => {
-    console.log('filterData shape: ', shape);
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    // if (location?.key === locationKey) {
     setIsOnlySettLoading(true);
-    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, shape)
+    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, selectShape)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -455,8 +450,27 @@ const SettingPage = () => {
       .finally(() => {
         setIsOnlySettLoading(false);
       });
-    // }
-  }
+  }, [selectedMetalId, selectedDiaId, selectShape]);
+
+  // const filterData = (selectedMetalId, selectedDiaId, selectedCsId, shape) => {
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+  //   // if (location?.key === locationKey) {
+  //   setIsOnlySettLoading(true);
+  //   ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, shape)
+  //     .then((res) => {
+  //       if (res) {
+  //         setProductListData(res?.pdList);
+  //         setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //       }
+  //       return res;
+  //     })
+  //     .catch((err) => console.log("err", err))
+  //     .finally(() => {
+  //       setIsOnlySettLoading(false);
+  //     });
+  //   // }
+  // }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -487,7 +501,6 @@ const SettingPage = () => {
     if (!path.includes('M=')) {
       setSelectedCategory(path?.toLocaleLowerCase())
     }
-    console.log('path: ', path);
   }, [location?.pathname])
 
   const handleCategory = (id) => {
@@ -518,9 +531,8 @@ const SettingPage = () => {
   const handleClearSelectedvalues = () => {
     setSelectedValues([]);
     setSelectShape();
-    setSelectedMetalId(loginUserDetail?.MetalId)
-    setSelectedDiaId(loginUserDetail?.cmboDiaQCid)
-    setSelectedCsId(loginUserDetail?.cmboCSQCid)
+    setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId)
+    setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid)
     setPriceRangeValue([5000, 250000])
     setShippingDrp('ANY DATE')
     setTrend('Recommended')
@@ -692,7 +704,7 @@ const SettingPage = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
+  const handleMoveToDetail = (productData, metalColor) => {
     console.log('productData: ', productData);
     let pValue = isRing === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' };
     let output = isRing === 'Ring' ? { category: '1' } : { category: '13' };
@@ -703,6 +715,7 @@ const SettingPage = () => {
       d: selectedDiaId,
       c: selectedCsId,
       f: output,
+      cmc: metalColor,
     };
     console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
@@ -1040,6 +1053,7 @@ const SettingPage = () => {
                     selectedMetalId={selectedMetalId}
                     metalType={metalType}
                     getBannerImage={getBannerImage}
+                    location={location}
                   />
                 )
               })
@@ -1286,8 +1300,33 @@ const Product_Card = ({
   yellowImage,
   whiteImage,
   roseImage,
+  location,
 }) => {
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
+  const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
+  const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
+  const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
+
+  const activeColorCode = getSessImgColor || getSessCartWishImgColor;
+
+  useEffect(() => {
+    if ((activeColorCode !== "" && activeColorCode !== undefined && activeColorCode !== null)) {
+      setImageColor("");
+      sessionStorage.removeItem("imgColorCode");
+      sessionStorage.removeItem("cartWishImgColor");
+      setSelectedMetalColor(null);
+    }
+  }, [location?.search])
+
+  useEffect(() => {
+    if (selectedMetalColor !== null) {
+      setImageColor(selectedMetalColor);
+      sessionStorage.setItem("imgColorCode", JSON.stringify(selectedMetalColor));
+    } else {
+      sessionStorage.removeItem("imgColorCode");
+      setImageColor("");
+    }
+  }, [selectedMetalColor])
 
   const getGoldType = metalType.filter((item) => item?.Metalid === selectedMetalId)?.[0]?.metaltype.toUpperCase()?.split(' ')[1]?.split('K')[0];
 
@@ -1334,7 +1373,7 @@ const Product_Card = ({
             {productData?.IsNewArrival == 1 && <span className="forWeb_app_newarrival">New</span>}
           </div>
           <div className="for_settingList_listing_card_image_div"
-            onClick={() => handleMoveToDetail(productData)}
+            onClick={() => handleMoveToDetail(productData, selectedMetalColor)}
           >
             <img
               className="for_settingList_listing_card_image"

@@ -127,7 +127,7 @@ export default function ForgotPass() {
                 <div className='smr_forgotSubDiv'>
                     <p style={{
                         textAlign: 'center',
-                        padding: '60px',
+                        paddingBlock: '60px',
                         margin: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
@@ -208,8 +208,8 @@ export default function ForgotPass() {
                             }}
                         />
 
-                        <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
+                        <button className='pro_createBtnRegister btnColorProCat' onClick={handleSubmit}>Change Password</button>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
                 </div>
             </div>

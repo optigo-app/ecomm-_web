@@ -75,7 +75,7 @@ const Header2 = () => {
         setislogin(value);
     };
 
-    
+
     const getMenuApi = async () => {
         await GetMenuAPI().then((response) => {
             setMenuData(response?.Data?.rd)
@@ -141,8 +141,8 @@ const Header2 = () => {
         window.scrollTo({
             left: 0,
             behavior: 'smooth'
-          });
-          
+        });
+
     };
 
 
@@ -151,7 +151,7 @@ const Header2 = () => {
         window.scrollTo({
             left: 0,
             behavior: 'smooth'
-          });  
+        });
     };
 
     const toggleOverlay = () => {
@@ -520,13 +520,15 @@ const Header2 = () => {
                                 EXPERT ADVICE
                             </li>
 
-                            <li
+                            {/* Maiora not needed fun facts */}
+                            {/* Kayra needed */}
+                            {/* <li
                                 className="nav_li_smining nav_li_smining_Mobile"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
                             >
                                 FUN FACT
-                            </li>
+                            </li> */}
 
                             <li
                                 className="nav_li_smining nav_li_smining_Mobile"
@@ -683,13 +685,15 @@ const Header2 = () => {
                                     EXPERT ADVICE
                                 </li>
 
-                                <li
+                                {/* Maiora not needed fun facts */}
+                                {/* Kayra needed */}
+                                {/* <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"
                                     style={{ cursor: "pointer" }}
                                     onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}
                                 >
                                     FUN FACT
-                                </li>
+                                </li> */}
 
                                 <li
                                     className="nav_li_smining_Fixed nav_li_smining_Mobile"

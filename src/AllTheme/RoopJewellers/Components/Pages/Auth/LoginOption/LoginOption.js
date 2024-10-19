@@ -29,11 +29,11 @@ const LoginOption = () => {
                     <div className='smilingLoginOptionMain'>
                         <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
                             <IoMdMail style={{ height: '25px', width: '25px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Continue with email</p>
+                            <p className="roop_loginOption_text">Continue with email</p>
                         </div>
                         <div className='loginMobile' onClick={() => navigation(redirectMobileUrl)}>
                             <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
-                            <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px' }}>Log in with mobile</p>
+                            <p className="roop_loginOption_text">Log in with mobile</p>
                         </div>
                     </div>
                     <p style={{

@@ -31,7 +31,7 @@ const CartDetails = ({
   decodeEntities,
   handleMoveToDetail
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const getimcColorId = JSON.parse(sessionStorage.getItem("cartWishImgColor"));
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {

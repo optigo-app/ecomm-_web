@@ -43,7 +43,7 @@
     background-color: white;
     font-size: 14px;
     letter-spacing: 1px;
-    border: 1px solid #7d7f85;
+    border: 1px solid #c7c7c9;
     width: 420px;
     height: 60px;
     position: relative;
@@ -82,13 +82,23 @@
     }
 
     .submitBtnForgot {
-      width: 50%;
+      width: 90%;
+      height: 50px !important;
+    }
+
+    .rp_cancleForgot {
+      width: 90%;
       height: 50px !important;
     }
   }
 
   @media screen and (max-width: 500px) {
     .submitBtnForgot {
+      width: 90%;
+      height: 40px !important;
+    }
+
+    .rp_cancleForgot {
       width: 90%;
       height: 40px !important;
     }

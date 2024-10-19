@@ -1359,7 +1359,7 @@ const ProductDetail = () => {
   //   }
   // },[pdThumbImg,pdVideoArr])
 
-  const KayraCreation = 1 ;
+  const KayraCreation = 1;
 
   return (
     <>
@@ -1653,7 +1653,8 @@ const ProductDetail = () => {
                                     )?.toFixed(3)}
                                   </span>
                                 </span> : null}
-                              {KayraCreation === 2 && storeInit?.IsMetalWeight === 1 &&
+                              {/* Miora Need Net weight / kayra Don't */}
+                              {KayraCreation === 1 && storeInit?.IsMetalWeight === 1 &&
                                 <span className="smr_prod_short_key">
                                   Net. wt :{" "}
                                   <span className="smr_prod_short_val">
@@ -2428,8 +2429,8 @@ const ProductDetail = () => {
                 </div>
 
 
-{/* Maiora chnages Need the / in website for other not need right now !! */}
-             {  KayraCreation === 2 && <div className="smr_material_details_portion"> 
+                {/* Maiora chnages Need the / in website for other not need right now !! */}
+                {KayraCreation === 1 && <div className="smr_material_details_portion">
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
@@ -2970,7 +2971,7 @@ const ProductDetail = () => {
                             // display:'none'
                           }}
                         >
-                          Complete The Look  
+                          Complete The Look
                         </p>
                       </div>
                     )}

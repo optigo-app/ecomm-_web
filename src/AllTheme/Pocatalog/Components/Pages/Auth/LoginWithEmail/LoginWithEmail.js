@@ -38,7 +38,6 @@ export default function LoginWithEmail() {
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
     const cancelRedireactUrl = `/LoginOption/${search}`;
 
-
     // const setPdData = useSetRecoilState(productDataNew)
     const setIsLoginState = useSetRecoilState(proCat_loginState)
     // const setDesignList = useSetRecoilState(designSet)
@@ -204,7 +203,7 @@ export default function LoginWithEmail() {
                     errors.confirmPassword = 'User Login Off'
                 } else if (response.Data.rd[0].stat_msg == 'User Not Active') {
                     errors.confirmPassword = 'User Not Active'
-                }else{
+                } else {
                     errors.confirmPassword = 'Password is Invalid'
                 }
             }
@@ -362,16 +361,16 @@ export default function LoginWithEmail() {
                             }}
                         />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
 
-                        <button type='submit' className='SmilingLoginCodeBtn' onClick={handleNavigation}>Login With a Code instead on email</button>
-                        <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
+                        <button type='submit' className='pro_SmilingLoginCodeBtn btnColorProCat' onClick={handleNavigation}>Login With a Code instead on email</button>
+                        <p className='pro_loginText' style={{ textAlign: 'center', marginTop: '20px' }}>Go passwordless! we'll send you an email.</p>
 
                         <p style={{ color: 'blue', cursor: 'pointer' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
