@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { formatter } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { stam_CartCount, stam_WishCount } from "../../Recoil/atom";
+import { useMediaQuery } from "@mui/material";
 
 const WishlistItems = ({
     item,
@@ -36,6 +37,7 @@ const WishlistItems = ({
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const mobileView = useMediaQuery('(max-width: 450px)');
 
     useEffect(() => {
         if (item?.ImageCount > 0) {
@@ -159,6 +161,7 @@ const WishlistItems = ({
                                             </>
                                         }
                                         {/* <span className="stam_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                        {mobileView && <br/>}
                                         <span className="stam_currencyFont">
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>{" "}
