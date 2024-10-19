@@ -1,11 +1,11 @@
-@import '../../../scss/variable.scss';
+@import "../../../scss/variable.scss";
 
 $borderColor: rgba(232, 232, 232, 1);
 
 .stam3_MainBGDiv {
   font-family: $primaryFontFamily;
   margin-top: 40px;
-  @media screen and (max-width  : 320px) {
+  @media screen and (max-width: 320px) {
     overflow: hidden;
   }
 
@@ -13,7 +13,7 @@ $borderColor: rgba(232, 232, 232, 1);
     color: $titleColor;
     font-size: $fontSize6;
     text-align: center;
-    @media screen and (max-width:768px) {
+    @media screen and (max-width: 768px) {
       margin-bottom: 1rem;
     }
   }
@@ -152,6 +152,7 @@ $borderColor: rgba(232, 232, 232, 1);
                 .stam3_weightsContainer {
                   display: flex;
                   flex-wrap: wrap;
+             
                 }
 
                 .stam3_diamondSKUNO {
@@ -160,11 +161,13 @@ $borderColor: rgba(232, 232, 232, 1);
 
                 .stam3_weightPair {
                   display: flex;
-                  align-items: center;
+                  align-items: center;  
                   justify-content: center;
                   align-items: center;
                   color: $titleColor;
                   font-size: $fontSize2;
+                  text-wrap: nowrap !important;
+                  text-overflow: clip;
 
                   .stam3_pipe {
                     margin-inline: 4px;
@@ -195,7 +198,6 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
-
                 p,
                 span {
                   color: $titleColor;
@@ -214,7 +216,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   color: #fff;
                   background-color: $titleColor;
                   border-radius: 50%;
-                  opacity: .5;
+                  opacity: 0.5;
                   cursor: pointer;
                   padding: 0px 8px;
                 }
@@ -311,7 +313,6 @@ $borderColor: rgba(232, 232, 232, 1);
               }
 
               &__total-price {
-
                 p,
                 span {
                   color: #df647e;
@@ -330,7 +331,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   color: #fff;
                   background-color: #f2b1b7;
                   border-radius: 50%;
-                  opacity: .5;
+                  opacity: 0.5;
                   cursor: pointer;
                   padding: 0px 8px;
                 }
@@ -469,7 +470,6 @@ $borderColor: rgba(232, 232, 232, 1);
                 margin-bottom: 20px;
                 margin-top: 20px;
 
-
                 .option {
                   color: $titleColor;
                   flex: 1 1 45%;
@@ -514,7 +514,6 @@ $borderColor: rgba(232, 232, 232, 1);
                   label {
                     color: $titleColor;
                     font-weight: bold;
-
                   }
 
                   span {
@@ -754,7 +753,6 @@ $borderColor: rgba(232, 232, 232, 1);
 
         .stam3_RightCartList {
           .stam3_cartMain-item {
-
             .stam3_cart-item,
             .stam3_Diacart-item {
               .stam3_cart-item__details {
@@ -830,7 +828,8 @@ $borderColor: rgba(232, 232, 232, 1);
         width: 100% !important;
 
         .stam3_RightCartList {
-          .stam3_tablelable {}
+          .stam3_tablelable {
+          }
 
           .stam3_cart-item {
             .stam3_cart-item__details {
@@ -914,7 +913,6 @@ $borderColor: rgba(232, 232, 232, 1);
                   .stam3_qtyDiv {
                     justify-content: center;
                     align-items: center;
-
                   }
 
                   .stam3_qtyDiv_qty {
@@ -925,7 +923,7 @@ $borderColor: rgba(232, 232, 232, 1);
                     }
                   }
 
-                  .stam3_sizeNo{
+                  .stam3_sizeNo {
                     @media (max-width: 650px) {
                       font-weight: 700;
                     }

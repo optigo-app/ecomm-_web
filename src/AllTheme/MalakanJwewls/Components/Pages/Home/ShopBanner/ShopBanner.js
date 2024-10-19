@@ -9,21 +9,21 @@ const ShopBanner = () => {
         <div className='mala_BottomBannerMain'>
             <div className='mala_shop_div1'>
                 <div className='mala_shop_div1_1 parentcard_container'>
-                    <BannerPost bg="#17372F" color="#f6c2b5" text="Our custom jewelry process"/>
+                    {/* <BannerPost bg="#17372F" color="#f6c2b5" text="Our custom jewelry process"/> */}
                     <img src={`${storImagePath()}/images/HomePage/shop/shop1.jpg`} className='mala_promo_secton2_img' />
                 </div>
                 <div className='mala_shop_div1_2 parentcard_container'>
-                    <BannerPost bg="#f6c2b5" color="#17372F" text="Our diamond collection"/>
+                    {/* <BannerPost bg="#f6c2b5" color="#17372F" text="Our diamond collection"/> */}
                     <img src={`${storImagePath()}/images/HomePage/shop/shop3.jpg`} className='mala_promo_secton2_img' />
                 </div>
             </div>
             <div className='mala_shop_div2'>
                 <div className='mala_shop_div2_1 parentcard_container'>
-                    <BannerPost bg="#f6c2b5" color="#17372F" text="Why jewelers trust Malakan"/>
+                    {/* <BannerPost bg="#f6c2b5" color="#17372F" text="Why jewelers trust Malakan"/> */}
                     <img src={`${storImagePath()}/images/HomePage/shop/shop2.jpg`} className='mala_promo_secton2_img' />
                 </div>
                 <div className='mala_shop_div2_2 parentcard_container'>
-                    <BannerPost bg="#17372F" color="#f6c2b5" text='Start a converstation'/>
+                    {/* <BannerPost bg="#17372F" color="#f6c2b5" text='Start a converstation'/> */}
                     <img src={`${storImagePath()}/images/HomePage/shop/shop4.jpeg`} className='mala_promo_secton2_img' />
                 </div>
             </div>

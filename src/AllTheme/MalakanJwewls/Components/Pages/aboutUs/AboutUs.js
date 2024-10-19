@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./AboutUs.modul.scss";
 import { storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
-import Footer from "../Home/Footer/Footer";
-import { FaPlay } from "react-icons/fa";
+
 export default function AboutUs() {
+
   const [htmlContent, setHtmlContent] = useState("");
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function AboutUs() {
                 alt="People working on laptops"
                 className="malkan_sp-hero__image"
               />
-              <div className="malkan_sp-hero__overlay">
+              {/* <div className="malkan_sp-hero__overlay">
                 <div className="text-center">
                   <h1 className="malkan_sp-hero__title">
                     It's not our work life, it's our life's work.
@@ -45,7 +45,7 @@ export default function AboutUs() {
                     <FaPlay className="malkan_sp-hero__icon" />
                   </button>
                 </div>
-              </div>
+              </div> */}
             </section>
 
             <section className="malkan_sp-dna">
