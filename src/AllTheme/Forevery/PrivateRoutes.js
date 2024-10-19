@@ -16,8 +16,6 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         return () => clearTimeout(timeout);
     }, [isLoginStatus]);
 
-    console.log('isLoginStatus', isLoginStatus)
-
     if (isLoading) {
         return <div></div>;
     }
@@ -27,17 +25,22 @@ const PrivateRoutes = ({ isLoginStatus }) => {
         if (isLoginStatus != true) {
             if (location.pathname.startsWith('/p')
                 || location.pathname.startsWith('/d')
+                || location.pathname.startsWith('/certified-loose-lab-grown-diamonds')
                 || location.pathname.startsWith('/cartPage')
+                || location.pathname.startsWith('/Delivery')
+                || location.pathname.startsWith('/Payment')
+                || location.pathname.startsWith('/account')
+                || location.pathname.startsWith('/Confirmation')
                 || location.pathname.startsWith('/myWishList')
                 || location.pathname.startsWith('/Lookbook')) {
                 let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));
                 if (!storeInt) {
                     Storeinit();
                 }
-                return <Navigate to={redirectUrl} replace/>;
+                return <Navigate to={redirectUrl} replace />;
             }
             else {
-                return <Navigate to="/" replace/>;
+                return <Navigate to="/" replace />;
             }
         }
     }

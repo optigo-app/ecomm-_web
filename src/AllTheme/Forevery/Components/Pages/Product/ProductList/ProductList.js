@@ -1332,12 +1332,12 @@ const ProductList = () => {
                       handleMetalColor={handleMetalColor}
                       metalColorType={metalColorType}
                       imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                      yellowImage={images?.yellowImage || noImageFound}
-                      whiteImage={images?.whiteImage || noImageFound}
-                      roseImage={images?.roseImage || noImageFound}
-                      yellowRollImage={images?.yellowRollImage || noImageFound}
-                      whiteRollImage={images?.whiteRollImage || noImageFound}
-                      roseRollImage={images?.roseRollImage || noImageFound}
+                      yellowImage={images?.yellowImage}
+                      whiteImage={images?.whiteImage}
+                      roseImage={images?.roseImage}
+                      yellowRollImage={images?.yellowRollImage}
+                      whiteRollImage={images?.whiteRollImage}
+                      roseRollImage={images?.roseRollImage}
                       videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                       RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                       loginCurrency={loginCurrency}
@@ -1797,13 +1797,15 @@ const Product_Card = ({
         <div className="for_productList_card_description">
           <div className="for_productList_metaltype_div">
             {metalColorType?.map((item) => (
-              <div
+              <button
                 className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
                 key={item?.id}
+                type="button"
+                disabled={yellowImage === undefined}
                 onClick={() => handleClick(item?.id)}
               >
                 {""}
-              </div>
+              </button>
             ))}
           </div>
           {/* <div className="for_productList_caratWeight">

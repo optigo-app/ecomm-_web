@@ -177,7 +177,7 @@ const ForEveryRoutes = () => {
     }
   }
 
-  console.log(openPromotionalBanner , "openPromotionalBanner")
+  console.log(openPromotionalBanner, "openPromotionalBanner")
 
   return (
     <>
@@ -186,9 +186,9 @@ const ForEveryRoutes = () => {
       </Helmet>
       <div>
         <Preloader />
-        {          openPromotionalBanner  && (
-            <PromotionalBanner onClose={handleCloseBanner} />
-          )}
+        {openPromotionalBanner && (
+          <PromotionalBanner onClose={handleCloseBanner} />
+        )}
         <TopBar />
         <Navbar />
       </div>
@@ -270,33 +270,36 @@ const ForEveryRoutes = () => {
             />
           </>
           <Route path="/appointment" element={<AppointmentPage />} />
-          {/* <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}> */}
-          <Route
-            path="/certified-loose-lab-grown-diamonds/settings/*"
-            element={<SettingPage />}
-          />
-          <Route
-            path="/certified-loose-lab-grown-diamonds/diamond/*"
-            element={<DiamondFilter />}
-          />
-          <Route
-            path="/certified-loose-lab-grown-diamonds/ring/*"
-            element={<RingPage />}
-          />
-          <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/d/*" element={<DetailsRoute />} />
-          <Route path="/p/*" element={<ProductList />} />
+          <Route path="/" element={<PrivateRoutes isLoginStatus={islogin} />}>
+            <Route
+              path="/certified-loose-lab-grown-diamonds/settings/*"
+              element={<SettingPage />}
+            />
+            <Route
+              path="/certified-loose-lab-grown-diamonds/diamond/*"
+              element={<DiamondFilter />}
+            />
+            <Route
+              path="/certified-loose-lab-grown-diamonds/ring/*"
+              element={<RingPage />}
+            />
+
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/d/*" element={<DetailsRoute />} />
+            <Route path="/p/*" element={<ProductList />} />
+            <Route path="/Delivery" element={<Delivery />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/Confirmation" element={<Confirmation />} />
+          </Route>
+
           <Route path="/diamond" element={<Diamond />} />
+          <Route path="/lab-grown-fine-jewelry" element={<FineJewelry />} />
           <Route
             path="/lab-created-engagement-rings"
             element={<LabCreatedRings />}
           />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/account" element={<Account />} />
           {/* <Route path="/Lookbook" element={<Lookbook />} /> */}
           {/* </Route> */}
           <Route path="/bespoke-jewelry" element={<Bespokejewelry />} />
