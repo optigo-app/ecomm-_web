@@ -85,12 +85,12 @@ const RoundImage = `${storImagePath()}/Forevery/advance_filter_icon.webp`;
 const Image = `${storImagePath()}/Forevery/diamondFilter/8-1.png`;
 const Video = `${storImagePath()}/Forevery/diamondFilter/video.mp4`;
 const IMG = `${storImagePath()}/Forevery/diamondFilter/svg.png`;
+const fallbackImg = `${storImagePath()}/Forevery/diamondFilter/fallback_diamond.png`;
 
 const DiamondFilter = () => {
   const location = useLocation();
   const [isloding, setIsLoading] = useRecoilState(for_Loader);
   const [diamondData, setDiamondData] = useState();
-  console.log('diamondData: ', diamondData);
   const [diamondFilterData, setDiamondFilterData] = useState();
   const [diaCount, setDiaCount] = useState(0);
   const dropdownRefs = useRef({});
@@ -836,7 +836,6 @@ const DiamondFilter = () => {
       <ScrollTop />
       <div className="for_DiamondFilter">
         <Drawer
-        <Drawer
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
@@ -899,16 +898,14 @@ const DiamondFilter = () => {
                       }}
                     />
                     <div
-                      className={`shape_card ${
-                        checkedItem === val?.name
-                          ? "active-checked"
-                          : `${
-                              steps1?.[0]?.step1 == true &&
-                              stepsData2?.[0]?.step1Data?.id > 0
-                                ? "blue-unchecked"
-                                : ""
-                            }`
-                      }`}
+                      className={`shape_card ${checkedItem === val?.name
+                        ? "active-checked"
+                        : `${steps1?.[0]?.step1 == true &&
+                          stepsData2?.[0]?.step1Data?.id > 0
+                          ? "blue-unchecked"
+                          : ""
+                        }`
+                        }`}
                       id={val?.name}
                     >
                       <img src={val?.img} alt={val?.name} />
@@ -1066,12 +1063,12 @@ const DiamondFilter = () => {
                 />
                 <div
                   className={`shape_card ${checkedItem === val?.name
-                      ? "active-checked"
-                      : `${steps1?.[0]?.step1 == true &&
-                        stepsData2?.[0]?.step1Data?.id > 0
-                        ? "blue-unchecked"
-                        : ""
-                      }`
+                    ? "active-checked"
+                    : `${steps1?.[0]?.step1 == true &&
+                      stepsData2?.[0]?.step1Data?.id > 0
+                      ? "blue-unchecked"
+                      : ""
+                    }`
                     }`}
                   id={val?.name}
                 >
@@ -1433,10 +1430,12 @@ const DiamondFilter = () => {
                                   ) : (
                                     <>
                                       <img
-                                        src={val?.img}
+                                        // src={val?.img}
+                                        src={fallbackImg}
                                         alt="bannerImage"
                                         width={"100%"}
                                         loading="lazy"
+                                        onClick={() => HandleDiamondRoute(val)}
                                       />
                                     </>
                                   )}

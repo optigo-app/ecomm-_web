@@ -91,6 +91,7 @@ const BreadCrumb = ({ breadCrumb }) => {
 const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
+  const [metalColor, setMetalColor] = useState([]);
   const Navigation = useNavigate();
   const location = useLocation();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -109,6 +110,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
     const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
     setLoginCurrency(loginData);
+
+    const metalC = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+    setMetalColor(metalC)
   }, []);
 
   const handleRemoveItem = (index) => {
@@ -196,6 +200,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         m: (data?.MetalPurityid ?? data?.selectedMetalId),
         d: (loginUserDetail?.cmboDiaQCid ?? data?.selectedDiaId),
         c: (loginUserDetail?.cmboCSQCid ?? data?.selectedCsId),
+        mc: (data?.MetalColorid ?? data?.step1Data?.MetalColorid),
         p: pValue,
         f: {},
       };
@@ -209,8 +214,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   }
 
   let getDesignImageFol = storeInit?.DesignImageFol;
-  const getDynamicImages = (designno, extension) => {
-    return `${getDesignImageFol}${designno}_${1}.${extension}`;
+  const getDynamicImages = (designno, MetalColorid, extension) => {
+    const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
+    return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
   };
 
   return (
@@ -241,7 +247,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+              src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.MetalColorid ?? data?.step1Data?.MetalColorid), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
               alt=""
               style={{ cursor: 'default' }}
             />
