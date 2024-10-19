@@ -14,7 +14,8 @@ export const LoginWithEmailAPI = async (email, mobileNo, hashedPassword, ismobil
         //     userid: `${email}`, mobileno: mobileNo, pass: `${hashedPassword}`, mobiletoken: ismobiletoke, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Token: `${userCookie ?? ''}`,
         //     IsPLW: `${storeInit?.IsPLW}`
         // });
-
+        
+//   console.log(combinedValue,"combinedValue")
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
             "con": "{\"id\":\"\",\"mode\":\"WEBLOGIN\"}",
