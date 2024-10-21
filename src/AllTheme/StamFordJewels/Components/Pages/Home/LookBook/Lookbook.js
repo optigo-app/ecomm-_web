@@ -1521,7 +1521,7 @@ const Lookbook = () => {
                               </p>
                             </div>
                             <div
-                              className="stam_lookBookImgDeatil"
+                              className="stam_lookBookImgDeatil_sel2"
                               style={{
                                 display: dataKey == index ? "none" : "flex",
                                 justifyContent: "space-between",
@@ -1544,7 +1544,7 @@ const Lookbook = () => {
                                 ).toFixed(3)}{" "}
                               </p>
                               <div
-                                className="stam_lookBookImgDeatilSub"
+                                className="stam_lookBookImgDeatilSub_sel2"
                                 style={{ display: "flex", alignItems: "center" }}
                               >
                                 <p
@@ -1600,7 +1600,7 @@ const Lookbook = () => {
                                 className="stam_LookBookmySwiper"
                                 breakpoints={{
                                   320: {
-                                    slidesPerView: 1,
+                                    slidesPerView: 2,
                                     spaceBetween: 10,
                                   },
                                   480: {

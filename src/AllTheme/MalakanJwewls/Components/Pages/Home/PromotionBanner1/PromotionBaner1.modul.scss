@@ -25,10 +25,22 @@
         display: flex;
         justify-content: flex-end;
         padding: 70px;
+        @media screen and (max-width:1044px) {
+            margin-left: 3.3rem;
+        }
+        @media screen and (max-width:928px) {
+            margin-left: 4.3rem;
+        }
+        @media screen and (max-width:804px) {
+            margin-left: 0;
+        }
     }
 
     .mala_promo_bottomMain {
         background-color: #17372F;
+        @media screen and (max-width:768px) {
+            padding-block: 1rem;
+        }
     }
 
     .mala_promo2_main2_2 {
@@ -44,11 +56,14 @@
     }
 
     .mala_promo_bottomMainP {
-        font-size: $fontSize6;
+        font-size: 26px;
         color: white;        
         font-family: $primaryFontFamily;
         text-align: center;
         width: 40%;
+        @media screen and (max-width:500px) {
+            font-size: 15px !important;
+        }
     }
 
     .mala_promo_bottomMainBtn {
@@ -186,6 +201,10 @@
     .mala_promo_section2 {
         background-color: #F6C2B5;
         display: flex;
+        padding: 2rem ;
+        @media screen and (max-width:1024px) {
+            padding: 1rem;
+        }
     }
 
     .mala_promo_section2_div1 {
@@ -217,7 +236,9 @@
         color: #F6C2B5;
         letter-spacing: 1px;
         font-size: 20px;
+        outline: none;
         font-weight: 500;
+        border: 2px solid black;
         background-color: #17372F;
     }
     .mala_promo_section2_div1_btn:hover{
@@ -249,7 +270,10 @@
         }
 
         .mala_promo2_main2_2 {
-            padding: 0px 150px 0px 0px !important;
+            padding: 0px 0 0px 0px !important;
+            .mala_promo2_main2_2_p{
+                font-size: 24px !important;
+            }
         }
 
         .mala_promo_section2_div1 {
@@ -258,9 +282,13 @@
 
     }
 
-    @media screen and (max-width: 1250px) {
+    @media screen and (max-width: 1290px) {
+   
         .mala_promo2_main2_2 {
-            padding: 0px 80px 0px 0px !important;
+            padding: 0px 0 0px 0px !important;
+            .mala_promo2_main2_2_p{
+                font-size: 16px !important;
+            }
         }
     }
 
@@ -365,7 +393,7 @@
         }
     }
 
-    @media screen and (max-width: 950px) {
+    @media screen and (max-width: 804px) {
 
         .mala_promo_section2 {
             display: flex;
@@ -389,7 +417,8 @@
 
         .mala_promo2_main2_2 {
             width: 100% !important;
-            padding: 10px !important;
+            // padding: 10px !important;
+            padding-inline: 30px !important;
         }
 
         .mala_promo2_main2_1 {

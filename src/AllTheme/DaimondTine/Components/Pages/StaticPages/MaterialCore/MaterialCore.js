@@ -15,7 +15,8 @@ export default function MaterialCore() {
 
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/MaterialCore.html`)
+        // fetch(`${storImagePath()}/html/MaterialCore.html`)
+        fetch(`${storImagePath()}/html/MaterialCoresona.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

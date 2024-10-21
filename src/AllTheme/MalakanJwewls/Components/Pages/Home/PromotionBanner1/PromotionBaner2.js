@@ -9,35 +9,6 @@ const PromotionBaner1 = () => {
 
     return (
         <div className='mala_Banner_main'>
-            {/* <div className='mala_BannerMAinTitleMAin'>
-                <p className='mala_BannerMAinTitle2'>DISCOVER OUR COLLECTIONS</p>
-            </div>
-            <div className='mala_Banner_main_div'>
-                <div className='mala_Banner_main_div_subMain'>
-                    <div className='mala_Banner_main_div_main1'>
-                        <img src={`${storImagePath()}/images/HomePage/Banner/banner1.jpg`} className='mala_Banner_Iamge1' />
-                    </div>
-                    <div className='mala_Banner_main_div_main2'>
-                        <div class="products__desc">
-                            <p className='mala_banner_Title'>Ring</p>
-                            <p class="products__subtitle">Drawing on our discerning eye for hand-selecting and arranging the finest natural diamonds, our diamond bracelets encompass graceful and architectural shapes. Each creation follows the curves of the wrist producing an eye-catching display of light that showcases the character of each diamond, offering a timeless symbol of individuality.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='mala_Banner_main_div_subMain'>
-                    <div className='mala_Banner_main_div_main2'>
-                        <div class="products__desc">
-                            <p className='mala_banner_Title'>BRACELET</p>
-                            <p class="products__subtitle">Drawing on our discerning eye for hand-selecting and arranging the finest natural diamonds, our diamond bracelets encompass graceful and architectural shapes. Each creation follows the curves of the wrist producing an eye-catching display of light that showcases the character of each diamond, offering a timeless symbol of individuality.</p>
-                        </div>
-                    </div>
-                    <div className='mala_Banner_main_div_main1'>
-                        <img src={`${storImagePath()}/images/HomePage/Banner/banner2.jpg`} className='mala_Banner_Iamge1' />
-                    </div>
-                </div>
-            </div> */}
-
             <div className='mala_promo_section2'>
                 <div className='mala_promo_section2_div1'>
                     <p className='mala_promo_section2_div1_p1'>Custom Jewelry.
@@ -50,14 +21,7 @@ const PromotionBaner1 = () => {
                 </div>
             </div>
 
-            {/* <div className='festiveBox'>
-                <p className='smilingFestiMainTitle1' style={{ color: 'gray' }}>LAB GROWN DIAMONDS</p>
-                <p className='smilingFestiMainTitle2' style={{ color: 'gray', fontSize: '40px', margin: '0px' }}>Festive Finds!</p>
-                <p className='smilingFestiMainTitle3' style={{ color: 'gray', margin: '0px', fontSize: '13px' }}>
-                    Explore your jewelry for upcoming holiday!
-                </p>
-            </div> */}
-
+            
             <div className='mala_promo2_main2'>
                 <div className='mala_promo2_main2_1'>
                     <img src={`${storImagePath()}/images/HomePage/ring.jpg`} className='mala_promo_secton2_img' />

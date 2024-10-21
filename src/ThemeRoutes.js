@@ -152,38 +152,45 @@ export default function ThemeRoutes() {
 
   useEffect(() => {
     setTitle(title);
-    let Data = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
-    let visiterId = Data?.VisitorId;
-    const existingVisitorId = Cookies.get("visiterId") ?? '';
-    if (!existingVisitorId) {
-      Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
-    } else {
-      try {
-        const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
-        const expirationDate =
-          visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
-        if (expirationDate && expirationDate <= new Date()) {
-          Cookies.remove("visiterId", { path: "/" });
+    let CompanyinfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    if (CompanyinfoData) {
+      let visiterId = CompanyinfoData?.VisitorId;
+      const existingVisitorId = Cookies.get("visiterId") ?? '';
+      if (!existingVisitorId) {
+        Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
+      } else {
+        try {
+          const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
+          const expirationDate =
+            visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
+          if (expirationDate && expirationDate <= new Date()) {
+            Cookies.remove("visiterId", { path: "/" });
+          }
+        } catch (e) {
+          console.error("Error parsing visiterId cookie:", e);
         }
-      } catch (e) {
-        console.error("Error parsing visiterId cookie:", e);
       }
     }
     console.log("worked call")
-    if (htmlContent) {
+    if (storeinit) {
       console.log("worked htmlcontent")
-      callAllApi(htmlContent?.rd[0]);
+      callAllApi();
+      // callAllApi(htmlContent?.rd[0]);
     }
   }, [htmlContent]);
 
-  const callAllApi = (Data) => {
+  const callAllApi = () => {
+    const storeInit = JSON?.parse(
+      sessionStorage.getItem("storeInit")
+    );
     const loginUserDetail = JSON?.parse(
       sessionStorage.getItem("loginUserDetail")
     );
     const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
     const visiterID = Cookies.get("visiterId");
     let finalID;
-    if (Data?.IsB2BWebsite == 0) {
+    if (storeInit?.IsB2BWebsite == 0) {
       finalID = LoginUser === false ? visiterID : loginUserDetail?.id || "0";
     } else {
       finalID = loginUserDetail?.id || "0";
@@ -293,34 +300,34 @@ export default function ThemeRoutes() {
             <meta name="description" content={title} />
             <link
               rel="icon"
-              href={`${storImagePath()}/logoIcon/favicon1.png`}
+              href={`${storImagePath()}/logoIcon/sona/favicon1.png`}
               type="image/x-icon"
             />
             <link
               rel="apple-touch-icon"
               sizes="180x180"
-              href={`${storImagePath()}/logoIcon/apple-touch-icon.png`}
+              href={`${storImagePath()}/logoIcon/sona/apple-touch-icon.png`}
             />
             <link
               rel="icon"
               type="image/png"
               sizes="192x192"
-              href={`${storImagePath()}/logoIcon/androidCh1.png`}
+              href={`${storImagePath()}/logoIcon/sona/androidCh1.png`}
             />
             <link
               rel="icon"
               type="image/png"
               sizes="512x512"
-              href={`${storImagePath()}/logoIcon/androidCh2.png`}
+              href={`${storImagePath()}/logoIcon/sona/androidCh2.png`}
             />
             <link
               rel="mask-icon"
-              href={`${storImagePath()}/logoIcon/apple-touch-icon.png`}
+              href={`${storImagePath()}/logoIcon/sona/apple-touch-icon.png`}
             />
             <meta name="msapplication-TileColor" content="#ffffff" />
             <meta
               name="msapplication-TileImage"
-              content={`${storImagePath()}/logoIcon/androidCh2.png`}
+              content={`${storImagePath()}/logoIcon/sona/androidCh2.png`}
             />
             <meta
               name="viewport"

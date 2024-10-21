@@ -158,8 +158,8 @@ export default function ContinueWithEmail() {
 
                         </button> */}
 
-                        <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <button type='submit' className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>SUBMIT</button>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

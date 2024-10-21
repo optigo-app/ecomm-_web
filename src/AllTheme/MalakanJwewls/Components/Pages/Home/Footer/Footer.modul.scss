@@ -2,14 +2,28 @@
 
 .mala_Footer1_main {
   background-color: #f8f5f3;
-  padding: 80px 20px;
-   .mala_footer_bottom_line{
+  padding: 60px 20px;
+  font-family: $primaryFontFamilyMedium;
+  color: rgb(56, 56, 56);
+  @media screen and (max-width:768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center !important;
+  }
+  .mala_footer_bottom_line {
+    margin-top: 3rem;
     text-align: center;
-   }
+  }
   .footerBottomMain {
     display: flex;
     align-items: start;
     justify-content: center;
+    @media screen and (max-width:768px) {
+      flex-direction: column;
+      align-items: center;
+    }
     .mala_FooterLogo_div {
       flex: 1;
       display: flex;
@@ -18,19 +32,48 @@
       justify-content: flex-end;
     }
     .mala_footerOptions {
-      flex: 1;
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
       align-items: center;
-      justify-content: center;
+      justify-items: center;
+      text-align: left !important;
+      flex: 1;
+      padding: 1rem;
+      margin-left: 2rem;
+      @media screen and (max-width:768px) {
+        padding: 1rem;
+        margin-left: 0rem;
+      }
+      .footer_menu_malkan{
+        flex: 1;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding-left: 1rem;
+        @media screen and (max-width:768px) {
+        padding-left: 0rem;
+          text-align: center;
+        align-items: center;
+        justify-content: center;
+        }
+      }
+      p {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+      }
     }
-   
+
     .mala_footerIconMain {
       flex: 1;
       display: flex;
       .footerSocialIcon {
         height: 45px;
         width: 45px;
-        border: 1px solid #e1e1e1;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -40,8 +83,10 @@
           width: 24px;
           height: 24px;
           object-fit: cover;
+          mix-blend-mode: multiply;
         }
       }
     }
   }
+ 
 }

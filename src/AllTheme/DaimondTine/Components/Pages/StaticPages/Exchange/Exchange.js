@@ -15,7 +15,8 @@ export default function Exchange() {
 
 
     useEffect(() => {
-        fetch(`${storImagePath()}/html/Exchange.html`)
+        // fetch(`${storImagePath()}/html/Exchange.html`)
+        fetch(`${storImagePath()}/html/Exchangesona.html`)
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

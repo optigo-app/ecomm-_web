@@ -703,15 +703,17 @@ const ProductList = () => {
       return acc;
     }, {});
 
-    let result = updatedBreadCum && Object?.entries(updatedBreadCum)?.reduce((acc, [key, value], index) => {
-      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0)?.toUpperCase() + key?.slice(1);
+    const result = Object?.entries(updatedBreadCum ?? {})?.reduce((acc, [key, value], index) => {
+      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
       acc[`FilterVal${index === 0 ? '' : index}`] = value;
       return acc;
     }, {});
 
-    // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
-    result = result || {};
-    result.menuname = decodeURI(atob(location?.search?.slice(3)))?.split('/')?.[0]
+    if (result) {
+      result.menuname = decodeURI(location?.pathname)?.slice(3)?.slice(0, -1)?.split("/")[0]
+    } else {
+      result = {}
+    }
 
     return result
   }
@@ -944,7 +946,7 @@ const ProductList = () => {
       c: selectedCsId,
       cmc: metalColor,
       // mc: metalColor ?? productData?.MetalColorId,
-      p: BreadCumsObj()?.menuname,
+      p: BreadCumsObj(),
       f: {},
     };
     // compressAndEncode(JSON.stringify(obj))
@@ -1034,24 +1036,7 @@ const ProductList = () => {
                               })
                             }
                           >
-                            {` / ${BreadCumsObj()?.FilterVal1 || BreadCumsObj()?.FilterVal}`}
-                          </span>
-                        )}
-
-                        {BreadCumsObj()?.FilterVal2 && (
-                          <span
-                            onClick={() =>
-                              handleBreadcums({
-                                [BreadCumsObj()?.FilterKey]:
-                                  BreadCumsObj()?.FilterVal,
-                                [BreadCumsObj()?.FilterKey1]:
-                                  BreadCumsObj()?.FilterVal1,
-                                [BreadCumsObj()?.FilterKey2]:
-                                  BreadCumsObj()?.FilterVal2,
-                              })
-                            }
-                          >
-                            {` / ${BreadCumsObj()?.FilterVal2}`}
+                            {` / ${BreadCumsObj()?.FilterVal1}`}
                           </span>
                         )}
                       </>
@@ -1347,12 +1332,12 @@ const ProductList = () => {
                       handleMetalColor={handleMetalColor}
                       metalColorType={metalColorType}
                       imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
-                      yellowImage={images?.yellowImage || noImageFound}
-                      whiteImage={images?.whiteImage || noImageFound}
-                      roseImage={images?.roseImage || noImageFound}
-                      yellowRollImage={images?.yellowRollImage || noImageFound}
-                      whiteRollImage={images?.whiteRollImage || noImageFound}
-                      roseRollImage={images?.roseRollImage || noImageFound}
+                      yellowImage={images?.yellowImage}
+                      whiteImage={images?.whiteImage}
+                      roseImage={images?.roseImage}
+                      yellowRollImage={images?.yellowRollImage}
+                      whiteRollImage={images?.whiteRollImage}
+                      roseRollImage={images?.roseRollImage}
                       videoUrl={getDynamicVideo(item.designno, item.VideoCount, item.VideoExtension)}
                       RollImageUrl={getDynamicRollImages(item.designno, item.ImageCount, item.ImageExtension)}
                       loginCurrency={loginCurrency}
@@ -1648,7 +1633,6 @@ const Product_Card = ({
 }) => {
 
   const [isHover, setIsHover] = useState(false);
-  const [hovered, setHovered] = useState(null);
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
@@ -1813,13 +1797,15 @@ const Product_Card = ({
         <div className="for_productList_card_description">
           <div className="for_productList_metaltype_div">
             {metalColorType?.map((item) => (
-              <div
+              <button
                 className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
                 key={item?.id}
+                type="button"
+                disabled={yellowImage === undefined}
                 onClick={() => handleClick(item?.id)}
               >
                 {""}
-              </div>
+              </button>
             ))}
           </div>
           {/* <div className="for_productList_caratWeight">

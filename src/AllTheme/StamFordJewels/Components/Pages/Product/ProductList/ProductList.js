@@ -709,7 +709,7 @@ const ProductList = () => {
 
 
   const handelFilterClearAll = () => {
-    setAfterCountStatus(true);
+    // setAfterCountStatus(true);
     if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
@@ -1676,7 +1676,7 @@ const ProductList = () => {
                       }
                     </span>
                     <span
-                    // onClick={() => handelFilterClearAll()}
+                      onClick={() => handelFilterClearAll()}
                     >
                       {Object.values(filterChecked).filter((ele) => ele.checked)
                         ?.length > 0
@@ -2487,7 +2487,7 @@ const ProductList = () => {
                                 </>}
                             </span>
                             <span
-                            // onClick={() => handelFilterClearAll()}
+                              onClick={() => handelFilterClearAll()}
                             >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked

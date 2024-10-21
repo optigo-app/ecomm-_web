@@ -704,7 +704,7 @@ const ProductList = () => {
 
 
   const handelFilterClearAll = () => {
-    setAfterCountStatus(true);
+    // setAfterCountStatus(true);
     if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
     setAccExpanded(false)
   }
@@ -1427,6 +1427,14 @@ const ProductList = () => {
       </Helmet>
       <div id="top">
         <Drawer
+        sx={{
+          zIndex: 9999999,
+          fontFamily:'Rowan5',
+          '& .MuiBackdrop-root': {
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            backdropFilter: 'blur(4px)',
+          },
+        }}
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
@@ -1450,19 +1458,18 @@ const ProductList = () => {
           </div>
           <div
             style={{
-              marginLeft: "15px",
-              marginBottom: "20px",
               display: "flex",
               gap: "5px",
               flexDirection: "column",
+              padding:"12px"
             }}
           >
             <Typography
               sx={{
                 color: "#7f7d85",
                 fontSize: "16px",
-                fontFamily: "TT Commons Medium",
                 marginTop: "12px",
+                fontFamily:"Rowan5"
               }}
             >
               Customization
@@ -1475,7 +1482,6 @@ const ProductList = () => {
                 sx={{
                   color: "#7f7d85",
                   fontSize: "14px",
-                  fontFamily: "TT Commons Regular",
                 }}
               >
                 Metal:&nbsp;
@@ -1513,7 +1519,6 @@ const ProductList = () => {
                   sx={{
                     color: "#7f7d85",
                     fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
                   }}
                 >
                   Diamond:&nbsp;
@@ -1551,7 +1556,6 @@ const ProductList = () => {
                   sx={{
                     color: "#7f7d85",
                     fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
                   }}
                 >
                   Color Stone:&nbsp;
@@ -1591,7 +1595,6 @@ const ProductList = () => {
                   sx={{
                     color: "#7f7d85",
                     fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
                   }}
                 >
                   Sort By:&nbsp;
@@ -1631,10 +1634,20 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-          <div className="mala_mobile_filter_portion">
+          <div className="mala_mobile_filter_portion"
+          style={{
+            padding:"12px",
+          }}>
             {filterData?.length > 0 && (
               <div className="mala_mobile_filter_portion_outter">
-                <span className="mala_filter_text">
+                <span className="mala_filter_text"
+                style={{
+                  display:"flex",
+                  alignItems:"center",
+                  justifyContent:"space-between",
+                  width:"100%"
+                }}
+                >
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length === 0
@@ -1655,7 +1668,7 @@ const ProductList = () => {
                     }
                   </span>
                   <span
-                  // onClick={() => handelFilterClearAll()}
+                    onClick={() => handelFilterClearAll()}
                   >
                     {Object.values(filterChecked).filter((ele) => ele.checked)
                       ?.length > 0
@@ -1735,13 +1748,20 @@ const ProductList = () => {
                                 >
                                   {/* <small
                                         style={{
-                                          fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
                                         }}
                                       >
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
+                                  sx={{
+                                    display:"flex",
+                                    alignItems:"center",
+                                    justifyContent:"space-between",
+                                    flexDirection:"row-reverse",
+                                    width:"100%",
+                                    fontFamily:"Rowan5"
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1777,7 +1797,6 @@ const ProductList = () => {
                                     //   justifyContent: "space-between", // Adjust spacing between checkbox and label
                                     //   width: "100%",
                                     //   flexDirection: "row-reverse", // Align items to the right
-                                    //   fontFamily:'TT Commons Regular'
                                     // }}
                                     className="mala_mui_checkbox_label"
                                     label={opt.Name}
@@ -1850,13 +1869,21 @@ const ProductList = () => {
                                 >
                                   {/* <small
                                         style={{
-                                          fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
                                         }}
                                       >
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
+                                   sx={{
+                                    display:"flex",
+                                    alignItems:"center",
+                                    justifyContent:"space-between",
+                                    flexDirection:"row-reverse",
+                                    width:"100%",
+                                    fontFamily:"Rowan5"
+
+                                  }}
                                     control={
                                       <Checkbox
                                         name={`Price${i}${i}`}
@@ -1893,7 +1920,6 @@ const ProductList = () => {
                                     //   justifyContent: "space-between", // Adjust spacing between checkbox and label
                                     //   width: "100%",
                                     //   flexDirection: "row-reverse", // Align items to the right
-                                    //   fontFamily:'TT Commons Regular'
                                     // }}
                                     className="mala_mui_checkbox_label"
                                     label={
@@ -2456,7 +2482,7 @@ const ProductList = () => {
                                 </>}
                             </span>
                             <span
-                            // onClick={() => handelFilterClearAll()}
+                              onClick={() => handelFilterClearAll()}
                             >
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
@@ -2546,7 +2572,6 @@ const ProductList = () => {
                                             >
                                               {/* <small
                                         style={{
-                                          fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
                                         }}
                                       >
@@ -2590,7 +2615,6 @@ const ProductList = () => {
                                                 //   justifyContent: "space-between", // Adjust spacing between checkbox and label
                                                 //   width: "100%",
                                                 //   flexDirection: "row-reverse", // Align items to the right
-                                                //   fontFamily:'TT Commons Regular'
                                                 // }}
                                                 className="mala_mui_checkbox_label"
                                                 label={opt.Name}
@@ -2664,7 +2688,6 @@ const ProductList = () => {
                                           >
                                             {/* <small
                                         style={{
-                                          fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
                                         }}
                                       >
@@ -2707,7 +2730,6 @@ const ProductList = () => {
                                               //   justifyContent: "space-between", // Adjust spacing between checkbox and label
                                               //   width: "100%",
                                               //   flexDirection: "row-reverse", // Align items to the right
-                                              //   fontFamily:'TT Commons Regular'
                                               // }}
                                               className="mala_mui_checkbox_label"
                                               label={

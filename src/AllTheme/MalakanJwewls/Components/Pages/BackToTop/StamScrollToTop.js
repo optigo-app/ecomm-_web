@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaAngleUp, FaArrowUp } from 'react-icons/fa'; // Install react-icons if not already installed
 import './ScrollToTop.scss'; // Add SCSS for styling
+import { IoIosArrowUp } from "react-icons/io";
 
 const StamScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,8 +31,8 @@ const StamScrollToTop = () => {
   return (
     <div className="mala_scroll-to-top">
       {isVisible && (
-        <div onClick={scrollToTop} className="scroll-icon">
-          <FaAngleUp style={{height: '20px' , width: '20px'}}/>
+        <div onClick={scrollToTop} className="scroll-icon-mal">
+          <IoIosArrowUp size={32}/>
         </div>
       )}
     </div>

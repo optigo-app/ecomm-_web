@@ -33,6 +33,7 @@
         height: 55px;
         cursor: pointer;
         width: 25%;
+        border-radius: 4px;
         margin-top: 30px;
     }
 
@@ -45,8 +46,29 @@
         margin-inline: 7px;
         height: 55px;
         cursor: pointer;
+        border-radius: 4px;
         margin-top: 25px;
         width: 25%;
+    }
+
+    .roop_loginOption_text {
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 25px;
+    }
+
+
+
+    @media screen and (max-width: 1400px) {
+
+        .loginMail {
+            width: 50% !important;
+        }
+
+        .loginMobile {
+            width: 50% !important;
+        }
     }
 
     @media screen and (max-width: 1150px) {
@@ -59,9 +81,6 @@
             width: 50% !important;
         }
     }
-
-
-
 
     @media screen and (max-width: 900px) {
         .loginDailog {
@@ -92,6 +111,10 @@
         .loginMail {
 
             margin-top: 0px !important;
+        }
+
+        .roop_loginOption_text {
+            font-size: 17px;
         }
     }
 

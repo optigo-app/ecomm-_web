@@ -1,8 +1,16 @@
+@import "../../../scss/variable.scss";
+
 .mala_Loginoption {
+    margin-top: 220px;
+    background-color: #17372f;
+    color: white;
+    padding-bottom: 4rem;
+    font-family: $rown !important;
+    @media screen and (max-width: 1200px) {
+      margin-top: 80px;
+    }
     .loginDailog {
-        margin-inline: 6%;
-        background-color: white;
-        padding-block: 70px;
+        padding-block: 100px;
     }
 
 
@@ -17,33 +25,44 @@
         font-size: 30px;
         font-weight: 600;
         text-align: center;
-        color: #7d7f85,
+        color: #fff;
     }
 
     .loginMail {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #888;
-        color: white;
+        background-color: #fda994;
+        color: #17372f ;
         margin-inline: 7px;
+        font-family: $primaryFontFamilyMedium;
         height: 55px;
         cursor: pointer;
         width: 25%;
+        border-radius: 3px;
         margin-top: 30px;
+        transition: 0.2s ease-in;
+        &:hover{
+            background-color: #ff8e72;
+        }
     }
 
     .loginMobile {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #888;
-        color: white;
+        background-color: #fda994;
+        color:#17372f;
         margin-inline: 7px;
+        font-family: $primaryFontFamilyMedium;
         height: 55px;
         cursor: pointer;
         margin-top: 25px;
         width: 25%;
+        transition: 0.2s ease-in;
+        &:hover{
+            background-color: #ff8e72;
+        }
     }
 
     @media screen and (max-width: 1150px) {

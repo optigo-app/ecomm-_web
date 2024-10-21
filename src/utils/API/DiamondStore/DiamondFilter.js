@@ -5,17 +5,17 @@ export const DiamondFilterData = async (visiterId) => {
     const storedData = sessionStorage.getItem("loginUserDetail");
     const islogin = JSON.parse(sessionStorage.getItem("LoginUser"));
     const data = JSON.parse(storedData);
-    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.id ?? 0;
-    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? visiterId : data?.userid ?? "";
-    const {FrontEnd_RegNo} = storeInit ?? '';
+    const customerId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data?.id ?? 0;
+    const customerEmail = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? visiterId : data?.userid ?? "";
+    const { FrontEnd_RegNo } = storeInit ?? '';
 
-    let packageId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null  ? storeInit?.PackageId : data?.PackageId ?? 0
+    let packageId = storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null ? storeInit?.PackageId : data?.PackageId ?? 0
 
     try {
         const combinedValue = JSON.stringify({
             PackageId: packageId,
-            FrontEnd_RegNo: `${FrontEnd_RegNo}`,    
-            Customerid: `${customerId}`,
+            FrontEnd_RegNo: `${FrontEnd_RegNo ?? ''}`,
+            Customerid: `${customerId ?? 0}`,
         });
 
         const encodedCombinedValue = btoa(combinedValue);

@@ -1,4 +1,3 @@
-
 @import "../../../scss/variable";
 
 .proCat_continuemail {
@@ -24,21 +23,43 @@
     .submitBtnForgot {
         height: 60px;
         width: 420px;
-        color: white;
-        background-color: #7d7f85;
+        // color: white;
+        // background-color: #7d7f85;
         border: 0;
         margin-top: 10px;
-        font-size: 13px;
+        font-size: 15px;
+        border-radius: 4px;
         font-weight: 500;
         cursor: pointer;
         letter-spacing: 1;
         transition: all 0.5s ease;
     }
 
-    .submitBtnForgot:hover {
-        background-color: white;
+    // .submitBtnForgot:hover {
+    //     background-color: white;
+    //     color: #7d7f85;
+    //     border: 1px solid #7d7f85;
+    // }
+
+    .pro_cancleForgot {
         color: #7d7f85;
-        border: 1px solid #7d7f85;
+        font-size: 12px;
+        margin-top: 25px;
+        font-weight: 500;
+        background-color: white;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border: 1px solid #c7c7c9;
+        width: 420px;
+        height: 60px;
+        position: relative;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        cursor: pointer;
+    }
+
+    .pro_cancleForgot:hover {
+        background-color: #deeaf7;
     }
 
     .cancleForgot {
@@ -81,7 +102,7 @@
         }
 
         .AuthScreenSubTitle {
-            font-size: 12px !important;
+            font-size: 15px !important;
             margin-inline: 15%;
         }
 
@@ -97,20 +118,45 @@
             width: 90%;
         }
 
-        .submitBtnForgot {
-            width: 50%;
-            height: 50px !important;
+        .AuthScreenMainTitle {
+            font-size: 30px !important;
+            padding-bottom: 50px !important;
+        }
 
+        .submitBtnForgot {
+            width: 90%;
+            height: 50px !important;
+        }
+
+        .pro_cancleForgot {
+            width: 90%;
+            height: 50px !important;
         }
 
     }
 
     @media screen and (max-width: 500px) {
 
+        .AuthScreenMainTitle {
+            font-size: 27px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .AuthScreenSubTitle {
+            font-size: 13.5px !important;
+            margin-inline: 15%;
+        }
+
         .submitBtnForgot {
             width: 90%;
             height: 40px !important;
         }
+
+        .pro_cancleForgot {
+            width: 90%;
+            height: 40px !important;
+        }
+
 
         .AuthScreenSubTitle {
             margin-top: -65px !important;

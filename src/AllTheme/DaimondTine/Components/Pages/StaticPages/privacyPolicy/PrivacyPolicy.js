@@ -12,7 +12,8 @@ function PrivacyPolicy() {
   }, []);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/PrivacyPolicy.html`)
+    // fetch(`${storImagePath()}/html/PrivacyPolicy.html`)
+    fetch(`${storImagePath()}/html/PrivacyPolicysona.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

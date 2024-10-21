@@ -28,7 +28,7 @@ export default function LoginWithEmailCode() {
 
     const [cartCountNum, setCartCountNum] = useRecoilState(proCat_CartCount)
     const [wishCountNum, setWishCountNum] = useRecoilState(proCat_WishCount)
-    
+
     const search = location?.search
     const updatedSearch = search.replace('?LoginRedirect=', '');
     const redirectEmailUrl = `${decodeURIComponent(updatedSearch)}`;
@@ -95,7 +95,7 @@ export default function LoginWithEmailCode() {
         }
     };
 
-  
+
     const handleSubmit = async () => {
         const visiterId = Cookies.get('visiterId');
         if (!mobileNo.trim()) {
@@ -175,7 +175,7 @@ export default function LoginWithEmailCode() {
     };
 
     return (
-        <div className='proCat_loginwithemailCode' style={{  paddingTop: '10px' }}>
+        <div className='proCat_loginwithemailCode' style={{ paddingTop: '10px' }}>
             <ToastContainer />
             {isLoading && (
                 <div className="loader-overlay">
@@ -223,9 +223,9 @@ export default function LoginWithEmailCode() {
                             helperText={errors.mobileNo}
                         />
 
-                        <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                        <button className='submitBtnForgot btnColorProCat' onClick={handleSubmit}>Login</button>
                         <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                        <Button style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
+                        <Button className='pro_cancleForgot' style={{ marginTop: '10px', color: 'gray' }} onClick={() => navigation(cancelRedireactUrl)}>CANCEL</Button>
                     </div>
                 </div>
             </div>

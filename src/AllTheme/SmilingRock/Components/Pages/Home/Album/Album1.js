@@ -183,7 +183,7 @@ const Album1 = () => {
                                             // navigation={!isMobileScreen && (JSON?.parse(album?.Designdetail).length > 4 ? true : false)}
                                             modules={[Keyboard, FreeMode, Navigation]}
                                             keyboard={{ enabled: true }}
-                                            pagination={false}
+                                        // pagination={false}
                                         >
                                             {JSON?.parse(album?.Designdetail)?.map((design) => (
                                                 <SwiperSlide key={design?.autocode} className="swiper-slide-custom">
@@ -220,7 +220,7 @@ const Album1 = () => {
                     }
                 </div>
             ) :
-                <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop:'20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
                     <AlbumSkeletonCards />
 
                 </div>
