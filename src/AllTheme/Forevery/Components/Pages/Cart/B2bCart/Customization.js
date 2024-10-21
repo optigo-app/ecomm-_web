@@ -25,6 +25,7 @@ const Customization = ({
   onUpdateCart
 }) => {
 
+  console.log('selectedItem: ', selectedItem);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
@@ -254,7 +255,7 @@ const Customization = ({
                     </span>
                   </div>
                 )}
-                {(selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") &&
+                {((selectedItem?.CSwt != "0" || selectedItem?.CSpcs != "0") && (selectedItem?.colorstonequality && selectedItem?.colorstonecolor)) &&
                   <div className="option">
                     <label htmlFor="diamond">Color Stone:</label>
                     <span>{combineDiamondInfo(selectedItem?.colorstonequality, selectedItem?.colorstonecolor)}</span>
