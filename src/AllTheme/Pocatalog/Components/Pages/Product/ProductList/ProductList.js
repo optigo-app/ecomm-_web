@@ -3015,11 +3015,11 @@ const ProductList = () => {
                                           productData?.IsInCart === 1
                                           ? true
                                           : false) ? (
-                                          <span style={{ color: "#594646" }}>
+                                          <span className="btnColorProCatProduct">
                                             Add To Cart
                                           </span>
                                         ) : (
-                                          <span style={{ color: "#474747d1" }}>
+                                          <span className="btnColorProCatProductRemoveCart">
                                             Remove From Cart
                                           </span>
                                         )
@@ -3030,8 +3030,8 @@ const ProductList = () => {
                                           productData?.IsInCart === 1
                                           ? true
                                           : false)
-                                          ? "procat_cart_btn"
-                                          : "procat_cart_btn_alter"
+                                          ? "procat_cart_btn btnColorProCatProduct"
+                                          : "procat_cart_btn_alter btnColorProCatProductRemoveCart"
                                       }
                                     />
                                   </div>
