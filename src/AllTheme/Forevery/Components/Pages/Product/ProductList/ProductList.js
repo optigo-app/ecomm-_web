@@ -1636,7 +1636,7 @@ const Product_Card = ({
   const [imageColor, setImageColor] = useRecoilState(for_MetalColor_Image);
   const getSessImgColor = JSON.parse(sessionStorage.getItem('imgColorCode'));
   const [selectedMetalColor, setSelectedMetalColor] = useState(null);
-  const getSessCartWishImgColor = JSON.parse(sessionStorage.getItem('cartWishImgColor'));
+  const getSessCartWishImgColor = JSON?.parse(sessionStorage.getItem('cartWishImgColor')) ?? undefined;
 
   const activeColorCode = getSessImgColor || getSessCartWishImgColor;
 
