@@ -836,7 +836,6 @@ const DiamondFilter = () => {
       <ScrollTop />
       <div className="for_DiamondFilter">
         <Drawer
-        <Drawer
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
