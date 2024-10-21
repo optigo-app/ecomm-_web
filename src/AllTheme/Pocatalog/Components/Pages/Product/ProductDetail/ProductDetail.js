@@ -2320,8 +2320,8 @@ const ProductDetail = () => {
                                 <button
                                   className={
                                     !addToCartFlag
-                                      ? "proCat_AddToCart_btn btnColorProCat"
-                                      : "proCat_AddToCart_btn_afterCart btnColorProCatSelected"
+                                      ? "proCat_AddToCart_btn btnColorProCatProduct"
+                                      : "proCat_AddToCart_btn_afterCart btnColorProCatProductRemoveCart"
                                   }
                                   onClick={() => handleCart(!addToCartFlag)}
                                 >
