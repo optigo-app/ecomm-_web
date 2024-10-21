@@ -104,6 +104,7 @@ const ProductDetail = () => {
   const [allListDataSlide, setAllListDataSlide] = useState([]);
   const [imageData, setImageData] = useState([]);
   const SoketData = useRecoilValue(soketProductData);
+  const [imageStates, setImageStates] = useState({});
 
   const [stockItemArr, setStockItemArr] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
@@ -607,6 +608,8 @@ const ProductDetail = () => {
     callAllApi();
   }, [storeInit]);
 
+    console.log('stockItemArrstockItemArr',stockItemArr);
+    
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeinit) setStoreInit(storeinit);
@@ -1450,6 +1453,26 @@ const ProductDetail = () => {
     };
   }, [allListDataSlide, handleNext, handlePrev]); 
   
+
+
+  useEffect(() => {
+    const checkImages = async () => {
+        const updatedStates = {};
+
+        for (const ele of stockItemArr) {
+            const imageUrl = `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`;
+            const available = await checkImageAvailability(imageUrl);
+            updatedStates[ele.StockId] = available ? imageUrl : imageNotFound;
+        }
+
+        setImageStates(updatedStates);
+    };
+
+    if (stockItemArr.length) {
+        checkImages();
+    }
+}, [stockItemArr]);
+
 
   return (
     <>
@@ -2376,6 +2399,7 @@ const ProductDetail = () => {
                     </button>
                   </div>
                 </Swiper>
+                
 
                 <div className="smr_material_details_portion">
                   {diaList?.length > 0 && (
@@ -2590,46 +2614,18 @@ const ProductDetail = () => {
                           {stockItemArr?.map((ele) => (
                             <div className="smr_stockItemCard">
                               <div className="cart_and_wishlist_icon">
-                                {/* <Checkbox
-                                  icon={
-                                    <LocalMallOutlinedIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#7d7f85",
-                                        opacity: ".7",
-                                      }}
-                                    />
-                                  }
-                                  checkedIcon={
-                                    <LocalMallIcon
-                                      sx={{
-                                        fontSize: "22px",
-                                        color: "#009500",
-                                      }}
-                                    />
-                                  }
-                                  disableRipple={false}
-                                  sx={{ padding: "10px" }}
-                                  onChange={(e) =>
-                                    handleCartandWish(e, ele, "Cart")
-                                  }
-                                  checked={
-                                    cartArr[ele?.StockId] ?? ele?.IsInCart === 1
-                                      ? true
-                                      : false
-                                  }
-                                /> */}
                               </div>
                               <img
                                 className="procat_productCard_Image"
-                                src={
-                                  storeInit?.DesignImageFol +
-                                  ele?.designno +
-                                  "_" +
-                                  "1" +
-                                  "." +
-                                  ele?.ImageExtension
-                                }
+                                // src={
+                                //   storeInit?.DesignImageFol +
+                                //   ele?.designno +
+                                //   "_" +
+                                //   "1" +
+                                //   "." +
+                                //   ele?.ImageExtension
+                                // }
+                                src={imageStates[ele.StockId] || imageNotFound} 
                                 alt={""}
                               />
                               <div
