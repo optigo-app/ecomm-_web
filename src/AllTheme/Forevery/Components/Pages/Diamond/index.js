@@ -3,6 +3,7 @@ import "./DiamondPage.scss";
 import { StepImages } from "../../data/NavbarMenu";
 import { formatter, storImagePath } from "../../../../../utils/Glob_Functions/GlobalFunction";
 import { forwardRef, useEffect, useRef, useState } from "react";
+import noImageFound from '../../Assets/image-not-found.jpg';
 import Pako from "pako";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
@@ -92,6 +93,8 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalColor, setMetalColor] = useState([]);
+  const [imageMap, setImageMap] = useState({});
+  console.log('imageMap: ', imageMap);
   const Navigation = useNavigate();
   const location = useLocation();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -214,10 +217,49 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   }
 
   let getDesignImageFol = storeInit?.DesignImageFol;
-  const getDynamicImages = (designno, MetalColorid, extension) => {
+
+  const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
     const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-    return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
+    const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+    const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : noImageFound;
+    const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : noImageFound;
+
+    try {
+      await Promise.all([
+        loadImage(colorImage),
+        loadImage(defaultImage),
+      ]);
+      return colorImage; // return the color image if it loads successfully
+    } catch {
+      return defaultImage; // fallback to default if color fails
+    }
   };
+
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => resolve(src);
+      img.onerror = () => reject(src);
+    });
+  };
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const loadedImages = {};
+      // await Promise.all(data.map(async (item) => {
+      const colorImage = await getDynamicImages(data, data.designno, data?.MetalColorid, data.ImageExtension);
+      loadedImages[data.designno] = { colorImage };
+      // }));
+
+      setImageMap(loadedImages);
+    };
+
+    if (data.length > 0) {
+      loadImages();
+    }
+  }, [data]);
+
 
   return (
     <div
@@ -247,7 +289,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.MetalColorid ?? data?.step1Data?.MetalColorid), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+              src={data?.stockno ? data?.image_file_url : imageMap}
               alt=""
               style={{ cursor: 'default' }}
             />

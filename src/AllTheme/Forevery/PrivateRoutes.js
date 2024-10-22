@@ -26,12 +26,12 @@ const PrivateRoutes = ({ isLoginStatus }) => {
             if (location.pathname.startsWith('/p')
                 || location.pathname.startsWith('/d')
                 || location.pathname.startsWith('/certified-loose-lab-grown-diamonds')
-                || location.pathname.startsWith('/cartPage')
+                || location.pathname.startsWith('/cart')
                 || location.pathname.startsWith('/Delivery')
                 || location.pathname.startsWith('/Payment')
                 || location.pathname.startsWith('/account')
                 || location.pathname.startsWith('/Confirmation')
-                || location.pathname.startsWith('/myWishList')
+                || location.pathname.startsWith('/wishlist')
                 || location.pathname.startsWith('/Lookbook')) {
                 let storeInt = JSON.parse(sessionStorage.getItem("storeInit"));
                 if (!storeInt) {
