@@ -152,38 +152,45 @@ export default function ThemeRoutes() {
 
   useEffect(() => {
     setTitle(title);
-    let Data = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
-    let visiterId = Data?.VisitorId;
-    const existingVisitorId = Cookies.get("visiterId") ?? '';
-    if (!existingVisitorId) {
-      Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
-    } else {
-      try {
-        const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
-        const expirationDate =
-          visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
-        if (expirationDate && expirationDate <= new Date()) {
-          Cookies.remove("visiterId", { path: "/" });
+    let CompanyinfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
+    if (CompanyinfoData) {
+      let visiterId = CompanyinfoData?.VisitorId;
+      const existingVisitorId = Cookies.get("visiterId") ?? '';
+      if (!existingVisitorId) {
+        Cookies.set("visiterId", visiterId, { path: "/", expires: 30 });
+      } else {
+        try {
+          const visitorIdCookie = JSON.parse(Cookies.get("visiterId"));
+          const expirationDate =
+            visitorIdCookie?.expires && new Date(visitorIdCookie.expires);
+          if (expirationDate && expirationDate <= new Date()) {
+            Cookies.remove("visiterId", { path: "/" });
+          }
+        } catch (e) {
+          console.error("Error parsing visiterId cookie:", e);
         }
-      } catch (e) {
-        console.error("Error parsing visiterId cookie:", e);
       }
     }
     console.log("worked call")
-    if (htmlContent) {
+    if (storeinit) {
       console.log("worked htmlcontent")
-      callAllApi(htmlContent?.rd[0]);
+      callAllApi();
+      // callAllApi(htmlContent?.rd[0]);
     }
   }, [htmlContent]);
 
-  const callAllApi = (Data) => {
+  const callAllApi = () => {
+    const storeInit = JSON?.parse(
+      sessionStorage.getItem("storeInit")
+    );
     const loginUserDetail = JSON?.parse(
       sessionStorage.getItem("loginUserDetail")
     );
     const LoginUser = JSON?.parse(sessionStorage.getItem("LoginUser"));
     const visiterID = Cookies.get("visiterId");
     let finalID;
-    if (Data?.IsB2BWebsite == 0) {
+    if (storeInit?.IsB2BWebsite == 0) {
       finalID = LoginUser === false ? visiterID : loginUserDetail?.id || "0";
     } else {
       finalID = loginUserDetail?.id || "0";

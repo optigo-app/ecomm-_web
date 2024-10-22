@@ -14,7 +14,7 @@ const PromotionBaner1 = () => {
                     <p className='mala_promo_section2_div1_p1'>Custom Jewelry.
                         Made Without Rules.</p>
                     <p className='mala_promo_section2_div1_p2'>Your clients’ dreams, handmade.</p>
-                    <button className='mala_promo_section2_div1_btn'>CREATE</button>
+                    {/* <button className='mala_promo_section2_div1_btn'>CREATE</button> */}
                 </div>
                 <div className='mala_promo_section2_div2'>
                     <img src={`${storImagePath()}/images/HomePage/Banner/ring.jpg`} className='mala_promo_secton2_img' />
@@ -35,7 +35,7 @@ const PromotionBaner1 = () => {
             <div className='mala_promo_bottomMain'>
                 <div className='mala_promo_bottomMainSub'>
                     <p className='mala_promo_bottomMainP'>Let us be your custom jewelry workshop and create pieces for your customers that will last a lifetime.</p>
-                    <button className='mala_promo_bottomMainBtn'>GET STARTED</button>
+                    {/* <button className='mala_promo_bottomMainBtn'>GET STARTED</button> */}
                 </div>
             </div>
         </div>

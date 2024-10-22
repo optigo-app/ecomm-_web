@@ -185,6 +185,7 @@ const Header = () => {
     navigation("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
+    Cookies.remove("visiterId");
     window.location.reload();
     sessionStorage.setItem("LoginUser", false);
     sessionStorage.removeItem("storeInit");

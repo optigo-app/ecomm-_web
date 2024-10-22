@@ -2087,8 +2087,8 @@ const ProductList = () => {
 
                   <div className="smr_mainPortion">
                     <div
-                      className="smr_filter_portion"
-                      style={{ marginTop: "20px", width: filterData?.length <= 0 && '0%', display: 'none', width: '0%' }}
+                      className="proCat_filter_portion"
+                      style={{ marginTop: "20px"}}
                     >
                       {filterData?.length > 0 && (
                         <div
@@ -2616,7 +2616,7 @@ const ProductList = () => {
                       </div>
                     ) : (
                       // <div className="smr_productList" style={{ width: filterData?.length <= 0 && '100%', margin: filterData?.length <= 0 && '20px 50px 0px 65px' }}>
-                      <div className="procat_productList" style={{ width: '100%' }}>
+                      <div className="procat_productList">
                         {isOnlyProdLoading ? (
                           <ProductListSkeleton
                             fromPage={"Prodlist"}
@@ -3015,11 +3015,11 @@ const ProductList = () => {
                                           productData?.IsInCart === 1
                                           ? true
                                           : false) ? (
-                                          <span style={{ color: "#594646" }}>
+                                          <span className="btnColorProCatProduct">
                                             Add To Cart
                                           </span>
                                         ) : (
-                                          <span style={{ color: "#474747d1" }}>
+                                          <span className="btnColorProCatProductRemoveCart">
                                             Remove From Cart
                                           </span>
                                         )
@@ -3030,8 +3030,8 @@ const ProductList = () => {
                                           productData?.IsInCart === 1
                                           ? true
                                           : false)
-                                          ? "procat_cart_btn"
-                                          : "procat_cart_btn_alter"
+                                          ? "procat_cart_btn btnColorProCatProduct"
+                                          : "procat_cart_btn_alter btnColorProCatProductRemoveCart"
                                       }
                                     />
                                   </div>

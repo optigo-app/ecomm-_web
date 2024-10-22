@@ -86,7 +86,16 @@ const Footer = ({ fromPage }) => {
               HOME
             </p>
           </div>
-
+          <div className="footer_menu_malkan">
+            <p
+              onClick={() => {
+                navigation("/aboutUs");
+                window.scrollTo(0, 0);
+              }}
+            >
+              ABOUT US
+            </p>
+          </div>
           <div className="footer_menu_malkan">
             <p
               onClick={() => {
@@ -97,6 +106,7 @@ const Footer = ({ fromPage }) => {
               CONTACT US
             </p>
           </div>
+          
           <div className="footer_menu_malkan">
             <p
               onClick={() => {
@@ -136,7 +146,7 @@ const Footer = ({ fromPage }) => {
         </div>
       </div>
       <p className="mala_footer_bottom_line">
-        Privacy Policy | ©2024 Sonasons Diamond Co
+       ©2024 Sonasons Diamond Co
       </p>
     </footer>
   );

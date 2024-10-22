@@ -16,6 +16,7 @@ import noImageFound from "../../../Assets/image-not-found.jpg"
 import { FormControl } from 'react-bootstrap';
 import Cookies from "js-cookie";
 import { formatter, storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { IoClose } from "react-icons/io5";
 
 const CartItem = ({
   item,
@@ -84,6 +85,7 @@ const CartItem = ({
 
 
   const handleRemoveItem = async (item) => {
+    console.log(item)
     const returnValue = await onRemove(item);
     if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
@@ -197,7 +199,7 @@ const CartItem = ({
             }
           </>
           <div className="mala3_cart-item__remove">
-            <button className="mala3_remove-button" onClick={() => handleRemoveItem(diamondData, index)}>×</button>
+            <button className="mala3_remove-button" onClick={() => handleRemoveItem(item)}><IoClose/></button>
           </div>
         </div>
       </div>

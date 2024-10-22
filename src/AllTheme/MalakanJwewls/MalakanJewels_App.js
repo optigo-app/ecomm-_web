@@ -36,6 +36,7 @@ import ScrollToTop from "../DaimondTine/Components/Pages/ScrollToTop ";
 import StamScrollToTop from "./Components/Pages/BackToTop/StamScrollToTop";
 import Footer from "./Components/Pages/Home/Footer/Footer";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
+import TermsPolicy from "./Components/Pages/FooterPages/TermsPolicy/TermsPolicy";
 
 const MalakanJewels_App = () => {
   const islogin = useRecoilValue(mala_loginState);
@@ -171,6 +172,7 @@ const MalakanJewels_App = () => {
           />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/servicePolicy" element={<ServicePolicy />} />
+          <Route path="/TermsPolicy" element={<TermsPolicy />} />
           <Route path="/ExpertAdvice" element={<ExpertAdvice />} />
           <Route path="/FunFact" element={<FunFact />} />
           <Route path="/aboutUs" element={<AboutUs />} />

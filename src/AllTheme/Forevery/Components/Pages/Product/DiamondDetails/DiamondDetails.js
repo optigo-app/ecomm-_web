@@ -88,7 +88,6 @@ const DiamondDetails = () => {
     const [diaQcCombo, setDiaQcCombo] = useState([])
     const [csQcCombo, setCsQcCombo] = useState([])
     const [selectDiaQc, setSelectDiaQc] = useState();
-    const [metalColor, setMetalColor] = useState();
     const [isImageload, setIsImageLoad] = useState(true);
     const [netWTData, setnetWTData] = useState([])
     const [metalColorCombo, setMetalColorCombo] = useState([]);
@@ -115,6 +114,7 @@ const DiamondDetails = () => {
     console.log('diamondData: ', diamondData);
     const [settingData, setSettingData] = useState();
     const [setshape, setSetShape] = useState();
+    const [metalColor, setMetalColor] = useState([]);
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
@@ -185,6 +185,8 @@ const DiamondDetails = () => {
                 setSetShape(getSetShape);
                 const getAlldata = JSON?.parse(sessionStorage.getItem('custStepData')) ?? JSON?.parse(sessionStorage.getItem('custStepData2'));
                 setAllData(getAlldata);
+                const metalC = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+                setMetalColor(metalC)
             }
             handleCompset();
         }
@@ -192,9 +194,11 @@ const DiamondDetails = () => {
 
 
     let getDesignImageFol = storeInit?.DesignImageFol;
-    const getDynamicImages = (designno, extension) => {
-        return `${getDesignImageFol}${designno}_${1}.${extension}`;
+    const getDynamicImages = (designno, MetalColorid, extension) => {
+        const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
+        return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
     };
+
 
     useEffect(() => {
         try {
@@ -207,7 +211,7 @@ const DiamondDetails = () => {
                 });
             }
             if (getAllData?.[0]?.step1Data?.designno !== "" ?? getAllData?.[1]?.step2Data?.designno !== "") {
-                const settingImage = getDynamicImages((getAllData?.[0]?.step1Data?.designno ?? getAllData?.[1]?.step2Data?.designno), (getAllData?.[0]?.step1Data?.ImageExtension ?? getAllData?.[1]?.step2Data?.ImageExtension))
+                const settingImage = getDynamicImages((getAllData?.[0]?.step1Data?.designno ?? getAllData?.[1]?.step2Data?.designno), (getAllData?.[0]?.step1Data?.MetalColorid ?? getAllData?.[1]?.step2Data?.MetalColorid), (getAllData?.[0]?.step1Data?.ImageExtension ?? getAllData?.[1]?.step2Data?.ImageExtension))
                 setCompSettArr(prev => {
                     const existingIndex = prev.filter(item => item?.type !== "setting");
                     return [...existingIndex, { type: "setting", src: settingImage }]
@@ -1973,6 +1977,7 @@ export default DiamondDetails
 const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     const [storeInit, setStoreInit] = useState({});
     const [loginCurrency, setLoginCurrency] = useState();
+    const [metalColor, setMetalColor] = useState([]);
     const Navigation = useNavigate();
     const location = useLocation();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -1991,6 +1996,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
         const loginData = JSON.parse(sessionStorage.getItem('loginUserDetail'));
         setLoginCurrency(loginData);
+
+        const metalC = JSON.parse(sessionStorage.getItem('MetalColorCombo'));
+        setMetalColor(metalC)
     }, []);
 
     const handleRemoveItem = (index) => {
@@ -2078,6 +2086,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 m: (data?.MetalPurityid ?? data?.selectedMetalId),
                 d: (loginUserDetail?.cmboDiaQCid ?? data?.selectedDiaId),
                 c: (loginUserDetail?.cmboCSQCid ?? data?.selectedCsId),
+                mc: (data?.MetalColorid ?? data?.step1Data?.MetalColorid),
                 p: pValue,
                 f: {},
             };
@@ -2092,8 +2101,9 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     }
 
     let getDesignImageFol = storeInit?.DesignImageFol;
-    const getDynamicImages = (designno, extension) => {
-        return `${getDesignImageFol}${designno}_${1}.${extension}`;
+    const getDynamicImages = (designno, MetalColorid, extension) => {
+        const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
+        return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
     };
 
     return (
@@ -2124,7 +2134,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 >
                     <div className="for_dia_data_image">
                         <img
-                            src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+                            src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.MetalColorid ?? data?.step1Data?.MetalColorid), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
                             alt=""
                             style={{ cursor: 'default' }}
                         />

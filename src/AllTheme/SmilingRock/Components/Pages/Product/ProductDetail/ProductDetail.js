@@ -670,8 +670,10 @@ const ProductDetail = () => {
           : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
         csQc: csArr
           ? `${csArr?.QualityId},${csArr?.ColorId}`
+          
           : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
+      console.log(obj,"res?.Data?.rd")
       // setProdLoading(true);
       setisPriceLoading(true);
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
@@ -746,6 +748,7 @@ const ProductDetail = () => {
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
               await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
                 .then((res) => {
+                console.log(res?.Data?.rd ,"res?.Data?.rd")
                   setDesignSetList(res?.Data?.rd);
                 })
                 .catch((err) => console.log("designsetErr", err));

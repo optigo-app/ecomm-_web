@@ -345,6 +345,7 @@ const SettingPage = () => {
       setShape('')
     }
     // fetchData('')
+    setCurrPage(1)
 
   }, [location?.pathname]);
 
@@ -417,47 +418,28 @@ const SettingPage = () => {
   }
 
 
-  // useEffect(() => {
-  //   // Check if the current values differ from the previous values
-  //   const hasChanges = selectedMetalId !== previousSelections.selectedMetalId
-  //     || selectedDiaId !== previousSelections.selectedDiaId
-  //     || selectedCsId !== previousSelections.selectedCsId || selectShape
-
-  //   if (hasChanges) {
-  //     filterData(selectedMetalId, selectedDiaId, selectedCsId, selectShape);
-
-  //     setPreviousSelections({
-  //       selectedMetalId,
-  //       selectedDiaId,
-  //       selectedCsId
-  //     });
-  //   }
-  // }, [selectedMetalId, selectedDiaId, selectShape]);
-
   useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    // Check if the current values differ from the previous values
+    const hasChanges = selectedMetalId !== previousSelections.selectedMetalId
+      || selectedDiaId !== previousSelections.selectedDiaId
+      || selectedCsId !== previousSelections.selectedCsId || selectShape
 
-    setIsOnlySettLoading(true);
-    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, selectShape)
-      .then((res) => {
-        if (res) {
-          setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-        }
-        return res;
-      })
-      .catch((err) => console.log("err", err))
-      .finally(() => {
-        setIsOnlySettLoading(false);
+    if (hasChanges) {
+      filterData(selectedMetalId, selectedDiaId, selectedCsId, selectShape);
+
+      setPreviousSelections({
+        selectedMetalId,
+        selectedDiaId,
+        selectedCsId
       });
+    }
   }, [selectedMetalId, selectedDiaId, selectShape]);
 
-  // const filterData = (selectedMetalId, selectedDiaId, selectedCsId, shape) => {
+  // useEffect(() => {
   //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-  //   // if (location?.key === locationKey) {
   //   setIsOnlySettLoading(true);
-  //   ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, shape)
+  //   ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, selectShape)
   //     .then((res) => {
   //       if (res) {
   //         setProductListData(res?.pdList);
@@ -469,8 +451,27 @@ const SettingPage = () => {
   //     .finally(() => {
   //       setIsOnlySettLoading(false);
   //     });
-  //   // }
-  // }
+  // }, [selectedMetalId, selectedDiaId, selectShape]);
+
+  const filterData = (selectedMetalId, selectedDiaId, selectedCsId, shape) => {
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+    // if (location?.key === locationKey) {
+    setIsOnlySettLoading(true);
+    ProductListApi({}, 1, obj, prodListType, cookie, "", {}, {}, {}, shape)
+      .then((res) => {
+        if (res) {
+          setProductListData(res?.pdList);
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+        }
+        return res;
+      })
+      .catch((err) => console.log("err", err))
+      .finally(() => {
+        setIsOnlySettLoading(false);
+      });
+    // }
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -1041,9 +1042,9 @@ const SettingPage = () => {
                     productData={item}
                     index={index}
                     ratingvalue={ratingvalue}
-                    yellowImage={images?.yellowImage || noImageFound}
-                    whiteImage={images?.whiteImage || noImageFound}
-                    roseImage={images?.roseImage || noImageFound}
+                    yellowImage={images?.yellowImage}
+                    whiteImage={images?.whiteImage}
+                    roseImage={images?.roseImage}
                     handleMetalColor={handleMetalColor}
                     metalColorType={metalColorType}
                     imageUrl={getDynamicImages(item.designno, item.ImageExtension)}
@@ -1402,13 +1403,15 @@ const Product_Card = ({
         <div className="for_settingList_card_description">
           <div className="for_settingList_metaltype_div">
             {metalColorType?.map((item) => (
-              <div
+              <button
                 className={selectedMetalColor === item?.id ? `for_metaltype_${item?.metal}_clicked` : `for_metaltype_${item?.metal}`}
                 key={item?.id}
+                type='button'
+                disabled={yellowImage === undefined}
                 onClick={() => handleClick(item?.id)}
               >
                 {""}
-              </div>
+              </button>
             ))}
           </div>
           <div className="for_settingList_desc_title">
