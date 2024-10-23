@@ -22,6 +22,7 @@ import pako from "pako";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
 import { mala_cartB2CDrawer, mala_CartCount, mala_companyLogo, mala_companyLogoM, mala_loginState, mala_WishCount } from "../../../Recoil/atom";
+import { MdLogout } from "react-icons/md";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -184,6 +185,7 @@ const Header = () => {
     navigation("/");
     setislogin(false);
     Cookies.remove("userLoginCookie");
+    Cookies.remove("visiterId");
     window.location.reload();
     sessionStorage.setItem("LoginUser", false);
     sessionStorage.removeItem("storeInit");
@@ -932,7 +934,7 @@ const Header = () => {
                   </li>
                 )}
 
-                <li
+                {/* <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -940,9 +942,9 @@ const Header = () => {
                   <a href="/servicePolicy" className="stam_A_link">
                     SERVICE POLICY
                   </a>
-                </li>
+                </li> */}
 
-                <li
+                {/* <li
                   className="nav_li_smining nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
@@ -950,7 +952,7 @@ const Header = () => {
                   <a href="/aboutUs" className="stam_A_link">
                     ABOUT US
                   </a>
-                </li>
+                </li> */}
 
                 {IsB2BWebsiteChek === 1 ? (
                   islogin === true ? (
@@ -1008,9 +1010,33 @@ const Header = () => {
                     LOG IN
                   </li>
                 )}
+                {islogin && (
+                  <li
+                    className="nav_li_smining"
+                    style={{ cursor: "pointer" }}
+                    onClick={()=>handleLogout()}
+                  >
+                    LOG OUT
+                  </li>
+                )}
 
                 {IsB2BWebsiteChek == 0 ? (
                   <>
+                    
+                    <li
+                      className="nav_li_smining_Icone mala_mobileHideIcone"
+                      onClick={toggleOverlay}
+                      style={{}}
+                    >
+                      <IoSearchOutline
+                        style={{
+                          height: "20px",
+                          cursor: "pointer",
+                          width: "20px",
+                        }}
+                        className="malkan_logo_nav"
+                      />
+                    </li>
                     <Badge
                       badgeContent={wishCountNum}
                       max={1000}
@@ -1034,20 +1060,6 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
-                    <li
-                      className="nav_li_smining_Icone mala_mobileHideIcone"
-                      onClick={toggleOverlay}
-                      style={{}}
-                    >
-                      <IoSearchOutline
-                        style={{
-                          height: "20px",
-                          cursor: "pointer",
-                          width: "20px",
-                        }}
-                        className="malkan_logo_nav"
-                      />
-                    </li>
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -1127,7 +1139,7 @@ const Header = () => {
                             />
                           </li>
                         </Tooltip>
-                      </Badge>
+                      </Badge> 
                     </>
                   )
                 )}

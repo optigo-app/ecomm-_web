@@ -24,6 +24,25 @@ const SocialMedia = () => {
             image: "/images/HomePage/Instagram/BottombBanner5.jpg",
         }
     ];
+    
+    const Sonaphotos = [
+        {
+            image: "/images/HomePage/Instagram/sona/BottombBanner1.jpeg",
+        },
+        {
+            image: "/images/HomePage/Instagram/sona/BottombBanner2.webp",
+        },
+        {
+            image: "/images/HomePage/Instagram/sona/BottombBanner3.webp",
+        },
+        {
+            image: "/images/HomePage/Instagram/sona/BottombBanner4.webp",
+        },
+        {
+            image: "/images/HomePage/Instagram/sona/BottombBanner5.jpg",
+        }
+    ];
+
 
     const HandleGoogleAn = (ClickedPostNo)=>{
         GoogleAnalytics.event({
@@ -38,8 +57,8 @@ const SocialMedia = () => {
             <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
-                    {photos.map((photo, index) => (
-                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open('https://www.instagram.com/houseofdiamondtine/');
+                    {Sonaphotos?.map((photo, index) => (
+                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open('https://www.instagram.com/');
                             HandleGoogleAn(index+1)
                         }}>
                             <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
@@ -49,7 +68,7 @@ const SocialMedia = () => {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')} variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
+                <Button onClick={() => window.open('https://www.instagram.com/')} variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
                     Follow us
                 </Button>
             </div>
