@@ -2,21 +2,38 @@ import React, { useEffect, useState } from "react";
 import "./productlist.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
-import imageNotFound from "../../../Assets/image-not-found.jpg"
+import imageNotFound from "../../../Assets/image-not-found.jpg";
 import { GetPriceListApi } from "../../../../../../utils/API/PriceListAPI/GetPriceListApi";
-import { findMetal, findMetalColor, findMetalType, formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import {
+  findMetal,
+  findMetalColor,
+  findMetalType,
+  formatter,
+} from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
-  Typography, useMediaQuery
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Checkbox,
+  Drawer,
+  FormControlLabel,
+  Input,
+  Pagination,
+  Skeleton,
+  Slider,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Footer from "../../Home/Footer/Footer";
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import LocalMallIcon from '@mui/icons-material/LocalMall';
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import LocalMallIcon from "@mui/icons-material/LocalMall";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -26,46 +43,47 @@ import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeCo
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import CloseIcon from '@mui/icons-material/Close';
-import Cookies from 'js-cookie'
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import CloseIcon from "@mui/icons-material/Close";
+import Cookies from "js-cookie";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
-import { mala_CartCount, mala_DiamondRangeArr, mala_WishCount } from "../../../Recoil/atom";
-import './GiveFilterMenu.scss'
-
-
-
-
-
+import {
+  mala_CartCount,
+  mala_DiamondRangeArr,
+  mala_WishCount,
+} from "../../../Recoil/atom";
+import "./GiveFilterMenu.scss";
 
 const ProductList = () => {
-
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
-    setStoreInit(storeinit)
+    setStoreInit(storeinit);
 
     let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-    setMetalTypeCombo(mtCombo)
+    setMetalTypeCombo(mtCombo);
 
-    let diaQcCombo = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
-    setDiaQcCombo(diaQcCombo)
+    let diaQcCombo = JSON.parse(
+      sessionStorage.getItem("diamondQualityColorCombo")
+    );
+    setDiaQcCombo(diaQcCombo);
 
-    let CsQcCombo = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
-    setCsQcCombo(CsQcCombo)
-  }, [])
-
+    let CsQcCombo = JSON.parse(
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
+    );
+    setCsQcCombo(CsQcCombo);
+  }, []);
 
   let location = useLocation();
   let navigate = useNavigate();
-  let minwidth1201px = useMediaQuery('(min-width:1201px)')
-  let maxwidth1674px = useMediaQuery('(max-width:1674px)')
-  let maxwidth590px = useMediaQuery('(max-width:590px)')
-  let maxwidth464px = useMediaQuery('(max-width:464px)')
+  let minwidth1201px = useMediaQuery("(min-width:1201px)");
+  let maxwidth1674px = useMediaQuery("(max-width:1674px)");
+  let maxwidth590px = useMediaQuery("(max-width:590px)");
+  let maxwidth464px = useMediaQuery("(max-width:464px)");
 
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
@@ -73,35 +91,39 @@ const ProductList = () => {
   const [isProdLoading, setIsProdLoading] = useState(true);
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [storeInit, setStoreInit] = useState({});
-  const [filterData, setFilterData] = useState([])
-  const [filterChecked, setFilterChecked] = useState({})
+  const [filterData, setFilterData] = useState([]);
+  const [filterChecked, setFilterChecked] = useState({});
   const [afterFilterCount, setAfterFilterCount] = useState();
   const [accExpanded, setAccExpanded] = useState(null);
   const [currPage, setCurrPage] = useState(1);
-  const [cartArr, setCartArr] = useState({})
-  const [wishArr, setWishArr] = useState({})
-  const [menuParams, setMenuParams] = useState({})
-  const [filterProdListEmpty, setFilterProdListEmpty] = useState(false)
+  const [cartArr, setCartArr] = useState({});
+  const [wishArr, setWishArr] = useState({});
+  const [menuParams, setMenuParams] = useState({});
+  const [filterProdListEmpty, setFilterProdListEmpty] = useState(false);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
-  const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-  const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
+  const [selectedMetalId, setSelectedMetalId] = useState(
+    loginUserDetail?.MetalId
+  );
+  const [selectedDiaId, setSelectedDiaId] = useState(
+    loginUserDetail?.cmboDiaQCid
+  );
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [rollOverImgPd, setRolloverImgPd] = useState({})
-  const [locationKey, setLocationKey] = useState()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [rollOverImgPd, setRolloverImgPd] = useState({});
+  const [locationKey, setLocationKey] = useState();
   const [prodListType, setprodListType] = useState();
 
   const [sortBySelect, setSortBySelect] = useState();
 
   const [totalProductCount, setTotalProductCount] = useState();
 
-  const setCartCountVal = useSetRecoilState(mala_CartCount)
-  const setWishCountVal = useSetRecoilState(mala_WishCount)
-  const [diaFilterRange, setDiaFilterRange] = useState({})
+  const setCartCountVal = useSetRecoilState(mala_CartCount);
+  const setWishCountVal = useSetRecoilState(mala_WishCount);
+  const [diaFilterRange, setDiaFilterRange] = useState({});
   const [sliderValue, setSliderValue] = useState([]);
   const [sliderValue1, setSliderValue1] = useState([]);
   const [sliderValue2, setSliderValue2] = useState([]);
@@ -111,14 +133,11 @@ const ProductList = () => {
 
   const [value, setValue] = React.useState([]);
 
-  const getDiaRangeFilter = useRecoilValue(mala_DiamondRangeArr)
-
+  const getDiaRangeFilter = useRecoilValue(mala_DiamondRangeArr);
 
   // console.log("getDiaRangeFilter",getDiaRangeFilter)
 
-
-
-  let cookie = Cookies.get('visiterId')
+  let cookie = Cookies.get("visiterId");
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -132,26 +151,26 @@ const ProductList = () => {
   useEffect(() => {
     setCSSVariable();
     const storeInitInside = JSON.parse(sessionStorage.getItem("storeInit"));
-    const loginUserDetailInside = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const loginUserDetailInside = JSON.parse(
+      sessionStorage.getItem("loginUserDetail")
+    );
 
-    let mtid = loginUserDetailInside?.MetalId ?? storeInitInside?.MetalId
-    setSelectedMetalId(mtid)
+    let mtid = loginUserDetailInside?.MetalId ?? storeInitInside?.MetalId;
+    setSelectedMetalId(mtid);
 
-    let diaid = loginUserDetailInside?.cmboDiaQCid ?? storeInitInside?.cmboDiaQCid
-    setSelectedDiaId(diaid)
+    let diaid =
+      loginUserDetailInside?.cmboDiaQCid ?? storeInitInside?.cmboDiaQCid;
+    setSelectedDiaId(diaid);
 
     let csid = loginUserDetailInside?.cmboCSQCid ?? storeInitInside?.cmboCSQCid;
-    setSelectedCsId(csid)
+    setSelectedCsId(csid);
+  }, []);
 
-  }, [])
-
-
-  console.log("selectedMetalId", selectedMetalId)
+  console.log("selectedMetalId", selectedMetalId);
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
   // console.log("rollOverImgPd",rollOverImgPd).
-
 
   // useEffect(()=>{
 
@@ -220,14 +239,16 @@ const ProductList = () => {
   //     console.log("AlbumVar",AlbumVar)
   //   }
 
-
   // },[location?.key])
-
 
   const callAllApi = () => {
     let mtTypeLocal = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
-    let diaQcLocal = JSON.parse(sessionStorage.getItem("diamondQualityColorCombo"));
-    let csQcLocal = JSON.parse(sessionStorage.getItem("ColorStoneQualityColorCombo"));
+    let diaQcLocal = JSON.parse(
+      sessionStorage.getItem("diamondQualityColorCombo")
+    );
+    let csQcLocal = JSON.parse(
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
+    );
     let mtColorLocal = JSON.parse(sessionStorage.getItem("MetalColorCombo"));
 
     if (!mtTypeLocal || mtTypeLocal?.length === 0) {
@@ -237,12 +258,10 @@ const ProductList = () => {
             let data = response?.Data?.rd;
             sessionStorage.setItem("metalTypeCombo", JSON.stringify(data));
             setMetalTypeCombo(data);
-
           }
         })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       setMetalTypeCombo(mtTypeLocal);
     }
 
@@ -251,13 +270,15 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            sessionStorage.setItem("diamondQualityColorCombo", JSON.stringify(data));
+            sessionStorage.setItem(
+              "diamondQualityColorCombo",
+              JSON.stringify(data)
+            );
             setDiaQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       setDiaQcCombo(diaQcLocal);
     }
 
@@ -266,13 +287,15 @@ const ProductList = () => {
         .then((response) => {
           if (response?.Data?.rd) {
             let data = response?.Data?.rd;
-            sessionStorage.setItem("ColorStoneQualityColorCombo", JSON.stringify(data));
+            sessionStorage.setItem(
+              "ColorStoneQualityColorCombo",
+              JSON.stringify(data)
+            );
             setCsQcCombo(data);
           }
         })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       setCsQcCombo(csQcLocal);
     }
 
@@ -301,38 +324,32 @@ const ProductList = () => {
     window.scroll({
       top: 0,
       behavior: "smooth",
-    })
-  }, [])
-
-
-
+    });
+  }, []);
 
   useEffect(() => {
-
-    let param = JSON.parse(sessionStorage.getItem("menuparams"))
+    let param = JSON.parse(sessionStorage.getItem("menuparams"));
     if (location?.state?.SearchVal === undefined) {
-      setMenuParams(param)
+      setMenuParams(param);
     }
-  }, [location?.key, productListData, filterChecked])
+  }, [location?.key, productListData, filterChecked]);
   // },[location?.state?.menu,productListData,filterChecked])
 
   useEffect(() => {
-
     const fetchData = async () => {
+      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-      let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
-      let UrlVal = location?.search.slice(1).split("/")
+      let UrlVal = location?.search.slice(1).split("/");
 
       // console.log("URLVal", UrlVal);
 
-      let MenuVal = '';
-      let MenuKey = '';
-      let SearchVar = '';
-      let TrendingVar = '';
-      let NewArrivalVar = '';
-      let BestSellerVar = '';
-      let AlbumVar = '';
+      let MenuVal = "";
+      let MenuKey = "";
+      let SearchVar = "";
+      let TrendingVar = "";
+      let NewArrivalVar = "";
+      let BestSellerVar = "";
+      let AlbumVar = "";
 
       let productlisttype;
 
@@ -340,68 +357,68 @@ const ProductList = () => {
         let firstChar = ele.charAt(0);
 
         switch (firstChar) {
-          case 'M':
+          case "M":
             MenuVal = ele;
             break;
-          case 'S':
+          case "S":
             SearchVar = ele;
             break;
-          case 'T':
+          case "T":
             TrendingVar = ele;
             break;
-          case 'N':
+          case "N":
             NewArrivalVar = ele;
             break;
-          case 'B':
+          case "B":
             BestSellerVar = ele;
             break;
-          case 'A':
+          case "A":
             AlbumVar = ele;
             break;
           default:
-            return '';
+            return "";
         }
-      })
+      });
 
       if (MenuVal?.length > 0) {
-        let menuDecode = atob(MenuVal?.split("=")[1])
+        let menuDecode = atob(MenuVal?.split("=")[1]);
 
-        let key = menuDecode?.split("/")[1].split(',')
-        let val = menuDecode?.split("/")[0].split(',')
+        let key = menuDecode?.split("/")[1].split(",");
+        let val = menuDecode?.split("/")[0].split(",");
 
-        setIsBreadcumShow(true)
+        setIsBreadcumShow(true);
 
-        productlisttype = [key, val]
+        productlisttype = [key, val];
       }
 
       if (SearchVar) {
-        productlisttype = SearchVar
+        productlisttype = SearchVar;
       }
 
       if (TrendingVar) {
-        productlisttype = TrendingVar.split("=")[1]
+        productlisttype = TrendingVar.split("=")[1];
       }
       if (NewArrivalVar) {
-        productlisttype = NewArrivalVar.split("=")[1]
+        productlisttype = NewArrivalVar.split("=")[1];
       }
 
       if (BestSellerVar) {
-        productlisttype = BestSellerVar.split("=")[1]
+        productlisttype = BestSellerVar.split("=")[1];
       }
 
       if (AlbumVar) {
-        productlisttype = AlbumVar.split("=")[1]
+        productlisttype = AlbumVar.split("=")[1];
       }
 
-      setIsProdLoading(true)
-      //  if(location?.state?.SearchVal === undefined){ 
-      setprodListType(productlisttype)
+      setIsProdLoading(true);
+      //  if(location?.state?.SearchVal === undefined){
+      setprodListType(productlisttype);
       await ProductListApi({}, 1, obj, productlisttype, cookie)
         .then((res) => {
           if (res) {
             // console.log("productList", res);
             setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
@@ -422,43 +439,62 @@ const ProductList = () => {
         .then(async (res) => {
           let forWardResp1;
           if (res) {
-            await FilterListAPI(productlisttype, cookie).then((res) => {
-              setFilterData(res)
+            await FilterListAPI(productlisttype, cookie)
+              .then((res) => {
+                setFilterData(res);
 
-              let diafilter = res?.filter((ele) => ele?.Name == "Diamond")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0] : [];
-              let diafilter1 = res?.filter((ele) => ele?.Name == "NetWt")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0] : [];
-              let diafilter2 = res?.filter((ele) => ele?.Name == "Gross")[0]?.options?.length > 0 ? JSON.parse(res?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0] : [];
+                let diafilter =
+                  res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    ?.length > 0
+                    ? JSON.parse(
+                        res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                      )[0]
+                    : [];
+                let diafilter1 =
+                  res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    ?.length > 0
+                    ? JSON.parse(
+                        res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                      )[0]
+                    : [];
+                let diafilter2 =
+                  res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    ?.length > 0
+                    ? JSON.parse(
+                        res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                      )[0]
+                    : [];
 
-              // console.log("diafilter",diafilter);
-              setSliderValue([diafilter?.Min, diafilter?.Max])
-              setSliderValue1([diafilter1?.Min, diafilter1?.Max])
-              setSliderValue2([diafilter2?.Min, diafilter2?.Max])
+                // console.log("diafilter",diafilter);
+                setSliderValue([diafilter?.Min, diafilter?.Max]);
+                setSliderValue1([diafilter1?.Min, diafilter1?.Max]);
+                setSliderValue2([diafilter2?.Min, diafilter2?.Max]);
 
-              forWardResp1 = res
-            }).catch((err) => console.log("err", err))
+                forWardResp1 = res;
+              })
+              .catch((err) => console.log("err", err));
           }
-          return forWardResp1
-        }).finally(() => {
-          setIsProdLoading(false)
-          setIsOnlyProdLoading(false)
+          return forWardResp1;
+        })
+        .finally(() => {
+          setIsProdLoading(false);
+          setIsOnlyProdLoading(false);
           window.scroll({
             top: 0,
-            behavior: 'smooth'
-          })
+            behavior: "smooth",
+          });
         })
-        .catch((err) => console.log("err", err))
+        .catch((err) => console.log("err", err));
 
       // }
-
-    }
+    };
 
     fetchData();
 
     if (location?.key) {
-      setLocationKey(location?.key)
+      setLocationKey(location?.key);
     }
-
-  }, [location?.key])
+  }, [location?.key]);
 
   useEffect(() => {
     const finalProdWithPrice = productListData.map((product) => {
@@ -466,19 +502,24 @@ const ProductList = () => {
 
       if (product?.ImageCount > 0) {
         for (let i = 1; i <= product?.ImageCount; i++) {
-          let imgString = storeInit?.DesignImageFol + product?.designno + "_" + i + "." + product?.ImageExtension
-          pdImgList.push(imgString)
+          let imgString =
+            storeInit?.DesignImageFol +
+            product?.designno +
+            "_" +
+            i +
+            "." +
+            product?.ImageExtension;
+          pdImgList.push(imgString);
         }
-      }
-      else {
-        pdImgList.push(imageNotFound)
+      } else {
+        pdImgList.push(imageNotFound);
       }
 
       let images = pdImgList;
 
       return {
         ...product,
-        images
+        images,
       };
     });
 
@@ -579,40 +620,43 @@ const ProductList = () => {
 
     if (pd?.ImageCount > 0) {
       for (let i = 1; i <= pd?.ImageCount; i++) {
-        let imgString = storeInit?.DesignImageFol + pd?.designno + "_" + i + "." + pd?.ImageExtension
-        pdImgList.push(imgString)
+        let imgString =
+          storeInit?.DesignImageFol +
+          pd?.designno +
+          "_" +
+          i +
+          "." +
+          pd?.ImageExtension;
+        pdImgList.push(imgString);
       }
-    }
-    else {
+    } else {
       finalprodListimg = imageNotFound;
     }
     if (pdImgList?.length > 0) {
-      finalprodListimg = pdImgList[j]
+      finalprodListimg = pdImgList[j];
       if (j > 0 && (!finalprodListimg || finalprodListimg == undefined)) {
-        finalprodListimg = pdImgList[0]
+        finalprodListimg = pdImgList[0];
       }
     }
-    return finalprodListimg
-  }
+    return finalprodListimg;
+  };
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
-  }
+  };
 
   const PriceWithMarkupFunction = (pmu, pPrice, curr) => {
     if (pPrice <= 0) {
-      return 0
+      return 0;
+    } else if (pmu <= 0) {
+      return pPrice;
+    } else {
+      let percentPMU = pmu / 100 / curr;
+      return Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0);
     }
-    else if (pmu <= 0) {
-      return pPrice
-    }
-    else {
-      let percentPMU = ((pmu / 100) / curr)
-      return (Number(pPrice * (percentPMU ?? 0)) + Number(pPrice ?? 0))
-    }
-  }
+  };
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
@@ -624,27 +668,33 @@ const ProductList = () => {
 
     setFilterChecked((prev) => ({
       ...prev,
-      [name]: { checked, type: listname, id: name?.replace(/[a-zA-Z]/g, ''), value: val }
-    }))
-  }
+      [name]: {
+        checked,
+        type: listname,
+        id: name?.replace(/[a-zA-Z]/g, ""),
+        value: val,
+      },
+    }));
+  };
 
   const FilterValueWithCheckedOnly = () => {
-    let onlyTrueFilterValue = Object.values(filterChecked).filter(ele => ele.checked)
+    let onlyTrueFilterValue = Object.values(filterChecked).filter(
+      (ele) => ele.checked
+    );
 
     const priceValues = onlyTrueFilterValue
-      .filter(item => item.type === "Price")
-      .map(item => item.value);
-
+      .filter((item) => item.type === "Price")
+      .map((item) => item.value);
 
     const output = {};
 
-    onlyTrueFilterValue.forEach(item => {
+    onlyTrueFilterValue.forEach((item) => {
       if (!output[item.type]) {
-        output[item.type] = '';
+        output[item.type] = "";
       }
 
-      if (item.type == 'Price') {
-        output['Price'] = priceValues
+      if (item.type == "Price") {
+        output["Price"] = priceValues;
         return;
       }
 
@@ -652,31 +702,31 @@ const ProductList = () => {
     });
 
     for (const key in output) {
-      if (key !== 'Price') {
+      if (key !== "Price") {
         output[key] = output[key].slice(0, -2);
       }
     }
 
-    // if 
+    // if
 
-    return output
-  }
+    return output;
+  };
 
   useEffect(() => {
     setAfterCountStatus(true);
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
 
     if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true)
+      setIsOnlyProdLoading(true);
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
             setAfterCountStatus(false);
           }
           return res;
@@ -685,13 +735,16 @@ const ProductList = () => {
         //    if (res) {
         //      await GetPriceListApi(1,{},output,res?.pdResp?.rd1[0]?.AutoCodeList,obj).then((resp)=>{
         //        if(resp){
-        //          setPriceListData(resp)  
+        //          setPriceListData(resp)
         //        }
         //      })
         //    }
         //    return res
         //  })
-        .catch((err) => console.log("err", err)).finally(() => { setIsOnlyProdLoading(false) })
+        .catch((err) => console.log("err", err))
+        .finally(() => {
+          setIsOnlyProdLoading(false);
+        });
     }
     // .then(async(res)=>{
     //   if(res){
@@ -699,39 +752,38 @@ const ProductList = () => {
     //   }
     // })
     // }
-
-  }, [filterChecked])
-
+  }, [filterChecked]);
 
   const handelFilterClearAll = () => {
     // setAfterCountStatus(true);
-    if (Object.values(filterChecked).filter(ele => ele.checked)?.length > 0) { setFilterChecked({}) }
-    setAccExpanded(false)
-  }
+    if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) {
+      setFilterChecked({});
+    }
+    setAccExpanded(false);
+  };
 
   useEffect(() => {
-    handelFilterClearAll()
-  }, [location?.key])
+    handelFilterClearAll();
+  }, [location?.key]);
 
   const handelPageChange = (event, value) => {
-
     // console.log("pagination",value);
 
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-    setIsProdLoading(true)
-    setCurrPage(value)
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+    setIsProdLoading(true);
+    setCurrPage(value);
     setTimeout(() => {
       window.scroll({
         top: 0,
-        behavior: 'smooth'
-      })
-    }, 100)
+        behavior: "smooth",
+      });
+    }, 100);
     ProductListApi(output, value, obj, prodListType, cookie, sortBySelect)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
@@ -745,126 +797,129 @@ const ProductList = () => {
       //   }
       //   return res
       // })
-      .catch((err) => console.log("err", err)).finally(() => {
+      .catch((err) => console.log("err", err))
+      .finally(() => {
         setTimeout(() => {
-          setIsProdLoading(false)
+          setIsProdLoading(false);
         }, 100);
-      })
-  }
+      });
+  };
 
   const handleCartandWish = (e, ele, type) => {
     // console.log("event", e.target.checked, ele, type);
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let prodObj = {
-      "autocode": ele?.autocode,
-      "Metalid": (selectedMetalId ?? ele?.MetalPurityid),
-      "MetalColorId": ele?.MetalColorid,
-      "DiaQCid": (selectedDiaId ?? loginInfo?.cmboDiaQCid),
-      "CsQCid": (selectedCsId ?? loginInfo?.cmboCSQCid),
-      "Size": ele?.DefaultSize,
-      "Unitcost": ele?.UnitCost,
-      "markup": ele?.DesignMarkUp,
-      "UnitCostWithmarkup": ele?.UnitCostWithMarkUp,
-      "Remark": ""
-    }
-
-
+      autocode: ele?.autocode,
+      Metalid: selectedMetalId ?? ele?.MetalPurityid,
+      MetalColorId: ele?.MetalColorid,
+      DiaQCid: selectedDiaId ?? loginInfo?.cmboDiaQCid,
+      CsQCid: selectedCsId ?? loginInfo?.cmboCSQCid,
+      Size: ele?.DefaultSize,
+      Unitcost: ele?.UnitCost,
+      markup: ele?.DesignMarkUp,
+      UnitCostWithmarkup: ele?.UnitCostWithMarkUp,
+      Remark: "",
+    };
 
     if (e.target.checked == true) {
-      CartAndWishListAPI(type, prodObj, cookie).then((res) => {
-        let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC = res?.Data?.rd[0]?.Wishlistcount
-        setWishCountVal(wishC)
-        setCartCountVal(cartC);
-      }).catch((err) => console.log("err", err))
+      CartAndWishListAPI(type, prodObj, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
     } else {
-      RemoveCartAndWishAPI(type, ele?.autocode, cookie).then((res) => {
-        let cartC = res?.Data?.rd[0]?.Cartlistcount
-        let wishC = res?.Data?.rd[0]?.Wishlistcount
-        setWishCountVal(wishC)
-        setCartCountVal(cartC);
-      }).catch((err) => console.log("err", err))
+      RemoveCartAndWishAPI(type, ele?.autocode, cookie)
+        .then((res) => {
+          let cartC = res?.Data?.rd[0]?.Cartlistcount;
+          let wishC = res?.Data?.rd[0]?.Wishlistcount;
+          setWishCountVal(wishC);
+          setCartCountVal(cartC);
+        })
+        .catch((err) => console.log("err", err));
     }
 
     if (type === "Cart") {
       setCartArr((prev) => ({
         ...prev,
-        [ele?.autocode]: e.target.checked
-      }))
+        [ele?.autocode]: e.target.checked,
+      }));
     }
 
     if (type === "Wish") {
       setWishArr((prev) => ({
         ...prev,
-        [ele?.autocode]: e.target.checked
-      }))
+        [ele?.autocode]: e.target.checked,
+      }));
     }
-
-  }
+  };
 
   useEffect(() => {
     if (productListData?.length === 0 || !productListData) {
-      setFilterProdListEmpty(true)
+      setFilterProdListEmpty(true);
     } else {
-      setFilterProdListEmpty(false)
+      setFilterProdListEmpty(false);
       setAfterCountStatus(false);
     }
-  }, [productListData])
-
+  }, [productListData]);
 
   const handelCustomCombo = (obj) => {
-
-    let output = FilterValueWithCheckedOnly()
+    let output = FilterValueWithCheckedOnly();
 
     if (location?.state?.SearchVal === undefined) {
-      setIsOnlyProdLoading(true)
+      setIsOnlyProdLoading(true);
       ProductListApi(output, currPage, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           }
           return res;
         })
         .catch((err) => console.log("err", err))
         .finally(() => {
           setTimeout(() => {
-            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
-            setIsOnlyProdLoading(false)
+            sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
+            setIsOnlyProdLoading(false);
           }, 100);
-        })
+        });
     }
-  }
+  };
 
   useEffect(() => {
-
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
-    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj))
+    sessionStorage.setItem("short_cutCombo_val", JSON?.stringify(obj));
 
-
-    if (loginInfo?.MetalId !== selectedMetalId || loginInfo?.cmboDiaQCid !== selectedDiaId || loginInfo?.cmboCSQCid !== selectedCsId) {
-      if (selectedMetalId !== "" || selectedDiaId !== "" || selectedCsId !== "") {
-        handelCustomCombo(obj)
+    if (
+      loginInfo?.MetalId !== selectedMetalId ||
+      loginInfo?.cmboDiaQCid !== selectedDiaId ||
+      loginInfo?.cmboCSQCid !== selectedCsId
+    ) {
+      if (
+        selectedMetalId !== "" ||
+        selectedDiaId !== "" ||
+        selectedCsId !== ""
+      ) {
+        handelCustomCombo(obj);
       }
     }
-
-
-  }, [selectedMetalId, selectedDiaId, selectedCsId])
+  }, [selectedMetalId, selectedDiaId, selectedCsId]);
 
   const compressAndEncode = (inputString) => {
     try {
       const uint8Array = new TextEncoder().encode(inputString);
 
-      const compressed = pako.deflate(uint8Array, { to: 'string' });
-
+      const compressed = pako.deflate(uint8Array, { to: "string" });
 
       return btoa(String.fromCharCode.apply(null, compressed));
     } catch (error) {
-      console.error('Error compressing and encoding:', error);
+      console.error("Error compressing and encoding:", error);
       return null;
     }
   };
@@ -881,85 +936,94 @@ const ProductList = () => {
       }
 
       // Decompress the data
-      const decompressed = pako.inflate(uint8Array, { to: 'string' });
+      const decompressed = pako.inflate(uint8Array, { to: "string" });
 
       // Convert decompressed data back to JSON object
       const jsonObject = JSON.parse(decompressed);
 
       return jsonObject;
     } catch (error) {
-      console.error('Error decoding and decompressing:', error);
+      console.error("Error decoding and decompressing:", error);
       return null;
     }
   };
 
   const handleMoveToDetail = (productData) => {
-    let output = FilterValueWithCheckedOnly()
+    let output = FilterValueWithCheckedOnly();
     let obj = {
       a: productData?.autocode,
       b: productData?.designno,
       m: selectedMetalId,
       d: selectedDiaId,
       c: selectedCsId,
-      f: output
-    }
+      f: output,
+    };
     // console.log('ksjkfjkjdkjfkjsdk--', obj);
     // compressAndEncode(JSON.stringify(obj))
 
-    decodeAndDecompress()
+    decodeAndDecompress();
 
-    let encodeObj = compressAndEncode(JSON.stringify(obj))
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    navigate(`/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""}${productData?.designno}?p=${encodeObj}`)
-
-  }
+    navigate(
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
+        productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+  };
 
   const handleImgRollover = (pd) => {
     if (pd?.images?.length >= 1) {
       // setRolloverImgPd((prev) => pd?.images[1])
-      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[1] } })
+      setRolloverImgPd((prev) => {
+        return { [pd?.autocode]: pd?.images[1] };
+      });
     }
-  }
+  };
 
   const handleLeaveImgRolloverImg = (pd) => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
-      setRolloverImgPd((prev) => { return { [pd?.autocode]: pd?.images[0] } })
+      setRolloverImgPd((prev) => {
+        return { [pd?.autocode]: pd?.images[0] };
+      });
     }
-  }
-
+  };
 
   const handleBreadcums = (mparams) => {
-
-    let key = Object?.keys(mparams)
-    let val = Object?.values(mparams)
+    let key = Object?.keys(mparams);
+    let val = Object?.values(mparams);
 
     let KeyObj = {};
     let ValObj = {};
 
     key.forEach((value, index) => {
-      let keyName = `FilterKey${index === 0 ? '' : index}`;
+      let keyName = `FilterKey${index === 0 ? "" : index}`;
       KeyObj[keyName] = value;
     });
 
     val.forEach((value, index) => {
-      let keyName = `FilterVal${index === 0 ? '' : index}`;
+      let keyName = `FilterVal${index === 0 ? "" : index}`;
       ValObj[keyName] = value;
     });
 
-    let finalData = { ...KeyObj, ...ValObj }
+    let finalData = { ...KeyObj, ...ValObj };
 
     const queryParameters1 = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join('/');
+    ]
+      .filter(Boolean)
+      .join("/");
 
     const queryParameters = [
       finalData?.FilterKey && `${finalData.FilterVal}`,
       finalData?.FilterKey1 && `${finalData.FilterVal1}`,
       finalData?.FilterKey2 && `${finalData.FilterVal2}`,
-    ].filter(Boolean).join(',');
+    ]
+      .filter(Boolean)
+      .join(",");
 
     const otherparamUrl = Object.entries({
       b: finalData?.FilterKey,
@@ -969,41 +1033,41 @@ const ProductList = () => {
       .filter(([key, value]) => value !== undefined)
       .map(([key, value]) => value)
       .filter(Boolean)
-      .join(',');
+      .join(",");
 
     let menuEncoded = `${queryParameters}/${otherparamUrl}`;
 
-    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(menuEncoded)}`;
+    const url = `/p/${BreadCumsObj()?.menuname}/${queryParameters1}/?M=${btoa(
+      menuEncoded
+    )}`;
     // const url = `/p?V=${queryParameters}/K=${otherparamUrl}`;
 
     navigate(url);
 
     // console.log("mparams", KeyObj, ValObj)
-
-  }
-
+  };
 
   const handleSortby = async (e) => {
-    setSortBySelect(e.target?.value)
+    setSortBySelect(e.target?.value);
 
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    setIsOnlyProdLoading(true)
+    setIsOnlyProdLoading(true);
 
-    let sortby = e.target?.value
+    let sortby = e.target?.value;
 
     await ProductListApi(output, currPage, obj, prodListType, cookie, sortby)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
-        setIsOnlyProdLoading(false)
+        setIsOnlyProdLoading(false);
 
         // if(element)
         //   {
@@ -1013,8 +1077,8 @@ const ProductList = () => {
         //   top: 0,
         //   behavior: 'smooth'
         // })
-      })
-  }
+      });
+  };
 
   // useEffect(()=>{
   // let element =  document.getElementById("mala_outer_portion")
@@ -1081,7 +1145,6 @@ const ProductList = () => {
   //   }
   //   if()
 
-
   // }
 
   // console.log("showBreadCumsValue",showBreadCumsValue())
@@ -1090,7 +1153,7 @@ const ProductList = () => {
     // const element = document.getElementsByClassName("mala_filter_portion_outter")
     // const clientHeight = element?.clientHeight;
     // console.log('ClientHeight', clientHeight);
-  }
+  };
 
   // const handleRangeFilter = async(type,val) => {
 
@@ -1122,102 +1185,189 @@ const ProductList = () => {
 
   const handleRangeFilterApi = async (Rangeval) => {
     setAfterCountStatus(true);
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     // let diafilter = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Diamond")[0]?.options)[0]
-    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
-    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
+    let diafilter1 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+    )[0];
+    let diafilter2 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+    )[0];
 
-    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] }
-    let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let DiaRange = { DiaMin: Rangeval[0], DiaMax: Rangeval[1] };
+    let netRange = {
+      netMin:
+        diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]
+          ? ""
+          : sliderValue1[0],
+      netMax:
+        diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]
+          ? ""
+          : sliderValue1[1],
+    };
+    let grossRange = {
+      grossMin:
+        diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]
+          ? ""
+          : sliderValue2[0],
+      grossMax:
+        diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]
+          ? ""
+          : sliderValue2[1],
+    };
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+    await ProductListApi(
+      output,
+      1,
+      obj,
+      prodListType,
+      cookie,
+      sortBySelect,
+      DiaRange,
+      netRange,
+      grossRange
+    )
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
           setAfterCountStatus(false);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
-
-
-  }
+        setIsOnlyProdLoading(false);
+      });
+  };
   const handleRangeFilterApi1 = async (Rangeval1) => {
-
-    let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
+    let diafilter = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+    )[0];
     // let diafilter1 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "NetWt")[0]?.options)[0]
-    let diafilter2 = JSON.parse(filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options)[0]
+    let diafilter2 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Gross")[0]?.options
+    )[0];
 
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
-    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
-    let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
+    let DiaRange = {
+      diaMin:
+        diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]
+          ? ""
+          : sliderValue[0],
+      diaMax:
+        diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]
+          ? ""
+          : sliderValue[1],
+    };
+    let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] };
+    let grossRange = {
+      grossMin:
+        diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]
+          ? ""
+          : sliderValue2[0],
+      grossMax:
+        diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]
+          ? ""
+          : sliderValue2[1],
+    };
 
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+    await ProductListApi(
+      output,
+      1,
+      obj,
+      prodListType,
+      cookie,
+      sortBySelect,
+      DiaRange,
+      netRange,
+      grossRange
+    )
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
-
-
-  }
+        setIsOnlyProdLoading(false);
+      });
+  };
   const handleRangeFilterApi2 = async (Rangeval2) => {
+    let output = FilterValueWithCheckedOnly();
+    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
-    let output = FilterValueWithCheckedOnly()
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-
-    let diafilter = JSON.parse(filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options)[0]
-    let diafilter1 = JSON.parse(filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options)[0]
+    let diafilter = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+    )[0];
+    let diafilter1 = JSON.parse(
+      filterData?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+    )[0];
     // let diafilter2 = JSON.parse(filterData?.filter((ele)=>ele?.Name == "Gross")[0]?.options)[0]
 
-    let DiaRange = { diaMin: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[0], diaMax: (diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]) ? "" : sliderValue[1] }
-    let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
-    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
+    let DiaRange = {
+      diaMin:
+        diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]
+          ? ""
+          : sliderValue[0],
+      diaMax:
+        diafilter?.Min == sliderValue[0] || diafilter?.Max == sliderValue[1]
+          ? ""
+          : sliderValue[1],
+    };
+    let netRange = {
+      netMin:
+        diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]
+          ? ""
+          : sliderValue1[0],
+      netMax:
+        diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]
+          ? ""
+          : sliderValue1[1],
+    };
+    let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] };
 
-
-    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
+    await ProductListApi(
+      output,
+      1,
+      obj,
+      prodListType,
+      cookie,
+      sortBySelect,
+      DiaRange,
+      netRange,
+      grossRange
+    )
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
-          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+          setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
         }
         return res;
       })
       .catch((err) => console.log("err", err))
       .finally(() => {
-        setIsOnlyProdLoading(false)
-      })
-  }
-
-
+        setIsOnlyProdLoading(false);
+      });
+  };
 
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
-    handleRangeFilterApi(newValue)
+    handleRangeFilterApi(newValue);
   };
   const handleSliderChange1 = (event, newValue) => {
     setSliderValue1(newValue);
-    handleRangeFilterApi1(newValue)
+    handleRangeFilterApi1(newValue);
   };
   const handleSliderChange2 = (event, newValue) => {
     setSliderValue2(newValue);
-    handleRangeFilterApi2(newValue)
+    handleRangeFilterApi2(newValue);
   };
 
   const handleInputChange = (index) => (event) => {
@@ -1225,21 +1375,21 @@ const ProductList = () => {
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue(newSliderValue);
-    handleRangeFilterApi(newSliderValue)
+    handleRangeFilterApi(newSliderValue);
   };
   const handleInputChange1 = (index) => (event) => {
-    const newSliderValue = [...sliderValue1]
+    const newSliderValue = [...sliderValue1];
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue1(newSliderValue);
-    handleRangeFilterApi1(newSliderValue)
+    handleRangeFilterApi1(newSliderValue);
   };
   const handleInputChange2 = (index) => (event) => {
-    const newSliderValue = [...sliderValue2]
+    const newSliderValue = [...sliderValue2];
     newSliderValue[index] =
       event.target.value === "" ? "" : Number(event.target.value);
     setSliderValue2(newSliderValue);
-    handleRangeFilterApi2(newSliderValue)
+    handleRangeFilterApi2(newSliderValue);
   };
 
   const RangeFilterView = (ele) => {
@@ -1269,7 +1419,7 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
               }}
             />
             <Input
@@ -1281,14 +1431,14 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
               }}
             />
           </div>
         </div>
       </>
-    )
-  }
+    );
+  };
   const RangeFilterView1 = (ele) => {
     // console.log("netwt",ele)
     return (
@@ -1317,7 +1467,7 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
               }}
             />
             <Input
@@ -1329,14 +1479,14 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
               }}
             />
           </div>
         </div>
       </>
-    )
-  }
+    );
+  };
   const RangeFilterView2 = (ele) => {
     return (
       <>
@@ -1364,7 +1514,7 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
               }}
             />
             <Input
@@ -1376,46 +1526,53 @@ const ProductList = () => {
                 min: JSON?.parse(ele?.options)[0]?.Min,
                 max: JSON?.parse(ele?.options)[0]?.Max,
                 type: "number",
-                "aria-labelledby": "range-slider"
+                "aria-labelledby": "range-slider",
               }}
             />
           </div>
         </div>
       </>
-    )
-  }
+    );
+  };
 
   const DynamicListPageTitleLineFunc = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
-      return menuParams?.menuname
+      return menuParams?.menuname;
     } else {
-      return location?.pathname.split('/')[2]
+      return location?.pathname.split("/")[2];
     }
-  }
+  };
 
   const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split('/')
+    let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
 
-    const values = BreadCum[0].split(',');
-    const labels = BreadCum[1].split(',');
+    const values = BreadCum[0].split(",");
+    const labels = BreadCum[1].split(",");
 
     const updatedBreadCum = labels.reduce((acc, label, index) => {
-      acc[label] = values[index] || '';
+      acc[label] = values[index] || "";
       return acc;
     }, {});
 
-    const result = Object.entries(updatedBreadCum).reduce((acc, [key, value], index) => {
-      acc[`FilterKey${index === 0 ? '' : index}`] = key.charAt(0).toUpperCase() + key.slice(1);
-      acc[`FilterVal${index === 0 ? '' : index}`] = value;
-      return acc;
-    }, {});
+    const result = Object.entries(updatedBreadCum).reduce(
+      (acc, [key, value], index) => {
+        acc[`FilterKey${index === 0 ? "" : index}`] =
+          key.charAt(0).toUpperCase() + key.slice(1);
+        acc[`FilterVal${index === 0 ? "" : index}`] = value;
+        return acc;
+      },
+      {}
+    );
 
     // decodeURI(location?.pathname).slice(3).slice(0,-1).split("/")[0]
 
-    result.menuname = decodeURI(location?.pathname).slice(3).slice(0, -1).split("/")[0]
+    result.menuname = decodeURI(location?.pathname)
+      .slice(3)
+      .slice(0, -1)
+      .split("/")[0];
 
-    return result
-  }
+    return result;
+  };
   // useEffect(()=>{
   //   console.log("breadcum",BreadCumsObj())
   // },[location?.key])
@@ -1427,14 +1584,14 @@ const ProductList = () => {
       </Helmet>
       <div id="top">
         <Drawer
-        sx={{
-          zIndex: 9999999,
-          fontFamily:'Rowan5',
-          '& .MuiBackdrop-root': {
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-            backdropFilter: 'blur(4px)',
-          },
-        }}
+          sx={{
+            zIndex: 9999999,
+            fontFamily: "Rowan5",
+            "& .MuiBackdrop-root": {
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              backdropFilter: "blur(4px)",
+            },
+          }}
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
@@ -1461,7 +1618,7 @@ const ProductList = () => {
               display: "flex",
               gap: "5px",
               flexDirection: "column",
-              padding:"12px"
+              padding: "12px",
             }}
           >
             <Typography
@@ -1469,46 +1626,48 @@ const ProductList = () => {
                 color: "#7f7d85",
                 fontSize: "16px",
                 marginTop: "12px",
-                fontFamily:"Rowan5"
+                fontFamily: "Rowan5",
               }}
             >
               Customization
             </Typography>
-            {storeInit?.IsMetalCustComb === 1 && <div
-            // className="mala_metal_custom"
-            >
-              <Typography
-                className="label"
-                sx={{
-                  color: "#7f7d85",
-                  fontSize: "14px",
-                }}
+            {storeInit?.IsMetalCustComb === 1 && (
+              <div
+              // className="mala_metal_custom"
               >
-                Metal:&nbsp;
-              </Typography>
-              <select
-                style={{
-                  border: "1px solid #e1e1e1",
-                  borderRadius: "8px",
-                  minWidth: "270px",
-                }}
-                className="select"
-                value={selectedMetalId}
-                onChange={(e) => {
-                  setSelectedMetalId(e.target.value);
-                }}
-              >
-                {metalTypeCombo?.map((metalele) => (
-                  <option
-                    className="option"
-                    key={metalele?.Metalid}
-                    value={metalele?.Metalid}
-                  >
-                    {metalele?.metaltype.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </div>}
+                <Typography
+                  className="label"
+                  sx={{
+                    color: "#7f7d85",
+                    fontSize: "14px",
+                  }}
+                >
+                  Metal:&nbsp;
+                </Typography>
+                <select
+                  style={{
+                    border: "1px solid #e1e1e1",
+                    borderRadius: "8px",
+                    minWidth: "270px",
+                  }}
+                  className="select"
+                  value={selectedMetalId}
+                  onChange={(e) => {
+                    setSelectedMetalId(e.target.value);
+                  }}
+                >
+                  {metalTypeCombo?.map((metalele) => (
+                    <option
+                      className="option"
+                      key={metalele?.Metalid}
+                      value={metalele?.Metalid}
+                    >
+                      {metalele?.metaltype.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {storeInit?.IsDiamondCustComb === 1 && (
               <div
@@ -1634,57 +1793,61 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-          <div className="mala_mobile_filter_portion"
-          style={{
-            padding:"12px",
-          }}>
+          <div
+            className="mala_mobile_filter_portion"
+            style={{
+              padding: "12px",
+            }}
+          >
             {filterData?.length > 0 && (
               <div className="mala_mobile_filter_portion_outter">
-                <span className="mala_filter_text"
-                style={{
-                  display:"flex",
-                  alignItems:"center",
-                  justifyContent:"space-between",
-                  width:"100%"
-                }}
+                <span
+                  className="mala_filter_text"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
                 >
                   <span>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length === 0
+                      ?.length === 0 ? (
                       // ? <span><span>{"Filters"}</span> <span>{"Product"}</span></span>
-                      ? "Filters"
-                      :
-                      <>{afterCountStatus == true ? (
-                        <Skeleton
-                          variant="rounded"
-                          width={140}
-                          height={22}
-                          className="pSkelton"
-                        />
-                      ) :
-                        <span>{`Product Found:: ${afterFilterCount}`}</span>
-                      }
+                      "Filters"
+                    ) : (
+                      <>
+                        {afterCountStatus == true ? (
+                          <Skeleton
+                            variant="rounded"
+                            width={140}
+                            height={22}
+                            className="pSkelton"
+                          />
+                        ) : (
+                          <span>{`Product Found:: ${afterFilterCount}`}</span>
+                        )}
                       </>
-                    }
+                    )}
                   </span>
-                  <span
-                    onClick={() => handelFilterClearAll()}
-                  >
+                  <span onClick={() => handelFilterClearAll()}>
                     {Object.values(filterChecked).filter((ele) => ele.checked)
-                      ?.length > 0
-                      ? "Clear All"
-                      : <>{afterCountStatus == true ? (
-                        <Skeleton
-                          variant="rounded"
-                          width={140}
-                          height={22}
-                          className="pSkelton"
-                        />
-                      ) :
-                        <span>{`Total Products: ${afterFilterCount}`}</span>
-                      }
+                      ?.length > 0 ? (
+                      "Clear All"
+                    ) : (
+                      <>
+                        {afterCountStatus == true ? (
+                          <Skeleton
+                            variant="rounded"
+                            width={140}
+                            height={22}
+                            className="pSkelton"
+                          />
+                        ) : (
+                          <span>{`Total Products: ${afterFilterCount}`}</span>
+                        )}
                       </>
-                    }
+                    )}
                   </span>
                 </span>
                 <div style={{ marginTop: "12px" }}>
@@ -1697,19 +1860,22 @@ const ProductList = () => {
                             sx={{
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
                           >
                             <AccordionSummary
-                              expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
                               aria-controls="panel1-content"
                               id="panel1-header"
                               sx={{
@@ -1720,7 +1886,7 @@ const ProductList = () => {
                                   padding: 0,
                                 },
                               }}
-                            // className="filtercategoryLable"
+                              // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Fil_DisName}
@@ -1754,14 +1920,14 @@ const ProductList = () => {
                                         {opt.Name}
                                       </small> */}
                                   <FormControlLabel
-                                  sx={{
-                                    display:"flex",
-                                    alignItems:"center",
-                                    justifyContent:"space-between",
-                                    flexDirection:"row-reverse",
-                                    width:"100%",
-                                    fontFamily:"Rowan5"
-                                  }}
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                      flexDirection: "row-reverse",
+                                      width: "100%",
+                                      fontFamily: "Rowan5",
+                                    }}
                                     control={
                                       <Checkbox
                                         name={`${ele?.id}${opt?.id}`}
@@ -1774,8 +1940,9 @@ const ProductList = () => {
                                           filterChecked[`${ele?.id}${opt?.id}`]
                                             ?.checked === undefined
                                             ? false
-                                            : filterChecked[`${ele?.id}${opt?.id}`]
-                                              ?.checked
+                                            : filterChecked[
+                                                `${ele?.id}${opt?.id}`
+                                              ]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -1812,18 +1979,16 @@ const ProductList = () => {
                           sx={{
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
                             },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
                             },
                           }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1856,84 +2021,88 @@ const ProductList = () => {
                               overflow: "auto",
                             }}
                           >
-                            {(JSON.parse(ele?.options) ?? []).map(
-                              (opt, i) => (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    gap: "12px",
-                                  }}
-                                  key={i}
-                                >
-                                  {/* <small
+                            {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  gap: "12px",
+                                }}
+                                key={i}
+                              >
+                                {/* <small
                                         style={{
                                           color: "#7f7d85",
                                         }}
                                       >
                                         {opt.Name}
                                       </small> */}
-                                  <FormControlLabel
-                                   sx={{
-                                    display:"flex",
-                                    alignItems:"center",
-                                    justifyContent:"space-between",
-                                    flexDirection:"row-reverse",
-                                    width:"100%",
-                                    fontFamily:"Rowan5"
-
+                                <FormControlLabel
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    flexDirection: "row-reverse",
+                                    width: "100%",
+                                    fontFamily: "Rowan5",
                                   }}
-                                    control={
-                                      <Checkbox
-                                        name={`Price${i}${i}`}
-                                        // checked={
-                                        //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                        //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                        //     : false
-                                        // }
-                                        checked={
-                                          filterChecked[`Price${i}${i}`]
-                                            ?.checked === undefined
-                                            ? false
-                                            : filterChecked[
-                                              `Price${i}${i}`
-                                            ]?.checked
-                                        }
-                                        style={{
-                                          color: "#7f7d85",
-                                          padding: 0,
-                                          width: "10px",
-                                        }}
-                                        onClick={(e) =>
-                                          handleCheckboxChange(
-                                            e,
-                                            ele?.id,
-                                            opt
-                                          )
-                                        }
-                                        size="small"
-                                      />
-                                    }
-                                    // sx={{
-                                    //   display: "flex",
-                                    //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                    //   width: "100%",
-                                    //   flexDirection: "row-reverse", // Align items to the right
-                                    // }}
-                                    className="mala_mui_checkbox_label"
-                                    label={
-                                      opt?.Minval == 0
-                                        ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                        : opt?.Maxval == 0
-                                          ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                          : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
-                                                   - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                    }
-                                  />
-                                </div>
-                              )
-                            )}
+                                  control={
+                                    <Checkbox
+                                      name={`Price${i}${i}`}
+                                      // checked={
+                                      //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                      //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                      //     : false
+                                      // }
+                                      checked={
+                                        filterChecked[`Price${i}${i}`]
+                                          ?.checked === undefined
+                                          ? false
+                                          : filterChecked[`Price${i}${i}`]
+                                              ?.checked
+                                      }
+                                      style={{
+                                        color: "#7f7d85",
+                                        padding: 0,
+                                        width: "10px",
+                                      }}
+                                      onClick={(e) =>
+                                        handleCheckboxChange(e, ele?.id, opt)
+                                      }
+                                      size="small"
+                                    />
+                                  }
+                                  // sx={{
+                                  //   display: "flex",
+                                  //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                  //   width: "100%",
+                                  //   flexDirection: "row-reverse", // Align items to the right
+                                  // }}
+                                  className="mala_mui_checkbox_label"
+                                  label={
+                                    opt?.Minval == 0
+                                      ? `Under ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        } ${opt?.Maxval}`
+                                      : opt?.Maxval == 0
+                                      ? `Over ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        }${opt?.Minval}`
+                                      : `${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        } ${opt?.Minval} 
+                                                   - ${
+                                                     loginUserDetail?.CurrencyCode ??
+                                                     storeInit?.CurrencyCode
+                                                   } ${opt?.Maxval}`
+                                  }
+                                />
+                              </div>
+                            ))}
                           </AccordionDetails>
                         </Accordion>
                       )}
@@ -1943,18 +2112,16 @@ const ProductList = () => {
                           sx={{
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
                             },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
                             },
                           }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2000,18 +2167,16 @@ const ProductList = () => {
                           sx={{
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
                             },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
                             },
                           }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2057,18 +2222,16 @@ const ProductList = () => {
                           sx={{
                             borderBottom: "1px solid #c7c8c9",
                             borderRadius: 0,
-                            "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                               borderBottomLeftRadius: "0px",
                               borderBottomRightRadius: "0px",
                             },
-                            "&.MuiPaper-root.MuiAccordion-root:before":
-                            {
+                            "&.MuiPaper-root.MuiAccordion-root:before": {
                               background: "none",
                             },
                           }}
-                        // expanded={accExpanded}
-                        // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2122,23 +2285,23 @@ const ProductList = () => {
                 <ProductListSkeleton className="pSkelton" />
               ) : (
                 <>
-                  {!minwidth1201px ? (
-                    <div className="mala_mobile_prodSorting">
-                      <Checkbox
-                        sx={{ padding: "0px 9px 0px 9px" }}
-                        icon={<FilterAltIcon fontSize="large" />}
-                        checkedIcon={
-                          <FilterAltOffIcon
-                            fontSize="large"
-                            style={{ color: "#666666" }}
-                          />
-                        }
-                        checked={isDrawerOpen}
-                        onChange={(e) => setIsDrawerOpen(e.target.value)}
-                      />
-                    </div>
-                  ) : (
-                    null
+                  {
+                    !minwidth1201px ? (
+                      <div className="mala_mobile_prodSorting">
+                        <Checkbox
+                          sx={{ padding: "0px 9px 0px 9px" }}
+                          icon={<FilterAltIcon fontSize="large" />}
+                          checkedIcon={
+                            <FilterAltOffIcon
+                              fontSize="large"
+                              style={{ color: "#666666" }}
+                            />
+                          }
+                          checked={isDrawerOpen}
+                          onChange={(e) => setIsDrawerOpen(e.target.value)}
+                        />
+                      </div>
+                    ) : null
                     // <div className="mala_prodSorting">
                     //   <div className="empty_sorting_div">
                     //     <span
@@ -2356,23 +2519,29 @@ const ProductList = () => {
                     //   </div>
                     // </div>
                     // </div>
-                  )}
-                   <GivaFilterMenu 
-                   RangeFilterView={RangeFilterView}
-                   RangeFilterView1={RangeFilterView1}
-                   RangeFilterView2={RangeFilterView2}
-                   afterCountStatus={afterCountStatus}
-                   afterFilterCount={afterFilterCount}
-                   filterChecked={filterChecked}
-                   filterData={filterData}
-                   handelFilterClearAll={handelFilterClearAll}
-                   handleCheckboxChange={handleCheckboxChange}
-                   handleScrollHeight={handleScrollHeight}
-                   loginUserDetail={loginUserDetail}
-                   storeInit={storeInit}
-                   />
+                  }
+                  <GivaFilterMenu
+                    RangeFilterView={RangeFilterView}
+                    RangeFilterView1={RangeFilterView1}
+                    RangeFilterView2={RangeFilterView2}
+                    afterCountStatus={afterCountStatus}
+                    afterFilterCount={afterFilterCount}
+                    filterChecked={filterChecked}
+                    filterData={filterData}
+                    handelFilterClearAll={handelFilterClearAll}
+                    handleCheckboxChange={handleCheckboxChange}
+                    handleScrollHeight={handleScrollHeight}
+                    loginUserDetail={loginUserDetail}
+                    storeInit={storeInit}
+                    metalTypeCombo={metalTypeCombo}
+                    selectedMetalId={selectedMetalId}
+                    setSelectedMetalId={setSelectedMetalId}
+                  />
                   <div className="mala_mainPortion">
-                    <div className="mala_filter_portion" style={{ marginTop: '20px' }}>
+                    <div
+                      className="mala_filter_portion"
+                      style={{ marginTop: "20px" }}
+                    >
                       <div className="empty_sorting_div">
                         <span
                           className="mala_breadcums_port "
@@ -2479,41 +2648,43 @@ const ProductList = () => {
                             <span>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
-                              )?.length === 0
-                                ? "Filters"
+                              )?.length === 0 ? (
+                                "Filters"
+                              ) : (
                                 // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                                : <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Product Found:: ${afterFilterCount}`}</span>
-                                }
-                                </>}
+                                <>
+                                  {afterCountStatus == true ? (
+                                    <Skeleton
+                                      variant="rounded"
+                                      width={140}
+                                      height={22}
+                                      className="pSkelton"
+                                    />
+                                  ) : (
+                                    <span>{`Product Found:: ${afterFilterCount}`}</span>
+                                  )}
+                                </>
+                              )}
                             </span>
-                            <span
-                              onClick={() => handelFilterClearAll()}
-                            >
+                            <span onClick={() => handelFilterClearAll()}>
                               {Object.values(filterChecked).filter(
                                 (ele) => ele.checked
-                              )?.length > 0
-                                ? "Clear All"
-                                :
-                                <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Total Products: ${afterFilterCount}`}</span>
-                                }
+                              )?.length > 0 ? (
+                                "Clear All"
+                              ) : (
+                                <>
+                                  {afterCountStatus == true ? (
+                                    <Skeleton
+                                      variant="rounded"
+                                      width={140}
+                                      height={22}
+                                      className="pSkelton"
+                                    />
+                                  ) : (
+                                    <span>{`Total Products: ${afterFilterCount}`}</span>
+                                  )}
                                 </>
-                              }
+                              )}
                             </span>
                           </span>
                           <div style={{ marginTop: "12px" }}>
@@ -2527,17 +2698,17 @@ const ProductList = () => {
                                         borderBottom: "1px solid #c7c8c9",
                                         borderRadius: 0,
                                         "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
+                                          {
+                                            borderBottomLeftRadius: "0px",
+                                            borderBottomRightRadius: "0px",
+                                          },
                                         "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
+                                          {
+                                            background: "none",
+                                          },
                                       }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
+                                      // expanded={accExpanded}
+                                      // defaultExpanded={}
                                     >
                                       <AccordionSummary
                                         expandIcon={
@@ -2605,11 +2776,12 @@ const ProductList = () => {
                                                       ]?.checked === undefined
                                                         ? false
                                                         : filterChecked[
-                                                          `${ele?.id}${opt?.id}`
-                                                        ]?.checked
+                                                            `${ele?.id}${opt?.id}`
+                                                          ]?.checked
                                                     }
                                                     style={{
-                                                      color: "#7f7d85 !important",
+                                                      color:
+                                                        "#7f7d85 !important",
                                                       padding: 0,
                                                       width: "10px",
                                                     }}
@@ -2645,21 +2817,23 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
+                                        {
+                                          background: "none",
+                                        },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
                                       }
                                       aria-controls="panel1-content"
                                       id="panel1-header"
@@ -2716,12 +2890,13 @@ const ProductList = () => {
                                                   //     : false
                                                   // }
                                                   checked={
-                                                    filterChecked[`Price${i}${i}`]
-                                                      ?.checked === undefined
+                                                    filterChecked[
+                                                      `Price${i}${i}`
+                                                    ]?.checked === undefined
                                                       ? false
                                                       : filterChecked[
-                                                        `Price${i}${i}`
-                                                      ]?.checked
+                                                          `Price${i}${i}`
+                                                        ]?.checked
                                                   }
                                                   style={{
                                                     color: "#7f7d85",
@@ -2747,11 +2922,23 @@ const ProductList = () => {
                                               className="mala_mui_checkbox_label"
                                               label={
                                                 opt?.Minval == 0
-                                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                                  ? `Under ${
+                                                      loginUserDetail?.CurrencyCode ??
+                                                      storeInit?.CurrencyCode
+                                                    } ${opt?.Maxval}`
                                                   : opt?.Maxval == 0
-                                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
-                                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
-                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
+                                                  ? `Over ${
+                                                      loginUserDetail?.CurrencyCode ??
+                                                      storeInit?.CurrencyCode
+                                                    } ${opt?.Minval}`
+                                                  : `${
+                                                      loginUserDetail?.CurrencyCode ??
+                                                      storeInit?.CurrencyCode
+                                                    } ${opt?.Minval} 
+                                                    - ${
+                                                      loginUserDetail?.CurrencyCode ??
+                                                      storeInit?.CurrencyCode
+                                                    } ${opt?.Maxval}`
                                               }
                                             />
                                           </div>
@@ -2767,21 +2954,23 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
+                                        {
+                                          background: "none",
+                                        },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
                                       }
                                       aria-controls="panel1-content"
                                       id="panel1-header"
@@ -2793,7 +2982,7 @@ const ProductList = () => {
                                           padding: 0,
                                         },
                                       }}
-                                    // className="filtercategoryLable"
+                                      // className="filtercategoryLable"
                                     >
                                       {/* <span> */}
                                       {ele.Fil_DisName}
@@ -2823,21 +3012,23 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
+                                        {
+                                          background: "none",
+                                        },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
                                       }
                                       aria-controls="panel1-content"
                                       id="panel1-header"
@@ -2880,21 +3071,23 @@ const ProductList = () => {
                                       borderBottom: "1px solid #c7c8c9",
                                       borderRadius: 0,
                                       "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
+                                        {
+                                          borderBottomLeftRadius: "0px",
+                                          borderBottomRightRadius: "0px",
+                                        },
                                       "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
+                                        {
+                                          background: "none",
+                                        },
                                     }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
+                                    // expanded={accExpanded}
+                                    // defaultExpanded={}
                                   >
                                     <AccordionSummary
                                       expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
+                                        <ExpandMoreIcon
+                                          sx={{ width: "20px" }}
+                                        />
                                       }
                                       aria-controls="panel1-content"
                                       id="panel1-header"
@@ -2952,36 +3145,46 @@ const ProductList = () => {
                     ) : (
                       <div className="mala_productList">
                         {isOnlyProdLoading ? (
-                          <ProductListSkeleton fromPage={"Prodlist"} className="pSkelton" />
+                          <ProductListSkeleton
+                            fromPage={"Prodlist"}
+                            className="pSkelton"
+                          />
                         ) : (
                           <>
                             <div className="mala_main_sorting_div">
-                              {storeInit?.IsMetalCustComb === 1 && <div className="mala_metal_custom">
-                                <label className="label">Metal:&nbsp;</label>
-                                <select
-                                  className="select"
-                                  value={selectedMetalId}
-                                  onChange={(e) => setSelectedMetalId(e.target.value)}
-                                >
-                                  {metalTypeCombo?.map((metalele, i) => (
-                                    <option
-                                      className="option"
-                                      key={i}
-                                      value={metalele?.Metalid}
-                                    >
-                                      {metalele?.metaltype.toUpperCase()}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              }
+                              {storeInit?.IsMetalCustComb === 1 && (
+                                <div className="mala_metal_custom">
+                                  <label className="label">Metal:&nbsp;</label>
+                                  <select
+                                    className="select"
+                                    value={selectedMetalId}
+                                    onChange={(e) =>
+                                      setSelectedMetalId(e.target.value)
+                                    }
+                                  >
+                                    {metalTypeCombo?.map((metalele, i) => (
+                                      <option
+                                        className="option"
+                                        key={i}
+                                        value={metalele?.Metalid}
+                                      >
+                                        {metalele?.metaltype.toUpperCase()}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
                               {storeInit?.IsDiamondCustComb === 1 && (
                                 <div className="mala_dia_custom">
-                                  <label className="label">Diamond:&nbsp;</label>
+                                  <label className="label">
+                                    Diamond:&nbsp;
+                                  </label>
                                   <select
                                     className="select"
                                     value={selectedDiaId}
-                                    onChange={(e) => setSelectedDiaId(e.target.value)}
+                                    onChange={(e) =>
+                                      setSelectedDiaId(e.target.value)
+                                    }
                                   >
                                     {diaQcCombo?.map((diaQc, i) => (
                                       <option
@@ -2999,11 +3202,15 @@ const ProductList = () => {
 
                               {storeInit?.IsCsCustomization === 1 && (
                                 <div className="mala_cs_custom">
-                                  <label className="label">Color Stone:&nbsp;</label>
+                                  <label className="label">
+                                    Color Stone:&nbsp;
+                                  </label>
                                   <select
                                     className="select"
                                     value={selectedCsId}
-                                    onChange={(e) => setSelectedCsId(e.target.value)}
+                                    onChange={(e) =>
+                                      setSelectedCsId(e.target.value)
+                                    }
                                   >
                                     {csQcCombo?.map((csCombo, i) => (
                                       <option
@@ -3021,13 +3228,18 @@ const ProductList = () => {
 
                               <div className="mala_sorting_custom">
                                 <div className="container">
-                                  <label className="label">Sort By:&nbsp;</label>
+                                  <label className="label">
+                                    Sort By:&nbsp;
+                                  </label>
                                   <select
                                     className="select"
                                     value={sortBySelect}
                                     onChange={(e) => handleSortby(e)}
                                   >
-                                    <option className="option" value="Recommended">
+                                    <option
+                                      className="option"
+                                      value="Recommended"
+                                    >
                                       Recommended
                                     </option>
                                     <option className="option" value="New">
@@ -3039,11 +3251,14 @@ const ProductList = () => {
                                     {/*<option className="option" value="Bestseller">
                                     Bestseller
                                     </option>*/}
-                                    {storeInit?.IsStockWebsite == 1 &&
-                                      <option className="option" value="In Stock">
+                                    {storeInit?.IsStockWebsite == 1 && (
+                                      <option
+                                        className="option"
+                                        value="In Stock"
+                                      >
                                         In stock
                                       </option>
-                                    }
+                                    )}
                                     <option
                                       className="option"
                                       value="PRICE HIGH TO LOW"
@@ -3060,7 +3275,10 @@ const ProductList = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="mala_outer_portion" id="mala_outer_portion">
+                            <div
+                              className="mala_outer_portion"
+                              id="mala_outer_portion"
+                            >
                               {/* <div className="mala_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="mala_inner_portion">
                                 {finalProductListData?.map((productData, i) => (
@@ -3088,11 +3306,15 @@ const ProductList = () => {
                                         disableRipple={false}
                                         sx={{ padding: "10px" }}
                                         onChange={(e) =>
-                                          handleCartandWish(e, productData, "Cart")
+                                          handleCartandWish(
+                                            e,
+                                            productData,
+                                            "Cart"
+                                          )
                                         }
                                         checked={
                                           cartArr[productData?.autocode] ??
-                                            productData?.IsInCart === 1
+                                          productData?.IsInCart === 1
                                             ? true
                                             : false
                                         }
@@ -3121,78 +3343,110 @@ const ProductList = () => {
                                         disableRipple={false}
                                         sx={{ padding: "10px" }}
                                         onChange={(e) =>
-                                          handleCartandWish(e, productData, "Wish")
+                                          handleCartandWish(
+                                            e,
+                                            productData,
+                                            "Wish"
+                                          )
                                         }
                                         // checked={productData?.IsInWish}
                                         checked={
                                           wishArr[productData?.autocode] ??
-                                            productData?.IsInWish === 1
+                                          productData?.IsInWish === 1
                                             ? true
                                             : false
                                         }
-                                      // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
-                                      // onChange={(e) => handelWishList(e, products)}
+                                        // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
+                                        // onChange={(e) => handelWishList(e, products)}
                                       />
                                       {/* </Button> */}
                                     </div>
 
                                     <div className="smrWeb_app_product_label">
-                                      {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
-                                      {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
-                                      {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
-                                      {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
+                                      {productData?.IsInReadyStock == 1 && (
+                                        <span className="smrWeb_app_instock">
+                                          In Stock
+                                        </span>
+                                      )}
+                                      {productData?.IsBestSeller == 1 && (
+                                        <span className="smrWeb_app_bestSeller">
+                                          Best Seller
+                                        </span>
+                                      )}
+                                      {productData?.IsTrending == 1 && (
+                                        <span className="smrWeb_app_intrending">
+                                          Trending
+                                        </span>
+                                      )}
+                                      {productData?.IsNewArrival == 1 && (
+                                        <span className="smrWeb_app_newarrival">
+                                          New
+                                        </span>
+                                      )}
                                     </div>
                                     <div
                                       onMouseEnter={() => {
                                         handleImgRollover(productData);
                                         if (productData?.VideoCount > 0) {
-                                          setIsRollOverVideo({ [productData?.autocode]: true })
+                                          setIsRollOverVideo({
+                                            [productData?.autocode]: true,
+                                          });
                                         } else {
-                                          setIsRollOverVideo({ [productData?.autocode]: false })
+                                          setIsRollOverVideo({
+                                            [productData?.autocode]: false,
+                                          });
                                         }
                                       }}
-
                                       onClick={() =>
                                         handleMoveToDetail(productData)
                                       }
-
                                       onMouseLeave={() => {
                                         handleLeaveImgRolloverImg(productData);
-                                        setIsRollOverVideo({ [productData?.autocode]: false })
+                                        setIsRollOverVideo({
+                                          [productData?.autocode]: false,
+                                        });
                                       }}
                                       className="mala_ImgandVideoContainer"
                                     >
-                                      {
-                                        isRollOverVideo[productData?.autocode] == true ?
-                                          <video
-                                            //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                            src={productData?.VideoCount > 0 ?
-                                              (storeInit?.DesignImageFol).slice(0, -13) +
-                                              "video/" +
-                                              productData?.designno +
-                                              "_" +
-                                              1 +
-                                              "." +
-                                              productData?.VideoExtension : ""}
-                                            loop={true}
-                                            autoPlay={true}
-                                            className="mala_productCard_video"
+                                      {isRollOverVideo[productData?.autocode] ==
+                                      true ? (
+                                        <video
+                                          //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
+                                          src={
+                                            productData?.VideoCount > 0
+                                              ? (storeInit?.DesignImageFol).slice(
+                                                  0,
+                                                  -13
+                                                ) +
+                                                "video/" +
+                                                productData?.designno +
+                                                "_" +
+                                                1 +
+                                                "." +
+                                                productData?.VideoExtension
+                                              : ""
+                                          }
+                                          loop={true}
+                                          autoPlay={true}
+                                          className="mala_productCard_video"
                                           // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                          />
-                                          :
-                                          <img
-                                            className="mala_productListCard_Image"
-                                            id={`mala_productListCard_Image${productData?.autocode}`}
-                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                            // src={ ProdCardImageFunc(productData,0)}
-                                            src={
-                                              rollOverImgPd[productData?.autocode]
-                                                ? rollOverImgPd[productData?.autocode]
-                                                : productData?.images?.length > 0
-                                                  ? productData?.images[0]
-                                                  : imageNotFound
-                                            }
-                                            alt=""
+                                        />
+                                      ) : (
+                                        <img
+                                          className="mala_productListCard_Image"
+                                          id={`mala_productListCard_Image${productData?.autocode}`}
+                                          // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                          // src={ ProdCardImageFunc(productData,0)}
+                                          src={
+                                            rollOverImgPd[productData?.autocode]
+                                              ? rollOverImgPd[
+                                                  productData?.autocode
+                                                ]
+                                              : productData?.images?.length > 0
+                                              ? productData?.images[0]
+                                              : imageNotFound
+                                          }
+                                          alt=""
                                           // onClick={() =>
                                           //   handleMoveToDetail(productData)
                                           // }
@@ -3202,25 +3456,24 @@ const ProductList = () => {
                                           // onMouseLeave={() => {
                                           //   handleLeaveImgRolloverImg(productData);
                                           // }}
-                                          />
-
-                                      }
+                                        />
+                                      )}
                                     </div>
                                     <div className="mala_prod_card_info">
                                       <div className="mala_prod_Title">
                                         <span
                                           className={
-                                            (productData?.TitleLine?.length > 30)
-                                              ?
-                                              "smr1_prod_title_with_width"
-                                              :
-                                              "smr1_prod_title_with_no_width"
+                                            productData?.TitleLine?.length > 30
+                                              ? "smr1_prod_title_with_width"
+                                              : "smr1_prod_title_with_no_width"
                                           }
                                         >
                                           {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                          {productData?.designno}{" "}
+                                          {productData?.TitleLine?.length > 0 &&
+                                            " - " + productData?.TitleLine}
                                         </span>
                                         {/* <span className="mala_prod_designno">
                                           {productData?.designno}
@@ -3248,17 +3501,26 @@ const ProductList = () => {
                                                   GWT:
                                                 </span>
                                                 <span className="mala_main_val">
-                                                  {(productData?.Gwt)?.toFixed(3)}
+                                                  {productData?.Gwt?.toFixed(3)}
                                                 </span>
                                               </span>
                                             )}
                                           {Number(productData?.Nwt) !== 0 && (
                                             <>
-                                              <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
+                                              <span
+                                                style={{
+                                                  fontSize: "13px",
+                                                  marginInline: "5px",
+                                                }}
+                                              >
+                                                |
+                                              </span>
                                               <span className="mala_prod_wt">
-                                                <span className="mala_main_keys">NWT:</span>
+                                                <span className="mala_main_keys">
+                                                  NWT:
+                                                </span>
                                                 <span className="mala_main_val">
-                                                  {(productData?.Nwt)?.toFixed(3)}
+                                                  {productData?.Nwt?.toFixed(3)}
                                                 </span>
                                               </span>
                                             </>
@@ -3268,14 +3530,24 @@ const ProductList = () => {
                                           {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
-                                                <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
+                                                <span
+                                                  style={{
+                                                    fontSize: "13px",
+                                                    marginInline: "5px",
+                                                  }}
+                                                >
+                                                  |
+                                                </span>
                                                 <span className="mala_prod_wt">
                                                   <span className="mala_main_keys">
                                                     DWT:
                                                   </span>
                                                   <span className="mala_main_val">
-                                                    {(productData?.Dwt)?.toFixed(3)}
-                                                    {storeInit?.IsDiamondPcs === 1
+                                                    {productData?.Dwt?.toFixed(
+                                                      3
+                                                    )}
+                                                    {storeInit?.IsDiamondPcs ===
+                                                    1
                                                       ? `/${productData?.Dpcs}`
                                                       : null}
                                                   </span>
@@ -3285,13 +3557,22 @@ const ProductList = () => {
                                           {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
-                                                <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
+                                                <span
+                                                  style={{
+                                                    fontSize: "13px",
+                                                    marginInline: "5px",
+                                                  }}
+                                                >
+                                                  |
+                                                </span>
                                                 <span className="mala_prod_wt">
                                                   <span className="mala_main_keys">
                                                     CWT:
                                                   </span>
                                                   <span className="mala_main_val">
-                                                    {(productData?.CSwt)?.toFixed(3)}
+                                                    {productData?.CSwt?.toFixed(
+                                                      3
+                                                    )}
                                                     {storeInit?.IsStonePcs === 1
                                                       ? `/${productData?.CSpcs}`
                                                       : null}
@@ -3310,7 +3591,10 @@ const ProductList = () => {
                                           -
                                           {
                                             findMetalType(
-                                              productData?.IsMrpBase == 1 ? productData?.MetalPurityid : (selectedMetalId ?? productData?.MetalPurityid)
+                                              productData?.IsMrpBase == 1
+                                                ? productData?.MetalPurityid
+                                                : selectedMetalId ??
+                                                    productData?.MetalPurityid
                                             )[0]?.metaltype
                                           }
                                         </span>
@@ -3325,7 +3609,8 @@ const ProductList = () => {
                                         }}
                                       /> */}
                                           <span className="mala_currencyFont">
-                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                            {loginUserDetail?.CurrencyCode ??
+                                              storeInit?.CurrencyCode}
                                           </span>
                                           <span className="mala_pricePort">
                                             {/* {productData?.ismrpbase === 1
@@ -3347,25 +3632,27 @@ const ProductList = () => {
                               </div>
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
-                              Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
+                              Math.ceil(afterFilterCount / storeInit.PageSize) >
+                                1 && (
                                 <div
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
                                     marginTop: "5%",
-                                    width: '100%'
+                                    width: "100%",
                                   }}
                                   className="mala_pagination_portion"
                                 >
                                   <Pagination
-                                    count={Math.ceil(afterFilterCount / storeInit.PageSize)}
+                                    count={Math.ceil(
+                                      afterFilterCount / storeInit.PageSize
+                                    )}
                                     size={maxwidth464px ? "small" : "large"}
                                     shape="circular"
                                     onChange={handelPageChange}
                                     page={currPage}
                                     showFirstButton
                                     showLastButton
-
                                   />
                                 </div>
                               )}
@@ -3389,485 +3676,474 @@ const ProductList = () => {
 
 export default ProductList;
 
-
-
+{
+  /* <span className="giva_filter_boxes">
+            <span>
+              {Object.values(filterChecked).filter((ele) => ele.checked)
+                ?.length === 0 ? (
+                "Filters"
+              ) : (
+                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+                <>
+                  {afterCountStatus == true ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={140}
+                      height={22}
+                      className="pSkelton"
+                    />
+                  ) : (
+                    <span>{`Product Found:: ${afterFilterCount}`}</span>
+                  )}
+                </>
+              )}
+            </span>
+            <span onClick={() => handelFilterClearAll()}>
+              {Object.values(filterChecked).filter((ele) => ele.checked)
+                ?.length > 0 ? (
+                "Clear All"
+              ) : (
+                <>
+                  {afterCountStatus == true ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={140}
+                      height={22}
+                      className="pSkelton"
+                    />
+                  ) : (
+                    <span>{`Total Products: ${afterFilterCount}`}</span>
+                  )}
+                </>
+              )}
+            </span>
+          </span> */
+}
 
 const GivaFilterMenu = ({
   filterData,
-    filterChecked,
-    afterCountStatus,
-    afterFilterCount,
-    handelFilterClearAll,
-    handleScrollHeight,
-    handleCheckboxChange,
-    loginUserDetail,
-    storeInit,
-    RangeFilterView,
-    RangeFilterView1,
-    RangeFilterView2,
-})=>{
-  return <>
-  {filterData?.length > 0 && (
-                        <div className="mala_filter_portion_outter">
-                          <span className="mala_filter_text">
-                            <span>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length === 0
-                                ? "Filters"
-                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                                : <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
+  filterChecked,
+  afterCountStatus,
+  afterFilterCount,
+  handelFilterClearAll,
+  handleScrollHeight,
+  handleCheckboxChange,
+  loginUserDetail,
+  storeInit,
+  RangeFilterView,
+  RangeFilterView1,
+  RangeFilterView2,
+  metalTypeCombo ,
+  selectedMetalId ,
+setSelectedMetalId
+}) => {
+
+  const [showMenu,setshowMenu] = useState(-1);
+  const CustomLabel = ({ text }) => (
+    <Typography
+      sx={{
+        fontFamily: "Rowan5 , sans-serif !important",
+        textWrap: "nowrap",
+        fontSize: {
+          xs: "13.2px !important", // Mobile screens
+          sm: "13.5px !important", // Tablets
+          md: "14.1px !important", // Desktop screens
+          lg: "14.6px !important", // Large desktops
+          xl: "15.4px !important", // Extra large screens
+        },
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
+  const HandleMenu = (id)=>{
+    setshowMenu((prev) => (prev === id ? -1 : id));
+  }
+
+  return (
+    <>
+      {filterData?.length > 0 && (
+        <div className="giva_filter_menu_style" id="style-1">
+          <div className="flex_giva_menu">
+          <div className="filter_menu_giva" >
+            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(1)} >Filter <ExpandMoreIcon onClick={()=>HandleMenu(1)}/> </Typography>
+            {showMenu === 1 && <div className="giva_filter_menu_list" >
+              {filterData?.map((ele) => (
+                <>
+                  {!ele?.id?.includes("Range") &&
+                    !ele?.id?.includes("Price") && (
+                      <Box className="giva_menu">
+                        <Typography className="giva_menu_title">
+                          {ele.Fil_DisName}
+                        </Typography>
+                        <Box className="giva_menu_options">
+                          {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                            <div key={opt?.id}>
+                              <FormControlLabel
+                                className="giva_options_flex"
+                                control={
+                                  <Checkbox
+                                    name={`${ele?.id}${opt?.id}`}
+                                    checked={
+                                      filterChecked[`${ele?.id}${opt?.id}`]
+                                        ?.checked === undefined
+                                        ? false
+                                        : filterChecked[`${ele?.id}${opt?.id}`]
+                                            ?.checked
+                                    }
+                                    style={{
+                                      padding: 0,
+                                    }}
+                                    onClick={(e) =>
+                                      handleCheckboxChange(
+                                        e,
+                                        ele?.id,
+                                        opt?.Name
+                                      )
+                                    }
+                                    size="small"
                                   />
-                                ) :
-                                  <span>{`Product Found:: ${afterFilterCount}`}</span>
                                 }
-                                </>}
-                            </span>
-                            <span
-                              onClick={() => handelFilterClearAll()}
-                            >
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length > 0
-                                ? "Clear All"
-                                :
-                                <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Total Products: ${afterFilterCount}`}</span>
-                                }
-                                </>
+                                label={<CustomLabel text={opt.Name} />}
+                              />
+                            </div>
+                          ))}
+                        </Box>
+                      </Box>
+                    )}
+                  {ele?.id?.includes("Price") && (
+                    <Box className="giva_menu">
+                      <Typography className="giva_menu_title">
+                        {ele.Fil_DisName}
+                      </Typography>
+                      <Box className="giva_menu_options">
+                        {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_options_flex"
+                              control={
+                                <Checkbox
+                                  name={`Price${i}${i}`}
+                                  checked={
+                                    filterChecked[`Price${i}${i}`]?.checked ===
+                                    undefined
+                                      ? false
+                                      : filterChecked[`Price${i}${i}`]?.checked
+                                  }
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onClick={(e) =>
+                                    handleCheckboxChange(e, ele?.id, opt)
+                                  }
+                                  size="small"
+                                />
                               }
-                            </span>
-                          </span>
-                          <div style={{ marginTop: "12px" }}>
-                            {filterData?.map((ele) => (
-                              <>
-                                {!ele?.id?.includes("Range") &&
-                                  !ele?.id?.includes("Price") && (
-                                    <Accordion
-                                      elevation={0}
-                                      sx={{
-                                        borderBottom: "1px solid #c7c8c9",
-                                        borderRadius: 0,
-                                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                        "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                      }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                    >
-                                      <AccordionSummary
-                                        expandIcon={
-                                          <ExpandMoreIcon
-                                            sx={{ width: "20px" }}
-                                          />
-                                        }
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                        sx={{
-                                          color: "#7d7f85",
-                                          borderRadius: 0,
-
-                                          "&.MuiAccordionSummary-root": {
-                                            padding: 0,
-                                          },
-                                        }}
-                                        // className="filtercategoryLable"
-                                        onClick={() => handleScrollHeight()}
-                                      >
-                                        {/* <span> */}
-                                        {ele.Fil_DisName}
-                                        {/* </span> */}
-                                      </AccordionSummary>
-                                      <AccordionDetails
-                                        sx={{
-                                          display: "flex",
-                                          flexDirection: "column",
-                                          gap: "4px",
-                                          minHeight: "fit-content",
-                                          maxHeight: "300px",
-                                          overflow: "auto",
-                                        }}
-                                      >
-                                        {(JSON.parse(ele?.options) ?? []).map(
-                                          (opt) => (
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                                gap: "12px",
-                                              }}
-                                              key={opt?.id}
-                                            >
-                                              {/* <small
-                                        style={{
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                              <FormControlLabel
-                                                control={
-                                                  <Checkbox
-                                                    name={`${ele?.id}${opt?.id}`}
-                                                    // checked={
-                                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                    //     : false
-                                                    // }
-                                                    checked={
-                                                      filterChecked[
-                                                        `${ele?.id}${opt?.id}`
-                                                      ]?.checked === undefined
-                                                        ? false
-                                                        : filterChecked[
-                                                          `${ele?.id}${opt?.id}`
-                                                        ]?.checked
-                                                    }
-                                                    style={{
-                                                      color: "#7f7d85 !important",
-                                                      padding: 0,
-                                                      width: "10px",
-                                                    }}
-                                                    onClick={(e) =>
-                                                      handleCheckboxChange(
-                                                        e,
-                                                        ele?.id,
-                                                        opt?.Name
-                                                      )
-                                                    }
-                                                    size="small"
-                                                  />
-                                                }
-                                                // sx={{
-                                                //   display: "flex",
-                                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                                //   width: "100%",
-                                                //   flexDirection: "row-reverse", // Align items to the right
-                                                // }}
-                                                className="mala_mui_checkbox_label"
-                                                label={opt.Name}
-                                              />
-                                            </div>
-                                          )
-                                        )}
-                                      </AccordionDetails>
-                                    </Accordion>
-                                  )}
-                                {ele?.id?.includes("Price") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {(JSON.parse(ele?.options) ?? []).map(
-                                        (opt, i) => (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "space-between",
-                                              gap: "12px",
-                                            }}
-                                            key={i}
-                                          >
-                                            {/* <small
-                                        style={{
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                            <FormControlLabel
-                                              control={
-                                                <Checkbox
-                                                  name={`Price${i}${i}`}
-                                                  // checked={
-                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                  //     : false
-                                                  // }
-                                                  checked={
-                                                    filterChecked[`Price${i}${i}`]
-                                                      ?.checked === undefined
-                                                      ? false
-                                                      : filterChecked[
-                                                        `Price${i}${i}`
-                                                      ]?.checked
-                                                  }
-                                                  style={{
-                                                    color: "#7f7d85",
-                                                    padding: 0,
-                                                    width: "10px",
-                                                  }}
-                                                  onClick={(e) =>
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      ele?.id,
-                                                      opt
-                                                    )
-                                                  }
-                                                  size="small"
-                                                />
-                                              }
-                                              // sx={{
-                                              //   display: "flex",
-                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                              //   width: "100%",
-                                              //   flexDirection: "row-reverse", // Align items to the right
-                                              // }}
-                                              className="mala_mui_checkbox_label"
-                                              label={
-                                                opt?.Minval == 0
-                                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                                  : opt?.Maxval == 0
-                                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
-                                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
-                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                              }
-                                            />
-                                          </div>
-                                        )
-                                      )}
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("Diamond") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                    // className="filtercategoryLable"
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 203, height: 88 }}>
-                                        {RangeFilterView(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("NetWt") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 204, height: 88 }}>
-                                        {RangeFilterView1(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("Gross") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      <Box sx={{ width: 204, height: 88 }}>
-                                        {RangeFilterView2(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                              </>
-                            ))}
+                              label={
+                                <CustomLabel
+                                  text={
+                                    opt?.Minval == 0
+                                      ? `Under ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        } ${opt?.Maxval}`
+                                      : opt?.Maxval == 0
+                                      ? `Over ${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        } ${opt?.Minval}`
+                                      : `${
+                                          loginUserDetail?.CurrencyCode ??
+                                          storeInit?.CurrencyCode
+                                        } ${opt?.Minval} 
+                                                    - ${
+                                                      loginUserDetail?.CurrencyCode ??
+                                                      storeInit?.CurrencyCode
+                                                    } ${opt?.Maxval}`
+                                  }
+                                />
+                              }
+                            />
                           </div>
-                        </div>
-                      )}
-  
-  </>
-}
+                        ))}
+                      </Box>
+                    </Box>
+                  )}
+                  {ele?.Name?.includes("Diamond") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                      }}
+                      // expanded={accExpanded}
+                      // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                        // className="filtercategoryLable"
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                        <Box sx={{ width: 203, height: 88 }}>
+                          {RangeFilterView(ele)}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                  {ele?.Name?.includes("NetWt") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                      }}
+                      // expanded={accExpanded}
+                      // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                        // className="filtercategoryLable"
+                        onClick={() => handleScrollHeight()}
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                        <Box sx={{ width: 204, height: 88 }}>
+                          {RangeFilterView1(ele)}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                  {ele?.Name?.includes("Gross") && (
+                    <Accordion
+                      elevation={0}
+                      sx={{
+                        borderBottom: "1px solid #c7c8c9",
+                        borderRadius: 0,
+                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                          borderBottomLeftRadius: "0px",
+                          borderBottomRightRadius: "0px",
+                        },
+                        "&.MuiPaper-root.MuiAccordion-root:before": {
+                          background: "none",
+                        },
+                      }}
+                      // expanded={accExpanded}
+                      // defaultExpanded={}
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{
+                          color: "#7f7d85",
+                          borderRadius: 0,
+
+                          "&.MuiAccordionSummary-root": {
+                            padding: 0,
+                          },
+                        }}
+                        // className="filtercategoryLable"
+                        onClick={() => handleScrollHeight()}
+                      >
+                        {/* <span> */}
+                        {ele.Fil_DisName}
+                        {/* </span> */}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                          minHeight: "fit-content",
+                          maxHeight: "300px",
+                          overflow: "auto",
+                        }}
+                      >
+                        <Box sx={{ width: 204, height: 88 }}>
+                          {RangeFilterView2(ele)}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
+                </>
+              ))}
+            </div>}
+          </div>
+          <div className="filter_menu_giva">
+          <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(2)} >Metal <ExpandMoreIcon onClick={()=>HandleMenu(2)}/> </Typography>
+            {showMenu === 2 && <div className="giva_filter_menu_list" >
+              {storeInit?.IsMetalCustComb === 1 && (
+                                <div className="mala_metal_custom">
+                                  <select
+                                    className="select"
+                                    value={selectedMetalId}
+                                    onChange={(e) =>
+                                      setSelectedMetalId(e.target.value)
+                                    }
+                                  >
+                                    {metalTypeCombo?.map((metalele, i) => (
+                                      <option
+                                        className="option"
+                                        key={i}
+                                        value={metalele?.Metalid}
+                                      >
+                                        {metalele?.metaltype.toUpperCase()}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+            </div>}
+          </div>
+            <div className="filter_menu_giva">
+            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(3)} >Diamond <ExpandMoreIcon onClick={()=>HandleMenu(3)}/> </Typography>
+            {showMenu === 3 && <div className="giva_filter_menu_list">
+              Diamond
+            </div>}
+          </div> 
+          </div>
+          <div className="flex_giva_right_menu">
+
+          </div>
+        </div>  
+      )}
+    </>
+  );
+};
+
+// <div className="mala_main_sorting_div">
+//                               {storeInit?.IsMetalCustComb === 1 && (
+//                                 <div className="mala_metal_custom">
+//                                   <label className="label">Metal:&nbsp;</label>
+//                                   <select
+//                                     className="select"
+//                                     value={selectedMetalId}
+//                                     onChange={(e) =>
+//                                       setSelectedMetalId(e.target.value)
+//                                     }
+//                                   >
+//                                     {metalTypeCombo?.map((metalele, i) => (
+//                                       <option
+//                                         className="option"
+//                                         key={i}
+//                                         value={metalele?.Metalid}
+//                                       >
+//                                         {metalele?.metaltype.toUpperCase()}
+//                                       </option>
+//                                     ))}
+//                                   </select>
+//                                 </div>
+//                               )}
+//                               {storeInit?.IsDiamondCustComb === 1 && (
+//                                 <div className="mala_dia_custom">
+//                                   <label className="label">
+//                                     Diamond:&nbsp;
+//                                   </label>
+//                                   <select
+//                                     className="select"
+//                                     value={selectedDiaId}
+//                                     onChange={(e) =>
+//                                       setSelectedDiaId(e.target.value)
+//                                     }
+//                                   >
+//                                     {diaQcCombo?.map((diaQc, i) => (
+//                                       <option
+//                                         className="option"
+//                                         key={i}
+//                                         value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+//                                       >
+//                                         {" "}
+//                                         {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+//                                       </option>
+//                                     ))}
+//                                   </select>
+//                                 </div>
+//                               )}
+
+//                               {storeInit?.IsCsCustomization === 1 && (
+//                                 <div className="mala_cs_custom">
+//                                   <label className="label">
+//                                     Color Stone:&nbsp;
+//                                   </label>
+//                                   <select
+//                                     className="select"
+//                                     value={selectedCsId}
+//                                     onChange={(e) =>
+//                                       setSelectedCsId(e.target.value)
+//                                     }
+//                                   >
+//                                     {csQcCombo?.map((csCombo, i) => (
+//                                       <option
+//                                         className="option"
+//                                         key={i}
+//                                         value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
+//                                       >
+//                                         {" "}
+//                                         {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
+//                                       </option>
+//                                     ))}
+//                                   </select>
+//                                 </div>
+//                               )}
