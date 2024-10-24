@@ -117,7 +117,7 @@ const ProductList = () => {
   const [locationKey, setLocationKey] = useState();
   const [prodListType, setprodListType] = useState();
 
-  const [sortBySelect, setSortBySelect] = useState();
+  const [sortBySelect, setSortBySelect] = useState("Recommended");
 
   const [totalProductCount, setTotalProductCount] = useState();
 
@@ -2536,597 +2536,22 @@ const ProductList = () => {
                     metalTypeCombo={metalTypeCombo}
                     selectedMetalId={selectedMetalId}
                     setSelectedMetalId={setSelectedMetalId}
+                    diaQcCombo={diaQcCombo}
+                    selectedDiaId={selectedDiaId}
+                    setSelectedDiaId={setSelectedDiaId}
+                    csQcCombo={csQcCombo}
+                    selectedCsId={selectedCsId}
+                    setSelectedCsId={setSelectedCsId}
+                    handleSortby={handleSortby}
+                    sortBySelect={sortBySelect}
                   />
                   <div className="mala_mainPortion">
                     <div
                       className="mala_filter_portion"
                       style={{ marginTop: "20px" }}
                     >
-                      <div className="empty_sorting_div">
-                        <span
-                          className="mala_breadcums_port "
-                          // style={{ marginLeft: "72px" }}
-                          onClick={() => {
-                            navigate("/");
-                          }}
-                        >
-                          {"Home >"}{" "}
-                        </span>
-
-                        {location?.search.charAt(1) == "A" && (
-                          <div
-                            className="mala_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Album"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "T" && (
-                          <div
-                            className="mala_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Trending"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "B" && (
-                          <div
-                            className="mala_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Best Seller"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "N" && (
-                          <div
-                            className="mala_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"New Arrival"}</span>
-                          </div>
-                        )}
-
-                        {IsBreadCumShow && (
-                          <div
-                            className="mala_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
-                            {BreadCumsObj()?.menuname && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                  })
-                                }
-                              >
-                                {BreadCumsObj()?.menuname}
-                              </span>
-                            )}
-
-                            {BreadCumsObj()?.FilterVal1 && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                    [BreadCumsObj()?.FilterKey1]:
-                                      BreadCumsObj()?.FilterVal1,
-                                  })
-                                }
-                              >
-                                {` > ${BreadCumsObj()?.FilterVal1}`}
-                              </span>
-                            )}
-
-                            {BreadCumsObj()?.FilterVal2 && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                    [BreadCumsObj()?.FilterKey1]:
-                                      BreadCumsObj()?.FilterVal1,
-                                    [BreadCumsObj()?.FilterKey2]:
-                                      BreadCumsObj()?.FilterVal2,
-                                  })
-                                }
-                              >
-                                {` > ${BreadCumsObj()?.FilterVal2}`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                      {filterData?.length > 0 && (
-                        <div className="mala_filter_portion_outter">
-                          <span className="mala_filter_text">
-                            <span>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length === 0 ? (
-                                "Filters"
-                              ) : (
-                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                                <>
-                                  {afterCountStatus == true ? (
-                                    <Skeleton
-                                      variant="rounded"
-                                      width={140}
-                                      height={22}
-                                      className="pSkelton"
-                                    />
-                                  ) : (
-                                    <span>{`Product Found:: ${afterFilterCount}`}</span>
-                                  )}
-                                </>
-                              )}
-                            </span>
-                            <span onClick={() => handelFilterClearAll()}>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length > 0 ? (
-                                "Clear All"
-                              ) : (
-                                <>
-                                  {afterCountStatus == true ? (
-                                    <Skeleton
-                                      variant="rounded"
-                                      width={140}
-                                      height={22}
-                                      className="pSkelton"
-                                    />
-                                  ) : (
-                                    <span>{`Total Products: ${afterFilterCount}`}</span>
-                                  )}
-                                </>
-                              )}
-                            </span>
-                          </span>
-                          <div style={{ marginTop: "12px" }}>
-                            {filterData?.map((ele) => (
-                              <>
-                                {!ele?.id?.includes("Range") &&
-                                  !ele?.id?.includes("Price") && (
-                                    <Accordion
-                                      elevation={0}
-                                      sx={{
-                                        borderBottom: "1px solid #c7c8c9",
-                                        borderRadius: 0,
-                                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                          {
-                                            borderBottomLeftRadius: "0px",
-                                            borderBottomRightRadius: "0px",
-                                          },
-                                        "&.MuiPaper-root.MuiAccordion-root:before":
-                                          {
-                                            background: "none",
-                                          },
-                                      }}
-                                      // expanded={accExpanded}
-                                      // defaultExpanded={}
-                                    >
-                                      <AccordionSummary
-                                        expandIcon={
-                                          <ExpandMoreIcon
-                                            sx={{ width: "20px" }}
-                                          />
-                                        }
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                        sx={{
-                                          color: "#7d7f85",
-                                          borderRadius: 0,
-
-                                          "&.MuiAccordionSummary-root": {
-                                            padding: 0,
-                                          },
-                                        }}
-                                        // className="filtercategoryLable"
-                                        onClick={() => handleScrollHeight()}
-                                      >
-                                        {/* <span> */}
-                                        {ele.Fil_DisName}
-                                        {/* </span> */}
-                                      </AccordionSummary>
-                                      <AccordionDetails
-                                        sx={{
-                                          display: "flex",
-                                          flexDirection: "column",
-                                          gap: "4px",
-                                          minHeight: "fit-content",
-                                          maxHeight: "300px",
-                                          overflow: "auto",
-                                        }}
-                                      >
-                                        {(JSON.parse(ele?.options) ?? []).map(
-                                          (opt) => (
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                                gap: "12px",
-                                              }}
-                                              key={opt?.id}
-                                            >
-                                              {/* <small
-                                        style={{
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                              <FormControlLabel
-                                                control={
-                                                  <Checkbox
-                                                    name={`${ele?.id}${opt?.id}`}
-                                                    // checked={
-                                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                    //     : false
-                                                    // }
-                                                    checked={
-                                                      filterChecked[
-                                                        `${ele?.id}${opt?.id}`
-                                                      ]?.checked === undefined
-                                                        ? false
-                                                        : filterChecked[
-                                                            `${ele?.id}${opt?.id}`
-                                                          ]?.checked
-                                                    }
-                                                    style={{
-                                                      color:
-                                                        "#7f7d85 !important",
-                                                      padding: 0,
-                                                      width: "10px",
-                                                    }}
-                                                    onClick={(e) =>
-                                                      handleCheckboxChange(
-                                                        e,
-                                                        ele?.id,
-                                                        opt?.Name
-                                                      )
-                                                    }
-                                                    size="small"
-                                                  />
-                                                }
-                                                // sx={{
-                                                //   display: "flex",
-                                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                                //   width: "100%",
-                                                //   flexDirection: "row-reverse", // Align items to the right
-                                                // }}
-                                                className="mala_mui_checkbox_label"
-                                                label={opt.Name}
-                                              />
-                                            </div>
-                                          )
-                                        )}
-                                      </AccordionDetails>
-                                    </Accordion>
-                                  )}
-                                {ele?.id?.includes("Price") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                    }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon
-                                          sx={{ width: "20px" }}
-                                        />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {(JSON.parse(ele?.options) ?? []).map(
-                                        (opt, i) => (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "space-between",
-                                              gap: "12px",
-                                            }}
-                                            key={i}
-                                          >
-                                            {/* <small
-                                        style={{
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                            <FormControlLabel
-                                              control={
-                                                <Checkbox
-                                                  name={`Price${i}${i}`}
-                                                  // checked={
-                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                  //     : false
-                                                  // }
-                                                  checked={
-                                                    filterChecked[
-                                                      `Price${i}${i}`
-                                                    ]?.checked === undefined
-                                                      ? false
-                                                      : filterChecked[
-                                                          `Price${i}${i}`
-                                                        ]?.checked
-                                                  }
-                                                  style={{
-                                                    color: "#7f7d85",
-                                                    padding: 0,
-                                                    width: "10px",
-                                                  }}
-                                                  onClick={(e) =>
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      ele?.id,
-                                                      opt
-                                                    )
-                                                  }
-                                                  size="small"
-                                                />
-                                              }
-                                              // sx={{
-                                              //   display: "flex",
-                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                              //   width: "100%",
-                                              //   flexDirection: "row-reverse", // Align items to the right
-                                              // }}
-                                              className="mala_mui_checkbox_label"
-                                              label={
-                                                opt?.Minval == 0
-                                                  ? `Under ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Maxval}`
-                                                  : opt?.Maxval == 0
-                                                  ? `Over ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Minval}`
-                                                  : `${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Minval} 
-                                                    - ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Maxval}`
-                                              }
-                                            />
-                                          </div>
-                                        )
-                                      )}
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("Diamond") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                    }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon
-                                          sx={{ width: "20px" }}
-                                        />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 203, height: 88 }}>
-                                        {RangeFilterView(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("NetWt") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                    }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon
-                                          sx={{ width: "20px" }}
-                                        />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 204, height: 88 }}>
-                                        {RangeFilterView1(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("Gross") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                    }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon
-                                          sx={{ width: "20px" }}
-                                        />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      <Box sx={{ width: 204, height: 88 }}>
-                                        {RangeFilterView2(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                              </>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                    {/* Breac crumb section place */}
+                     {/* here the previous filter section place */}
                     </div>
                     {filterProdListEmpty ? (
                       <div
@@ -3151,130 +2576,7 @@ const ProductList = () => {
                           />
                         ) : (
                           <>
-                            <div className="mala_main_sorting_div">
-                              {storeInit?.IsMetalCustComb === 1 && (
-                                <div className="mala_metal_custom">
-                                  <label className="label">Metal:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedMetalId}
-                                    onChange={(e) =>
-                                      setSelectedMetalId(e.target.value)
-                                    }
-                                  >
-                                    {metalTypeCombo?.map((metalele, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={metalele?.Metalid}
-                                      >
-                                        {metalele?.metaltype.toUpperCase()}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {storeInit?.IsDiamondCustComb === 1 && (
-                                <div className="mala_dia_custom">
-                                  <label className="label">
-                                    Diamond:&nbsp;
-                                  </label>
-                                  <select
-                                    className="select"
-                                    value={selectedDiaId}
-                                    onChange={(e) =>
-                                      setSelectedDiaId(e.target.value)
-                                    }
-                                  >
-                                    {diaQcCombo?.map((diaQc, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              {storeInit?.IsCsCustomization === 1 && (
-                                <div className="mala_cs_custom">
-                                  <label className="label">
-                                    Color Stone:&nbsp;
-                                  </label>
-                                  <select
-                                    className="select"
-                                    value={selectedCsId}
-                                    onChange={(e) =>
-                                      setSelectedCsId(e.target.value)
-                                    }
-                                  >
-                                    {csQcCombo?.map((csCombo, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              <div className="mala_sorting_custom">
-                                <div className="container">
-                                  <label className="label">
-                                    Sort By:&nbsp;
-                                  </label>
-                                  <select
-                                    className="select"
-                                    value={sortBySelect}
-                                    onChange={(e) => handleSortby(e)}
-                                  >
-                                    <option
-                                      className="option"
-                                      value="Recommended"
-                                    >
-                                      Recommended
-                                    </option>
-                                    <option className="option" value="New">
-                                      New
-                                    </option>
-                                    <option className="option" value="Trending">
-                                      Trending
-                                    </option>
-                                    {/*<option className="option" value="Bestseller">
-                                    Bestseller
-                                    </option>*/}
-                                    {storeInit?.IsStockWebsite == 1 && (
-                                      <option
-                                        className="option"
-                                        value="In Stock"
-                                      >
-                                        In stock
-                                      </option>
-                                    )}
-                                    <option
-                                      className="option"
-                                      value="PRICE HIGH TO LOW"
-                                    >
-                                      Price High To Low
-                                    </option>
-                                    <option
-                                      className="option"
-                                      value="PRICE LOW TO HIGH"
-                                    >
-                                      Price Low To High
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
+                            {/* metal sorting place here */}
                             <div
                               className="mala_outer_portion"
                               id="mala_outer_portion"
@@ -3735,7 +3037,15 @@ const GivaFilterMenu = ({
   RangeFilterView2,
   metalTypeCombo ,
   selectedMetalId ,
-setSelectedMetalId
+setSelectedMetalId ,
+diaQcCombo ,
+selectedDiaId ,
+setSelectedDiaId,
+selectedCsId ,
+setSelectedCsId ,
+csQcCombo ,
+sortBySelect ,
+handleSortby
 }) => {
 
   const [showMenu,setshowMenu] = useState(-1);
@@ -3744,6 +3054,7 @@ setSelectedMetalId
       sx={{
         fontFamily: "Rowan5 , sans-serif !important",
         textWrap: "nowrap",
+        letterSpacing:"0.5px",
         fontSize: {
           xs: "13.2px !important", // Mobile screens
           sm: "13.5px !important", // Tablets
@@ -3760,14 +3071,23 @@ setSelectedMetalId
   const HandleMenu = (id)=>{
     setshowMenu((prev) => (prev === id ? -1 : id));
   }
-
+  const isFilterHaveEnoughData = filterData?.length > 1 && filterData.some(ele => ele?.Name === "Category" && ele?.id === "category");
+  const options = [
+    { value: "Recommended", label: "Recommended" },
+    { value: "New", label: "New" },
+    { value: "Trending", label: "Trending" },
+    // { value: "Bestseller", label: "Bestseller" }, // Uncomment if needed
+    { value: "In Stock", label: "In stock" },
+    { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
+    { value: "PRICE LOW TO HIGH", label: "Price Low To High" }
+  ];
+  
   return (
     <>
-      {filterData?.length > 0 && (
         <div className="giva_filter_menu_style" id="style-1">
           <div className="flex_giva_menu">
-          <div className="filter_menu_giva" >
-            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(1)} >Filter <ExpandMoreIcon onClick={()=>HandleMenu(1)}/> </Typography>
+         {isFilterHaveEnoughData && <div className="filter_menu_giva" >
+            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(1)} >Filter <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(1)}/> </Typography>
             {showMenu === 1 && <div className="giva_filter_menu_list" >
               {filterData?.map((ele) => (
                 <>
@@ -4030,50 +3350,790 @@ setSelectedMetalId
                 </>
               ))}
             </div>}
-          </div>
-          <div className="filter_menu_giva">
-          <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(2)} >Metal <ExpandMoreIcon onClick={()=>HandleMenu(2)}/> </Typography>
+          </div>}
+          {storeInit?.IsMetalCustComb === 1 && <div className="filter_menu_giva">
+          <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(2)} >Metal <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(2)}/> </Typography>
             {showMenu === 2 && <div className="giva_filter_menu_list" >
-              {storeInit?.IsMetalCustComb === 1 && (
-                                <div className="mala_metal_custom">
-                                  <select
-                                    className="select"
-                                    value={selectedMetalId}
-                                    onChange={(e) =>
-                                      setSelectedMetalId(e.target.value)
-                                    }
-                                  >
-                                    {metalTypeCombo?.map((metalele, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={metalele?.Metalid}
-                                      >
-                                        {metalele?.metaltype.toUpperCase()}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
+              <Box className="giva_menu_options" sx={{
+                padding:"0 15px"
+              }}>
+                        {metalTypeCombo?.map((metalele, i)=> (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_options_flex"
+                              value={metalele?.Metalid}
+                              control={
+                                <Checkbox
+                                  name={metalele?.Metalid}
+                                  checked={
+                                    selectedMetalId === metalele?.Metalid
+                                  }
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onChange={(e) =>
+                                    setSelectedMetalId(metalele?.Metalid)
+                                  }
+                                  size="small"
+                                />
+                              }
+                              label={
+                                <CustomLabel
+                                  text={
+                                    metalele?.metaltype.toUpperCase()
+                                  }
+                                />
+                              }
+                            />
+                          </div>
+                        ))}
+                      </Box>
+             
             </div>}
-          </div>
-            <div className="filter_menu_giva">
-            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(3)} >Diamond <ExpandMoreIcon onClick={()=>HandleMenu(3)}/> </Typography>
+            
+          </div>}
+          {storeInit?.IsDiamondCustComb === 1 &&  <div className="filter_menu_giva">
+            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(3)} >Diamond <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(3)}/> </Typography>
             {showMenu === 3 && <div className="giva_filter_menu_list">
-              Diamond
+              <Box className="giva_menu_options" sx={{
+                padding:"0 15px"
+              }}>
+                        {diaQcCombo?.map((diaQc, i)=> (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_options_flex"
+                              value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                              control={
+                                <Checkbox
+                                  name={diaQc?.Metalid}
+                                  checked={
+                                    selectedDiaId === `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                  }
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onChange={(e) =>
+                                    setSelectedDiaId(`${diaQc?.QualityId},${diaQc?.ColorId}`)
+                                  }
+                                  size="small"
+                                />
+                              }
+                              label={
+                                <CustomLabel
+                                  text={
+                                    `${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`
+                                  }
+                                />
+                              }
+                            />
+                          </div>
+                        ))}
+                      </Box>
             </div>}
-          </div> 
+          </div> }
+          {storeInit?.IsCsCustomization === 1 && <div className="filter_menu_giva">
+            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(4)} >Color Stone<ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(4)}/> </Typography>
+            {showMenu === 4 && <div className="giva_filter_menu_list">
+              <Box className="giva_menu_options" sx={{
+                padding:"0 15px"
+              }}>
+                        {csQcCombo?.map((CsQcC, i)=> (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_options_flex"
+                              value={`${CsQcC?.QualityId},${CsQcC?.ColorId}`}
+                              control={
+                                <Checkbox
+                                  name={CsQcC?.Metalid}
+                                  checked={
+                                    selectedCsId === `${CsQcC?.QualityId},${CsQcC?.ColorId}`
+                                  }
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onChange={(e) =>
+                                    setSelectedCsId(`${CsQcC?.QualityId},${CsQcC?.ColorId}`)
+                                  }
+                                  size="small"
+                                />
+                              }
+                              label={
+                                <CustomLabel
+                                  text={
+                                    `${CsQcC.Quality.toUpperCase()},${CsQcC.color.toLowerCase()}`
+                                  }
+                                />
+                              }
+                            />
+                          </div>
+                        ))}
+                      </Box>
+            </div>}
+          </div> }
           </div>
           <div className="flex_giva_right_menu">
-
+            <div className="flex_giva_menu">
+          {storeInit?.IsMetalCustComb === 1 && <div className="filter_menu_giva"
+          >
+          <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(5)} >Sort by : {sortBySelect} <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(5)}/> </Typography>
+            {showMenu === 5 && <div className="giva_filter_menu_list"
+            style={{right:"0"}} >
+              <Box className="giva_menu_options" sx={{
+                padding:"0 15px" ,
+              }}>
+                        {options?.map((sort, i)=> (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_options_flex"
+                              value={sort?.value}
+                              control={
+                                <Checkbox
+                                  name={sort?.label}
+                                  checked={
+                                    sortBySelect === sort?.value
+                                  }
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onChange={(e) =>
+                                    handleSortby(e)
+                                  }
+                                  size="small"
+                                />
+                              }
+                              label={
+                                <CustomLabel
+                                  text={
+                                   sort?.label
+                                  }
+                                />
+                              }
+                            />
+                          </div>
+                        ))}
+                      </Box>
+             
+            </div>}
+            
+          </div>}
+          </div>
           </div>
         </div>  
-      )}
     </>
   );
 };
 
-// <div className="mala_main_sorting_div">
+
+
+
+
+
+// {previous filter section  in malakaan}
+
+
+
+
+// {
+//   {filterData?.length > 0 && (
+//     <div className="mala_filter_portion_outter">
+//       <span className="mala_filter_text">
+//         <span>
+//           {Object.values(filterChecked).filter(
+//             (ele) => ele.checked
+//           )?.length === 0 ? (
+//             "Filters"
+//           ) : (
+//             // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
+//             <>
+//               {afterCountStatus == true ? (
+//                 <Skeleton
+//                   variant="rounded"
+//                   width={140}
+//                   height={22}
+//                   className="pSkelton"
+//                 />
+//               ) : (
+//                 <span>{`Product Found:: ${afterFilterCount}`}</span>
+//               )}
+//             </>
+//           )}
+//         </span>
+//         <span onClick={() => handelFilterClearAll()}>
+//           {Object.values(filterChecked).filter(
+//             (ele) => ele.checked
+//           )?.length > 0 ? (
+//             "Clear All"
+//           ) : (
+//             <>
+//               {afterCountStatus == true ? (
+//                 <Skeleton
+//                   variant="rounded"
+//                   width={140}
+//                   height={22}
+//                   className="pSkelton"
+//                 />
+//               ) : (
+//                 <span>{`Total Products: ${afterFilterCount}`}</span>
+//               )}
+//             </>
+//           )}
+//         </span>
+//       </span>
+//       <div style={{ marginTop: "12px" }}>
+//         {filterData?.map((ele) => (
+//           <>
+//             {!ele?.id?.includes("Range") &&
+//               !ele?.id?.includes("Price") && (
+//                 <Accordion
+//                   elevation={0}
+//                   sx={{
+//                     borderBottom: "1px solid #c7c8c9",
+//                     borderRadius: 0,
+//                     "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                       {
+//                         borderBottomLeftRadius: "0px",
+//                         borderBottomRightRadius: "0px",
+//                       },
+//                     "&.MuiPaper-root.MuiAccordion-root:before":
+//                       {
+//                         background: "none",
+//                       },
+//                   }}
+//                   // expanded={accExpanded}
+//                   // defaultExpanded={}
+//                 >
+//                   <AccordionSummary
+//                     expandIcon={
+//                       <ExpandMoreIcon
+//                         sx={{ width: "20px" }}
+//                       />
+//                     }
+//                     aria-controls="panel1-content"
+//                     id="panel1-header"
+//                     sx={{
+//                       color: "#7d7f85",
+//                       borderRadius: 0,
+
+//                       "&.MuiAccordionSummary-root": {
+//                         padding: 0,
+//                       },
+//                     }}
+//                     // className="filtercategoryLable"
+//                     onClick={() => handleScrollHeight()}
+//                   >
+//                     {/* <span> */}
+//                     {ele.Fil_DisName}
+//                     {/* </span> */}
+//                   </AccordionSummary>
+//                   <AccordionDetails
+//                     sx={{
+//                       display: "flex",
+//                       flexDirection: "column",
+//                       gap: "4px",
+//                       minHeight: "fit-content",
+//                       maxHeight: "300px",
+//                       overflow: "auto",
+//                     }}
+//                   >
+//                     {(JSON.parse(ele?.options) ?? []).map(
+//                       (opt) => (
+//                         <div
+//                           style={{
+//                             display: "flex",
+//                             alignItems: "center",
+//                             justifyContent: "space-between",
+//                             gap: "12px",
+//                           }}
+//                           key={opt?.id}
+//                         >
+//                           {/* <small
+//                     style={{
+//                       color: "#7f7d85",
+//                     }}
+//                   >
+//                     {opt.Name}
+//                   </small> */}
+//                           <FormControlLabel
+//                             control={
+//                               <Checkbox
+//                                 name={`${ele?.id}${opt?.id}`}
+//                                 // checked={
+//                                 //   filterChecked[`checkbox${index + 1}${i + 1}`]
+//                                 //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+//                                 //     : false
+//                                 // }
+//                                 checked={
+//                                   filterChecked[
+//                                     `${ele?.id}${opt?.id}`
+//                                   ]?.checked === undefined
+//                                     ? false
+//                                     : filterChecked[
+//                                         `${ele?.id}${opt?.id}`
+//                                       ]?.checked
+//                                 }
+//                                 style={{
+//                                   color:
+//                                     "#7f7d85 !important",
+//                                   padding: 0,
+//                                   width: "10px",
+//                                 }}
+//                                 onClick={(e) =>
+//                                   handleCheckboxChange(
+//                                     e,
+//                                     ele?.id,
+//                                     opt?.Name
+//                                   )
+//                                 }
+//                                 size="small"
+//                               />
+//                             }
+//                             // sx={{
+//                             //   display: "flex",
+//                             //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+//                             //   width: "100%",
+//                             //   flexDirection: "row-reverse", // Align items to the right
+//                             // }}
+//                             className="mala_mui_checkbox_label"
+//                             label={opt.Name}
+//                           />
+//                         </div>
+//                       )
+//                     )}
+//                   </AccordionDetails>
+//                 </Accordion>
+//               )}
+//             {ele?.id?.includes("Price") && (
+//               <Accordion
+//                 elevation={0}
+//                 sx={{
+//                   borderBottom: "1px solid #c7c8c9",
+//                   borderRadius: 0,
+//                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                     {
+//                       borderBottomLeftRadius: "0px",
+//                       borderBottomRightRadius: "0px",
+//                     },
+//                   "&.MuiPaper-root.MuiAccordion-root:before":
+//                     {
+//                       background: "none",
+//                     },
+//                 }}
+//                 // expanded={accExpanded}
+//                 // defaultExpanded={}
+//               >
+//                 <AccordionSummary
+//                   expandIcon={
+//                     <ExpandMoreIcon
+//                       sx={{ width: "20px" }}
+//                     />
+//                   }
+//                   aria-controls="panel1-content"
+//                   id="panel1-header"
+//                   sx={{
+//                     color: "#7f7d85",
+//                     borderRadius: 0,
+
+//                     "&.MuiAccordionSummary-root": {
+//                       padding: 0,
+//                     },
+//                   }}
+//                   // className="filtercategoryLable"
+//                   onClick={() => handleScrollHeight()}
+//                 >
+//                   {/* <span> */}
+//                   {ele.Fil_DisName}
+//                   {/* </span> */}
+//                 </AccordionSummary>
+//                 <AccordionDetails
+//                   sx={{
+//                     display: "flex",
+//                     flexDirection: "column",
+//                     gap: "4px",
+//                     minHeight: "fit-content",
+//                     maxHeight: "300px",
+//                     overflow: "auto",
+//                   }}
+//                 >
+//                   {(JSON.parse(ele?.options) ?? []).map(
+//                     (opt, i) => (
+//                       <div
+//                         style={{
+//                           display: "flex",
+//                           alignItems: "center",
+//                           justifyContent: "space-between",
+//                           gap: "12px",
+//                         }}
+//                         key={i}
+//                       >
+//                         {/* <small
+//                     style={{
+//                       color: "#7f7d85",
+//                     }}
+//                   >
+//                     {opt.Name}
+//                   </small> */}
+//                         <FormControlLabel
+//                           control={
+//                             <Checkbox
+//                               name={`Price${i}${i}`}
+//                               // checked={
+//                               //   filterChecked[`checkbox${index + 1}${i + 1}`]
+//                               //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+//                               //     : false
+//                               // }
+//                               checked={
+//                                 filterChecked[
+//                                   `Price${i}${i}`
+//                                 ]?.checked === undefined
+//                                   ? false
+//                                   : filterChecked[
+//                                       `Price${i}${i}`
+//                                     ]?.checked
+//                               }
+//                               style={{
+//                                 color: "#7f7d85",
+//                                 padding: 0,
+//                                 width: "10px",
+//                               }}
+//                               onClick={(e) =>
+//                                 handleCheckboxChange(
+//                                   e,
+//                                   ele?.id,
+//                                   opt
+//                                 )
+//                               }
+//                               size="small"
+//                             />
+//                           }
+//                           // sx={{
+//                           //   display: "flex",
+//                           //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+//                           //   width: "100%",
+//                           //   flexDirection: "row-reverse", // Align items to the right
+//                           // }}
+//                           className="mala_mui_checkbox_label"
+//                           label={
+//                             opt?.Minval == 0
+//                               ? `Under ${
+//                                   loginUserDetail?.CurrencyCode ??
+//                                   storeInit?.CurrencyCode
+//                                 } ${opt?.Maxval}`
+//                               : opt?.Maxval == 0
+//                               ? `Over ${
+//                                   loginUserDetail?.CurrencyCode ??
+//                                   storeInit?.CurrencyCode
+//                                 } ${opt?.Minval}`
+//                               : `${
+//                                   loginUserDetail?.CurrencyCode ??
+//                                   storeInit?.CurrencyCode
+//                                 } ${opt?.Minval} 
+//                                 - ${
+//                                   loginUserDetail?.CurrencyCode ??
+//                                   storeInit?.CurrencyCode
+//                                 } ${opt?.Maxval}`
+//                           }
+//                         />
+//                       </div>
+//                     )
+//                   )}
+//                 </AccordionDetails>
+//               </Accordion>
+//             )}
+//             {ele?.Name?.includes("Diamond") && (
+//               <Accordion
+//                 elevation={0}
+//                 sx={{
+//                   borderBottom: "1px solid #c7c8c9",
+//                   borderRadius: 0,
+//                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                     {
+//                       borderBottomLeftRadius: "0px",
+//                       borderBottomRightRadius: "0px",
+//                     },
+//                   "&.MuiPaper-root.MuiAccordion-root:before":
+//                     {
+//                       background: "none",
+//                     },
+//                 }}
+//                 // expanded={accExpanded}
+//                 // defaultExpanded={}
+//               >
+//                 <AccordionSummary
+//                   expandIcon={
+//                     <ExpandMoreIcon
+//                       sx={{ width: "20px" }}
+//                     />
+//                   }
+//                   aria-controls="panel1-content"
+//                   id="panel1-header"
+//                   sx={{
+//                     color: "#7f7d85",
+//                     borderRadius: 0,
+
+//                     "&.MuiAccordionSummary-root": {
+//                       padding: 0,
+//                     },
+//                   }}
+//                   // className="filtercategoryLable"
+//                 >
+//                   {/* <span> */}
+//                   {ele.Fil_DisName}
+//                   {/* </span> */}
+//                 </AccordionSummary>
+//                 <AccordionDetails
+//                   sx={{
+//                     display: "flex",
+//                     flexDirection: "column",
+//                     gap: "4px",
+//                     minHeight: "fit-content",
+//                     maxHeight: "300px",
+//                     overflow: "auto",
+//                   }}
+//                 >
+//                   {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+//                   <Box sx={{ width: 203, height: 88 }}>
+//                     {RangeFilterView(ele)}
+//                   </Box>
+//                 </AccordionDetails>
+//               </Accordion>
+//             )}
+//             {ele?.Name?.includes("NetWt") && (
+//               <Accordion
+//                 elevation={0}
+//                 sx={{
+//                   borderBottom: "1px solid #c7c8c9",
+//                   borderRadius: 0,
+//                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                     {
+//                       borderBottomLeftRadius: "0px",
+//                       borderBottomRightRadius: "0px",
+//                     },
+//                   "&.MuiPaper-root.MuiAccordion-root:before":
+//                     {
+//                       background: "none",
+//                     },
+//                 }}
+//                 // expanded={accExpanded}
+//                 // defaultExpanded={}
+//               >
+//                 <AccordionSummary
+//                   expandIcon={
+//                     <ExpandMoreIcon
+//                       sx={{ width: "20px" }}
+//                     />
+//                   }
+//                   aria-controls="panel1-content"
+//                   id="panel1-header"
+//                   sx={{
+//                     color: "#7f7d85",
+//                     borderRadius: 0,
+
+//                     "&.MuiAccordionSummary-root": {
+//                       padding: 0,
+//                     },
+//                   }}
+//                   // className="filtercategoryLable"
+//                   onClick={() => handleScrollHeight()}
+//                 >
+//                   {/* <span> */}
+//                   {ele.Fil_DisName}
+//                   {/* </span> */}
+//                 </AccordionSummary>
+//                 <AccordionDetails
+//                   sx={{
+//                     display: "flex",
+//                     flexDirection: "column",
+//                     gap: "4px",
+//                     minHeight: "fit-content",
+//                     maxHeight: "300px",
+//                     overflow: "auto",
+//                   }}
+//                 >
+//                   {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+//                   <Box sx={{ width: 204, height: 88 }}>
+//                     {RangeFilterView1(ele)}
+//                   </Box>
+//                 </AccordionDetails>
+//               </Accordion>
+//             )}
+//             {ele?.Name?.includes("Gross") && (
+//               <Accordion
+//                 elevation={0}
+//                 sx={{
+//                   borderBottom: "1px solid #c7c8c9",
+//                   borderRadius: 0,
+//                   "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+//                     {
+//                       borderBottomLeftRadius: "0px",
+//                       borderBottomRightRadius: "0px",
+//                     },
+//                   "&.MuiPaper-root.MuiAccordion-root:before":
+//                     {
+//                       background: "none",
+//                     },
+//                 }}
+//                 // expanded={accExpanded}
+//                 // defaultExpanded={}
+//               >
+//                 <AccordionSummary
+//                   expandIcon={
+//                     <ExpandMoreIcon
+//                       sx={{ width: "20px" }}
+//                     />
+//                   }
+//                   aria-controls="panel1-content"
+//                   id="panel1-header"
+//                   sx={{
+//                     color: "#7f7d85",
+//                     borderRadius: 0,
+
+//                     "&.MuiAccordionSummary-root": {
+//                       padding: 0,
+//                     },
+//                   }}
+//                   // className="filtercategoryLable"
+//                   onClick={() => handleScrollHeight()}
+//                 >
+//                   {/* <span> */}
+//                   {ele.Fil_DisName}
+//                   {/* </span> */}
+//                 </AccordionSummary>
+//                 <AccordionDetails
+//                   sx={{
+//                     display: "flex",
+//                     flexDirection: "column",
+//                     gap: "4px",
+//                     minHeight: "fit-content",
+//                     maxHeight: "300px",
+//                     overflow: "auto",
+//                   }}
+//                 >
+//                   <Box sx={{ width: 204, height: 88 }}>
+//                     {RangeFilterView2(ele)}
+//                   </Box>
+//                 </AccordionDetails>
+//               </Accordion>
+//             )}
+//           </>
+//         ))}
+//       </div>
+//     </div>
+//   )}
+// }
+
+
+
+// {bREAD cRUMB sECTION HERE PLACE}
+
+
+// {
+//   <div className="empty_sorting_div">
+//   <span
+//     className="mala_breadcums_port "
+//     // style={{ marginLeft: "72px" }}
+//     onClick={() => {
+//       navigate("/");
+//     }}
+//   >
+//     {"Home >"}{" "}
+//   </span>
+
+//   {location?.search.charAt(1) == "A" && (
+//     <div
+//       className="mala_breadcums_port"
+//       style={{ marginLeft: "3px" }}
+//     >
+//       <span>{"Album"}</span>
+//     </div>
+//   )}
+
+//   {location?.search.charAt(1) == "T" && (
+//     <div
+//       className="mala_breadcums_port"
+//       style={{ marginLeft: "3px" }}
+//     >
+//       <span>{"Trending"}</span>
+//     </div>
+//   )}
+
+//   {location?.search.charAt(1) == "B" && (
+//     <div
+//       className="mala_breadcums_port"
+//       style={{ marginLeft: "3px" }}
+//     >
+//       <span>{"Best Seller"}</span>
+//     </div>
+//   )}
+
+//   {location?.search.charAt(1) == "N" && (
+//     <div
+//       className="mala_breadcums_port"
+//       style={{ marginLeft: "3px" }}
+//     >
+//       <span>{"New Arrival"}</span>
+//     </div>
+//   )}
+
+//   {IsBreadCumShow && (
+//     <div
+//       className="mala_breadcums_port"
+//       style={{ marginLeft: "3px" }}
+//     >
+//       {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+//       {BreadCumsObj()?.menuname && (
+//         <span
+//           onClick={() =>
+//             handleBreadcums({
+//               [BreadCumsObj()?.FilterKey]:
+//                 BreadCumsObj()?.FilterVal,
+//             })
+//           }
+//         >
+//           {BreadCumsObj()?.menuname}
+//         </span>
+//       )}
+
+//       {BreadCumsObj()?.FilterVal1 && (
+//         <span
+//           onClick={() =>
+//             handleBreadcums({
+//               [BreadCumsObj()?.FilterKey]:
+//                 BreadCumsObj()?.FilterVal,
+//               [BreadCumsObj()?.FilterKey1]:
+//                 BreadCumsObj()?.FilterVal1,
+//             })
+//           }
+//         >
+//           {` > ${BreadCumsObj()?.FilterVal1}`}
+//         </span>
+//       )}
+
+//       {BreadCumsObj()?.FilterVal2 && (
+//         <span
+//           onClick={() =>
+//             handleBreadcums({
+//               [BreadCumsObj()?.FilterKey]:
+//                 BreadCumsObj()?.FilterVal,
+//               [BreadCumsObj()?.FilterKey1]:
+//                 BreadCumsObj()?.FilterVal1,
+//               [BreadCumsObj()?.FilterKey2]:
+//                 BreadCumsObj()?.FilterVal2,
+//             })
+//           }
+//         >
+//           {` > ${BreadCumsObj()?.FilterVal2}`}
+//         </span>
+//       )}
+//     </div>
+//   )}
+// </div>
+// }
+
+
+
+// {metal sorting place here} 
+// {
+//   <div className="mala_main_sorting_div">
 //                               {storeInit?.IsMetalCustComb === 1 && (
 //                                 <div className="mala_metal_custom">
 //                                   <label className="label">Metal:&nbsp;</label>
@@ -4147,3 +4207,54 @@ setSelectedMetalId
 //                                   </select>
 //                                 </div>
 //                               )}
+
+//                               <div className="mala_sorting_custom">
+//                                 <div className="container">
+//                                   <label className="label">
+//                                     Sort By:&nbsp;
+//                                   </label>
+//                                   <select
+//                                     className="select"
+//                                     value={sortBySelect}
+//                                     onChange={(e) => handleSortby(e)}
+//                                   >
+//                                     <option
+//                                       className="option"
+//                                       value="Recommended"
+//                                     >
+//                                       Recommended
+//                                     </option>
+//                                     <option className="option" value="New">
+//                                       New
+//                                     </option>
+//                                     <option className="option" value="Trending">
+//                                       Trending
+//                                     </option>
+//                                     {/*<option className="option" value="Bestseller">
+//                                     Bestseller
+//                                     </option>*/}
+//                                     {storeInit?.IsStockWebsite == 1 && (
+//                                       <option
+//                                         className="option"
+//                                         value="In Stock"
+//                                       >
+//                                         In stock
+//                                       </option>
+//                                     )}
+//                                     <option
+//                                       className="option"
+//                                       value="PRICE HIGH TO LOW"
+//                                     >
+//                                       Price High To Low
+//                                     </option>
+//                                     <option
+//                                       className="option"
+//                                       value="PRICE LOW TO HIGH"
+//                                     >
+//                                       Price Low To High
+//                                     </option>
+//                                   </select>
+//                                 </div>
+//                               </div>
+//                             </div>
+// }

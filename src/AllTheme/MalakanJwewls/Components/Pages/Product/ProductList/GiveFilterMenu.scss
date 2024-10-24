@@ -9,7 +9,16 @@
   align-items: center;
   justify-content: space-between;
   font-family: $primaryFontFamilyMedium !important;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgba(175, 174, 174, 0.685);
+  position: sticky;
+  top: 0;
+  z-index: 100000;
+  background-color: #fff;
+  // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+@media screen and (max-width:1200px) {
+  display: none;
+}
+
 
   .flex_giva_menu {
     display: flex;
@@ -19,18 +28,45 @@
     gap: 2rem;
     position: relative;
     .fmg_menu {
-      color: gray;
-      font-size: 22px;
-      font-weight: 400;
+      color: rgba(48, 48, 48, 0.822);
+      font-size: 21px;
+      font-weight: 300;
       font-family: $primaryFontFamilyMedium !important;
+    }
+    .fmg_icon{
+      color: rgba(77, 77, 77, 0.966);
+          font-size: 21px;
+          font-weight: 600;
+         
     }
   }
   .flex_giva_right_menu {
     display: flex;
     flex: 0.4;
-    height: 60px;
+    height: 55px;
     align-items: center;
     gap: 15px;
+    justify-content: flex-end;
+    .flex_giva_menu {
+      display: flex;
+      height: 50px;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+      justify-content: flex-end;
+      .fmg_menu {
+        color: rgba(48, 48, 48, 0.822);
+        font-size: 19.5px;
+        font-weight: 300;
+        font-family: $primaryFontFamilyMedium !important;
+      }
+      .fmg_icon{
+        color: rgba(77, 77, 77, 0.966);
+            font-size: 21px;
+            font-weight: 600;
+         
+      }
+    }
   }
   .giva_filter_menu_list {
     display: flex;
@@ -47,7 +83,8 @@
     overflow-x: hidden;
     background-color: #fff;
     padding: 8px 2px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     .giva_menu {
       position: relative;
       display: flex;

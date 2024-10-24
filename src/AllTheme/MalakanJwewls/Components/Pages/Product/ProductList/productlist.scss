@@ -109,9 +109,9 @@
   }
 
   .mala_filter_portion {
-    top: 25px !important;
-    position: sticky !important;
-    width: 25%;
+    // top: 25px !important;
+    // position: sticky !important;
+    // width: 25%;
     font-family: $primaryFontFamily;
     height: 100%;
   }
@@ -154,13 +154,14 @@
     color: $primaryfontcolor;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .mala_productList {
-    width: 75%;
+    width: 92%;
     display: flex;
     align-items: baseline;
-    margin: 20px 50px 0px 0px;
+    margin: 20px auto;
     flex-direction: column;
     // position: sticky;
     // top: 50px;
