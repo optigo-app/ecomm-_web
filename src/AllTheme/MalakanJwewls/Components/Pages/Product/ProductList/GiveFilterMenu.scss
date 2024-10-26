@@ -6,25 +6,118 @@
   margin: 0 auto;
   color: black;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   font-family: $primaryFontFamilyMedium !important;
-  border-bottom: 1px solid rgba(175, 174, 174, 0.685);
+  // border-bottom: 1px solid rgba(175, 174, 174, 0.685);
   position: sticky;
   top: 0;
   z-index: 100000;
   background-color: #fff;
-  // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-@media screen and (max-width:1200px) {
-  display: none;
-}
 
+  .breadcrumb_fmg {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    .empty_sorting_div_fmg{
+      display: flex;
+      align-items: center;
+      margin-top: 0.4rem;
+      margin-bottom: -0.4rem;
+      color: rgba(77, 77, 77, 0.966) !important;
+      span{
+        cursor: pointer !important;
+        &:hover{
+          color: #17372f;
+          font-weight: 700;
+          transition: 0.3s ease-in-out;
+        }
+      }
+      .mala_breadcums_port{
+        display: flex;
+        align-items: center;
+      }
+      .mala_breadcums_port_fmg{
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .clear_fmg_list{
+  border-top: 1px solid rgba(175, 174, 174, 0.685);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0.5rem 0;
+      margin-top: -0.3rem;
+      .fmg_remove_All{
+        background-color: #17372fd7;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 15px;
+        margin-left: 1rem;
+        font-weight: 400;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
+      .fmg_total_product{
+        font-weight: 300;
+        color: 
+        #303030;
+      }
+  }
+
+  .main_fmg {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .fmg_selected_options {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.4rem 0;
+    .sel_fmg_filter_badge {
+      background-color: #17372fd7;
+      cursor: pointer;
+      color: #fff;
+      padding: 3px 11px;
+      font-size: 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      &:hover {
+        background-color: #17372f;
+      }
+      button {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1200px){
+    display: none;
+  }
 
   .flex_giva_menu {
     display: flex;
     flex: 1;
-    height: 50px;
     align-items: center;
+    padding: 10px 0;
     gap: 2rem;
     position: relative;
     .fmg_menu {
@@ -33,11 +126,10 @@
       font-weight: 300;
       font-family: $primaryFontFamilyMedium !important;
     }
-    .fmg_icon{
+    .fmg_icon {
       color: rgba(77, 77, 77, 0.966);
-          font-size: 21px;
-          font-weight: 600;
-         
+      font-size: 21px;
+      font-weight: 600;
     }
   }
   .flex_giva_right_menu {
@@ -60,11 +152,10 @@
         font-weight: 300;
         font-family: $primaryFontFamilyMedium !important;
       }
-      .fmg_icon{
+      .fmg_icon {
         color: rgba(77, 77, 77, 0.966);
-            font-size: 21px;
-            font-weight: 600;
-         
+        font-size: 21px;
+        font-weight: 600;
       }
     }
   }

@@ -16,6 +16,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Badge,
   Box,
   Button,
   Checkbox,
@@ -29,11 +30,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Footer from "../../Home/Footer/Footer";
-import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
 import { RemoveCartAndWishAPI } from "../../../../../../utils/API/RemoveCartandWishAPI/RemoveCartAndWishAPI";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -56,7 +52,10 @@ import {
   mala_WishCount,
 } from "../../../Recoil/atom";
 import "./GiveFilterMenu.scss";
-
+import { IoClose } from "react-icons/io5";
+import { BsHandbag } from "react-icons/bs";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
@@ -706,9 +705,7 @@ const ProductList = () => {
         output[key] = output[key].slice(0, -2);
       }
     }
-
     // if
-
     return output;
   };
 
@@ -716,7 +713,7 @@ const ProductList = () => {
     setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
+    console.log(output, "output");
     //  if(location?.state?.SearchVal === undefined && Object.keys(filterChecked)?.length > 0){
     // console.log("locationkey",location?.key !== locationKey,location?.key,locationKey);
 
@@ -767,8 +764,6 @@ const ProductList = () => {
   }, [location?.key]);
 
   const handelPageChange = (event, value) => {
-    // console.log("pagination",value);
-
     let output = FilterValueWithCheckedOnly();
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
     setIsProdLoading(true);
@@ -2544,14 +2539,18 @@ const ProductList = () => {
                     setSelectedCsId={setSelectedCsId}
                     handleSortby={handleSortby}
                     sortBySelect={sortBySelect}
+                    FilterValueWithCheckedOnly={FilterValueWithCheckedOnly()}
+                    BreadCumsObj={BreadCumsObj}
+                    IsBreadCumShow={IsBreadCumShow}
+                    handleBreadcums={handleBreadcums}
                   />
                   <div className="mala_mainPortion">
                     <div
                       className="mala_filter_portion"
                       style={{ marginTop: "20px" }}
                     >
-                    {/* Breac crumb section place */}
-                     {/* here the previous filter section place */}
+                      {/* Breac crumb section place */}
+                      {/* here the previous filter section place */}
                     </div>
                     {filterProdListEmpty ? (
                       <div
@@ -2583,11 +2582,13 @@ const ProductList = () => {
                             >
                               {/* <div className="mala_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="mala_inner_portion">
-                                {finalProductListData?.map((productData, i) => (
-                                  <div className="mala_productCard">
+                                {finalProductListData?.map((productData, i) => {
+                                   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
+                                  return <>
+                                     <div className="mala_productCard">
                                     <div className="cart_and_wishlist_icon">
                                       {/* <Button className="mala_cart-icon"> */}
-                                      <Checkbox
+                                      {/* <Checkbox
                                         icon={
                                           <LocalMallOutlinedIcon
                                             sx={{
@@ -2620,25 +2621,26 @@ const ProductList = () => {
                                             ? true
                                             : false
                                         }
-                                      />
+                                      /> */}
+                                    
                                       {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
                                       {/* </Button> */}
                                       {/* <Button className="mala_wish-icon"> */}
                                       <Checkbox
                                         icon={
-                                          <StarBorderIcon
+                                          <FavoriteBorderIcon
                                             sx={{
-                                              fontSize: "22px",
+                                              fontSize: "26px",
                                               color: "#7d7f85",
                                               opacity: ".7",
                                             }}
                                           />
                                         }
                                         checkedIcon={
-                                          <StarIcon
+                                          <FavoriteIcon
                                             sx={{
-                                              fontSize: "22px",
-                                              color: "#ffd200",
+                                              fontSize: "26px",
+                                              color: "red",
                                             }}
                                           />
                                         }
@@ -2928,9 +2930,23 @@ const ProductList = () => {
                                           </span>
                                         </span>
                                       </div>
+                                      <div className="fmg_mal1_prodBtn">
+                                          <FormControlLabel
+                                            control={
+                                              <Checkbox
+                                                icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                                checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                                onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                                checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+                                              />
+                                            }
+                                            label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+                                          />
+                                        </div>
                                     </div>
                                   </div>
-                                ))}
+                                  </>
+                                })}
                               </div>
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
@@ -3035,26 +3051,29 @@ const GivaFilterMenu = ({
   RangeFilterView,
   RangeFilterView1,
   RangeFilterView2,
-  metalTypeCombo ,
-  selectedMetalId ,
-setSelectedMetalId ,
-diaQcCombo ,
-selectedDiaId ,
-setSelectedDiaId,
-selectedCsId ,
-setSelectedCsId ,
-csQcCombo ,
-sortBySelect ,
-handleSortby
+  metalTypeCombo,
+  selectedMetalId,
+  setSelectedMetalId,
+  diaQcCombo,
+  selectedDiaId,
+  setSelectedDiaId,
+  selectedCsId,
+  setSelectedCsId,
+  csQcCombo,
+  sortBySelect,
+  handleSortby,
+  FilterValueWithCheckedOnly,
+  BreadCumsObj,
+  IsBreadCumShow,
+  handleBreadcums,
 }) => {
-
-  const [showMenu,setshowMenu] = useState(-1);
+  const [showMenu, setshowMenu] = useState(-1);
   const CustomLabel = ({ text }) => (
     <Typography
       sx={{
         fontFamily: "Rowan5 , sans-serif !important",
         textWrap: "nowrap",
-        letterSpacing:"0.5px",
+        letterSpacing: "0.5px",
         fontSize: {
           xs: "13.2px !important", // Mobile screens
           sm: "13.5px !important", // Tablets
@@ -3068,420 +3087,616 @@ handleSortby
     </Typography>
   );
 
-  const HandleMenu = (id)=>{
-    setshowMenu((prev) => (prev === id ? -1 : id));
+  function calculateTotalFilters(selectedFilters) {
+    let totalCount = 0;
+
+    for (const key in selectedFilters) {
+      const value = selectedFilters[key];
+
+      // Split the string by comma if there are multiple selections
+      if (value.includes(",")) {
+        const options = value.split(",").map((item) => item.trim());
+        totalCount += options.length; // Add the count of multiple selections
+      } else {
+        totalCount += 1; // Count the single selection
+      }
+    }
+
+    return totalCount;
   }
-  const isFilterHaveEnoughData = filterData?.length > 1 && filterData.some(ele => ele?.Name === "Category" && ele?.id === "category");
+  //   function getCheckedFilterNames(FilterValueWithCheckedOnly, filterData) {
+  //     // Extracting checked filter values
+  //     const checkedNames = [];
+
+  //     // Loop through each entry in FilterValueWithCheckedOnly
+  //     for (const key in FilterValueWithCheckedOnly) {
+  //         const checkedId = FilterValueWithCheckedOnly[key]; // e.g., '4' for 'collection'
+
+  //         // Find the corresponding filter in filterData
+  //         const filterEntry = filterData.find(item => item.id === key);
+
+  //         if (filterEntry) {
+  //             const options = JSON.parse(filterEntry.options);
+
+  //             // Find the option with the matching id and push its name to checkedNames
+  //             const checkedOption = options.find(option => option.id.toString() === checkedId);
+  //     console.log(checkedOption,"before")
+  //             if (checkedOption) {
+  //                 checkedNames.push(checkedOption.Name);
+  //             }
+  //         }
+  //     }
+  //     console.log(checkedNames,"afte=er")
+
+  //     return checkedNames;
+  // }
+
+  function getCheckedFilterNames(FilterValueWithCheckedOnly, filterData) {
+    // Extracting checked filter values
+    const checkedNames = [];
+
+    // Loop through each entry in FilterValueWithCheckedOnly
+    for (const key in FilterValueWithCheckedOnly) {
+      const checkedId = FilterValueWithCheckedOnly[key]; // Single checked ID
+
+      // Find the corresponding filter in filterData
+      const filterEntry = filterData.find((item) => item.id === key);
+
+      if (filterEntry) {
+        // Parse the options from the string to an array of objects
+        const options = JSON.parse(filterEntry.options);
+
+        // Find the option with the matching id and push its name to checkedNames
+        const checkedOption = options.find(
+          (option) => option.id.toString() === checkedId
+        );
+        console.log(checkedOption, "before");
+
+        if (checkedOption) {
+          checkedNames.push(checkedOption.Name);
+        }
+      }
+    }
+
+    console.log(checkedNames, "after");
+
+    return checkedNames;
+  }
+
+  const totalSelected = calculateTotalFilters(FilterValueWithCheckedOnly);
+
+  const checkedFilterNames = getCheckedFilterNames(
+    FilterValueWithCheckedOnly,
+    filterData
+  );
+
+  const HandleMenu = (id) => {
+    setshowMenu((prev) => (prev === id ? -1 : id));
+  };
+  const isFilterHaveEnoughData =
+    filterData?.length > 1 &&
+    filterData.some(
+      (ele) => ele?.Name === "Category" && ele?.id === "category"
+    );
   const options = [
     { value: "Recommended", label: "Recommended" },
     { value: "New", label: "New" },
     { value: "Trending", label: "Trending" },
-    // { value: "Bestseller", label: "Bestseller" }, // Uncomment if needed
+    // { value: "Bestseller", label: "Bestseller" },
     { value: "In Stock", label: "In stock" },
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
-    { value: "PRICE LOW TO HIGH", label: "Price Low To High" }
+    { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
   ];
-  
+
   return (
     <>
-        <div className="giva_filter_menu_style" id="style-1">
+      <div className="giva_filter_menu_style" id="style-1">
+        <BreadCumView
+          BreadCumsObj={BreadCumsObj}
+          IsBreadCumShow={IsBreadCumShow}
+          handleBreadcums={handleBreadcums}
+        />
+        <div className="main_fmg">
           <div className="flex_giva_menu">
-         {isFilterHaveEnoughData && <div className="filter_menu_giva" >
-            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(1)} >Filter <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(1)}/> </Typography>
-            {showMenu === 1 && <div className="giva_filter_menu_list" >
-              {filterData?.map((ele) => (
-                <>
-                  {!ele?.id?.includes("Range") &&
-                    !ele?.id?.includes("Price") && (
-                      <Box className="giva_menu">
-                        <Typography className="giva_menu_title">
-                          {ele.Fil_DisName}
-                        </Typography>
-                        <Box className="giva_menu_options">
-                          {(JSON.parse(ele?.options) ?? []).map((opt) => (
-                            <div key={opt?.id}>
-                              <FormControlLabel
-                                className="giva_options_flex"
-                                control={
-                                  <Checkbox
-                                    name={`${ele?.id}${opt?.id}`}
-                                    checked={
-                                      filterChecked[`${ele?.id}${opt?.id}`]
-                                        ?.checked === undefined
-                                        ? false
-                                        : filterChecked[`${ele?.id}${opt?.id}`]
-                                            ?.checked
-                                    }
-                                    style={{
-                                      padding: 0,
-                                    }}
-                                    onClick={(e) =>
-                                      handleCheckboxChange(
-                                        e,
-                                        ele?.id,
-                                        opt?.Name
-                                      )
-                                    }
-                                    size="small"
-                                  />
-                                }
-                                label={<CustomLabel text={opt.Name} />}
-                              />
-                            </div>
-                          ))}
-                        </Box>
-                      </Box>
-                    )}
-                  {ele?.id?.includes("Price") && (
-                    <Box className="giva_menu">
-                      <Typography className="giva_menu_title">
-                        {ele.Fil_DisName}
-                      </Typography>
-                      <Box className="giva_menu_options">
-                        {(JSON.parse(ele?.options) ?? []).map((opt, i) => (
-                          <div key={i}>
-                            <FormControlLabel
-                              className="giva_options_flex"
-                              control={
-                                <Checkbox
-                                  name={`Price${i}${i}`}
-                                  checked={
-                                    filterChecked[`Price${i}${i}`]?.checked ===
-                                    undefined
-                                      ? false
-                                      : filterChecked[`Price${i}${i}`]?.checked
-                                  }
-                                  style={{
-                                    padding: 0,
-                                  }}
-                                  onClick={(e) =>
-                                    handleCheckboxChange(e, ele?.id, opt)
-                                  }
-                                  size="small"
-                                />
-                              }
-                              label={
-                                <CustomLabel
-                                  text={
-                                    opt?.Minval == 0
-                                      ? `Under ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${opt?.Maxval}`
-                                      : opt?.Maxval == 0
-                                      ? `Over ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${opt?.Minval}`
-                                      : `${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${opt?.Minval} 
+            {isFilterHaveEnoughData && (
+              <div className="filter_menu_giva">
+               
+                  <Typography
+                    sx={{ fontSize: "16px" }}
+                    className="fmg_menu"
+                    onClick={() => HandleMenu(1)}
+                  >
+                     <Badge badgeContent={totalSelected} color="success"
+                      anchorOrigin={{
+                        vertical: 'top',  // Adjust this as needed (top/bottom)
+                        horizontal: 'right', // Move to the left side
+                    }}
+                >
+                    Filters
+                  </Badge>
+                    <ExpandMoreIcon
+                      className="fmg_icon"
+                      onClick={() => HandleMenu(1)}
+                    />
+                  </Typography>
+                {showMenu === 1 && (
+                  <div className="giva_filter_menu_list">
+                    {filterData?.map((ele) => (
+                      <>
+                        {!ele?.id?.includes("Range") &&
+                          !ele?.id?.includes("Price") && (
+                            <Box className="giva_menu">
+                              <Typography className="giva_menu_title">
+                                {ele.Fil_DisName}
+                              </Typography>
+                              <Box className="giva_menu_options">
+                                {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                                  <div key={opt?.id}>
+                                    <FormControlLabel
+                                      className="giva_options_flex"
+                                      control={
+                                        <Checkbox
+                                          name={`${ele?.id}${opt?.id}`}
+                                          checked={
+                                            filterChecked[
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked === undefined
+                                              ? false
+                                              : filterChecked[
+                                                  `${ele?.id}${opt?.id}`
+                                                ]?.checked
+                                          }
+                                          style={{
+                                            padding: 0,
+                                          }}
+                                          onClick={(e) =>
+                                            handleCheckboxChange(
+                                              e,
+                                              ele?.id,
+                                              opt?.Name
+                                            )
+                                          }
+                                          size="small"
+                                        />
+                                      }
+                                      label={<CustomLabel text={opt.Name} />}
+                                    />
+                                  </div>
+                                ))}
+                              </Box>
+                            </Box>
+                          )}
+                        {ele?.id?.includes("Price") && (
+                          <Box className="giva_menu">
+                            <Typography className="giva_menu_title">
+                              {ele.Fil_DisName}
+                            </Typography>
+                            <Box className="giva_menu_options">
+                              {(JSON.parse(ele?.options) ?? []).map(
+                                (opt, i) => (
+                                  <div key={i}>
+                                    <FormControlLabel
+                                      className="giva_options_flex"
+                                      control={
+                                        <Checkbox
+                                          name={`Price${i}${i}`}
+                                          checked={
+                                            filterChecked[`Price${i}${i}`]
+                                              ?.checked === undefined
+                                              ? false
+                                              : filterChecked[`Price${i}${i}`]
+                                                  ?.checked
+                                          }
+                                          style={{
+                                            padding: 0,
+                                          }}
+                                          onClick={(e) =>
+                                            handleCheckboxChange(
+                                              e,
+                                              ele?.id,
+                                              opt
+                                            )
+                                          }
+                                          size="small"
+                                        />
+                                      }
+                                      label={
+                                        <CustomLabel
+                                          text={
+                                            opt?.Minval == 0
+                                              ? `Under ${
+                                                  loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                } ${opt?.Maxval}`
+                                              : opt?.Maxval == 0
+                                              ? `Over ${
+                                                  loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                } ${opt?.Minval}`
+                                              : `${
+                                                  loginUserDetail?.CurrencyCode ??
+                                                  storeInit?.CurrencyCode
+                                                } ${opt?.Minval} 
                                                     - ${
                                                       loginUserDetail?.CurrencyCode ??
                                                       storeInit?.CurrencyCode
                                                     } ${opt?.Maxval}`
-                                  }
-                                />
+                                          }
+                                        />
+                                      }
+                                    />
+                                  </div>
+                                )
+                              )}
+                            </Box>
+                          </Box>
+                        )}
+                        {ele?.Name?.includes("Diamond") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
                               }
-                            />
-                          </div>
-                        ))}
-                      </Box>
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              // className="filtercategoryLable"
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                              <Box sx={{ width: 203, height: 88 }}>
+                                {RangeFilterView(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                        {ele?.Name?.includes("NetWt") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              // className="filtercategoryLable"
+                              onClick={() => handleScrollHeight()}
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                              <Box sx={{ width: 204, height: 88 }}>
+                                {RangeFilterView1(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                        {ele?.Name?.includes("Gross") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                            // expanded={accExpanded}
+                            // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              // className="filtercategoryLable"
+                              onClick={() => handleScrollHeight()}
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              <Box sx={{ width: 204, height: 88 }}>
+                                {RangeFilterView2(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                      </>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
+              <div className="filter_menu_giva">
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(2)}
+                >
+                  Metal{" "}
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(2)}
+                  />{" "}
+                </Typography>
+                {showMenu === 2 && (
+                  <div className="giva_filter_menu_list">
+                    <Box
+                      className="giva_menu_options"
+                      sx={{
+                        padding: "0 15px",
+                      }}
+                    >
+                      {metalTypeCombo?.map((metalele, i) => (
+                        <div key={i}>
+                          <FormControlLabel
+                            className="giva_options_flex"
+                            value={metalele?.Metalid}
+                            control={
+                              <Checkbox
+                                name={metalele?.Metalid}
+                                checked={selectedMetalId === metalele?.Metalid}
+                                style={{
+                                  padding: 0,
+                                }}
+                                onChange={(e) =>
+                                  setSelectedMetalId(metalele?.Metalid)
+                                }
+                                size="small"
+                              />
+                            }
+                            label={
+                              <CustomLabel
+                                text={metalele?.metaltype.toUpperCase()}
+                              />
+                            }
+                          />
+                        </div>
+                      ))}
                     </Box>
-                  )}
-                  {ele?.Name?.includes("Diamond") && (
-                    <Accordion
-                      elevation={0}
+                  </div>
+                )}
+              </div>
+            )}
+            {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
+              <div className="filter_menu_giva">
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(3)}
+                >
+                  Diamond{" "}
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(3)}
+                  />{" "}
+                </Typography>
+                {showMenu === 3 && (
+                  <div className="giva_filter_menu_list">
+                    <Box
+                      className="giva_menu_options"
                       sx={{
-                        borderBottom: "1px solid #c7c8c9",
-                        borderRadius: 0,
-                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                          borderBottomLeftRadius: "0px",
-                          borderBottomRightRadius: "0px",
-                        },
-                        "&.MuiPaper-root.MuiAccordion-root:before": {
-                          background: "none",
-                        },
+                        padding: "0 15px",
                       }}
-                      // expanded={accExpanded}
-                      // defaultExpanded={}
                     >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        sx={{
-                          color: "#7f7d85",
-                          borderRadius: 0,
-
-                          "&.MuiAccordionSummary-root": {
-                            padding: 0,
-                          },
-                        }}
-                        // className="filtercategoryLable"
-                      >
-                        {/* <span> */}
-                        {ele.Fil_DisName}
-                        {/* </span> */}
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                        <Box sx={{ width: 203, height: 88 }}>
-                          {RangeFilterView(ele)}
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                  {ele?.Name?.includes("NetWt") && (
-                    <Accordion
-                      elevation={0}
+                      {diaQcCombo?.map((diaQc, i) => (
+                        <div key={i}>
+                          <FormControlLabel
+                            className="giva_options_flex"
+                            value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                            control={
+                              <Checkbox
+                                name={diaQc?.Metalid}
+                                checked={
+                                  selectedDiaId ===
+                                  `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                }
+                                style={{
+                                  padding: 0,
+                                }}
+                                onChange={(e) =>
+                                  setSelectedDiaId(
+                                    `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                  )
+                                }
+                                size="small"
+                              />
+                            }
+                            label={
+                              <CustomLabel
+                                text={`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                              />
+                            }
+                          />
+                        </div>
+                      ))}
+                    </Box>
+                  </div>
+                )}
+              </div>
+            )}
+            {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
+              <div className="filter_menu_giva">
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(4)}
+                >
+                  Color Stone
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(4)}
+                  />{" "}
+                </Typography>
+                {showMenu === 4 && (
+                  <div className="giva_filter_menu_list">
+                    <Box
+                      className="giva_menu_options"
                       sx={{
-                        borderBottom: "1px solid #c7c8c9",
-                        borderRadius: 0,
-                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                          borderBottomLeftRadius: "0px",
-                          borderBottomRightRadius: "0px",
-                        },
-                        "&.MuiPaper-root.MuiAccordion-root:before": {
-                          background: "none",
-                        },
+                        padding: "0 15px",
                       }}
-                      // expanded={accExpanded}
-                      // defaultExpanded={}
                     >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        sx={{
-                          color: "#7f7d85",
-                          borderRadius: 0,
-
-                          "&.MuiAccordionSummary-root": {
-                            padding: 0,
-                          },
-                        }}
-                        // className="filtercategoryLable"
-                        onClick={() => handleScrollHeight()}
-                      >
-                        {/* <span> */}
-                        {ele.Fil_DisName}
-                        {/* </span> */}
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                        <Box sx={{ width: 204, height: 88 }}>
-                          {RangeFilterView1(ele)}
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                  {ele?.Name?.includes("Gross") && (
-                    <Accordion
-                      elevation={0}
-                      sx={{
-                        borderBottom: "1px solid #c7c8c9",
-                        borderRadius: 0,
-                        "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                          borderBottomLeftRadius: "0px",
-                          borderBottomRightRadius: "0px",
-                        },
-                        "&.MuiPaper-root.MuiAccordion-root:before": {
-                          background: "none",
-                        },
-                      }}
-                      // expanded={accExpanded}
-                      // defaultExpanded={}
-                    >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        sx={{
-                          color: "#7f7d85",
-                          borderRadius: 0,
-
-                          "&.MuiAccordionSummary-root": {
-                            padding: 0,
-                          },
-                        }}
-                        // className="filtercategoryLable"
-                        onClick={() => handleScrollHeight()}
-                      >
-                        {/* <span> */}
-                        {ele.Fil_DisName}
-                        {/* </span> */}
-                      </AccordionSummary>
-                      <AccordionDetails
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "4px",
-                          minHeight: "fit-content",
-                          maxHeight: "300px",
-                          overflow: "auto",
-                        }}
-                      >
-                        <Box sx={{ width: 204, height: 88 }}>
-                          {RangeFilterView2(ele)}
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                </>
-              ))}
-            </div>}
-          </div>}
-          {storeInit?.IsMetalCustComb === 1 && <div className="filter_menu_giva">
-          <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(2)} >Metal <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(2)}/> </Typography>
-            {showMenu === 2 && <div className="giva_filter_menu_list" >
-              <Box className="giva_menu_options" sx={{
-                padding:"0 15px"
-              }}>
-                        {metalTypeCombo?.map((metalele, i)=> (
-                          <div key={i}>
-                            <FormControlLabel
-                              className="giva_options_flex"
-                              value={metalele?.Metalid}
-                              control={
-                                <Checkbox
-                                  name={metalele?.Metalid}
-                                  checked={
-                                    selectedMetalId === metalele?.Metalid
-                                  }
-                                  style={{
-                                    padding: 0,
-                                  }}
-                                  onChange={(e) =>
-                                    setSelectedMetalId(metalele?.Metalid)
-                                  }
-                                  size="small"
-                                />
-                              }
-                              label={
-                                <CustomLabel
-                                  text={
-                                    metalele?.metaltype.toUpperCase()
-                                  }
-                                />
-                              }
-                            />
-                          </div>
-                        ))}
-                      </Box>
-             
-            </div>}
-            
-          </div>}
-          {storeInit?.IsDiamondCustComb === 1 &&  <div className="filter_menu_giva">
-            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(3)} >Diamond <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(3)}/> </Typography>
-            {showMenu === 3 && <div className="giva_filter_menu_list">
-              <Box className="giva_menu_options" sx={{
-                padding:"0 15px"
-              }}>
-                        {diaQcCombo?.map((diaQc, i)=> (
-                          <div key={i}>
-                            <FormControlLabel
-                              className="giva_options_flex"
-                              value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                              control={
-                                <Checkbox
-                                  name={diaQc?.Metalid}
-                                  checked={
-                                    selectedDiaId === `${diaQc?.QualityId},${diaQc?.ColorId}`
-                                  }
-                                  style={{
-                                    padding: 0,
-                                  }}
-                                  onChange={(e) =>
-                                    setSelectedDiaId(`${diaQc?.QualityId},${diaQc?.ColorId}`)
-                                  }
-                                  size="small"
-                                />
-                              }
-                              label={
-                                <CustomLabel
-                                  text={
-                                    `${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`
-                                  }
-                                />
-                              }
-                            />
-                          </div>
-                        ))}
-                      </Box>
-            </div>}
-          </div> }
-          {storeInit?.IsCsCustomization === 1 && <div className="filter_menu_giva">
-            <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(4)} >Color Stone<ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(4)}/> </Typography>
-            {showMenu === 4 && <div className="giva_filter_menu_list">
-              <Box className="giva_menu_options" sx={{
-                padding:"0 15px"
-              }}>
-                        {csQcCombo?.map((CsQcC, i)=> (
-                          <div key={i}>
-                            <FormControlLabel
-                              className="giva_options_flex"
-                              value={`${CsQcC?.QualityId},${CsQcC?.ColorId}`}
-                              control={
-                                <Checkbox
-                                  name={CsQcC?.Metalid}
-                                  checked={
-                                    selectedCsId === `${CsQcC?.QualityId},${CsQcC?.ColorId}`
-                                  }
-                                  style={{
-                                    padding: 0,
-                                  }}
-                                  onChange={(e) =>
-                                    setSelectedCsId(`${CsQcC?.QualityId},${CsQcC?.ColorId}`)
-                                  }
-                                  size="small"
-                                />
-                              }
-                              label={
-                                <CustomLabel
-                                  text={
-                                    `${CsQcC.Quality.toUpperCase()},${CsQcC.color.toLowerCase()}`
-                                  }
-                                />
-                              }
-                            />
-                          </div>
-                        ))}
-                      </Box>
-            </div>}
-          </div> }
+                      {csQcCombo?.map((CsQcC, i) => (
+                        <div key={i}>
+                          <FormControlLabel
+                            className="giva_options_flex"
+                            value={`${CsQcC?.QualityId},${CsQcC?.ColorId}`}
+                            control={
+                              <Checkbox
+                                name={CsQcC?.Metalid}
+                                checked={
+                                  selectedCsId ===
+                                  `${CsQcC?.QualityId},${CsQcC?.ColorId}`
+                                }
+                                style={{
+                                  padding: 0,
+                                }}
+                                onChange={(e) =>
+                                  setSelectedCsId(
+                                    `${CsQcC?.QualityId},${CsQcC?.ColorId}`
+                                  )
+                                }
+                                size="small"
+                              />
+                            }
+                            label={
+                              <CustomLabel
+                                text={`${CsQcC.Quality.toUpperCase()},${CsQcC.color.toLowerCase()}`}
+                              />
+                            }
+                          />
+                        </div>
+                      ))}
+                    </Box>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex_giva_right_menu">
             <div className="flex_giva_menu">
-          {storeInit?.IsMetalCustComb === 1 && <div className="filter_menu_giva"
-          >
-          <Typography sx={{fontSize:"16px"}} className="fmg_menu" onClick={()=>HandleMenu(5)} >Sort by : {sortBySelect} <ExpandMoreIcon className="fmg_icon" onClick={()=>HandleMenu(5)}/> </Typography>
-            {showMenu === 5 && <div className="giva_filter_menu_list"
-            style={{right:"0"}} >
-              <Box className="giva_menu_options" sx={{
-                padding:"0 15px" ,
-              }}>
-                        {options?.map((sort, i)=> (
+              {storeInit?.IsMetalCustComb === 1 && (
+                <div className="filter_menu_giva">
+                  <Typography
+                    sx={{ fontSize: "16px" }}
+                    className="fmg_menu"
+                    onClick={() => HandleMenu(5)}
+                  >
+                    Sort by : {sortBySelect}{" "}
+                    <ExpandMoreIcon
+                      className="fmg_icon"
+                      onClick={() => HandleMenu(5)}
+                    />{" "}
+                  </Typography>
+                  {showMenu === 5 && (
+                    <div
+                      className="giva_filter_menu_list"
+                      style={{ right: "0" }}
+                    >
+                      <Box
+                        className="giva_menu_options"
+                        sx={{
+                          padding: "0 15px",
+                        }}
+                      >
+                        {options?.map((sort, i) => (
                           <div key={i}>
                             <FormControlLabel
                               className="giva_options_flex"
@@ -3489,49 +3704,208 @@ handleSortby
                               control={
                                 <Checkbox
                                   name={sort?.label}
-                                  checked={
-                                    sortBySelect === sort?.value
-                                  }
+                                  checked={sortBySelect === sort?.value}
                                   style={{
                                     padding: 0,
                                   }}
-                                  onChange={(e) =>
-                                    handleSortby(e)
-                                  }
+                                  onChange={(e) => handleSortby(e)}
                                   size="small"
                                 />
                               }
-                              label={
-                                <CustomLabel
-                                  text={
-                                   sort?.label
-                                  }
-                                />
-                              }
+                              label={<CustomLabel text={sort?.label} />}
                             />
                           </div>
                         ))}
                       </Box>
-             
-            </div>}
-            
-          </div>}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-          </div>
-        </div>  
+        </div>
+        {/* <FilterSelectedView selectedFilterValues={checkedFilterNames}/> */}
+        <ClearAllAndTotalResult
+        afterFilterCount={afterFilterCount} 
+        filterChecked={filterChecked}
+         afterCountStatus={afterCountStatus} 
+        handelFilterClearAll={handelFilterClearAll}
+        />
+      </div>
     </>
   );
 };
 
+const FilterSelectedView = ({ selectedFilterValues }) => {
+  if (selectedFilterValues.length > 0)
+    return (
+      <>
+        <div className="fmg_selected_options">
+          {selectedFilterValues?.map((val, i) => {
+            return (
+              <div className="sel_fmg_filter_badge">
+                <span>{val}</span>
+                <button>
+                  <IoClose size={19} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+};
 
+const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  return (
+    <div className="breadcrumb_fmg">
+      <div className="empty_sorting_div_fmg">
+        <span
+          className="mala_breadcums_port_fmg"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {"Home /"}
+        </span>
 
+        {location?.search.charAt(1) == "A" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Album"}</span>
+          </div>
+        )}
 
+        {location?.search.charAt(1) == "T" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Trending"}</span>
+          </div>
+        )}
 
+        {location?.search.charAt(1) == "B" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Best Seller"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "N" && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"New Arrival"}</span>
+          </div>
+        )}
+
+        {IsBreadCumShow && (
+          <div
+            className="mala_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+            {BreadCumsObj()?.menuname && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                  })
+                }
+              >
+                {BreadCumsObj()?.menuname}
+              </span>
+            )}
+
+            {BreadCumsObj()?.FilterVal1 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                  })
+                }
+              >
+                &nbsp;{` / ${BreadCumsObj()?.FilterVal1}`}
+              </span>
+            )}
+
+            {BreadCumsObj()?.FilterVal2 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                    [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
+                  })
+                }
+              >
+                &nbsp;{` / ${BreadCumsObj()?.FilterVal2}`}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ClearAllAndTotalResult = ({afterFilterCount ,filterChecked ,afterCountStatus ,handelFilterClearAll})=>{
+  return <div className="clear_fmg_list">
+    <span className="mala_filter_text">
+        <span>
+          {Object.values(filterChecked).filter(
+            (ele) => ele.checked
+          )?.length === 0 ? (
+            ""
+          ) : (
+            <>
+              {afterCountStatus == true ? (
+                <Skeleton
+                  variant="rounded"
+                  width={140}
+                  height={22}
+                  className="pSkelton"
+                />
+              ) : (
+                <span className="fmg_total_product">{`Product Found : ${afterFilterCount}`}</span>
+              )}
+            </>
+          )}
+        </span>
+        <span onClick={() => handelFilterClearAll()}>
+          {Object.values(filterChecked).filter(
+            (ele) => ele.checked
+          )?.length > 0 ? (
+            <div className="fmg_remove_All">Remove All <IoClose/></div>
+          ) : (
+            <>
+              {afterCountStatus == true ? (
+                <Skeleton
+                  variant="rounded"
+                  width={140}
+                  height={22}
+                  className="pSkelton"
+                />
+              ) : (
+                <span className="fmg_total_product">{`Total Products : ${afterFilterCount}`}</span>
+              )}
+            </>
+          )}
+        </span>
+      </span>
+  </div>
+}
 
 // {previous filter section  in malakaan}
-
-
-
 
 // {
 //   {filterData?.length > 0 && (
@@ -3579,6 +3953,8 @@ handleSortby
 //           )}
 //         </span>
 //       </span>
+
+
 //       <div style={{ marginTop: "12px" }}>
 //         {filterData?.map((ele) => (
 //           <>
@@ -3826,7 +4202,7 @@ handleSortby
 //                               : `${
 //                                   loginUserDetail?.CurrencyCode ??
 //                                   storeInit?.CurrencyCode
-//                                 } ${opt?.Minval} 
+//                                 } ${opt?.Minval}
 //                                 - ${
 //                                   loginUserDetail?.CurrencyCode ??
 //                                   storeInit?.CurrencyCode
@@ -4021,10 +4397,7 @@ handleSortby
 //   )}
 // }
 
-
-
 // {bREAD cRUMB sECTION HERE PLACE}
-
 
 // {
 //   <div className="empty_sorting_div">
@@ -4129,9 +4502,7 @@ handleSortby
 // </div>
 // }
 
-
-
-// {metal sorting place here} 
+// {metal sorting place here}
 // {
 //   <div className="mala_main_sorting_div">
 //                               {storeInit?.IsMetalCustComb === 1 && (

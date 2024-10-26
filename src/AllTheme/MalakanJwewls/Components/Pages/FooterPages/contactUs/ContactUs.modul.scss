@@ -4,7 +4,7 @@
 .mal-contactMain {
     margin-top: 220px;
     background-color: #17372f;
-    color: white;
+    color: white !important;
     padding-bottom: 4rem;
     font-family: $rown !important;
     @media screen and (max-width: 1200px) {
@@ -56,7 +56,7 @@
 
     margin: 0px 0px 10px;
     letter-spacing: 1px;
-    color: #7d7f85;
+    color: #fff !important;
     font-weight: 500;
     font-size: 12px;
 }

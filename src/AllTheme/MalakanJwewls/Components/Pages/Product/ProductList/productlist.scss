@@ -9,13 +9,12 @@
   font-family: $rown !important;
   @media screen and (max-width: 1200px) {
     margin-top: 80px;
-    padding-block: 36px;
+    padding-top: 36px;
   }
   .mala_outerContain {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 15px;
     // flex-direction: column;
     position: sticky;
     top: 0;
@@ -43,7 +42,7 @@
     justify-content: flex-end;
     font-family: $primaryFontFamily;
     width: 100%;
-    padding: 5px 10px 5px 0px;
+    padding: 12px 10px 12px 0px;
   }
 
   .empty_sorting_div {
@@ -97,8 +96,6 @@
     color: $primaryfontcolor;
     display: flex;
     justify-content: center;
-    //   padding: 12px;
-    //   width:120px;
   }
 
   // main portion of product and filter
@@ -194,25 +191,39 @@
 
   .mala_inner_portion {
     width: 100%;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    // justify-content: end;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18%, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 2rem;
+
+    @media screen and (max-width:1288px) {
+    grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
+    }
+    @media screen and (max-width:988px) {
+      grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
+      }
+      @media screen and (max-width:620px) {
+        grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+        }
+        @media screen and (max-width:300px) {
+          grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+          }
   }
 
   .mala_productCard {
-    width: 24%;
-    // border: 1px solid $primaryBorderColor;
+    width: 100% !important;
     text-align: center;
     margin: 2px;
     color: $primaryfontcolor;
     position: relative;
     z-index: 0;
     font-family: $primaryFontFamily;
+    border-radius: 5px;
   }
-
+  
   .mala_productCard:hover{
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   }
 
   .cart_and_wishlist_icon {
@@ -235,7 +246,27 @@
 
   .mala_prod_card_info {
     height: 90px;
+    @media screen and (max-width:768px){
+    height: 100px;
+    }
     margin-bottom: 10px;
+    .fmg_mal1_prodBtn{
+      background:  #094234e3;
+      color: white !important;
+      font-weight: 500;
+      padding: 6px 0;
+      @media screen and (max-width:500px) {
+      padding: 5px 0;
+      font-size: 13px;
+      font-weight: 500;
+      }
+      &:hover{
+      background:   #17372f;
+      }
+      .fmg_mal1_prodBtn_proBtn_text{
+      color: white !important;
+      }
+    }
   }
 
   .mala_prod_Title {
@@ -544,7 +575,7 @@
 
     .mala_productList {
       width: 100%;
-      margin: 00px 0px 0px 18px;
+      margin: 0px 18px 0px 18px;
       // display: flex;
       // justify-content: center;
       // align-items: center;
@@ -731,14 +762,14 @@
 
     .mala_productList {
       width: 100%;
-      margin: 0px 0px 0px 7px !important;
+      margin: 0px 0px 0px 0px !important;
     }
   }
 
   @media screen and (max-width:900px) {
     .mala_productList {
       width: 100%;
-      margin: 0px 0px 0px 13px;
+      margin: 0px 10px 0px 10px;
     }
   }
 }
