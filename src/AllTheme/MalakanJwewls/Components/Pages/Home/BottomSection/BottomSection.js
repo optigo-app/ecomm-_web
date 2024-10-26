@@ -8,7 +8,7 @@ function BottomSection() {
                 <p className='mala_bottom_title'>Made Without Rules.</p>
                 <div className='mala_bottom_main_div_sub1'>
                     <p className='mala_bottom_title_sub'>Let us be your custom jewelry workshop and create pieces for your customers that will last a lifetime.</p>
-                    <button className='mala_bottom_btn'>CONTACT US</button>
+                    {/* <button className='mala_bottom_btn'>CONTACT US</button> */}
                 </div>
             </div>
         </div>

@@ -393,6 +393,7 @@ const ProductPage = () => {
 
             await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
               .then((res) => {
+                console.log(res?.Data?.rd ,"res?.Data?.rd")
                 setDesignSetList(res?.Data?.rd);
               })
               .catch((err) => console.log("designsetErr", err));

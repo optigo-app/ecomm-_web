@@ -629,7 +629,10 @@ const NavbarLeft = ({
           <MobileLogo onLoad={onLoad} Navigate={Navigate} />
         </div>
         {NavbarMenu?.map((val, i) => {
-          if (val?.category === "High End Jewelry" && storeinit?.IsB2BWebsite !== 1) {
+          if (
+            val?.category === "High End Jewelry" &&
+            storeinit?.IsB2BWebsite !== 1
+          ) {
             return null;
           }
           return (
@@ -638,7 +641,12 @@ const NavbarLeft = ({
               key={i}
               style={{
                 height: `${NavItemsHeight}px`,
-                display: val?.category === "High End Jewelry" ? (storeinit?.IsB2BWebsite === 1 ? "" : "none") : "",
+                display:
+                  val?.category === "High End Jewelry"
+                    ? storeinit?.IsB2BWebsite === 1
+                      ? ""
+                      : "none"
+                    : "",
               }}
               // onMouseOver={() => {
               //   setActiveMenu({ menu: val, index: i });
@@ -667,7 +675,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-            // }}
+              // }}
             >
               {val?.disabled ? (
                 <div
@@ -1377,10 +1385,11 @@ const ThirdNavMenu = ({ data }) => {
                           }
                         >
                           <Link
-                            to={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname
-                              }/?M=${btoa(
-                                `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
-                              )}`}
+                            to={`/p/${menuItem?.param0dataname}/${
+                              subMenuItem.param1dataname
+                            }/?M=${btoa(
+                              `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
+                            )}`}
                           >
                             {subMenuItem.param1dataname}
                           </Link>
@@ -1403,16 +1412,15 @@ const ThirdNavMenu = ({ data }) => {
           <div className="second_section">
             <div
               className="images"
-            // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
+              // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
             >
               <img
                 src={BespokeBannerImage}
                 alt=""
-                onClick={() =>
-                  Navigate(
-                    `/p/Amber/Women/Mangalsutra/Mangalsutra/?M=V29tZW4sTWFuZ2Fsc3V0cmEsTWFuZ2Fsc3V0cmEvZ2VuZGVyLGNhdGVnb3J5LHN1Yl9jYXRlZ29yeQ==`
-                  )
-                }
+                onClick={() => {
+                  Navigate(`/bespoke-jewelry`);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
               />
               {/* <div className="for-s-card">
                 <h3>Bespoke Jewlery</h3>

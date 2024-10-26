@@ -11,7 +11,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import { stam_CartCount, stam_companyLogo, stam_loginState, stam_WishCount } from '../../../Recoil/atom';
-
+import Cookies from 'js-cookie';
 
 const Header2 = () => {
 
@@ -121,6 +121,8 @@ const Header2 = () => {
     const handleLogout = () => {
         setislogin(false);
         sessionStorage.setItem('LoginUser', false);
+        Cookies.remove("userLoginCookie");
+        Cookies.remove("visiterId");
         sessionStorage.removeItem('storeInit');
         sessionStorage.removeItem('loginUserDetail');
         sessionStorage.removeItem('remarks');

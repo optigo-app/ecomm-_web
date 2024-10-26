@@ -150,9 +150,9 @@ const ProductCarousel = ({showmore = false}) => {
               <SwiperSlide>
                 <ProductCard
                   title={
-                    !data?.TitleLine?.length > 0
-                      ? data?.designno
-                      : data?.designno + ` - ${data?.TitleLine}`
+                    !data?.TitleLine?.length > 0 
+                      ? data?.designno 
+                      : data?.designno + ` - ${data?.TitleLine}` 
                   }
                   SourceImg={
                     data?.ImageCount >= 1

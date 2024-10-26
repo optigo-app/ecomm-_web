@@ -169,9 +169,13 @@ const CartPage = () => {
   return (
     <div className='mala3_MainBGDiv'>
       {isMobileScreen &&
-        <div className="mala3_cart-title">Cart</div>
+        <div className="mala3_cart-title" style={{
+          paddingTop:"1rem"
+        }}>Cart</div>
       }
-      <div className='cartMainPageDiv'>
+      <div className='cartMainPageDiv' style={{
+        paddingTop:"1rem"
+      }}>
         <div className="cartBtnGroupMainDiv">
           {!isloding && cartData.length !== 0 &&
             <div className='mala3_cartButton-groups'>
