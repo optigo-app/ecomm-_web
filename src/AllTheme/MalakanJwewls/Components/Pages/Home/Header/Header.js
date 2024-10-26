@@ -23,6 +23,8 @@ import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
 import { mala_cartB2CDrawer, mala_CartCount, mala_companyLogo, mala_companyLogoM, mala_loginState, mala_WishCount } from "../../../Recoil/atom";
 import { MdLogout } from "react-icons/md";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -524,7 +526,7 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                           onClick={() => navigation("/myWishList")}
                         >
-                          <PiStarThin
+                          <FavoriteBorderIcon
                             style={{
                               height: "20px",
                               cursor: "pointer",
@@ -1049,7 +1051,7 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                           onClick={() => navigation("/myWishList")}
                         >
-                          <PiStarThin
+                          <FavoriteBorderIcon
                             style={{
                               height: "20px",
                               cursor: "pointer",
@@ -1109,7 +1111,7 @@ const Header = () => {
                             className="nav_li_smining_Icone"
                             onClick={() => navigation("/myWishList")}
                           >
-                            <PiStarThin
+                            <FavoriteBorderIcon
                             className="malkan_logo_nav"
                               style={{
                                 height: "20px",

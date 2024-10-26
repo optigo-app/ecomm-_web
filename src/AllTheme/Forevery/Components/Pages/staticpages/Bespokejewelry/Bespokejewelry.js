@@ -1,16 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Bespokejewelry.scss";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import OurServices from "../../Home/Common/OurServices/OurServices";
 import GetInTouch from "../../Home/Common/GetInTouch/GetInTouch";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import { foreveryProcess } from "../../../data/dummydata";
+import InquiryModal from "./InquiryForm/InquiryModal";
 
 const Bespokejewelry = () => {
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    website: "",
+    additionalInfo: "",
+    file: null,
+  });
+
+  useEffect(()=>{
+    document.body.style.overflow = open ? "hidden"  :"auto";
+  },[open])
+
+  const onOpen = () => {
+    setOpen(true);
+  };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (event) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      file: event.target.files[0],
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form submitted", formData);
+    setOpen(false);
+    resetForm();
+  };
+  const resetForm = () => {
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      website: "",
+      additionalInfo: "",
+      file: null,
+    });
+  };
   return (
     <div className="for_Bespokejewelry">
-      <Banner />
-      <ColumnGrid />
+      {open && (
+        <InquiryModal
+          open={open}
+          setOpen={setOpen}
+          formData={formData}
+          handleChange={handleChange}
+          handleFileChange={handleFileChange}
+          handleSubmit={handleSubmit}
+        />
+      )}
+      <Banner onOpen={onOpen} />
+      <ColumnGrid onOpen={onOpen}/>
       <OurServices />
       <GetInTouch />
       <NewsletterSignup />
@@ -20,7 +79,7 @@ const Bespokejewelry = () => {
 
 export default Bespokejewelry;
 
-const Banner = () => {
+const Banner = ({ onOpen }) => {
   const img = `${storImagePath()}/Forevery/static/pen.png`;
   return (
     <section className="bespoke-banner " style={{ background: `url(${img})` }}>
@@ -35,12 +94,14 @@ const Banner = () => {
           design and manufacture your ring and get it ready for collection in no
           time.
         </p>
-        <button className="inquire_btn">inquire now</button>
+        <button className="inquire_btn" onClick={onOpen}>
+          inquire now
+        </button>
       </div>
     </section>
   );
 };
-const ColumnGrid = () => {
+const ColumnGrid = ({onOpen}) => {
   return (
     <>
       <div className="ColumnGrid">
@@ -60,7 +121,7 @@ const ColumnGrid = () => {
             );
           }
         )}
-        <button className="inquire_btn">inquire now</button>
+        <button className="inquire_btn" onClick={onOpen}>inquire now</button>
       </div>
     </>
   );
