@@ -69,7 +69,7 @@ const Career = () => {
                 />
                 <div className="join-team-content">
                     <h2>JOIN OUR TEAM</h2>
-                    <p>
+                    <p className='elv_join_team_desc'>
                         Becoming The Elvee team member means becoming part of a universe of passion where women and men use their entrepreneurial spirit and creativity,
                         looking for the pursuit of the requirement of tradition. <br />
                         As a human-sized luxury Maison, we hire talented people with strategic business minds and vision who still remain close to the ground and

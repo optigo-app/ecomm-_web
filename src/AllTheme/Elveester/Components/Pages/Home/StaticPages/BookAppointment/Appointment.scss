@@ -254,21 +254,31 @@
           .btn_el_vee {
             grid-column: span 2;
             padding: 10px 0;
-            width: 100%;
+            width: 24rem;
+            margin-inline: auto;
             display: flex;
             align-items: center;
             justify-content: center;
 
+            @media screen and (max-width: 548px) {
+              width: 100%;
+              margin-inline: 0;
+            }
+
             button {
               box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
               border: none;
-              background-color: #fff;
+              background-color: #00185a;
               outline: none;
               font-size: 16px;
-              padding: 8px 16px;
-              border-radius: 8px;
-              font-weight: 600;
-              color: rgb(2, 2, 97);
+              padding: 12px 5rem;
+              // border-radius: 8px;
+              color: white;
+
+              @media screen and (max-width: 548px) {
+                width: 100%;
+                margin-inline: 0;
+              }
             }
           }
         }

@@ -90,6 +90,7 @@ const BreadCrumb = ({ breadCrumb }) => {
 };
 
 const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
+  console.log('data: ', data);
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalColor, setMetalColor] = useState([]);
@@ -191,7 +192,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-      let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
+      let navigateUrl = `/d/${data?.stockno}/det/?p=${encodeObj}`;
       handleOpen(null)
       Navigation(navigateUrl);
     }
@@ -216,6 +217,15 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     }
   }
 
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => resolve(src);
+      img.onerror = () => reject(src);
+    });
+  };
+
   let getDesignImageFol = storeInit?.DesignImageFol;
 
   const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
@@ -235,30 +245,19 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     }
   };
 
-  const loadImage = (src) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => resolve(src);
-      img.onerror = () => reject(src);
-    });
-  };
+
 
   useEffect(() => {
     const loadImages = async () => {
-      const loadedImages = {};
-      // await Promise.all(data.map(async (item) => {
-      const colorImage = await getDynamicImages(data, data.designno, data?.MetalColorid, data.ImageExtension);
-      loadedImages[data.designno] = { colorImage };
-      // }));
-
+      let loadedImages;
+      const colorImage = await getDynamicImages((data?.step2Data ?? data?.step1Data), (data?.step2Data?.designno ?? data?.step1Data?.designno), (data?.step2Data?.MetalColorid ?? data?.step1Data?.MetalColorid), (data?.step2Data?.ImageExtension ?? data?.step1Data?.ImageExtension));
+      loadedImages = { colorImage };
       setImageMap(loadedImages);
+      console.log('loadedImages: ', loadedImages);
     };
 
-    if (data.length > 0) {
-      loadImages();
-    }
-  }, [data]);
+    loadImages();
+  }, [data?.step1Data, data?.step2Data]);
 
 
   return (
@@ -289,7 +288,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={data?.stockno ? data?.image_file_url : imageMap}
+              src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
               alt=""
               style={{ cursor: 'default' }}
             />

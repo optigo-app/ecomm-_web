@@ -35,6 +35,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
 import { roop_CartCount, roop_DiamondRangeArr, roop_WishCount } from "../../../Recoil/atom";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { BsHandbag } from "react-icons/bs";
 
 
 
@@ -3064,11 +3065,12 @@ const ProductList = () => {
                             <div className="roop_outer_portion" id="roop_outer_portion">
                               {/* <div className="roop_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="roop_inner_portion">
-                                {finalProductListData?.map((productData, i) => (
-                                  <div className="roop_productCard">
-                                    <div className="cart_and_wishlist_icon">
-                                      {/* <Button className="roop_cart-icon"> */}
-                                      <Checkbox
+                                {finalProductListData?.map((productData, i) => {
+                                  const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
+                                  return (
+                                    <div className="roop_productCard">
+                                      <div className="cart_and_wishlist_icon">
+                                        {/* <Checkbox
                                         icon={
                                           <LocalMallOutlinedIcon
                                             sx={{
@@ -3097,157 +3099,167 @@ const ProductList = () => {
                                             ? true
                                             : false
                                         }
-                                      />
-                                      {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                      {/* </Button> */}
-                                      {/* <Button className="roop_wish-icon"> */}
-                                      <Checkbox
-                                        icon={
-                                          <MdFavoriteBorder
-                                            opacity="0.7"
-                                            fontSize="22px"
-                                            color="#7d7f85"
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <MdFavorite
-                                            fontSize="22px"
-                                            color="#D14A61"
-                                          />
-                                        }
-                                        disableRipple={false}
-                                        sx={{ padding: "10px" }}
-                                        onChange={(e) => handleCartandWish(e, productData, "Wish")}
-                                        checked={
-                                          wishArr[productData?.autocode] ?? productData?.IsInWish === 1
-                                        }
-                                      />
-
-                                      {/* </Button> */}
-                                    </div>
-
-                                    <div className="smrWeb_app_product_label">
-                                      {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
-                                      {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
-                                      {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
-                                      {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
-                                    </div>
-                                    <div
-                                      onMouseEnter={() => {
-                                        handleImgRollover(productData);
-                                        if (productData?.VideoCount > 0) {
-                                          setIsRollOverVideo({ [productData?.autocode]: true })
-                                        } else {
-                                          setIsRollOverVideo({ [productData?.autocode]: false })
-                                        }
-                                      }}
-
-                                      onClick={() =>
-                                        handleMoveToDetail(productData)
-                                      }
-
-                                      onMouseLeave={() => {
-                                        handleLeaveImgRolloverImg(productData);
-                                        setIsRollOverVideo({ [productData?.autocode]: false })
-                                      }}
-                                      className="roop_ImgandVideoContainer"
-                                    >
-                                      {
-                                        isRollOverVideo[productData?.autocode] == true ?
-                                          <video
-                                            //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                            src={productData?.VideoCount > 0 ?
-                                              (storeInit?.DesignImageFol).slice(0, -13) +
-                                              "video/" +
-                                              productData?.designno +
-                                              "_" +
-                                              1 +
-                                              "." +
-                                              productData?.VideoExtension : ""}
-                                            loop={true}
-                                            autoPlay={true}
-                                            className="roop_productCard_video"
-                                          // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                          />
-                                          :
-                                          <img
-                                            className="roop_productListCard_Image"
-                                            id={`roop_productListCard_Image${productData?.autocode}`}
-                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                            // src={ ProdCardImageFunc(productData,0)}
-                                            src={
-                                              rollOverImgPd[productData?.autocode]
-                                                ? rollOverImgPd[productData?.autocode]
-                                                : productData?.images?.length > 0
-                                                  ? productData?.images[0]
-                                                  : imageNotFound
-                                            }
-                                            alt=""
-                                          // onClick={() =>
-                                          //   handleMoveToDetail(productData)
-                                          // }
-                                          // onMouseEnter={() => {
-                                          //   handleImgRollover(productData);
-                                          // }}
-                                          // onMouseLeave={() => {
-                                          //   handleLeaveImgRolloverImg(productData);
-                                          // }}
-                                          />
-
-                                      }
-                                    </div>
-                                    <div className="roop_prod_card_info">
-                                      <div className="roop_prod_Title">
-                                        <span
-                                          className="roop1_prod_title_with_width"
-                                        // className={
-                                        //   (productData?.TitleLine?.length > 30)
-                                        //     ?
-                                        //     "roop1_prod_title_with_width"
-                                        //     :
-                                        //     "roop1_prod_title_with_no_width"
-                                        // }
-                                        >
-                                          {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
-                                        </span>
-
+                                      /> */}
+                                        <Checkbox
+                                          icon={
+                                            <MdFavoriteBorder
+                                              opacity="0.7"
+                                              fontSize="22px"
+                                              color="#7d7f85"
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <MdFavorite
+                                              fontSize="22px"
+                                              color="#D14A61"
+                                            />
+                                          }
+                                          disableRipple={false}
+                                          sx={{ padding: "10px" }}
+                                          onChange={(e) => handleCartandWish(e, productData, "Wish")}
+                                          checked={
+                                            wishArr[productData?.autocode] ?? productData?.IsInWish === 1
+                                          }
+                                        />
                                       </div>
-                                      <div className="roop_prod_Allwt">
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            letterSpacing: maxwidth590px
-                                              ? "0px"
-                                              : "1px",
-                                            flexWrap: "wrap",
-                                            justifyContent: 'center',
-                                          }}
-                                        >
-                                          {storeInit?.IsGrossWeight == 1 &&
-                                            Number(productData?.Gwt) !== 0 && (
-                                              <span className="roop_prod_wt">
-                                                <span className="roop_main_keys">
-                                                  GWT:
+
+                                      <div className="smrWeb_app_product_label">
+                                        {productData?.IsInReadyStock == 1 && <span className="smrWeb_app_instock">In Stock</span>}
+                                        {productData?.IsBestSeller == 1 && <span className="smrWeb_app_bestSeller">Best Seller</span>}
+                                        {productData?.IsTrending == 1 && <span className="smrWeb_app_intrending">Trending</span>}
+                                        {productData?.IsNewArrival == 1 && <span className="smrWeb_app_newarrival">New</span>}
+                                      </div>
+                                      <div
+                                        onMouseEnter={() => {
+                                          handleImgRollover(productData);
+                                          if (productData?.VideoCount > 0) {
+                                            setIsRollOverVideo({ [productData?.autocode]: true })
+                                          } else {
+                                            setIsRollOverVideo({ [productData?.autocode]: false })
+                                          }
+                                        }}
+
+                                        onClick={() =>
+                                          handleMoveToDetail(productData)
+                                        }
+
+                                        onMouseLeave={() => {
+                                          handleLeaveImgRolloverImg(productData);
+                                          setIsRollOverVideo({ [productData?.autocode]: false })
+                                        }}
+                                        className="roop_ImgandVideoContainer"
+                                      >
+                                        {
+                                          isRollOverVideo[productData?.autocode] == true ?
+                                            <video
+                                              //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
+                                              src={productData?.VideoCount > 0 ?
+                                                (storeInit?.DesignImageFol).slice(0, -13) +
+                                                "video/" +
+                                                productData?.designno +
+                                                "_" +
+                                                1 +
+                                                "." +
+                                                productData?.VideoExtension : ""}
+                                              loop={true}
+                                              autoPlay={true}
+                                              className="roop_productCard_video"
+                                            // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
+                                            />
+                                            :
+                                            <img
+                                              className="roop_productListCard_Image"
+                                              id={`roop_productListCard_Image${productData?.autocode}`}
+                                              // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                              // src={ ProdCardImageFunc(productData,0)}
+                                              src={
+                                                rollOverImgPd[productData?.autocode]
+                                                  ? rollOverImgPd[productData?.autocode]
+                                                  : productData?.images?.length > 0
+                                                    ? productData?.images[0]
+                                                    : imageNotFound
+                                              }
+                                              alt=""
+                                            // onClick={() =>
+                                            //   handleMoveToDetail(productData)
+                                            // }
+                                            // onMouseEnter={() => {
+                                            //   handleImgRollover(productData);
+                                            // }}
+                                            // onMouseLeave={() => {
+                                            //   handleLeaveImgRolloverImg(productData);
+                                            // }}
+                                            />
+
+                                        }
+                                      </div>
+                                      <div className="roop_prod_card_info">
+                                        <div className="roop_prod_Title">
+                                          <span
+                                            className="roop1_prod_title_with_width"
+                                          // className={
+                                          //   (productData?.TitleLine?.length > 30)
+                                          //     ?
+                                          //     "roop1_prod_title_with_width"
+                                          //     :
+                                          //     "roop1_prod_title_with_no_width"
+                                          // }
+                                          >
+                                            {productData?.designno} {productData?.TitleLine?.length > 0 && " - " + productData?.TitleLine}
+                                          </span>
+
+                                        </div>
+                                        <div className="roop_prod_Allwt">
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              letterSpacing: maxwidth590px
+                                                ? "0px"
+                                                : "1px",
+                                              justifyContent: 'space-between',
+                                              width: "90%",
+                                              marginInline: "auto",
+                                              alignItems: 'center',
+                                            }}
+                                          >
+                                            <div style={{ display: 'flex', flexDirection: "column" }}>
+                                              {storeInit?.IsGrossWeight == 1 &&
+                                                Number(productData?.Gwt) !== 0 && (
+                                                  <span className="roop_prod_wt">
+                                                    <span className="roop_main_keys">
+                                                      GWT:
+                                                    </span>
+                                                    <span className="roop_main_val">
+                                                      {(productData?.Gwt)?.toFixed(3)}
+                                                    </span>
+                                                  </span>
+                                                )}
+                                              {Number(productData?.Nwt) !== 0 && (
+                                                <>
+                                                  <span className="roop_prod_wt">
+                                                    <span className="roop_main_keys">NWT:</span>
+                                                    <span className="roop_main_val">
+                                                      {(productData?.Nwt)?.toFixed(3)}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              )}
+                                            </div>
+                                            <div>
+                                              <span className="roop_price">
+                                                <span className="roop_currencyFont">
+                                                  {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
                                                 </span>
-                                                <span className="roop_main_val">
-                                                  {(productData?.Gwt)?.toFixed(3)}
+                                                <span className="roop_pricePort">
+                                                  {formatter(
+                                                    productData?.UnitCostWithMarkUp
+                                                  )}
                                                 </span>
                                               </span>
-                                            )}
-                                          {Number(productData?.Nwt) !== 0 && (
-                                            <>
-                                              <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
-                                              <span className="roop_prod_wt">
-                                                <span className="roop_main_keys">NWT:</span>
-                                                <span className="roop_main_val">
-                                                  {(productData?.Nwt)?.toFixed(3)}
-                                                </span>
-                                              </span>
-                                            </>
-                                          )}
-                                          {/* </span> */}
-                                          {/* <span className="roop_por"> */}
-                                          {storeInit?.IsDiamondWeight == 1 &&
+                                            </div>
+                                            {/* </span> */}
+                                            {/* <span className="roop_por"> */}
+                                            {/* {storeInit?.IsDiamondWeight == 1 &&
                                             Number(productData?.Dwt) !== 0 && (
                                               <>
                                                 <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
@@ -3263,8 +3275,8 @@ const ProductList = () => {
                                                   </span>
                                                 </span>
                                               </>
-                                            )}
-                                          {storeInit?.IsStoneWeight == 1 &&
+                                            )} */}
+                                            {/* {storeInit?.IsStoneWeight == 1 &&
                                             Number(productData?.CSwt) !== 0 && (
                                               <>
                                                 <span style={{ fontSize: '13px', marginInline: '5px' }}>|</span>
@@ -3280,11 +3292,11 @@ const ProductList = () => {
                                                   </span>
                                                 </span>
                                               </>
-                                            )}
-                                          {/* </span> */}
+                                            )} */}
+                                            {/* </span> */}
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div className="roop_prod_mtcolr_price">
+                                        {/* <div className="roop_prod_mtcolr_price">
                                         <span className="roop_prod_metal_col">
                                           {findMetalColor(
                                             productData?.MetalColorid
@@ -3297,35 +3309,28 @@ const ProductList = () => {
                                           }
                                         </span>
                                         <span>/</span>
-                                        <span className="roop_price">
-                                          {/*  <span
-                                        className="roop_currencyFont"
-                                        dangerouslySetInnerHTML={{
-                                          __html: decodeEntities(
-                                            storeInit?.Currencysymbol
-                                          ),
-                                        }}
-                                      /> */}
-                                          <span className="roop_currencyFont">
-                                            {loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                          </span>
-                                          <span className="roop_pricePort">
-                                            {/* {productData?.ismrpbase === 1
-                                              ? productData?.mrpbaseprice
-                                              : PriceWithMarkupFunction(
-                                                productData?.markup,
-                                                productData?.price,
-                                                storeInit?.CurrencyRate
-                                              )?.toFixed(2)} */}
-                                            {formatter(
-                                              productData?.UnitCostWithMarkUp
-                                            )}
-                                          </span>
-                                        </span>
+                                      </div> */}
+                                        {/* <div className="roop_prod_mtcolr_price" onClick={(e) => handleCartandWish(e, productData, "Cart")}>
+                                        <button className="roop_prodBtn">Add To Cart</button>
+                                      </div> */}
+
+                                        <div className="roop_prodBtn">
+                                          <FormControlLabel
+                                            control={
+                                              <Checkbox
+                                                icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                                checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                                onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                                checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+                                              />
+                                            }
+                                            label={<span className={`roop_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+                                          />
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  )
+                                })}
                               </div>
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&

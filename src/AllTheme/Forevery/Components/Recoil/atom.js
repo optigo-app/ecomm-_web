@@ -85,3 +85,13 @@ export const for_MetalColor_Image = atom({
   default: "",
 })
 
+export const for_MatchDiamonds = atom({
+  key: "for_MatchDiamonds",
+  default: [],
+})
+
+export const for_filterDiamond = atom({
+  key: "for_filterDiamond",
+  default: [],
+})
+

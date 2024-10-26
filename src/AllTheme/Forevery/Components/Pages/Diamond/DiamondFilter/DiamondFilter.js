@@ -357,7 +357,7 @@ const DiamondFilter = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno}/det345/?p=${encodeObj}`;
+    let navigateUrl = `/d/${val?.stockno?.replaceAll(" ", "")}/det345/?p=${encodeObj}`;
     Navigate(navigateUrl);
   };
 
@@ -900,11 +900,9 @@ const DiamondFilter = () => {
                     <div
                       className={`shape_card ${checkedItem === val?.name
                         ? "active-checked"
-                        : `${steps1?.[0]?.step1 == true &&
-                          stepsData2?.[0]?.step1Data?.id > 0
+                        : (steps1?.[0]?.step1 === true && stepsData2?.[0]?.step1Data?.id > 0) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0)
                           ? "blue-unchecked"
                           : ""
-                        }`
                         }`}
                       id={val?.name}
                     >
@@ -1064,11 +1062,9 @@ const DiamondFilter = () => {
                 <div
                   className={`shape_card ${checkedItem === val?.name
                     ? "active-checked"
-                    : `${steps1?.[0]?.step1 == true &&
-                      stepsData2?.[0]?.step1Data?.id > 0
+                    : (steps1?.[0]?.step1 === true && stepsData2?.[0]?.step1Data?.id > 0) || (stepsData?.[1]?.step2Data?.id > 0 ?? stepsData2?.[1]?.step2Data?.[0]?.id > 0)
                       ? "blue-unchecked"
                       : ""
-                    }`
                     }`}
                   id={val?.name}
                 >
@@ -1453,7 +1449,7 @@ const DiamondFilter = () => {
                           )}
                           {!val?.isBanner == true && (
                             <>
-                              <div className="select_this_diamond_banner">
+                              <div className="select_this_diamond_banner" onClick={() => HandleDiamondRoute(val)}>
                                 <span>Select This Diamond</span>
                               </div>
                             </>

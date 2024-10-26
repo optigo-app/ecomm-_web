@@ -43,6 +43,23 @@ const Wishlist = () => {
   const visiterId = Cookies.get("visiterId");
   const isMobileScreen = useMediaQuery("(max-width:768px)");
 
+  const sol_stockArr = wishlistData?.map(i => i?.Sol_StockNo) || [];
+
+  // Find the stock numbers from diamonds that match items
+  const matchingDiamonds = diamondWishData.filter(diamond =>
+    sol_stockArr.includes(diamond?.stockno)
+  );
+
+  // Remove matching stock numbers from sol_stockArr
+  const filteredSolStockArr = sol_stockArr.filter(stockNo =>
+    matchingDiamonds.some(diamond => diamond.stockno === stockNo)
+  );
+
+  // Filter diamonds that do not match any item Sol_StockNo
+  const nonMatchingDiamonds = diamondWishData.filter(diamond =>
+    !filteredSolStockArr.includes(diamond?.stockno)
+  );
+
   const handleRemoveAllDialog = () => {
     setDialogOpen(true);
   };
@@ -50,10 +67,53 @@ const Wishlist = () => {
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
     const returnValue = await handleRemoveAll();
+
+    const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+    const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+    if (existingData1?.[0]?.step1Data != undefined) {
+      const newIsInWishValue = 0;
+
+      const updatedData = existingData1.map(step => {
+        if (step.step1Data != undefined) {
+          return {
+            ...step,
+            step1Data: {
+              ...step.step1Data,
+              IsInWish: newIsInWishValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+    }
+
+    if (existingData?.[1]?.step2Data != undefined) {
+      const newIsInWishValue = 0;
+
+      const updatedData = existingData.map(step => {
+        if (step.step2Data != undefined) {
+          return {
+            ...step,
+            step2Data: {
+              ...step.step2Data,
+              IsInWish: newIsInWishValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+    }
+
+
     if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setWishCountVal(res?.wishcount);
-      });                               
+      });
     }
   };
 
@@ -74,6 +134,8 @@ const Wishlist = () => {
   useEffect(() => {
     setCSSVariable();
   }, []);
+
+
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -126,6 +188,10 @@ const Wishlist = () => {
               isloding={isWLLoading}
               items={wishlistData}
               diamondData={diamondWishData}
+              sol_stockArr={sol_stockArr}
+              matchingDiamonds={matchingDiamonds}
+              filteredSolStockArr={filteredSolStockArr}
+              nonMatchingDiamonds={nonMatchingDiamonds}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               curr={CurrencyData}

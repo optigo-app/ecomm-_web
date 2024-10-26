@@ -95,7 +95,7 @@ const CartPage = () => {
       navigate(redirectUrl);
       // navigate('/loginOption')
     } else {
-      navigate("/Delivery",{replace  :true});
+      navigate("/Delivery", { replace: true });
     }
     window.scrollTo(0, 0);
   };
@@ -129,6 +129,48 @@ const CartPage = () => {
   const handleConfirmRemoveAll = async () => {
     setDialogOpen(false);
     const returnValue = await handleRemoveAll();
+    
+    const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+    const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+    if (existingData1?.[0]?.step1Data != undefined) {
+      const newIsInCartValue = 0;
+
+      const updatedData = existingData1.map(step => {
+        if (step.step1Data != undefined) {
+          return {
+            ...step,
+            step1Data: {
+              ...step.step1Data,
+              IsInCart: newIsInCartValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+    }
+
+    if (existingData?.[1]?.step2Data != undefined) {
+      const newIsInCartValue = 0;
+
+      const updatedData = existingData.map(step => {
+        if (step.step2Data != undefined) {
+          return {
+            ...step,
+            step2Data: {
+              ...step.step2Data,
+              IsInCart: newIsInCartValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+    }
+
     if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
@@ -161,13 +203,13 @@ const CartPage = () => {
   const handlePay = async () => {
     const visiterId = Cookies.get('visiterId');
     const paymentResponse = await handlePaymentAPI(visiterId, islogin);
-    
+
     if (paymentResponse?.Data?.rd[0]?.stat == 1) {
       let num = paymentResponse.Data?.rd[0]?.orderno
       sessionStorage.setItem('orderNumber', num);
-      navigate('/Confirmation',{replace  :true});
+      navigate('/Confirmation', { replace: true });
       GetCountAPI().then((res) => {
-        
+
         setCartCountVal(res?.cartcount)
       })
 

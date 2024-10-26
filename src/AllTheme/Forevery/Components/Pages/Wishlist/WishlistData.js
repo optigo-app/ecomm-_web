@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import WishlistItems from './WishlistItems';
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import DiamondLitsItems from './DiamondLitsItems';
 
-
 const WishlistData = ({
-  isloding,
   items,
   diamondData,
   updateCount,
+  sol_stockArr,
+  matchingDiamonds,
+  filteredSolStockArr,
+  nonMatchingDiamonds,
   countDataUpdted,
   itemInCart,
   curr,
@@ -21,55 +22,64 @@ const WishlistData = ({
   handelMenu
 }) => {
 
-  console.log('itemLength', items?.length);
+  const matchingStockNos = matchingDiamonds.map(d => d.stockno);
+
+  // Filter diamondData to exclude matching diamonds
+  const filteredDiamondData = diamondData.filter(d => !matchingStockNos.includes(d.stockno));
 
   return (
     <div className="for_WlListData">
-      <>
-        <Grid container spacing={2} className='for_wlListGrid'>
-          {items?.map(item => (
+      <Grid container spacing={2} className='for_wlListGrid'>
+        {items.length > 0 && (
+          items.map(item => (
             <WishlistItems
               key={item.id}
               item={item}
-              diamondValue = {diamondData}
+              matchingDiamonds={matchingDiamonds}
+              diamondValue={diamondData}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               currency={curr}
               itemInCart={itemInCart}
               decodeEntities={decodeEntities}
               WishCardImageFunc={WishCardImageFunc}
-              itemsLength={items?.length}
+              itemsLength={items.length}
               handleRemoveItem={handleRemoveItem}
               handleWishlistToCart={handleWishlistToCart}
               handleMoveToDetail={handleMoveToDetail}
             />
-          ))}
-          {diamondData?.map(item => (
+          ))
+        )}
+
+        {nonMatchingDiamonds.length > 0 && (
+          nonMatchingDiamonds.map(diamond => (
             <DiamondLitsItems
-              key={item.id}
-              item={item}
-              diamondValue = {diamondData}
+              key={diamond.id}
+              item={diamond}
+              diamondValue={filteredDiamondData}
+              matchingDiamonds={matchingDiamonds}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               currency={curr}
               itemInCart={itemInCart}
               decodeEntities={decodeEntities}
-              WishCardImageFunc={WishCardImageFunc} 
-              itemsLength={items?.length}
+              WishCardImageFunc={WishCardImageFunc}
+              itemsLength={items.length}
               handleRemoveItem={handleRemoveItem}
               handleWishlistToCart={handleWishlistToCart}
-              handleMoveToDetail={handleMoveToDetail} 
+              handleMoveToDetail={handleMoveToDetail}
             />
-          ))}
-        </Grid>
-        {(items?.length == 0 && diamondData?.length == 0) &&
-          <div className='for_noWishlistData'>
-            <p className='for_title'>No Wishlist Found!</p>
-            <p className='for_desc'>Please First Add Product in Wishlist</p>
-            <button className='for_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
-          </div>
-        }
-      </>
+          ))
+        )}
+      </Grid>
+
+      {(items.length === 0 && diamondData.length === 0) && (
+        <div className='for_noWishlistData'>
+          <p className='for_title'>No Wishlist Found!</p>
+          <p className='for_desc'>Please First Add Product in Wishlist</p>
+          <button className='for_browseOurCollectionbtn' onClick={handelMenu}>Browse our collection</button>
+        </div>
+      )}
     </div>
   );
 };

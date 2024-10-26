@@ -15,7 +15,7 @@ import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
 
-const NewArrivalCarousel = ({showmore = false}) => {
+const NewArrivalCarousel = ({ showmore = false }) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -49,19 +49,18 @@ const NewArrivalCarousel = ({showmore = false}) => {
     //   })
     //   .catch((err) => console.log(err));
 
-      Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETNewArrival", finalID)
       ?.then((response) => {
         if (response?.Data?.rd) {
-            setTrendingProductlist(response?.Data?.rd);
+          setTrendingProductlist(response?.Data?.rd);
         }
       })
       .catch((err) => console.log(err));
   }, []);
   const ImageGenrate = (product) => {
     return product?.ImageCount >= 1
-      ? `${imageUrl}${TrendingProductlist && product?.designno}_1.${
-          TrendingProductlist && product?.ImageExtension
-        }`
+      ? `${imageUrl}${TrendingProductlist && product?.designno}_1.${TrendingProductlist && product?.ImageExtension
+      }`
       : "noImageFound";
   };
   const handleMoveToDetail = (designNo, autoCode, titleLine) => {
@@ -76,8 +75,7 @@ const NewArrivalCarousel = ({showmore = false}) => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -94,8 +92,8 @@ const NewArrivalCarousel = ({showmore = false}) => {
   };
   const NoImageFound = `${storImagePath()}/Forevery/noimage.jpg`;
   const BannerImage = `${storImagePath()}/Forevery/banner/1.jpg`;
-  if(!TrendingProductlist){
-    return ;
+  if (!TrendingProductlist) {
+    return;
   }
 
   return (
@@ -196,7 +194,7 @@ const NewArrivalCarousel = ({showmore = false}) => {
           })}
         </Swiper>
       </div>
-    { showmore &&  <div
+      {showmore && <div
         className="show_more_btn"
         style={{
           width: "100%",
@@ -205,16 +203,16 @@ const NewArrivalCarousel = ({showmore = false}) => {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "transparent",
-          padding : "30px 0"
+          padding: "30px 0"
         }}
       >
         <button
-        style={{
-          padding  :"6px 50px"
-        }}
+          style={{
+            padding: "6px 50px"
+          }}
           className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
         >
-          Show More <FaChevronDown/>
+          Show More <FaChevronDown />
         </button>
       </div>}
     </div>
@@ -231,7 +229,6 @@ const ProductCard = ({
   CurrencyCode,
   onclick,
 }) => {
-    console.log(SourceImg,"img arrival new")
   return (
     <div className="for_product_card">
       <div className="image_box">
@@ -292,7 +289,7 @@ const ProductCard = ({
           )}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-       {storeInit?.IsPriceShow == 1 &&  <h4 className="price_fresj">
+        {storeInit?.IsPriceShow == 1 && <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
           {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
         </h4>}

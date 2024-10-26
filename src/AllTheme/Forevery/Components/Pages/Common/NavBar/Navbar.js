@@ -849,12 +849,19 @@ const FirstNavMenu = ({
   const [showModal, setShowModal] = useState(false);
   const [checkIndex, setCheckIndex] = useState();
 
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+
   const handleToggle = () => {
     setShowModal(!showModal);
   };
 
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const handleConfirm = () => {
+    navigate(createUrl);
+  }
+
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
     (steps1?.[2] !== undefined && steps1?.[2] !== null);
@@ -1120,6 +1127,7 @@ const FirstNavMenu = ({
       </div>
       <Modal
         open={showModal}
+        handleConfirm={handleConfirm}
         handleClose={handleToggle}
         handleRemoveData={handleRemoveData}
         index={checkIndex}
@@ -1130,14 +1138,21 @@ const FirstNavMenu = ({
 const SecondNavMenu = ({ data, setCustomizeStep }) => {
   const [showModal, setShowModal] = useState(false);
   const [shape, setShape] = useState();
+  const Navigate = useNavigate();
+
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
 
   const handleToggle = () => {
     setShowModal(!showModal);
-  };
+  }
 
-  const Navigate = useNavigate();
-  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
-  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+  const handleConfirm = () => {
+    Navigate(createUrl);
+  }
+
   const checkSteps =
     (steps?.[2] !== undefined && steps?.[2] !== null) ||
     (steps1?.[2] !== undefined && steps1?.[2] !== null);
@@ -1225,6 +1240,7 @@ const SecondNavMenu = ({ data, setCustomizeStep }) => {
       </div>
       <Modal
         open={showModal}
+        handleConfirm={handleConfirm}
         handleClose={handleToggle}
         handleRemoveData={handleRemoveData}
         index={shape}
@@ -1582,7 +1598,7 @@ const LatsNavMenu = ({ data }) => {
     </>
   );
 };
-const Modal = ({ open, handleClose, handleRemoveData, index }) => {
+const Modal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) => {
   return (
     <>
       <Dialog
@@ -1624,6 +1640,7 @@ const Modal = ({ open, handleClose, handleRemoveData, index }) => {
             <div className="for_modal_buttons_nav_div">
               <button
                 onClick={() => {
+                  handleConfirm();
                   handleClose();
                 }}
               >

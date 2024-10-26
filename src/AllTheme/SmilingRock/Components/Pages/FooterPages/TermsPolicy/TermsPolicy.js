@@ -36,7 +36,7 @@ function TermsPolicy() {
             <div className="container2">
               {/* By Default TermsDATA */}
               {/* fOR MAIORA MaioraTerms */}
-              {MaioraTerms?.map(({ bgColor, children, desc, title }, index) => {
+              {TermsData?.map(({ bgColor, children, desc, title }, index) => {
                 return (
                   <React.Fragment key={index}>
                     <div className="main_container_for">

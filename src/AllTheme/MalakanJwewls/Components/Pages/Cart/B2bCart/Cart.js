@@ -80,11 +80,20 @@ const CartPage = () => {
   const isLargeScreen = useMediaQuery('(min-width:1000px)');
   const isMobileScreen = useMediaQuery('(max-width:768px)');
 
+  const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
     if (storeInit?.IsPLW == 0) {
-      let priceData = cartData.reduce((total, item) => total + item?.FinalCost, 0)
-      sessionStorage.setItem('TotalPriceData', priceData)
-      navigate("/Delivery",{replace  :true})
+      let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
+      let priceData = cartData?.reduce(
+        (total, item) => total + item?.FinalCost,
+        0
+      );
+      sessionStorage.setItem("TotalPriceData", priceData);
+      if (storeInit?.IsB2BWebsite == 0 && islogin == false || islogin == null) {
+        navigate(redirectUrl);
+      } else {
+        navigate("/Delivery", { replace: true });
+      }
     } else {
       handlePay();
     }

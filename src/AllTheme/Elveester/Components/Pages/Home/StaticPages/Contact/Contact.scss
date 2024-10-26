@@ -72,7 +72,7 @@
     form {
       display: grid;
       gap: 1.4rem;
-      grid-template-columns: repeat(auto-fit, minmax(2, 1fr));
+      grid-template-columns: repeat(2, 1fr);
 
       @media screen and (max-width: 520px) {
         display: flex;
@@ -87,7 +87,7 @@
         border-right: none;
         padding: 0.5rem;
         outline: none;
-        width: 85%;
+        width: 100%;
 
         @media screen and (max-width: 768px) {
           width: 95%;
@@ -116,7 +116,15 @@
         padding: 0.5rem 1rem;
         border: none;
         cursor: pointer;
+        margin-inline: auto;
+        margin-top: 0.5rem;
+        // border-radius: 8px;
+        width: 24rem;
         margin-bottom: 2rem;
+
+        @media screen and (max-width: 520px) {
+          width: 86%;
+        }
       }
     }
   }

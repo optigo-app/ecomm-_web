@@ -43,10 +43,10 @@ const TopVideoSection = () => {
             className="for_desktop"
             width="100%"
             src={Video[0]}
-            // autoPlay={true}
-            // muted={true}
-            // loop={true}
-            // playsInline={true}
+            autoPlay={true}
+            muted={true}
+            loop={true}
+            playsInline={true}
             poster={VideoBanner[0]}
           ></video>
 
@@ -56,10 +56,10 @@ const TopVideoSection = () => {
             width="100%"
             poster={VideoBanner[1]}
             src={Video[1]}
-            // autoPlay={true}
-            // muted={true}
-            // loop={true}
-            // playsInline={true}
+            autoPlay={true}
+            muted={true}
+            loop={true}
+            playsInline={true}
           ></video>
         </div>
       </section>

@@ -76,7 +76,12 @@ const useCart = () => {
     const isLargeScreen = useMediaQuery('(min-width:1050px)');
     const isMaxWidth1050 = useMediaQuery('(max-width:1050px)');
     const cartStatus = sessionStorage.getItem('isCartDrawer')
-    const setCartWishImgColor = sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID))
+    let setCartWishImgColor;
+    if (metalCOLORID !== null && metalCOLORID !== undefined) {
+        setCartWishImgColor = sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID ?? ""))
+    } else {
+        sessionStorage.removeItem('cartWishImgColor')
+    }
 
     useEffect(() => {
         const visiterIdVal = Cookies.get('visiterId');
@@ -119,7 +124,7 @@ const useCart = () => {
                     setQtyCount(item?.Quantity)
                     handleCategorySize(item);
                     setMetalID(response?.Data?.rd[0]?.metaltypeid)
-                    setMetalCOLORID(sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID)) ?? response?.Data?.rd[0]?.metalcolorid)
+                    setMetalCOLORID(setCartWishImgColor ?? response?.Data?.rd[0]?.metalcolorid)
                     setdiaID(response?.Data?.rd[0]?.diamondqualityid + ',' + response?.Data?.rd[0]?.diamondcolorid)
                     setColorStoneID(response?.Data?.rd[0]?.colorstonequalityid + ',' + response?.Data?.rd[0]?.colorstonecolorid)
                 }
@@ -478,7 +483,7 @@ const useCart = () => {
         const selectedMetal = metalColorCombo.find(option => option.metalcolorname === selectedTypeName);
         if (selectedMetal) {
             const selectedMetalId = selectedMetal.id;
-            setMetalCOLORID(sessionStorage.setItem('cartWishImgColor', JSON.stringify(metalCOLORID)) ?? selectedMetalId);
+            setMetalCOLORID(setCartWishImgColor ?? selectedMetalId);
         }
     };
 
@@ -654,7 +659,6 @@ const useCart = () => {
     };
 
     const handleMoveToDetail = (cartData, metalColor) => {
-        console.log('cartData: ', cartData);
         const keyToCheck = "stockno"
         if (selectedItem?.hasOwnProperty(keyToCheck)) {
             const obj = {
@@ -664,7 +668,7 @@ const useCart = () => {
 
             let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-            let navigateUrl = `/d/${cartData?.stockno}/det345/?p=${encodeObj}`;
+            let navigateUrl = `/d/${cartData?.stockno}/det/?p=${encodeObj}`;
             navigate(navigateUrl);
         } else {
             let obj = {
@@ -673,7 +677,7 @@ const useCart = () => {
                 m: cartData?.metaltypeid,
                 d: diaIDData,
                 c: colorStoneID,
-                mc: metalColor ?? cartData?.MetalColorid,
+                mc: metalColor != undefined ? metalColor : cartData?.MetalColorid,
                 f: {}
             }
             compressAndEncode(JSON?.stringify(obj))

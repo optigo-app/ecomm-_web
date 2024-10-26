@@ -8,16 +8,61 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { LooseDiamond } from "../../../data/NavbarMenu";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OurServices from "../../Home/Common/OurServices/OurServices";
 import NewsletterSignup from "../../ReusableComponent/SubscribeNewsLater/NewsletterSignup";
 import { useMediaQuery } from "@mui/material";
+import MountModel from "../../ReusableComponent/MountModel/MountModel";
 
 const Diamond = () => {
   const Banner = `${storImagePath()}/Forevery/diamond/banner.jpg`;
   const swiperRef = useRef(null);
   const Navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [shape, setShape] = useState();
+  const steps = JSON.parse(sessionStorage.getItem("customizeSteps"));
+  const steps1 = JSON.parse(sessionStorage.getItem("customizeSteps2"));
+
+
+  const createUrl = `/d/setting-complete-product/det345/?p=${(steps ?? steps1)?.[2]?.url}`;
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
+  }
+
+  const handleConfirm = () => {
+    Navigate(createUrl);
+  }
+  const checkSteps =
+    (steps?.[2] !== undefined && steps?.[2] !== null) ||
+    (steps1?.[2] !== undefined && steps1?.[2] !== null);
+
+  const handleCheckSteps = (value) => {
+    if (checkSteps) {
+      setShowModal(true);
+      setShape(value);
+    } else {
+      console.log("Alternative action");
+    }
+  };
+
+  const HandleDiamondNavigation = (shape) => {
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    const step1 = [{ step1: true, shape: shape }];
+    sessionStorage.setItem("customizeSteps", JSON.stringify(step1));
+  };
+
+  const handleRemoveData = (shape) => {
+    sessionStorage.removeItem("customizeSteps");
+    sessionStorage.removeItem("custStepData");
+    sessionStorage.removeItem("customizeSteps2");
+    sessionStorage.removeItem("custStepData2");
+    Navigate(`/certified-loose-lab-grown-diamonds/diamond/${shape}`);
+    handleToggle();
+  };
+
+
   const isMobile = useMediaQuery("(max-width: 546px)");
   const check = isMobile ? 1 : 2;
   useEffect(() => {
@@ -99,21 +144,44 @@ const Diamond = () => {
             {LooseDiamond?.map((val, i) => {
               return (
                 <SwiperSlide>
-                  <div
-                    className="shape_card_ca"
-                    onClick={() =>
-                      Navigate(
-                        `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
-                      )
-                    }
-                  >
-                    <img src={val?.img} alt="" />
-                    <span>{val?.name}</span>
-                  </div>
+                  {checkSteps ? (
+                    <div
+                      className="shape_card_ca"
+                      // onClick={() =>
+                      //   Navigate(
+                      //     `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
+                      //   )
+                      // }
+                      onClick={() => handleCheckSteps(val?.name)}
+                    >
+                      <img src={val?.img} alt="" />
+                      <span>{val?.name}</span>
+                    </div>
+                  ) : (
+                    <div
+                      className="shape_card_ca"
+                      // onClick={() =>
+                      //   Navigate(
+                      //     `/certified-loose-lab-grown-diamonds/diamond/${val?.name}`
+                      //   )
+                      // }
+                      onClick={() => HandleDiamondNavigation(val?.name)}
+                    >
+                      <img src={val?.img} alt="" />
+                      <span>{val?.name}</span>
+                    </div>
+                  )}
                 </SwiperSlide>
               );
             })}
           </Swiper>
+          <MountModel
+            open={showModal}
+            handleConfirm={handleConfirm}
+            handleClose={handleToggle}
+            handleRemoveData={handleRemoveData}
+            index={shape}
+          />
         </div>
         <div className="p">
           round cut diamonds maximize light return and sparkle, and are the most
