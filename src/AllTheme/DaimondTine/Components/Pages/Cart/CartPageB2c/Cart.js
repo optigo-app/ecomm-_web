@@ -26,6 +26,12 @@ function Cart(props) {
     decodeEntities,
     handleMoveToDetail,
     handelMenu,
+    showRemark,
+    productRemark,
+    handleRemarkChange,
+    handleAddReamrk ,
+    handleSave
+
   } = useCart();
 
   const islogin = useRecoilValue(dt_loginState);
@@ -112,9 +118,9 @@ function Cart(props) {
               >
                 Shopping Cart <br />
               </p>
-              <span style={{ color: "rgb(175, 133, 56)", fontSize: 18 }}>
+              {/* <span style={{ color: "rgb(175, 133, 56)", fontSize: 18 }}>
                 Shop
-              </span>
+              </span> dtimes */}  
             </div>
           </div>
         </div>
@@ -168,6 +174,12 @@ function Cart(props) {
                             handleDecrement={handleDecrement}
                             onRemoveItem={handleRemoveItem}
                             handleMoveToDetail={handleMoveToDetail}
+                            // new value aded for remarks crud
+                            showRemark={showRemark}
+                            productRemark={productRemark}
+         handleAddReamrk={handleAddReamrk}
+                            handleRemarkChange={handleRemarkChange}
+                            handleSave={handleSave}
                           />
                         ))}
                       </tbody>

@@ -1,5 +1,7 @@
 @import '../../../scss/variable.scss';
 
+
+
 .stam_DeliverMainDiv {
   font-family: $primaryFontFamily;
   margin-top: 220px;
@@ -17,7 +19,8 @@ padding-block: 45px;
 
   .mala_addMainDiv {
     margin-inline: 10%;
-    padding-block: 3%;
+    padding-top: 15%;
+    padding-bottom: 5%;
   }
 
   .mala_getAddrMainDiv {
@@ -115,6 +118,9 @@ padding-block: 45px;
   }
 
   .mala_AddressBtnGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     .mala_AddNewAddrbtn {
       margin-right: 20px;
       height: 40px;

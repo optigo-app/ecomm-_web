@@ -275,7 +275,7 @@ const BestSellerSection1 = () => {
                         </div>
                         <div className='smr_rightSideBestSeler'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/Banner/promoSetMainBanner2.jpg`} alt="modalimages" />
+                            <img src={`${storImagePath()}/images/HomePage/Banner/bestsellar.png`} alt="modalimages" />
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>
                                 <h2>FOR LOVE OF SUN & SEA</h2>

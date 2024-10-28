@@ -378,7 +378,9 @@ const ManageAddress = () => {
                         <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
                             {
                                 addressData?.map((item, index) => {
-                                    return <Box className="AddressSec" key={index}>
+                                    return <Box className="AddressSec" key={index} sx={{
+                                        color:"gray !important"
+                                    }}>
                                         <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
                                             <Box sx={{ display: "flex", flexWrap: "wrap", }}>
                                                 <Box sx={{ paddingRight: "5px", fontweight: "600", paddingBottom: "10px" }}>

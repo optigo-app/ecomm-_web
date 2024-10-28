@@ -1419,6 +1419,9 @@ const ProductList = () => {
                       <option className="option" value="New">
                         New
                       </option>
+                      <option className="option" value="Bestseller">
+                        BestSeller
+                      </option>
                       <option className="option" value="Trending">
                         Trending
                       </option>
@@ -2181,6 +2184,9 @@ const ProductList = () => {
                             <option className="option" value="Recommended">
                               Recommended
                             </option>
+                            <option className="option" value="Bestseller">
+                        BestSeller
+                      </option>
                             <option className="option" value="New">
                               New
                             </option>

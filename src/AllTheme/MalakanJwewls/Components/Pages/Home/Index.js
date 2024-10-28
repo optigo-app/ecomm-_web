@@ -23,6 +23,7 @@ import BrandsComponent from "./BrandComponent/BrandComponents";
 import Collection from "./Collection/Collection";
 import ShopBanner from "./ShopBanner/ShopBanner";
 import BottomSection from "./BottomSection/BottomSection";
+import { MenuItem, Select } from "@mui/material";
 
 function Home() {
   const [localData, setLocalData] = useState();
