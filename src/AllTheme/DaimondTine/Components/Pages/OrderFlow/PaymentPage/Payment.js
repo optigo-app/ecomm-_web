@@ -384,7 +384,8 @@ const Payment = () => {
                         </div>
                         <div className='dt_paymentButtonDiv'>
                             <button className='dt_payOnAccountBtn' onClick={handlePay} disabled={isloding}>
-                                {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'}
+                                {/* {isloding ? 'LOADING...' : 'PAY ON ACCOUNT'} */}
+                                {isloding ? 'LOADING...' : 'Order Now'}
                                 {isloding && <span className="loader"></span>}
                             </button>
                         </div>

@@ -165,7 +165,7 @@ const TrendingView1 = () => {
                     <div className="smr_trendingProduct-grid">
                         <div className='smr_leftSideBestTR'>
                             {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
-                            <img src={`${storImagePath()}/images/HomePage/Banner/promoSetMainBanner3.jpg`} alt="modalimages" />
+                            <img src={`${storImagePath()}/images/HomePage/Banner/trending.png`} alt="modalimages" />
 
                             <div className="smr_lookbookImageRightDT">
                                 <p>SHORESIDE COLLECTION</p>

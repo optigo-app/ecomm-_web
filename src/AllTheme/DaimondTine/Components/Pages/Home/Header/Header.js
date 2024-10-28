@@ -417,14 +417,14 @@ const Header = () => {
     return (
         <div className='dai_headerMain'>
             <div className="dai_headerMainTop">
-                <div className="div_contact_info">
+                <div className="div_contact_info first-dt">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
                     <a href={`tel:${'98108 76359'}`} className="Dt_FontFamilySet" style={{ fontSize: "12px", color: 'white', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>
                         Call: +91-98108 76359
                     </a>
                 </div>
-                <p className='Dt_FontFamilySet' style={{ margin: '0px', color: 'white', fontWeight: 500 }}>100% Natural Diamonds</p>
-                <div className="dai_login_link">
+                <p className='Dt_FontFamilySet two-dt' style={{ margin: '0px', color: 'white', fontWeight: 500 }}>100% Natural Diamonds</p>
+                <div className="dai_login_link three-dt">
                     {socialMediaData?.map((social, index) => (
                         <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
                             <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}

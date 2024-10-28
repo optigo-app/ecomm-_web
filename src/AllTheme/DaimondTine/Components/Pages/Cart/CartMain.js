@@ -11,7 +11,7 @@ const CartMain = () => {
         const cartNo = storeInit?.CartNo ?? 1;
         // const cartNo = 1;
 
-        switch (cartNo) {
+        switch (cartNo) {   
             case 1:
                 setCartComponent(<B2cCart />);
                 break;

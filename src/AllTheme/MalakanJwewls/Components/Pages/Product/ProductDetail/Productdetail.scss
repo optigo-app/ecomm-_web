@@ -214,8 +214,8 @@
         align-items: center;
         min-height: 49px;
         cursor: pointer;
-        color: #7d7f85;
-        background-color: white;
+        color: #fff !important;
+        background-color: #17372F;  
     }
 
     .mala_AddToCart_btn_afterCart {
@@ -236,7 +236,7 @@
         font-size: 15px;
         letter-spacing: 1.5px;
         position: relative;
-        color: $primaryfontcolor2;
+        color: #fff;
     }
 
     .Smr_wishlistcont {

@@ -1737,7 +1737,7 @@ const ProductDetail = () => {
                                 // className="filtercategoryLable"
 
                                 >
-                                  <Typography sx={{ fontSize: '18px' }}>Price Breakup</Typography>
+                                  <Typography sx={{ fontSize: '18px' ,fontFamily:"Rowan1"}}>Price Breakup</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails
                                   sx={{
@@ -1930,7 +1930,7 @@ const ProductDetail = () => {
                                 >
                                   <span
                                     className="mala_addtocart_btn_txt"
-                                    style={{ color: !addToCartFlag ? "" : "white" }}
+                                    style={{ color: !addToCartFlag ? "white" : "white" }}
                                   >
                                     {!addToCartFlag
                                       ? "ADD TO CART"

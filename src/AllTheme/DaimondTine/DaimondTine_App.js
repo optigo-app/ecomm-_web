@@ -68,11 +68,11 @@ const DaimondTine_App = () => {
   }, [location]);
 
   useEffect(() => {
-    // let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
-    // let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
+    let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
+    let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
     
-    let webLogo = `${storImagePath()}/logoIcon/sona/webLogo.png`;
-    let mobileLogo = `${storImagePath()}/logoIcon/sona/mobileLogo.png`;
+    // let webLogo = `${storImagePath()}/logoIcon/sona/webLogo.png`;
+    // let mobileLogo = `${storImagePath()}/logoIcon/sona/mobileLogo.png`;
     
     
     setCompanyTitleLogo(webLogo);
@@ -141,7 +141,7 @@ const DaimondTine_App = () => {
         <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
         <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
         <Route path="/Register" element={<Register />} />
-        <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/FAQ" element={<FAQ />} />   
         <Route path="/ContactUs" element={<ContactUs />} />
         <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
         <Route path="/term&condition" element={<TermsAndConditions />} />
@@ -164,7 +164,7 @@ const DaimondTine_App = () => {
         </Route>
       </Routes>
       <ScrollToTop />
-      <WhtasIcone />
+      <WhtasIcone phoneNo='9810976359'/>
     </div>
   )
 }

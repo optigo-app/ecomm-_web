@@ -57,7 +57,8 @@ export default function     Footer() {
     }, [])
 
     const openPdf = () => {
-        window.open(`${storImagePath()}/html/size_guide_sonasons.pdf`, '_blank');
+        window.open(`${storImagePath()}/html/size_guide_diamondtine.pdf`, '_blank');
+        // window.open(`${storImagePath()}/html/size_guide_sonasons.pdf`, '_blank');
     };
 
     const handleLogout = () => {
@@ -84,7 +85,8 @@ export default function     Footer() {
             <div className='daimondFooterMain'>
                 <div className='footerNewslater' style={{ paddingTop: '30px', paddingInline: '20%', marginTop: '50px' }}>
                     <div className='subScriMain'>
-                        <p className='subScriMainTitle'>STAY CONNECTED FOR LATEST COLLECTIONS OFFERS</p>
+                        {/* <p className='subScriMainTitle'>STAY CONNECTED FOR LATEST COLLECTIONS OFFERS</p> */}
+                        <p className='subScriMainTitle'>LATEST COLLECTIONS & OFFERS</p>
                         <div style={{ width: '100%', marginTop: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>
                             <input type='text' className='footerInputBox' placeholder='Your email here' value={email} onChange={handleEmailChange} required />
                             <button className='FooterSubBtn' onClick={handleSubmitNewlater}>SUBSCRIBE</button>
@@ -94,9 +96,10 @@ export default function     Footer() {
                 <div>
                     <div className='FooterLinkMain'>
                         <div className='FooterLinkMainBox'>
-                            <p className='footerMoteText'>ABOUT SONASONS</p>
+                            {/* <p className='footerMoteText'>ABOUT SONASONS</p> */}
+                            <p className='footerMoteText'>ABOUT DIAMONDTIME</p>
                             <p className='FoooterText'>We are a contemporary diamond and gold jewellery brand selling exquisite pieces for the woman of today.
-                                <span onClick={() => navigation('/aboutUs')} className='dt_footerLermore'> Learn More</span></p>
+                            <br /><span onClick={() => navigation('/aboutUs')} className='dt_footerLermore'> Learn More</span></p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>QUICK LINKS</p>
@@ -137,7 +140,8 @@ export default function     Footer() {
                 <div className='footerBottom'>
                     {/* <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/> */}
                     {/* <img src={titleImg} className='logoImgFooter' /> */}
-                    <p className='FooterBottomText'>Copyright © 2024 Sonasons. All Rights Reserved.</p>
+                    {/* <p className='FooterBottomText'>Copyright © 2024 Sonasons. All Rights Reserved.</p> */}
+                    <p className='FooterBottomText'>Copyright © 2024 Diamondtine. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
