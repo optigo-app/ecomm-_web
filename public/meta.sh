@@ -126,3 +126,6 @@
 ">
   <link rel="icon" sizes="192x192" content="https://elvee.in/WebSiteStaticImage/logoIcon/androidCh2.png" /> -->
 
+
+    // "start": "react-scripts --max_old_space_size=6144 start",
+    // "build": "react-scripts --max_old_space_size=6144 build",

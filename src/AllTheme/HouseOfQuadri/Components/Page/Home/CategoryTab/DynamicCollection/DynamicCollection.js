@@ -98,7 +98,7 @@ const DynamicCollection = () => {
   const [selectedMetalId, setSelectedMetalId] = useState(
     loginUserDetail?.MetalId
   );
-  const [SearchError,setSearchError] = useState(false)
+  const [SearchError, setSearchError] = useState(false)
   const [cartArr, setCartArr] = useState({});
   const [wishArr, setWishArr] = useState({});
   const [accExpanded, setAccExpanded] = useState(null);
@@ -182,7 +182,7 @@ const DynamicCollection = () => {
       ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect)
         .then((res) => {
           if (res) {
-            console.log(res,"setSearchError")
+            console.log(res, "setSearchError")
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
             setAfterCountStatus(false);
@@ -889,7 +889,7 @@ const DynamicCollection = () => {
     }
   };
 
-  const handleScrollHeight = () => {};
+  const handleScrollHeight = () => { };
 
   const handleCheckboxChange = (e, listname, val) => {
     const { name, checked } = e.target;
@@ -980,8 +980,7 @@ const DynamicCollection = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1369,7 +1368,7 @@ const DynamicCollection = () => {
                 fontSize: "16px",
                 fontFamily: "Tenor Sans , sans-serif",
                 marginTop: "12px",
-                padding  :"4px 0"
+                padding: "4px 0"
 
               }}
             >
@@ -1385,7 +1384,7 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
-                    padding  :"4px 0"
+                    padding: "4px 0"
 
                   }}
                 >
@@ -1427,7 +1426,7 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
-                    padding  :"4px 0"
+                    padding: "4px 0"
                   }}
                 >
                   Diamond:&nbsp;
@@ -1438,7 +1437,7 @@ const DynamicCollection = () => {
                     borderRadius: "2px",
                     minWidth: "270px",
                     textTransform: "uppercase",
-                    fontWeight : "500",
+                    fontWeight: "500",
                   }}
                   className="select"
                   value={selectedDiaId}
@@ -1449,8 +1448,9 @@ const DynamicCollection = () => {
                       className="option"
                       key={diaQc?.QualityId}
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                      style={{ textTransform: "uppercase",
-                       }}
+                      style={{
+                        textTransform: "uppercase",
+                      }}
                     >
                       {" "}
                       {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
@@ -1470,7 +1470,7 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
-                    padding  :"4px 0"
+                    padding: "4px 0"
 
                   }}
                 >
@@ -1493,9 +1493,10 @@ const DynamicCollection = () => {
                       className="option"
                       key={csCombo?.QualityId}
                       value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                      style={{ textTransform: "uppercase" , 
-                        fontWeight :"500"
-                       }}
+                      style={{
+                        textTransform: "uppercase",
+                        fontWeight: "500"
+                      }}
                     >
                       {" "}
                       {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
@@ -1517,7 +1518,7 @@ const DynamicCollection = () => {
                     color: "#7f7d85",
                     fontSize: "14px",
                     fontFamily: "Tenor Sans , sans-serif",
-                    padding  :"4px 0"
+                    padding: "4px 0"
 
                   }}
                 >
@@ -1543,12 +1544,12 @@ const DynamicCollection = () => {
                   <option className="option" value="Trending">
                     Trending
                   </option>
-                  {/*<option className="option" value="Bestseller">
-                                    Bestseller
-                                    </option>*/}
+                  <option className="option" value="Bestseller">
+                    Bestseller
+                  </option>
                   <option className="option" value="In Stock">
                     In stock
-                  </option>
+                  </option> 
                   <option className="option" value="PRICE HIGH TO LOW">
                     Price High To Low
                   </option>
@@ -1636,16 +1637,16 @@ const DynamicCollection = () => {
                               borderRadius: 0,
                               fontFamily: "Tenor Sans , sans-serif ",
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -1657,7 +1658,7 @@ const DynamicCollection = () => {
                                 color: "gray",
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
-                                fontWeight :"500 !important",
+                                fontWeight: "500 !important",
                                 "&.MuiAccordionSummary-root": {
                                   padding: 0,
                                 },
@@ -1665,11 +1666,11 @@ const DynamicCollection = () => {
                               className="filtercategoryLable"
                             >
                               {/* <span> */}
-                            <Typography sx={{
+                              <Typography sx={{
                                 color: "gray",
                                 borderRadius: 0,
                                 fontFamily: "Tenor Sans , sans-serif",
-                                fontWeight :"500 !important",
+                                fontWeight: "500 !important",
                               }}>  {ele.Fil_DisName}</Typography>
                               {/* </span> */}
                             </AccordionSummary>
@@ -1711,8 +1712,8 @@ const DynamicCollection = () => {
                                             ?.checked === undefined
                                             ? false
                                             : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked
                                         }
                                         sx={{
                                           fontFamily:
@@ -1760,8 +1761,8 @@ const DynamicCollection = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1782,11 +1783,11 @@ const DynamicCollection = () => {
                           >
                             {/* <span> */}
                             <Typography sx={{
-                                color: "gray",
-                                borderRadius: 0,
-                                fontFamily: "Tenor Sans , sans-serif",
-                                fontWeight :"500 !important",
-                              }}>  {ele.Fil_DisName}</Typography>
+                              color: "gray",
+                              borderRadius: 0,
+                              fontFamily: "Tenor Sans , sans-serif",
+                              fontWeight: "500 !important",
+                            }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1836,7 +1837,7 @@ const DynamicCollection = () => {
                                           ?.checked === undefined
                                           ? false
                                           : filterChecked[`Price${i}${i}`]
-                                              ?.checked
+                                            ?.checked
                                       }
                                       style={{
                                         color: "#7f7d85",
@@ -1862,22 +1863,22 @@ const DynamicCollection = () => {
                                       text={
                                         opt?.Minval == 0
                                           ? `Under  ${decodeEntities(
-                                              loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
-                                            )} ${formatter(opt?.Maxval)}`
+                                            loginUserDetail?.CurrencyCode ??
+                                            storeInit?.CurrencyCode
+                                          )} ${formatter(opt?.Maxval)}`
                                           : opt?.Maxval == 0
-                                          ? `Over  ${decodeEntities(
+                                            ? `Over  ${decodeEntities(
                                               loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
+                                              storeInit?.CurrencyCode
                                             )} ${formatter(opt?.Minval)}`
-                                          : `${decodeEntities(
+                                            : `${decodeEntities(
                                               loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
+                                              storeInit?.CurrencyCode
                                             )}  ${formatter(
                                               opt?.Minval
                                             )} - ${decodeEntities(
                                               loginUserDetail?.CurrencyCode ??
-                                                storeInit?.CurrencyCode
+                                              storeInit?.CurrencyCode
                                             )}  ${formatter(opt?.Maxval)}`
                                       }
                                     />
@@ -1905,8 +1906,8 @@ const DynamicCollection = () => {
                           style={{
                             fontFamily: "Tenor Sans , sans-serif",
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1928,11 +1929,11 @@ const DynamicCollection = () => {
                           >
                             {/* <span> */}
                             <Typography sx={{
-                                color: "gray",
-                                borderRadius: 0,
-                                fontFamily: "Tenor Sans , sans-serif",
-                                fontWeight :"500 !important",
-                              }}>  {ele.Fil_DisName}</Typography>
+                              color: "gray",
+                              borderRadius: 0,
+                              fontFamily: "Tenor Sans , sans-serif",
+                              fontWeight: "500 !important",
+                            }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -1966,8 +1967,8 @@ const DynamicCollection = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -1992,11 +1993,11 @@ const DynamicCollection = () => {
                           >
                             {/* <span> */}
                             <Typography sx={{
-                                color: "gray",
-                                borderRadius: 0,
-                                fontFamily: "Tenor Sans , sans-serif",
-                                fontWeight :"500 !important",
-                              }}>  {ele.Fil_DisName}</Typography>
+                              color: "gray",
+                              borderRadius: 0,
+                              fontFamily: "Tenor Sans , sans-serif",
+                              fontWeight: "500 !important",
+                            }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2030,8 +2031,8 @@ const DynamicCollection = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2056,11 +2057,11 @@ const DynamicCollection = () => {
                           >
                             {/* <span> */}
                             <Typography sx={{
-                                color: "gray",
-                                borderRadius: 0,
-                                fontFamily: "Tenor Sans , sans-serif",
-                                fontWeight :"500 !important",
-                              }}>  {ele.Fil_DisName}</Typography>
+                              color: "gray",
+                              borderRadius: 0,
+                              fontFamily: "Tenor Sans , sans-serif",
+                              fontWeight: "500 !important",
+                            }}>  {ele.Fil_DisName}</Typography>
                             {/* </span> */}
                           </AccordionSummary>
                           <AccordionDetails
@@ -2215,7 +2216,7 @@ const DynamicCollection = () => {
               </div>
             ) : (
               // <NoProductFound />
-              <NoSearchRes location={location}/>
+              <NoSearchRes location={location} />
             )}
 
             {/* Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && ( */}
@@ -2458,7 +2459,7 @@ const C_Card = ({
           )}
           {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && (
             <>
-            {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && <span>|</span>}
+              {storeInit?.IsGrossWeight == 1 && Number(productData?.Gwt) !== 0 && <span>|</span>}
               <span className="smr_prod_wt">
                 <span className="smr_keys">NWT:</span>
                 <span className="smr_val">{productData?.Nwt?.toFixed(3)} </span>
@@ -2471,7 +2472,7 @@ const C_Card = ({
           {storeInit?.IsDiamondWeight == 1 &&
             Number(productData?.Dwt) !== 0 && (
               <>
-              {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 &&  <span>|</span>}
+                {storeInit?.IsMetalWeight == 1 && Number(productData?.Nwt) !== 0 && <span>|</span>}
                 <span className="smr_prod_wt">
                   <span className="smr_keys">DWT:</span>
                   <span className="smr_val">
@@ -2485,8 +2486,8 @@ const C_Card = ({
             )}
           {storeInit?.IsStoneWeight == 1 && Number(productData?.CSwt) !== 0 && (
             <>
-             { storeInit?.IsDiamondWeight == 1 &&
-            Number(productData?.Dwt) !== 0 && <span>|</span>}
+              {storeInit?.IsDiamondWeight == 1 &&
+                Number(productData?.Dwt) !== 0 && <span>|</span>}
               <span className="smr_prod_wt">
                 <span className="smr_keys">CWT:</span>
                 <span className="smr_val">
@@ -2494,7 +2495,7 @@ const C_Card = ({
                   {storeInit?.IsStonePcs === 1
                     ? `/${productData?.CSpcs?.toFixed(0)}`
                     : null}
-                 </span>
+                </span>
               </span>
             </>
           )}
@@ -2565,15 +2566,15 @@ const NoProductFound = () => {
     </div>
   );
 };
-const NoSearchRes = ({location})=>{
-  return  <div className="NoProductFound">
-  <div className="">
-  <p style={{textTransform:'capitalize'}}>We couldn't find any matches for</p>
-  <p style={{fontWeight:'bold'}}>{`"${decodeURIComponent(location?.pathname?.split("/")[2])}".`}</p>
+const NoSearchRes = ({ location }) => {
+  return <div className="NoProductFound">
+    <div className="">
+      <p style={{ textTransform: 'capitalize' }}>We couldn't find any matches for</p>
+      <p style={{ fontWeight: 'bold' }}>{`"${decodeURIComponent(location?.pathname?.split("/")[2])}".`}</p>
+    </div>
+    <br />
+    <p className="search_notfound2">Please try another search.</p>
   </div>
-  <br />
-  <p className="search_notfound2">Please try another search.</p>
-</div>
 }
 const LoadingSkeleton = () => {
   return Array.from({ length: 8 }).map((_, i) => {
@@ -2581,15 +2582,15 @@ const LoadingSkeleton = () => {
       <div className="C_Card">
         <div className="image">
           <Skeleton
-           sx={{
-             width: '100%',
-             height: {
-              xs: '200px !important',   
-                sm: '300px !important',    
-                md: '500px !important',    
+            sx={{
+              width: '100%',
+              height: {
+                xs: '200px !important',
+                sm: '300px !important',
+                md: '500px !important',
               },
-             display: 'block',
-           }}
+              display: 'block',
+            }}
             key={i}
             variant="rectangular"
             width={"100%"}

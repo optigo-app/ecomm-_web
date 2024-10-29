@@ -1150,6 +1150,7 @@ const ProductList = () => {
                             {storeInit?.IsStockWebsite === 1 && (
                               <MenuItem value="In Stock">In Stock</MenuItem>
                             )}
+                            <option value="Bestseller">Bestseller</option>
                             <option value="PRICE HIGH TO LOW">Price High To Low</option>
                             <option value="PRICE LOW TO HIGH">Price Low To High</option>
                           </select>
@@ -1230,6 +1231,7 @@ const ProductList = () => {
                           {storeInit?.IsStockWebsite === 1 && (
                             <MenuItem value="In Stock">In Stock</MenuItem>
                           )}
+                          <MenuItem value="Bestseller">Bestseller</MenuItem>
                           <MenuItem value="PRICE HIGH TO LOW">Price High To Low</MenuItem>
                           <MenuItem value="PRICE LOW TO HIGH">Price Low To High</MenuItem>
                         </Select>
