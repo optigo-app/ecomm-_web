@@ -125,26 +125,9 @@ export default function ForgotPass() {
             )}
             <div>
                 <div className='smr_forgotSubDiv'>
-                    <p style={{
-                        textAlign: 'center',
-                        padding: '60px',
-                        margin: '0px',
-                        fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
-
-                        className='AuthScreenMainTitle'
+                    <p className='AuthScreenMainTitle'
                     >Forgot Your Password</p>
-                    <p style={{
-                        textAlign: 'center',
-                        marginTop: '-60px',
-                        fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
-
-                        className='AuthScreenSubTitle'
+                    <p className='AuthScreenSubTitle'
                     >{ }</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

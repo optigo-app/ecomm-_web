@@ -1,6 +1,8 @@
 @import "../../../scss/variable";
 
 .roop_Footer1_main {
+  font-family: $fontRegular !important;
+
   .footerBottomMain {
     display: flex;
     justify-content: space-between;
@@ -41,7 +43,7 @@
   .footerMoreOptionData {
     font-size: $fontSize2;
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $fontRegular;
     font-weight: 500;
     margin-inline: 15px;
     letter-spacing: 1px;
@@ -61,6 +63,7 @@
     font-weight: 500;
     margin-inline: 15px;
     letter-spacing: 1px;
+    font-family: $fontRegular;
     position: relative;
     text-decoration: none;
     transition: color 0.3s;
@@ -195,7 +198,7 @@
   .footerMoreOptionData {
     font-size: $fontSize2;
     color: $homePageFontColor;
-    font-family: $homePageFontFamily;
+    font-family: $fontRegular;
     font-weight: 500;
     margin-inline: 15px;
     letter-spacing: 1px;
@@ -214,6 +217,7 @@
     margin-inline: 15px;
     letter-spacing: 1px;
     position: relative;
+    font-family: $fontRegular;
     text-decoration: none;
     transition: color 0.3s;
     cursor: pointer;

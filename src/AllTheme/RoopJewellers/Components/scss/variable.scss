@@ -5,8 +5,6 @@ $backgroundColor: var(--background-color);
 $btn1bgColor: #fff;
 $btn1ActivebgColor: #7d7f85;
 
-
-
 $stambackcolor: #fff2e6;
 $stamMainBackColor: #fbf8f3;
 
@@ -47,20 +45,30 @@ $fontSize8: 40px;
 $primaryBorderColor: #e1e1e1;
 $primaryBorderColor2: #42424233;
 
+
+// Font Family for RP Jewel
+
 @font-face {
-  font-family: "TT Commons Regular";
-  src: url("../fonts/TT Commons Regular.otf");
-  // format('truetype');
+  font-family: 'Spectral-Regular';
+  src: url('../Assets/fonts/Spectral-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "TT Commons Medium";
-  src: url("../fonts/TT Commons Medium.otf");
-  // format('truetype');
+  font-family: 'Spectral-Medium';
+  src: url('../Assets/fonts/Spectral-Medium.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "TT Commons Bold";
-  src: url("../fonts/TT Commons Bold.otf");
-  // format('truetype');
+  font-family: 'Spectral-ExtraBold';
+  src: url('../Assets/fonts/Spectral-ExtraBold.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Spectral-Bold';
+  src: url('../Assets/fonts/Spectral-Bold.ttf') format('truetype');
+}
+
+$fontRegular: "Spectral-Regular, sans-serif";
+$fontMedium: "Spectral-Medium, sans-serif";
+$fontExtraBold: "Spectral-ExtraBold, sans-serif";
+$fontBold: "Spectral-Bold, sans-serif";

@@ -3,7 +3,7 @@
 $borderColor: rgba(232, 232, 232, 1);
 
 .roop3_MainBGDiv {
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
   margin-top: 32px;
 
 
@@ -34,10 +34,23 @@ $borderColor: rgba(232, 232, 232, 1);
         text-align: left;
 
         .roop3_ReomoveAllCartbtn {
-          color: $titleColor;
+          font-family: $fontRegular !important;
+          background-color: $btnprimarycolor;
+          color: $btn1hoverFontColor;
+          height: 45px;
+          width: 160px;
+          border: none;
+          outline: none;
+          border-radius: 8px;
           font-size: $fontSize2;
           text-decoration-color: $titleColor;
+          // margin-inline: 6%;
           cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: $btn1hoverColor;
+          }
         }
       }
 
@@ -52,17 +65,17 @@ $borderColor: rgba(232, 232, 232, 1);
         text-align: right;
 
         button {
-          font-family: $primaryFontFamily !important;
+          font-family: $fontRegular !important;
           background-color: $btnprimarycolor;
           color: $btn1hoverFontColor;
           font-size: $fontSize2;
           border: none;
           outline: none;
           height: 45px;
-          border-radius: 0px;
+          border-radius: 8px;
           width: 200px;
           font-weight: 500;
-          margin-inline: 6%;
+          // margin-inline: 6%;
           cursor: pointer;
           transition: background-color 0.3s;
 
@@ -424,7 +437,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   flex: 1 1 45%;
                   display: flex;
                   flex-direction: column;
-                  font-family: $primaryFontFamily !important;
+                  font-family: $fontRegular !important;
 
                   label {
                     color: $titleColor;
@@ -475,7 +488,7 @@ $borderColor: rgba(232, 232, 232, 1);
                   flex: 1 1 45%;
                   display: flex;
                   flex-direction: column;
-                  font-family: $primaryFontFamily !important;
+                  font-family: $fontRegular !important;
 
                   label {
                     color: $titleColor;
@@ -538,14 +551,14 @@ $borderColor: rgba(232, 232, 232, 1);
                 align-items: end;
 
                 button {
-                  font-family: $primaryFontFamily !important;
+                  font-family: $fontRegular !important;
                   background-color: $btnprimarycolor;
                   color: $btn1hoverFontColor;
                   font-size: $fontSize2;
                   border: none;
                   outline: none;
                   height: 40px;
-                  border-radius: 0px;
+                  border-radius: 8px;
                   width: 100px;
                   font-weight: 500;
                   cursor: pointer;
@@ -730,6 +743,11 @@ $borderColor: rgba(232, 232, 232, 1);
             height: 35px;
             width: 140px;
           }
+        }
+
+        .roop3_ReomoveAllCartbtn {
+          height: 35px !important;
+          width: 100px !important;
         }
       }
     }

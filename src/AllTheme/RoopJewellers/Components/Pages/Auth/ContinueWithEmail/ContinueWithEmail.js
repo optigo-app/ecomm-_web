@@ -128,16 +128,16 @@ export default function ContinueWithEmail() {
                         marginTop: '0px',
                         fontSize: '40px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        fontFamily: 'Spectral-Bold, sans-serif'
                     }}
                         className='AuthScreenMainTitle'
                     >Continue With Email</p>
                     <p style={{
                         textAlign: 'center',
                         marginTop: '-60px',
-                        fontSize: '15px',
+                        fontSize: '16px',
                         color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
+                        fontFamily: 'Spectral-Regular, sans-serif'
                     }}
 
                         className='AuthScreenSubTitle'

@@ -48,6 +48,7 @@ const CartItem = ({
   const setCartCountVal = useSetRecoilState(roop_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
+  const maxwidth650px = useMediaQuery('(max-width: 650px)');
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -185,14 +186,14 @@ const CartItem = ({
           </div>
           {storeInitData?.IsPriceShow == 1 &&
             <div className="roop3_cart-item__price">
-              <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
+              <p> {maxwidth650px && <span style={{ textTransform: "uppercase", fontSize: '14px' }}>Price: </span>}{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
               <span className="roop3_price-excl-vat">(Excl. VAT)</span>
             </div>
           }
           <>
             {storeInitData?.IsPriceShow == 1 &&
               <div className="roop3_cart-item__total-price">
-                <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
+                <p> {maxwidth650px && <span style={{ textTransform: "uppercase", fontSize: '13px' }}>Total Price: </span>} {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
                 <span className="roop3_price-excl-vat">(Excl. VAT)</span>
               </div>
             }

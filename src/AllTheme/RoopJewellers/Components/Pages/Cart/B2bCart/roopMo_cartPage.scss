@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
 }
 
 .roopMo_cart-container {
@@ -16,8 +16,8 @@
     position: relative;
     border: none;
     box-shadow: none;
-    outline: none   ;
-    font-family: $primaryFontFamily;
+    outline: none;
+    font-family: $fontRegular;
 
     @media (max-width: 1050px) {
         padding: 10px;
@@ -90,7 +90,7 @@
         font-size: 1.2rem;
         font-weight: bold;
         margin-bottom: 10px;
-        font-family: $primaryFontFamily;
+        font-family: $fontRegular;
         color: $titleColor;
 
         @media (max-width: 1050px) {
@@ -115,14 +115,14 @@
             display: flex;
             flex-direction: column;
             color: $titleColor;
-            font-family: $primaryFontFamily;
+            font-family: $fontRegular;
 
             label {
                 font-weight: bold;
                 margin-bottom: 5px;
                 font-size: $fontSize2;
                 color: $titleColor;
-                font-family: $primaryFontFamily;
+                font-family: $fontRegular;
 
             }
 
@@ -133,14 +133,14 @@
                 background: #fff;
                 font-size: $fontSize2;
                 color: $titleColor;
-                font-family: $primaryFontFamily;
+                font-family: $fontRegular;
 
             }
 
             span {
                 font-size: $fontSize2;
                 color: $titleColor;
-                font-family: $primaryFontFamily;
+                font-family: $fontRegular;
 
             }
         }
@@ -150,7 +150,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-family: $primaryFontFamily;
+        font-family: $fontRegular;
 
         .product-price,
         .roopMo_Stockproduct-price {
@@ -169,13 +169,13 @@
         display: flex;
         justify-content: end;
         align-items: center;
-        font-family: $primaryFontFamily;
+        font-family: $fontRegular;
 
 
         .roopMo_cartUpdate-button {
-            background-color: #b1b1b1;
+            background-color: $btnprimarycolor;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: #fff;
             cursor: pointer;
             display: block;
@@ -183,10 +183,10 @@
             height: 40px;
             margin-bottom: 20px;
             width: 100px;
-            font-family: $primaryFontFamily;
+            font-family: $fontRegular;
 
             &:hover {
-                background-color: #bcbcbc;
+                background-color: $btn1hoverColor;
             }
         }
     }

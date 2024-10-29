@@ -4,6 +4,8 @@
   height: 100%;
   width: 100%;
 
+  font-family: $fontRegular !important;
+
   .roop_outerContain {
     display: flex;
     justify-content: center;
@@ -100,9 +102,9 @@
   }
 
   .roop_filter_portion {
-    top: 25px !important;
-    position: sticky !important;
-    width: 25%;
+    // top: 25px !important;
+    // position: sticky !important;
+    // width: 25%;
     font-family: $primaryFontFamily;
     height: 100%;
   }
@@ -148,11 +150,17 @@
   }
 
   .roop_productList {
-    width: 75%;
+    // width: 75%;
+    // display: flex;
+    // align-items: baseline;
+    // margin: 20px 50px 0px 0px;
+    // flex-direction: column;
+    width: 93%;
     display: flex;
     align-items: baseline;
     margin: 20px 50px 0px 0px;
     flex-direction: column;
+    margin-inline: auto;
 
     @media screen and (max-width : 1200px) {
       margin: 0;
@@ -201,26 +209,40 @@
 
   .roop_inner_portion {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 13px;
     width: 100%;
     align-items: center;
     padding: 15px;
 
-    @media screen and (max-width : 1150px) {
-      grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+    @media screen and (max-width: 1440px) {
+      grid-template-columns: repeat(4, 1fr);
     }
 
-    @media screen and (max-width : 840px) {
-      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+    @media screen and (max-width: 1150px) {
+      grid-template-columns: repeat(4, 1fr);
     }
 
-    @media screen and (max-width : 420px) {
+    @media screen and (max-width: 980px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (max-width: 840px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (max-width: 720px) {
       padding: 5px;
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    @media screen and (max-width : 280px) {
-      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    @media screen and (max-width: 425px) {
+      padding: 5px;
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    @media screen and (max-width: 280px) {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -273,12 +295,22 @@
 
   .roop_prod_card_info {
     // background-color: #EDF2F6;
-    height: max-content;
+    // height: max-content;
     padding-block: 5px;
+    height: 8.5rem;
+
+    @media screen and (max-width: 560px) {
+      height: 6.5rem;
+    }
   }
 
   .roop_ImgandVideoContainer {
     border-radius: 8px;
+    min-height: 300px;
+
+    // @media screen and (max-width: 840px) {
+    //   min-height: 250px;
+    // }
 
     img {
       border-radius: 8px;
@@ -302,6 +334,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    font-family: $fontRegular;
     padding: 0px;
     min-height: 19.5px;
     width: 300px !important;
@@ -354,6 +387,7 @@
   .roop_prod_wt {
     display: flex;
     gap: 2px;
+    font-family: $fontRegular !important;
   }
 
   .roop_main_keys {
@@ -375,6 +409,7 @@
 
   .roop_prodBtn {
     margin-top: auto; // Pushes the button to the bottom
+    margin-left: 0 !important;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -385,10 +420,13 @@
     border: none;
     border-radius: 8px;
     font-size: 19px;
+    position: absolute;
+    bottom: 0;
   }
 
   .roop_proBtn_text {
     background-color: $btnprimarycolor;
+    font-family: $fontRegular;
     color: white;
   }
 
@@ -398,6 +436,7 @@
     justify-content: center;
     color: $primaryfontcolor;
     gap: 2px;
+    font-family: $fontRegular;
     font-size: 16px;
     // font-size: 14px;
     // font-weight: 600;
@@ -405,10 +444,6 @@
     .roop_currencyFont {
       font-weight: 800;
     }
-
-    // .roop_pricePort{
-
-    // }
   }
 
   .roop_mui_checkbox_label {
@@ -510,6 +545,15 @@
     text-transform: uppercase;
     width: 70px;
     font-size: 10px;
+  }
+
+  .roop_filter_text {
+    font-weight: bold;
+    font-family: $primaryFontFamily;
+    color: $primaryfontcolor;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .smrWeb_app_newarrival {
@@ -630,7 +674,7 @@
 
   @media screen and (max-width: 1042px) {
     .roop1_prod_title_with_width {
-      font-size: 12px;
+      font-size: 15px;
     }
 
     .roop_product_label {
@@ -638,7 +682,7 @@
     }
 
     .roop_price {
-      font-size: 12px;
+      font-size: 17px;
     }
 
     .roop_prod_mtcolr_price {
@@ -682,7 +726,7 @@
     }
 
     .roop1_prod_title_with_width {
-      font-size: 10px;
+      font-size: 14px;
     }
 
     .roop_product_label {
@@ -690,7 +734,7 @@
     }
 
     .roop_price {
-      font-size: 10px;
+      font-size: 15px;
     }
 
     .roop_prod_mtcolr_price {
@@ -723,11 +767,11 @@
 
   @media screen and (max-width:1860px) {
     .roop_main_keys {
-      font-size: 10px !important;
+      font-size: 12px !important;
     }
 
     .roop_main_val {
-      font-size: 10px !important;
+      font-size: 12px !important;
     }
   }
 
@@ -743,19 +787,19 @@
     }
 
     .roop_main_keys {
-      font-size: 9px !important;
+      font-size: 12px !important;
     }
 
     .roop_main_val {
-      font-size: 9px !important;
+      font-size: 12px !important;
     }
   }
 
   @media screen and (max-width:425px) {
     .roop_productListCard_Image {
       object-fit: contain;
-      height: 200px;
-      min-height: 200px;
+      // height: 200px;
+      // min-height: 200px;
     }
 
     .roop_productCard_video {
@@ -766,6 +810,29 @@
     .roop_productList {
       width: 100%;
       margin: 0px 0px 0px 7px !important;
+    }
+  }
+
+  @media screen and (max-width:375px) {
+
+    // .roop_main_keys {
+    //   font-size: 10px !important;
+    // }
+
+    // .roop_main_val {
+    //   font-size: 10px !important;
+    // }
+
+    .roop_main_keys {
+      font-size: 12px !important;
+    }
+
+    .roop_main_val {
+      font-size: 12px !important;
+    }
+
+    .roop_price {
+      font-size: 15px !important;
     }
   }
 

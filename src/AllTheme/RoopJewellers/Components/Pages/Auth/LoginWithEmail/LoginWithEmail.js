@@ -314,24 +314,9 @@ export default function LoginWithEmail() {
             )}
             <div>
                 <div className='smr_loginEmailD'>
-                    <p style={{
-                        textAlign: 'center',
-                        paddingBlock: '60px',
-                        marginTop: '0px',
-                        fontSize: '40px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
-                        className='AuthScreenMainTitle'
+                    <p className='AuthScreenMainTitle'
                     >Login With Password</p>
-                    <p style={{
-                        textAlign: 'center',
-                        marginTop: '-80px',
-                        fontSize: '15px',
-                        color: '#7d7f85',
-                        fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif'
-                    }}
-                        className='AuthScreenSubTitle'
+                    <p className='AuthScreenSubTitle'
                     >using {email}</p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

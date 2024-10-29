@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./productlist.scss";
+import "./GiveFilterMenu.scss";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import imageNotFound from "../../../Assets/image-not-found.jpg"
@@ -8,7 +9,7 @@ import { findMetal, findMetalColor, findMetalType, formatter } from "../../../..
 import ProductListSkeleton from "./productlist_skeleton/ProductListSkeleton";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
+  Accordion, AccordionDetails, AccordionSummary, Badge, Box, Button, Checkbox, Drawer, FormControlLabel, Input, Pagination, Skeleton, Slider,
   Typography, useMediaQuery
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -36,6 +37,7 @@ import { Helmet } from "react-helmet";
 import { roop_CartCount, roop_DiamondRangeArr, roop_WishCount } from "../../../Recoil/atom";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { BsHandbag } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
 
 
 
@@ -97,7 +99,7 @@ const ProductList = () => {
   const [locationKey, setLocationKey] = useState()
   const [prodListType, setprodListType] = useState();
 
-  const [sortBySelect, setSortBySelect] = useState();
+  const [sortBySelect, setSortBySelect] = useState("Recommended");
 
   const [totalProductCount, setTotalProductCount] = useState();
 
@@ -1469,7 +1471,7 @@ const ProductList = () => {
               sx={{
                 color: "#7f7d85",
                 fontSize: "16px",
-                fontFamily: "TT Commons Medium",
+                fontFamily: "Spectral-Regular",
                 marginTop: "12px",
               }}
             >
@@ -1483,7 +1485,7 @@ const ProductList = () => {
                 sx={{
                   color: "#7f7d85",
                   fontSize: "14px",
-                  fontFamily: "TT Commons Regular",
+                  fontFamily: "Spectral-Regular",
                 }}
               >
                 Metal:&nbsp;
@@ -1521,7 +1523,7 @@ const ProductList = () => {
                   sx={{
                     color: "#7f7d85",
                     fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
+                    fontFamily: "Spectral-Regular",
                   }}
                 >
                   Diamond:&nbsp;
@@ -1559,7 +1561,7 @@ const ProductList = () => {
                   sx={{
                     color: "#7f7d85",
                     fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
+                    fontFamily: "Spectral-Regular",
                   }}
                 >
                   Color Stone:&nbsp;
@@ -1599,7 +1601,7 @@ const ProductList = () => {
                   sx={{
                     color: "#7f7d85",
                     fontSize: "14px",
-                    fontFamily: "TT Commons Regular",
+                    fontFamily: "Spectral-Regular",
                   }}
                 >
                   Sort By:&nbsp;
@@ -2369,573 +2371,40 @@ const ProductList = () => {
                     // </div>
                   )}
 
+                  <GivaFilterMenu
+                    RangeFilterView={RangeFilterView}
+                    RangeFilterView1={RangeFilterView1}
+                    RangeFilterView2={RangeFilterView2}
+                    afterCountStatus={afterCountStatus}
+                    afterFilterCount={afterFilterCount}
+                    filterChecked={filterChecked}
+                    filterData={filterData}
+                    handelFilterClearAll={handelFilterClearAll}
+                    handleCheckboxChange={handleCheckboxChange}
+                    handleScrollHeight={handleScrollHeight}
+                    loginUserDetail={loginUserDetail}
+                    storeInit={storeInit}
+                    metalTypeCombo={metalTypeCombo}
+                    selectedMetalId={selectedMetalId}
+                    setSelectedMetalId={setSelectedMetalId}
+                    diaQcCombo={diaQcCombo}
+                    selectedDiaId={selectedDiaId}
+                    setSelectedDiaId={setSelectedDiaId}
+                    csQcCombo={csQcCombo}
+                    selectedCsId={selectedCsId}
+                    setSelectedCsId={setSelectedCsId}
+                    handleSortby={handleSortby}
+                    sortBySelect={sortBySelect}
+                    FilterValueWithCheckedOnly={FilterValueWithCheckedOnly()}
+                    BreadCumsObj={BreadCumsObj}
+                    IsBreadCumShow={IsBreadCumShow}
+                    handleBreadcums={handleBreadcums}
+                  />
+
                   <div className="roop_mainPortion">
                     <div className="roop_filter_portion" style={{ marginTop: '20px' }}>
-                      <div className="empty_sorting_div">
-                        <span
-                          className="roop_breadcums_port "
-                          // style={{ marginLeft: "72px" }}
-                          onClick={() => {
-                            navigate("/");
-                          }}
-                        >
-                          {"Home >"}{" "}
-                        </span>
-
-                        {location?.search.charAt(1) == "A" && (
-                          <div
-                            className="roop_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Album"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "T" && (
-                          <div
-                            className="roop_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Trending"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "B" && (
-                          <div
-                            className="roop_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"Best Seller"}</span>
-                          </div>
-                        )}
-
-                        {location?.search.charAt(1) == "N" && (
-                          <div
-                            className="roop_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            <span>{"New Arrival"}</span>
-                          </div>
-                        )}
-
-                        {IsBreadCumShow && (
-                          <div
-                            className="roop_breadcums_port"
-                            style={{ marginLeft: "3px" }}
-                          >
-                            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
-                            {BreadCumsObj()?.menuname && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                  })
-                                }
-                              >
-                                {BreadCumsObj()?.menuname}
-                              </span>
-                            )}
-
-                            {BreadCumsObj()?.FilterVal1 && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                    [BreadCumsObj()?.FilterKey1]:
-                                      BreadCumsObj()?.FilterVal1,
-                                  })
-                                }
-                              >
-                                {` > ${BreadCumsObj()?.FilterVal1}`}
-                              </span>
-                            )}
-
-                            {BreadCumsObj()?.FilterVal2 && (
-                              <span
-                                onClick={() =>
-                                  handleBreadcums({
-                                    [BreadCumsObj()?.FilterKey]:
-                                      BreadCumsObj()?.FilterVal,
-                                    [BreadCumsObj()?.FilterKey1]:
-                                      BreadCumsObj()?.FilterVal1,
-                                    [BreadCumsObj()?.FilterKey2]:
-                                      BreadCumsObj()?.FilterVal2,
-                                  })
-                                }
-                              >
-                                {` > ${BreadCumsObj()?.FilterVal2}`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                      {filterData?.length > 0 && (
-                        <div className="roop_filter_portion_outter">
-                          <span className="roop_filter_text">
-                            <span>
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length === 0
-                                ? "Filters"
-                                // ? <span style={{display:'flex',justifyContent:'space-between'}}><span>{"Filters"}</span> <span>{`Total Products: ${afterFilterCount}`}</span></span>
-                                : <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Product Found:: ${afterFilterCount}`}</span>
-                                }
-                                </>}
-                            </span>
-                            <span
-                              onClick={() => handelFilterClearAll()}
-                            >
-                              {Object.values(filterChecked).filter(
-                                (ele) => ele.checked
-                              )?.length > 0
-                                ? "Clear All"
-                                :
-                                <>{afterCountStatus == true ? (
-                                  <Skeleton
-                                    variant="rounded"
-                                    width={140}
-                                    height={22}
-                                    className="pSkelton"
-                                  />
-                                ) :
-                                  <span>{`Total Products: ${afterFilterCount}`}</span>
-                                }
-                                </>
-                              }
-                            </span>
-                          </span>
-                          <div style={{ marginTop: "12px" }}>
-                            {filterData?.map((ele) => (
-                              <>
-                                {!ele?.id?.includes("Range") &&
-                                  !ele?.id?.includes("Price") && (
-                                    <Accordion
-                                      elevation={0}
-                                      sx={{
-                                        borderBottom: "1px solid #c7c8c9",
-                                        borderRadius: 0,
-                                        "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                        {
-                                          borderBottomLeftRadius: "0px",
-                                          borderBottomRightRadius: "0px",
-                                        },
-                                        "&.MuiPaper-root.MuiAccordion-root:before":
-                                        {
-                                          background: "none",
-                                        },
-                                      }}
-                                    // expanded={accExpanded}
-                                    // defaultExpanded={}
-                                    >
-                                      <AccordionSummary
-                                        expandIcon={
-                                          <ExpandMoreIcon
-                                            sx={{ width: "20px" }}
-                                          />
-                                        }
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                        sx={{
-                                          color: "#7d7f85",
-                                          borderRadius: 0,
-
-                                          "&.MuiAccordionSummary-root": {
-                                            padding: 0,
-                                          },
-                                        }}
-                                        // className="filtercategoryLable"
-                                        onClick={() => handleScrollHeight()}
-                                      >
-                                        {/* <span> */}
-                                        {ele.Fil_DisName}
-                                        {/* </span> */}
-                                      </AccordionSummary>
-                                      <AccordionDetails
-                                        sx={{
-                                          display: "flex",
-                                          flexDirection: "column",
-                                          gap: "4px",
-                                          minHeight: "fit-content",
-                                          maxHeight: "300px",
-                                          overflow: "auto",
-                                        }}
-                                      >
-                                        {(JSON.parse(ele?.options) ?? []).map(
-                                          (opt) => (
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                                gap: "12px",
-                                              }}
-                                              key={opt?.id}
-                                            >
-                                              {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                              <FormControlLabel
-                                                control={
-                                                  <Checkbox
-                                                    name={`${ele?.id}${opt?.id}`}
-                                                    // checked={
-                                                    //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                    //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                    //     : false
-                                                    // }
-                                                    checked={
-                                                      filterChecked[
-                                                        `${ele?.id}${opt?.id}`
-                                                      ]?.checked === undefined
-                                                        ? false
-                                                        : filterChecked[
-                                                          `${ele?.id}${opt?.id}`
-                                                        ]?.checked
-                                                    }
-                                                    style={{
-                                                      color: "#7f7d85 !important",
-                                                      padding: 0,
-                                                      width: "10px",
-                                                    }}
-                                                    onClick={(e) =>
-                                                      handleCheckboxChange(
-                                                        e,
-                                                        ele?.id,
-                                                        opt?.Name
-                                                      )
-                                                    }
-                                                    size="small"
-                                                  />
-                                                }
-                                                // sx={{
-                                                //   display: "flex",
-                                                //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                                //   width: "100%",
-                                                //   flexDirection: "row-reverse", // Align items to the right
-                                                //   fontFamily:'TT Commons Regular'
-                                                // }}
-                                                className="roop_mui_checkbox_label"
-                                                label={opt.Name}
-                                              />
-                                            </div>
-                                          )
-                                        )}
-                                      </AccordionDetails>
-                                    </Accordion>
-                                  )}
-                                {ele?.id?.includes("Price") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {(JSON.parse(ele?.options) ?? []).map(
-                                        (opt, i) => (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "space-between",
-                                              gap: "12px",
-                                            }}
-                                            key={i}
-                                          >
-                                            {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                            <FormControlLabel
-                                              control={
-                                                <Checkbox
-                                                  name={`Price${i}${i}`}
-                                                  // checked={
-                                                  //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                                  //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                                  //     : false
-                                                  // }
-                                                  checked={
-                                                    filterChecked[`Price${i}${i}`]
-                                                      ?.checked === undefined
-                                                      ? false
-                                                      : filterChecked[
-                                                        `Price${i}${i}`
-                                                      ]?.checked
-                                                  }
-                                                  style={{
-                                                    color: "#7f7d85",
-                                                    padding: 0,
-                                                    width: "10px",
-                                                  }}
-                                                  onClick={(e) =>
-                                                    handleCheckboxChange(
-                                                      e,
-                                                      ele?.id,
-                                                      opt
-                                                    )
-                                                  }
-                                                  size="small"
-                                                />
-                                              }
-                                              // sx={{
-                                              //   display: "flex",
-                                              //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                              //   width: "100%",
-                                              //   flexDirection: "row-reverse", // Align items to the right
-                                              //   fontFamily:'TT Commons Regular'
-                                              // }}
-                                              className="roop_mui_checkbox_label"
-                                              label={
-                                                opt?.Minval == 0
-                                                  ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                                  : opt?.Maxval == 0
-                                                    ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval}`
-                                                    : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Minval} 
-                                                    - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} ${opt?.Maxval}`
-                                              }
-                                            />
-                                          </div>
-                                        )
-                                      )}
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("Diamond") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                    // className="filtercategoryLable"
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 203, height: 88 }}>
-                                        {RangeFilterView(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("NetWt") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
-                                      <Box sx={{ width: 204, height: 88 }}>
-                                        {RangeFilterView1(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                                {ele?.Name?.includes("Gross") && (
-                                  <Accordion
-                                    elevation={0}
-                                    sx={{
-                                      borderBottom: "1px solid #c7c8c9",
-                                      borderRadius: 0,
-                                      "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                      {
-                                        borderBottomLeftRadius: "0px",
-                                        borderBottomRightRadius: "0px",
-                                      },
-                                      "&.MuiPaper-root.MuiAccordion-root:before":
-                                      {
-                                        background: "none",
-                                      },
-                                    }}
-                                  // expanded={accExpanded}
-                                  // defaultExpanded={}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={
-                                        <ExpandMoreIcon sx={{ width: "20px" }} />
-                                      }
-                                      aria-controls="panel1-content"
-                                      id="panel1-header"
-                                      sx={{
-                                        color: "#7f7d85",
-                                        borderRadius: 0,
-
-                                        "&.MuiAccordionSummary-root": {
-                                          padding: 0,
-                                        },
-                                      }}
-                                      // className="filtercategoryLable"
-                                      onClick={() => handleScrollHeight()}
-                                    >
-                                      {/* <span> */}
-                                      {ele.Fil_DisName}
-                                      {/* </span> */}
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        minHeight: "fit-content",
-                                        maxHeight: "300px",
-                                        overflow: "auto",
-                                      }}
-                                    >
-                                      <Box sx={{ width: 204, height: 88 }}>
-                                        {RangeFilterView2(ele)}
-                                      </Box>
-                                    </AccordionDetails>
-                                  </Accordion>
-                                )}
-                              </>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                      {/* Breac crumb section place */}
+                      {/* here the previous filter section place */}
                     </div>
                     {filterProdListEmpty ? (
                       <div
@@ -2957,111 +2426,6 @@ const ProductList = () => {
                           <ProductListSkeleton fromPage={"Prodlist"} className="pSkelton" />
                         ) : (
                           <>
-                            <div className="roop_main_sorting_div">
-                              {storeInit?.IsMetalCustComb === 1 && <div className="roop_metal_custom">
-                                <label className="label">Metal:&nbsp;</label>
-                                <select
-                                  className="select"
-                                  value={selectedMetalId}
-                                  onChange={(e) => setSelectedMetalId(e.target.value)}
-                                >
-                                  {metalTypeCombo?.map((metalele, i) => (
-                                    <option
-                                      className="option"
-                                      key={i}
-                                      value={metalele?.Metalid}
-                                    >
-                                      {metalele?.metaltype.toUpperCase()}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              }
-                              {storeInit?.IsDiamondCustComb === 1 && (
-                                <div className="roop_dia_custom">
-                                  <label className="label">Diamond:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedDiaId}
-                                    onChange={(e) => setSelectedDiaId(e.target.value)}
-                                  >
-                                    {diaQcCombo?.map((diaQc, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              {storeInit?.IsCsCustomization === 1 && (
-                                <div className="roop_cs_custom">
-                                  <label className="label">Color Stone:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={selectedCsId}
-                                    onChange={(e) => setSelectedCsId(e.target.value)}
-                                  >
-                                    {csQcCombo?.map((csCombo, i) => (
-                                      <option
-                                        className="option"
-                                        key={i}
-                                        value={`${csCombo?.QualityId},${csCombo?.ColorId}`}
-                                      >
-                                        {" "}
-                                        {`${csCombo.Quality.toUpperCase()},${csCombo.color.toLowerCase()}`}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              <div className="roop_sorting_custom">
-                                <div className="container">
-                                  <label className="label">Sort By:&nbsp;</label>
-                                  <select
-                                    className="select"
-                                    value={sortBySelect}
-                                    onChange={(e) => handleSortby(e)}
-                                  >
-                                    <option className="option" value="Recommended">
-                                      Recommended
-                                    </option>
-                                    <option className="option" value="New">
-                                      New
-                                    </option>
-                                    <option className="option" value="Trending">
-                                      Trending
-                                    </option>
-                                    {/*<option className="option" value="Bestseller">
-                                    Bestseller
-                                    </option>*/}
-                                    {storeInit?.IsStockWebsite == 1 &&
-                                      <option className="option" value="In Stock">
-                                        In stock
-                                      </option>
-                                    }
-                                    <option
-                                      className="option"
-                                      value="PRICE HIGH TO LOW"
-                                    >
-                                      Price High To Low
-                                    </option>
-                                    <option
-                                      className="option"
-                                      value="PRICE LOW TO HIGH"
-                                    >
-                                      Price Low To High
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
                             <div className="roop_outer_portion" id="roop_outer_portion">
                               {/* <div className="roop_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="roop_inner_portion">
@@ -3314,19 +2678,18 @@ const ProductList = () => {
                                         <button className="roop_prodBtn">Add To Cart</button>
                                       </div> */}
 
-                                        <div className="roop_prodBtn">
-                                          <FormControlLabel
-                                            control={
-                                              <Checkbox
-                                                icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                                checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
-                                                onChange={(e) => handleCartandWish(e, productData, "Cart")}
-                                                checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
-                                              />
-                                            }
-                                            label={<span className={`roop_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
-                                          />
-                                        </div>
+                                        <FormControlLabel
+                                          control={
+                                            <Checkbox
+                                              icon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                              checkedIcon={<BsHandbag style={{ color: '#fff', fontSize: '17px' }} />}
+                                              checked={cartArr[productData?.autocode] ?? productData?.IsInCart === 1}
+                                              onChange={(e) => handleCartandWish(e, productData, "Cart")}
+                                            />
+                                          }
+                                          label={<span className={`roop_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
+                                          className="roop_prodBtn"
+                                        />
                                       </div>
                                     </div>
                                   )
@@ -3375,3 +2738,848 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
+const GivaFilterMenu = ({
+  filterData,
+  filterChecked,
+  afterCountStatus,
+  afterFilterCount,
+  handelFilterClearAll,
+  handleScrollHeight,
+  handleCheckboxChange,
+  loginUserDetail,
+  storeInit,
+  RangeFilterView,
+  RangeFilterView1,
+  RangeFilterView2,
+  metalTypeCombo,
+  selectedMetalId,
+  setSelectedMetalId,
+  diaQcCombo,
+  selectedDiaId,
+  setSelectedDiaId,
+  selectedCsId,
+  setSelectedCsId,
+  csQcCombo,
+  sortBySelect,
+  handleSortby,
+  FilterValueWithCheckedOnly,
+  BreadCumsObj,
+  IsBreadCumShow,
+  handleBreadcums,
+}) => {
+  const [showMenu, setshowMenu] = useState(-1);
+  const CustomLabel = ({ text }) => (
+    <Typography
+      sx={{
+        fontFamily: "Spectral-Regular , sans-serif !important",
+        textWrap: "nowrap",
+        letterSpacing: "0.5px",
+        fontSize: {
+          xs: "13.2px !important", // Mobile screens
+          sm: "13.5px !important", // Tablets
+          md: "14.1px !important", // Desktop screens
+          lg: "14.6px !important", // Large desktops
+          xl: "15.4px !important", // Extra large screens
+        },
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
+  function calculateTotalFilters(selectedFilters) {
+    let totalCount = 0;
+
+    for (const key in selectedFilters) {
+      const value = selectedFilters[key];
+
+      // Split the string by comma if there are multiple selections
+      if (value.includes(",")) {
+        const options = value.split(",").map((item) => item.trim());
+        totalCount += options.length; // Add the count of multiple selections
+      } else {
+        totalCount += 1; // Count the single selection
+      }
+    }
+
+    return totalCount;
+  }
+  //   function getCheckedFilterNames(FilterValueWithCheckedOnly, filterData) {
+  //     // Extracting checked filter values
+  //     const checkedNames = [];
+
+  //     // Loop through each entry in FilterValueWithCheckedOnly
+  //     for (const key in FilterValueWithCheckedOnly) {
+  //         const checkedId = FilterValueWithCheckedOnly[key]; // e.g., '4' for 'collection'
+
+  //         // Find the corresponding filter in filterData
+  //         const filterEntry = filterData.find(item => item.id === key);
+
+  //         if (filterEntry) {
+  //             const options = JSON.parse(filterEntry.options);
+
+  //             // Find the option with the matching id and push its name to checkedNames
+  //             const checkedOption = options.find(option => option.id.toString() === checkedId);
+  //     console.log(checkedOption,"before")
+  //             if (checkedOption) {
+  //                 checkedNames.push(checkedOption.Name);
+  //             }
+  //         }
+  //     }
+  //     console.log(checkedNames,"afte=er")
+
+  //     return checkedNames;
+  // }
+
+  function getCheckedFilterNames(FilterValueWithCheckedOnly, filterData) {
+    // Extracting checked filter values
+    const checkedNames = [];
+
+    // Loop through each entry in FilterValueWithCheckedOnly
+    for (const key in FilterValueWithCheckedOnly) {
+      const checkedId = FilterValueWithCheckedOnly[key]; // Single checked ID
+
+      // Find the corresponding filter in filterData
+      const filterEntry = filterData.find((item) => item.id === key);
+
+      if (filterEntry) {
+        // Parse the options from the string to an array of objects
+        const options = JSON.parse(filterEntry.options);
+
+        // Find the option with the matching id and push its name to checkedNames
+        const checkedOption = options.find(
+          (option) => option.id.toString() === checkedId
+        );
+        console.log(checkedOption, "before");
+
+        if (checkedOption) {
+          checkedNames.push(checkedOption.Name);
+        }
+      }
+    }
+
+    console.log(checkedNames, "after");
+
+    return checkedNames;
+  }
+
+  const totalSelected = calculateTotalFilters(FilterValueWithCheckedOnly);
+
+  const checkedFilterNames = getCheckedFilterNames(
+    FilterValueWithCheckedOnly,
+    filterData
+  );
+
+  const HandleMenu = (id) => {
+    setshowMenu((prev) => (prev === id ? -1 : id));
+  };
+  const isFilterHaveEnoughData =
+    filterData?.length > 1 &&
+    filterData.some(
+      (ele) => ele?.Name === "Category" && ele?.id === "category"
+    );
+  const options = [
+    { value: "Recommended", label: "Recommended" },
+    { value: "New", label: "New" },
+    { value: "Trending", label: "Trending" },
+    { value: "Bestseller", label: "Bestseller" },
+    { value: "In Stock", label: "In stock" },
+    { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
+    { value: "PRICE LOW TO HIGH", label: "Price Low To High" },
+  ];
+
+  return (
+    <>
+      <div className="giva_roop_filter_menu_style" id="style-1">
+        <BreadCumView
+          BreadCumsObj={BreadCumsObj}
+          IsBreadCumShow={IsBreadCumShow}
+          handleBreadcums={handleBreadcums}
+        />
+        <div className="main_fmg">
+          <div className="flex_giva_roop_menu">
+            {isFilterHaveEnoughData && (
+              <div className="filter_menu_giva_roop">
+
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(1)}
+                >
+                  <Badge badgeContent={totalSelected} color="success"
+                    backgroundColor="#D14A61"
+                    anchorOrigin={{
+                      vertical: 'top',  // Adjust this as needed (top/bottom)
+                      horizontal: 'right', // Move to the left side
+                    }}
+                  >
+                    Filters
+                  </Badge>
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(1)}
+                  />
+                </Typography>
+                {showMenu === 1 && (
+                  <div className="giva_roop_filter_menu_list">
+                    {filterData?.map((ele) => (
+                      <>
+                        {!ele?.id?.includes("Range") &&
+                          !ele?.id?.includes("Price") && (
+                            <Box className="giva_roop_menu">
+                              <Typography className="giva_roop_menu_title">
+                                {ele.Fil_DisName}
+                              </Typography>
+                              <Box className="giva_roop_menu_options">
+                                {(JSON.parse(ele?.options) ?? []).map((opt) => (
+                                  <div key={opt?.id}>
+                                    <FormControlLabel
+                                      className="giva_roop_options_flex"
+                                      control={
+                                        <Checkbox
+                                          name={`${ele?.id}${opt?.id}`}
+                                          checked={
+                                            filterChecked[
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked === undefined
+                                              ? false
+                                              : filterChecked[
+                                                `${ele?.id}${opt?.id}`
+                                              ]?.checked
+                                          }
+                                          style={{
+                                            padding: 0,
+                                          }}
+                                          onClick={(e) =>
+                                            handleCheckboxChange(
+                                              e,
+                                              ele?.id,
+                                              opt?.Name
+                                            )
+                                          }
+                                          size="small"
+                                        />
+                                      }
+                                      label={<CustomLabel text={opt.Name} />}
+                                    />
+                                  </div>
+                                ))}
+                              </Box>
+                            </Box>
+                          )}
+                        {ele?.id?.includes("Price") && (
+                          <Box className="giva_roop_menu">
+                            <Typography className="giva_roop_menu_title">
+                              {ele.Fil_DisName}
+                            </Typography>
+                            <Box className="giva_roop_menu_options">
+                              {(JSON.parse(ele?.options) ?? []).map(
+                                (opt, i) => (
+                                  <div key={i}>
+                                    <FormControlLabel
+                                      className="giva_roop_options_flex"
+                                      control={
+                                        <Checkbox
+                                          name={`Price${i}${i}`}
+                                          checked={
+                                            filterChecked[`Price${i}${i}`]
+                                              ?.checked === undefined
+                                              ? false
+                                              : filterChecked[`Price${i}${i}`]
+                                                ?.checked
+                                          }
+                                          style={{
+                                            padding: 0,
+                                          }}
+                                          onClick={(e) =>
+                                            handleCheckboxChange(
+                                              e,
+                                              ele?.id,
+                                              opt
+                                            )
+                                          }
+                                          size="small"
+                                        />
+                                      }
+                                      label={
+                                        <CustomLabel
+                                          text={
+                                            opt?.Minval == 0
+                                              ? `Under ${loginUserDetail?.CurrencyCode ??
+                                              storeInit?.CurrencyCode
+                                              } ${opt?.Maxval}`
+                                              : opt?.Maxval == 0
+                                                ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Minval}`
+                                                : `${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Minval} 
+                                                    - ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Maxval}`
+                                          }
+                                        />
+                                      }
+                                    />
+                                  </div>
+                                )
+                              )}
+                            </Box>
+                          </Box>
+                        )}
+                        {ele?.Name?.includes("Diamond") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                            // className="filtercategoryLable"
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                              <Box sx={{ width: 203, height: 88 }}>
+                                {RangeFilterView(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                        {ele?.Name?.includes("NetWt") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              // className="filtercategoryLable"
+                              onClick={() => handleScrollHeight()}
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              {/* {console.log("RangeEle",JSON?.parse(ele?.options)[0])} */}
+                              <Box sx={{ width: 204, height: 88 }}>
+                                {RangeFilterView1(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                        {ele?.Name?.includes("Gross") && (
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
+                          >
+                            <AccordionSummary
+                              expandIcon={
+                                <ExpandMoreIcon sx={{ width: "20px" }} />
+                              }
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              sx={{
+                                color: "#7f7d85",
+                                borderRadius: 0,
+
+                                "&.MuiAccordionSummary-root": {
+                                  padding: 0,
+                                },
+                              }}
+                              // className="filtercategoryLable"
+                              onClick={() => handleScrollHeight()}
+                            >
+                              {/* <span> */}
+                              {ele.Fil_DisName}
+                              {/* </span> */}
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                                minHeight: "fit-content",
+                                maxHeight: "300px",
+                                overflow: "auto",
+                              }}
+                            >
+                              <Box sx={{ width: 204, height: 88 }}>
+                                {RangeFilterView2(ele)}
+                              </Box>
+                            </AccordionDetails>
+                          </Accordion>
+                        )}
+                      </>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
+              <div className="filter_menu_giva_roop">
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(2)}
+                >
+                  Metal{" "}
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(2)}
+                  />{" "}
+                </Typography>
+                {showMenu === 2 && (
+                  <div className="giva_roop_filter_menu_list">
+                    <Box
+                      className="giva_roop_menu_options"
+                      sx={{
+                        padding: "0 15px",
+                      }}
+                    >
+                      {metalTypeCombo?.map((metalele, i) => (
+                        <div key={i}>
+                          <FormControlLabel
+                            className="giva_roop_options_flex"
+                            value={metalele?.Metalid}
+                            control={
+                              <Checkbox
+                                name={metalele?.Metalid}
+                                checked={selectedMetalId === metalele?.Metalid}
+                                style={{
+                                  padding: 0,
+                                }}
+                                onChange={(e) =>
+                                  setSelectedMetalId(metalele?.Metalid)
+                                }
+                                size="small"
+                              />
+                            }
+                            label={
+                              <CustomLabel
+                                text={metalele?.metaltype.toUpperCase()}
+                              />
+                            }
+                          />
+                        </div>
+                      ))}
+                    </Box>
+                  </div>
+                )}
+              </div>
+            )}
+            {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
+              <div className="filter_menu__roop">
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(3)}
+                >
+                  Diamond{" "}
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(3)}
+                  />{" "}
+                </Typography>
+                {showMenu === 3 && (
+                  <div className="giva_roop_filter_menu_list">
+                    <Box
+                      className="giva_roop_menu_options"
+                      sx={{
+                        padding: "0 15px",
+                      }}
+                    >
+                      {diaQcCombo?.map((diaQc, i) => (
+                        <div key={i}>
+                          <FormControlLabel
+                            className="giva_roop_options_flex"
+                            value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                            control={
+                              <Checkbox
+                                name={diaQc?.Metalid}
+                                checked={
+                                  selectedDiaId ===
+                                  `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                }
+                                style={{
+                                  padding: 0,
+                                }}
+                                onChange={(e) =>
+                                  setSelectedDiaId(
+                                    `${diaQc?.QualityId},${diaQc?.ColorId}`
+                                  )
+                                }
+                                size="small"
+                              />
+                            }
+                            label={
+                              <CustomLabel
+                                text={`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                              />
+                            }
+                          />
+                        </div>
+                      ))}
+                    </Box>
+                  </div>
+                )}
+              </div>
+            )}
+            {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
+              <div className="filter_menu_giva_roop">
+                <Typography
+                  sx={{ fontSize: "16px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(4)}
+                >
+                  Color Stone
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(4)}
+                  />{" "}
+                </Typography>
+                {showMenu === 4 && (
+                  <div className="giva_roop_filter_menu_list">
+                    <Box
+                      className="giva_roop_menu_options"
+                      sx={{
+                        padding: "0 15px",
+                      }}
+                    >
+                      {csQcCombo?.map((CsQcC, i) => (
+                        <div key={i}>
+                          <FormControlLabel
+                            className="giva_roop_options_flex"
+                            value={`${CsQcC?.QualityId},${CsQcC?.ColorId}`}
+                            control={
+                              <Checkbox
+                                name={CsQcC?.Metalid}
+                                checked={
+                                  selectedCsId ===
+                                  `${CsQcC?.QualityId},${CsQcC?.ColorId}`
+                                }
+                                style={{
+                                  padding: 0,
+                                }}
+                                onChange={(e) =>
+                                  setSelectedCsId(
+                                    `${CsQcC?.QualityId},${CsQcC?.ColorId}`
+                                  )
+                                }
+                                size="small"
+                              />
+                            }
+                            label={
+                              <CustomLabel
+                                text={`${CsQcC.Quality.toUpperCase()},${CsQcC.color.toLowerCase()}`}
+                              />
+                            }
+                          />
+                        </div>
+                      ))}
+                    </Box>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex__roop_right_menu">
+            <div className="flex_giva_roop_menu">
+              {storeInit?.IsMetalCustComb === 1 && (
+                <div className="filter_menu_giva_roop">
+                  <Typography
+                    sx={{ fontSize: "16px" }}
+                    className="fmg_menu"
+                    onClick={() => HandleMenu(5)}
+                  >
+                    Sort by : {sortBySelect}{" "}
+                    <ExpandMoreIcon
+                      className="fmg_icon"
+                      onClick={() => HandleMenu(5)}
+                    />{" "}
+                  </Typography>
+                  {showMenu === 5 && (
+                    <div
+                      className="giva_roop_filter_menu_list"
+                      style={{ right: "0" }}
+                    >
+                      <Box
+                        className="giva_roop_menu_options"
+                        sx={{
+                          padding: "0 15px",
+                        }}
+                      >
+                        {options?.map((sort, i) => (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_roop_options_flex"
+                              value={sort?.value}
+                              control={
+                                <Checkbox
+                                  name={sort?.label}
+                                  checked={sortBySelect === sort?.value}
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onChange={(e) => handleSortby(e)}
+                                  size="small"
+                                />
+                              }
+                              label={<CustomLabel text={sort?.label} />}
+                            />
+                          </div>
+                        ))}
+                      </Box>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        {/* <FilterSelectedView selectedFilterValues={checkedFilterNames}/> */}
+        <ClearAllAndTotalResult
+          afterFilterCount={afterFilterCount}
+          filterChecked={filterChecked}
+          afterCountStatus={afterCountStatus}
+          handelFilterClearAll={handelFilterClearAll}
+        />
+      </div>
+    </>
+  );
+};
+
+const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  return (
+    <div className="breadcrumb_fmg">
+      <div className="empty_sorting_div_fmg">
+        <span
+          className="roop_breadcums_port_fmg"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {"Home /"}
+        </span>
+
+        {location?.search.charAt(1) == "A" && (
+          <div
+            className="roop_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Album"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "T" && (
+          <div
+            className="roop_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Trending"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "B" && (
+          <div
+            className="roop_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"Best Seller"}</span>
+          </div>
+        )}
+
+        {location?.search.charAt(1) == "N" && (
+          <div
+            className="roop_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            <span>{"New Arrival"}</span>
+          </div>
+        )}
+
+        {IsBreadCumShow && (
+          <div
+            className="roop_breadcums_port_fmg"
+            style={{ marginLeft: "3px" }}
+          >
+            {/* {decodeURI(location?.pathname).slice(3).replaceAll("/"," > ").slice(0,-2)} */}
+            {BreadCumsObj()?.menuname && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                  })
+                }
+              >
+                {BreadCumsObj()?.menuname}
+              </span>
+            )}
+
+            {BreadCumsObj()?.FilterVal1 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                  })
+                }
+              >
+                &nbsp;{` / ${BreadCumsObj()?.FilterVal1}`}
+              </span>
+            )}
+
+            {BreadCumsObj()?.FilterVal2 && (
+              <span
+                onClick={() =>
+                  handleBreadcums({
+                    [BreadCumsObj()?.FilterKey]: BreadCumsObj()?.FilterVal,
+                    [BreadCumsObj()?.FilterKey1]: BreadCumsObj()?.FilterVal1,
+                    [BreadCumsObj()?.FilterKey2]: BreadCumsObj()?.FilterVal2,
+                  })
+                }
+              >
+                &nbsp;{` / ${BreadCumsObj()?.FilterVal2}`}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ClearAllAndTotalResult = ({ afterFilterCount, filterChecked, afterCountStatus, handelFilterClearAll }) => {
+  return <div className="clear_fmg_list">
+    <span className="roop_filter_text">
+      <span>
+        {Object.values(filterChecked).filter(
+          (ele) => ele.checked
+        )?.length === 0 ? (
+          ""
+        ) : (
+          <>
+            {afterCountStatus == true ? (
+              <Skeleton
+                variant="rounded"
+                width={140}
+                height={22}
+                className="pSkelton"
+              />
+            ) : (
+              <span className="fmg_total_product">{`Product Found : ${afterFilterCount}`}</span>
+            )}
+          </>
+        )}
+      </span>
+      <span onClick={() => handelFilterClearAll()}>
+        {Object.values(filterChecked).filter(
+          (ele) => ele.checked
+        )?.length > 0 ? (
+          <div className="fmg_remove_All">Remove All <IoClose /></div>
+        ) : (
+          <>
+            {afterCountStatus == true ? (
+              <Skeleton
+                variant="rounded"
+                width={140}
+                height={22}
+                className="pSkelton"
+              />
+            ) : (
+              <span className="fmg_total_product">{`Total Products : ${afterFilterCount}`}</span>
+            )}
+          </>
+        )}
+      </span>
+    </span>
+  </div>
+}
+

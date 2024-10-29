@@ -6,6 +6,8 @@
   // background-color: $stambackcolor;
   // }
 
+  font-family: $fontRegular !important;
+
   .roop_header_top_line {
     height: 50px;
     background-color: #d14a61;
@@ -17,10 +19,11 @@
   }
 
   .roop_header_top_line_text {
-    font-size: 17px;
+    font-size: 23px;
     font-weight: 500;
     margin: 0px;
     text-align: center;
+    font-family: $fontBold !important;
   }
 
   .roop_Top_header_sub {
@@ -93,7 +96,7 @@
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
     display: flex;
   }
 
@@ -130,7 +133,7 @@
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
   }
 
   .nav_li_smining_Fixed::before {
@@ -345,6 +348,8 @@
     color: black;
     text-decoration: none;
     font-size: 16px;
+    font-weight: 500;
+    font-family: $fontRegular !important;
   }
 
   .roop_header_link {
@@ -565,7 +570,8 @@
     }
 
     .roop_mobileHeader_top_div1 {
-      width: 33.33%;
+      // width: 33.33%;
+      width: 23.33%;
     }
 
     .roop_mobileHeader_top_div2 {
@@ -654,6 +660,12 @@
     // .roop_mobileHideIcone {
     //     display: none !important;
     // }
+  }
+
+  @media screen and (max-width: 520px) {
+    .roop_mobileHeader_top_div1 {
+      width: 18.33%;
+    }
   }
 
   @media (max-width: 500px) {

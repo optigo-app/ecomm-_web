@@ -32,7 +32,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
         }}
         className="roop_remarkModalBox"
       >
-        <Typography id="remark-modal-title" variant="h6" component="h2">
+        <Typography id="remark-modal-title" className='roop_addorderRemark' variant="h6" component="h2">
           Add The Item Remark..
         </Typography>
         <TextField
