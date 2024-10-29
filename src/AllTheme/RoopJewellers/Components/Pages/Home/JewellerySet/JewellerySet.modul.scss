@@ -1,3 +1,5 @@
+@import '../../../scss/variable.scss';
+
 .roop_jewlSet_Main {
 
 
@@ -5,6 +7,7 @@
         font-size: 40px;
         text-align: center;
         margin-top: 70px;
+        font-family: $fontMedium;
     }
 
     .roop_jewls_main_sub {
@@ -39,6 +42,7 @@
         font-size: 30px;
         bottom: 20%;
         left: 40px;
+        font-family: $fontMedium;
     }
 
     .roop_jewelImg {

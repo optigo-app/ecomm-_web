@@ -2,6 +2,8 @@
 
 .stam_loginEmail {
 
+    font-family: $fontRegular !important;
+
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
@@ -9,6 +11,23 @@
     .smr_loginEmailD {
         background-color: white;
         margin-inline: 6%;
+    }
+
+    .AuthScreenMainTitle {
+        text-align: center;
+        padding-block: 60px;
+        margin-top: 0px;
+        font-size: 40px;
+        color: #7d7f85;
+        font-family: $fontBold !important;
+    }
+
+    .AuthScreenSubTitle {
+        text-align: center;
+        margin-top: -80px;
+        font-size: 15px;
+        color: #7d7f85;
+        font-family: $fontRegular !important;
     }
 
     .rp_SmilingLoginCodeBtn {
@@ -19,7 +38,7 @@
         background-color: white;
         font-size: 15px;
         letter-spacing: 1px;
-        border-radius: 4px;
+        border-radius: 8px;
         border: 1px solid #7d7f85;
         width: 420px;
         height: 60px;
@@ -38,10 +57,11 @@
         width: 420px;
         color: white;
         background-color: $btnprimarycolor !important;
-        border-radius: 4px;
+        border-radius: 8px;
         border: 0;
+        font-family: $fontRegular;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 16px;
         cursor: pointer;
         font-weight: 500;
         letter-spacing: 1;
@@ -69,6 +89,8 @@
         border: 1px solid #7d7f85;
         width: 420px;
         height: 60px;
+        font-family: $fontRegular;
+        border-radius: 8px;
         position: relative;
         text-decoration: none;
         transition: all 0.5s ease;

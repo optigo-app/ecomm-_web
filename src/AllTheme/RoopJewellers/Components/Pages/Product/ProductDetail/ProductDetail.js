@@ -1710,7 +1710,7 @@ const ProductDetail = () => {
                                 // className="filtercategoryLable"
 
                                 >
-                                  <Typography sx={{ fontFamily: "TT Commons Regular", fontSize: '18px' }}>Price Breakup</Typography>
+                                  <Typography sx={{ fontFamily: "Spectral-Regular !important", fontSize: '18px' }}>Price Breakup</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails
                                   sx={{
@@ -1742,73 +1742,73 @@ const ProductDetail = () => {
 
 
                                   {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Metal</Typography>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Metal</Typography>
                                     <span style={{ display: 'flex' }}>
                                       <Typography>
                                         {
-                                          <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                          <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
                                         }
                                       </Typography>
                                       &nbsp;
-                                      <Typography sx={{ fontFamily: "TT Commons Regular" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                      <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Diamond </Typography>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Diamond </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Stone </Typography>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Stone </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>MISC </Typography>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>MISC </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
                                   {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Labour </Typography>
+                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Labour </Typography>
 
                                     <span style={{ display: 'flex' }}>
                                       <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                           {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1825,16 +1825,16 @@ const ProductDetail = () => {
                                     ) !== 0 ?
 
                                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "TT Commons Regular" }}>Other </Typography>
+                                        <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Other </Typography>
 
                                         <span style={{ display: 'flex' }}>
                                           <Typography>{
-                                            <span className="smr_currencyFont" sx={{ fontFamily: "TT Commons Regular" }}>
+                                            <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                               {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                             </span>
                                           }</Typography>
                                           &nbsp;
-                                          <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "TT Commons Regular" }}>{
+                                          <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{
                                             formatter.format((
 
                                               (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
@@ -1934,8 +1934,8 @@ const ProductDetail = () => {
                               </div>
                               {
                                 // prodLoading &&
-                                singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                              {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'TT Commons Regular', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                                singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'Spectral-Regular !important', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                              {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'Spectral-Regular !important', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                             </div>
                           }
                         </div>}
@@ -1945,22 +1945,22 @@ const ProductDetail = () => {
 
                 <div className="smr_material_details_portion">
                   {(diaList?.length > 0 || csList?.filter((ele) => ele?.D === "MISC")?.length > 0 || csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (
-                    <p className="smr_details_title"> Product Details</p>
+                    <p className="roop_details_title"> Product Details</p>
                   )}
                   {diaList?.length > 0 && (
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
-                        <li
-                          style={{ fontWeight: 600 }}
-                        >{`Diamond Detail (${diaList?.reduce(
-                          (accumulator, data) => accumulator + data.M,
-                          0
-                        )}  ${diaList
-                          ?.reduce(
-                            (accumulator, data) => accumulator + data?.N,
+                        <li style={{ fontWeight: 600, fontFamily: "Spectral-Bold" }}>
+                          {`Diamond Detail (${diaList?.reduce(
+                            (accumulator, data) => accumulator + data.M,
                             0
-                          )
-                          .toFixed(3)}ct)`}</li>
+                          )}/${diaList
+                            ?.reduce(
+                              (accumulator, data) => accumulator + data?.N,
+                              0
+                            )
+                            .toFixed(3)} ct)`}
+                        </li>
                       </ul>
                       <ul className="smr_mt_detail_title_ul">
                         <li className="smr_proDeatilList">Shape</li>
@@ -1974,7 +1974,7 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {`${data.M} /`}&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -1985,11 +1985,11 @@ const ProductDetail = () => {
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600 }}
+                          style={{ fontWeight: 600, fontFamily: "Spectral-Bold" }}
                         >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele) => ele?.D !== "MISC")
+                        )}/${csList?.filter((ele) => ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2008,7 +2008,7 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {`${data.M} /`}&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -2019,11 +2019,11 @@ const ProductDetail = () => {
                     <div className="smr_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600 }}
+                          style={{ fontWeight: 600, fontFamily: "Spectral-Bold" }}
                         >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele) => ele?.D === "MISC")
+                        )}/${csList?.filter((ele) => ele?.D === "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2042,7 +2042,7 @@ const ProductDetail = () => {
                           <li className="smr_proDeatilList1">{data?.H}</li>
                           <li className="smr_proDeatilList1">{data?.J}</li>
                           <li className="smr_proDeatilList1">
-                            {data.M}&nbsp;&nbsp;{(data?.N)?.toFixed(3)}
+                            {`${data.M} /`}&nbsp;{(data?.N)?.toFixed(3)}
                           </li>
                         </ul>
                       ))}
@@ -2052,7 +2052,7 @@ const ProductDetail = () => {
 
                 {(stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1) && (
                   <div className="smr_stockItem_div">
-                    <p className="smr_details_title"> Stock Items </p>
+                    <p className="roop_details_title"> Stock Items </p>
                     <div className="smr_stockitem_container">
                       {/* <div className="smr_stock_item_card">
                   {stockItemArr?.map((ele) => (
@@ -2379,7 +2379,7 @@ const ProductDetail = () => {
                 {storeInit?.IsProductDetailSimilarDesign == 1 &&
                   SimilarBrandArr?.length > 0 && (
                     <div className="smr_stockItem_div">
-                      <p className="smr_details_title"> Similar Designs</p>
+                      <p className="roop_details_title"> Similar Designs</p>
                       <div className="smr_stockitem_container">
                         <div className="smr_stock_item_card">
                           {SimilarBrandArr?.map((ele) => (
@@ -2461,12 +2461,13 @@ const ProductDetail = () => {
                       }}
                     >
                       <p
-                        style={{
-                          fontFamily: "FreightDisp Pro Medium",
-                          color: "#7d7f85",
-                          fontSize: "30px",
-                          // display:'none'
-                        }}
+                        className="roop_details_title"
+                      // style={{
+                      //   fontFamily: "Spectral-Bold, sans-serif",
+                      //   color: "#7d7f85",
+                      //   fontSize: "30px",
+                      //   // display:'none'
+                      // }}
                       >
                         Complete The Look
                       </p>
@@ -2513,12 +2514,13 @@ const ProductDetail = () => {
                                 }
                               >
                                 <p
-                                  style={{
-                                    fontFamily: "FreightDisp Pro Medium",
-                                    color: "#7d7f85",
-                                    fontSize: "30px",
-                                    display: "none",
-                                  }}
+                                  className="roop_details_title"
+                                // style={{
+                                //   fontFamily: "Spectral-Bold, sans-serif",
+                                //   color: "#7d7f85",
+                                //   fontSize: "30px",
+                                //   display: "none",
+                                // }}
                                 >
                                   Complete The Look
                                 </p>

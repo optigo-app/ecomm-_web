@@ -1657,7 +1657,7 @@ const ProductDetail = () => {
                                   </span>
                                 </span> : null}
                               {/* Miora Need Net weight / kayra Don't */}
-                              {KayraCreation === 1 && storeInit?.IsMetalWeight === 1 &&
+                              {KayraCreation === 2 && storeInit?.IsMetalWeight === 1 &&
                                 <span className="smr_prod_short_key">
                                   Net. wt :{" "}
                                   <span className="smr_prod_short_val">
@@ -2433,7 +2433,7 @@ const ProductDetail = () => {
 
 
                 {/* Maiora chnages Need the / in website for other not need right now !! */}
-                {KayraCreation === 1 && <div className="smr_material_details_portion">
+                {KayraCreation === 2 && <div className="smr_material_details_portion">
                   {(diaList?.length > 0 ||
                     csList?.filter((ele) => ele?.D === "MISC")?.length > 0 ||
                     csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) && (

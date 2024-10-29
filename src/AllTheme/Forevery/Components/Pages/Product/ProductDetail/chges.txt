@@ -1159,7 +1159,7 @@ const ProductDetail = () => {
 
         sessionStorage.setItem('custStepData2', JSON.stringify(updatedStepData));
 
-        navigate(`/d/setting-complete-product/det345/?p=${step1?.[2]?.url}`);
+        navigate(`/d/setting-complete-product/det/?p=${step1?.[2]?.url}`);
       }
       else {
         // Replace or add the step2 entry in the step1 data
@@ -1233,7 +1233,7 @@ const ProductDetail = () => {
         },
       })
 
-      navigate(`/d/setting-complete-product/det345/?p=${encodeObj}`);
+      navigate(`/d/setting-complete-product/det/?p=${encodeObj}`);
     }
 
   }
@@ -1854,7 +1854,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
   const [loginCurrency, setLoginCurrency] = useState();
   const Navigation = useNavigate();
   const location = useLocation();
-  const isDiamondPage = 'diamond' || 'det345';
+  const isDiamondPage = 'diamond' || 'det';
   const getStepName = location?.pathname.split('/');
   const getCustStepData = JSON.parse(sessionStorage.getItem('customizeSteps'));
   const getdiaData = JSON.parse(sessionStorage.getItem('custStepData'));
@@ -1964,7 +1964,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
         </div>
 
         <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
-          <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
+          <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
             <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
               StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
           </span>
@@ -2038,7 +2038,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
           </div>
 
           <div className={`step_data ${(getdiaData2?.[1]?.step2Data || getdiaData?.[1]?.step2Data) ? '' : 'finish_set'} ${getStepName.includes('setting-complete-product') ? 'active' : ''} d-3`}>
-            <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
+            <span style={StyleCondition} onClick={() => { Navigation(`/d/setting-complete-product/det/?p=${(getCompleteStep1?.[2]?.url || getCompleteStep2?.[2]?.url)}`); setswap("finish"); }}>
               <img className={(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'for_pendant_view' : ''} src={((getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? StepImages[2]?.img1 : StepImages[2]?.img) ||
                 StepImages[2]?.img} alt="" /> {(getCustStepData2?.[0]?.Setting === 'Pendant' || getCustStepData?.[1]?.Setting === 'Pendant') ? 'Pendant' : 'Ring'}
             </span>
@@ -2107,7 +2107,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
                   </div>
                 )}
                 <div className="for_step d-3">
-                  <span style={StyleCondition} onClick={() => Navigation(`/d/setting-complete-product/det345/?p=${(getCompleteStep1?.step3?.url ?? getCompleteStep2?.[2]?.url)}`)}>
+                  <span style={StyleCondition} onClick={() => Navigation(`/d/setting-complete-product/det/?p=${(getCompleteStep1?.step3?.url ?? getCompleteStep2?.[2]?.url)}`)}>
                     <img src={StepImages[2]?.img} alt="" /> Rings
                   </span>
                 </div>
@@ -2215,7 +2215,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-      let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
+      let navigateUrl = `/d/${data?.stockno}/det/?p=${encodeObj}`;
       Navigation(navigateUrl);
     }
     if ((data?.autocode ?? data?.step1Data?.autocode)) {

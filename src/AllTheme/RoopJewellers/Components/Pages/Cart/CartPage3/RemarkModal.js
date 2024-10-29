@@ -22,7 +22,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           maxWidth: 800,
-          width:500,
+          width: 500,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -32,7 +32,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
         }}
         className="roop3_remarkModalBox"
       >
-        <Typography id="remark-modal-title" variant="h6" component="h2">
+        <Typography id="remark-modal-title" className='roop_addorderRemark' variant="h6" component="h2">
           Add The Item Remark..
         </Typography>
         <TextField

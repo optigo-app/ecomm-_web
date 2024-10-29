@@ -1,4 +1,4 @@
-.skeltonMainDiv{
+.skeltonMainDiv {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
     margin-bottom: 20px;
 }
 
-.skeltonMainDiv_prodlistPage{
+.skeltonMainDiv_prodlistPage {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,32 +16,34 @@
     margin-bottom: 20px;
 }
 
-.skeltoncards{
+.skeltoncards {
     box-shadow: none !important;
+    // width: 200px
 }
 
-.skeltoncards_listpage{
+.skeltoncards_listpage {
     box-shadow: none !important;
-    width:350px
+    width: 400px
 }
 
 @media (max-width:1440px) {
-    .filtercard{
+    .filtercard {
         display: none !important;
     }
-    .topSkeletonMain{
+
+    .topSkeletonMain {
         margin-top: 50px;
     }
 }
 
 @media (max-width: 600px) {
-    .skeltonMainDiv{
+    .skeltonMainDiv {
         margin-inline: 1%;
     }
 
-    .cardMainSkeleton{
-        height: 20vh!important;
+    .cardMainSkeleton {
+        height: 20vh !important;
     }
 
-  
+
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Header.modul.scss";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import {
   Badge,
@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemText,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
 import { GetMenuAPI } from "../../../../../../utils/API/GetMenuAPI/GetMenuAPI";
 import { PiStarThin } from "react-icons/pi";
@@ -39,12 +40,15 @@ const Header = () => {
   const setCartOpenState = useSetRecoilState(roop_cartB2CDrawer);
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
+  const maxWidth1200 = useMediaQuery('(max-width: 1200px)');
+  const maxWidth425 = useMediaQuery('(max-width: 425px)');
 
   const compnyLogo = useRecoilValue(roop_companyLogo);
   const compnyLogoM = useRecoilValue(roop_companyLogoM);
   const [islogin, setislogin] = useRecoilState(roop_loginState);
   const [menuData, setMenuData] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const [cartCountNum, setCartCountNum] = useRecoilState(roop_CartCount);
   const [wishCountNum, setWishCountNum] = useRecoilState(roop_WishCount);
@@ -61,6 +65,13 @@ const Header = () => {
 
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
   const navigation = useNavigate();
+
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
+  };
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
 
   useEffect(() => {
     const visiterID = Cookies.get("visiterId");
@@ -227,8 +238,7 @@ const Header = () => {
   };
 
   const toggleOverlay = () => {
-    // setSearchText('');
-    setSerachShowOverlay(!serachsShowOverlay);
+    setSerachShowOverlay(prev => !prev);
   };
 
   const [drawerShowOverlay, setDrawerShowOverlay] = useState(false);
@@ -379,6 +389,7 @@ const Header = () => {
         setDrawerShowOverlay(false);
         navigation(`/p/${searchText}?S=${encodeObj}`);
         setSearchText("");
+        setSerachShowOverlay(false);
       }
     }
   };
@@ -386,18 +397,18 @@ const Header = () => {
   // for cart drawer
 
   const toggleCartDrawer = () => {
-    setTimeout(() => {
-      if (cartTheameNo == 2) {
-        setIsCartOpen((prevState) => !prevState);
-        const isCartDrawerOpen = JSON.parse(
-          sessionStorage.getItem("isCartDrawer")
-        );
-        sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
-        setCartOpenState((prevState) => !prevState);
-      } else {
-        navigate("/cartPage");
-      }
-    }, 500);
+    // setTimeout(() => {
+    if (cartTheameNo == 3) {
+      setIsCartOpen((prevState) => !prevState);
+      const isCartDrawerOpen = JSON.parse(
+        sessionStorage.getItem("isCartDrawer")
+      );
+      sessionStorage.setItem("isCartDrawer", !isCartDrawerOpen);
+      setCartOpenState((prevState) => !prevState);
+    } else {
+      navigate("/cartPage");
+    }
+    // }, 500);
   };
 
   const handleContextMenu = (e) => { };
@@ -424,106 +435,698 @@ const Header = () => {
   };
   return (
     <div className="roop_headerMain_div">
-      {/* {serachsShowOverlay && (
+      {serachsShowOverlay && (
         <>
           <div className="roop_smlingSearchoverlay">
-            <div className="roop_smlingTopSerachOver">
-              <IoSearchOutline
-                style={{ height: "15px", width: "15px", marginRight: "10px" }}
-              />
-              <input
-                type="text"
-                placeholder="Enter Design Number"
-                value={searchText}
-                autoFocus
-                onChange={(e) => setSearchText(e.target.value)}
-                className="roop_serachinputBoxOverly"
-                onKeyDown={searchDataFucn}
-              />
-              <IoClose
-                style={{
-                  height: "30px",
-                  width: "30px",
-                  color: "#7d7f85",
-                  cursor: "pointer",
-                }}
-                onClick={toggleOverlay}
-              />
+            <div className="roop_smlingSearchoverlay_div">
+              <div className={`roop_smlingTopSerachOver ${serachsShowOverlay ? "active" : ""}`}>
+                <IoClose
+                  style={{
+                    height: "30px",
+                    position: "absolute",
+                    right: '2rem',
+                    top: '1rem',
+                    width: "30px",
+                    color: "#b7bccd",
+                    cursor: "pointer",
+                  }}
+                  onClick={toggleOverlay}
+                />
+                <div className="roop_search_div">
+                  <input
+                    type="text"
+                    placeholder="Enter Design Number"
+                    value={searchText}
+                    autoFocus
+                    onChange={(e) => setSearchText(e.target.value)}
+                    className="roop_serachinputBoxOverly"
+                    onKeyDown={searchDataFucn}
+                  />
+                  <IoSearchOutline
+                    style={{ height: "25px", width: "25px", marginRight: "10px" }}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div
-            className={`roop_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
-              }`}
-          >
-            <div className="roop_smlingTopSerachOver-Fixed">
-              <IoSearchOutline
-                style={{ height: "15px", width: "15px", marginRight: "10px" }}
-              />
-              <input
-                type="text"
-                placeholder="Enter Design Number"
-                value={searchText}
-                autoFocus
-                onChange={(e) => setSearchText(e.target.value)}
-                className="roop_serachinputBoxOverly"
-                onKeyDown={searchDataFucn}
-              />
-              <IoClose
-                style={{
-                  height: "30px",
-                  width: "30px",
-                  color: "#7d7f85",
-                  cursor: "pointer",
-                }}
-                onClick={toggleOverlay}
-              />
-            </div>
-          </div>
-        </>
-      )} */}
-
-      {drawerShowOverlay && (
-        <>
-          <div className="roop_MobileSiderBarMain">
-            <div
-              style={{
-                margin: "20px 10px 0px 10px",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
+            {/* <div
+              className={`roop_smlingSearchoverlayNew ${isHeaderFixedDropShow ? "fixed" : ""
+                }`}
             >
-              <div className="roop_mobileHeader_top_div1">
+              <div className="roop_smlingTopSerachOver-Fixed">
+                <IoSearchOutline
+                  style={{ height: "15px", width: "15px", marginRight: "10px" }}
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Design Number"
+                  value={searchText}
+                  autoFocus
+                  onChange={(e) => setSearchText(e.target.value)}
+                  className="roop_serachinputBoxOverly"
+                  onKeyDown={searchDataFucn}
+                />
                 <IoClose
                   style={{
                     height: "30px",
                     width: "30px",
-                    color: "white",
+                    color: "#7d7f85",
                     cursor: "pointer",
                   }}
-                  onClick={toggleDrawerOverlay}
+                  onClick={toggleOverlay}
                 />
               </div>
-              <div className="roop_mobileHeader_top_div2">
-                <a href="/">
-                  <img
-                    src={compnyLogo}
-                    loading="lazy"
-                    className="roop_logo_header"
-                  />
-                </a>
-              </div>
+            </div> */}
+          </div>
+        </>
+      )
+      }
 
-              <div className="roop_mobileHeader_top_div3">
+      {maxWidth1200 && (
+        <>
+          {drawerShowOverlay && (
+            <>
+              <div className="roop_MobileSiderBarMain">
+                <div
+                  style={{
+                    margin: "20px 10px 0px 10px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div className="roop_mobileHeader_top_div1">
+                    <IoClose
+                      style={{
+                        height: "30px",
+                        width: "30px",
+                        color: "white",
+                        cursor: "pointer",
+                      }}
+                      onClick={toggleDrawerOverlay}
+                    />
+                  </div>
+                  {!maxWidth425 && (
+                    <div className="roop_mobileHeader_top_div2">
+                      <a href="/">
+                        <img
+                          src={compnyLogo}
+                          loading="lazy"
+                          className="roop_logo_header"
+                        />
+                      </a>
+                    </div>
+                  )}
+
+                  {maxWidth425 && (
+                    <div className="roop_mobileHeader_top_div2">
+                      <a href="/">
+                        <img
+                          src={compnyLogoM}
+                          loading="lazy"
+                          className="roop_logo_header"
+                        />
+                      </a>
+                    </div>
+                  )}
+
+                  <div className="roop_mobileHeader_top_div3">
+                    {IsB2BWebsiteChek == 0 ? (
+                      <>
+                        <Badge
+                          badgeContent={wishCountNum}
+                          max={1000}
+                          overlap={"rectangular"}
+                          color="secondary"
+                          className="badgeColorFix roop_mobileHideIcone"
+                          style={{ marginInline: "5px" }}
+                        >
+                          <Tooltip title="WishList">
+                            <li
+                              className="nav_li_smining_Icone"
+                              onClick={() => navigation("/myWishList")}
+                            >
+                              <PiStarThin
+                                style={{
+                                  height: "25px",
+                                  cursor: "pointer",
+                                  width: "25px",
+                                  fontWeight: "600",
+                                  // color: "#D14A61"
+                                }}
+                              />
+                            </li>
+                          </Tooltip>
+                        </Badge>
+                        {/* <li
+                          className="nav_li_smining_Icone roop_mobileHideIcone"
+                          onClick={toggleOverlay}
+                          style={{}}
+                        >
+                          <IoSearchOutline
+                            style={{
+                              height: "23px",
+                              cursor: "pointer",
+                              width: "23px",
+                            }}
+                          />
+                        </li> */}
+                        <Badge
+                          badgeContent={cartCountNum}
+                          max={1000}
+                          overlap={"rectangular"}
+                          color="secondary"
+                          className="badgeColorFix roop_mobileHideIcone"
+                          style={{ marginInline: "15px" }}
+                        >
+                          <Tooltip title="Cart">
+                            <li
+                              onClick={
+                                IsCartNo == 3
+                                  ? toggleCartDrawer
+                                  : () => navigate("/cartPage")
+                              }
+                              className="nav_li_smining_Icone"
+                            >
+                              <ShoppingCartOutlinedIcon
+                                sx={{ height: "25px", width: "25px" }}
+                              />
+                            </li>
+                          </Tooltip>
+                        </Badge>
+                      </>
+                    ) : (
+                      <>
+                        {islogin && (
+                          <>
+                            <Badge
+                              badgeContent={wishCountNum}
+                              max={1000}
+                              overlap={"rectangular"}
+                              color="secondary"
+                              className="badgeColorFix roop_mobileHideIcone"
+                              style={{ marginInline: "5px" }}
+                            >
+                              <Tooltip title="WishList">
+                                <li
+                                  className="nav_li_smining_Icone"
+                                  onClick={() => navigation("/myWishList")}
+                                >
+                                  <PiStarThin
+                                    style={{
+                                      height: "25px",
+                                      cursor: "pointer",
+                                      width: "25px",
+                                      fontWeight: "600",
+                                      // color: "#D14A61"
+                                    }}
+                                  />
+                                </li>
+                              </Tooltip>
+                            </Badge>
+                            {/* <li
+                          className="nav_li_smining_Icone roop_mobileHideIcone"
+                          onClick={toggleOverlay}
+                          style={{}}
+                        >
+                          <IoSearchOutline
+                            style={{
+                              height: "23px",
+                              cursor: "pointer",
+                              width: "23px",
+                            }}
+                          />
+                        </li> */}
+                            <Badge
+                              badgeContent={cartCountNum}
+                              max={1000}
+                              overlap={"rectangular"}
+                              color="secondary"
+                              className="badgeColorFix roop_mobileHideIcone"
+                              style={{ marginInline: "15px" }}
+                            >
+                              <Tooltip title="Cart">
+                                <li
+                                  onClick={
+                                    IsCartNo == 3
+                                      ? toggleCartDrawer
+                                      : () => navigate("/cartPage")
+                                  }
+                                  className="nav_li_smining_Icone"
+                                >
+                                  <ShoppingCartOutlinedIcon
+                                    sx={{ height: "25px", width: "25px" }}
+                                  />
+                                </li>
+                              </Tooltip>
+                            </Badge>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {IsB2BWebsiteChek === 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      border: "1px solid white",
+                      alignItems: "center",
+                      height: "40px",
+                      justifyContent: "center",
+                      marginInline: "5px",
+                      paddingBlock: "15px",
+                      marginBottom: "10px",
+                      paddingInline: "8px",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={searchText}
+                      autoFocus
+                      onChange={(e) => setSearchText(e.target.value)}
+                      className="mobileSideBarSearch"
+                      onKeyDown={searchDataFucn}
+                      style={{
+                        width: "100%",
+                        border: "none",
+                        outline: "none",
+                        backgroundColor: "transparent",
+                        fontWeight: 500,
+                        color: "white",
+                        fontSize: "17px",
+                      }}
+
+                    />
+                    <IoSearchOutline
+                      style={{
+                        height: "20px",
+                        cursor: "pointer",
+                        color: "white",
+                        width: "20px",
+                        marginInline: "5px",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    {islogin && (
+                      <div
+                        style={{
+                          display: "flex",
+                          border: "1px solid white",
+                          alignItems: "center",
+                          height: "40px",
+                          justifyContent: "center",
+                          marginInline: "5px",
+                          paddingBlock: "15px",
+                          marginBottom: "10px",
+                          paddingInline: "8px",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          placeholder="Search"
+                          value={searchText}
+                          autoFocus
+                          onChange={(e) => setSearchText(e.target.value)}
+                          className="mobileSideBarSearch"
+                          onKeyDown={searchDataFucn}
+                          style={{
+                            width: "100%",
+                            border: "none",
+                            outline: "none",
+                            backgroundColor: "transparent",
+                            fontWeight: 500,
+                            color: "white",
+                            fontSize: "17px",
+                          }}
+
+                        />
+                        <IoSearchOutline
+                          style={{
+                            height: "20px",
+                            cursor: "pointer",
+                            color: "white",
+                            width: "20px",
+                            marginInline: "5px",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+
+                <div className="roop_mobileMenuSubDivMain">
+                  <List
+                    className="roop_ListMenuSiderMobile"
+                    sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
+                  >
+                    {menuItems.map((menuItem) => (
+                      <div key={menuItem.menuid}>
+                        <ButtonBase
+                          component="div"
+                          className="muilistMenutext"
+                          // onClick={() =>
+                          //   handleLoginMenuClick(
+                          //     menuItem.menuname,
+                          //     null,
+                          //     "iconclicked"
+                          //   )
+                          // }
+                          onClick={(e) => {
+                            handelMenu(
+                              { menuname: menuItem?.menuname, key: menuItem?.param0name, value: menuItem?.param0dataname },
+                              {},
+                              {},
+                              e
+                            );
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <ListItem
+                            style={{
+                              padding: "5px",
+                              borderBottom: "1px solid white",
+                            }}
+                          >
+                            <p className="roop_menuStaicMobile">
+                              {menuItem.menuname}
+                            </p>
+                          </ListItem>
+                        </ButtonBase>
+
+                        {/* {selectedMenu === menuItem.menuname && (
+                        <>
+                          <ButtonBase
+                            component="div"
+                            onClick={() =>
+                              handelMenu({
+                                menuname: menuItem?.menuname,
+                                key: menuItem?.param0name,
+                                value: menuItem?.param0dataname,
+                              })
+                            }
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              justifyContent: "start",
+                            }}
+                          >
+                            <div
+                              style={{
+                                paddingLeft: "10px",
+                                fontSize: "15px",
+                                marginTop: "5px",
+                              }}
+                            >
+                              <button className="roop_mobile_viewAllBtn">
+                                View All
+                              </button>
+                            </div>
+                          </ButtonBase>
+                          <List className="roop_mobileMenuScroll">
+                            {menuItem.param1.map((subMenuItem) => (
+                              <div key={subMenuItem.param1dataid}>
+                                <ButtonBase
+                                  component="div"
+                                  onClick={() =>
+                                    handelMenu(
+                                      {
+                                        menuname: menuItem?.menuname,
+                                        key: menuItem?.param0name,
+                                        value: menuItem?.param0dataname,
+                                      },
+                                      {
+                                        key: subMenuItem.param1name,
+                                        value: subMenuItem.param1dataname,
+                                      }
+                                    )
+                                  }
+                                  style={{ width: "100%" }}
+                                >
+                                  <p
+                                    style={{
+                                      margin: "0px 0px 0px 15px",
+                                      width: "100%",
+                                      fontWeight: "600",
+                                      color: "white",
+                                    }}
+                                  >
+                                    {subMenuItem.param1dataname}
+                                  </p>
+                                </ButtonBase> */}
+                        {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
+                        {/* {selectedMenu === menuItem.menuname && (
+                                  <> */}
+                        {/* <div style={{ paddingLeft: '10px' }}>
+                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
+                                  </div> */}
+                        {/* <List
+                                      style={{
+                                        paddingTop: "0px",
+                                        paddingBottom: "0px",
+                                      }}
+                                    >
+                                      {subMenuItem.param2.map(
+                                        (subSubMenuItem) => (
+                                          <ButtonBase
+                                            component="div"
+                                            onClick={() =>
+                                              handelMenu(
+                                                {
+                                                  menuname: menuItem?.menuname,
+                                                  key: menuItem?.param0name,
+                                                  value: menuItem?.param0dataname,
+                                                },
+                                                {
+                                                  key: subMenuItem.param1name,
+                                                  value:
+                                                    subMenuItem.param1dataname,
+                                                },
+                                                {
+                                                  key: subSubMenuItem.param2name,
+                                                  value:
+                                                    subSubMenuItem.param2dataname,
+                                                }
+                                              )
+                                            }
+                                            style={{
+                                              width: "100%",
+                                              display: "flex",
+                                              justifyContent: "start",
+                                            }}
+                                          >
+                                            <p className="roop_mobile_subMenu">
+                                              {subSubMenuItem.param2dataname}
+                                            </p>
+                                          </ButtonBase>
+                                        )
+                                      )}
+                                    </List>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </List>
+                        </>
+                      )} */}
+                      </div>
+                    ))}
+                  </List>
+                </div>
+                <div>
+                  <p className="roop_menuStaicMobilePage">About us</p>
+                </div>
+                {IsB2BWebsiteChek === 0 ? (
+                  <div>
+                    <p
+                      className="roop_menuStaicMobilePageLink"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
+                    >
+                      LOG IN
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    {islogin && (
+                      <div>
+                        <p
+                          className="roop_menuStaicMobilePageLink"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
+                        >
+                          LOG IN
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+
+
+                {/* {islogin == true && (
+                <div>
+                  <p
+                    className="roop_menuStaicMobilePageLink"
+                    style={{ marginTop: "10px" }}
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      navigation("/myWishList");
+                    }}
+                  >
+                    WishList
+                  </p>
+                </div>
+              )} */}
+
+                {IsB2BWebsiteChek === 1 ? (
+                  islogin === true ? (
+                    <>
+                      {storeinit?.IsDesignSetInMenu == 1 && (
+                        <p
+                          className="roop_menuStaicMobilePageLink"
+                          style={{ marginTop: "10px" }}
+                          onClick={() => {
+                            setDrawerShowOverlay(false);
+                            navigation("/Lookbook");
+                          }}
+                        >
+                          {storeinit?.DesignSetInMenu}
+                          {/* LOOKBOOK */}
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  <>
+                    {storeinit?.IsDesignSetInMenu == 1 && (
+                      <p
+                        className="roop_menuStaicMobilePageLink"
+                        style={{ marginTop: "10px" }}
+                        onClick={() => {
+                          setDrawerShowOverlay(false);
+                          navigation("/Lookbook");
+                        }}
+                      >
+                        {storeinit?.DesignSetInMenu}
+                        {/* LOOKBOOK */}
+                      </p>
+                    )}
+                  </>
+                )}
+
                 {islogin && (
+                  <>
+                    <div>
+                      <p
+                        className="roop_menuStaicMobilePageLink"
+                        onClick={() => {
+                          setDrawerShowOverlay(false);
+                          navigation("/account");
+                        }}
+                      >
+                        Account
+                      </p>
+                    </div>
+                    <div>
+                      <p
+                        className="roop_menuStaicMobilePageLink"
+                        onClick={() => {
+                          setDrawerShowOverlay(false);
+                          handleLogout();
+                        }}
+                      >
+                        Log Out
+                      </p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      <div className="roop_Top_header">
+        <div className="roop_header_top_line">
+          <p className="roop_header_top_line_text">
+            Welcome To Roop Jewellers's Offical Website
+          </p>
+        </div>
+        {!maxWidth1200 && (
+          <div className="roop_Top_header_sub">
+            <div className="roop_Top2_header_div1">
+              <a href="/" className="roop_desk_logo">
+                <img
+                  src={compnyLogo}
+                  loading="lazy"
+                  className="roop_logo_header"
+                />
+              </a>
+            </div>
+            {/* <div className="roop_Top2_header_div2">
+             <div className="roop_smlingTopSerachOver">
+               <IoSearchOutline
+                 style={{ height: "15px", width: "15px", marginRight: "10px" }}
+               />
+               <input
+                 type="text"
+                 placeholder="Enter Design Number"
+                 value={searchText}
+                 autoFocus
+                 onChange={(e) => setSearchText(e.target.value)}
+                 className="roop_serachinputBoxOverly"
+                 onKeyDown={searchDataFucn}
+               />
+             </div>
+           </div> */}
+            <div className="roop_Top2_header_div2">
+              {menuItems.map((item, index) => {
+                return (
+                  <li
+                    className="roop_header_li"
+                    key={index}
+                    label={item.menuname}
+                    onMouseEnter={() => {
+                      handleMouseEnter(index);
+                    }}
+                    onMouseLeave={() => {
+                      handleMouseLeave();
+                    }}
+                    onClick={(e) => {
+                      handelMenu(
+                        { menuname: item?.menuname, key: item?.param0name, value: item?.param0dataname },
+                        {},
+                        {},
+                        e
+                      );
+                    }}
+                  >
+                    <Link
+                      href={`/p/${item?.menuname}/?M=${btoa(`${item?.param0dataname}/${item?.param0name}`)}`}
+                      className="roop_header_link"
+                    >
+                      {item.menuname}
+                    </Link>
+                  </li>
+                );
+              })}
+            </div>
+            <div className="roop_Top2_header_div3">
+              <ul className="nav_ul_shop">
+                {IsB2BWebsiteChek == 0 ? (
                   <>
                     <Badge
                       badgeContent={wishCountNum}
                       max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      className="badgeColorFix roop_mobileHideIcone"
-                      style={{ marginInline: "15px" }}
+                      overlap="rectangular"
+                      color="primary"
+                      // style={{ backgroundColor: '#D14A61', color: '#fff' }}
+                      className="badgeColorFix roop_mobileHideIcone custom-badge"
                     >
                       <Tooltip title="WishList">
                         <li
@@ -532,11 +1135,11 @@ const Header = () => {
                         >
                           <PiStarThin
                             style={{
-                              height: "20px",
+                              height: "25px",
                               cursor: "pointer",
-                              width: "20px",
-                              fontWeight: "600",
-                              color: "#D14A61"
+                              width: "25px",
+                              // fontWeight: "600",
+                              // color: "#D14A61",
                             }}
                           />
                         </li>
@@ -549,439 +1152,12 @@ const Header = () => {
                     >
                       <IoSearchOutline
                         style={{
-                          height: "20px",
+                          height: "23px",
                           cursor: "pointer",
-                          width: "20px",
+                          width: "23px",
                         }}
                       />
                     </li>
-                    <Badge
-                      badgeContent={cartCountNum}
-                      max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      className="badgeColorFix roop_mobileHideIcone"
-                      style={{ marginInline: "15px" }}
-                    >
-                      <Tooltip title="Cart">
-                        <li
-                          onClick={
-                            IsCartNo == 3
-                              ? toggleCartDrawer
-                              : () => navigate("/cartPage")
-                          }
-                          className="nav_li_smining_Icone"
-                        >
-                          <ShoppingCartOutlinedIcon
-                            sx={{ height: "30px", width: "30px" }}
-                          />
-                        </li>
-                      </Tooltip>
-                    </Badge>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {islogin && (
-              <div
-                style={{
-                  display: "flex",
-                  border: "1px solid white",
-                  alignItems: "center",
-                  height: "40px",
-                  justifyContent: "center",
-                  marginInline: "5px",
-                  paddingBlock: "15px",
-                  marginBottom: "10px",
-                  paddingInline: "8px",
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={searchText}
-                  autoFocus
-                  onChange={(e) => setSearchText(e.target.value)}
-                  className="mobileSideBarSearch"
-                  onKeyDown={searchDataFucn}
-                  style={{
-                    width: "100%",
-                    border: "none",
-                    outline: "none",
-                    backgroundColor: "transparent",
-                    fontWeight: 500,
-                    color: "white",
-                    fontSize: "17px",
-                  }}
-
-                />
-                <IoSearchOutline
-                  style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    color: "white",
-                    width: "20px",
-                    marginInline: "5px",
-                  }}
-                />
-              </div>
-            )}
-
-            <div className="roop_mobileMenuSubDivMain">
-              <List
-                className="roop_ListMenuSiderMobile"
-                sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
-              >
-                {menuItems.map((menuItem) => (
-                  <div key={menuItem.menuid}>
-                    <ButtonBase
-                      component="div"
-                      className="muilistMenutext"
-                      onClick={() =>
-                        handleLoginMenuClick(
-                          menuItem.menuname,
-                          null,
-                          "iconclicked"
-                        )
-                      }
-                      style={{ width: "100%" }}
-                    >
-                      <ListItem
-                        style={{
-                          padding: "5px",
-                          borderBottom: "1px solid white",
-                        }}
-                      >
-                        <p className="roop_menuStaicMobile">
-                          {menuItem.menuname}
-                        </p>
-                      </ListItem>
-                    </ButtonBase>
-                    {selectedMenu === menuItem.menuname && (
-                      <>
-                        <ButtonBase
-                          component="div"
-                          onClick={() =>
-                            handelMenu({
-                              menuname: menuItem?.menuname,
-                              key: menuItem?.param0name,
-                              value: menuItem?.param0dataname,
-                            })
-                          }
-                          style={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "start",
-                          }}
-                        >
-                          <div
-                            style={{
-                              paddingLeft: "10px",
-                              fontSize: "15px",
-                              marginTop: "5px",
-                            }}
-                          >
-                            <button className="roop_mobile_viewAllBtn">
-                              View All
-                            </button>
-                          </div>
-                        </ButtonBase>
-                        <List className="roop_mobileMenuScroll">
-                          {menuItem.param1.map((subMenuItem) => (
-                            <div key={subMenuItem.param1dataid}>
-                              <ButtonBase
-                                component="div"
-                                onClick={() =>
-                                  handelMenu(
-                                    {
-                                      menuname: menuItem?.menuname,
-                                      key: menuItem?.param0name,
-                                      value: menuItem?.param0dataname,
-                                    },
-                                    {
-                                      key: subMenuItem.param1name,
-                                      value: subMenuItem.param1dataname,
-                                    }
-                                  )
-                                }
-                                style={{ width: "100%" }}
-                              >
-                                <p
-                                  style={{
-                                    margin: "0px 0px 0px 15px",
-                                    width: "100%",
-                                    fontWeight: "600",
-                                    color: "white",
-                                  }}
-                                >
-                                  {subMenuItem.param1dataname}
-                                </p>
-                              </ButtonBase>
-                              {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
-                              {selectedMenu === menuItem.menuname && (
-                                <>
-                                  {/* <div style={{ paddingLeft: '10px' }}>
-                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
-                                  </div> */}
-                                  <List
-                                    style={{
-                                      paddingTop: "0px",
-                                      paddingBottom: "0px",
-                                    }}
-                                  >
-                                    {subMenuItem.param2.map(
-                                      (subSubMenuItem) => (
-                                        <ButtonBase
-                                          component="div"
-                                          onClick={() =>
-                                            handelMenu(
-                                              {
-                                                menuname: menuItem?.menuname,
-                                                key: menuItem?.param0name,
-                                                value: menuItem?.param0dataname,
-                                              },
-                                              {
-                                                key: subMenuItem.param1name,
-                                                value:
-                                                  subMenuItem.param1dataname,
-                                              },
-                                              {
-                                                key: subSubMenuItem.param2name,
-                                                value:
-                                                  subSubMenuItem.param2dataname,
-                                              }
-                                            )
-                                          }
-                                          style={{
-                                            width: "100%",
-                                            display: "flex",
-                                            justifyContent: "start",
-                                          }}
-                                        >
-                                          <p className="roop_mobile_subMenu">
-                                            {subSubMenuItem.param2dataname}
-                                          </p>
-                                        </ButtonBase>
-                                      )
-                                    )}
-                                  </List>
-                                </>
-                              )}
-                            </div>
-                          ))}
-                        </List>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </List>
-            </div>
-            <div>
-              <p className="roop_menuStaicMobilePage">About us</p>
-            </div>
-
-            {islogin == true && (
-              <div>
-                <p
-                  className="roop_menuStaicMobilePageLink"
-                  style={{ marginTop: "10px" }}
-                  onClick={() => {
-                    setDrawerShowOverlay(false);
-                    navigation("/myWishList");
-                  }}
-                >
-                  WishList
-                </p>
-              </div>
-            )}
-
-            {IsB2BWebsiteChek === 1 ? (
-              islogin === true ? (
-                <>
-                  {storeinit?.IsDesignSetInMenu == 1 && (
-                    <p
-                      className="roop_menuStaicMobilePageLink"
-                      style={{ marginTop: "10px" }}
-                      onClick={() => {
-                        setDrawerShowOverlay(false);
-                        navigation("/Lookbook");
-                      }}
-                    >
-                      {storeinit?.DesignSetInMenu}
-                      {/* LOOKBOOK */}
-                    </p>
-                  )}
-                </>
-              ) : (
-                ""
-              )
-            ) : (
-              <>
-                {storeinit?.IsDesignSetInMenu == 1 && (
-                  <p
-                    className="roop_menuStaicMobilePageLink"
-                    style={{ marginTop: "10px" }}
-                    onClick={() => {
-                      setDrawerShowOverlay(false);
-                      navigation("/Lookbook");
-                    }}
-                  >
-                    {storeinit?.DesignSetInMenu}
-                    {/* LOOKBOOK */}
-                  </p>
-                )}
-              </>
-            )}
-
-            {islogin && (
-              <>
-                <div>
-                  <p
-                    className="roop_menuStaicMobilePageLink"
-                    onClick={() => {
-                      setDrawerShowOverlay(false);
-                      navigation("/account");
-                    }}
-                  >
-                    Account
-                  </p>
-                </div>
-                <div>
-                  <p
-                    className="roop_menuStaicMobilePageLink"
-                    onClick={() => {
-                      setDrawerShowOverlay(false);
-                      handleLogout();
-                    }}
-                  >
-                    Log Out
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
-        </>
-      )}
-
-      <div className="roop_Top_header">
-        <div className="roop_header_top_line">
-          <p className="roop_header_top_line_text">
-            Welcome To Roop Jewellers's Offical Website
-          </p>
-        </div>
-        <div className="roop_Top_header_sub">
-          <div className="roop_Top2_header_div1">
-            <a href="/">
-              <img
-                src={compnyLogo}
-                loading="lazy"
-                className="roop_logo_header"
-              />
-            </a>
-          </div>
-          <div className="roop_Top2_header_div2">
-            <div className="roop_smlingTopSerachOver">
-              <IoSearchOutline
-                style={{ height: "15px", width: "15px", marginRight: "10px" }}
-              />
-              <input
-                type="text"
-                placeholder="Enter Design Number"
-                value={searchText}
-                autoFocus
-                onChange={(e) => setSearchText(e.target.value)}
-                className="roop_serachinputBoxOverly"
-                onKeyDown={searchDataFucn}
-              />
-            </div>
-          </div>
-          <div className="roop_Top2_header_div3">
-            <ul className="nav_ul_shop">
-              {IsB2BWebsiteChek == 0 ? (
-                <>
-                  <Badge
-                    badgeContent={wishCountNum}
-                    max={1000}
-                    overlap="rectangular"
-                    color="primary"
-                    style={{ backgroundColor: '#D14A61', color: '#fff' }}
-                    className="badgeColorFix roop_mobileHideIcone custom-badge"
-                  >
-                    <Tooltip title="WishList">
-                      <li
-                        className="nav_li_smining_Icone"
-                        onClick={() => navigation("/myWishList")}
-                      >
-                        <PiStarThin
-                          style={{
-                            height: "20px",
-                            cursor: "pointer",
-                            width: "20px",
-                            // fontWeight: "600",
-                            // color: "#D14A61",
-                          }}
-                        />
-                      </li>
-                    </Tooltip>
-                  </Badge>
-                  <li
-                    className="nav_li_smining_Icone roop_mobileHideIcone"
-                    onClick={toggleOverlay}
-                    style={{}}
-                  >
-                    <IoSearchOutline
-                      style={{
-                        height: "20px",
-                        cursor: "pointer",
-                        width: "20px",
-                      }}
-                    />
-                  </li>
-                  <Badge
-                    badgeContent={cartCountNum}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    className="badgeColorFix roop_mobileHideIcone"
-                  >
-                    <Tooltip title="Cart">
-                      <li
-                        onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
-                        className="nav_li_smining_Icone"
-                      >
-                        <ShoppingCartOutlinedIcon
-                          sx={{ height: "30px", width: "30px" }}
-                        />
-                      </li>
-                    </Tooltip>
-                  </Badge>
-                </>
-              ) : (
-                islogin && (
-                  <>
-                    <Badge
-                      badgeContent={wishCountNum}
-                      max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      className="badgeColorFix roop_mobileHideIcone"
-                    >
-                      <Tooltip title="WishList">
-                        <li
-                          className="nav_li_smining_Icone"
-                          onClick={() => navigation("/myWishList")}
-                        >
-                          <PiStarThin
-                            style={{
-                              height: "20px",
-                              cursor: "pointer",
-                              width: "20px",
-                            }}
-                          />
-                        </li>
-                      </Tooltip>
-                    </Badge>
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -995,189 +1171,207 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: "20px", width: "20px" }}
+                            sx={{ height: "25px", width: "25px" }}
                           />
                         </li>
                       </Tooltip>
                     </Badge>
                   </>
-                )
-              )}
-
-              {islogin ? (
-                <Tooltip title="Account">
-                  <li
-                    className="nav_li_smining_Icone"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation("/account")}
-                  >
-                    <MdAccountCircle size={23} />
-                  </li>
-                </Tooltip>
-              ) : (
-                <li
-                  className="nav_li_roop"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigation("/LoginOption")}
-                >
-                  LOG IN
-                </li>
-              )}
-
-              {islogin && (
-                <li
-                  className="nav_li_roop"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleLogout()}
-                >
-                  <IoLogOut style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    width: "20px",
-                  }} />
-                </li>
-              )}
-            </ul>
-          </div>
-        </div>
-        <div className="roop_top_header3">
-          <div className="roop_top_header3_logo_Web">
-            <a href="/">
-              <img
-                src={compnyLogo}
-                loading="lazy"
-                className="roop_logo_header"
-              />
-            </a>
-          </div>
-
-          <div className="roop_top_header3_logo_mobile">
-            <a href="/">
-              <img
-                src={compnyLogoM}
-                loading="lazy"
-                className="roop_logo_header"
-              />
-            </a>
-          </div>
-
-          <ul className="nav_ul_shop_menu_Mobile">
-            <MenuIcon
-              style={{ fontSize: "35px", color: "black" }}
-              className="muIconeMobileHeader"
-              onClick={toggleDrawerOverlay}
-            />
-          </ul>
-          {IsB2BWebsiteChek == 1 ? (
-            islogin == true ? (
-              <li
-                className="nav_li_roop nav_li_smining_shop"
-                onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
-              >
-                <span
-                  className="nav_li_roop"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    cursor: "pointer",
-                  }}
-                >
-                  SHOP
-                  <RiArrowDropDownLine
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                </span>
-              </li>
-            ) : (
-              ""
-            )
-          ) : (
-            <li
-              className="nav_li_roop nav_li_smining_shop"
-              onMouseEnter={handleDropdownOpen}
-              onMouseLeave={handleDropdownClose}
-            >
-              <span
-                className="nav_li_roop"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}
-              >
-                SHOP
-                <RiArrowDropDownLine
-                  style={{ width: "20px", height: "20px" }}
-                />
-              </span>
-            </li>
-          )}
-
-          <li
-            className="nav_li_roop nav_li_smining_Mobile"
-            style={{ cursor: "pointer" }}
-            onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
-          >
-            <a href="/aboutUs" className="stam_A_link">
-              ABOUT US
-            </a>
-          </li>
-
-          <li
-            className="nav_li_roop nav_li_smining_Mobile"
-            style={{ cursor: "pointer" }}
-            onClick={(event) =>
-              hanldeStaticPageNavigation(event, "/servicePolicy")
-            }
-          >
-            <a href="/servicePolicy" className="stam_A_link">
-              SERVICE POLICY
-            </a>
-          </li>
-
-          <li
-            className="nav_li_roop nav_li_smining_Mobile"
-            style={{ cursor: "pointer" }}
-            onClick={(event) =>
-              hanldeStaticPageNavigation(event, "/ExpertAdvice")
-            }
-          >
-            <a href="/ExpertAdvice" className="stam_A_link">
-              EXPERT ADVICE
-            </a>
-          </li>
-
-          {/* {IsB2BWebsiteChek === 1 ? (
-                islogin === true ? (
-                  <>
-                    {storeinit?.IsDesignSetInMenu == 1 &&
-                      <li
-                        className="nav_li_roop nav_li_smining_Mobile"
-                        style={{ cursor: "pointer" }}
-                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                ) : (
+                  islogin && (
+                    <>
+                      <Badge
+                        badgeContent={wishCountNum}
+                        max={1000}
+                        overlap={"rectangular"}
+                        color="secondary"
+                        className="badgeColorFix roop_mobileHideIcone"
                       >
-                        {storeinit?.DesignSetInMenu}
-                      </li>
-                    }
-                  </>
+                        <Tooltip title="WishList">
+                          <li
+                            className="nav_li_smining_Icone"
+                            onClick={() => navigation("/myWishList")}
+                          >
+                            <PiStarThin
+                              style={{
+                                height: "25px",
+                                cursor: "pointer",
+                                width: "25px",
+                              }}
+                            />
+                          </li>
+                        </Tooltip>
+                      </Badge>
+                      <Badge
+                        badgeContent={cartCountNum}
+                        max={1000}
+                        overlap={"rectangular"}
+                        color="secondary"
+                        className="badgeColorFix roop_mobileHideIcone"
+                      >
+                        <Tooltip title="Cart">
+                          <li
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                            className="nav_li_smining_Icone"
+                          >
+                            <ShoppingCartOutlinedIcon
+                              sx={{ height: "20px", width: "20px" }}
+                            />
+                          </li>
+                        </Tooltip>
+                      </Badge>
+                    </>
+                  )
+                )}
+
+                {islogin ? (
+                  <Tooltip title="Account">
+                    <li
+                      className="nav_li_smining_Icone"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => navigation("/account")}
+                    >
+                      <MdAccountCircle size={25} />
+                    </li>
+                  </Tooltip>
+                ) : (
+                  <li
+                    className="nav_li_roop"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigation("/LoginOption")}
+                  >
+                    LOG IN
+                  </li>
+                )}
+
+                {islogin && (
+                  <li
+                    className="nav_li_roop"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleLogout()}
+                  >
+                    <IoLogOut style={{
+                      height: "25px",
+                      cursor: "pointer",
+                      width: "25px",
+                    }} />
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {maxWidth1200 && (
+          <div className="roop_top_header3">
+            <div className="roop_top_header3_logo_Web">
+              <a href="/">
+                <img
+                  src={compnyLogo}
+                  loading="lazy"
+                  className="roop_logo_header"
+                />
+              </a>
+            </div>
+
+            <div className="roop_top_header3_logo_mobile">
+              <a href="/">
+                <img
+                  src={compnyLogoM}
+                  loading="lazy"
+                  className="roop_logo_header"
+                />
+              </a>
+            </div>
+
+            <ul className="nav_ul_shop_menu_Mobile">
+              <MenuIcon
+                style={{ fontSize: "35px", color: "black" }}
+                className="muIconeMobileHeader"
+                onClick={toggleDrawerOverlay}
+              />
+            </ul>
+            {/* {IsB2BWebsiteChek == 1 ? (
+                islogin == true ? (
+                  <li
+                    className="nav_li_roop nav_li_smining_shop"
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
+                  >
+                    <span
+                      className="nav_li_roop"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      SHOP
+                      <RiArrowDropDownLine
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </span>
+                  </li>
                 ) : (
                   ""
                 )
               ) : (
-                <>
-                  {storeinit?.IsDesignSetInMenu == 1 &&
-                    <li
-                      className="nav_li_roop nav_li_smining_Mobile"
-                      style={{ cursor: "pointer" }}
-                      onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
-                    >
-                      {storeinit?.DesignSetInMenu}
-                    </li>
-                  }
-                </>
+                <li
+                  className="nav_li_roop nav_li_smining_shop"
+                  onMouseEnter={handleDropdownOpen}
+                  onMouseLeave={handleDropdownClose}
+                >
+                  <span
+                    className="nav_li_roop"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    SHOP
+                    <RiArrowDropDownLine
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </span>
+                </li>
               )} */}
-        </div>
+
+            {/* <li
+                className="nav_li_roop nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={(event) => hanldeStaticPageNavigation(event, "/aboutUs")}
+              >
+                <a href="/aboutUs" className="stam_A_link">
+                  ABOUT US
+                </a>
+              </li> */}
+
+            {/* <li
+                className="nav_li_roop nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={(event) =>
+                  hanldeStaticPageNavigation(event, "/servicePolicy")
+                }
+              >
+                <a href="/servicePolicy" className="stam_A_link">
+                  SERVICE POLICY
+                </a>
+              </li> */}
+
+            {/* <li
+                className="nav_li_roop nav_li_smining_Mobile"
+                style={{ cursor: "pointer" }}
+                onClick={(event) =>
+                  hanldeStaticPageNavigation(event, "/ExpertAdvice")
+                }
+              >
+                <a href="/ExpertAdvice" className="stam_A_link">
+                  EXPERT ADVICE
+                </a>
+              </li> */}
+          </div>
+        )}
 
         {/* <div
           className={`stam_Top_Header_fixed_main ${isHeaderFixed ? "fixed" : ""
@@ -1705,7 +1899,7 @@ const Header = () => {
         </div>
       </div>
       {IsCartNo == 3 && <CartDrawer open={isCartOpen} />}
-    </div>
+    </div >
   );
 };
 

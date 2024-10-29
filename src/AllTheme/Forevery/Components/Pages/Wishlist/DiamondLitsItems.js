@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { for_CartCount, for_WishCount, for_customizationSteps } from "../../Recoil/atom";
+import { for_CartCount, for_MatchDiamonds, for_WishCount, for_customizationSteps, for_filterDiamond } from "../../Recoil/atom";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
@@ -26,6 +26,7 @@ const DiamondLitsItems = ({
     updateCount,
     countDataUpdted,
     itemsLength,
+    matchingDiamonds,
     currency,
     decodeEntities,
     WishCardImageFunc,
@@ -33,7 +34,6 @@ const DiamondLitsItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
-    console.log('diamondValue: ', diamondValue);
     const [imageSrc, setImageSrc] = useState(noImageFound);
     const setWishCountVal = useSetRecoilState(for_WishCount);
     const setCartCountVal = useSetRecoilState(for_CartCount);
@@ -41,12 +41,21 @@ const DiamondLitsItems = ({
     const visiterId = Cookies.get("visiterId");
     const navigate = useNavigate();
     const [custSteps, setCustSteps] = useState();
-    console.log('custSteps: ', custSteps);
     const [custData, setCustData] = useState();
-    console.log('custData: ', custData);
+    const [filterDia, setfilterDia] = useRecoilState(for_filterDiamond)
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    console.log('diamondValue: ', diamondValue);
+
+    // const matchedDiamonds = diamondValue.filter(dia =>
+    //     matchingDiamonds.some(diamond => diamond.stockno === dia?.stockno)
+    // );
+
+    useEffect(() => {
+        setfilterDia(diamondValue);
+    }, [])
 
     const [showModal, setShowModal] = useState(false);
 
@@ -115,7 +124,7 @@ const DiamondLitsItems = ({
             sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
 
             if (custData?.[1]?.step2Data.id > 0) {
-                navigate(`d/setting-complete-product/det345/?p=${custSteps?.[2]?.url}`);
+                navigate(`d/setting-complete-product/det/?p=${custSteps?.[2]?.url}`);
             }
             else {
                 navigate(`/certified-loose-lab-grown-diamonds/settings/Ring/diamond_shape=${shape}/M=${filterKeyVal}`);
@@ -144,7 +153,7 @@ const DiamondLitsItems = ({
             sessionStorage.setItem("customizeSteps", JSON.stringify(updatedStep1));
 
             if (custData?.[1]?.step2Data.id > 0) {
-                navigate(`d/setting-complete-product/det345/?p=${custSteps?.[2]?.url}`);
+                navigate(`d/setting-complete-product/det/?p=${custSteps?.[2]?.url}`);
             }
             else {
                 navigate(`/certified-loose-lab-grown-diamonds/settings/Pendant/diamond_shape=${shape}/M=${filterKeyVal}`);
@@ -155,6 +164,48 @@ const DiamondLitsItems = ({
     const handleRemoveItemFun = async (item) => {
         const isdiamond = "isdiamond"
         const returnValue = await handleRemoveItem(item, isdiamond);
+
+        const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+        const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+        if (existingData1?.[0]?.step1Data != undefined) {
+            const newIsInWishValue = 0;
+
+            const updatedData = existingData1.map(step => {
+                if (step.step1Data != undefined) {
+                    return {
+                        ...step,
+                        step1Data: {
+                            ...step.step1Data,
+                            IsInWish: newIsInWishValue
+                        }
+                    };
+                }
+                return step;
+            });
+
+            sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+        }
+
+        if (existingData?.[1]?.step2Data != undefined) {
+            const newIsInWishValue = 0;
+
+            const updatedData = existingData.map(step => {
+                if (step.step2Data != undefined) {
+                    return {
+                        ...step,
+                        step2Data: {
+                            ...step.step2Data,
+                            IsInWish: newIsInWishValue
+                        }
+                    };
+                }
+                return step;
+            });
+
+            sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+        }
+
         if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
                 setWishCountVal(res?.wishcount);
@@ -174,7 +225,7 @@ const DiamondLitsItems = ({
 
     const handleError = (event) => {
         event.target.src = noImageFound;
-      };
+    };
 
     return (
         <>
@@ -194,7 +245,7 @@ const DiamondLitsItems = ({
                             image={item?.image_file_url}
                             alt={item?.TitleLine}
                             className="for_WlListImage"
-                        onError={handleError}
+                            onError={handleError}
                         />
                         <CardContent className="for_cardContent for_diamondImage">
                             <div className="for_cardText">
@@ -264,61 +315,58 @@ const Modal = ({
     shape,
     item,
 }) => {
-
     useEffect(() => {
-        if (open == true) {
-            const shapes = [{ "step1": true, 'shape': shape }]
-            console.log('shapes: ', shapes);
-            sessionStorage.setItem('customizeSteps', JSON.stringify(shapes))
+        if (open === true) {
+            const shapes = [{ "step1": true, 'shape': shape }];
+            sessionStorage.setItem('customizeSteps', JSON.stringify(shapes));
         }
-    }, [open])
+    }, [open]);
+
     return (
-        <>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            sx={{
+                zIndex: 9999999,
+                '& .MuiDialog-paper': {
+                    backgroundColor: 'transparent',
+                    border: '1px solid white',
+                },
+                '& .MuiDialogContent-root': {
+                    padding: '10px',
+                },
+            }}
+        >
+            <DialogContent
                 sx={{
-                    zIndex: 9999999,
-                    '& .MuiDialog-paper': {
-                        backgroundColor: 'transparent',
-                        border: '1px solid white',
-                    },
-                    '& .MuiDialogContent-root': {
-                        padding: '10px',
-                    },
+                    minWidth: 260,
+                    padding: '0px',
+                    position: 'relative',
+                    overflow: 'hidden',
                 }}
             >
-                <DialogContent
-                    sx={{
-                        minWidth: 260,
-                        padding: '0px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                    }}
-                >
-                    <div className="for_modal_cancel_btn_div" onClick={handleClose}>
-                        <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
+                <div className="for_modal_cancel_btn_div" onClick={handleClose}>
+                    <RxCross1 className='for_modal_cancel_btn' size={'12px'} />
+                </div>
+                <div className="for_modal_inner_div">
+                    <span className='for_modal_title'>
+                        What would you like to do?
+                    </span>
+                    <div className="for_modal_buttons_div">
+                        <button onClick={() => {
+                            handleButtonChange('ring', "", item, "", shape);
+                            handleClose();
+                        }}>Add your diamond to a ring</button>
+                        <button onClick={() => { handleButtonChange('pendant', "", item, "", shape); handleClose(); }}>Add your diamond to a pendant</button>
+                        <button onClick={() => {
+                            handleButtonChange('cart', "", "", stockno, "");
+                            handleClose();
+                        }}>Add your diamond to cart</button>
                     </div>
-                    <div className="for_modal_inner_div">
-                        <span className='for_modal_title'>
-                            What would you like to do?
-                        </span>
-                        <div className="for_modal_buttons_div">
-                            <button onClick={() => {
-                                handleButtonChange('ring', "", item, "", shape);
-                                handleClose();
-                            }}>Add your diamond to a ring</button>
-                            <button onClick={() => { handleButtonChange('pendant', "", item, "", shape); handleClose(); }}>add your diamond to a pendant</button>
-                            <button onClick={() => {
-                                handleButtonChange('cart', "", "", stockno, "");
-                                handleClose();
-                            }}>add your diamond to cart</button>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
-        </>
-    )
-}
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};

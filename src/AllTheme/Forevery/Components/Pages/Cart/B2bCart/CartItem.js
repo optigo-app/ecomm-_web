@@ -87,6 +87,48 @@ const CartItem = ({
 
   const handleRemoveItem = async (item) => {
     const returnValue = await onRemove(item);
+
+    const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+    const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+    if (existingData1?.[0]?.step1Data != undefined) {
+      const newIsInCartValue = 0;
+
+      const updatedData = existingData1.map(step => {
+        if (step.step1Data != undefined) {
+          return {
+            ...step,
+            step1Data: {
+              ...step.step1Data,
+              IsInCart: newIsInCartValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+    }
+
+    if (existingData?.[1]?.step2Data != undefined) {
+      const newIsInCartValue = 0;
+
+      const updatedData = existingData.map(step => {
+        if (step.step2Data != undefined) {
+          return {
+            ...step,
+            step2Data: {
+              ...step.step2Data,
+              IsInCart: newIsInCartValue
+            }
+          };
+        }
+        return step;
+      });
+
+      sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+    }
+
     if (returnValue?.msg == "success") {
       GetCountAPI(visiterId).then((res) => {
         setCartCountVal(res?.cartcount);
@@ -134,7 +176,8 @@ const CartItem = ({
           </div>
           <div className="for_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}
-              {item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
+              {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
+            </h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&
             <p>SKU: {item?.sku}</p>

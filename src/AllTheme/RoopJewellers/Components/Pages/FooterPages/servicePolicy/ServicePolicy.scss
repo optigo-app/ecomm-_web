@@ -1,5 +1,7 @@
+@import '../../../scss/variable.scss';
+
 .service-policy-rp {
-  font-family: Arial, sans-serif;
+  font-family: $fontRegular !important;
   color: #333;
   max-width: 1200px;
   margin: 0 auto;
@@ -26,6 +28,7 @@
 
       p {
         line-height: 1.6;
+        font-size: 15px;
         margin-bottom: 10px;
       }
 

@@ -1,6 +1,8 @@
 @import '../../../scss//variable.scss';
 
 .roop_confirMaindiv {
+    font-family: $fontRegular !important;
+
     .roop_confirSecondMaindiv {
         margin-inline: 6%;
         background-color: #fff;
@@ -42,12 +44,12 @@
         margin-top: 20px;
         height: 40px;
         width: 190px;
-        font-family: $homePageFontFamily !important;
+        font-family: $fontRegular !important;
         font-size: $fontSize3;
         color: $btn1hoverFontColor;
         background-color: $btnprimarycolor;
         border: 1px solid $btnprimarycolor;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
 
@@ -73,7 +75,7 @@
             justify-content: center;
             height: 40px;
             width: 150px;
-            font-family: $homePageFontFamily !important;
+            font-family: $fontRegular !important;
             font-size: $fontSize3;
             color: $btn1hoverFontColor;
             background-color: $btn1ActivebgColor;

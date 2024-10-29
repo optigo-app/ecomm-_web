@@ -2,6 +2,8 @@
 
 .roop_DeliverMainDiv {
 
+  font-family: $fontRegular !important;
+
   .smr_secondMaindivAdd {
     margin-inline: 6%;
     background-color: #fff;
@@ -28,12 +30,12 @@
     .smr_ContinueOrderbtn {
       height: 40px;
       width: 150px;
-      font-family: $homePageFontFamily !important;
+      font-family: $fontRegular !important;
       font-size: $fontSize3;
       color: $btn1hoverFontColor;
       background-color: $btnprimarycolor;
       border: 1px solid $btnprimarycolor;
-      border-radius: 0px !important;
+      border-radius: 8px !important;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
 
@@ -46,7 +48,7 @@
 
   .smr_addressTextFields {
     margin-bottom: 18px !important;
-    font-family: $homePageFontFamily !important;
+    font-family: $fontRegular !important;
     color: $titleColor !important;
 
     .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
@@ -56,12 +58,12 @@
 
   .smr_deliveryTitle {
     color: $titleColor;
-    font-family: $homePageFontFamily;
+    font-family: $fontRegular !important;
   }
 
   .smr_deliverydesc {
     color: $titleColor;
-    font-family: $homePageFontFamily;
+    font-family: $fontRegular !important;
   }
 
   .smr_AddrCard {
@@ -81,11 +83,11 @@
 
   .smr_defualt_addrSelected {
     padding: 3px 10px;
-    font-family: $homePageFontFamily !important;
+    font-family: $fontRegular !important;
     font-size: $fontSize3;
     color: #fff;
     background: $btnprimarycolor;
-    border-radius: 0px !important;
+    border-radius: 8px !important;
     border: none;
     cursor: pointer;
     position: absolute;
@@ -100,13 +102,13 @@
 
   .smr_addrTypoTitle {
     color: $titleColor;
-    font-family: $homePageFontFamily !important;
+   font-family: $fontRegular !important;
     text-transform: capitalize;
   }
 
   .smr_addrTypo {
     color: $titleColor;
-    font-family: $homePageFontFamily !important;
+   font-family: $fontRegular !important;
     text-transform: capitalize;
   }
 
@@ -115,12 +117,12 @@
       margin-right: 20px;
       height: 40px;
       width: 150px;
-      font-family: $homePageFontFamily !important;
+      font-family: $fontRegular !important;
       font-size: $fontSize3;
       color: $btn1FontColor;
       background-color: $btn1bgColor;
       border: 1px solid $btn1FontColor;
-      border-radius: 0px !important;
+      border-radius: 8px !important;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
 
@@ -142,7 +144,7 @@
     margin-right: 20px;
     height: 40px;
     width: 150px;
-    font-family: $homePageFontFamily !important;
+    font-family: $fontRegular !important;
     font-size: $fontSize3;
     color: $btn1hoverFontColor;
     background-color: $btn1ActivebgColor;
@@ -161,7 +163,7 @@
     margin-right: 20px;
     height: 40px;
     width: 150px;
-    font-family: $homePageFontFamily !important;
+    font-family: $fontRegular !important;
     font-size: $fontSize3;
     color: $btn1FontColor;
     background-color: $btn1bgColor;
@@ -212,12 +214,12 @@
       margin-right: 20px;
       height: 40px;
       width: 150px;
-      font-family: $homePageFontFamily !important;
+      font-family: $fontRegular !important;
       font-size: $fontSize3;
       color: $btn1hoverFontColor;
       background-color: $btnprimarycolor;
       border: 1px solid $btnprimarycolor;
-      border-radius: 0px !important;
+      border-radius: 8px !important;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
 
@@ -236,12 +238,12 @@
       margin-right: 20px;
       height: 40px;
       width: 150px;
-      font-family: $homePageFontFamily !important;
+      font-family: $fontRegular !important;
       font-size: $fontSize3;
       color: $btn1FontColor;
       background-color: $btn1bgColor;
       border: 1px solid $btn1FontColor;
-      border-radius: 0px !important;
+      border-radius: 8px !important;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
 

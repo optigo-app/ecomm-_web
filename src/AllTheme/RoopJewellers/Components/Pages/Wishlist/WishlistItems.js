@@ -90,31 +90,48 @@ const WishlistItems = ({
                                 <div className="cardText">
                                     <Typography
                                         variant="body2"
-                                        className="roop_card-ContentData roop_WlTitleline"
+                                        className="roop_WlTitleline"
+                                    // className="roop_card-ContentData roop_WlTitleline"
                                     >
                                         {item?.designno != "" && item?.designno}
                                         {item?.TitleLine != "" || item?.TitleLine != null && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="roop_card-ContentData">
-                                        {storeInit?.IsGrossWeight == 1 &&
-                                            <>
-                                                <span className="roop_wishDT">GWT: </span>
-                                                {/* <span className='roop_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
-                                                <span className="roop_wishDT">
-                                                    {(item?.Gwt || 0).toFixed(3)}
-                                                </span>
-                                                <span className="roop_pipes"> | </span>
-                                            </>
-                                        }
-                                        {storeInit?.IsMetalWeight == 1 &&
-                                            <>
-                                                <span className="roop_wishDT">NWT : </span>
-                                                <span className="roop_wishDT">
-                                                    {(item?.Nwt || 0).toFixed(3)}
-                                                </span>
-                                            </>
-                                        }
-                                        {storeInit?.IsDiamondWeight == 1 &&
+                                        <div style={{ display: "flex", flexDirection: "column", gap: '1.3px' }}>
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                                <>
+                                                    <div className="roop_prod_wt_wl">
+                                                        <span className="roop_wishDT">GWT: </span>
+                                                        {/* <span className='roop_wishDT'>{(item?.Gwt || 0).toFixed(3)?.replace(/\.?0+$/, '')}</span> */}
+                                                        <span className="roop_wishDT">
+                                                            {(item?.Gwt || 0).toFixed(3)}
+                                                        </span>
+                                                    </div>
+                                                    {/* <span className="roop_pipes"> | </span> */}
+                                                </>
+                                            }
+                                            {storeInit?.IsMetalWeight == 1 &&
+                                                <>
+                                                    <div className="roop_prod_wt_wl">
+                                                        <span className="roop_wishDT">NWT : </span>
+                                                        <span className="roop_wishDT">
+                                                            {(item?.Nwt || 0).toFixed(3)}
+                                                        </span>
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>
+                                        <div className="roop_wish_price">
+                                            {storeInit?.IsPriceShow == 1 &&
+                                                <>
+                                                    <span className="roop_currencyFont">
+                                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                                    </span>{" "}
+                                                    <span>{formatter(item?.FinalCost)}</span>
+                                                </>
+                                            }
+                                        </div>
+                                        {/* {storeInit?.IsDiamondWeight == 1 &&
                                             <>
                                                 {(item?.Dwt != "0" || item?.Dpcs != "0") &&
                                                     <>
@@ -141,9 +158,9 @@ const WishlistItems = ({
                                                     </>
                                                 }
                                             </>
-                                        }
+                                        } */}
                                     </Typography>
-                                    <Typography variant="body2" className="roop_card-ContentData">
+                                    {/* <Typography variant="body2" className="roop_card-ContentData">
                                         {storeInit?.IsMetalTypeWithColor == 1 &&
                                             <>
                                                 {item?.metalcolorname !== "" && (
@@ -156,9 +173,8 @@ const WishlistItems = ({
                                                 )}
                                                 {" / "}
                                             </>
-                                        }
-                                        {/* <span className="roop_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
-                                        {storeInit?.IsPriceShow == 1 &&
+                                        } 
+                                         {storeInit?.IsPriceShow == 1 &&
                                             <>
                                                 <span className="roop_currencyFont">
                                                     {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
@@ -166,7 +182,12 @@ const WishlistItems = ({
                                                 <span>{formatter(item?.FinalCost)}</span>
                                             </>
                                         }
-                                    </Typography>
+                                         */}
+                                    {/* <span className="roop_currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currency) }} /> */}
+                                    {/* </Typography> */}
+                                    <div>
+
+                                    </div>
                                 </div>
                                 {/* <div className='designNoWlList'>
                             <p className='roop_DesignNoTExt'>{item?.designno}</p>

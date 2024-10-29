@@ -7,6 +7,10 @@ $cartUpdateBtncolor: #b1b1b1;
     color: $titleColor !important;
 }
 
+.roop_addorderRemark {
+    font-family: $fontRegular !important;
+}
+
 .roop_remarkModalBox .roop_projectRemarkBtn-group {
     display: flex;
     justify-content: flex-end;
@@ -21,8 +25,10 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .roop_remarksave-btn {
-        background-color: $cartUpdateBtncolor;
+        background-color: $btnprimarycolor;
         color: $btn1hoverFontColor;
+        border-radius: 8px;
+        font-family: $fontRegular;
 
         &:hover {
             background-color: $btn1hoverColor;
@@ -31,11 +37,13 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .roop_remarkcancel-btn {
         background-color: $btn1bgColor;
-        color: $btn1FontColor;
+        color: $btnprimarycolor;
         border: 1px solid $titleColor;
+        font-family: $fontRegular;
 
         &:hover {
-            background-color: #f3f4f6;
+            background-color: $btnprimarycolor;
+            color: #fff;
         }
     }
 }
@@ -59,8 +67,9 @@ $cartUpdateBtncolor: #b1b1b1;
                 padding: 5px 10px !important;
             }
         }
-        .roop_RemarkMoalInput textarea{
+
+        .roop_RemarkMoalInput textarea {
             font-size: $fontSize1 !important;
-          }
+        }
     }
 }

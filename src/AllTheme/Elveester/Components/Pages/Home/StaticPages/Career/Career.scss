@@ -161,6 +161,8 @@
           text-transform: capitalize;
           font-size: 13px !important;
           font-weight: 400;
+          text-align: justify;
+          padding-inline: 2%;
         }
       }
     }
@@ -252,6 +254,11 @@
     width: 60%;
     margin: 0 auto;
 
+    @media screen and (max-width: 1400px) {
+      width: 92%;
+      margin: 0 auto;
+    }
+
     @media screen and (max-width: 864px) {
       width: 92%;
       margin: 0 auto;
@@ -268,12 +275,13 @@
       margin-bottom: 2rem;
       margin-top: 5rem;
       transition: 0.3s ease-in;
-      grid-template-columns: repeat(auto-fit, minmax(2, 1fr));
+      grid-template-columns: repeat(2, 1fr);
 
       @media screen and (max-width: 520px) {
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding-inline: 2%;
       }
 
       .elvee_input {
@@ -283,18 +291,18 @@
         border-right: none;
         padding: 0.5rem;
         outline: none;
-        width: 85%;
+        width: 90%;
 
         @media screen and (max-width: 768px) {
-          width: 95%;
+          width: 100%;
         }
 
         @media screen and (max-width: 1000px) {
-          width: 82%;
+          width: 100%;
         }
 
         @media screen and (max-width: 1420px) {
-          width: 87%;
+          width: 100%;
         }
       }
 
@@ -311,26 +319,34 @@
         color: white;
         padding: 0.5rem 1rem;
         border: none;
+        margin-top: 0.5rem;
+        width: 24rem;
+        margin-inline: auto;
         cursor: pointer;
         margin-bottom: 2rem;
+        // border-radius: 8px;
+
+        @media screen and (max-width: 500px) {
+          width: 100%;
+        }
       }
 
       .input_box_elvee {
         display: flex;
         align-items: center;
         border-bottom: 1px solid #ddd;
-        width: 85%;
+        width: 90%;
 
         @media screen and (max-width: 768px) {
-          width: 95%;
+          width: 100%;
         }
 
         @media screen and (max-width: 1000px) {
-          width: 82%;
+          width: 100%;
         }
 
         @media screen and (max-width: 1420px) {
-          width: 87%;
+          width: 100%;
         }
 
         @media screen and (max-width: 706px) {
@@ -359,6 +375,7 @@
           justify-content: center;
           font-size: 18px;
           font-weight: 400 !important;
+          // border-radius: 8px;
           flex: 1;
 
           @media screen and (max-width: 800px) {

@@ -60,6 +60,7 @@ const ProductDetail = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [CustPath, setCustpath] = useState(false);
+  console.log('CustPath: ', CustPath);
   const [loginData, setLoginData] = useState({});
   const [completeSet, setCompleteSet] = useState(false);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -97,6 +98,7 @@ const ProductDetail = () => {
   const [loadingdata, setloadingdata] = useState(false);
   const [pdImageLoading, setPdImageLoading] = useState(false);
   const [path, setpath] = useState();
+  console.log('path: ', path);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [videoArr, SETvideoArr] = useState([]);
   const [setshape, setSetShape] = useState();
@@ -557,18 +559,43 @@ const ProductDetail = () => {
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
-              // setloadingdata(false);
+              setloadingdata(false);
             }
 
             if (!res?.pdList[0]) {
               setisPriceLoading(false);
               setIsDataFound(true);
             }
+            else {
+              setIsDataFound(false)
+            }
 
             setDiaList(res?.pdResp?.rd3);
             setCsList(res?.pdResp?.rd4);
 
             let prod = res?.pdList[0];
+
+            let resp = res;
+            if (resp) {
+              await getSizeData(resp?.pdList[0], cookie)
+                .then((res) => {
+                  setSizeCombo(res?.Data);
+                })
+                .catch((err) => console.log("SizeErr", err));
+
+              if (storeinitInside?.IsStockWebsite === 1) {
+                await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie).then((res) => {
+                  setStockItemArr(res?.Data?.rd)
+                }).catch((err) => console.log("stockItemErr", err))
+              }
+
+              if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
+                await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
+                  setSimilarBrandArr(res?.Data?.rd)
+                }).catch((err) => console.log("similarbrandErr", err))
+              }
+
+            }
 
             let initialsize =
               prod && prod.DefaultSize !== ""
@@ -588,26 +615,9 @@ const ProductDetail = () => {
           }
           return res;
         })
-        .then(async (resp) => {
-          if (resp) {
-            await getSizeData(resp?.pdList[0], cookie)
-              .then((res) => {
-                setSizeCombo(res?.Data);
-              })
-              .catch((err) => console.log("SizeErr", err));
-            await StockItemApi(resp?.pdList[0]?.autocode, "stockitem", cookie)
-              .then((res) => {
-                setStockItemArr(res?.Data?.rd);
-              })
-              .catch((err) => console.log("stockItemErr", err));
+        // .then(async (resp) => {
 
-            if (storeinitInside?.IsProductDetailSimilarDesign === 1) {
-              await StockItemApi(resp?.pdList[0]?.autocode, "similarbrand", obj, cookie).then((res) => {
-                setSimilarBrandArr(res?.Data?.rd)
-              }).catch((err) => console.log("similarbrandErr", err))
-            }
-          }
-        })
+        // })
         .catch((err) => console.log("err", err))
         .finally(() => setloadingdata(false));
     };
@@ -1758,9 +1768,9 @@ const ProductDetail = () => {
                           navigate("/");
                         }}
                       >
-                        {"Home /"}{" "}
+                        {"Home"}{" "}
                       </span>
-                      {path?.menuname ? (
+                      {path?.menuname !== undefined ? (
                         <span
                         // onClick={() =>
                         //   handleBreadcums({
@@ -1769,11 +1779,11 @@ const ProductDetail = () => {
                         //   })
                         // }
                         >
-                          {path?.menuname}
+                          {` / ${path?.menuname}`}
                         </span>
-                      ) : CustPath}
+                      ) : CustPath !== undefined ? ` / ${CustPath}` : ""}
 
-                      {path?.FilterVal1 && (
+                      {path?.FilterVal1 !== undefined && (
                         <span
                         // onClick={() =>
                         //   handleBreadcums({
@@ -1787,7 +1797,7 @@ const ProductDetail = () => {
                           {` / ${path?.FilterVal1}`}
                         </span>
                       )}
-                      {decodeUrl && (
+                      {decodeUrl != undefined && (
                         <span>
                           {` / ${decodeUrl?.b}`}
                         </span>
@@ -1813,7 +1823,7 @@ const ProductDetail = () => {
                       <div className='for_productDet_rating_text_div'><span className='for_productDet_rating_text'>4.5</span> Out of 5</div>
                     </div> */}
                     <div className="for_ProductDet_title_sku">
-                      <span>SKU: FE-CO-YG-0.5CT</span>
+                      {/* <span>SKU: FE-CO-YG-0.5CT</span> */}
                     </div>
                   </div>
                   <div className="for_ProductDet_title_wishlist">
@@ -2179,7 +2189,7 @@ const ProductDetail = () => {
                   )}
 
                 </div>
-                <div className="for_productDet_shipping_fee_div">
+                {/* <div className="for_productDet_shipping_fee_div">
                   <div className="for_productDet_shipping_icon">
                     <img className='for_productDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
                   </div>
@@ -2196,7 +2206,7 @@ const ProductDetail = () => {
                     <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
                     <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -2241,6 +2251,20 @@ const ProductDetail = () => {
                       </div>
                     </>
                   )}
+                  {csList?.filter((ele) => ele?.D !== "MISC")?.length > 0 && (
+                    <>
+                      <div style={{ marginTop: '1rem' }}>
+                        <TableComponentsMISC list={csList} details={'Color Stone Details'} />
+                      </div>
+                    </>
+                  )}
+                  {csList?.filter((ele) => ele?.D === "MISC")?.length > 0 && (
+                    <>
+                      <div style={{ marginTop: '1rem' }}>
+                        <TableComponentsMISC list={csList} details={'MISC Details'} />
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 <div className="for_ProductDet_desc">
@@ -2251,10 +2275,6 @@ const ProductDetail = () => {
 
             </div>
           </div>
-          <div className="for_ProductDet_services_div">
-            {/* <Services title={"Our Exclusive services"} services={services} /> */}
-            <OurServices />
-          </div>
           {storeInit?.IsProductDetailSimilarDesign == 1 &&
             SimilarBrandArr?.length > 0 && (
               <div className="for_ProductDet_Similiar_products_div">
@@ -2264,14 +2284,19 @@ const ProductDetail = () => {
                   storeInit={storeInit}
                   loginInfo={loginUserDetail}
                 />
-                {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 &&
-                  <Stockitems loginInfo={loginUserDetail} storeInit={storeInit} check={storeInit?.IsPriceShow === 1}
-                    handleCartandWish={handleCartandWish}
-                    cartArr={cartArr}
-                    stockItemArr={stockItemArr}
-                  />}
               </div>
             )}
+          {stockItemArr?.length > 0 && storeInit?.IsStockWebsite === 1 &&
+            <Stockitems loginInfo={loginUserDetail} storeInit={storeInit} check={storeInit?.IsPriceShow === 1}
+              handleCartandWish={handleCartandWish}
+              cartArr={cartArr}
+              stockItemArr={stockItemArr}
+            />
+          }
+          <div className="for_ProductDet_services_div">
+            {/* <Services title={"Our Exclusive services"} services={services} /> */}
+            <OurServices />
+          </div>
         </div>
         <div className="for_ProductDet_trend_coll_banner_div">
           <div className="for_trend_coll_details_div">
@@ -2582,6 +2607,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalColor, setMetalColor] = useState([]);
+  const [imageMap, setImageMap] = useState({});
   const Navigation = useNavigate();
   const location = useLocation();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -2704,11 +2730,54 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     }
   }
 
-  let getDesignImageFol = storeInit?.DesignImageFol;
-  const getDynamicImages = (designno, MetalColorid, extension) => {
-    const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-    return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => resolve(src);
+      img.onerror = () => reject(src);
+    });
   };
+
+  let getDesignImageFol = storeInit?.DesignImageFol;
+
+  const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
+    const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
+    const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+    const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
+    const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : imageNotFound;
+
+    try {
+      await Promise.all([
+        loadImage(colorImage),
+        loadImage(defaultImage),
+      ]);
+      return colorImage; // return the color image if it loads successfully
+    } catch {
+      return defaultImage; // fallback to default if color fails
+    }
+  };
+
+
+
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!data?.stockno) {
+        let loadedImages;
+        const currentData = data?.step1Data ?? data;
+
+        const designno = currentData?.designno;
+        const MetalColorid = currentData?.MetalColorid;
+        const ImageExtension = currentData?.ImageExtension;
+
+        const colorImage = await getDynamicImages(currentData, designno, MetalColorid, ImageExtension);
+        loadedImages = { colorImage };
+        setImageMap(loadedImages);
+      }
+    };
+    loadImages();
+  }, [data]);
+
 
   return (
     <div
@@ -2738,7 +2807,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.MetalColorid ?? data?.step1Data?.MetalColorid), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+              src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
               alt=""
               style={{ cursor: 'default' }}
             />
@@ -2815,6 +2884,89 @@ const TableComponents = ({ list, details }) => {
                 <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.M}/{(val?.N).toFixed(3)}</td>
               </tr>
             ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+
+}
+
+const TableComponentsMISC = ({ list, details }) => {
+
+  const pcsTotalVal = [];
+  const wtTotalVal = [];
+  const pcsTotalVal1 = [];
+  const wtTotalVal1 = [];
+
+  const getTotalPcs = list?.filter((ele) => ele?.D !== "MISC")?.reduce((total, pcs) => total + pcs?.M, 0)
+  pcsTotalVal.push({
+    total: getTotalPcs
+  })
+  const getTotalWt = list?.filter((ele) => ele?.D !== "MISC")?.reduce((total, WT) => total + WT?.N, 0)
+  wtTotalVal.push({
+    total: getTotalWt.toFixed(3)
+  })
+  const getTotalPcs1 = list?.filter((ele) => ele?.D == "MISC")?.reduce((total, pcs) => total + pcs?.M, 0)
+  pcsTotalVal1.push({
+    total: getTotalPcs1
+  })
+  const getTotalWt1 = list?.filter((ele) => ele?.D == "MISC")?.reduce((total, WT) => total + WT?.N, 0)
+  wtTotalVal1.push({
+    total: getTotalWt1.toFixed(3)
+  })
+
+  return (
+    <>
+      <ul class='for_ProductDet_diaDet_ff'>
+        <li>
+          <div>
+            {details.includes('MISC') ? (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal1[0]?.total}/{wtTotalVal1[0]?.total}gm)</span>
+              </>
+            ) : (
+              <>
+                <span>{details}</span> <span>({pcsTotalVal[0]?.total}/{wtTotalVal[0]?.total}ct)</span>
+              </>
+            )}
+          </div>
+        </li>
+      </ul>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead className='for_ProductDet_weight_names_ff' style={{ color: '#7d7f85', fontWeight: '600', textDecoration: 'underline' }}>
+            <tr style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <th style={{ flex: '1' }}>Shape</th>
+              <th style={{ flex: '1' }}>Clarity</th>
+              <th style={{ flex: '1' }}>Color</th>
+              <th style={{ flex: '1' }}>Pcs/wt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {details.includes('MISC') ? (
+              <>
+                {list?.filter((ele) => ele?.D === 'MISC')?.map((val, i) => (
+                  <tr key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed(3)}`}</td>
+                  </tr>
+                ))}
+              </>
+            ) : (
+              <>
+                {list?.filter((ele) => ele?.D !== 'MISC')?.map((val, i) => (
+                  <tr key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.F}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.H}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{val?.J}</td>
+                    <td style={{ color: 'gray', fontSize: '14px', flex: '1' }}>{`${val?.M} / ${(val?.N).toFixed(3)}`}</td>
+                  </tr>
+                ))}
+              </>
+            )}
           </tbody>
         </table>
       </div>

@@ -21,12 +21,28 @@
             text-transform: capitalize;
             line-height: 2px;
             font-family: $fontSansSerif;
+
+            @media (max-width: 500px) {
+                font-size: 24px;
+            }
+
+            @media (max-width: 350px) {
+                font-size: 24px;
+            }
         }
 
         .elv_social_subtitle {
             font-size: 15px;
             text-transform: uppercase;
             font-family: $fontSansSerif;
+
+            @media (max-width: 500px) {
+                font-size: 13px;
+            }
+
+            @media (max-width: 350px) {
+                font-size: 12px;
+            }
         }
     }
 
