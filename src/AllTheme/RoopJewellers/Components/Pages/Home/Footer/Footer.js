@@ -18,7 +18,7 @@ const Footer = ({ fromPage }) => {
 
   return (
     <div>
-        <div className='stam_Footer1_main'>
+        <div className='roop_Footer1_main'>
           <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
             <div className='footerIconMain'>
               {socialMediaData?.map((social, index) => (

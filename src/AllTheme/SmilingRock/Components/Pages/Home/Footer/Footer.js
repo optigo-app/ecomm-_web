@@ -73,14 +73,14 @@ const Footer = ({ fromPage }) => {
                         <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
                         {/* Maiora not needed */}
                         {/* Kayra needed */}
-                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
                       </>
                     )}
                 </div>
                 <div className='footerMoreText'>
                   {/* Maiora not needed */}
                   {/* Kayra needed */}
-                  {/* <Copyright localData={localData}/> */}
+                  <Copyright localData={localData}/>
                   <p style={{
                     color: '#7d7f85',
                     fontSize: '12px',
@@ -110,7 +110,7 @@ const Footer = ({ fromPage }) => {
                         <p className='footerMoreOptionData' onClick={() => { navigation('/ExpertAdvice'); window.scrollTo(0, 0); }}>EXPERT ADVICE</p>
                         {/* Maiora not needed */}
                         {/* Kayra needed */}
-                        {/* <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p> */}
+                        <p className='footerMoreOptionData' onClick={() => { navigation('/FunFact'); window.scrollTo(0, 0); }}>FUN FACT</p>
                       </>
                     )}
                   <p className='footerMoreOptionData' onClick={() => navigation('/TermsPolicy')}>TERMS & PRIVACY</p>

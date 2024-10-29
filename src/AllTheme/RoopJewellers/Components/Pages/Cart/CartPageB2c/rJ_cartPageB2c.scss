@@ -5,7 +5,7 @@
   justify-content: flex-end;
   padding: 0px;
   position: relative;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 }
 
 .rJ_B2C-container {
@@ -33,7 +33,7 @@
     text-align: end;
     margin-right: 10px;
     color: $titleColor;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
     cursor: pointer;
   }
 
@@ -41,7 +41,7 @@
     color: $titleColor;
     font-size: $fontSize7;
     text-align: center;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
   }
 }
 
@@ -67,16 +67,20 @@
   padding: 0px;
   z-index: 11;
   background-color: white;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
   font-size: $fontSize3;
 
   .rJ_B2cCheckoutBtn {
     border: none;
-    background-color: #7d7f85;
+    background-color: $btnprimarycolor;
     padding: 10px 0px;
     color: white;
     width: 100%;
     text-align: center;
+
+    &:hover {
+      background-color: $btn1hoverColor;
+    }
   }
 }
 
@@ -107,13 +111,13 @@
   text-align: center;
   font-size: $fontSize2;
   color: $titleColor;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 }
 
 .rJ_b2ccartContentTd {
   display: flex;
   flex-direction: column;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 }
 
 .rJ_b2ccartContentTitle {
@@ -122,13 +126,13 @@
   white-space: normal;
   color: $titleColor;
   font-size: $fontSize2;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 }
 
 .rJ_b2ccartContentMtDT {
   font-size: $fontSize2;
   color: $titleColor;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 }
 
 .rJ_noB2CcartData {
@@ -168,7 +172,7 @@
   width: 130px;
   height: 45px;
   border: 1px solid #ccc;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 
   .input {
     width: calc(100px * 0.5);
@@ -176,7 +180,7 @@
     margin: 0;
     text-align: center;
     border: none;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
     color: $titleColor;
   }
 
@@ -191,7 +195,7 @@
     font-size: 24px;
     cursor: pointer;
     border: none;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
   }
 }
 

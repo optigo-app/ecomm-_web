@@ -5,12 +5,14 @@
   .roop_col_title {
     font-size: 40px;
     text-align: center;
+    font-family: $fontBold;
   }
 
   .roop_whyshop_title {
     font-size: 40px;
     text-align: center;
     margin-top: 30px;
+    font-family: $fontBold;
   }
 
   .roop_col_imageMain_div {
@@ -37,8 +39,9 @@
     text-align: center;
     margin: 0px;
     padding: 10px;
-    font-weight: 500;
+    font-weight: 600;
     color: #000000b3;
+    font-family: $fontBold;
   }
 
   .roop_col_shop_div_main {
@@ -73,6 +76,8 @@
     bottom: 10px;
     font-size: 18px;
     color: black;
+    font-family: $fontBold;
+    font-weight: 600;
   }
 
   .onhover_show {
@@ -95,12 +100,15 @@
   .onhover_show h5 {
     color: white;
     font-size: 24px;
+    font-family: $fontBold;
+    font-weight: 600;
   }
 
   .onhover_show p {
     color: #ccc;
     margin: 0px;
-    padding: 10px
+    padding: 10px;
+    font-family: $fontMedium;
   }
 
   .roop_col_shop_div:hover .onhover_show {

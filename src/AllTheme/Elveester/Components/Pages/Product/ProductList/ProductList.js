@@ -1558,6 +1558,9 @@ const ProductList = () => {
                         <option value="Recommended">Recommended</option>
                         <option value="New">New</option>
                         <option value="Trending">Trending</option>
+                        <option value="Bestseller">
+                          Bestseller
+                        </option>
                         {storeInit?.IsStockWebsite === 1 && (
                           <option value="In Stock">In Stock</option>
                         )}
@@ -2834,8 +2837,7 @@ const Product_Card = ({
           >
             <div
               className="elv_image_prod"
-              onMouseOver={() => setIsHover(true)}
-              onMouseOut={() => setIsHover(false)}
+              onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}
             >
               <div className="elvWeb_app_product_label">
@@ -2852,38 +2854,24 @@ const Product_Card = ({
                   <span className="elvWeb_app_newarrival">New</span>
                 )}
               </div>
-              {isHover &&
-                (videoUrl !== undefined || RollImageUrl !== undefined) ? (
+              {isHover && (videoUrl !== undefined || RollImageUrl !== undefined) ? (
                 <>
                   {videoUrl !== undefined ? (
                     <div className="elv_rollup_video">
-                      <video
-                        loading={lazy}
-                        src={videoUrl}
-                        autoPlay
-                        muted
-                        loop
-                      ></video>
+                      <video src={videoUrl} autoPlay muted loop></video>
                     </div>
                   ) : null}
 
                   {videoUrl === undefined && RollImageUrl !== undefined ? (
                     <div className="elv_rollup_img">
-                      <img loading={lazy} src={RollImageUrl} />
+                      <img src={RollImageUrl} alt="Roll Up Image" />
                     </div>
                   ) : null}
                 </>
               ) : null}
               <img
                 className={
-                  showFilter && filter == false
-                    ? class3 != null || class3 != undefined
-                      ? class3
-                      : class2
-                    : filterData?.length > 0
-                      ? class2
-                      : class3
-                }
+                  showFilter && filter == false ? class3 != null || class3 != undefined ? class3 : class2 : filterData?.length > 0 ? class2 : class3}
                 loading={lazy}
                 src={imageUrl}
                 onError={(e) => {
@@ -2893,6 +2881,7 @@ const Product_Card = ({
                 }}
                 style={{
                   opacity: isHover && (RollImageUrl || videoUrl) ? "0" : "1",
+                  transition: '0s ease-in-out',
                 }}
               />
             </div>

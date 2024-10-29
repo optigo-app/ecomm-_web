@@ -216,7 +216,7 @@ const DiamondFilter = () => {
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-    let navigateUrl = `/d/${val?.stockno}/det345/?p=${encodeObj}`;
+    let navigateUrl = `/d/${val?.stockno}/det/?p=${encodeObj}`;
     Navigate(navigateUrl);
   };
   const getBannerImage = (index) => {

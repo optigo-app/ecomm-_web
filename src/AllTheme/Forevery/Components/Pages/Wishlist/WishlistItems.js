@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { for_CartCount, for_WishCount, for_customizationSteps } from "../../Recoil/atom";
+import { for_CartCount, for_MatchDiamonds, for_WishCount, for_customizationSteps } from "../../Recoil/atom";
 import { GetCountAPI } from "../../../../../utils/API/GetCount/GetCountAPI";
 import noImageFound from "../../Assets/image-not-found.jpg";
 import Cookies from "js-cookie";
@@ -24,6 +24,7 @@ const WishlistItems = ({
     item,
     diamondValue,
     itemInCart,
+    matchingDiamonds,
     updateCount,
     countDataUpdted,
     itemsLength,
@@ -41,11 +42,21 @@ const WishlistItems = ({
     const [selectedDia, setSelectedDia] = useState();
     const visiterId = Cookies.get("visiterId");
     const navigate = useNavigate();
+    const [matchDataSet, setmatchDataSet] = useRecoilState(for_MatchDiamonds)
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     const [showModal, setShowModal] = useState(false);
+
+    console.log('diamondValue , matchDia : ', diamondValue, matchingDiamonds);
+
+
+    const matchedDiamonds = diamondValue.filter(dia =>
+        matchingDiamonds.some(diamond => diamond.stockno === dia?.stockno)
+    );
+
+    console.log('matchedDiamonds: ', matchedDiamonds);
 
     const handleClickOpen = () => {
         setShowModal(true);
@@ -65,8 +76,56 @@ const WishlistItems = ({
         }
     };
 
+    useEffect(() => {
+        setmatchDataSet(matchedDiamonds);
+    }, [item])
+
     const handleRemoveItemFun = async (item) => {
+        console.log('matchedDiamonds: ', matchedDiamonds);
         const returnValue = await handleRemoveItem(item);
+
+        const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
+        const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
+
+        if (existingData1?.[0]?.step1Data != undefined) {
+            const newIsInWishValue = 0;
+
+            const updatedData = existingData1.map(step => {
+                if (step.step1Data != undefined) {
+                    return {
+                        ...step,
+                        step1Data: {
+                            ...step.step1Data,
+                            IsInWish: newIsInWishValue
+                        }
+                    };
+                }
+                return step;
+            });
+
+            sessionStorage.setItem('custStepData2', JSON.stringify(updatedData));
+        }
+
+        if (existingData?.[1]?.step2Data != undefined) {
+            const newIsInWishValue = 0;
+
+            const updatedData = existingData.map(step => {
+                if (step.step2Data != undefined) {
+                    return {
+                        ...step,
+                        step2Data: {
+                            ...step.step2Data,
+                            IsInWish: newIsInWishValue
+                        }
+                    };
+                }
+                return step;
+            });
+
+            sessionStorage.setItem('custStepData', JSON.stringify(updatedData));
+        }
+
+
         if (returnValue?.msg == "success") {
             GetCountAPI(visiterId).then((res) => {
                 setWishCountVal(res?.wishcount);

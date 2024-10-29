@@ -114,7 +114,7 @@ const Payment = () => {
         if (paymentResponse?.Data?.rd[0]?.stat == 1) {
             let num = paymentResponse.Data?.rd[0]?.orderno
             sessionStorage.setItem('orderNumber', num);
-            navigate('/Confirmation',{replace  :true});
+            navigate('/Confirmation', { replace: true });
             setIsloding(false);
             sessionStorage.removeItem("orderRemark")
 
@@ -161,13 +161,13 @@ const Payment = () => {
                 <div className='roop_PaymentContainer'>
                     <div className='roop_paymentBackbtnDiv'>
                         <IoMdArrowRoundBack className='roop_paymentBackbtn' onClick={handleBackNavigate} />
-                        <Link
+                        <button
                             className="roop_addorderRemarkbtn"
                             variant="body2"
                             onClick={handleOpen}
                         >
                             {(orderRemakdata === "" || orderRemakdata === null || orderRemakdata === undefined) ? "Add order Remark" : "Update order Remark"}
-                        </Link>
+                        </button>
                     </div>
                     <div className='roop_paymentDetailMainDiv'>
                         <div className='roop_paymentDetailLeftSideContent'>
@@ -188,7 +188,7 @@ const Payment = () => {
                         <div className='roop_paymentDetailRightSideContent'>
                             {storeinit?.IsPriceShow == 1 &&
                                 <>
-                                    <h3>Order Summary</h3> 
+                                    <h3>Order Summary</h3>
                                     {!isploding ? (
                                         <div class="roop_order-summary">
                                             <div class="roop_summary-item">

@@ -149,7 +149,7 @@ const CartItem = ({
           <div className="stam3_cart-item__details">
             <h3>
               {item?.designno != "" && item?.designno}
-              {item?.TitleLine != "" && " - " + item?.TitleLine}
+              {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
             </h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&

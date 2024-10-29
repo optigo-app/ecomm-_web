@@ -47,7 +47,6 @@ const ProductDetail = () => {
   const [isImageload, setIsImageLoad] = useState(true);
   const [IIIisImageload, setIIIIsImageLoad] = useState(false);
   const [metalColor, setMetalColor] = useState();
-  console.log('metalColor: ', metalColor);
   const [selectDiaQc, setSelectDiaQc] = useState();
   const [showtDiaQc, setShowDiaQc] = useState();
   const [diaQcCombo, setDiaQcCombo] = useState([])
@@ -512,7 +511,7 @@ const ProductDetail = () => {
     const FetchProductData = async () => {
       let obj = {
         mt: metalArr,
-        diaQc: `${diaArr?.QualityId},${diaArr?.ColorId}`,
+        diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
         csQc: `${csArr?.QualityId ?? 0},${csArr?.ColorId ?? 0}`,
       };
 
@@ -520,7 +519,6 @@ const ProductDetail = () => {
 
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
-          console.log('res: ', res);
           if (res) {
             setSingleProd(res?.pdList[0]);
 
@@ -543,11 +541,9 @@ const ProductDetail = () => {
             let prod = res?.pdList[0];
 
             let resp = res;
-            console.log('resp: ', resp);
             if (resp) {
               await getSizeData(resp?.pdList[0], cookie)
                 .then((res) => {
-                  console.log("Sizeres", res);
                   setSizeCombo(res?.Data);
                 })
                 .catch((err) => console.log("SizeErr", err));
@@ -1533,7 +1529,9 @@ const ProductDetail = () => {
                               {(storeInit?.IsDiamondCustomization === 1 &&
                                 diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? (
                                 <>
-                                  <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}</span>
+                                  <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text_max1000'>{singleProd?.IsMrpBase === 1
+                                    ? singleProd?.DiaQuaCol
+                                    : selectDiaQc != "undefined,undefined" ? selectDiaQc : (diaQcCombo?.length ? `${diaQcCombo[0].Quality},${diaQcCombo[0].color}` : '')}</span>
                                 </>
                               ) : null}
                             </div>
@@ -1977,7 +1975,9 @@ const ProductDetail = () => {
                             {(storeInit?.IsDiamondCustomization === 1 &&
                               diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? (
                               <>
-                                <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}</span>
+                                <span>Diamond Quality Color : </span> <span className='elv_ProductDet_text'>{singleProd?.IsMrpBase === 1
+                                  ? singleProd?.DiaQuaCol
+                                  : selectDiaQc != "undefined,undefined" ? selectDiaQc : (diaQcCombo?.length ? `${diaQcCombo[0].Quality},${diaQcCombo[0].color}` : '')}</span>
                               </>
                             ) : null}
                           </div>

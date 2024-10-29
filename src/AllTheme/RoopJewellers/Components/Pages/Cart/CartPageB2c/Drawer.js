@@ -49,12 +49,12 @@ const Cart = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if(items){
+      if (items) {
         let priceData = items?.reduce((total, item) => total + item?.FinalCost, 0);
         setTotalPrice(priceData)
       }
     }, 300);
-  },[items])
+  }, [items])
 
   const redirectUrl = `/loginOption/?LoginRedirect=/Delivery`;
   const handlePlaceOrder = () => {
@@ -106,7 +106,7 @@ const Cart = ({
                 <CartTableData
                   key={index}
                   cartData={item}
-                  qtyCount={qtyCount} 
+                  qtyCount={qtyCount}
                   CurrencyData={CurrencyData}
                   CartCardImageFunc={CartCardImageFunc}
                   noImageFound={noImageFound}
@@ -141,8 +141,8 @@ const Cart = ({
                         ),
                       }}
                     /> */}
-                     {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
-                     {" "}{totalPrice}
+                    {loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}
+                    {" "}{totalPrice}
                   </span>
                 }{' - '}CHECKOUT</button>
             </div>

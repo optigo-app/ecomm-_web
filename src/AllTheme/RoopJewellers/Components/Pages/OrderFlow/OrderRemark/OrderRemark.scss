@@ -15,6 +15,10 @@
   }
 }
 
+.smr_addorderRemark {
+  font-family: $fontRegular !important;
+}
+
 .roop_projectRemarkBtn-group {
   display: flex;
   justify-content: flex-end;
@@ -31,6 +35,8 @@
   .roop_remarksave-btn {
     background-color: $btnprimarycolor;
     color: $btn1hoverFontColor;
+    border-radius: 8px !important;
+    font-family: $fontRegular !important;
 
     &:hover {
       background-color: $btn1hoverColor;
@@ -41,6 +47,8 @@
     color: $btn1FontColor;
     background-color: $btn1bgColor;
     border: 1px solid $titleColor;
+    border-radius: 8px !important;
+    font-family: $fontRegular !important;
 
     &:hover {
       background-color: $btnprimarycolor;

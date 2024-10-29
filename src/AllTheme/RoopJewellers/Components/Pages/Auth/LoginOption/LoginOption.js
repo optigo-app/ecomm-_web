@@ -25,6 +25,7 @@ const LoginOption = () => {
                     <p style={{
                         textAlign: 'center',
                         color: '#7d7f85',
+                        fontSize: '17px'
                     }}>Use your email or mobile number to continue with the organization.</p>
                     <div className='smilingLoginOptionMain'>
                         <div className='loginMail' onClick={() => navigation(redirectEmailUrl)}>
@@ -37,7 +38,7 @@ const LoginOption = () => {
                         </div>
                     </div>
                     <p style={{
-                        marginTop: '40px', fontSize: '14px',
+                        marginTop: '40px', fontSize: '15px',
                         color: '#7d7f85',
                         textAlign: 'center'
                     }}>By continuing, you agree to our Terms of Use. Read our Privacy Policy.</p>

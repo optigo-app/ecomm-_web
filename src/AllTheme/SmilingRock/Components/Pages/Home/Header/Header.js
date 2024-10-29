@@ -921,7 +921,7 @@ const Header = () => {
 
               {/* Miora Needed */}
               {/* Kayra Don't */}
-              <li
+              {/* <li
                 className="nav_li_smining nav_li_smining_Mobile"
                 style={{ cursor: "pointer" }}
                 onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -929,7 +929,7 @@ const Header = () => {
                 <a href="/servicePolicy" className="smr_A_link">
                   SERVICE POLICY
                 </a>
-              </li>
+              </li> */}
               {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                 (
                   htmlContent?.rd[0]?.ExtraMenu == 1 &&
@@ -947,7 +947,7 @@ const Header = () => {
                     {/* Maiora not needed fun facts */}
                     {/* Kayra needed */}
 
-                    {/* <li
+                    <li
                       className="nav_li_smining nav_li_smining_Mobile"
                       style={{ cursor: "pointer" }}
                       onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
@@ -955,7 +955,7 @@ const Header = () => {
                       <a href="/FunFact" className="smr_A_link">
                         FUN FACT
                       </a>
-                    </li> */}
+                    </li>
                   </>
                 )}
               {IsB2BWebsiteChek === 1 ? (
@@ -1261,7 +1261,7 @@ const Header = () => {
 
                 {/* Miora Needed */}
                 {/* Kayra Don't */}
-                <li
+                {/* <li
                   className="nav_li_smining_Fixed nav_li_smining_Mobile"
                   style={{ cursor: "pointer" }}
                   onClick={(event) => hanldeStaticPageNavigation(event, "/servicePolicy")}
@@ -1269,7 +1269,7 @@ const Header = () => {
                   <a href="/servicePolicy" className="smr_A_linkFixed">
                     SERVICE POLICY
                   </a>
-                </li>
+                </li> */}
 
                 {htmlContent?.rd && htmlContent?.rd.length > 0 &&
                   (
@@ -1288,7 +1288,7 @@ const Header = () => {
 
                       {/* Maiora not needed fun facts */}
                       {/* Kayra needed */}
-                      {/* <li
+                      <li
                         className="nav_li_smining_Fixed nav_li_smining_Mobile"
                         style={{ cursor: "pointer" }}
                         onClick={(event) => hanldeStaticPageNavigation(event, "/FunFact")}
@@ -1296,7 +1296,7 @@ const Header = () => {
                         <a href="/FunFact" className="smr_A_linkFixed">
                           FUN FACT
                         </a>
-                      </li> */}
+                      </li>
                     </>
                   )}
                 {IsB2BWebsiteChek === 1 ? (

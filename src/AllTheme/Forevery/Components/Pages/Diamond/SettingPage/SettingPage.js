@@ -136,9 +136,7 @@ const SettingPage = () => {
   const [Shape, setShape] = useState("");
   const [customizeStep, setCustomizeStep] = useRecoilState(for_customizationSteps);
   const steps = JSON.parse(sessionStorage.getItem('customizeSteps'));
-  console.log('steps: ', steps);
   const steps1 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
-  console.log('steps1: ', steps1);
   const stepsData = JSON.parse(sessionStorage.getItem('custStepData'));
   const stepsData2 = JSON.parse(sessionStorage.getItem('custStepData2'));
 
@@ -367,7 +365,6 @@ const SettingPage = () => {
 
       if (menuVal.length > 0) {
         const menuDecode = atob(menuVal.split("=")[1]);
-        console.log('menuDecode: ', menuDecode);
         const key = menuDecode.split("/")[1].split(",");
         const val = menuDecode.split("/")[0].split(",");
         productlisttype = [key, val];
@@ -864,14 +861,14 @@ const SettingPage = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="for_setting_filter_dropdown_sort_ship">
+                        {/* <div className="for_setting_filter_dropdown_sort_ship">
                           <div className="for_setting_filter_label_ship">
                             <label>shipping date </label>
                           </div>
                           <div className="for_setting_filter_option_div_ship">
                             <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} sim={true} className={"for_setting_filter_sort_select_ship"} />
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </Drawer>
                   </>
@@ -962,14 +959,14 @@ const SettingPage = () => {
                         </FormControl>
                       </div>
                     </div>
-                    <div className="for_setting_filter_dropdown_sort_ship">
+                    {/* <div className="for_setting_filter_dropdown_sort_ship">
                       <div className="for_setting_filter_label_ship">
                         <label>shipping date </label>
                       </div>
                       <div className="for_setting_filter_option_div_ship">
                         <ShippingDrp value={shippingDrp} onChange={handleChange1} data={shippData} className={"for_setting_filter_sort_select_ship"} />
                       </div>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>

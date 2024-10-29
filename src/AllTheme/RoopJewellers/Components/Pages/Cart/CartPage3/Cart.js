@@ -175,13 +175,13 @@ const CartPage = () => {
         <div className="cartBtnGroupMainDiv">
           {!isloding && cartData.length !== 0 &&
             <div className='roop3_cartButton-groups'>
-              <Link
+              <button
                 className='roop3_ReomoveAllCartbtn'
                 variant="body2"
                 onClick={handleRemoveAllDialog}
               >
                 Clear All
-              </Link>
+              </button>
             </div>
           }{!isMobileScreen &&
             <div className="roop3_cart-title">My Cart</div>

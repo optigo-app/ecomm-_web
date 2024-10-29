@@ -127,8 +127,10 @@ const CartItem = ({
             <img src={imageSrc} alt='Product-image' />
           </div>
           <div className="smr3_cart-item__details">
-            <h3>{item?.designno != "" && item?.designno}
-              {item?.TitleLine != "" && " - " + item?.TitleLine}</h3>
+            <h3>
+              {item?.designno != "" && item?.designno}
+              {(item?.TitleLine != "" && item?.TitleLine != null) && " - " + item?.TitleLine}
+            </h3>
             <p>{item?.productDescription}</p>
             {/* {item?.sku != "" &&
             <p>SKU: {item?.sku}</p>

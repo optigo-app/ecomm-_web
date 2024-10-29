@@ -73,7 +73,6 @@ const DiamondDetails = () => {
     };
 
     const [singleDiaData, setSingleDiaData] = useState([]);
-    console.log('singleDiaData: ', singleDiaData);
     const [shape, setShape] = useState()
     const [currentSlide, setCurrentSlide] = useState(0);
     const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -111,10 +110,10 @@ const DiamondDetails = () => {
     const [metalWiseColorImg, setMetalWiseColorImg] = useState()
     const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
-    console.log('diamondData: ', diamondData);
     const [settingData, setSettingData] = useState();
     const [setshape, setSetShape] = useState();
     const [metalColor, setMetalColor] = useState([]);
+    const [imageMap, setImageMap] = useState({});
 
     const setCartCountVal = useSetRecoilState(for_CartCount)
     const setWishCountVal = useSetRecoilState(for_WishCount)
@@ -132,7 +131,6 @@ const DiamondDetails = () => {
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
-    console.log('certyLink: ', certyLink);
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -192,13 +190,51 @@ const DiamondDetails = () => {
         }
     }, [compSet])
 
-
-    let getDesignImageFol = storeInit?.DesignImageFol;
-    const getDynamicImages = (designno, MetalColorid, extension) => {
-        const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-        return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(src);
+            img.onerror = () => reject(src);
+        });
     };
 
+    let getDesignImageFol = storeInit?.DesignImageFol;
+
+    const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
+        const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
+        const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+        // const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
+        // const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : imageNotFound;
+        const colorImage = `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}`;
+        const defaultImage = `${baseImagePath}.${extension}`;
+
+        try {
+            await Promise.all([
+                loadImage(colorImage),
+                loadImage(defaultImage),
+            ]);
+            return colorImage; // return the color image if it loads successfully
+        } catch {
+            return defaultImage; // fallback to default if color fails
+        }
+    };
+
+    useEffect(() => {
+        const loadImages = async () => {
+            let loadedImages;
+            const currentData = settingData?.step1Data ?? settingData?.step2Data;
+
+            const designno = currentData?.designno;
+            const MetalColorid = currentData?.MetalColorid;
+            const ImageExtension = currentData?.ImageExtension;
+
+            const colorImage = await getDynamicImages(currentData, designno, MetalColorid, ImageExtension);
+            loadedImages = { colorImage };
+            setImageMap(loadedImages);
+        };
+        loadImages();
+    }, [getAllData]);
 
     useEffect(() => {
         try {
@@ -489,6 +525,14 @@ const DiamondDetails = () => {
                     setCartCountVal(cartC);
                 }
                 setAddWishListFlag(true);
+
+
+                if (compSet) {
+                    sessionStorage.setItem("settwish", JSON.stringify(true));
+                }
+
+                sessionStorage.setItem("diaWish", JSON.stringify(true))
+
                 const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
                 const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
 
@@ -540,6 +584,13 @@ const DiamondDetails = () => {
                     setCartCountVal(cartC);
                 }
                 setAddWishListFlag(false);
+
+                if (compSet) {
+                    sessionStorage.removeItem("settwish")
+                }
+
+                sessionStorage.removeItem("diaWish");
+
                 const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
                 const existingData1 = JSON.parse(sessionStorage.getItem('custStepData2')) || [];
 
@@ -995,7 +1046,7 @@ const DiamondDetails = () => {
                             StyleCondition={StyleCondition}
                             Swap={Swap}
                             setswap={setswap}
-                            stockno={singleDiaData[0]?.stockno}
+                            stockno={singleDiaData[0]?.stockno?.replaceAll(" ", "")}
                             setshape={setshape}
                             compSet={compSet}
                             customizeStep={customizeStep}
@@ -1043,7 +1094,8 @@ const DiamondDetails = () => {
                                                                                         style={{ position: "relative" }}
                                                                                     >
                                                                                         <img
-                                                                                            src={item?.src}
+                                                                                            src={imageMap?.colorImage}
+                                                                                            // src={item?.src}
                                                                                             onError={(e) => {
                                                                                                 e.target.onerror = null;
                                                                                                 e.target.src = imageNotFound
@@ -1230,7 +1282,8 @@ const DiamondDetails = () => {
                                                                                         style={{ position: "relative" }}
                                                                                     >
                                                                                         <img
-                                                                                            src={item?.src}
+                                                                                            src={imageMap?.colorImage}
+                                                                                            // src={item?.src}
                                                                                             onError={(e) => {
                                                                                                 e.target.onerror = null;
                                                                                                 e.target.src = imageNotFound
@@ -1693,7 +1746,7 @@ const DiamondDetails = () => {
                                             </>
                                         )}
                                     </div>
-                                    <div className="for_DiamondDet_shipping_fee_div">
+                                    {/* <div className="for_DiamondDet_shipping_fee_div">
                                         <div className="for_DiamondDet_shipping_icon">
                                             <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
                                         </div>
@@ -1710,7 +1763,7 @@ const DiamondDetails = () => {
                                             <span className='for_calender_desc_title_1'>order now and your order shipped by</span>
                                             <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             ) : (
                                 <div className="for_Complete_set_main_div">
@@ -1738,14 +1791,13 @@ const DiamondDetails = () => {
 
                                                         </div>
                                                         <div className="for_Complete_set_title_sku">
-                                                            <div className='for_Complete_set_sku'>SKU: {settingData?.step2Data?.designno ?? settingData?.step1Data?.designno}</div>
+                                                            {/* <div className='for_Complete_set_sku'>Design No : {settingData?.step2Data?.designno ?? settingData?.step1Data?.designno}</div> */}
                                                         </div>
                                                         <div className="for_Complete_set_price_div">
                                                             <div className="for_Complete_set_price">
                                                                 <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)}</span>
                                                             </div>
-                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/M=${filterVal}`) }}>
-
+                                                            <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[0]?.shape ?? setshape?.[1]?.shape}/M=${filterVal}`) }}>
                                                                 <HiOutlinePencilSquare fontWeight={700} />
                                                                 <span style={{ marginTop: '1px' }}>Change</span>
                                                             </div>
@@ -1779,7 +1831,7 @@ const DiamondDetails = () => {
                                                 )}
                                         </div>
 
-                                        <div className="for_Complete_set_size_div">
+                                        {/* <div className="for_Complete_set_size_div">
                                             {sizeCombo?.length > 0 && (
                                                 <div className="for_prodWeights_metalType_div">
                                                     <div className='for_prodWeight_title_div'>
@@ -1801,7 +1853,7 @@ const DiamondDetails = () => {
                                                     </FormControl>
                                                 </div>
                                             )}
-                                        </div>
+                                        </div> */}
 
                                         <div className="for_Complete_set_final_price_div">
                                             <div className="for_Complete_set_price">
@@ -1831,7 +1883,7 @@ const DiamondDetails = () => {
                                                 </>
                                             )}
                                         </div>
-                                        <div className="for_Complete_set_shipp_div">
+                                        {/* <div className="for_Complete_set_shipp_div">
                                             <div className="for_DiamondDet_shipping_fee_div">
                                                 <div className="for_DiamondDet_shipping_icon">
                                                     <img className='for_DiamondDet_shipp_image' src={`${storImagePath()}/images/ProductListing/Shipping/shipping-cart.png`} alt='shipping-icon' ></img>
@@ -1850,7 +1902,7 @@ const DiamondDetails = () => {
                                                     <span className='for_calender_desc_title_2'>Tuesday , August 20</span>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             )}
@@ -1978,6 +2030,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
     const [storeInit, setStoreInit] = useState({});
     const [loginCurrency, setLoginCurrency] = useState();
     const [metalColor, setMetalColor] = useState([]);
+    const [imageMap, setImageMap] = useState({});
     const Navigation = useNavigate();
     const location = useLocation();
     const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -2100,11 +2153,54 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         }
     }
 
-    let getDesignImageFol = storeInit?.DesignImageFol;
-    const getDynamicImages = (designno, MetalColorid, extension) => {
-        const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
-        return `${getDesignImageFol}${designno}_${1}_${matchMetalColorid?.colorcode}.${extension}`;
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(src);
+            img.onerror = () => reject(src);
+        });
     };
+
+    let getDesignImageFol = storeInit?.DesignImageFol;
+
+    const getDynamicImages = async (imageData, designno, MetalColorid, extension) => {
+        const matchMetalColorid = metalColor.find((color) => color?.id === MetalColorid);
+        const baseImagePath = `${getDesignImageFol}${designno}_${1}`;
+        const colorImage = imageData?.ImageCount > 0 ? `${baseImagePath}_${matchMetalColorid?.colorcode}.${extension}` : imageNotFound;
+        const defaultImage = imageData?.ImageCount > 0 ? `${baseImagePath}.${extension}` : imageNotFound;
+
+        try {
+            await Promise.all([
+                loadImage(colorImage),
+                loadImage(defaultImage),
+            ]);
+            return colorImage; // return the color image if it loads successfully
+        } catch {
+            return defaultImage; // fallback to default if color fails
+        }
+    };
+
+
+
+    useEffect(() => {
+        const loadImages = async () => {
+            if (!data?.stockno) {
+                let loadedImages;
+                const currentData = data?.step1Data ?? data;
+
+                const designno = currentData?.designno;
+                const MetalColorid = currentData?.MetalColorid;
+                const ImageExtension = currentData?.ImageExtension;
+
+                const colorImage = await getDynamicImages(currentData, designno, MetalColorid, ImageExtension);
+                loadedImages = { colorImage };
+                setImageMap(loadedImages);
+            }
+        };
+        loadImages();
+    }, [data]);
+
 
     return (
         <div
@@ -2134,7 +2230,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 >
                     <div className="for_dia_data_image">
                         <img
-                            src={(data?.stockno ? data?.image_file_url : getDynamicImages((data?.designno ?? data?.step1Data?.designno), (data?.MetalColorid ?? data?.step1Data?.MetalColorid), (data?.ImageExtension ?? data?.step1Data?.ImageExtension)))}
+                            src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
                             alt=""
                             style={{ cursor: 'default' }}
                         />
@@ -2182,9 +2278,15 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
     const getCompleteStep1 = JSON.parse(sessionStorage.getItem('customizeSteps'));
     const getCompleteStep2 = JSON.parse(sessionStorage.getItem('customizeSteps2'));
 
+    const createUrl = `/d/setting-complete-product/det345/?p=${(getCompleteStep1 ?? getCompleteStep2)?.[2]?.url}`;
+
     const handleToggle = () => {
         setShowModal(!showModal);
     };
+
+    const handleConfirm = () => {
+        Navigation(createUrl);
+    }
 
     const handleRemoveData = (index) => {
         sessionStorage.removeItem("customizeSteps");
@@ -2317,7 +2419,7 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, stockno, compSet, cu
                     )}
                 </div>
                 {showModal && (
-                    <DemountModal open={showModal} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={1} />
+                    <DemountModal open={showModal} handleConfirm={handleConfirm} handleClose={handleToggle} handleRemoveData={handleRemoveData} index={1} />
                 )}
             </>
         );
@@ -2532,7 +2634,7 @@ const Modal = ({
 }
 
 
-const DemountModal = ({ open, handleClose, handleRemoveData, index }) => {
+const DemountModal = ({ open, handleConfirm, handleClose, handleRemoveData, index }) => {
     return (
         <>
             <Dialog
@@ -2574,6 +2676,7 @@ const DemountModal = ({ open, handleClose, handleRemoveData, index }) => {
                         <div className="for_modal_buttons_nav_div">
                             <button
                                 onClick={() => {
+                                    handleConfirm();
                                     handleClose();
                                 }}
                             >

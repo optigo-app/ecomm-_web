@@ -2,6 +2,8 @@
 
 .roop_paymentMainDiv {
 
+    font-family: $fontRegular !important;
+
     .roop_paymentSecondMainDiv {
         margin-inline: 6%;
         background-color: #fff;
@@ -36,7 +38,7 @@
     .roop_paymentDetailMainDiv {
         display: flex;
         justify-content: space-around;
-        font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
         color: $titleColor;
     }
 
@@ -66,7 +68,7 @@
     }
 
     .roop_order-summary {
-        font-family: $primaryFontFamily;
+        font-family: $fontRegular !important;
         color: $titleColor;
     }
 
@@ -96,12 +98,12 @@
             margin-right: 20px;
             height: 40px;
             width: 180px;
-            font-family: $primaryFontFamily !important;
+            font-family: $fontRegular !important;
             font-size: $fontSize3;
             color: $btn1hoverFontColor;
             background-color: $btnprimarycolor;
             border: 1px solid $btnprimarycolor;
-            border-radius: 0px !important;
+            border-radius: 8px !important;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
 
@@ -113,13 +115,27 @@
     }
 
     .roop_backtoTopBtn {
-        font-family: $homePageFontFamily;
+        font-family: $fontRegular !important;
     }
 
     .roop_addorderRemarkbtn {
-        color: $titleColor !important;
+        font-family: $fontRegular !important;
+        color: $btn1hoverFontColor;
+        height: 40px;
+        width: 180px;
+        background-color: $btnprimarycolor;
         font-size: $fontSize2 !important;
+        border: none;
+        outline: none;
+        border-radius: 8px !important;
         text-transform: capitalize !important;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+            color: $btn1hoverFontColor;
+            background-color: $btn1hoverColor;
+        }
     }
 
     .roop_addorderRemark {

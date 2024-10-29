@@ -8,8 +8,8 @@ const TheDifference = () => {
     const [htmlContent, setHtmlContent] = useState('');
 
     useEffect(() => {
-        // fetch(`${storImagePath()}/html/smrTheDeffrence.html`)  /*for kayara */
-        fetch(`${storImagePath()}/html/MdJewells.html`)   /*for maiora */
+        fetch(`${storImagePath()}/html/smrTheDeffrence.html`)  /*for kayara */
+            // fetch(`${storImagePath()}/html/MdJewells.html`)   /*for maiora */
             .then((response) => response.text())
             .then((html) => {
                 setHtmlContent(html);

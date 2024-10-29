@@ -32,7 +32,8 @@ const CartDetails = ({
   handleMoveToDetail
 }) => {
   const [imageSrc, setImageSrc] = useState();
-  const getimcColorId = JSON.parse(sessionStorage.getItem("cartWishImgColor"));
+  let getimcColorId = JSON?.parse(sessionStorage.getItem("cartWishImgColor"));
+
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
       CartCardImageFunc(selectedItem).then((src) => {
@@ -52,7 +53,7 @@ const CartDetails = ({
             src={imageSrc}
             alt="image"
             className='for_cartDetailImage'
-            onClick={() => handleMoveToDetail(selectedItem, getimcColorId)}
+            onClick={() => handleMoveToDetail(selectedItem, getimcColorId !== undefined ? getimcColorId : "")}
           />
         ) :
           <img

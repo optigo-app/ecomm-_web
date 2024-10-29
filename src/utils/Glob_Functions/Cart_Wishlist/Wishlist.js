@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
 import { DiamondListData } from '../../API/DiamondStore/DiamondList';
+import { for_MatchDiamonds, for_filterDiamond } from '../../../AllTheme/Forevery/Components/Recoil/atom';
 
 const Usewishlist = () => {
   const navigate = useNavigate();
@@ -27,7 +28,8 @@ const Usewishlist = () => {
   const [countDataUpdted, setCountDataUpdated] = useState();
   const [isProcessing, setIsProcessing] = useState(false);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
-
+  const matchDataSet = useRecoilValue(for_MatchDiamonds)
+  const filterDia = useRecoilValue(for_filterDiamond)
 
   useEffect(() => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -100,9 +102,18 @@ const Usewishlist = () => {
 
   // remove
   const handleRemoveItem = async (item, isdiamond) => {
+    console.log('isdiamond: ', isdiamond);
     const visiterId = Cookies.get('visiterId');
     let param = "wish";
     setWishlistData(wishlistData.filter(cartItem => cartItem.id !== item.id));
+    setDiamondWishData(diamondWishData?.filter(diaItem =>
+      !matchDataSet.some((diamond) => diamond?.stockno === diaItem?.stockno)
+    ))
+    if (isdiamond !== "") {
+      setDiamondWishData(diamondWishData?.filter(diaItem =>
+        !filterDia.some((diamond) => diamond?.stockno === diaItem?.stockno)
+      ))
+    }
     try {
       const response = await removeFromCartList(item, param, visiterId, isdiamond);
       let resStatus = response.Data.rd[0];
@@ -155,13 +166,13 @@ const Usewishlist = () => {
         console.error("Error:", error);
       }
     } else {
-      toast.info(<Toast/>,{
-        hideProgressBar: true, 
+      toast.info(<Toast />, {
+        hideProgressBar: true,
         style: {
           borderRadius: "4px",
-          padding : '-2px 45px' , 
-          boxShadow : `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
-          border  :"2px solid white"
+          padding: '-2px 45px',
+          boxShadow: `rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px`,
+          border: "2px solid white"
         },
       })
     }

@@ -700,7 +700,8 @@
         align-items: center;
 
         .for_collection_filter_dropdown_sort_ship {
-          display: flex;
+          visibility: hidden;
+          // display: flex;
           align-items: center;
 
           .for_collection_filter_label_ship {
@@ -1403,7 +1404,8 @@
         align-items: center;
 
         .for_collection_filter_dropdown_sort_ship {
-          display: flex;
+          visibility: hidden;
+          // display: flex;
           align-items: center;
 
           .for_collection_filter_label_ship {

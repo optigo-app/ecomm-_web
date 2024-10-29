@@ -4,7 +4,7 @@ $cartUpdateBtncolor: #b1b1b1;
 
 .roop_MainBGDiv {
   // background-color: $backgroundColor;
-  font-family: $primaryFontFamily;
+  font-family: $fontRegular;
 
   .cartMainPageDiv {
     background-color: #fff;
@@ -56,26 +56,39 @@ $cartUpdateBtncolor: #b1b1b1;
       color: $titleColor;
       // padding-bottom: 35px;
       font-size: $fontSize8;
-      font-family: $primaryFontFamily !important;
+      font-family: $fontRegular !important;
     }
 
     .roop_cartButton-groups {
 
       .roop_ReomoveAllCartbtn {
-        text-transform: capitalize !important;
-        color: $titleColor !important;
-        text-decoration-color: $titleColor !important;
+        font-family: $fontRegular !important;
+        background-color: $btnprimarycolor;
+        color: $btn1hoverFontColor;
+        height: 45px;
+        width: 160px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        font-size: $fontSize2;
+        text-decoration-color: $titleColor;
+        // margin-inline: 6%;
         cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: $btn1hoverColor;
+        }
       }
 
-      .roop_ReomoveAllCartbtn {
-        margin-left: 20px;
-      }
+      // .roop_ReomoveAllCartbtn {
+      //   margin-left: 20px;
+      // }
 
       .roop_cartBtn {
         height: 60px;
         width: 150px;
-        font-family: $primaryFontFamily !important;
+        font-family: $fontRegular !important;
         font-size: $fontSize3;
         color: $btn1FontColor;
         background-color: $btn1bgColor;
@@ -96,28 +109,28 @@ $cartUpdateBtncolor: #b1b1b1;
     }
 
     .roop_place-order-btn {
-      font-family: $primaryFontFamily !important;
-      background-color: $btn1hoverColor;
+      font-family: $fontRegular !important;
+      background-color: $btnprimarycolor;
       color: $btn1hoverFontColor;
       font-size: $fontSize2;
       border: none;
       outline: none;
       height: 45px;
-      border-radius: 0px;
+      border-radius: 8px;
       width: 200px;
       font-weight: 500;
-      margin-inline: 6%;
+      // margin-inline: 6%;
       cursor: pointer;
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #666;
+        background-color: $btn1hoverColor;
       }
     }
   }
 
   .roop_place-order-btnMobile {
-    font-family: $primaryFontFamily !important;
+    font-family: $fontRegular !important;
     background-color: $btn1hoverColor;
     color: $btn1hoverFontColor;
     font-size: $fontSize2;
@@ -213,7 +226,7 @@ $cartUpdateBtncolor: #b1b1b1;
       max-width: 130px !important;
       word-wrap: break-word !important;
       margin-bottom: 20px !important;
-      font-family: $primaryFontFamily !important;
+      font-family: $fontRegular !important;
 
       span {
         font-weight: bold;
@@ -333,7 +346,7 @@ $cartUpdateBtncolor: #b1b1b1;
         flex: 1 1 45%;
         display: flex;
         flex-direction: column;
-        font-family: $primaryFontFamily !important;
+        font-family: $fontRegular !important;
 
         label {
           font-weight: bold;
@@ -374,7 +387,7 @@ $cartUpdateBtncolor: #b1b1b1;
           margin-right: 10px;
           color: $titleColor;
           font-size: $fontSize2;
-          font-family: $primaryFontFamily !important;
+          font-family: $fontRegular !important;
 
         }
 
@@ -382,7 +395,7 @@ $cartUpdateBtncolor: #b1b1b1;
           display: block;
           color: $titleColor;
           font-size: $fontSize2;
-          font-family: $primaryFontFamily !important;
+          font-family: $fontRegular !important;
 
         }
       }
@@ -426,7 +439,7 @@ $cartUpdateBtncolor: #b1b1b1;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: $primaryFontFamily !important;
+        font-family: $fontRegular !important;
 
         label {
           font-weight: bold;
@@ -520,10 +533,10 @@ $cartUpdateBtncolor: #b1b1b1;
       height: 40px;
       width: 100px;
       // padding: 15px;
-      background-color: $cartUpdateBtncolor;
+      background-color: $btnprimarycolor;
       color: white;
       border: none;
-      border-radius: 0px;
+      border-radius: 8px;
       font-size: $fontSize3;
       cursor: pointer;
       margin-bottom: 20px;
@@ -548,13 +561,13 @@ $cartUpdateBtncolor: #b1b1b1;
       color: $titleColor;
       font-weight: bold;
       font-size: $fontSize1;
-      font-family: $primaryFontFamily !important;
+      font-family: $fontRegular !important;
     }
 
     .roop_card-ContentsData {
       color: $titleColor;
       font-size: $fontSize1;
-      font-family: $primaryFontFamily;
+      font-family: $fontRegular;
       display: flex !important;
       justify-content: start I !important;
       margin-right: 5px !important;
@@ -588,7 +601,8 @@ $cartUpdateBtncolor: #b1b1b1;
 
     .roop_ItemRemarkbtn,
     .roop_ReomoveCartbtn {
-      color: #c1c1c1 !important;
+      color: $btnprimarycolor !important;
+      font-weight: 600;
       font-size: $fontSize1;
     }
 
@@ -688,20 +702,20 @@ $cartUpdateBtncolor: #b1b1b1;
       color: $titleColor;
       font-weight: 500;
       font-size: $fontSize4;
-      font-family: $primaryFontFamily;
+      font-family: $fontRegular;
     }
 
     .roop_filterAccordianDeatilTitle {
       color: $titleColor;
       font-size: $fontSize3;
-      font-family: $primaryFontFamily;
+      font-family: $fontRegular;
       padding-left: 10px;
     }
 
     .roop_filterCheckbox {
       color: $titleColor;
       font-size: $fontSize3;
-      font-family: $primaryFontFamily;
+      font-family: $fontRegular;
     }
   }
 
@@ -846,6 +860,11 @@ $cartUpdateBtncolor: #b1b1b1;
       .roop_place-order-btn {
         height: 35px !important;
         width: 120px !important;
+      }
+
+      .roop_ReomoveAllCartbtn {
+        height: 35px !important;
+        width: 100px !important;
       }
     }
   }

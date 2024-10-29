@@ -1,10 +1,12 @@
 @import "../../../scss/variable";
 
 .roop_headerMain_div {
-  .roop_Top_header {
-    height: 220px;
-    // background-color: $stambackcolor;
-  }
+  // .roop_Top_header {
+  //   height: 220px;
+  // background-color: $stambackcolor;
+  // }
+
+  font-family: $fontRegular !important;
 
   .roop_header_top_line {
     height: 50px;
@@ -17,31 +19,39 @@
   }
 
   .roop_header_top_line_text {
-    font-size: 17px;
+    font-size: 23px;
     font-weight: 500;
     margin: 0px;
     text-align: center;
+    font-family: $fontBold !important;
   }
 
   .roop_Top_header_sub {
     display: flex;
-    height: 100px;
+    height: 85px;
     border-bottom: 1px solid lightgray;
   }
 
   .roop_Top2_header_div3 {
-    width: 40%;
+    // width: 40%;
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 30px;
+    // padding-right: 30px;
   }
 
   .roop_Top2_header_div1 {
-    width: 20%;
+    // width: 20%;
     display: flex;
-    justify-content: center;
+    flex: 1;
+    justify-content: flex-start;
     align-items: center;
+    margin-top: 0.65rem;
+  }
+
+  .roop_desk_logo {
+    padding-left: 5rem;
   }
 
   .roop_logo_header {
@@ -62,6 +72,7 @@
     margin: 0px;
     padding: 0px;
     gap: 50px;
+    padding-right: 5rem;
   }
 
   .nav_li_smining_shop:hover {
@@ -85,7 +96,7 @@
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
     display: flex;
   }
 
@@ -122,7 +133,7 @@
     letter-spacing: 1px;
     position: relative;
     display: inline-block;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
   }
 
   .nav_li_smining_Fixed::before {
@@ -270,29 +281,101 @@
 
   //search box styling......
   .roop_smlingSearchoverlay {
+    position: relative;
+  }
+
+  .roop_smlingSearchoverlay_div {
     width: 100%;
-    height: 150%;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     z-index: 999;
+    position: fixed;
+    top: 0;
   }
 
   .roop_smlingTopSerachOver {
-    height: 50px;
     background-color: white;
-    width: 80%;
+    width: 100%;
+    height: 12rem;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border: 1px solid lightgray;
     padding: 10px;
+    position: relative;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in;
+  }
+
+  .roop_smlingTopSerachOver.active {
+    transform: translateY(0);
+  }
+
+  .roop_search_div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #E5E5E5;
+    width: 30%;
+    margin-inline: auto;
+    padding-inline: 10px;
   }
 
   .roop_Top2_header_div2 {
-    width: 40%;
+    display: flex;
+    flex: 1 25%;
+    align-items: center;
+    overflow-x: auto;
+    justify-content: center;
+    margin-top: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .roop_header_li {
+    height: 100%;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-inline: 1rem;
+    position: relative;
+  }
+
+  .roop_header_link {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: $fontRegular !important;
+  }
+
+  .roop_header_link {
+    text-decoration: none;
+    color: black;
+    position: relative;
+    opacity: 0.75;
+    transition: opacity 0.3s;
+  }
+
+  .roop_header_link:hover {
+    opacity: 1;
+  }
+
+  .roop_header_li::before {
+    content: "";
+    position: absolute;
+    height: 2px;
+    background-color: #031D44;
+    bottom: 1.6rem;
+    width: 0%;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .roop_header_li:hover::before {
+    width: 100%;
   }
 
   .roop_serachinputBoxOverly {
@@ -300,6 +383,7 @@
     height: 50px;
     border: none;
     outline: none;
+    padding-inline: 12px;
   }
 
   .roop_smlingTopSerachOver-Fixed {
@@ -486,7 +570,8 @@
     }
 
     .roop_mobileHeader_top_div1 {
-      width: 33.33%;
+      // width: 33.33%;
+      width: 23.33%;
     }
 
     .roop_mobileHeader_top_div2 {
@@ -565,10 +650,28 @@
     }
   }
 
+  @media (max-width: 768px) {
+    .roop_top_header3 {
+      padding-inline: 50px;
+    }
+  }
+
   @media screen and (max-width: 600px) {
     // .roop_mobileHideIcone {
     //     display: none !important;
     // }
+  }
+
+  @media screen and (max-width: 520px) {
+    .roop_mobileHeader_top_div1 {
+      width: 18.33%;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .roop_top_header3 {
+      padding-inline: 20px;
+    }
   }
 
   @media screen and (min-width: 426px) {
@@ -580,6 +683,15 @@
   @media screen and (max-width: 425px) {
     .roop_top_header3_logo_Web {
       display: none !important;
+    }
+
+    .nav_ul_shop {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin: 0px;
+      padding: 0px;
+      gap: 35px;
     }
   }
 }

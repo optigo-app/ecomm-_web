@@ -95,7 +95,7 @@ export default function ContactUs() {
         <div className='rp_stam_contactMain' >
             <div className='Fo-contactMain'>
                 <div>
-                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center',fontWeight:'600',color:"#d14a61"}}>Contact Us</p>
+                    <p style={{ fontSize: '40px', margin: '0px', paddingTop: '30px', textAlign: 'center', fontWeight: '600', color: "#d14a61" }}>Contact Us</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <p style={{ width: '500px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or question? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
                     </div>
@@ -221,7 +221,7 @@ export default function ContactUs() {
                                         </div>
                                     )}
 
-                                    {/* <div className="map-container">
+                                    <div className="map-container">
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.1384097684245!2d114.18683082602243!3d22.31060459252037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400df5b194c91%3A0x3301447411e931be!2sHeng%20Ngai%20Jewelry%20Centre!5e0!3m2!1sen!2sin!4v1716036679521!5m2!1sen!2sin"
                                             width="600"
                                             height="450"
@@ -231,7 +231,7 @@ export default function ContactUs() {
                                             className='mapContact'
                                         >
                                         </iframe>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>

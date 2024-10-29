@@ -5,10 +5,7 @@ import { storImagePath } from '../../../../../../../utils/Glob_Functions/GlobalF
 const BrandsComponent = () => {
     return (
         <div id='brandsComponentID' >
-            <div className='brandsCompoents'>
-                <p className='elv_brand_title'>introducing our exclusive brands</p>
-                <span className='elv_brand_subtitle'>Unveiling the Finest in Exclusive Brands</span>
-            </div>
+            <Title />
             <div className='brandsComponentClass'>
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo06.png`} style={{ width: '8%' }} />
                 <img className='affilitionImg' loading="lazy" src={`${storImagePath()}/images/HomePage/BrandsLogoImg/BrandsLogo05.png`} />
@@ -28,3 +25,12 @@ const BrandsComponent = () => {
 }
 
 export default BrandsComponent
+
+const Title = () => {
+    return (
+        <div className='brandsCompoents_div'>
+            <h3 className='elv_brand_title_h3'>introducing our exclusive brands</h3>
+            <p className='elv_brand_subtitle_p'>Unveiling the Finest in Exclusive Brands</p>
+        </div>
+    )
+}
