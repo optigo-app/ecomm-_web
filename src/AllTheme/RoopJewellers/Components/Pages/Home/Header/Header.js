@@ -20,6 +20,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import Cookies from "js-cookie";
 import pako from "pako";
+import { GoHeart } from "react-icons/go";
 import CartDrawer from "../../Cart/CartPageB2c/Cart";
 import useCountdown from "../../CountDownTimer/CountDownTimer";
 import {
@@ -565,7 +566,7 @@ const Header = () => {
                               className="nav_li_smining_Icone"
                               onClick={() => navigation("/myWishList")}
                             >
-                              <PiStarThin
+                              <GoHeart
                                 style={{
                                   height: "25px",
                                   cursor: "pointer",
@@ -631,7 +632,7 @@ const Header = () => {
                                   className="nav_li_smining_Icone"
                                   onClick={() => navigation("/myWishList")}
                                 >
-                                  <PiStarThin
+                                  <GoHeart
                                     style={{
                                       height: "25px",
                                       cursor: "pointer",
@@ -1133,7 +1134,7 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                           onClick={() => navigation("/myWishList")}
                         >
-                          <PiStarThin
+                          <GoHeart
                             style={{
                               height: "25px",
                               cursor: "pointer",
@@ -1192,7 +1193,7 @@ const Header = () => {
                             className="nav_li_smining_Icone"
                             onClick={() => navigation("/myWishList")}
                           >
-                            <PiStarThin
+                            <GoHeart
                               style={{
                                 height: "25px",
                                 cursor: "pointer",
@@ -1581,7 +1582,7 @@ const Header = () => {
                           className="nav_li_smining_Fixed_Icone roop_mobileHideIcone"
                           onClick={() => navigation("/myWishList")}
                         >
-                          <PiStarThin
+                          <GoHeart
                             style={{
                               height: "20px",
                               cursor: "pointer",
@@ -1638,7 +1639,7 @@ const Header = () => {
                             className="nav_li_smining_Fixed_Icone roop_mobileHideIcone"
                             onClick={() => navigation("/myWishList")}
                           >
-                            <PiStarThin
+                            <GoHeart
                               style={{
                                 height: "20px",
                                 cursor: "pointer",

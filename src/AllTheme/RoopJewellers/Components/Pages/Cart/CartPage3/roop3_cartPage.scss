@@ -591,20 +591,21 @@ $borderColor: rgba(232, 232, 232, 1);
       }
 
       .roop3_browseOurCollectionbtn {
-        background-color: $btn1FontColor;
+        background-color: $btnprimarycolor;
         border: none;
-        color: #fff;
+        color: $btn1hoverFontColor;
         border: 1px solid $btn1FontColor;
         font-size: 15px;
         font-weight: 500;
         height: 50px;
-        outline: none;
+        border: none;
         width: 220px;
+        border-radius: 8px;
         transition: 0.3s ease-in-out;
 
         &:hover {
-          background: $btn1hoverFontColor;
-          color: $btn1FontColor;
+          background: $btn1hoverColor;
+          color: $btn1hoverFontColor;
         }
       }
     }
