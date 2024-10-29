@@ -126,6 +126,7 @@
     text-align: center;
     height: 100%;
     margin-block: 125px;
+    font-family: $fontRegular !important;
 
     .roop_title {
         color: $titleColor;
@@ -138,14 +139,22 @@
     }
 
     .roop_browseOurCollectionbtn {
-        background-color: #7d7f85;
+        background-color: $btnprimarycolor;
         border: none;
-        color: #fff;
+        color: $btn1hoverFontColor;
+        border: 1px solid $btn1FontColor;
         font-size: 15px;
         font-weight: 500;
         height: 50px;
-        outline: none;
+        border: none;
         width: 220px;
+        border-radius: 8px;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+            background: $btn1hoverColor;
+            color: $btn1hoverFontColor;
+        }
     }
 }
 

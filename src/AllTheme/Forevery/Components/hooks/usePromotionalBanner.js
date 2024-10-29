@@ -20,8 +20,8 @@ const usePromotionalBanner = () => {
     if (!userLoggedIn) {
       const newTimer = setTimeout(() => {
         setOpenPromotionalBanner(true);
-        // }, 3600000);
-      }, 15000);
+      }, 120000);
+      // }, 15000);
       setTimer(newTimer);
     }
   };

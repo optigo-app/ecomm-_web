@@ -12,6 +12,7 @@ import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/D
 import { ColorStoneQualityColorComboAPI } from "../../../../../../utils/API/Combo/ColorStoneQualityColorComboAPI";
 import { MetalColorCombo } from "../../../../../../utils/API/Combo/MetalColorCombo";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 import StarIcon from "@mui/icons-material/Star";
 import { useSetRecoilState } from "recoil";
 import { CartAndWishListAPI } from "../../../../../../utils/API/CartAndWishList/CartAndWishListAPI";
@@ -1913,13 +1914,17 @@ const ProductDetail = () => {
                                 <div className="Smr_wishlistcont">
                                   <Checkbox
                                     icon={
-                                      <StarBorderIcon
-                                        sx={{ fontSize: "25px", color: "#D14A61" }}
+                                      <GoHeart
+                                        size={25}
+                                        color="#D14A61"
+                                      // sx={{ fontSize: "25px", color: "#D14A61" }}
                                       />
                                     }
                                     checkedIcon={
-                                      <StarIcon
-                                        sx={{ fontSize: "25px", color: "#D14A61" }}
+                                      <GoHeartFill
+                                        size={25}
+                                        color="#D14A61"
+                                      // sx={{ fontSize: "25px", color: "#D14A61" }}
                                       />
                                     }
                                     disableRipple={true}

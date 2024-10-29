@@ -40,11 +40,6 @@ import { BsHandbag } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 
 
-
-
-
-
-
 const ProductList = () => {
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -148,9 +143,6 @@ const ProductList = () => {
     setSelectedCsId(csid)
 
   }, [])
-
-
-  console.log("selectedMetalId", selectedMetalId)
 
   // console.log("loginUserDetail?.MetalId ?? storeInit?.MetalId",selectedMetalId,selectedDiaId,selectedCsId);
 
@@ -2849,7 +2841,7 @@ const GivaFilterMenu = ({
 
         // Find the option with the matching id and push its name to checkedNames
         const checkedOption = options.find(
-          (option) => option.id.toString() === checkedId
+          (option) => option?.id?.toString() === checkedId
         );
         console.log(checkedOption, "before");
 
@@ -2907,11 +2899,17 @@ const GivaFilterMenu = ({
                   className="fmg_menu"
                   onClick={() => HandleMenu(1)}
                 >
-                  <Badge badgeContent={totalSelected} color="success"
-                    backgroundColor="#D14A61"
+                  <Badge
+                    badgeContent={totalSelected}
+                    color="default" // Use default to avoid overriding styles
+                    sx={{
+                      '& .MuiBadge-dot': {
+                        backgroundColor: '#D14A61',
+                      },
+                    }}
                     anchorOrigin={{
-                      vertical: 'top',  // Adjust this as needed (top/bottom)
-                      horizontal: 'right', // Move to the left side
+                      vertical: 'top',
+                      horizontal: 'right',
                     }}
                   >
                     Filters
