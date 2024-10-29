@@ -81,8 +81,11 @@ const CartItem = ({
 
   return (
     <>
-    <tr className="modal_main_cart_ietms">
-      <td className="product">
+    <tr className="modal_main_cart_ietms" >
+      <td className="product"
+      style={{
+        padding:"25px 0"
+      }}>
         <img
           src={imageSrc}
           alt={cartData?.name}
