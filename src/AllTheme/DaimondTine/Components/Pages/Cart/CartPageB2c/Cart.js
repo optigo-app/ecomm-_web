@@ -160,7 +160,9 @@ function Cart(props) {
                           <th>Total</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody style={{
+                        padding:"15px 0"
+                      }}>
                         {cartData?.map((item) => (
                           <CartItem
                             key={item.id}
