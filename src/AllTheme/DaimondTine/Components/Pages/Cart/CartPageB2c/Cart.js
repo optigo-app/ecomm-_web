@@ -201,6 +201,13 @@ function Cart(props) {
                         handleIncrement={handleIncrement}
                         handleDecrement={handleDecrement}
                         onRemoveItem={handleRemoveItem}
+                        handleMoveToDetail={handleMoveToDetail}
+                            // new value aded for remarks crud
+                            showRemark={showRemark}
+                            productRemark={productRemark}
+         handleAddReamrk={handleAddReamrk}
+                            handleRemarkChange={handleRemarkChange}
+                            handleSave={handleSave}
                       />
                     ))}
                   </>
