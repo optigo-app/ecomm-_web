@@ -12,8 +12,8 @@ function TermsAndConditions() {
   }, []);
 
   useEffect(() => {
-    // fetch(`${storImagePath()}/html/TermsCondition.html`)
-    fetch(`${storImagePath()}/html/TermsConditionsona.html`)
+    fetch(`${storImagePath()}/html/TermsCondition.html`)
+    // fetch(`${storImagePath()}/html/TermsConditionsona.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);

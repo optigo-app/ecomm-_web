@@ -87,7 +87,7 @@ const ProductList = () => {
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
-  const [isProdLoading, setIsProdLoading] = useState(true);
+  const [isProdLoading, setIsProdLoading] = useState( );
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [storeInit, setStoreInit] = useState({});
   const [filterData, setFilterData] = useState([]);
@@ -418,6 +418,7 @@ const ProductList = () => {
             // console.log("productList", res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
+            setSortBySelect("Recommended")
           }
           return res;
         })
@@ -1539,10 +1540,10 @@ const ProductList = () => {
   };
 
   const BreadCumsObj = () => {
-    let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
+    let BreadCum = decodeURI(atob(location?.search?.slice(3)))?.split("/");
 
-    const values = BreadCum[0].split(",");
-    const labels = BreadCum[1].split(",");
+    const values = BreadCum[0]?.split(",");
+    const labels = BreadCum[1]?.split(",");
 
     const updatedBreadCum = labels.reduce((acc, label, index) => {
       acc[label] = values[index] || "";
@@ -2557,7 +2558,7 @@ const ProductList = () => {
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          width: "75%",
+                          width: "100%",
                           alignItems: "center",
                           height: "500px",
                         }}
@@ -3182,7 +3183,7 @@ const GivaFilterMenu = ({
     { value: "Recommended", label: "Recommended" },
     { value: "New", label: "New" },
     { value: "Trending", label: "Trending" },
-    // { value: "Bestseller", label: "Bestseller" },
+    { value: "Bestseller", label: "Bestseller" },
     { value: "In Stock", label: "In stock" },
     { value: "PRICE HIGH TO LOW", label: "Price High To Low" },
     { value: "PRICE LOW TO HIGH", label: "Price Low To High" },

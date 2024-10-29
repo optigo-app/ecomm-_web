@@ -20,14 +20,14 @@ const Confirmation = () => {
         );
       };
     
-      useEffect(()=>{
-        const timer = setTimeout(() => {
-            navigate("/",{replace  :true})
-        }, 2000);
-        return  ()=>{
-            clearTimeout(timer)
-        }
-    },[])
+    //   useEffect(()=>{
+    //     const timer = setTimeout(() => {
+    //         navigate("/",{replace  :true})
+    //     }, 15000000);
+    //     return  ()=>{
+    //         clearTimeout(timer)
+    //     }
+    // },[])
 
     useEffect(() => {
 
@@ -57,7 +57,7 @@ const Confirmation = () => {
     }
 
     return (
-        <div className='stam_confirMaindiv'>
+        <div className='mala_confirMaindiv'>
             <div className='mala_confirSecondMaindiv'>
                 <div className="thankYouContainer">
                     <div className="thankYouContent">

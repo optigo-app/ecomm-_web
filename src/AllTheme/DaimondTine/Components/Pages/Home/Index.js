@@ -11,6 +11,7 @@ import { storImagePath, storInitDataPath } from '../../../../../utils/Glob_Funct
 import './Index.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { dt_homeLoading } from '../../Recoil/atom';
+import { Value } from 'sass';
 
 function Home() {
 
@@ -34,7 +35,6 @@ function Home() {
         console.error("Error fetching the file:", error);
       });
   }, []);
-
 
   useEffect(() => {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));

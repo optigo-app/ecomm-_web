@@ -43,6 +43,10 @@ const SocialMedia = () => {
         }
     ];
 
+    const Url = `https://www.instagram.com/houseofdiamondtine/`;
+    const Url2 = `https://www.instagram.com/`;
+    const DomainConnect = 1 ? Url : Url2 ;
+
 
     const HandleGoogleAn = (ClickedPostNo)=>{
         GoogleAnalytics.event({
@@ -57,8 +61,8 @@ const SocialMedia = () => {
             <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
-                    {Sonaphotos?.map((photo, index) => (
-                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open('https://www.instagram.com/');
+                    {photos?.map((photo, index) => (
+                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open(DomainConnect);
                             HandleGoogleAn(index+1)
                         }}>
                             <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
@@ -68,7 +72,7 @@ const SocialMedia = () => {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button onClick={() => window.open('https://www.instagram.com/')} variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
+                <Button onClick={() => window.open(DomainConnect)} variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
                     Follow us
                 </Button>
             </div>

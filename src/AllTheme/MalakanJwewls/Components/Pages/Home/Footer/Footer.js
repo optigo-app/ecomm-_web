@@ -3,12 +3,15 @@ import "./Footer.modul.scss";
 import { useNavigate } from "react-router";
 import { mala_companyLogo } from "../../../Recoil/atom";
 import { useRecoilValue } from "recoil";
+import {storImagePath} from '../../../../../../utils/Glob_Functions/GlobalFunction'
+
 
 const Footer = ({ fromPage }) => {
   const [socialMediaData, setSocialMediaData] = useState([]);
   const navigation = useNavigate();
   const [localData, setLocalData] = useState();
   const compnyLogo = useRecoilValue(mala_companyLogo);
+  let footerLogo = `${storImagePath()}/images/HomePage/sonasons1.png`;
 
   useEffect(() => {
     const localD = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -68,7 +71,7 @@ const Footer = ({ fromPage }) => {
         <div className="mala_FooterLogo_div">
           <a href="/">
             <img
-              src={compnyLogo}
+              src={footerLogo}
               loading="lazy"
               className="mala_logo_header"
               alt="Company Logo"

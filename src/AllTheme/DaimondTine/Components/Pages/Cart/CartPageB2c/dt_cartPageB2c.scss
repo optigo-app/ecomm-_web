@@ -2,7 +2,6 @@
 
 .dt_MainCartDiv {
   font-family: $primaryFontFamily;
-
   .dt_bg-imageCart {
     background-position: 50%;
     background-size: cover;
@@ -59,7 +58,7 @@
           text-align: left;
           border-bottom: 1px solid #ccc;
         }
-
+        
         .product {
           display: flex;
           align-items: center;
@@ -222,6 +221,25 @@
     margin-bottom: 50px;
     outline: none;
     width: 220px;
+  }
+}
+.modal_main_cart_ietms{
+  position: relative;
+}
+.remark_dt_modal{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .dt_ItemRemarkbtn{
+    text-decoration: none;
+    font-weight: 400;
+    color: #b67979;
+    font-size: 15px;
   }
 }
 

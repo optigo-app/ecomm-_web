@@ -16,7 +16,7 @@ const sliderData = [
         imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner2.jpg",
     },
     {
-        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.jpg",
+        imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.png",
     },
 ];
 
@@ -45,7 +45,7 @@ const TopSection = () => {
                 }}
                 modules={[Autoplay]}
             >
-                {SonasliderData.map((slide, index) => (
+                {sliderData.map((slide, index) => (
                     <SwiperSlide key={index}>
                         <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} className='dt_topSectionImg' style={{ width: '100%', height: '100%', minHeight: '700px', maxHeight: "800px", objectFit: 'cover' }} loading='eager' />
                     </SwiperSlide>
