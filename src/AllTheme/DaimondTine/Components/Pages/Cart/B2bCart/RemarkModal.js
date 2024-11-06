@@ -47,6 +47,7 @@ const RemarkModal = ({ open, onClose, remark, onRemarkChange, onSave }) => {
           variant="outlined"
           fullWidth
           value={remark}
+          name='remark'
           onChange={onRemarkChange}
           sx={{ mt: 2 }}
           className='dt_RemarkMoalInput'
