@@ -18,7 +18,7 @@ const ExampleComponent = ({
     onRemove
 
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const setCartCountVal = useSetRecoilState(roop_CartCount)
     const [storeInitData, setStoreInitData] = useState();
     const visiterId = Cookies.get('visiterId');

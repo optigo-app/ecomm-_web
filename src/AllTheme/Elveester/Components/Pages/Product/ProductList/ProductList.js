@@ -514,7 +514,6 @@ const ProductList = () => {
           let grossFilter = JSON.parse(
             res1?.filter((ele) => ele?.Name == "Gross")[0]?.options
           )[0];
-          console.log("grossFilter: ", grossFilter);
           let netFilter = JSON.parse(
             res1?.filter((ele) => ele?.Name == "NetWt")[0]?.options
           )[0];
@@ -741,7 +740,6 @@ const ProductList = () => {
   };
 
   const handleCartandWish = async (e, ele, type) => {
-    console.log("event", e.target.checked, ele, type);
 
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
     const prodObj = {
@@ -773,7 +771,6 @@ const ProductList = () => {
     if (e.target.checked) {
       await CartAndWishListAPI(type, prodObj, cookie)
         .then((res) => {
-          console.log(res?.Data?.rd[0]);
           if (res) {
             let cartC = res?.Data?.rd[0]?.Cartlistcount;
             let wishC = res?.Data?.rd[0]?.Wishlistcount;
@@ -785,7 +782,6 @@ const ProductList = () => {
     } else {
       await RemoveCartAndWishAPI(type, ele?.autocode, cookie)
         .then((res1) => {
-          console.log("res1: ", res1);
           if (res1) {
             let cartC = res1?.Data?.rd[0]?.Cartlistcount;
             let wishC = res1?.Data?.rd[0]?.Wishlistcount;
@@ -1015,7 +1011,6 @@ const ProductList = () => {
   };
 
   const RangeFilterView = (ele) => {
-    console.log("diamond daat", JSON?.parse(ele?.options)?.[0]?.Max);
     return (
       <>
         <div>
@@ -1205,7 +1200,6 @@ const ProductList = () => {
       c: selectedCsId,
       f: output,
     };
-    console.log("ksjkfjkjdkjfkjsdk--", obj);
     // compressAndEncode(JSON.stringify(obj))
 
     // decodeAndDecompress()

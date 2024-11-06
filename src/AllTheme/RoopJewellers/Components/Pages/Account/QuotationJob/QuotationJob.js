@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Button, Checkbox,  CircularProgress,  FormControlLabel,  ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
+import { Button, Checkbox, CircularProgress, FormControlLabel, ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import "./quotation.scss";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {checkMonth, customComparator_Col, formatAmount, stableSort} from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
+import { checkMonth, customComparator_Col, formatAmount, stableSort } from "../../../../../../utils/Glob_Functions/AccountPages/AccountPage"
 
 import Swal from 'sweetalert2';
 
@@ -50,13 +50,13 @@ const QuotationJob = () => {
   const [order, setOrder] = useState('');
   const [statusList, setStatusList] = useState([]);
   const [categoryList, setCategoryList] = useState([
-   
+
   ]);
   const [metalColorList, setmetalColorList] = useState([
 
   ]);
   const [metalPurityList, setMetalPurityList] = useState([
-    
+
   ]);
   const [statuse, setStatus] = useState(statusList[0]?.value || "");
   const [category, setCategory] = useState(categoryList[0]?.value || "");
@@ -68,7 +68,7 @@ const QuotationJob = () => {
   const fromDateRef = useRef(null);
   const toDateRef = useRef(null);
   const [selectedStatus, setSelectedStatus] = useState([]);
-  
+
   const [PrintUrl, setPrintUrl] = useState('');
 
   const handleOrderProms = (event) => {
@@ -151,11 +151,10 @@ const QuotationJob = () => {
           e?.["FinalAmount"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["ProgressStatusName"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
           e?.["Quantity"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          e?.["SuppliedQuantity"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()))
-           {
+          e?.["SuppliedQuantity"]?.toString()?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase())) {
           flags.search = true;
         }
-    
+
       } else {
         flags.search = true;
       }
@@ -187,7 +186,7 @@ const QuotationJob = () => {
             }, 0)
           }
         } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
-      
+
           flags.dateTo = true;
           count++;
           Swal.fire({
@@ -196,10 +195,10 @@ const QuotationJob = () => {
             icon: "error",
             confirmButtonText: "ok"
           });
-    
+
 
         } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-       
+
           flags.dateFrom = true;
           count++;
           Swal.fire({
@@ -213,7 +212,7 @@ const QuotationJob = () => {
           flags.dateTo = true;
           flags.dateFrom = true;
         }
-   
+
       }
 
 
@@ -241,7 +240,7 @@ const QuotationJob = () => {
       if ((e?.Category?.toString()?.toLowerCase() === categories?.toLowerCase()) || categories?.toLowerCase() === "all") {
         flags.category = true;
       }
-      
+
 
 
 
@@ -267,10 +266,9 @@ const QuotationJob = () => {
 
 
 
-      if (flags.dateFrom === true && flags.dateTo === true && flags.status === true && 
-          flags.category === true && flags.MetalColor === true && flags.search === true &&
-          flags.metalPurity === true)
-      {
+      if (flags.dateFrom === true && flags.dateTo === true && flags.status === true &&
+        flags.category === true && flags.MetalColor === true && flags.search === true &&
+        flags.metalPurity === true) {
         filteredData.push(e);
       }
 
@@ -315,27 +313,27 @@ const QuotationJob = () => {
 
 
   const handleRequestSort = (property) => {
-    if(property?.toLowerCase() === 'sr#') return null
-    else{
+    if (property?.toLowerCase() === 'sr#') return null
+    else {
 
       let isAsc = ((orderBy === property) && (order === 'asc'));
-      if(isAsc){
+      if (isAsc) {
         setOrder('desc');
-      }else{
+      } else {
         setOrder('asc');
       }
-      
+
       setOrderBy(property);
-    const sortedData = stableSort(data, getComparator(order, property));
-    setData(sortedData); // Update the data array with sorted data
-  
-    // Update the filterData array with the sorted data
-    const sortedFilterData = stableSort(filterData, getComparator(order, property));
-    // setPage(0);
-    setFilterData(sortedFilterData);
-    
-  }
-     
+      const sortedData = stableSort(data, getComparator(order, property));
+      setData(sortedData); // Update the data array with sorted data
+
+      // Update the filterData array with the sorted data
+      const sortedFilterData = stableSort(filterData, getComparator(order, property));
+      // setPage(0);
+      setFilterData(sortedFilterData);
+
+    }
+
   };
 
 
@@ -379,51 +377,51 @@ const QuotationJob = () => {
   }
   function descendingComparator(a, b, orderBy) {
     if (!orderBy) return 0; // Add null check for orderBy
-    
-    if (orderBy === 'Date' || orderBy === 'PDate') {
-        try {
-            const dateA = parseCustomDate(a[orderBy]);
-            const dateB = parseCustomDate(b[orderBy]);
 
-            if (dateB < dateA) {
-                return -1;
-            }
-            if (dateB > dateA) {
-                return 1;
-            }
-            return 0;
-        } catch (error) {
-            console.error('Error parsing date:', error.message);
-            return 0;
+    if (orderBy === 'Date' || orderBy === 'PDate') {
+      try {
+        const dateA = parseCustomDate(a[orderBy]);
+        const dateB = parseCustomDate(b[orderBy]);
+
+        if (dateB < dateA) {
+          return -1;
         }
-    } else if(orderBy === 'FinalAmount' || orderBy === "JobNo"){
-      
+        if (dateB > dateA) {
+          return 1;
+        }
+        return 0;
+      } catch (error) {
+        console.error('Error parsing date:', error.message);
+        return 0;
+      }
+    } else if (orderBy === 'FinalAmount' || orderBy === "JobNo") {
+
       const valueA = parseFloat(a[orderBy]) || 0;
       const valueB = parseFloat(b[orderBy]) || 0;
 
       if (valueB < valueA) {
-          return -1;
+        return -1;
       }
       if (valueB > valueA) {
-          return 1;
+        return 1;
       }
 
       return 0;
 
-    }else if ((orderBy === 'PO')  || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
+    } else if ((orderBy === 'PO') || (orderBy === 'SKUNO') || (orderBy === 'DesignNo')) {
       // Handle sorting for SKU# column
       return customComparator_Col(a[orderBy], b[orderBy]);
-  }  else {
-        const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
-        const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+    } else {
+      const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+      const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
 
-        if (valueB < valueA) {
-            return -1;
-        }
-        if (valueB > valueA) {
-            return 1;
-        }
-        return 0;
+      if (valueB < valueA) {
+        return -1;
+      }
+      if (valueB > valueA) {
+        return 1;
+      }
+      return 0;
     }
   }
 
@@ -439,7 +437,7 @@ const QuotationJob = () => {
 
       let currencyRate = storeInit?.CurrencyRate;
       const response = await getQuotationJobData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
+
       setPrintUrl(response?.Data?.rd1[0]?.PrintUrl);
 
       if (response.Data?.rd) {
@@ -449,7 +447,7 @@ const QuotationJob = () => {
         let allCategory = [];
         let allMetalColor = [];
         let allMetalPurity = [];
-        
+
         response?.Data?.rd?.forEach((e, i) => {
           let obj = { ...e };
           obj["checkbox"] = <Checkbox />;
@@ -477,7 +475,7 @@ const QuotationJob = () => {
         allCategory?.unshift({ id: allCategory?.length, label: "ALL", value: "ALL" });
         allMetalColor?.unshift({ id: allMetalColor?.length, label: "ALL", value: "ALL" });
         allMetalPurity?.unshift({ id: allMetalPurity?.length, label: "ALL", value: "ALL" });
-         let allStatus2 = allStatus?.filter((e) => (e?.label !== '' && e?.value !== ''))
+        let allStatus2 = allStatus?.filter((e) => (e?.label !== '' && e?.value !== ''))
         setStatusList(allStatus2);
         setCategoryList(allCategory);
         setmetalColorList(allMetalColor);
@@ -497,9 +495,9 @@ const QuotationJob = () => {
       }
     } catch (error) {
       console.log('Error:', error);
-        setIsLoading(false);  
-        setData([]);
-        setFilterData([]);
+      setIsLoading(false);
+      setData([]);
+      setFilterData([]);
     } finally {
       setIsLoading(false);
     }
@@ -518,72 +516,72 @@ const QuotationJob = () => {
   }, []);
 
 
-  const handlePrintJobs = async(filterdatas, mainData) => {
-      let onlyTrueJobjs = filterdatas?.filter((e) => e?.isJobSelected === true);
+  const handlePrintJobs = async (filterdatas, mainData) => {
+    let onlyTrueJobjs = filterdatas?.filter((e) => e?.isJobSelected === true);
 
-          let allAreChecked = [];
-          onlyTrueJobjs?.forEach((e) => {
-            let obj = {...e};
-              obj.isJobSelected = true;
-              allAreChecked.push(obj);
-          });
+    let allAreChecked = [];
+    onlyTrueJobjs?.forEach((e) => {
+      let obj = { ...e };
+      obj.isJobSelected = true;
+      allAreChecked.push(obj);
+    });
 
 
-          let jobStringArr = allAreChecked?.map((e) => e?.JobNo)?.toString();
-        
-            const storedData = sessionStorage.getItem('loginUserDetail');
-            const data = JSON.parse(storedData);
-            const customerid = data?.id;
-    
-          let fromdate =  moment(fromDate)
-          let enddate =  moment(toDate)
-          let daytextf = fromdate?._i?.$d;
-          let daytextt = enddate?._i?.$d;
-          
-          const startDate = new Date(daytextf);
-          const endDate = new Date(daytextt);
-          
-          const formattedStartDate = moment(startDate).format('DD MMM YYYY');
-          const formattedEndDate = moment(endDate).format('DD MMM YYYY');
-          
-          
-          const Farr = [
-            {
-              Customerid:`${customerid}`,
-              DateFill:`${orderProm}`,
-              fromdate:`${fromDate === null ? '' : formattedStartDate}`,
-              todate:`${toDate === null ? '' : formattedEndDate}`,
-              Search:`${searchVal}`,
-              Catgeory:`${category?.toLowerCase() === 'all' ? '' : category}`,
-              MetalPurity:`${metalPurity?.toLowerCase() === 'all' ? '' : metalPurity}`,
-              MetalColor:`${MetalColor?.toLowerCase() === 'all' ? '' : MetalColor}`,
-              JobList:`${jobStringArr}`,
-              StatusF:`${selectedStatus}`,
-              order:`${order === '' ? 'desc' : order}`,
-              orderBy:`${orderBy === '' ? 'Date' : orderBy}`,
+    let jobStringArr = allAreChecked?.map((e) => e?.JobNo)?.toString();
 
-            }
-          ]
-          const jsonConvert = btoa((JSON.stringify(Farr)));
-          
-          const printMainUrl = `${PrintUrl}&Farr=${jsonConvert}`;
-          
-          const form = document.createElement('form');
-          form.setAttribute('method', 'post');
-          form.setAttribute('action', `${PrintUrl}`);
-          form.setAttribute('target', '_blank'); // Opens in a new tab
-        
-          const dataInput = document.createElement('input');
-          dataInput.setAttribute('type', 'hidden');
-          dataInput.setAttribute('name', 'Farr');
-          dataInput.setAttribute('value', jsonConvert);
-          form.appendChild(dataInput);
-        
-          document.body.appendChild(form);
-          
-          // Submit the form
-          form.submit();
-    
+    const storedData = sessionStorage.getItem('loginUserDetail');
+    const data = JSON.parse(storedData);
+    const customerid = data?.id;
+
+    let fromdate = moment(fromDate)
+    let enddate = moment(toDate)
+    let daytextf = fromdate?._i?.$d;
+    let daytextt = enddate?._i?.$d;
+
+    const startDate = new Date(daytextf);
+    const endDate = new Date(daytextt);
+
+    const formattedStartDate = moment(startDate).format('DD MMM YYYY');
+    const formattedEndDate = moment(endDate).format('DD MMM YYYY');
+
+
+    const Farr = [
+      {
+        Customerid: `${customerid}`,
+        DateFill: `${orderProm}`,
+        fromdate: `${fromDate === null ? '' : formattedStartDate}`,
+        todate: `${toDate === null ? '' : formattedEndDate}`,
+        Search: `${searchVal}`,
+        Catgeory: `${category?.toLowerCase() === 'all' ? '' : category}`,
+        MetalPurity: `${metalPurity?.toLowerCase() === 'all' ? '' : metalPurity}`,
+        MetalColor: `${MetalColor?.toLowerCase() === 'all' ? '' : MetalColor}`,
+        JobList: `${jobStringArr}`,
+        StatusF: `${selectedStatus}`,
+        order: `${order === '' ? 'desc' : order}`,
+        orderBy: `${orderBy === '' ? 'Date' : orderBy}`,
+
+      }
+    ]
+    const jsonConvert = btoa((JSON.stringify(Farr)));
+
+    const printMainUrl = `${PrintUrl}&Farr=${jsonConvert}`;
+
+    const form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', `${PrintUrl}`);
+    form.setAttribute('target', '_blank'); // Opens in a new tab
+
+    const dataInput = document.createElement('input');
+    dataInput.setAttribute('type', 'hidden');
+    dataInput.setAttribute('name', 'Farr');
+    dataInput.setAttribute('value', jsonConvert);
+    form.appendChild(dataInput);
+
+    document.body.appendChild(form);
+
+    // Submit the form
+    form.submit();
+
 
 
   }
@@ -597,77 +595,77 @@ const QuotationJob = () => {
         width: 250,
       },
     },
-    
+
   };
 
-// Inside handleMasterCheckboxChange function
-const handleMasterCheckboxChange = (event) => {
-
-  
-  const sortedData = stableSort(data, getComparator(order, orderBy));
-  setData(sortedData); // Update the data array with sorted data
-
-  // Update the filterData array with the sorted data
-  const sortedFilterData = stableSort(filterData, getComparator(order, orderBy));
-  
-  setFilterData(sortedFilterData);
+  // Inside handleMasterCheckboxChange function
+  const handleMasterCheckboxChange = (event) => {
 
 
+    const sortedData = stableSort(data, getComparator(order, orderBy));
+    setData(sortedData); // Update the data array with sorted data
 
-  const isChecked = event.target.checked;
-  setAllChecked(isChecked);
+    // Update the filterData array with the sorted data
+    const sortedFilterData = stableSort(filterData, getComparator(order, orderBy));
 
-  // Update the isJobSelected property for all rows in the current page of sortedData array
-  const newData = sortedFilterData?.map((row, index) => {
-    if (index >= page * rowsPerPage && index < (page + 1) * rowsPerPage) {
-      return {
-        ...row,
-        isJobSelected: isChecked,
-      };
+    setFilterData(sortedFilterData);
+
+
+
+    const isChecked = event.target.checked;
+    setAllChecked(isChecked);
+
+    // Update the isJobSelected property for all rows in the current page of sortedData array
+    const newData = sortedFilterData?.map((row, index) => {
+      if (index >= page * rowsPerPage && index < (page + 1) * rowsPerPage) {
+        return {
+          ...row,
+          isJobSelected: isChecked,
+        };
+      }
+      return row;
+    });
+    setFilterData(newData);
+  };
+
+  // Inside handleCheckboxChange function
+  const handleCheckboxChange = (event, rowIndex) => {
+
+    const sortedData = stableSort(data, getComparator(order, orderBy));
+    setData(sortedData); // Update the data array with sorted data
+
+    // Update the filterData array with the sorted data
+    const sortedFilterData = stableSort(filterData, getComparator(order, orderBy));
+
+    setFilterData(sortedFilterData);
+
+    const newData = sortedFilterData?.map((row, index) => {
+      if (index === page * rowsPerPage + rowIndex) {
+        return {
+          ...row,
+          isJobSelected: event.target.checked,
+        };
+      }
+      return row;
+    });
+
+    setFilterData(newData);
+  };
+
+
+  const scrollToTop = () => {
+    // Find the table container element and set its scrollTop property to 0
+    const tableContainer = document.querySelector('.quotationJobSec');
+    if (tableContainer) {
+      tableContainer.scrollTop = 0;
     }
-    return row;
-  });
-  setFilterData(newData);
-};
-
-// Inside handleCheckboxChange function
-const handleCheckboxChange = (event, rowIndex) => {
-
-  const sortedData = stableSort(data, getComparator(order, orderBy));
-  setData(sortedData); // Update the data array with sorted data
-
-  // Update the filterData array with the sorted data
-  const sortedFilterData = stableSort(filterData, getComparator(order, orderBy));
-  
-  setFilterData(sortedFilterData);
-
-  const newData = sortedFilterData?.map((row, index) => {
-    if (index === page * rowsPerPage + rowIndex) {
-      return {
-        ...row,
-        isJobSelected: event.target.checked,
-      };
-    }
-    return row;
-  });
-
-  setFilterData(newData);
-};
-
-
-const scrollToTop = () => {
-  // Find the table container element and set its scrollTop property to 0
-  const tableContainer = document.querySelector('.quotationJobSec');
-  if (tableContainer) {
-    tableContainer.scrollTop = 0;
-  }
-};
+  };
 
   return (
     <div className='quotationJob_Account_RPJ'>
       <Box className='smilingSavedAddressMain quotationFiltersText' sx={{ padding: "20px", }}>
         <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
-          <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
+          <Button variant="contained" sx={{ marginBottom: "35px", background: "#7d7f85", fontFamily: "Spectral-Regular" }} className='muiSmilingRocksBtn QuotationJobAllBtn' onClick={eve => resetAllFilters(eve)} >All</Button>
           <Box sx={{ padding: "0 20px" }}>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
@@ -677,20 +675,25 @@ const scrollToTop = () => {
               onChange={handleOrderProms}
               sx={{ display: "flex", alignItems: "center", flexDirection: "unset" }}
             >
-              <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 35px 0", marginRight: "0" }} />
-              <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 35px 0", marginRight: "0" }} />
+              <FormControlLabel value="order" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Order Date" sx={{ padding: "0 20px 35px 0", marginRight: "0", fontFamily: "Spectral-Regular" }} />
+              <FormControlLabel value="prom" className='orderFrom QuotationJobAllBtnSecDate' control={<Radio />} label="Promise Date" sx={{ padding: "0 10px 35px 0", marginRight: "0", fontFamily: "Spectral-Regular" }} />
             </RadioGroup>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
             <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotationJobAllBtnSec">
-      
+
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Date From"
                     value={fromDate}
                     ref={fromDateRef}
-      
+                    InputProps={{
+                      style: { fontFamily: "Spectral-Regular" }
+                    }}
+                    InputLabelProps={{
+                      style: { fontFamily: "Spectral-Regular" }
+                    }}
                     format="DD MM YYYY"
                     className='quotationFilterDates'
                     onChange={(newValue) => {
@@ -716,14 +719,13 @@ const scrollToTop = () => {
               </Box>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotationJobAllBtnSec">
-      
+
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Date To"
                     value={toDate}
                     ref={toDateRef}
-      
                     format="DD MM YYYY"
                     className='quotationFilterDates'
                     onChange={(newValue) => {
@@ -753,45 +755,58 @@ const scrollToTop = () => {
             <Button variant='contained' className='muiSmilingRocksBtn' sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
           </Box>
           <Box sx={{ position: "relative", padding: "0 15px 40px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
-          <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
-            
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  multiple
-                  value={selectedStatus} // Assuming selectedStatus is an array of selected values
-                  onChange={handleStatus} // Assuming handleStatus function receives selected values
-                  MenuProps={MenuProps}
-                  input={<OutlinedInput  />}
-                  style={{minHeight:'2.9375em'}}
-                  className='statusSelect'
-                  size='small'
-                  label='ALL'
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return <em style={{color:'black'}}>Placeholder</em>;
-                    }
-        
-                    return '';
-                  }}
-                  inputProps={{
-                    placeholder: 'Placeholder', // Set placeholder directly on the inputProps
-                }}
-                
-                >
-                  
-                {statusList?.map((status) => (
-                  <MenuItem key={status.id} value={status.value}>
-                    <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
-                    <ListItemText primary={status.label} />
-                  </MenuItem>
-                ))}
-              </Select>
-      
+            <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-8px", }}>Status</label>
+
+            <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={selectedStatus} // Assuming selectedStatus is an array of selected values
+              onChange={handleStatus} // Assuming handleStatus function receives selected values
+              MenuProps={MenuProps}
+              input={<OutlinedInput />}
+              style={{ minHeight: '2.9375em' }}
+              className='statusSelect'
+              size='small'
+              label='ALL'
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em style={{ color: 'black' }}>Placeholder</em>;
+                }
+
+                return '';
+              }}
+              inputProps={{
+                placeholder: 'Placeholder', // Set placeholder directly on the inputProps
+              }}
+              sx={{
+                fontFamily: "Spectral-Regular",
+                '& .MuiSelect-select': {
+                  fontFamily: "Spectral-Regular",
+                },
+              }}
+
+            >
+
+              {statusList?.map((status) => (
+                <MenuItem key={status.id} value={status.value}>
+                  <Checkbox checked={selectedStatus?.indexOf(status.value) > -1} />
+                  <ListItemText primary={status.label} />
+                </MenuItem>
+              ))}
+            </Select>
+
           </Box>
           <Box sx={{ position: "relative", padding: "0 15px 35px 0", display: "flex", flexWrap: "wrap", alignitems: "center", justifyContent: "center" }} className="QuotationJobAllBtnSec" >
             <label className='lh-1 selectLabel' style={{ marginTop: "-3px", position: "absolute", left: 0, top: "-16px", }}>Category</label>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList' value={category} label="Status" onChange={handleCategory} >
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" className='categoryList'
+              sx={{
+                fontFamily: "Spectral-Regular",
+                '& .MuiSelect-select': {
+                  fontFamily: "Spectral-Regular",
+                },
+              }}
+              value={category} label="Status" onChange={handleCategory} >
               {
                 categoryList?.map((e, i) => {
                   return <MenuItem value={e?.value} key={i}>{e?.label}</MenuItem>
@@ -807,6 +822,12 @@ const scrollToTop = () => {
               value={MetalColor}
               label="Status"
               className='MetalColorList'
+              sx={{
+                fontFamily: "Spectral-Regular",
+                '& .MuiSelect-select': {
+                  fontFamily: "Spectral-Regular",
+                },
+              }}
               onChange={handleMetalColor}
             >
               {
@@ -825,6 +846,12 @@ const scrollToTop = () => {
               label="Status"
               className='MetalPurityList'
               onChange={handleMetalPurity}
+              sx={{
+                fontFamily: "Spectral-Regular",
+                '& .MuiSelect-select': {
+                  fontFamily: "Spectral-Regular",
+                },
+              }}
             >
               {
                 metalPurityList?.map((e, i) => {
@@ -833,14 +860,21 @@ const scrollToTop = () => {
               }
             </Select>
           </Box>
-          
+
           <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotationJobAllBtnSec">
-            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
-              setSearchVal(eve?.target?.value);
-              setPage(0);
-              // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
-              handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
-            }} />
+            <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal}
+              InputProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
+              onChange={eve => {
+                setSearchVal(eve?.target?.value);
+                setPage(0);
+                // handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm);
+                handleSearch(eve, eve?.target?.value, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm);
+              }} />
             <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "20px", color: "#757575" }}
               // onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, statuse, orderProm)}><SearchIcon /></Button>
               onClick={eve => handleSearch(eve, searchVal, fromDate, toDate, metalPurity, MetalColor, category, selectedStatus, orderProm)}><SearchIcon /></Button>
@@ -852,80 +886,88 @@ const scrollToTop = () => {
 
         <Box sx={{ padding: "0 0 35px 0", marginTop: "-15px" }}>
           {isLoading ?
-            <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+            <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> :
             <>
-            { <Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
-              <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
-                <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
-                  <TableHead className='user-select-none'>
-                    <TableRow>
-                    <TableCell style={{backgroundColor: "#ebebeb", color: "#6f6f6f"}}>
-                      <Checkbox
-                        checked={allChecked}
-                        onChange={handleMasterCheckboxChange}
-                      />
-                    </TableCell>  
-                      {columns?.slice(1)?.map((column) => (
-                        <TableCell
-                          key={column?.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth, backgroundColor: "#ebebeb", color: "#6f6f6f", }}
-                          onClick={() => handleRequestSort(column?.id)}
-                        >
-                          {column.label}
-                          {orderBy === column.id ? (
-                            <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
-                              {orderBy === column?.id && (<CustomSortIcon order={order} />)}
-                            </span>
-                          ) : null}
+              {<Paper sx={{ width: '100%', overflow: 'hidden' }} className='QuoteJobtable'>
+                <TableContainer sx={{ maxHeight: 810 }} className='quotationJobSec'>
+                  <Table stickyHeader aria-label="sticky table" className='quotaionFiltertable'>
+                    <TableHead className='user-select-none'>
+                      <TableRow>
+                        <TableCell style={{ backgroundColor: "#ebebeb", color: "#6f6f6f" }}>
+                          <Checkbox
+                            checked={allChecked}
+                            onChange={handleMasterCheckboxChange}
+                          />
                         </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-            
+                        {columns?.slice(1)?.map((column) => (
+                          <TableCell
+                            key={column?.id}
+                            align={column.align}
+                            style={{
+                              minWidth: column.minWidth,
+                              backgroundColor: "#ebebeb",
+                              color: "#6f6f6f",
+                              fontFamily: "Spectral-Regular", // Apply font family here
+                              cursor: 'pointer' // Optional: changes the cursor to indicate it's clickable
+                            }}
+                            onClick={() => handleRequestSort(column?.id)}
+                          >
+                            {column.label}
+                            {orderBy === column.id ? (
+                              <span style={{ display: 'flex', alignItems: 'right' }} className='sorticon_ma_span_SMR'>
+                                {orderBy === column?.id && (<CustomSortIcon order={order} />)}
+                              </span>
+                            ) : null}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
 
-                    { filterData?.length > 0 ?  stableSort(filterData, getComparator(order, orderBy))
-                      ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      ?.map((row, rowIndex) => {
-                        let serialNumber = page * rowsPerPage + rowIndex + 1;
-                        return (
-                          <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                            {columns.map((column, index) => {
-                              const value = row[column?.id];
-                              return (
-                                <TableCell key={column?.id} align={column?.align}>
-                                {column.id === 'Sr#' ? serialNumber : 
-                                  column?.id === 'checkbox' ? 
-                                    <Checkbox 
-                                      checked={row?.isJobSelected} 
-                                      onChange={(event) => handleCheckboxChange(event, rowIndex, row)} 
-                                    /> 
-                                    : 
-                                    column?.format && typeof value === 'number'
-                                      ? column.format(value)
-                                      : column?.id === 'FinalAmount' ? formatAmount(value) : value}
-                              </TableCell>
-                              );
-                            })}
-                          </TableRow>
-                        );
-                      }) : <TableCell colSpan={12} align='center' style={{ color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell> }
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={filterData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper> }
+
+                      {filterData?.length > 0 ? stableSort(filterData, getComparator(order, orderBy))
+                        ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        ?.map((row, rowIndex) => {
+                          let serialNumber = page * rowsPerPage + rowIndex + 1;
+                          return (
+                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                              {columns.map((column, index) => {
+                                const value = row[column?.id];
+                                return (
+                                  <TableCell key={column?.id} align={column?.align} style={{
+                                    fontFamily: "Spectral-Regular"
+                                  }}>
+                                    {column.id === 'Sr#' ? serialNumber :
+                                      column?.id === 'checkbox' ?
+                                        <Checkbox
+                                          checked={row?.isJobSelected}
+                                          onChange={(event) => handleCheckboxChange(event, rowIndex, row)}
+                                        />
+                                        :
+                                        column?.format && typeof value === 'number'
+                                          ? column.format(value)
+                                          : column?.id === 'FinalAmount' ? formatAmount(value) : value}
+                                  </TableCell>
+                                );
+                              })}
+                            </TableRow>
+                          );
+                        }) : <TableCell colSpan={12} align='center' style={{ color: 'grey', fontWeight: 'bold', fontFamily: "Spectral-Regular" }}>Data Not Present</TableCell>}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={filterData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>}
             </>
-            }
+          }
         </Box>
 
 

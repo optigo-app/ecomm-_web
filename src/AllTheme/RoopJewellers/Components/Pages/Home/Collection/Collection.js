@@ -21,7 +21,10 @@ function Collection() {
         </div>
       </div>
 
-      <p className='roop_whyshop_title'>WHY SHOP WITH ROOP JEWELLERS?</p>
+      <p className='roop_whyshop_title'>
+        WHY SHOP WITH SONASONS?
+        {/* WHY SHOP WITH ROOP JEWELLERS? */}
+      </p>
 
       <div className="roop_col_shop_div_main">
         <div className="roop_col_shop_div">

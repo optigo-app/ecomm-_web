@@ -106,7 +106,7 @@ const Lookbook = () => {
 
   const updateSize = () => {
     if (SwiperSlideRef.current) {
-      const { offsetWidth} = SwiperSlideRef.current;
+      const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
       console.log("Size updated:", offsetWidth, offsetWidth);
     }
@@ -596,29 +596,34 @@ const Lookbook = () => {
 
   const [imageSources, setImageSources] = React.useState({});
 
-  // useEffect(() => {
-  //   if (filteredDesignSetLstData) {
-  //     const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
-  //       parseDesignDetails(slide?.Designdetail).map(async (detail) => {
-  //         const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
-  //         const isAvailable = await checkImageAvailability(designImageUrl);
-  //         return {
-  //           designno: detail?.designno,
-  //           src: isAvailable ? designImageUrl : imageNotFound
-  //         };
-  //       })
-  //     );
+  useEffect(() => {
+    if (filteredDesignSetLstData && Array.isArray(filteredDesignSetLstData)) {
+      const imagePromises = filteredDesignSetLstData.flatMap((slide) =>
+        parseDesignDetails(slide?.Designdetail).map(async (detail) => {
+          const designImageUrl = `${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`;
+          const isAvailable = await checkImageAvailability(designImageUrl);
+          return {
+            designno: detail?.designno,
+            src: isAvailable ? designImageUrl : imageNotFound,
+          };
+        })
+      );
 
-  //     Promise.all(imagePromises).then((results) => {
-  //       // Update state with the resolved image sources
-  //       const newImageSources = results.reduce((acc, { designno, src }) => {
-  //         acc[designno] = src;
-  //         return acc;
-  //       }, {});
-  //       setImageSources(newImageSources);
-  //     });
-  //   }
-  // }, [filteredDesignSetLstData, imageUrlDesignSet]);
+      Promise.all(imagePromises).then((results) => {
+        const newImageSources = results.reduce((acc, { designno, src }) => {
+          acc[designno] = src;
+          return acc;
+        }, {});
+
+        setImageSources((prevSources) => {
+          const isDifferent = Object.keys(newImageSources).some(
+            (key) => newImageSources[key] !== prevSources[key]
+          );
+          return isDifferent ? newImageSources : prevSources;
+        });
+      });
+    }
+  }, [filteredDesignSetLstData, imageUrlDesignSet]);
 
 
   // pagination HandleChange Function for change page
@@ -730,13 +735,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                               <FormControlLabel
-                              sx={{
-                                display:"flex",
-                                alignItems:"center",
-                                width:"100%",
-                                flexDirection:"row-reverse",
-                                justifyContent:"space-between"
-                              }}
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  width: "100%",
+                                  flexDirection: "row-reverse",
+                                  justifyContent: "space-between"
+                                }}
                                 control={
                                   <Checkbox
                                     name={`${ele?.id}${opt?.id}`}
@@ -804,7 +809,7 @@ const Lookbook = () => {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{
-                                                   borderRadius: 0,
+                          borderRadius: 0,
 
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
@@ -845,13 +850,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                             <FormControlLabel
-                             sx={{
-                              display:"flex",
-                              alignItems:"center",
-                              width:"100%",
-                              flexDirection:"row-reverse",
-                              justifyContent:"space-between"
-                            }}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                                flexDirection: "row-reverse",
+                                justifyContent: "space-between"
+                              }}
                               control={
                                 <Checkbox
                                   name={`Price${i}${i}`}
@@ -992,13 +997,13 @@ const Lookbook = () => {
                         key={opt?.id}
                       >
                         <FormControlLabel
-                         sx={{
-                          display:"flex",
-                          alignItems:"center",
-                          width:"100%",
-                          flexDirection:"row-reverse",
-                          justifyContent:"space-between"
-                        }}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                            flexDirection: "row-reverse",
+                            justifyContent: "space-between"
+                          }}
                           control={
                             <Checkbox
                               name={`${ele?.id}${opt?.id}`}
@@ -1057,20 +1062,20 @@ const Lookbook = () => {
                 className="roop_lookBookMobileFilter"
                 onClick={() => setIsDrawerOpen(true)}
               />
-              <HtmlTooltip
+              {/* <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
+              > */}
+              <button
+                onClick={handleOpen}
+                className="roop_lookBookSelectViewBtn"
+                style={{
+                  background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
+                  color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
+                }}
               >
-                <button
-                  onClick={handleOpen}
-                  className="roop_lookBookSelectViewBtn"
-                  style={{
-                    background: selectedCategories.length !== 0 ? "#7d7f85" : "#ffff",
-                    color: selectedCategories.length !== 0 ? "#fff" : "#7d7f85",
-                  }}
-                >
-                  Set View
-                </button>
-              </HtmlTooltip>
+                Set View
+              </button>
+              {/* </HtmlTooltip> */}
               <div className="lb-switch-field">
                 <input
                   type="radio"
@@ -1201,13 +1206,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                     <FormControlLabel
-                                     sx={{
-                                      display:"flex",
-                                      alignItems:"center",
-                                      width:"100%",
-                                      flexDirection:"row-reverse",
-                                      justifyContent:"space-between"
-                                    }}
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        width: "100%",
+                                        flexDirection: "row-reverse",
+                                        justifyContent: "space-between"
+                                      }}
                                       control={
                                         <Checkbox
                                           name={`${ele?.id}${opt?.id}`}
@@ -1321,13 +1326,13 @@ const Lookbook = () => {
                                         {opt.Name}
                                       </small> */}
                                     <FormControlLabel
-                                     sx={{
-                                      display:"flex",
-                                      alignItems:"center",
-                                      width:"100%",
-                                      flexDirection:"row-reverse",
-                                      justifyContent:"space-between"
-                                    }}
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        width: "100%",
+                                        flexDirection: "row-reverse",
+                                        justifyContent: "space-between"
+                                      }}
                                       control={
                                         <Checkbox
                                           name={`Price${i}${i}`}
@@ -1449,11 +1454,11 @@ const Lookbook = () => {
                                 </div>
                               )}
                               <p className="roop_lb2designList_title">
-                            {slide?.designsetno}
-                          </p>
+                                {slide?.designsetno}
+                              </p>
                             </div>
                             <div
-                              className="roop_lookBookImgDeatil"
+                              className="roop_lookBookImgDeatil_sel2"
                               style={{
                                 display: dataKey == index ? "none" : "flex",
                                 justifyContent: "space-between",
@@ -1476,7 +1481,7 @@ const Lookbook = () => {
                                 ).toFixed(3)}{" "}
                               </p>
                               <div
-                                className="roop_lookBookImgDeatilSub"
+                                className="roop_lookBookImgDeatilSub_sel2"
                                 style={{ display: "flex", alignItems: "center" }}
                               >
                                 <p
@@ -2219,7 +2224,7 @@ const Lookbook = () => {
                                 }}
                               >
                                 {filteredDesignSetLstData?.map((slide, index) => (
-                                  <SwiperSlide key={index}  ref={SwiperSlideRef}>
+                                  <SwiperSlide key={index} ref={SwiperSlideRef}>
 
                                     {ProdCardImageFunc(slide) && !imageLoadError[index] ? (
                                       <img

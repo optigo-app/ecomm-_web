@@ -20,7 +20,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import SearchIcon from '@mui/icons-material/Search';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Paper from '@mui/material/Paper';
 import { getQuotationQuoteData } from "../../../../../../utils/API/AccountTabs/quotationQuote";
 
@@ -54,10 +54,10 @@ const descendingComparator = (a, b, orderBy) => {
         return 0;
     } else if (orderBy === 'SrNo' || orderBy === 'Amount') {
         return b[orderBy] - a[orderBy];
-    } else if ((orderBy === 'SKUNo') ) {
+    } else if ((orderBy === 'SKUNo')) {
         // Handle sorting for SKU# column
         return customComparator_Col(a[orderBy], b[orderBy]);
-    }  else {
+    } else {
         const valueA = typeof a[orderBy] === 'string' ? a[orderBy].toLowerCase() : a[orderBy];
         const valueB = typeof b[orderBy] === 'string' ? b[orderBy].toLowerCase() : b[orderBy];
 
@@ -104,26 +104,32 @@ function EnhancedTableHead(props) {
                             align={headCell.align}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
+                            style={{
+                                fontFamily: "Spectral-Regular",
+                            }}
                         >
-                            
+
                             {
                                 ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ?
-                                `${headCell?.id}`
-                                 : 
-                                <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
-                            >
-                                {headCell.label}
-                                {orderBy === headCell.id ? (
-                                    <>
-                                    <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                    </>
-                                ) : null}
-                            </TableSortLabel>
+                                    `${headCell?.id}`
+                                    :
+                                    <TableSortLabel
+                                        active={orderBy === headCell.id}
+                                        direction={orderBy === headCell.id ? order : 'asc'}
+                                        onClick={createSortHandler(headCell.id)}
+                                        style={{
+                                            fontFamily: "Spectral-Regular",
+                                        }}
+                                    >
+                                        {headCell.label}
+                                        {orderBy === headCell.id ? (
+                                            <>
+                                                <Box component="span" sx={visuallyHidden}>
+                                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                                </Box>
+                                            </>
+                                        ) : null}
+                                    </TableSortLabel>
                             }
                         </TableCell>
                     </>
@@ -153,8 +159,8 @@ const QuotationQuote = () => {
     const toDateRef = useRef(null);
 
     const handleRequestSort = (event, property) => {
-        if(property?.toLowerCase() === 'srno') return null;
-        else{
+        if (property?.toLowerCase() === 'srno') return null;
+        else {
 
             const isAsc = orderBy === property && order === 'asc';
             setOrder(isAsc ? 'desc' : 'asc');
@@ -224,7 +230,7 @@ const QuotationQuote = () => {
 
     const handleSearch = (eve, searchValue, fromDatess, todatess) => {
         setPage(0);
-        
+
         let fromdates = `${fromDatess?.["$y"]}-${checkMonth(fromDatess?.["$M"])}-${fromDatess?.["$D"]}`;
         let todates = `${todatess?.["$y"]}-${checkMonth(todatess?.["$M"])}-${todatess?.["$D"]}`;
 
@@ -254,7 +260,7 @@ const QuotationQuote = () => {
             }
 
             if (cutDate !== undefined) {
-                
+
                 if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
                     let fromdat = moment(fromdates);
                     let todat = moment(todates);
@@ -283,7 +289,7 @@ const QuotationQuote = () => {
                     });
                     reseltFil();
                 } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-        
+
                     count = count + 1
                     flags.dateTo = true;
                     Swal.fire({
@@ -298,7 +304,7 @@ const QuotationQuote = () => {
                     flags.dateTo = true;
                     flags.dateFrom = true;
                 }
-                
+
             }
 
             if (flags.dateFrom === true && flags.dateTo === true && flags.search === true) {
@@ -319,7 +325,7 @@ const QuotationQuote = () => {
             setIsLoading(true);
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
-            const customerid = data.id; 
+            const customerid = data.id;
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             // const combinedValue = JSON.stringify({
@@ -342,7 +348,7 @@ const QuotationQuote = () => {
                     let dataa = createData(i + 1, e?.Date, e?.SKUNo, e?.TotalDesign, e?.Amount, printUrl);
                     rows?.push(dataa)
                 });
-            
+
                 setData(rows);
                 setFilterData(rows);
             } else {
@@ -380,7 +386,7 @@ const QuotationQuote = () => {
         // Find the table container element and set its scrollTop property to 0
         const tableContainer = document.querySelector('.quotationJobSec');
         if (tableContainer) {
-          tableContainer.scrollTop = 0;
+            tableContainer.scrollTop = 0;
         }
     };
 
@@ -390,21 +396,28 @@ const QuotationQuote = () => {
             <Box className='smilingSavedAddressMain salesApiSectionQWeb' sx={{ padding: "20px", }}>
                 <Box className="d_flex_quote" sx={{ display: "flex", flexWrap: "wrap" }}>
                     <Box sx={{ paddingRight: "15px" }} className="AllQuoteBtn QuotePadSec">
-                        <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>
+                        <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", fontFamily: "Spectral-Regular" }} onClick={eve => resetAllFilters(eve)}>
                             All
                         </Button>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox QuotePadSec w_q">
-                        <TextField id="standard-basic" label="Search" variant="outlined" className="w_q" value={searchVal} onChange={eve => {
-                            setSearchVal(eve?.target?.value);
-                            handleSearch(eve, eve?.target?.value, fromDate, toDate);
-                        }} />
+                        <TextField id="standard-basic" label="Search" variant="outlined"
+                            InputProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            className="w_q" value={searchVal} onChange={eve => {
+                                setSearchVal(eve?.target?.value);
+                                handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                            }} />
                         <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
                             onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="d_flex_quote w_q">
                         <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec w_q">
-                            <p className='w_20_q' style={{ paddingRight: "8px", fontSize:'14px',marginBottom:'0px' }}>Date: </p>
+                            <p className='w_20_q' style={{ paddingRight: "8px", fontSize: '14px', marginBottom: '0px', fontFamily: "Spectral-Regular" }}>Date: </p>
                             <Box className="w_80_q">
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
@@ -416,7 +429,7 @@ const QuotationQuote = () => {
                                             if (newValue === null) {
                                                 setFromDate(null)
                                             } else {
-                                            
+
 
                                                 if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
                                                     setFromDate(newValue)
@@ -431,7 +444,7 @@ const QuotationQuote = () => {
                                                     resetAllFilters();
                                                 }
                                             }
-                                        
+
                                         }}
                                         className='quotationFilterDates w_q'
                                         ref={fromDateRef}
@@ -440,16 +453,16 @@ const QuotationQuote = () => {
                             </Box>
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec w_q">
-                            <p className='w_20_q ' style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>To: </p>
+                            <p className='w_20_q ' style={{ paddingRight: "8px", fontSize: '14px', marginBottom: '0px', fontFamily: "Spectral-Regular" }}>To: </p>
                             <Box className="w_80_q">
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
                                         label="Date To"
                                         value={toDate}
-                                
+
                                         format="DD MM YYYY"
                                         placeholder="DD MM YYYY"
-                                
+
                                         className='quotationFilterDates w_q'
                                         ref={toDateRef}
                                         inputProps={{ readOnly: true }}
@@ -480,89 +493,83 @@ const QuotationQuote = () => {
                     </Box>
                 </Box>
                 {isLoading ?
-                    <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : 
+                    <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> :
                     <>
-                    {  <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
-                        <><TableContainer style={{maxHeight: 580, overflowX:'auto', overflowY:'auto'}}>
-                            <Table
-                                sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX:'auto', overflowY:'auto'}}
-                                aria-labelledby="tableTitle"
-                                size={dense ? 'small' : 'medium'}
-                            >
-                                <EnhancedTableHead
-                                    numSelected={selected.length}
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onRequestSort={handleRequestSort}
-                                    rowCount={filterData.length}
-                                />
-                                <TableBody>
-                                    { filterData?.length > 0 ? visibleRows?.map((row, index) => {
-                                    
-                                        const labelId = `enhanced-table-checkbox-${index}`;
+                        {<Paper sx={{ width: '100%', mb: 2 }} className="salesApiTableQWeb">
+                            <><TableContainer style={{ maxHeight: 580, overflowX: 'auto', overflowY: 'auto' }}>
+                                <Table
+                                    sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", overflowX: 'auto', overflowY: 'auto' }}
+                                    aria-labelledby="tableTitle"
+                                    size={dense ? 'small' : 'medium'}
+                                >
+                                    <EnhancedTableHead
+                                        numSelected={selected.length}
+                                        order={order}
+                                        orderBy={orderBy}
+                                        onRequestSort={handleRequestSort}
+                                        rowCount={filterData.length}
+                                    />
+                                    <TableBody>
+                                        {filterData?.length > 0 ? visibleRows?.map((row, index) => {
 
-                                        return (
-                                            <TableRow
-                                                hover
-                                                onClick={(event) => handleClick(event, index)}
-                                            
-                                                tabIndex={-1}
-                                                key={index}
-                                        
-                                                sx={{ cursor: 'pointer' }}
-                                            >
+                                            const labelId = `enhanced-table-checkbox-${index}`;
 
-                                                <TableCell
-                                                    component="td"
-                                                    id={labelId}
-                                                    scope="row"
-                                                    padding="none"
-                                                    align="center"
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    onClick={(event) => handleClick(event, index)}
+                                                    tabIndex={-1}
+                                                    key={index}
+                                                    sx={{
+                                                        cursor: 'pointer'
+                                                    }}
                                                 >
-                                                
-                                                    {page * rowsPerPage + index + 1}
-                                                </TableCell>
-                                                <TableCell align="center">{row.Date}</TableCell>
-                                                <TableCell align="center">{row.SKUNo}</TableCell>
-                                                <TableCell align="center">{row.TotalDesign}</TableCell>
-                                                <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                                <TableCell align="center">
-                                                    
-                                                
-                                                            <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                                <PrintIcon   />
-                                                            </div>
-                                                        
-                                                
-                                                </TableCell>
-                                                
+                                                    <TableCell
+                                                        component="td"
+                                                        id={labelId}
+                                                        scope="row"
+                                                        padding="none"
+                                                        align="center"
+                                                        style={{ fontFamily: "Spectral-Regular" }}
+                                                    >
+                                                        {page * rowsPerPage + index + 1}
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.TotalDesign}</TableCell>
+                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.Amount)}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
+                                                        <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                            <PrintIcon />
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        }) : <TableCell colSpan={10} align="center" style={{ color: 'grey', fontWeight: 'bold', fontFamily: "Spectral-Regular" }}>Data Not Present</TableCell>}
+                                        {emptyRows > 0 && (
+                                            <TableRow
+                                                style={{
+                                                    height: (dense ? 33 : 53) * emptyRows,
+                                                }}
+                                            >
+                                                <TableCell style={{ fontFamily: "Spectral-Regular" }} colSpan={6} />
                                             </TableRow>
-                                        );
-                                    })  : <TableCell colSpan={10} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
-                                    {emptyRows > 0 && (
-                                        <TableRow
-                                            style={{
-                                                height: (dense ? 33 : 53) * emptyRows,
-                                            }}
-                                        >
-                                            <TableCell colSpan={6} />
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer> 
-                        <TablePagination
-                            rowsPerPageOptions={[10, 25, 100]}
-                            component="div"
-                            count={filterData.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                        /></> 
-                    </Paper>}
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 100]}
+                                    component="div"
+                                    count={filterData.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                /></>
+                        </Paper>}
                     </>
-                    }
+                }
 
             </Box>
         </div>

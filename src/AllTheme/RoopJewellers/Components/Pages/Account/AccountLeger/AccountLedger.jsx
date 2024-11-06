@@ -23,7 +23,7 @@ const AccountLedger = () => {
     const [filterArray, setFilterArray] = useState([]);
     const [loaderAC, setLoaderAC] = useState(false);
     const [userName, setUserName] = useState('');
-    const [selectedDays, setSelectedDays] = useState(null); 
+    const [selectedDays, setSelectedDays] = useState(null);
     const [resultTotal, setResultTotal] = useState(null);
 
     const [debit_dia_diff, setDebit_dia_diff] = useState(0);
@@ -50,13 +50,13 @@ const AccountLedger = () => {
         setUserName(userName?.customercode)
 
         getLedgerData();
-        
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getLedgerData = async() => {
+    const getLedgerData = async () => {
         setLoaderAC(true)
-        
+
         let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
         let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
         const UserEmail = sessionStorage.getItem("userEmail");
@@ -66,10 +66,9 @@ const AccountLedger = () => {
 
             setCurrencySymbol(response?.CurrencySymbol);
 
-          if(response?.response2?.Status === '200'){
+            if (response?.response2?.Status === '200') {
 
-              if(response?.response2?.Data?.rd?.length > 0)
-                {
+                if (response?.response2?.Data?.rd?.length > 0) {
 
                     const mainData = response?.response2?.Data?.rd;
 
@@ -82,38 +81,38 @@ const AccountLedger = () => {
                     getFormatedArrayData(mainData)
                     setFilterArray(mainData)
                     setLoaderAC(false)
-                }else{
+                } else {
                     setResultArray(['Data Not Present'])
                     setFilterArray(['Data Not Present'])
                     setLoaderAC(false)
                 }
-          }
+            }
 
         } catch (error) {
             console.log(error);
         }
     }
-    
+
     const getFormatedArrayData = (data) => {
 
         let credit_debit = {
-            credit_metalgold : 0,
-            credit_diamondwt : 0,
-            credit_totalamount : 0,
-            credit_totalcurrency:0,
-            debit_metalgold : 0,
-            debit_diamondwt : 0,
-            debit_totalamount : 0,
-            debit_totalcurrency:0
+            credit_metalgold: 0,
+            credit_diamondwt: 0,
+            credit_totalamount: 0,
+            credit_totalcurrency: 0,
+            debit_metalgold: 0,
+            debit_diamondwt: 0,
+            debit_totalamount: 0,
+            debit_totalcurrency: 0
         }
 
-        data?.forEach((e)=> {
-            if(e?.IsDebit === 1){
+        data?.forEach((e) => {
+            if (e?.IsDebit === 1) {
                 credit_debit.debit_metalgold += e?.metalctw;
                 credit_debit.debit_diamondwt += e?.diamondctw;
                 credit_debit.debit_totalamount += e?.Amount;
                 credit_debit.debit_totalcurrency += e?.Currency;
-            }else{
+            } else {
                 credit_debit.credit_metalgold += e?.metalctw;
                 credit_debit.credit_diamondwt += e?.diamondctw;
                 credit_debit.credit_totalamount += e?.Amount;
@@ -125,11 +124,11 @@ const AccountLedger = () => {
     }
 
     const backToInitial2 = () => {
-          const firstDayOfMonth = dayjs().startOf('month');
-          const lastDayOfMonth = dayjs().endOf('month');
-          setFromDate(null);
-          setToDate(null);
-          setSelectedDays(null)
+        const firstDayOfMonth = dayjs().startOf('month');
+        const lastDayOfMonth = dayjs().endOf('month');
+        setFromDate(null);
+        setToDate(null);
+        setSelectedDays(null)
 
 
         const buttons = document.querySelectorAll('.daybtn');
@@ -164,10 +163,10 @@ const AccountLedger = () => {
         setSelectedDays(days)
         let newStartDate = null;
         let newEndDate = null;
-        
+
         const currentMonthStart = dayjs().startOf('month');
         const currentMonthEnd = dayjs().endOf('month');
-    
+
         if (days === 30) {
             newStartDate = currentMonthStart;
             newEndDate = currentMonthEnd;
@@ -181,16 +180,16 @@ const AccountLedger = () => {
             newEndDate = currentMonthEnd;
         }
 
-    
 
-    // Update the start and end dates in the state
+
+        // Update the start and end dates in the state
         setFromDate(newStartDate);
         setToDate(newEndDate);
         handleSearchBtn('', newStartDate, newEndDate, days)
-      
+
         const buttons = document.querySelectorAll('.daybtn');
-            buttons.forEach(button => {
-        const buttonDays = parseInt(button.textContent);
+        buttons.forEach(button => {
+            const buttonDays = parseInt(button.textContent);
             if (buttonDays === days) {
                 button.classList.add('selected');
             } else {
@@ -206,7 +205,7 @@ const AccountLedger = () => {
         let newStartDate = null;
         let newEndDate = null;
         let fromDateCopy = fromDate; // Create a copy of fromDate to avoid modifying the state directly
-    
+
         if (days === 30) {
             // Subtract 1 month from the current start date to get the new start date
             newStartDate = fromDate.subtract(1, 'month').startOf('month');
@@ -226,17 +225,17 @@ const AccountLedger = () => {
             newEndDate = fromDate.subtract(1, 'month').endOf('month');
             fromDateCopy = fromDateCopy.subtract(3, 'month');
         }
-    
+
         // Update the state with the new start and end dates
         setFromDate(newStartDate);
         // setShowStartDate(newStartDate);
         setToDate(newEndDate);
         // setShowEndDate(newEndDate)
-    
+
         // Update the fromDate state
         setFromDate(fromDateCopy);
         handleSearchBtn('', newStartDate, newEndDate, days)
-  
+
     }
 
     const handleNextDays = () => {
@@ -244,7 +243,7 @@ const AccountLedger = () => {
         let newStartDate = null;
         let newEndDate = null;
         let toDateCopy = toDate; // Create a copy of toDate to avoid modifying the state directly
-        
+
         if (days === 30) {
             newStartDate = fromDate.add(1, 'month').startOf('month');
             newEndDate = fromDate.add(1, 'month').endOf('month');
@@ -258,33 +257,33 @@ const AccountLedger = () => {
             newEndDate = fromDate.add(3, 'month').endOf('month');
             toDateCopy = toDateCopy.add(3, 'month').endOf('month'); // Adjust to end of month
         }
-    
+
         setFromDate(newStartDate);
         setToDate(newEndDate);
-        
+
         setToDate(toDateCopy);
         handleSearchBtn('', newStartDate, newEndDate, days)
     }
-            
+
     const CalculateOpeningBalance = (data) => {
         let credit_debit = {
-            credit_metalgold : 0,
-            credit_diamondwt : 0,
-            credit_totalamount : 0,
-            credit_totalcurrency : 0,
-            debit_metalgold : 0,
-            debit_diamondwt : 0,
-            debit_totalamount : 0,
-            debit_totalcurrency:0
+            credit_metalgold: 0,
+            credit_diamondwt: 0,
+            credit_totalamount: 0,
+            credit_totalcurrency: 0,
+            debit_metalgold: 0,
+            debit_diamondwt: 0,
+            debit_totalamount: 0,
+            debit_totalcurrency: 0
         }
 
-        data?.forEach((e)=> {
-            if(e?.IsDebit === 1){
+        data?.forEach((e) => {
+            if (e?.IsDebit === 1) {
                 credit_debit.debit_metalgold += e?.metalctw;
                 credit_debit.debit_diamondwt += e?.diamondctw;
                 credit_debit.debit_totalamount += e?.Amount;
                 credit_debit.debit_totalcurrency += e?.Currency;
-            }else{
+            } else {
                 credit_debit.credit_metalgold += e?.metalctw;
                 credit_debit.credit_diamondwt += e?.diamondctw;
                 credit_debit.credit_totalamount += e?.Amount;
@@ -292,58 +291,58 @@ const AccountLedger = () => {
             }
         })
 
-        
+
         //metal
-        let cre_result_mg =   0;
-        if(credit_debit.credit_metalgold - credit_debit.debit_metalgold > 0){
+        let cre_result_mg = 0;
+        if (credit_debit.credit_metalgold - credit_debit.debit_metalgold > 0) {
             cre_result_mg = credit_debit.credit_metalgold - credit_debit.debit_metalgold;
         }
         setCredit_mg_diff(cre_result_mg);
-        let deb_result_mg =   0;
-        if(credit_debit.credit_metalgold - credit_debit.credit_metalgold < 0){
+        let deb_result_mg = 0;
+        if (credit_debit.credit_metalgold - credit_debit.credit_metalgold < 0) {
             deb_result_mg = credit_debit.credit_metalgold - credit_debit.debit_metalgold;
         }
         setDebit_mg_diff(deb_result_mg);
 
         //diamond
-        let cre_result_dia =   0;
-        if(credit_debit.credit_diamondwt - credit_debit.debit_diamondwt > 0){
+        let cre_result_dia = 0;
+        if (credit_debit.credit_diamondwt - credit_debit.debit_diamondwt > 0) {
             cre_result_dia = credit_debit.credit_diamondwt - credit_debit.debit_diamondwt;
         }
         setCredit_dia_diff(cre_result_dia);
-        let deb_result_dia =   0;
-        if(credit_debit.credit_diamondwt - credit_debit.debit_diamondwt < 0){
+        let deb_result_dia = 0;
+        if (credit_debit.credit_diamondwt - credit_debit.debit_diamondwt < 0) {
             deb_result_dia = credit_debit.credit_diamondwt - credit_debit.debit_diamondwt;
         }
         setDebit_dia_diff(deb_result_dia);
 
         //amount difference
-        let cre_result_amt =   0;
-        if(credit_debit.credit_totalamount - credit_debit.debit_totalamount > 0){
+        let cre_result_amt = 0;
+        if (credit_debit.credit_totalamount - credit_debit.debit_totalamount > 0) {
             cre_result_amt = credit_debit.credit_totalamount - credit_debit.debit_totalamount;
         }
         setCredit_amt_diff(cre_result_amt);
-        let deb_result_amt =   0;
-        if(credit_debit.credit_totalamount - credit_debit.debit_totalamount < 0){
+        let deb_result_amt = 0;
+        if (credit_debit.credit_totalamount - credit_debit.debit_totalamount < 0) {
             deb_result_amt = credit_debit.credit_totalamount - credit_debit.debit_totalamount;
         }
         setDebit_amt_diff(deb_result_amt);
 
         //currency amount difference
-        let cre_result_curr_amt =   0;
-        if(credit_debit.credit_totalcurrency - credit_debit.debit_totalcurrency > 0){
+        let cre_result_curr_amt = 0;
+        if (credit_debit.credit_totalcurrency - credit_debit.debit_totalcurrency > 0) {
             cre_result_curr_amt = credit_debit.credit_totalcurrency - credit_debit.debit_totalcurrency;
         }
         setCredit_curr_diff(cre_result_curr_amt);
-        let deb_result_curr_amt =   0;
-        if(credit_debit.credit_totalcurrency - credit_debit.debit_totalcurrency < 0){
+        let deb_result_curr_amt = 0;
+        if (credit_debit.credit_totalcurrency - credit_debit.debit_totalcurrency < 0) {
             deb_result_curr_amt = credit_debit.credit_totalcurrency - credit_debit.debit_totalcurrency;
         }
         setDebit_curr_diff(deb_result_curr_amt);
 
-        
+
     }
-    
+
     const handleSearchBtn = (eve, fromDatess, todatess, days) => {
         let fromdates = `${fromDatess?.["$y"]}-${checkMonth(fromDatess?.["$M"])}-${fromDatess?.["$D"]}`;
         let todates = `${todatess?.["$y"]}-${checkMonth(todatess?.["$M"])}-${todatess?.["$D"]}`;
@@ -359,71 +358,71 @@ const AccountLedger = () => {
                 dateFrom: false,
                 dateTo: false,
             }
-            
+
             if (cutDate !== undefined) {
                 if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
                     let fromdat = moment(fromdates);
                     let todat = moment(todates);
                     let cutDat = moment(cutDate);
-                    if(moment(fromdates).isSameOrBefore(todates)){
+                    if (moment(fromdates).isSameOrBefore(todates)) {
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
                             flags.dateTo = true;
                             flags.dateFrom = true;
                         }
                     }
-                    else{
+                    else {
                         setTimeout(() => {
-                        setSelectedDays(null);
-                        setFilterArray(resultArray);
-                        setDebit_amt_diff(0);
-                        setDebit_dia_diff(0);
-                        setDebit_mg_diff(0);
-                        setCredit_amt_diff(0);
-                        setCredit_dia_diff(0);
-                        setCredit_mg_diff(0);
-                        setCredit_curr_diff(0);
-                        setDebit_curr_diff(0);
-                        setFromDate(null);
-                        setToDate(null);
-                        getLedgerData();
-                        const buttons = document.querySelectorAll('.daybtn');
-                        buttons.forEach(button => {
-                        const buttonDays = parseInt(button.textContent);
-                            if (buttonDays === days) {
-                                button.classList.remove('selected');
-                            } else {
-                                button.classList.remove('selected');
-                            }
-                        });
+                            setSelectedDays(null);
+                            setFilterArray(resultArray);
+                            setDebit_amt_diff(0);
+                            setDebit_dia_diff(0);
+                            setDebit_mg_diff(0);
+                            setCredit_amt_diff(0);
+                            setCredit_dia_diff(0);
+                            setCredit_mg_diff(0);
+                            setCredit_curr_diff(0);
+                            setDebit_curr_diff(0);
+                            setFromDate(null);
+                            setToDate(null);
+                            getLedgerData();
+                            const buttons = document.querySelectorAll('.daybtn');
+                            buttons.forEach(button => {
+                                const buttonDays = parseInt(button.textContent);
+                                if (buttonDays === days) {
+                                    button.classList.remove('selected');
+                                } else {
+                                    button.classList.remove('selected');
+                                }
+                            });
                         }, 0);
 
                     }
-                 
+
                 } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
 
-                    count = count+1
+                    count = count + 1
                     flags.dateFrom = true;
                     Swal.fire({
                         title: "Error !",
                         text: "Enter Valid Date From",
                         icon: "error",
                         confirmButtonText: "ok"
-                      });
-                      reseltFil();
+                    });
+                    reseltFil();
                 } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-                  
-                    count = count+1
+
+                    count = count + 1
                     flags.dateTo = true;
                     Swal.fire({
                         title: "Error !",
                         text: "Enter Valid Date To",
                         icon: "error",
                         confirmButtonText: "ok"
-                      });
-                      reseltFil();
+                    });
+                    reseltFil();
 
-                } else if (fromdates?.includes(undefined) && todates?.includes(undefined) ) {
+                } else if (fromdates?.includes(undefined) && todates?.includes(undefined)) {
                     flags.dateTo = true;
                     flags.dateFrom = true;
                 }
@@ -434,22 +433,22 @@ const AccountLedger = () => {
             }
 
         });
-        if(count === 0){
+        if (count === 0) {
             setFilterArray(filteredData)
-            
-                const oneDayBeforeStartDate = new Date(fromdates);
-                oneDayBeforeStartDate.setDate(oneDayBeforeStartDate.getDate() - 1);
-                const recordsBeforeStartDate = resultArray.filter(entry => {
-                    const entryDate = new Date(entry.EntryDate);
-                    return entryDate <= oneDayBeforeStartDate;
-                });
-                setFilterArray(filteredData);
-                getFormatedArrayData(filteredData);
-                CalculateOpeningBalance(recordsBeforeStartDate);
+
+            const oneDayBeforeStartDate = new Date(fromdates);
+            oneDayBeforeStartDate.setDate(oneDayBeforeStartDate.getDate() - 1);
+            const recordsBeforeStartDate = resultArray.filter(entry => {
+                const entryDate = new Date(entry.EntryDate);
+                return entryDate <= oneDayBeforeStartDate;
+            });
+            setFilterArray(filteredData);
+            getFormatedArrayData(filteredData);
+            CalculateOpeningBalance(recordsBeforeStartDate);
         }
-        else{
+        else {
             setFilterArray(resultArray)
-        
+
             const oneDayBeforeStartDate = new Date(fromdates);
             oneDayBeforeStartDate.setDate(oneDayBeforeStartDate.getDate() - 1);
             const recordsBeforeStartDate = resultArray.filter(entry => {
@@ -468,9 +467,9 @@ const AccountLedger = () => {
     }
 
     useEffect(() => {
-        
-        let fromdate =  moment(fromDate)
-        let enddate =  moment(toDate)
+
+        let fromdate = moment(fromDate)
+        let enddate = moment(toDate)
         let daytextf = fromdate?._i?.$d;
         let daytextt = enddate?._i?.$d;
 
@@ -486,267 +485,269 @@ const AccountLedger = () => {
     }, [fromDate, toDate])
 
 
-  return (
-    <div className='ledger_Account_RPJ'>
-        <div>
-            <div className='border_Acc'>
-            { moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p_2_acc ps_4_acc border_bottom_acc fs_Al_mq' style={{letterSpacing:'1px'}}>
-                Account Detail for &nbsp; <b className='fs_Al_mq'>{userName}</b>
-                &nbsp; Period of &nbsp;<b className='fs_Al_mq'>{moment(showStartDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showStartDate).format('DD MMM YYYY')}</b>&nbsp; to 
-                &nbsp;<b className='fs_Al_mq'>{moment(showEndDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showEndDate).format('DD MMM YYYY')}</b>&nbsp;
-            </div>}
+    return (
+        <div className='ledger_Account_RPJ'>
+            <div>
+                <div className='border_Acc'>
+                    {moment(showStartDate).format('DD MMM YYYY') !== 'Invalid date' && <div className='p_2_acc ps_4_acc border_bottom_acc fs_Al_mq' style={{ letterSpacing: '1px' }}>
+                        Account Detail for &nbsp; <b className='fs_Al_mq'>{userName}</b>
+                        &nbsp; Period of &nbsp;<b className='fs_Al_mq'>{moment(showStartDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showStartDate).format('DD MMM YYYY')}</b>&nbsp; to
+                        &nbsp;<b className='fs_Al_mq'>{moment(showEndDate).format('DD MMM YYYY') === 'Invalid date' ? '' : moment(showEndDate).format('DD MMM YYYY')}</b>&nbsp;
+                    </div>}
 
-                
-                {
-                    (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <div className='flex_col_Al' style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'8px'}}>
+
                     {
-                        <div className='fs_al2' style={{display:'flex', justifyContent:'flex-start', alignItems:'center', flexWrap:'wrap', marginBottom:'0px', width:'100%', padding:'8px'}}>
-                            <div className='mb_acc'>
-                                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
-                            <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
-                            <p className=' w_30_acc pad_right_Acc' style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>Date : </p>
-                            <Box className="w_70_acc">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        label="Date From"
-                                        value={fromDate} 
-                                        ref={fromDateRef}
+                        (filterArray?.length === 1 && filterArray[0] === 'Data Not Present') ? '' : <div className='flex_col_Al' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
+                            {
+                                <div className='fs_al2' style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap', marginBottom: '0px', width: '100%', padding: '8px' }}>
+                                    <div className='mb_acc'>
+                                        <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="">
+                                            <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="QuotePadSec date_margin_acc">
+                                                <p className=' w_30_acc pad_right_Acc' style={{ paddingRight: "8px", fontSize: '14px', marginBottom: '0px', fontFamily: "Spectral-Regular" }}>Date : </p>
+                                                <Box className="w_70_acc">
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DatePicker
+                                                            label="Date From"
+                                                            value={fromDate}
+                                                            ref={fromDateRef}
 
-                                        onChange={(newValue) => {
-                                            if (newValue === null) {
-                                              setFromDate(null)
-                                            } else {
-                                      
-                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                        setFromDate(newValue)
-                                                      } else {
-                                                        Swal.fire({
-                                                          title: "Error !",
-                                                          text: "Enter Valid Date From",
-                                                          icon: "error",
-                                                          confirmButtonText: "ok"
-                                                        });
-                                                        backToInitial2();
-                                                      }
-                                             
-                                            }
-                                          }}
-                                        format="DD MM YYYY"
-                                        placeholder="DD MM YYYY"
-                                        className='quotationFilterDates w_all_acc'
-                                        name="date" 
-                                        id="startdate" 
-                                    />
-                                </LocalizationProvider>
-                            </Box>
-                        </Box>
-                        <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec date_margin_acc">
-                            <p className=' w_30_acc pad_right_Acc' style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px'  }}>To : </p>
-                            <Box className="w_70_acc">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        label="Date To"
-                                        value={toDate} 
-                                        ref={toDateRef}
+                                                            onChange={(newValue) => {
+                                                                if (newValue === null) {
+                                                                    setFromDate(null)
+                                                                } else {
 
-                                        onChange={(newValue) => {
-                                            if (newValue === null) {
-                                              setToDate(null)
-                                            } else {
-                                              if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                                                setToDate(newValue)
-                                                setShowEndDate(newValue)
-                                              } 
-                                              else {
-                                                Swal.fire({
-                                                  title: "Error !",
-                                                  text: "Enter Valid Date To",
-                                                  icon: "error",
-                                                  confirmButtonText: "ok"
-                                                });
+                                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                                        setFromDate(newValue)
+                                                                    } else {
+                                                                        Swal.fire({
+                                                                            title: "Error !",
+                                                                            text: "Enter Valid Date From",
+                                                                            icon: "error",
+                                                                            confirmButtonText: "ok"
+                                                                        });
+                                                                        backToInitial2();
+                                                                    }
 
-                                                backToInitial2();
-                                            }
-                                            }
-                                          }}
-                                        format="DD MM YYYY"
-                                        placeholder="DD MM YYYY"
-                                        className='quotationFilterDates w_all_acc'
-                                        name="date" 
-                                        id="enddate"
-                                    />
-                                </LocalizationProvider>
-                            </Box>
-                        </Box>
-                        </Box>
-                            </div>
-                            <div>
-             
-                                <Box sx={{ paddingBottom: "35px", paddingRight: "15px"}}>
-        
-                                <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
-                                    sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85",  }}
-                                    onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
-                                    >
-                                    <SearchIcon sx={{ color: "#fff !important", cursor:'pointer' }} /></Button>
-                                </Box>
-                            </div>
-                        <Box sx={{paddingBottom: "35px", paddingRight: "15px"}}>
-                            <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }}  
-                            onClick={() => backToInitial3()}>
-                                All
-                            </Button>
-                        </Box>
-                        <Box sx={{paddingBottom: "35px", paddingRight: "15px"}} className="pad_r_acc center_acc w_all_acc">
-                       
-                        <div className='d_flex_Acc' style={{paddingTop:'8px'}}>
-                            <button className=' btn_acc border_Acc daybtn' 
-                                style={{marginLeft:'8px', marginLeft:'0.25rem', marginRight: '0.25rem', padding:'8px', 
-                                paddingTop:'0px', paddingBottom:'0px', marginBottom:'8px' }} 
-                                title='previous'  onClick={() => handlePreviousDays()}>&lt;</button>
-                                {[30, 60, 90]?.map((days) => (
-                                    <button key={days} 
-                                    className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`} 
-                                    title={`${days} days`} 
-                                    style={{border:`1px solid ${ selectedDays === days ? '#989898' : '#e8e8e8' }`}}
-                                     onClick={() => handleDays(days)}>{days}</button>
-                                ))}
-                            <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next' 
-                            onClick={() => handleNextDays()}
-                            >&gt;</button>
+                                                                }
+                                                            }}
+                                                            format="DD MM YYYY"
+                                                            placeholder="DD MM YYYY"
+                                                            className='quotationFilterDates w_all_acc'
+                                                            name="date"
+                                                            id="startdate"
+                                                        />
+                                                    </LocalizationProvider>
+                                                </Box>
+                                            </Box>
+                                            <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="QuotePadSec date_margin_acc">
+                                                <p className=' w_30_acc pad_right_Acc' style={{ paddingRight: "8px", fontSize: '14px', marginBottom: '0px', fontFamily: "Spectral-Regular" }}>To : </p>
+                                                <Box className="w_70_acc">
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DatePicker
+                                                            label="Date To"
+                                                            value={toDate}
+                                                            ref={toDateRef}
+
+                                                            onChange={(newValue) => {
+                                                                if (newValue === null) {
+                                                                    setToDate(null)
+                                                                } else {
+                                                                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                                                                        setToDate(newValue)
+                                                                        setShowEndDate(newValue)
+                                                                    }
+                                                                    else {
+                                                                        Swal.fire({
+                                                                            title: "Error !",
+                                                                            text: "Enter Valid Date To",
+                                                                            icon: "error",
+                                                                            confirmButtonText: "ok"
+                                                                        });
+
+                                                                        backToInitial2();
+                                                                    }
+                                                                }
+                                                            }}
+                                                            format="DD MM YYYY"
+                                                            placeholder="DD MM YYYY"
+                                                            className='quotationFilterDates w_all_acc'
+                                                            name="date"
+                                                            id="enddate"
+                                                        />
+                                                    </LocalizationProvider>
+                                                </Box>
+                                            </Box>
+                                        </Box>
+                                    </div>
+                                    <div>
+
+                                        <Box sx={{ paddingBottom: "35px", paddingRight: "15px" }}>
+
+                                            <Button variant='contained' className='muiSmilingRocksBtn' title='search here'
+                                                sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85", }}
+                                                onClick={(e) => handleSearchBtn(e, fromDate, toDate, selectedDays)}
+                                            >
+                                                <SearchIcon sx={{ color: "#fff !important", cursor: 'pointer' }} /></Button>
+                                        </Box>
+                                    </div>
+                                    <Box sx={{ paddingBottom: "35px", paddingRight: "15px" }}>
+                                        <Button variant="contained" className="muiSmilingRocksBtn" sx={{ background: "#7d7f85", fontFamily: "Spectral-Regular", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }}
+                                            onClick={() => backToInitial3()}>
+                                            All
+                                        </Button>
+                                    </Box>
+                                    <Box sx={{ paddingBottom: "35px", paddingRight: "15px" }} className="pad_r_acc center_acc w_all_acc">
+
+                                        <div className='d_flex_Acc' style={{ paddingTop: '8px' }}>
+                                            <button className=' btn_acc border_Acc daybtn'
+                                                style={{
+                                                    marginLeft: '8px', marginLeft: '0.25rem', marginRight: '0.25rem', padding: '8px',
+                                                    paddingTop: '0px', paddingBottom: '0px', marginBottom: '8px'
+                                                }}
+                                                title='previous' onClick={() => handlePreviousDays()}>&lt;</button>
+                                            {[30, 60, 90]?.map((days) => (
+                                                <button key={days}
+                                                    className={`mx_1_acc btn_acc  p_2_acc py_0_acc daybtn mb_2_acc btnHover`}
+                                                    title={`${days} days`}
+                                                    style={{ border: `1px solid ${selectedDays === days ? '#989898' : '#e8e8e8'}` }}
+                                                    onClick={() => handleDays(days)}>{days}</button>
+                                            ))}
+                                            <button className='ms_2_Acc mx_1_acc btn_acc border_Acc p_2_acc py_0_acc daybtn me_3 mb_2_acc' title='next'
+                                                onClick={() => handleNextDays()}
+                                            >&gt;</button>
+                                        </div>
+                                    </Box>
+
+                                    <div className='mx_1_acc ms_4_acc mb_2_acc'>
+                                    </div>
+                                </div>
+                            }
                         </div>
-                        </Box>
-    
-                        <div className='mx_1_acc ms_4_acc mb_2_acc'>
-                        </div>
-                    </div>
                     }
-                    </div>
-                }
-                
-                <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_none'>
-                    <div className='custom_flex_class'>
-                        <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc ps-0 w_all_acc'>
-                            <span className='w_40_acc'>Balance Gold :&nbsp;</span> 
-                            <span className='bal_Amt_ac  w_60_acc end_acc'>
-                                {   ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - 
-                                    ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  
-                                    (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)))
-                                }
-                                { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }
-                            </span>
-                            </div>
-                        <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
-                            <span className='w_40_acc'>Balance Diam. :&nbsp;</span> 
-                                <span className='bal_Amt_ac w_60_acc end_acc'>
-                                    { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
-                                     : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
-                                    { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
+
+                    <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_none'>
+                        <div className='custom_flex_class'>
+                            <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc ps-0 w_all_acc'>
+                                <span className='w_40_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Gold :&nbsp;</span>
+                                <span className='bal_Amt_ac  w_60_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                    {((((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) -
+                                        (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :
+                                        (((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)))
+                                    }
+                                    {((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr'}
                                 </span>
-                        </div>
-                        <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
-                            <span className='w_40_acc'>Balance Amount :&nbsp;</span> 
-                            <span className='bal_Amt_ac w_60_acc end_acc'>
-                            <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
-                            { ((formatAmount(
-                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
-                              ) === 'NaN' ? '0.00' : (formatAmount(
-                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
-                              ))
-                            }&nbsp;
+                            </div>
+                            <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
+                                <span className='w_40_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Diam. :&nbsp;</span>
+                                <span className='bal_Amt_ac w_60_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                    {((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00'
+                                        : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)))}
+                                    {((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr'}
+                                </span>
+                            </div>
+                            <div className='custom_px_4 px_2_al d_flex_Acc align_items_center mb_2_acc w_all_acc'>
+                                <span className='w_40_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Amount :&nbsp;</span>
+                                <span className='bal_Amt_ac w_60_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                    <span dangerouslySetInnerHTML={{ __html: currencySymbol }}></span>&nbsp;
+                                    {((formatAmount(
+                                        (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                                    ) === 'NaN' ? '0.00' : (formatAmount(
+                                        (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                                    ))
+                                    }&nbsp;
 
-                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }</span></div>
-                    </div>
-                </div>
-                <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
-                    <div className='custom_flex_class'>
-                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc p_1_acc w_100_acc'>
-                            <div className='w_100_acc'>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w_100_acc end_acc'>
-                            { ((((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' :  (((resultTotal?.debit_metalgold  + Math.abs(debit_mg_diff) ) - ( resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3))) }
-                            { ((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr' }</div>
+                                    {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr')}</span></div>
                         </div>
-                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
-                            <div className='w_100_acc'>Balance Diam. :&nbsp;</div> 
-                            <div className='bal_Amt_ac w_100_acc end_acc'>
-                            { ((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))) }
-                            { ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr' }
+                    </div>
+                    <div className='text_secondary_acc fs_al d_flex_Acc justify_content_between align_items_start p_2_acc my_3_acc mt_0_acc balance_not_none'>
+                        <div className='custom_flex_class'>
+                            <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc p_1_acc w_100_acc'>
+                                <div className='w_100_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Gold :&nbsp;</div> <div className='bal_Amt_ac  w_100_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                    {((((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)) === 'NaN' ? '0.00' : (((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff)))?.toFixed(3)))}
+                                    {((resultTotal?.debit_metalgold + Math.abs(debit_mg_diff)) - (resultTotal?.credit_metalgold + Math.abs(credit_mg_diff))) > 0 ? 'Dr' : ' Cr'}</div>
+                            </div>
+                            <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
+                                <div className='w_100_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Diam. :&nbsp;</div>
+                                <div className='bal_Amt_ac w_100_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                    {((((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)) === 'NaN' ? '0.00' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3)))}
+                                    {((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt) - (Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt)) > 0 ? 'Dr' : ' Cr'}
+                                </div>
+                            </div>
+                            <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
+                                <div className='w_100_acc' style={{ fontFamily: "Spectral-Regular" }}>Balance Amount :&nbsp;</div>
+                                <div className='bal_Amt_ac w_100_acc end_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                    <span dangerouslySetInnerHTML={{ __html: currencySymbol }}></span>&nbsp;
+                                    {((formatAmount(
+                                        (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                                    ) === 'NaN' ? '0.00' : (formatAmount(
+                                        (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
+                                    ))
+                                    }&nbsp;
+
+                                    {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr')}
+                                </div>
                             </div>
                         </div>
-                        <div className='custom_px_4 px_2_al d_flex_Acc flex_column align_items_center mb_2_acc w_100_acc'>
-                            <div className='w_100_acc'>Balance Amount :&nbsp;</div> 
-                            <div className='bal_Amt_ac w_100_acc end_acc'>
-                            <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>&nbsp;
-                            { ((formatAmount(
-                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
-                              ) === 'NaN' ? '0.00' : (formatAmount(
-                                (Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))
-                              ))
-                            }&nbsp;
-
-                            {(((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency) - (Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) ? 'Dr' : ' Cr' ) }
-                        </div>
-                        </div>
                     </div>
-                </div>
-                {
-                    loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div  style={{margin:'8px', overflow:'auto'}}>
-                    <table className='w_100_acc'>
-                        <thead className='w_100_acc border_Acc'>
-                            <tr className='w_100_acc border_bottom_acc fs_td' style={{width:'100%'}}>
-                                <td className='fw_bold_acc text_center_acc border_end_acc' colSpan={7} >DEBIT</td>
-                                <td className='fw_bold_acc text_center_acc' colSpan={11}>CREDIT</td>
-                            </tr>
-                            <tr className='w_100_acc border_bottom_acc fw_bold_acc fs_td'>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DATE</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>PARTICULAR</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>VOUCHER</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>METAL</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DIAM.</td>
+                    {
+                        loaderAC ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", paddingBottom: "30px" }}><CircularProgress className='loadingBarManage' /></Box> : <div style={{ margin: '8px', overflow: 'auto' }}>
+                            <table className='w_100_acc'>
+                                <thead className='w_100_acc border_Acc'>
+                                    <tr className='w_100_acc border_bottom_acc fs_td' style={{ width: '100%', fontFamily: "Spectral-Regular" }}>
+                                        <td className='fw_bold_acc text_center_acc border_end_acc' colSpan={7} >DEBIT</td>
+                                        <td className='fw_bold_acc text_center_acc' colSpan={11}>CREDIT</td>
+                                    </tr>
+                                    <tr className='w_100_acc border_bottom_acc fw_bold_acc fs_td' style={{ fontFamily: "Spectral-Regular" }}>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>DATE</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>PARTICULAR</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>VOUCHER</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>METAL</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>DIAM.</td>
 
-                                <td className='border_end_acc p_1_acc text_center_acc '>CURRENCY</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>VERIFIED</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DATE</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>PARTICULAR</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>VOUCHER</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>METAL</td>
-                                <td className='border_end_acc p_1_acc text_center_acc '>DIAM.</td>
-            
-                                <td className='border_end_acc p_1_acc text_center_acc '>CURRENCY</td>
-                                <td className='p_1_acc text_center_acc'>VERIFIED</td>
-                            </tr>
-                        </thead>
-                        <tbody className='fs_td'>
-                                        {
-                                            ((Math.abs(debit_amt_diff) === 0) && 
+                                        <td className='border_end_acc p_1_acc text_center_acc '>CURRENCY</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>VERIFIED</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>DATE</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>PARTICULAR</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>VOUCHER</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>METAL</td>
+                                        <td className='border_end_acc p_1_acc text_center_acc '>DIAM.</td>
+
+                                        <td className='border_end_acc p_1_acc text_center_acc '>CURRENCY</td>
+                                        <td className='p_1_acc text_center_acc'>VERIFIED</td>
+                                    </tr>
+                                </thead>
+                                <tbody className='fs_td'>
+                                    {
+                                        ((Math.abs(debit_amt_diff) === 0) &&
                                             (Math.abs(debit_curr_diff) === 0) &&
                                             (Math.abs(debit_dia_diff) === 0) &&
                                             (Math.abs(debit_mg_diff) === 0) &&
                                             (Math.abs(credit_amt_diff) === 0) &&
                                             (Math.abs(credit_curr_diff) === 0) &&
                                             (Math.abs(credit_mg_diff) === 0) &&
-                                            (Math.abs(credit_dia_diff) === 0)) ? '' : <tr className='border_Acc fw_bold_acc'>
+                                            (Math.abs(credit_dia_diff) === 0)) ? '' : <tr className='border_Acc fw_bold_acc' style={{ fontFamily: "Spectral-Regular" }}>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc  ps_1_acc' align='center'>Opening</td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{ (Math.abs(debit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_mg_diff))?.toFixed(3)}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_mg_diff))?.toFixed(3)}</td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(debit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(debit_dia_diff))?.toFixed(3)}</td>
 
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(debit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(debit_curr_diff))}</td>
+                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}>{Math.abs(debit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(debit_curr_diff))}</td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_center_acc'></td>
                                             <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' align='center'>Opening</td>
                                             <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'></td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_mg_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_mg_diff))?.toFixed(3)}</td>
                                             <td className='border_end_acc p_1_acc text_end_acc ps_1_acc'>{(Math.abs(credit_dia_diff))?.toFixed(3) === '0.000' ? '' : (Math.abs(credit_dia_diff))?.toFixed(3)}</td>
-                  
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>{Math.abs(credit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(credit_curr_diff))}</td>
+
+                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}>{Math.abs(credit_curr_diff) === 0.00 ? '' : formatAmount(Math.abs(credit_curr_diff))}</td>
                                             <td className=' p_1_acc text_center_acc'></td>
-                                        </tr> 
-                                        }
-                                        {
-                                            filterArray?.length > 0 ? filterArray?.map((e) => {
-                                                let doneIcon = null;
-                                                let closeIcon = null;
+                                        </tr>
+                                    }
+                                    {
+                                        filterArray?.length > 0 ? filterArray?.map((e) => {
+                                            let doneIcon = null;
+                                            let closeIcon = null;
 
                                             if (e.IsVerified === 0) {
                                                 doneIcon = <DoneIcon sx={{ color: 'green' }} />;
@@ -754,67 +755,67 @@ const AccountLedger = () => {
                                                 closeIcon = <CloseIcon sx={{ color: 'red' }} />;
                                             }
 
-                                    return(
-                                     <>
-                                     {
-                                        e === 'Data Not Present' ? <tr><td colSpan={14} align='center'>Data Not Present</td></tr> :    <tr className='border_Acc' key={e?.id}>
-                                        <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? '' : e?.EntryDate}</td>
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{ e?.IsDebit === 0 ? '' : e?.particular}</td>
-                                        {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc text-primary text-decoration-underline' style={{cursor:'pointer'}} onClick={() => window.open("http://localhost:3000/accountledgerdebit")}>{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td> */}
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{cursor:'pointer'}} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
-                              
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
-                                        <td className='border_end_acc p_1_acc text_center_acc'></td>
-                                        <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
-                                        {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc text-primary text-decoration-underline' onClick={() => window.open("http://localhost:3000/accountledgercredit")} style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td> */}
-                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
+                                            return (
+                                                <>
+                                                    {
+                                                        e === 'Data Not Present' ? <tr style={{ fontFamily: "Spectral-Regular" }}><td colSpan={14} align='center'>Data Not Present</td></tr> : <tr className='border_Acc' key={e?.id} style={{ fontFamily: "Spectral-Regular" }}>
+                                                            <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? '' : e?.EntryDate}</td>
+                                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? '' : e?.particular}</td>
+                                                            {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc text-primary text-decoration-underline' style={{cursor:'pointer'}} onClick={() => window.open("http://localhost:3000/accountledgerdebit")}>{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td> */}
+                                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc' style={{ cursor: 'pointer' }} >{e?.IsDebit === 0 ? '' : e?.referenceno === '' ? e?.voucherno : e?.referenceno}</td>
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.metalctw === 0 ? '' : e?.metalctw)}</td>
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? '' : (e?.diamondctw === 0 ? '' : e?.diamondctw)}</td>
 
-                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}> { e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{__html: e?.CurrSymbol}}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}`  : ''}</td>
-      
-                                        <td className=' p_1_acc text_center_acc'>{doneIcon}{closeIcon}</td>
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit !== 0 && <span dangerouslySetInnerHTML={{ __html: e?.CurrSymbol }}></span>} {e?.IsDebit === 0 ? '' : ` ${formatAmount(e?.Currency) === 'NaN' ? '' : formatAmount(e?.Currency)} `}</td>
+                                                            <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                                            <td className='border_end_acc p_1_acc text_center_acc'>{e?.IsDebit === 0 ? e?.EntryDate : ''}</td>
+                                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'>{e?.IsDebit === 0 ? e?.particular : ''}</td>
+                                                            {/* <td className='border_end_acc p_1_acc text_start_acc ps_1_acc text-primary text-decoration-underline' onClick={() => window.open("http://localhost:3000/accountledgercredit")} style={{cursor:'pointer'}}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td> */}
+                                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc ' style={{ cursor: 'pointer' }}>{e?.IsDebit === 0 ? e?.referenceno === '' ? e?.voucherno : e?.referenceno : ''}</td>
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.metalctw === 0 ? '' : e?.metalctw) : ''}</td>
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{e?.IsDebit === 0 ? (e?.diamondctw === 0 ? '' : e?.diamondctw) : ''}</td>
+
+                                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}> {e?.IsDebit === 0 && <span dangerouslySetInnerHTML={{ __html: e?.CurrSymbol }}></span>} {e?.IsDebit === 0 ? ` ${e?.Currency === 0 ? '' : formatAmount(e?.Currency)}` : ''}</td>
+
+                                                            <td className=' p_1_acc text_center_acc'>{doneIcon}{closeIcon}</td>
+                                                        </tr>
+                                                    }
+                                                </>
+                                            )
+                                        }) : <tr style={{ fontFamily: "Spectral-Regular" }}><td align='center' colSpan={18} style={{ color: 'grey', fontWeight: 'bold' }}> Data No Present</td></tr>
+                                    }
+                                    <tr className='border_Acc fw_bold_acc' style={{ fontFamily: "Spectral-Regular" }}>
+                                        <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3) === '0.000' ? '' : (((Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3))}</td>
+                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3) === '0.000' ? '' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3))}</td>
+
+                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}>
+                                            {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{ __html: currencySymbol }}></span>}&nbsp;{formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : (formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)))}
+                                        </td>
+                                        <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_center_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
+                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3) === '0.000' ? '' : (((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3))}</td>
+                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3) === '0.000' ? '' : (((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))}</td>
+
+                                        <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{ minWidth: '100px' }}>
+                                            {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{ __html: currencySymbol }}></span>}
+                                            &nbsp;
+                                            {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))))}</td>
+                                        <td className=' p_1_acc text_center_acc'></td>
                                     </tr>
-                                     }
-                                     </>
-                                    )
-                                }) : <tr><td align='center' colSpan={18} style={{ color:'grey', fontWeight:'bold'}}> Data No Present</td></tr>
-                            }
-                                        <tr className='border_Acc fw_bold_acc'>
-                                            <td className='border_end_acc p_1_acc text_center_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3) === '0.000' ? '' : (( (Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3) === 'NaN' ? '0.00' : ( (Math.abs(debit_mg_diff) + resultTotal?.debit_metalgold))?.toFixed(3))}</td>
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3) === '0.000' ? '' : (((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(debit_dia_diff) + resultTotal?.debit_diamondwt))?.toFixed(3))}</td>
-             
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>
-                                                {formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' :  <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}&nbsp;{formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === '0.00' ? '' : (formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(debit_curr_diff) + resultTotal?.debit_totalcurrency)))}
-                                            </td>
-                                            <td className='border_end_acc p_1_acc text_center_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_center_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_start_acc ps_1_acc'></td>
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3) === '0.000' ? '' : (((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(credit_mg_diff) + resultTotal?.credit_metalgold))?.toFixed(3))}</td>
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc'>{((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3) === '0.000' ? '' : (((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3) === 'NaN' ? '0.00' : ((Math.abs(credit_dia_diff) + resultTotal?.credit_diamondwt))?.toFixed(3))}</td>
-                   
-                                            <td className='border_end_acc p_1_acc text_end_acc pe_1_acc' style={{minWidth:'100px'}}>
-                                                {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : <span dangerouslySetInnerHTML={{__html:currencySymbol}}></span>}
-                                                &nbsp;
-                                                {formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === '0.00' ? '' : ((formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency)) === 'NaN' ? '0.00' : formatAmount((Math.abs(credit_curr_diff) + resultTotal?.credit_totalcurrency))))}</td>
-                                            <td className=' p_1_acc text_center_acc'></td>
-                                        </tr>
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </div>
-                }
+
             </div>
-            
         </div>
-    </div>
-  )
+    )
 }
 
 export default AccountLedger

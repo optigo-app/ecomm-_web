@@ -52,7 +52,7 @@ const ManageAddress = () => {
 
             const response = await handleDeleteAddress(deleteId, data, FrontEnd_RegNo, customerid);
             if (response?.Data?.rd[0]?.stat === 1) {
-                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);     
+                const updatedAddressData = addressData?.filter(item => item?.id !== deleteId);
                 setAddressData(updatedAddressData);
                 fetchData();
                 toast.success('Delete Success');
@@ -60,7 +60,7 @@ const ManageAddress = () => {
                 toast.error('error');
             }
             setOpenDelete(false);
-            
+
         } catch (error) {
             console.error('Error:', error);
         } finally {
@@ -70,16 +70,16 @@ const ManageAddress = () => {
 
     const handleOpen = (item, addressIndex = null, args) => {
         // setIsEditMode(addressIndex !== null);
-                console.log(item, addressIndex, args);
+        console.log(item, addressIndex, args);
 
-            if(args === 'edit'){
-                setIsEditMode(true);
-            }else{
-                setIsEditMode(false);
-            }
-            
+        if (args === 'edit') {
+            setIsEditMode(true);
+        } else {
+            setIsEditMode(false);
+        }
+
         if (addressIndex !== null && addressData.length > addressIndex) {
-            
+
             setEditId(item.id)
             const address = addressData[addressIndex];
             if (address) {
@@ -123,27 +123,27 @@ const ManageAddress = () => {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
 
-         const errorsCopy = validateAddressFormAccount(formData);
-    
+        const errorsCopy = validateAddressFormAccount(formData);
+
         // Update errors state and prevent submission if there are errors
         setErrors(errorsCopy);
         if (Object.keys(errorsCopy).length > 0) {
             return; // Exit if there are validation errors
         }
-    
+
         try {
             setIsLoading(true); // Set loading state
-    
+
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-    
+
             let response;
-    
+
             if (isEditMode) {
-    
+
                 // Handle edit mode
                 setOpen(false); // Close modal or dialog
                 response = await handleEditAddress(
@@ -154,11 +154,11 @@ const ManageAddress = () => {
                     storeInit,
                     data
                 );
-    
+
                 if (response?.Data?.rd[0]?.stat === 1) {
                     // Handle successful edit
                     toast.success('Edit success');
-    
+
                     const editedAddress = {
                         ...addressData[editAddressIndex],
                         shippingfirstname: formData.firstName,
@@ -180,10 +180,10 @@ const ManageAddress = () => {
                     toast.error('Error editing');
                 }
             } else {
-    
+
                 // Handle add mode
                 setOpen(false); // Close modal or dialog
-    
+
                 response = await handleAddAddress(
                     formData,
                     FrontEnd_RegNo,
@@ -191,11 +191,11 @@ const ManageAddress = () => {
                     storeInit,
                     data
                 );
-    
+
                 if (response?.Data?.rd[0]?.stat === 1) {
                     // Handle successful addition
                     toast.success('Add success');
-    
+
                     const newAddress = {
                         shippingfirstname: formData.firstName,
                         shippinglastname: formData.lastName,
@@ -206,7 +206,7 @@ const ManageAddress = () => {
                         zip: formData.zipCode,
                         shippingmobile: formData.mobileNo
                     };
-    
+
                     const updatedAddressData = [...addressData, newAddress];
                     setAddressData(updatedAddressData);
                     fetchData(); // Assuming fetchData updates necessary data after addition
@@ -271,8 +271,8 @@ const ManageAddress = () => {
 
             const response = await handleDefaultSelectionAddress(loginCred, addressId, FrontEnd_RegNo);
 
-            if ( response?.Status === '200' && response?.Data?.rd) {
-                
+            if (response?.Status === '200' && response?.Data?.rd) {
+
                 setIsLoading(false);
                 fetchData();
 
@@ -296,34 +296,34 @@ const ManageAddress = () => {
             const storedData = sessionStorage.getItem('loginUserDetail');
             const data = JSON.parse(storedData);
             const customerid = data.id;
-            
+
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
-            
+
             const response = await getAddressData(FrontEnd_RegNo, customerid, data);
-            
+
             if (response?.Data?.rd) {
 
-                if(response?.Data?.rd?.length > 0){
-                    
+                if (response?.Data?.rd?.length > 0) {
+
                     let res = response?.Data?.rd?.find((e) => e?.isdefault === 1);
-                    
+
                     let arr = [];
-                    if(res === undefined){
+                    if (res === undefined) {
                         response?.Data?.rd?.forEach((a, i) => {
-                            let obj = {...a};
-                            if(i === 0){
+                            let obj = { ...a };
+                            if (i === 0) {
                                 obj.isdefault = 1;
                             }
                             arr.push(obj);
                         })
                         setAddressData(arr);
                         setDefaultAddress(arr[0]);
-                        
-                    }else{
+
+                    } else {
                         setDefaultAddress(res);
                         setAddressData(response?.Data?.rd);
-                        
+
                     }
                 }
 
@@ -350,21 +350,21 @@ const ManageAddress = () => {
 
     return (
         <div className='address_Account_RPJ'>
-        <ToastContainer />
+            <ToastContainer />
             <div>
-            <p style={{
+                <p style={{
                     textAlign: 'center',
                     padding: "15px 15px",
                     marginTop: '30px',
                     fontSize: '20px',
                     background: '#f6efe6',
                     color: "rgba(31, 25, 25, 0.7)",
-                    fontFamily:"PT Sans, sans-serif",
+                    fontFamily: "Spectral-Regular",
                     fontWeight: "700",
-                    opacity:'.8'
+                    opacity: '.8'
                 }} className='savedAddress'>Saved Addresses</p>
                 <Box sx={{ paddingLeft: "15px" }}>
-                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
+                    <Button className='muiSmilingRocksBtnManage savedAddressManageBtn' variant="contained" sx={{ fontFamily: "Spectral-Regular", background: "#7d7f85", padding: "6px 15px", textAlign: "end", fontSize: "0.9rem", marginBottom: "10px", marginTop: '18px', borderRadius: "0" }} onClick={() => handleOpen('', null, 'add')}>ADD NEW ADDRESS</Button></Box>
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
@@ -382,11 +382,11 @@ const ManageAddress = () => {
                                                     <h6>{item?.shippingfirstname && item?.shippingfirstname}</h6>
                                                 </Box>
                                                 <Box sx={{ fontweight: "600" }}>
-                                                    <h6>{item?.shippinglastname !== undefined && item?.shippinglastname}</h6>
+                                                    <h6 style={{ fontFamily: "Spectral-Regular" }}>{item?.shippinglastname !== undefined && item?.shippinglastname}</h6>
                                                 </Box>
                                             </Box>
                                             <Box>
-                                                <Typography sx={{ paddingBottom: "15px" }}>
+                                                <Typography sx={{ paddingBottom: "15px", fontFamily: "Spectral-Regular" }}>
                                                     {item?.street !== undefined && item?.street},
                                                     {item?.city !== undefined && item?.city}-{item?.zip !== undefined && item?.zip},
                                                     {item?.state !== undefined && item?.state},
@@ -396,7 +396,7 @@ const ManageAddress = () => {
                                             <NavLink to="" style={{ textDecoration: "unset" }}>
                                                 <Box sx={{ display: "flex", paddingBottom: "15px", textDecoration: "unset", marginLeft: "-4px", }}>
                                                     <StayPrimaryPortraitIcon />
-                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} style={{textDecoration:'none'}} >{item?.shippingmobile}</a>
+                                                    <a href={`tel:+${parseInt(item?.shippingmobile)}`} style={{ textDecoration: 'none' }} >{item?.shippingmobile}</a>
                                                 </Box>
                                             </NavLink>
 
@@ -410,9 +410,9 @@ const ManageAddress = () => {
                                                     id={`default-${item.id}`}
                                                     name="manageAddressInputRadio"
                                                 />
-                                                <label htmlFor={`default-${item.id}`}><Typography>Default</Typography></label>
+                                                <label htmlFor={`default-${item.id}`}><Typography sx={{ fontFamily: "Spectral-Regular" }}>Default</Typography></label>
                                             </Box>
-                                            
+
                                             <Box className="addresDetailsTg addresDetailsBtn" sx={{ borderTop: "1px solid rgba(0, 0, 0, 0.04) !important", display: "flex", flexWrap: "wrap", paddingTop: "20px", position: 'absolute', bottom: 0, left: "15px", width: "calc( 100% - 30px)", }}>
                                                 <Button className='muiSmilingRocksBtnManageEdit' variant="contained"
                                                     sx={{
@@ -421,7 +421,7 @@ const ManageAddress = () => {
                                                     }}
                                                     onClick={() => handleOpen(item, index, 'edit')}
                                                 >Edit</Button>
-                                                { item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
+                                                {item.isdefault !== 1 && <Button className='muiSmilingRocksBtnManageEdit'
                                                     variant="contained"
                                                     sx={{
                                                         background: "#7d7f85", maxHeight: "30px", minWidth: "max-content", maxWidth: "max-content",
@@ -437,7 +437,7 @@ const ManageAddress = () => {
                     }
 
                 </RadioGroup>
-     
+
                 <ConfirmationDialog
                     open={openDelete}
                     onClose={handleCloseDialog}
@@ -447,12 +447,18 @@ const ManageAddress = () => {
                 />
                 <Dialog open={open} onClose={handleClose} >
                     <div className='smilingAddressPopupMain'>
-                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline' }}>{ isEditMode ? 'Edit' : 'Add' } Shipping Info</DialogTitle>
+                        <DialogTitle style={{ textAlign: 'center', textDecoration: 'underline', fontFamily: "Spectral-Regular" }}>{isEditMode ? 'Edit' : 'Add'} Shipping Info</DialogTitle>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <TextField
                                 id="firstName"
                                 label="First Name"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.firstName}
@@ -464,6 +470,12 @@ const ManageAddress = () => {
                                 id="lastName"
                                 label="Last Name"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.lastName}
@@ -475,6 +487,12 @@ const ManageAddress = () => {
                                 id="address"
                                 label="Address"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.address}
@@ -486,6 +504,12 @@ const ManageAddress = () => {
                                 id="country"
                                 label="Country"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.country}
@@ -497,6 +521,12 @@ const ManageAddress = () => {
                                 id="state"
                                 label="State"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.state}
@@ -508,6 +538,12 @@ const ManageAddress = () => {
                                 id="city"
                                 label="City"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.city}
@@ -519,6 +555,12 @@ const ManageAddress = () => {
                                 id="zipCode"
                                 label="ZIP Code"
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.zipCode}
@@ -530,6 +572,12 @@ const ManageAddress = () => {
                                 id="mobileNo"
                                 label="Mobile No."
                                 variant="outlined"
+                                InputProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
+                                InputLabelProps={{
+                                    style: { fontFamily: "Spectral-Regular" }
+                                }}
                                 className="labgrowRegister"
                                 style={{ margin: '15px' }}
                                 value={formData.mobileNo}
@@ -539,8 +587,8 @@ const ManageAddress = () => {
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '30px' }}>
-                                    <button type="submit" className='smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
-                                    <button onClick={handleClose} className='smilingDeleveryformCansleBtn_rj'>
+                                    <button type="submit" className='rp_smilingDeleveryformSaveBtn'>{isEditMode ? 'Edit' : 'Add'}</button>
+                                    <button onClick={handleClose} className='rp_smilingDeleveryformCansleBtn_rj'>
                                         Cancel
                                     </button>
                                 </div>
@@ -548,8 +596,8 @@ const ManageAddress = () => {
                         </form>
                     </div>
                 </Dialog>
-            </div>                    
-        </div>
+            </div>
+        </div >
     )
 }
 

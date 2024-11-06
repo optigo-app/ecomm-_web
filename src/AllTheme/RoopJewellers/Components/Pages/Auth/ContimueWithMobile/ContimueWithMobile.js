@@ -113,6 +113,12 @@ export default function ContimueWithMobile() {
                             id="outlined-basic"
                             label="Enter Mobile No"
                             variant="outlined"
+                            InputProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
                             className='smr_loginmobileBox'
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {

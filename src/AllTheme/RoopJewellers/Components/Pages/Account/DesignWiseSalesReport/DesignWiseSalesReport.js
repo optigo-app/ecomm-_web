@@ -97,7 +97,7 @@ const DesignWiseSalesReport = () => {
     };
 
     const handleNetWtSliderCustom = (val) => (event) => {
-        
+
         let vals = (event.target.value);
         let min = 0;
         let max = 0;
@@ -207,19 +207,19 @@ const DesignWiseSalesReport = () => {
             let todat = moment(todates);
             if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
 
-                
+
                 let salescount = dataRd2?.reduce((acc, cObj) => {
                     let cutDate = cObj?.["Date"]?.split(" ");
                     cutDate = `${cutDate[2]}-${cutDate[1]}-${cutDate[0]}`;
                     let cutDat = moment(cutDate);
-                    if(moment(fromdat).isSameOrBefore(todat)){   
+                    if (moment(fromdat).isSameOrBefore(todat)) {
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (e?.designno === cObj?.designno && (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat))) {
                             return acc + cObj?.salescount;
                         } else {
                             return acc;
                         }
-                    }else{
+                    } else {
                         setTimeout(() => {
                             resetAllFilters();
                         }, 0);
@@ -234,9 +234,9 @@ const DesignWiseSalesReport = () => {
 
             } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
                 let salescount = dataRd2?.reduce((acc, cObj) => {
-                   
+
                     return acc + cObj?.salescount;
-             
+
                 }, 0);
                 Swal.fire({
                     title: "Error !",
@@ -255,9 +255,9 @@ const DesignWiseSalesReport = () => {
 
             } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
                 let salescount = dataRd2?.reduce((acc, cObj) => {
-          
+
                     return acc + cObj?.salescount;
-               
+
                 }, 0);
                 Swal.fire({
                     title: "Error !",
@@ -280,7 +280,7 @@ const DesignWiseSalesReport = () => {
                     datass?.push(obj);
                 }
             }
-        //   } 
+            //   } 
         });
         datass?.forEach((e, i) => {
             let flags = {
@@ -305,10 +305,10 @@ const DesignWiseSalesReport = () => {
                     flags.grossWt = true;
                 }
             }
-            if(e?.designno?.toLowerCase()?.includes(design_No?.toLowerCase())){
+            if (e?.designno?.toLowerCase()?.includes(design_No?.toLowerCase())) {
                 flags.designNo = true;
             }
-           
+
             switch (purchase_Count?.toLowerCase()) {
                 case "all":
                     flags.purchaseCount = true;
@@ -390,9 +390,9 @@ const DesignWiseSalesReport = () => {
             const storeInit = JSON.parse(sessionStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
             let currencyRate = storeInit?.CurrencyRate;
-  
+
             const response = await getDesignWiseSalesReport(currencyRate, FrontEnd_RegNo, customerid, data);
-            
+
             if (response?.Data?.rd) {
                 resetAllFilters();
                 let datass = [];
@@ -500,7 +500,7 @@ const DesignWiseSalesReport = () => {
 
                 setData(datass);
                 setFilterData(datass);
-                
+
             } else {
                 // alert('nodata')
                 setData([]);
@@ -535,9 +535,9 @@ const DesignWiseSalesReport = () => {
             <Box className="designWiseSalesReport">
                 <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Button variant="contained" sx={{ background: "#7d7f85" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
+                        <Button variant="contained" sx={{ background: "#7d7f85", fontFamily: "Spectral-Regular" }} className='muiSmilingRocksBtn' onClick={eve => resetAllFilters(eve)}>All</Button>
                     </Box>
-            
+
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
@@ -603,7 +603,7 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                        <Typography sx={{ textAlign: "center" }}>NetWt(gm)</Typography>
+                        <Typography sx={{ textAlign: "center", fontFamily: "Spectral-Regular" }}>NetWt(gm)</Typography>
                         <Slider
                             className='netWtSecSlider'
                             getAriaLabel={() => 'NetWt(gm)'}
@@ -616,10 +616,10 @@ const DesignWiseSalesReport = () => {
                             max={(netWtLimit?.max)}
                         />
                         {console.log(netWtSlider)}
-                        
+
                         <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                             <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                <TextField type="number" value={(netWtSlider[0])} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px", fontFamily: "Spectral-Regular" }}
                                     onChange={handleNetWtSliderCustom(0)}
                                     onBlur={handleBlurNetWt(0)}
                                     inputProps={{ min: netWtLimit?.min, max: netWtSlider[1], type: 'number', step: 1 }}
@@ -627,7 +627,7 @@ const DesignWiseSalesReport = () => {
                             </Typography>
                             <Typography sx={{ maxWidth: "50px" }}>
                                 <TextField type="number" value={(netWtSlider[1])}
-                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px", fontFamily: "Spectral-Regular" }}
                                     inputProps={{ min: netWtSlider[0], max: netWtLimit?.max, type: 'number', step: 1 }}
                                     onChange={handleNetWtSliderCustom(1)}
                                     onBlur={handleBlurNetWt(1)}
@@ -637,7 +637,7 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ marginRight: "45px", paddingBottom: "10px", width: 190 }}>
-                        <Typography sx={{ textAlign: "center" }}>GrossWt</Typography>
+                        <Typography sx={{ textAlign: "center", fontFamily: "Spectral-Regular" }}>GrossWt</Typography>
                         <Slider
                             className='netWtSecSlider'
                             getAriaLabel={() => 'GrossWt'}
@@ -650,7 +650,7 @@ const DesignWiseSalesReport = () => {
                         />
                         <Box sx={{ display: "flex", justifyContent: "space-between" }} className="netWtSliderSec">
                             <Typography sx={{ maxWidth: "50px" }}>
-                                <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                <TextField type="number" value={grossWtSlider[0]} sx={{ maxWidth: "50px", width: "50px", minWidth: "65px", fontFamily: "Spectral-Regular" }}
                                     onChange={handleGrossWtSliderCustom(0)}
                                     onBlur={handleBlurGrossWt(0)}
                                     inputProps={{ min: grossWtLimit?.min, max: grossWtSlider[1], type: 'number', step: 1 }}
@@ -658,7 +658,7 @@ const DesignWiseSalesReport = () => {
                             </Typography>
                             <Typography sx={{ maxWidth: "50px" }}>
                                 <TextField type="number" value={grossWtSlider[1]}
-                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px" }}
+                                    sx={{ maxWidth: "50px", width: "50px", minWidth: "65px", fontFamily: "Spectral-Regular" }}
                                     inputProps={{ min: grossWtSlider[0], max: grossWtLimit?.max, type: 'number', step: 1 }}
                                     onChange={handleGrossWtSliderCustom(1)}
                                     onBlur={handleBlurGrossWt(1)}
@@ -668,7 +668,7 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "3px" }}>Purchase Count</Typography>
+                        <Typography sx={{ paddingBottom: "3px", fontFamily: "Spectral-Regular" }}>Purchase Count</Typography>
                         <Box
                         >
                             <Select
@@ -677,7 +677,13 @@ const DesignWiseSalesReport = () => {
                                 value={purchaseCount}
                                 label="Age"
                                 onChange={handleChangePurchaseCount}
-                                sx={{ width: "80px" }}
+                                sx={{
+                                    width: "80px",
+                                    fontFamily: "Spectral-Regular", // Apply font family to the Select
+                                    '& .MuiSelect-select': {
+                                        fontFamily: "Spectral-Regular", // Apply to the select input
+                                    },
+                                }}
                             >
                                 {purchaseCountList?.map((ele, ind) => {
                                     return <MenuItem value={ele?.value}>{ele?.label}</MenuItem>
@@ -687,22 +693,35 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography>DesignNo</Typography>
-                        <TextField type='text' value={designNo} onChange={eve => {
-                            setDesignNo(eve?.target?.value);
-                            handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
-                        }} className='design_No' placeholder='#DesignNo' />
+                        <Typography sx={{ fontFamily: "Spectral-Regular" }}>DesignNo</Typography>
+                        <TextField type='text' value={designNo}
+                            InputProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            onChange={eve => {
+                                setDesignNo(eve?.target?.value);
+                                handleSearch(eve, fromDate, toDate, netWtSlider[0], netWtSlider[1], grossWtSlider[0], grossWtSlider[1], purchaseCount, eve?.target?.value, metal, productType, metalColor, category, subCategory, orderProm);
+                            }} className='design_No' placeholder='#DesignNo' />
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal</Typography>
+                        <Typography sx={{ paddingBottom: "5px", fontFamily: "Spectral-Regular" }}>Metal</Typography>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={metal}
                             label="Age"
                             onChange={handleMetalChange}
-                            sx={{ width: "200px" }}
+                            sx={{
+                                width: "200px",
+                                fontFamily: "Spectral-Regular", // Apply font family to the Select
+                                '& .MuiSelect-select': {
+                                    fontFamily: "Spectral-Regular", // Apply to the select input
+                                },
+                            }}
                         >
                             {metalList?.map((ele, ind) => {
                                 return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -711,14 +730,20 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Product Type</Typography>
+                        <Typography sx={{ paddingBottom: "5px", fontFamily: "Spectral-Regular" }}>Product Type</Typography>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={productType}
                             label="Product Type"
                             onChange={handleChangeProductType}
-                            sx={{ width: "200px" }}
+                            sx={{
+                                width: "200px",
+                                fontFamily: "Spectral-Regular", // Apply font family to the Select
+                                '& .MuiSelect-select': {
+                                    fontFamily: "Spectral-Regular", // Apply to the select input
+                                },
+                            }}
                         >
                             {productTypeList?.map((ele, ind) => {
                                 return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -727,14 +752,20 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Metal Color</Typography>
+                        <Typography sx={{ paddingBottom: "5px", fontFamily: "Spectral-Regular" }}>Metal Color</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
                             value={metalColor}
                             label="Product Type"
                             onChange={handleChangeMetalColor}
-                            sx={{ width: "200px" }}
+                            sx={{
+                                width: "200px",
+                                fontFamily: "Spectral-Regular", // Apply font family to the Select
+                                '& .MuiSelect-select': {
+                                    fontFamily: "Spectral-Regular", // Apply to the select input
+                                },
+                            }}
                         >
                             {metalColorList?.map((ele, ind) => {
                                 return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -743,14 +774,20 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>Category</Typography>
+                        <Typography sx={{ paddingBottom: "5px", fontFamily: "Spectral-Regular" }}>Category</Typography>
                         <Select
                             labelId="metalColor"
                             id="demo-simple-select"
                             value={category}
                             label="Product Type"
                             onChange={handleChangeCategory}
-                            sx={{ width: "200px" }}
+                            sx={{
+                                width: "200px",
+                                fontFamily: "Spectral-Regular", // Apply font family to the Select
+                                '& .MuiSelect-select': {
+                                    fontFamily: "Spectral-Regular", // Apply to the select input
+                                },
+                            }}
                         >
                             {categorylist?.map((ele, ind) => {
                                 return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -759,14 +796,20 @@ const DesignWiseSalesReport = () => {
                     </Box>
 
                     <Box sx={{ paddingRight: "15px", paddingBottom: "10px", }}>
-                        <Typography sx={{ paddingBottom: "5px" }}>SubCategory</Typography>
+                        <Typography sx={{ paddingBottom: "5px", fontFamily: "Spectral-Regular" }}>SubCategory</Typography>
                         <Select
                             labelId="SubCategory"
                             id="demo-simple-select"
                             value={subCategory}
                             label="Product Type"
                             onChange={handleChangeSubCategory}
-                            sx={{ width: "200px" }}
+                            sx={{
+                                width: "200px",
+                                fontFamily: "Spectral-Regular", // Apply font family to the Select
+                                '& .MuiSelect-select': {
+                                    fontFamily: "Spectral-Regular", // Apply to the select input
+                                },
+                            }}
                         >
                             {subCategoryList?.map((ele, ind) => {
                                 return <MenuItem value={ele?.value} sx={{ textTransform: 'uppercase' }}>{ele?.label}</MenuItem>
@@ -780,75 +823,77 @@ const DesignWiseSalesReport = () => {
                 {isLoading ?
                     <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px", margin: "0 auto" }}><CircularProgress className='loadingBarManage' /></Box> :
                     <>
-                    { filterData?.length > 0 ? <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
-                        {filteredDataPaginated?.map((products, i) => (
-                            <div
-                                style={{
-                                    minWidth: "100%",
-                                    border: "1px solid #e1e1e1",
-                                    textAlign: "center",
-                                    color: "#7d7f85",
-                                    position: "relative",
-                                    zIndex: 0,
-                                    background: "#c0bbb133",
-                                }}
-                                className="smilingProductImageBox designWiseSalesReportProduct"
-                            >
-                                <Box sx={{
-                                    paddingBottom: "10px"
-                                }}>
-                                
-                                    <Box sx={{ minheight: "271px" }}>
-                                        {products?.imgsrc ? (
-                                            <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
-                                        ) : (
-                                            <Skeleton variant="rectangular" width={"100%"} height={335} style={{marginBottom:'76px'}} />
-                                        )}
+                        {filterData?.length > 0 ? <Box sx={{ display: "grid", gap: "15px", paddingTop: "10px", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", }} className="designWiseSalesProducts">
+                            {filteredDataPaginated?.map((products, i) => (
+                                <div
+                                    style={{
+                                        minWidth: "100%",
+                                        border: "1px solid #e1e1e1",
+                                        textAlign: "center",
+                                        color: "#7d7f85",
+                                        position: "relative",
+                                        zIndex: 0,
+                                        background: "#c0bbb133",
+                                    }}
+                                    className="smilingProductImageBox designWiseSalesReportProduct"
+                                >
+                                    <Box sx={{
+                                        paddingBottom: "10px"
+                                    }}>
+
+                                        <Box sx={{ minheight: "271px" }}>
+                                            {products?.imgsrc ? (
+                                                <img className="prod_img" src={products?.imgsrc} alt='' style={{ objectFit: "contain", height: "100%", minheight: "271px", maxHeight: "271px" }} />
+                                            ) : (
+                                                <Skeleton variant="rectangular" width={"100%"} height={335} style={{ marginBottom: '76px' }} />
+                                            )}
+                                        </Box>
+
+                                    </Box>
+                                    <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                        <Typography
+                                            style={{
+                                                fontSize: "13px",
+                                                textTransform: "uppercase",
+                                                cursor: "pointer",
+                                                fontWeight: "bold",
+                                                textAlign: "start",
+                                                fontFamily: "Spectral-Regular"
+                                            }}
+                                        >
+                                            {products?.designno}
+                                        </Typography>
+                                        <Typography
+                                            style={{
+                                                fontSize: "13px",
+                                                textTransform: "uppercase",
+                                                cursor: "pointer",
+                                                fontWeight: "bold",
+                                                textAlign: "start",
+                                                fontFamily: "Spectral-Regular"
+                                            }}
+                                        >
+                                            NetWt: {products?.DesignNetWt?.toFixed(3)}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
+                                        <Typography style={{ fontSize: "12px", textAlign: "start", fontFamily: "Spectral-Regular" }}>
+                                            Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
+                                        </Typography>
+                                        <Typography style={{ fontSize: "12px", textAlign: "start", fontFamily: "Spectral-Regular" }}>
+                                            Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
+                                        <Typography style={{ fontSize: "12px", textAlign: "start", fontFamily: "Spectral-Regular" }}>
+                                            Purchase Count: {NumberWithCommas(products?.salescount, 0)}
+                                        </Typography>
+
                                     </Box>
 
-                                </Box>
-                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                    <Typography
-                                        style={{
-                                            fontSize: "13px",
-                                            textTransform: "uppercase",
-                                            cursor: "pointer",
-                                            fontWeight: "bold",
-                                            textAlign: "start"
-                                        }}
-                                    >
-                                        {products?.designno}
-                                    </Typography>
-                                    <Typography
-                                        style={{
-                                            fontSize: "13px",
-                                            textTransform: "uppercase",
-                                            cursor: "pointer",
-                                            fontWeight: "bold",
-                                            textAlign: "start"
-                                        }}
-                                    >
-                                        NetWt: {products?.DesignNetWt?.toFixed(3)}
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ padding: "0 5px", display: "flex", justifyContent: "space-between" }}>
-                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                        Dia Pcs/Wt: {NumberWithCommas(products?.diamondpcs, 0)} / {NumberWithCommas(products?.diamondwt, 3)}
-                                    </Typography>
-                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                        Cs Pcs/Wt: {NumberWithCommas(products?.colorstonepcs, 0)} / {NumberWithCommas(products?.colorstonewt, 0)}
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ padding: "0 5px 5px", display: "flex", justifyContent: "space-between" }}>
-                                    <Typography style={{ fontSize: "12px", textAlign: "start", }}>
-                                        Purchase Count: {NumberWithCommas(products?.salescount, 0)}
-                                    </Typography>
-                                
-                                </Box>
-
-                            </div>
-                        ))}
-                    </Box> : <div style={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', color:'grey', fontWeight:'bold', marginTop:'3%'}}>Data Not Present</div>}
+                                </div>
+                            ))}
+                        </Box> : <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: "Spectral-Regular", color: 'grey', fontWeight: 'bold', marginTop: '3%' }}>Data Not Present</div>}
                     </>
 
                 }

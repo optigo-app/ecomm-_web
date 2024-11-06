@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './DiamondDetails.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -1124,15 +1124,22 @@ const DiamondDetails = () => {
                                                                 );
                                                             })}
                                                             {certyLink && (
-                                                                <div className="for_box_certy" title='Diamond certificate' style={{ position: "relative" }}>
+                                                                <Link
+                                                                    href={certyLink?.certificate_url}
+                                                                    className="for_box_certy"
+                                                                    title="Diamond certificate"
+                                                                    style={{ position: "relative" }}
+                                                                >
                                                                     <img
                                                                         src={certyLink?.link}
                                                                         onError={(e) => {
                                                                             e.target.onerror = null;
                                                                             e.target.src = imageNotFound;
                                                                         }}
+                                                                        alt="Diamond Certificate"
+                                                                        style={{ width: '100%', height: 'auto' }}
                                                                     />
-                                                                </div>
+                                                                </Link>
                                                             )}
                                                         </>
                                                     )}
@@ -1185,15 +1192,22 @@ const DiamondDetails = () => {
                                                             ))}
 
                                                             {certyLink && (
-                                                                <div className="for_box_certy" title='Diamond certificate' style={{ position: "relative" }}>
+                                                                <Link
+                                                                    href={certyLink?.certificate_url}
+                                                                    className="for_box_certy"
+                                                                    title="Diamond certificate"
+                                                                    style={{ position: "relative" }}
+                                                                >
                                                                     <img
                                                                         src={certyLink?.link}
                                                                         onError={(e) => {
                                                                             e.target.onerror = null;
                                                                             e.target.src = imageNotFound;
                                                                         }}
+                                                                        alt="Diamond Certificate"
+                                                                        style={{ width: '100%', height: 'auto' }}
                                                                     />
-                                                                </div>
+                                                                </Link>
                                                             )}
                                                         </>
                                                     )}

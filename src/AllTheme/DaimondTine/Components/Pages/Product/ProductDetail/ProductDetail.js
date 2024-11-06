@@ -1895,7 +1895,7 @@ const ProductDetail = () => {
                       (accumulator, data) => accumulator + data?.N,
                       0
                     )
-                    .toFixed(3)}ct)`}</li>
+                    ?.toFixed(3)}ct)`}</li>
                 </ul>
                 <ul className="smr_mt_detail_title_ul">
                   <li className="dt_deatil_proDeatilList">Shape</li>
@@ -1925,7 +1925,7 @@ const ProductDetail = () => {
                       (accumulator, data) => accumulator + data?.N,
                       0
                     )
-                    .toFixed(3)}ct)`}</li>
+                    ?.toFixed(3)}ct)`}</li>
                 </ul>
                 <ul className="smr_mt_detail_title_ul">
                   <li className="dt_deatil_proDeatilList">Shape</li>
@@ -1956,7 +1956,7 @@ const ProductDetail = () => {
                       (accumulator, data) => accumulator + data?.N,
                       0
                     )
-                    .toFixed(3)}ct)`}</li>
+                    ?.toFixed(3)}ct)`}</li>
                 </ul>
                 <ul className="smr_mt_detail_title_ul">
                   <li className="dt_deatil_proDeatilList">Shape</li>
@@ -2169,7 +2169,7 @@ const ProductDetail = () => {
                                       GWT:
                                     </span>
                                     <span className="dt_d_val">
-                                      {ele?.GrossWt.toFixed(3)}
+                                      {ele?.GrossWt?.toFixed(3)}
                                     </span>
                                   </span>
                                 </>
@@ -2181,7 +2181,7 @@ const ProductDetail = () => {
                                 <span className="smr_prod_wt">
                                   <span className="dt_d_keys">NWT:</span>
                                   <span className="dt_d_val">
-                                    {ele?.NetWt.toFixed(3)}
+                                    {ele?.NetWt?.toFixed(3)}
                                   </span>
                                 </span>
                               </>
@@ -2208,7 +2208,7 @@ const ProductDetail = () => {
                                       DWT:
                                     </span>
                                     <span className="dt_d_val">
-                                      {ele?.DiaWt.toFixed(3)}
+                                      {ele?.DiaWt?.toFixed(3)}
                                       {storeInit?.IsDiamondPcs === 1
                                         ? `/${ele?.DiaPcs}`
                                         : null}
@@ -2226,7 +2226,7 @@ const ProductDetail = () => {
                                       CWT:
                                     </span>
                                     <span className="dt_d_val">
-                                      {ele?.CsWt.toFixed(3)}
+                                      {ele?.CsWt?.toFixed(3)}
                                       {storeInit?.IsStonePcs === 1
                                         ? `/${ele?.CsPcs}`
                                         : null}

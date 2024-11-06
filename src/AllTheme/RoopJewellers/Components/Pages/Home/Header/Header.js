@@ -92,6 +92,18 @@ const Header = () => {
 
   const { showTimer, countdown } = useCountdown();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsHeaderFixed(scrollPosition > 100);
+      setIsHeaderFixedDropShow(scrollPosition > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   // console.log("showtimejhjdhsjhjf", showTimer, countdown);
 
   useEffect(() => {
@@ -645,18 +657,18 @@ const Header = () => {
                               </Tooltip>
                             </Badge>
                             {/* <li
-                          className="nav_li_smining_Icone roop_mobileHideIcone"
-                          onClick={toggleOverlay}
-                          style={{}}
-                        >
-                          <IoSearchOutline
-                            style={{
-                              height: "23px",
-                              cursor: "pointer",
-                              width: "23px",
-                            }}
-                          />
-                        </li> */}
+                              className="nav_li_smining_Icone roop_mobileHideIcone"
+                              onClick={toggleOverlay}
+                              style={{}}
+                            >
+                              <IoSearchOutline
+                                style={{
+                                  height: "23px",
+                                  cursor: "pointer",
+                                  width: "23px",
+                                }}
+                              />
+                            </li> */}
                             <Badge
                               badgeContent={cartCountNum}
                               max={1000}
@@ -941,18 +953,22 @@ const Header = () => {
                   <p className="roop_menuStaicMobilePage">About us</p>
                 </div>
                 {IsB2BWebsiteChek === 0 ? (
-                  <div>
-                    <p
-                      className="roop_menuStaicMobilePageLink"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
-                    >
-                      LOG IN
-                    </p>
-                  </div>
+                  <>
+                    {!islogin && (
+                      <div>
+                        <p
+                          className="roop_menuStaicMobilePageLink"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
+                        >
+                          LOG IN
+                        </p>
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <>
-                    {islogin && (
+                    {!islogin && (
                       <div>
                         <p
                           className="roop_menuStaicMobilePageLink"
@@ -1055,11 +1071,12 @@ const Header = () => {
       <div className="roop_Top_header">
         <div className="roop_header_top_line">
           <p className="roop_header_top_line_text">
-            Welcome To Roop Jewellers's Offical Website
+            Welcome To Sonasons's Offical Website
+            {/* Welcome To Roop Jewellers's Offical Website */}
           </p>
         </div>
         {!maxWidth1200 && (
-          <div className="roop_Top_header_sub">
+          <div className={`roop_Top_header_sub ${isHeaderFixed ? "roop_Top_Header_fixed_main fixed" : ""}`}>
             <div className="roop_Top2_header_div1">
               <a href="/" className="roop_desk_logo">
                 <img
@@ -1116,6 +1133,40 @@ const Header = () => {
                   </li>
                 );
               })}
+
+              {IsB2BWebsiteChek === 1 ? (
+                islogin === true ? (
+                  <>
+                    {storeinit?.IsDesignSetInMenu == 1 &&
+                      <li
+                        className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                        style={{ cursor: "pointer" }}
+                        onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                      >
+                        <a href="/Lookbook" className="roop_A_linkFixed">
+                          {storeinit?.DesignSetInMenu}
+                        </a>
+                      </li>
+                    }
+                  </>
+                ) : (
+                  ""
+                )
+              ) : (
+                <>
+                  {storeinit?.IsDesignSetInMenu == 1 &&
+                    <li
+                      className="nav_li_smining_Fixed nav_li_smining_Mobile"
+                      style={{ cursor: "pointer" }}
+                      onClick={(event) => hanldeStaticPageNavigation(event, "/Lookbook")}
+                    >
+                      <a href="/Lookbook" className="roop_A_linkFixed">
+                        {storeinit?.DesignSetInMenu}
+                      </a>
+                    </li>
+                  }
+                </>
+              )}
             </div>
             <div className="roop_Top2_header_div3">
               <ul className="nav_ul_shop">
@@ -1146,19 +1197,21 @@ const Header = () => {
                         </li>
                       </Tooltip>
                     </Badge>
-                    <li
-                      className="nav_li_smining_Icone roop_mobileHideIcone"
-                      onClick={toggleOverlay}
-                      style={{}}
-                    >
-                      <IoSearchOutline
-                        style={{
-                          height: "23px",
-                          cursor: "pointer",
-                          width: "23px",
-                        }}
-                      />
-                    </li>
+                    <Tooltip title="Search">
+                      <li
+                        className="nav_li_smining_Icone roop_mobileHideIcone"
+                        onClick={toggleOverlay}
+                        style={{}}
+                      >
+                        <IoSearchOutline
+                          style={{
+                            height: "23px",
+                            cursor: "pointer",
+                            width: "23px",
+                          }}
+                        />
+                      </li>
+                    </Tooltip>
                     <Badge
                       badgeContent={cartCountNum}
                       max={1000}
@@ -1203,6 +1256,21 @@ const Header = () => {
                           </li>
                         </Tooltip>
                       </Badge>
+                      <Tooltip title="Search">
+                        <li
+                          className="nav_li_smining_Icone roop_mobileHideIcone"
+                          onClick={toggleOverlay}
+                          style={{}}
+                        >
+                          <IoSearchOutline
+                            style={{
+                              height: "23px",
+                              cursor: "pointer",
+                              width: "23px",
+                            }}
+                          />
+                        </li>
+                      </Tooltip>
                       <Badge
                         badgeContent={cartCountNum}
                         max={1000}
@@ -1264,7 +1332,8 @@ const Header = () => {
         )}
 
         {maxWidth1200 && (
-          <div className="roop_top_header3">
+          <div className={`roop_top_header3 ${isHeaderFixed ? "roop_Top_Header_fixed_main fixed" : ""}`}>
+            {/* <div className="roop_top_header3"> */}
             <div className="roop_top_header3_logo_Web">
               <a href="/">
                 <img
