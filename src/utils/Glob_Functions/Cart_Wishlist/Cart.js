@@ -334,15 +334,16 @@ const useCart = () => {
     setShowRemark(true);
   };
 
-
   const handleRemarkChange = (event) => {
     const remarkChange = event.target.value;
     setProductRemark(remarkChange);
   };
 
+
   const handleSave = async (data) => {
     setShowRemark(false);
     try {
+      console.log( productRemark, visiterId,"payload")
       const response = await handleProductRemark(data, productRemark, visiterId);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {

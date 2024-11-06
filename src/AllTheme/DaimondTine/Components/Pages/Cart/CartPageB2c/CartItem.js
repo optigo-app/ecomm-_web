@@ -70,6 +70,7 @@ const CartItem = ({
     return text.substring(0, maxLength) + "...";
   }
   const handleRemarkChangeInternal = (e) => {
+    // if(e.target.value === '') return 
     setRemark(e.target.value);
     handleRemarkChange(e);
   };
@@ -79,6 +80,10 @@ const CartItem = ({
     handleClose();
   };
 
+  useEffect(() => {
+    setRemark(cartData?.Remarks || "");
+  }, [cartData]);
+  
   return (
     <>
     <tr className="modal_main_cart_ietms" >
