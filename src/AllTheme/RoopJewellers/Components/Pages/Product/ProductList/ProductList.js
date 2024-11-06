@@ -2867,10 +2867,11 @@ const GivaFilterMenu = ({
     setshowMenu((prev) => (prev === id ? -1 : id));
   };
   const isFilterHaveEnoughData =
-    filterData?.length > 1 &&
-    filterData.some(
-      (ele) => ele?.Name === "Category" && ele?.id === "category"
-    );
+    filterData?.length > 1
+  // &&
+  // filterData.some(
+  //   (ele) => ele?.Name === "Category" && ele?.id === "category"
+  // );
   const options = [
     { value: "Recommended", label: "Recommended" },
     { value: "New", label: "New" },
