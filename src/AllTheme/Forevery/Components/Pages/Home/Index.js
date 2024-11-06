@@ -35,6 +35,7 @@ import GetInTouch from "./Common/GetInTouch/GetInTouch";
 import InstagramSection from "./Common/InstagramSection/InstagramSection";
 import Faq from "../ReusableComponent/Faq/Faq";
 import NewArrivalCarousel from "./Common/ProductCarousel/CarouselReUse";
+import XDrawer from './../ReusableComponent/Drawer/XDrawer'
 
 function Home() {
   // const [localData, setLocalData] = useState();
@@ -66,6 +67,7 @@ function Home() {
     });
   }, []);
 
+
   return (
     <>
       <div className="for_home_index_main">
@@ -74,7 +76,7 @@ function Home() {
             <TopVideoSection />
             <ShoptheCollections />
             <LabgrownDiamondInfo />
-            <ShapeSection />
+                       <ShapeSection />
             <DiamondLifeTime />
             {data?.IsHomeTrending == 1 && <ProductCarousel />}
             <Bestseller />

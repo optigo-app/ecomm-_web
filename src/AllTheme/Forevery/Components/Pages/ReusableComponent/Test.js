@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { DiamondFilterData } from "../../../../../utils/API/DiamondStore/DiamondFilter";
-import { DiamondListData } from "../../../../../utils/API/DiamondStore/DiamondList";
 import "./test.scss";
 
 const Test = () => {
@@ -11,12 +9,33 @@ const Test = () => {
     view3 : `80%`,
   })
 
-  const [selectedView,setselectedView] =useState(gridCol.view)
+  const [selectedView,setselectedView] =useState(gridCol.view);
 
+  const [unDraw,setunDraw] =useState(false);
+
+  const onOpen = ()=>setunDraw(!unDraw);
+  const onClose = ()=>setunDraw(!unDraw);
+
+  const drawerStyle = {
+    transform: unDraw ? 'translateX(-100%)' : 'translateX(0%)',
+    transition: 'transform 0.3s ease',
+  };
 
   return (
     <div className="hero">
-      <div className="col_gor">
+     <button onClick={onOpen}>OPEN DRAW</button>
+     <div className={`overlay ${!unDraw ? 'active' : ''}`} onClick={onClose}></div>
+      <div style={drawerStyle} className="X-DRAWER-R">
+      <button onClick={onClose}>close Draw</button>
+     </div>
+    </div>
+  );
+};
+
+export default Test;
+
+
+   {/* <div className="col_gor">
      {Object.keys(gridCol).map((val,i)=>{
       return <button onClick={()=>setselectedView(gridCol[val])}>{gridCol[val]}</button>
      })}
@@ -34,13 +53,7 @@ const Test = () => {
             </div>
           );
         })}
-      </div>
-    </div>
-  );
-};
-
-export default Test;
-
+      </div> */}
 // {
 //   const [mergedData, setMergedData] = useState(null);
 //   const [selectedShape, setselectedShape] = useState('round');

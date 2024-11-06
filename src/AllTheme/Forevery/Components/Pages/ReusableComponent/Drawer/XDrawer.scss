@@ -1,0 +1,31 @@
+.X-DRAWER-R{
+  max-width: 100%;
+  width: auto;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 9999999999;
+  background-color: white;
+  left: 0;
+  box-shadow: -2px 0 5px -1px rgba(50, 50, 93, 0.25), -1px 0 3px -1px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}
+.overlay-for {
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  display: none; 
+  z-index: 99999999;
+  
+  backdrop-filter: blur(5px); 
+  transition: opacity 0.3s ease;
+  &.active {
+    display: block;
+  }
+}
