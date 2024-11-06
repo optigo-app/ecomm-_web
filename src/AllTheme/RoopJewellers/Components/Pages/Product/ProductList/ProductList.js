@@ -2867,7 +2867,7 @@ const GivaFilterMenu = ({
     setshowMenu((prev) => (prev === id ? -1 : id));
   };
   const isFilterHaveEnoughData =
-    filterData?.length > 1
+    filterData?.length > 0
   // &&
   // filterData.some(
   //   (ele) => ele?.Name === "Category" && ele?.id === "category"
@@ -2902,8 +2902,11 @@ const GivaFilterMenu = ({
                 >
                   <Badge
                     badgeContent={totalSelected}
-                    color="default" // Use default to avoid overriding styles
                     sx={{
+                      '& .MuiBadge-badge': {
+                        color: "#fff",
+                        backgroundColor: '#D14A61',
+                      },
                       '& .MuiBadge-dot': {
                         backgroundColor: '#D14A61',
                       },
@@ -3298,7 +3301,7 @@ const GivaFilterMenu = ({
                             }
                             label={
                               <CustomLabel
-                                text={`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
+                                text={`${diaQc.Quality.toUpperCase()},${diaQc.color.toUpperCase()}`}
                               />
                             }
                           />

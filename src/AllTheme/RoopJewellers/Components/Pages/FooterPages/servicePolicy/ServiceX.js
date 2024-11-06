@@ -5,7 +5,8 @@ export default function ServicePolicyX() {
   return (
     <div className="service-policy-rp">
       <main className="main-content">
-        <h1>Service Policy – Roop Jewellers's</h1>
+        <h1>Service Policy – Sonasons</h1>
+        {/* <h1>Service Policy – Roop Jewellers's</h1> */}
 
         <section className="policy-section">
           <h2>Data Collection</h2>

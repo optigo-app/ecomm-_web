@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './YourProfile.scss';
-import { TextField, Modal,  CircularProgress } from '@mui/material';
+import { TextField, Modal, CircularProgress } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveEditProfile } from '../../../../../../utils/API/AccountTabs/YourProfile';
 import { useRecoilValue } from 'recoil';
@@ -9,7 +9,7 @@ import { validateChangeYPAccount, validateUserDataYPAccount } from '../../../../
 import { roop_defaultAddressState } from '../../../Recoil/atom';
 
 export default function YourProfile() {
-    
+
     const [userData, setUserData] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [editedUserData, setEditedUserData] = useState(null);
@@ -23,7 +23,7 @@ export default function YourProfile() {
         const storedUserData = sessionStorage.getItem('loginUserDetail');
         if (storedUserData) {
             const parsedUserData = JSON.parse(storedUserData);
-            let obj = {...parsedUserData};
+            let obj = { ...parsedUserData };
             obj.mobileno = obj.mobileno.replace(/-/g, '');
             setUserData(obj);
         }
@@ -40,15 +40,15 @@ export default function YourProfile() {
             ...prevData,
             [id]: value,
         }));
-       
+
         // Validate the field
         const errorsCopy = { ...errors };
         errorsCopy[id] = validateChangeYPAccount(id, value);
- 
+
         setErrors(errorsCopy);
 
     };
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -69,7 +69,7 @@ export default function YourProfile() {
                     setUserData(editedUserData);
                     sessionStorage.setItem('loginUserDetail', JSON.stringify(editedUserData));
                     setEditMode(false);
-                } else if(response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists"){
+                } else if (response?.Data?.rd[0]?.stat === 0 && ((response?.Data?.rd[0]?.stat_msg)?.toLowerCase()) === "mobileno alredy exists") {
                     setErrors(prevErrors => ({
                         ...prevErrors,
                         mobileno: 'MobileNo Already Exists',
@@ -104,12 +104,12 @@ export default function YourProfile() {
                 <ToastContainer />
 
                 {isLoading && (
-                    <div className="loader-overlay" style={{zIndex:100000}}>
+                    <div className="loader-overlay" style={{ zIndex: 100000 }}>
                         <CircularProgress className='loadingBarManage' />
                     </div>
                 )}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:'20px' }}>
-                    {   <div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
+                    {<div className='userProfileMain' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         {userData && (
                             <>
                                 <div className='mobileEditProfileDiv'>
@@ -167,9 +167,11 @@ export default function YourProfile() {
                                         value={userData?.street || ''}
                                         disabled
                                         onChange={handleInputChange}
-                                        sx={{ "& .MuiInputBase-input.Mui-disabled" : {
-                                            WebkitTextFillColor:'black'
-                                        }}}
+                                        sx={{
+                                            "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: 'black'
+                                            }
+                                        }}
                                         multiline
                                         rows={2}
                                     />
@@ -177,8 +179,8 @@ export default function YourProfile() {
                             </>
                         )}
                     </div>}
-                    {  <div>
-                        <button onClick={handleEdit} className='SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
+                    {<div>
+                        <button onClick={handleEdit} className='smr_SmilingAddEditAddrwess' style={{ backgroundColor: 'lightgray', marginTop: '15px' }}>Edit Profile</button>
                     </div>}
                 </div>
 
@@ -188,7 +190,7 @@ export default function YourProfile() {
                 >
                     <div className='smilingEditProfilePopup' style={{ position: 'absolute', backgroundColor: 'white', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 450, boxShadow: 24, p: 4 }}>
                         <form onSubmit={(event) => handleSubmit(event)} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                            <h2 style={{ marginTop: '30px', textAlign: 'center' }}>Edit Profile</h2>
+                            <h2 className='rp_editProfile_h2' style={{ marginTop: '30px', textAlign: 'center', fontFamily: "Spectral-Regular" }}>Edit Profile</h2>
                             {editedUserData && (
                                 <>
                                     <TextField
@@ -196,6 +198,12 @@ export default function YourProfile() {
                                         label="First Name"
                                         variant="outlined"
                                         style={{ margin: '15px' }}
+                                        InputProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
+                                        InputLabelProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
                                         value={editedUserData.firstname !== "undefined" ? editedUserData.firstname : ""}
                                         onChange={handleInputChange}
                                         error={!!errors.firstname}
@@ -206,6 +214,12 @@ export default function YourProfile() {
                                         label="Last Name"
                                         variant="outlined"
                                         style={{ margin: '15px' }}
+                                        InputProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
+                                        InputLabelProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
                                         value={editedUserData.lastname !== "undefined" ? editedUserData.lastname : ""}
                                         onChange={handleInputChange}
                                         error={!!errors.lastname}
@@ -216,6 +230,12 @@ export default function YourProfile() {
                                         label="Email"
                                         variant="outlined"
                                         style={{ margin: '15px' }}
+                                        InputProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
+                                        InputLabelProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
                                         value={editedUserData.userid !== "undefined" ? editedUserData.userid : ""}
                                         onChange={handleInputChange}
                                         error={!!errors.userid}
@@ -227,6 +247,12 @@ export default function YourProfile() {
                                         label="Mobile No."
                                         variant="outlined"
                                         style={{ margin: '15px' }}
+                                        InputProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
+                                        InputLabelProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
                                         value={editedUserData.mobileno !== "undefined" ? editedUserData.mobileno : ""}
                                         onChange={handleInputChange}
                                         error={!!errors.mobileno}
@@ -237,26 +263,35 @@ export default function YourProfile() {
                                         label="Address"
                                         variant="outlined"
                                         style={{ margin: '15px' }}
+                                        InputProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
+                                        InputLabelProps={{
+                                            style: { fontFamily: "Spectral-Regular" }
+                                        }}
                                         value={editedUserData.street !== "undefined" ? editedUserData.street : ""}
                                         onChange={handleInputChange}
                                         error={!!errors.street}
                                         helperText={errors.street}
-                                        sx={{ "& .MuiInputBase-input.Mui-disabled" : {
-                                            WebkitTextFillColor:'black'
-                                        }}}
+                                        sx={{
+                                            "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: 'black'
+                                            }
+                                        }}
                                         multiline
                                         rows={2}
                                     />
                                 </>
                             )}
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
-                            <button type='submit' className='smilingDeleveryformSaveBtn' >Save</button>
-                            <button onClick={() => handleCancel()} className='smilingDeleveryformCansleBtn_rj' >Cancel</button>
-                        </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '25px' }}>
+                                <button type='submit' className='rp_smilingDeleveryformSaveBtn' >Save</button>
+                                <button onClick={() => handleCancel()} className='rp_smilingDeleveryformCansleBtn' >Cancel</button>
+                            </div>
                         </form>
                     </div>
                 </Modal>
-            
+
             </div>
         </div>
     );
