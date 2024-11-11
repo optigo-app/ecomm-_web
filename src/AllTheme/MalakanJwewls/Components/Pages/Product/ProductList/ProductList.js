@@ -87,7 +87,7 @@ const ProductList = () => {
   const [productListData, setProductListData] = useState([]);
   const [priceListData, setPriceListData] = useState([]);
   const [finalProductListData, setFinalProductListData] = useState([]);
-  const [isProdLoading, setIsProdLoading] = useState( );
+  const [isProdLoading, setIsProdLoading] = useState();
   const [isOnlyProdLoading, setIsOnlyProdLoading] = useState(true);
   const [storeInit, setStoreInit] = useState({});
   const [filterData, setFilterData] = useState([]);
@@ -412,13 +412,13 @@ const ProductList = () => {
       setIsProdLoading(true);
       //  if(location?.state?.SearchVal === undefined){
       setprodListType(productlisttype);
-      await ProductListApi({}, 1, obj, productlisttype, cookie)
+      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             // console.log("productList", res);
             setProductListData(res?.pdList);
             setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount);
-            setSortBySelect("Recommended")
+            // setSortBySelect("Recommended")
           }
           return res;
         })
@@ -447,22 +447,22 @@ const ProductList = () => {
                   res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Diamond")[0]?.options
+                    )[0]
                     : [];
                 let diafilter1 =
                   res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "NetWt")[0]?.options
+                    )[0]
                     : [];
                 let diafilter2 =
                   res?.filter((ele) => ele?.Name == "Gross")[0]?.options
                     ?.length > 0
                     ? JSON.parse(
-                        res?.filter((ele) => ele?.Name == "Gross")[0]?.options
-                      )[0]
+                      res?.filter((ele) => ele?.Name == "Gross")[0]?.options
+                    )[0]
                     : [];
 
                 // console.log("diafilter",diafilter);
@@ -962,8 +962,7 @@ const ProductList = () => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigate(
-      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${
-        productData?.TitleLine?.length > 0 ? "_" : ""
+      `/d/${productData?.TitleLine.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
   };
@@ -1857,16 +1856,16 @@ const ProductList = () => {
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -1882,7 +1881,7 @@ const ProductList = () => {
                                   padding: 0,
                                 },
                               }}
-                              // className="filtercategoryLable"
+                            // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Fil_DisName}
@@ -1937,8 +1936,8 @@ const ProductList = () => {
                                             ?.checked === undefined
                                             ? false
                                             : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                              `${ele?.id}${opt?.id}`
+                                            ]?.checked
                                         }
                                         style={{
                                           color: "#7f7d85",
@@ -1983,8 +1982,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2056,7 +2055,7 @@ const ProductList = () => {
                                           ?.checked === undefined
                                           ? false
                                           : filterChecked[`Price${i}${i}`]
-                                              ?.checked
+                                            ?.checked
                                       }
                                       style={{
                                         color: "#7f7d85",
@@ -2078,23 +2077,19 @@ const ProductList = () => {
                                   className="mala_mui_checkbox_label"
                                   label={
                                     opt?.Minval == 0
-                                      ? `Under ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
-                                        } ${opt?.Maxval}`
+                                      ? `Under ${loginUserDetail?.CurrencyCode ??
+                                      storeInit?.CurrencyCode
+                                      } ${opt?.Maxval}`
                                       : opt?.Maxval == 0
-                                      ? `Over ${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
+                                        ? `Over ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
                                         }${opt?.Minval}`
-                                      : `${
-                                          loginUserDetail?.CurrencyCode ??
-                                          storeInit?.CurrencyCode
+                                        : `${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
                                         } ${opt?.Minval} 
-                                                   - ${
-                                                     loginUserDetail?.CurrencyCode ??
-                                                     storeInit?.CurrencyCode
-                                                   } ${opt?.Maxval}`
+                                                   - ${loginUserDetail?.CurrencyCode ??
+                                        storeInit?.CurrencyCode
+                                        } ${opt?.Maxval}`
                                   }
                                 />
                               </div>
@@ -2116,8 +2111,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2171,8 +2166,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2226,8 +2221,8 @@ const ProductList = () => {
                               background: "none",
                             },
                           }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
+                        // expanded={accExpanded}
+                        // defaultExpanded={}
                         >
                           <AccordionSummary
                             expandIcon={
@@ -2584,12 +2579,12 @@ const ProductList = () => {
                               {/* <div className="mala_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="mala_inner_portion">
                                 {finalProductListData?.map((productData, i) => {
-                                   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
+                                  const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
                                   return <>
-                                     <div className="mala_productCard">
-                                    <div className="cart_and_wishlist_icon">
-                                      {/* <Button className="mala_cart-icon"> */}
-                                      {/* <Checkbox
+                                    <div className="mala_productCard">
+                                      <div className="cart_and_wishlist_icon">
+                                        {/* <Button className="mala_cart-icon"> */}
+                                        {/* <Checkbox
                                         icon={
                                           <LocalMallOutlinedIcon
                                             sx={{
@@ -2623,103 +2618,103 @@ const ProductList = () => {
                                             : false
                                         }
                                       /> */}
-                                    
-                                      {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
-                                      {/* </Button> */}
-                                      {/* <Button className="mala_wish-icon"> */}
-                                      <Checkbox
-                                        icon={
-                                          <FavoriteBorderIcon
-                                            sx={{
-                                              fontSize: "26px",
-                                              color: "#7d7f85",
-                                              opacity: ".7",
-                                            }}
-                                          />
-                                        }
-                                        checkedIcon={
-                                          <FavoriteIcon
-                                            sx={{
-                                              fontSize: "26px",
-                                              color: "red",
-                                            }}
-                                          />
-                                        }
-                                        disableRipple={false}
-                                        sx={{ padding: "10px" }}
-                                        onChange={(e) =>
-                                          handleCartandWish(
-                                            e,
-                                            productData,
-                                            "Wish"
-                                          )
-                                        }
-                                        // checked={productData?.IsInWish}
-                                        checked={
-                                          wishArr[productData?.autocode] ??
-                                          productData?.IsInWish === 1
-                                            ? true
-                                            : false
-                                        }
+
+                                        {/* Object.values(cartArr)?.length > 0 ? cartArr[productData?.autocode] : */}
+                                        {/* </Button> */}
+                                        {/* <Button className="mala_wish-icon"> */}
+                                        <Checkbox
+                                          icon={
+                                            <FavoriteBorderIcon
+                                              sx={{
+                                                fontSize: "26px",
+                                                color: "#7d7f85",
+                                                opacity: ".7",
+                                              }}
+                                            />
+                                          }
+                                          checkedIcon={
+                                            <FavoriteIcon
+                                              sx={{
+                                                fontSize: "26px",
+                                                color: "red",
+                                              }}
+                                            />
+                                          }
+                                          disableRipple={false}
+                                          sx={{ padding: "10px" }}
+                                          onChange={(e) =>
+                                            handleCartandWish(
+                                              e,
+                                              productData,
+                                              "Wish"
+                                            )
+                                          }
+                                          // checked={productData?.IsInWish}
+                                          checked={
+                                            wishArr[productData?.autocode] ??
+                                              productData?.IsInWish === 1
+                                              ? true
+                                              : false
+                                          }
                                         // Object.values(wishArr)?.length > 0 ? wishArr[productData?.autocode] :
                                         // onChange={(e) => handelWishList(e, products)}
-                                      />
-                                      {/* </Button> */}
-                                    </div>
+                                        />
+                                        {/* </Button> */}
+                                      </div>
 
-                                    <div className="smrWeb_app_product_label">
-                                      {productData?.IsInReadyStock == 1 && (
-                                        <span className="smrWeb_app_instock">
-                                          In Stock
-                                        </span>
-                                      )}
-                                      {productData?.IsBestSeller == 1 && (
-                                        <span className="smrWeb_app_bestSeller">
-                                          Best Seller
-                                        </span>
-                                      )}
-                                      {productData?.IsTrending == 1 && (
-                                        <span className="smrWeb_app_intrending">
-                                          Trending
-                                        </span>
-                                      )}
-                                      {productData?.IsNewArrival == 1 && (
-                                        <span className="smrWeb_app_newarrival">
-                                          New
-                                        </span>
-                                      )}
-                                    </div>
-                                    <div
-                                      onMouseEnter={() => {
-                                        handleImgRollover(productData);
-                                        if (productData?.VideoCount > 0) {
-                                          setIsRollOverVideo({
-                                            [productData?.autocode]: true,
-                                          });
-                                        } else {
+                                      <div className="smrWeb_app_product_label">
+                                        {productData?.IsInReadyStock == 1 && (
+                                          <span className="smrWeb_app_instock">
+                                            In Stock
+                                          </span>
+                                        )}
+                                        {productData?.IsBestSeller == 1 && (
+                                          <span className="smrWeb_app_bestSeller">
+                                            Best Seller
+                                          </span>
+                                        )}
+                                        {productData?.IsTrending == 1 && (
+                                          <span className="smrWeb_app_intrending">
+                                            Trending
+                                          </span>
+                                        )}
+                                        {productData?.IsNewArrival == 1 && (
+                                          <span className="smrWeb_app_newarrival">
+                                            New
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div
+                                        onMouseEnter={() => {
+                                          handleImgRollover(productData);
+                                          if (productData?.VideoCount > 0) {
+                                            setIsRollOverVideo({
+                                              [productData?.autocode]: true,
+                                            });
+                                          } else {
+                                            setIsRollOverVideo({
+                                              [productData?.autocode]: false,
+                                            });
+                                          }
+                                        }}
+                                        onClick={() =>
+                                          handleMoveToDetail(productData)
+                                        }
+                                        onMouseLeave={() => {
+                                          handleLeaveImgRolloverImg(productData);
                                           setIsRollOverVideo({
                                             [productData?.autocode]: false,
                                           });
-                                        }
-                                      }}
-                                      onClick={() =>
-                                        handleMoveToDetail(productData)
-                                      }
-                                      onMouseLeave={() => {
-                                        handleLeaveImgRolloverImg(productData);
-                                        setIsRollOverVideo({
-                                          [productData?.autocode]: false,
-                                        });
-                                      }}
-                                      className="mala_ImgandVideoContainer"
-                                    >
-                                      {isRollOverVideo[productData?.autocode] ==
-                                      true ? (
-                                        <video
-                                          //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
-                                          src={
-                                            productData?.VideoCount > 0
-                                              ? (storeInit?.DesignImageFol).slice(
+                                        }}
+                                        className="mala_ImgandVideoContainer"
+                                      >
+                                        {isRollOverVideo[productData?.autocode] ==
+                                          true ? (
+                                          <video
+                                            //  src={"https://cdn.caratlane.com/media/catalog/product/J/R/JR03351-YGP600_16_video.mp4"}
+                                            src={
+                                              productData?.VideoCount > 0
+                                                ? (storeInit?.DesignImageFol).slice(
                                                   0,
                                                   -13
                                                 ) +
@@ -2729,29 +2724,29 @@ const ProductList = () => {
                                                 1 +
                                                 "." +
                                                 productData?.VideoExtension
-                                              : ""
-                                          }
-                                          loop={true}
-                                          autoPlay={true}
-                                          className="mala_productCard_video"
+                                                : ""
+                                            }
+                                            loop={true}
+                                            autoPlay={true}
+                                            className="mala_productCard_video"
                                           // style={{objectFit:'cover',height:'412px',minHeight:'412px',width:'399px',minWidth:'399px'}}
-                                        />
-                                      ) : (
-                                        <img
-                                          className="mala_productListCard_Image"
-                                          id={`mala_productListCard_Image${productData?.autocode}`}
-                                          // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
-                                          // src={ ProdCardImageFunc(productData,0)}
-                                          src={
-                                            rollOverImgPd[productData?.autocode]
-                                              ? rollOverImgPd[
-                                                  productData?.autocode
+                                          />
+                                        ) : (
+                                          <img
+                                            className="mala_productListCard_Image"
+                                            id={`mala_productListCard_Image${productData?.autocode}`}
+                                            // src={productData?.DefaultImageName !== "" ? storeInit?.DesignImageFol+productData?.DesignFolderName+'/'+storeInit?.ImgMe+'/'+productData?.DefaultImageName : imageNotFound}
+                                            // src={ ProdCardImageFunc(productData,0)}
+                                            src={
+                                              rollOverImgPd[productData?.autocode]
+                                                ? rollOverImgPd[
+                                                productData?.autocode
                                                 ]
-                                              : productData?.images?.length > 0
-                                              ? productData?.images[0]
-                                              : imageNotFound
-                                          }
-                                          alt=""
+                                                : productData?.images?.length > 0
+                                                  ? productData?.images[0]
+                                                  : imageNotFound
+                                            }
+                                            alt=""
                                           // onClick={() =>
                                           //   handleMoveToDetail(productData)
                                           // }
@@ -2761,151 +2756,151 @@ const ProductList = () => {
                                           // onMouseLeave={() => {
                                           //   handleLeaveImgRolloverImg(productData);
                                           // }}
-                                        />
-                                      )}
-                                    </div>
-                                    <div className="mala_prod_card_info">
-                                      <div className="mala_prod_Title">
-                                        <span
-                                          className={
-                                            productData?.TitleLine?.length > 30
-                                              ? "smr1_prod_title_with_width"
-                                              : "smr1_prod_title_with_no_width"
-                                          }
-                                        >
-                                          {/* {productData?.TitleLine?.length > 0 &&
+                                          />
+                                        )}
+                                      </div>
+                                      <div className="mala_prod_card_info">
+                                        <div className="mala_prod_Title">
+                                          <span
+                                            className={
+                                              productData?.TitleLine?.length > 30
+                                                ? "smr1_prod_title_with_width"
+                                                : "smr1_prod_title_with_no_width"
+                                            }
+                                          >
+                                            {/* {productData?.TitleLine?.length > 0 &&
                                             "-"}
                                           {productData?.TitleLine}{" "} */}
-                                          {productData?.designno}{" "}
-                                          {productData?.TitleLine?.length > 0 &&
-                                            " - " + productData?.TitleLine}
-                                        </span>
-                                        {/* <span className="mala_prod_designno">
+                                            {productData?.designno}{" "}
+                                            {productData?.TitleLine?.length > 0 &&
+                                              " - " + productData?.TitleLine}
+                                          </span>
+                                          {/* <span className="mala_prod_designno">
                                           {productData?.designno}
                                         </span> */}
-                                      </div>
-                                      <div className="mala_prod_Allwt">
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            letterSpacing: maxwidth590px
-                                              ? "0px"
-                                              : "1px",
-                                            // gap:maxwidth1674px ? '0px':'3px',
-                                            flexWrap: "wrap",
-                                          }}
-                                        >
-                                          {/* <span className="mala_por"> */}
-
-                                          {storeInit?.IsGrossWeight == 1 &&
-                                            Number(productData?.Gwt) !== 0 && (
-                                              <span className="mala_prod_wt">
-                                                <span className="mala_main_keys">
-                                                  GWT:
-                                                </span>
-                                                <span className="mala_main_val">
-                                                  {productData?.Gwt?.toFixed(3)}
-                                                </span>
-                                              </span>
-                                            )}
-                                          {Number(productData?.Nwt) !== 0 && (
-                                            <>
-                                              <span
-                                                style={{
-                                                  fontSize: "13px",
-                                                  marginInline: "5px",
-                                                }}
-                                              >
-                                                |
-                                              </span>
-                                              <span className="mala_prod_wt">
-                                                <span className="mala_main_keys">
-                                                  NWT:
-                                                </span>
-                                                <span className="mala_main_val">
-                                                  {productData?.Nwt?.toFixed(3)}
-                                                </span>
-                                              </span>
-                                            </>
-                                          )}
-                                          {/* </span> */}
-                                          {/* <span className="mala_por"> */}
-                                          {storeInit?.IsDiamondWeight == 1 &&
-                                            Number(productData?.Dwt) !== 0 && (
-                                              <>
-                                                <span
-                                                  style={{
-                                                    fontSize: "13px",
-                                                    marginInline: "5px",
-                                                  }}
-                                                >
-                                                  |
-                                                </span>
-                                                <span className="mala_prod_wt">
-                                                  <span className="mala_main_keys">
-                                                    DWT:
-                                                  </span>
-                                                  <span className="mala_main_val">
-                                                    {productData?.Dwt?.toFixed(
-                                                      3
-                                                    )}
-                                                    {storeInit?.IsDiamondPcs ===
-                                                    1
-                                                      ? `/${productData?.Dpcs}`
-                                                      : null}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )}
-                                          {storeInit?.IsStoneWeight == 1 &&
-                                            Number(productData?.CSwt) !== 0 && (
-                                              <>
-                                                <span
-                                                  style={{
-                                                    fontSize: "13px",
-                                                    marginInline: "5px",
-                                                  }}
-                                                >
-                                                  |
-                                                </span>
-                                                <span className="mala_prod_wt">
-                                                  <span className="mala_main_keys">
-                                                    CWT:
-                                                  </span>
-                                                  <span className="mala_main_val">
-                                                    {productData?.CSwt?.toFixed(
-                                                      3
-                                                    )}
-                                                    {storeInit?.IsStonePcs === 1
-                                                      ? `/${productData?.CSpcs}`
-                                                      : null}
-                                                  </span>
-                                                </span>
-                                              </>
-                                            )}
-                                          {/* </span> */}
                                         </div>
-                                      </div>
-                                      <div className="mala_prod_mtcolr_price">
-                                        <span className="mala_prod_metal_col">
-                                          {findMetalColor(
-                                            productData?.MetalColorid
-                                          )?.[0]?.metalcolorname.toUpperCase()}
-                                          -
-                                          {
-                                            findMetalType(
-                                              productData?.IsMrpBase == 1
-                                                ? productData?.MetalPurityid
-                                                : selectedMetalId ??
-                                                    productData?.MetalPurityid
-                                            )[0]?.metaltype
-                                          }
-                                        </span>
-                                        <span>/</span>
-                                        <span className="mala_price">
-                                          {/*  <span
+                                        <div className="mala_prod_Allwt">
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              letterSpacing: maxwidth590px
+                                                ? "0px"
+                                                : "1px",
+                                              // gap:maxwidth1674px ? '0px':'3px',
+                                              flexWrap: "wrap",
+                                            }}
+                                          >
+                                            {/* <span className="mala_por"> */}
+
+                                            {storeInit?.IsGrossWeight == 1 &&
+                                              Number(productData?.Gwt) !== 0 && (
+                                                <span className="mala_prod_wt">
+                                                  <span className="mala_main_keys">
+                                                    GWT:
+                                                  </span>
+                                                  <span className="mala_main_val">
+                                                    {productData?.Gwt?.toFixed(3)}
+                                                  </span>
+                                                </span>
+                                              )}
+                                            {Number(productData?.Nwt) !== 0 && (
+                                              <>
+                                                <span
+                                                  style={{
+                                                    fontSize: "13px",
+                                                    marginInline: "5px",
+                                                  }}
+                                                >
+                                                  |
+                                                </span>
+                                                <span className="mala_prod_wt">
+                                                  <span className="mala_main_keys">
+                                                    NWT:
+                                                  </span>
+                                                  <span className="mala_main_val">
+                                                    {productData?.Nwt?.toFixed(3)}
+                                                  </span>
+                                                </span>
+                                              </>
+                                            )}
+                                            {/* </span> */}
+                                            {/* <span className="mala_por"> */}
+                                            {storeInit?.IsDiamondWeight == 1 &&
+                                              Number(productData?.Dwt) !== 0 && (
+                                                <>
+                                                  <span
+                                                    style={{
+                                                      fontSize: "13px",
+                                                      marginInline: "5px",
+                                                    }}
+                                                  >
+                                                    |
+                                                  </span>
+                                                  <span className="mala_prod_wt">
+                                                    <span className="mala_main_keys">
+                                                      DWT:
+                                                    </span>
+                                                    <span className="mala_main_val">
+                                                      {productData?.Dwt?.toFixed(
+                                                        3
+                                                      )}
+                                                      {storeInit?.IsDiamondPcs ===
+                                                        1
+                                                        ? `/${productData?.Dpcs}`
+                                                        : null}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              )}
+                                            {storeInit?.IsStoneWeight == 1 &&
+                                              Number(productData?.CSwt) !== 0 && (
+                                                <>
+                                                  <span
+                                                    style={{
+                                                      fontSize: "13px",
+                                                      marginInline: "5px",
+                                                    }}
+                                                  >
+                                                    |
+                                                  </span>
+                                                  <span className="mala_prod_wt">
+                                                    <span className="mala_main_keys">
+                                                      CWT:
+                                                    </span>
+                                                    <span className="mala_main_val">
+                                                      {productData?.CSwt?.toFixed(
+                                                        3
+                                                      )}
+                                                      {storeInit?.IsStonePcs === 1
+                                                        ? `/${productData?.CSpcs}`
+                                                        : null}
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              )}
+                                            {/* </span> */}
+                                          </div>
+                                        </div>
+                                        <div className="mala_prod_mtcolr_price">
+                                          <span className="mala_prod_metal_col">
+                                            {findMetalColor(
+                                              productData?.MetalColorid
+                                            )?.[0]?.metalcolorname.toUpperCase()}
+                                            -
+                                            {
+                                              findMetalType(
+                                                productData?.IsMrpBase == 1
+                                                  ? productData?.MetalPurityid
+                                                  : selectedMetalId ??
+                                                  productData?.MetalPurityid
+                                              )[0]?.metaltype
+                                            }
+                                          </span>
+                                          <span>/</span>
+                                          <span className="mala_price">
+                                            {/*  <span
                                         className="mala_currencyFont"
                                         dangerouslySetInnerHTML={{
                                           __html: decodeEntities(
@@ -2913,25 +2908,25 @@ const ProductList = () => {
                                           ),
                                         }}
                                       /> */}
-                                          <span className="mala_currencyFont">
-                                            {loginUserDetail?.CurrencyCode ??
-                                              storeInit?.CurrencyCode}
-                                          </span>
-                                          <span className="mala_pricePort">
-                                            {/* {productData?.ismrpbase === 1
+                                            <span className="mala_currencyFont">
+                                              {loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode}
+                                            </span>
+                                            <span className="mala_pricePort">
+                                              {/* {productData?.ismrpbase === 1
                                               ? productData?.mrpbaseprice
                                               : PriceWithMarkupFunction(
                                                 productData?.markup,
                                                 productData?.price,
                                                 storeInit?.CurrencyRate
                                               )?.toFixed(2)} */}
-                                            {formatter(
-                                              productData?.UnitCostWithMarkUp
-                                            )}
+                                              {formatter(
+                                                productData?.UnitCostWithMarkUp
+                                              )}
+                                            </span>
                                           </span>
-                                        </span>
-                                      </div>
-                                      <div className="fmg_mal1_prodBtn">
+                                        </div>
+                                        <div className="fmg_mal1_prodBtn">
                                           <FormControlLabel
                                             control={
                                               <Checkbox
@@ -2944,15 +2939,15 @@ const ProductList = () => {
                                             label={<span className={`fmg_mal1_prodBtn_proBtn_text`}>{isChecked ? "In Cart" : "Add to Cart"}</span>}
                                           />
                                         </div>
+                                      </div>
                                     </div>
-                                  </div>
                                   </>
                                 })}
                               </div>
                             </div>
                             {storeInit?.IsProductListPagination == 1 &&
                               Math.ceil(afterFilterCount / storeInit.PageSize) >
-                                1 && (
+                              1 && (
                                 <div
                                   style={{
                                     display: "flex",
@@ -3075,6 +3070,7 @@ const GivaFilterMenu = ({
         fontFamily: "Rowan5 , sans-serif !important",
         textWrap: "nowrap",
         letterSpacing: "0.5px",
+        color: "#303030d2",
         fontSize: {
           xs: "13.2px !important", // Mobile screens
           sm: "13.5px !important", // Tablets
@@ -3201,27 +3197,27 @@ const GivaFilterMenu = ({
           <div className="flex_giva_menu">
             {isFilterHaveEnoughData && (
               <div className="filter_menu_giva">
-               
-                  <Typography
-                    sx={{ fontSize: "16px" }}
-                    className="fmg_menu"
-                    onClick={() => HandleMenu(1)}
-                  >
-                     <Badge badgeContent={totalSelected} color="success"
-                      anchorOrigin={{
-                        vertical: 'top',  // Adjust this as needed (top/bottom)
-                        horizontal: 'right', // Move to the left side
-                    }}
+
+                <Typography
+                  sx={{ fontSize: "15px" }}
+                  className="fmg_menu"
+                  onClick={() => HandleMenu(1)}
                 >
+                  <Badge badgeContent={totalSelected} color="success"
+                    anchorOrigin={{
+                      vertical: 'top',  // Adjust this as needed (top/bottom)
+                      horizontal: 'right', // Move to the left side
+                    }}
+                  >
                     Filters
                   </Badge>
-                    <ExpandMoreIcon
-                      className="fmg_icon"
-                      onClick={() => HandleMenu(1)}
-                    />
-                  </Typography>
+                  <ExpandMoreIcon
+                    className="fmg_icon"
+                    onClick={() => HandleMenu(1)}
+                  />
+                </Typography>
                 {showMenu === 1 && (
-                  <div className="giva_filter_menu_list">
+                  <div className="giva_filter_menu_list_card">
                     {filterData?.map((ele) => (
                       <>
                         {!ele?.id?.includes("Range") &&
@@ -3244,8 +3240,8 @@ const GivaFilterMenu = ({
                                             ]?.checked === undefined
                                               ? false
                                               : filterChecked[
-                                                  `${ele?.id}${opt?.id}`
-                                                ]?.checked
+                                                `${ele?.id}${opt?.id}`
+                                              ]?.checked
                                           }
                                           style={{
                                             padding: 0,
@@ -3286,7 +3282,7 @@ const GivaFilterMenu = ({
                                               ?.checked === undefined
                                               ? false
                                               : filterChecked[`Price${i}${i}`]
-                                                  ?.checked
+                                                ?.checked
                                           }
                                           style={{
                                             padding: 0,
@@ -3305,23 +3301,19 @@ const GivaFilterMenu = ({
                                         <CustomLabel
                                           text={
                                             opt?.Minval == 0
-                                              ? `Under ${
-                                                  loginUserDetail?.CurrencyCode ??
-                                                  storeInit?.CurrencyCode
-                                                } ${opt?.Maxval}`
+                                              ? `Under ${loginUserDetail?.CurrencyCode ??
+                                              storeInit?.CurrencyCode
+                                              } ${opt?.Maxval}`
                                               : opt?.Maxval == 0
-                                              ? `Over ${
-                                                  loginUserDetail?.CurrencyCode ??
-                                                  storeInit?.CurrencyCode
+                                                ? `Over ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
                                                 } ${opt?.Minval}`
-                                              : `${
-                                                  loginUserDetail?.CurrencyCode ??
-                                                  storeInit?.CurrencyCode
+                                                : `${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
                                                 } ${opt?.Minval} 
-                                                    - ${
-                                                      loginUserDetail?.CurrencyCode ??
-                                                      storeInit?.CurrencyCode
-                                                    } ${opt?.Maxval}`
+                                                    - ${loginUserDetail?.CurrencyCode ??
+                                                storeInit?.CurrencyCode
+                                                } ${opt?.Maxval}`
                                           }
                                         />
                                       }
@@ -3339,16 +3331,16 @@ const GivaFilterMenu = ({
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -3364,7 +3356,7 @@ const GivaFilterMenu = ({
                                   padding: 0,
                                 },
                               }}
-                              // className="filtercategoryLable"
+                            // className="filtercategoryLable"
                             >
                               {/* <span> */}
                               {ele.Fil_DisName}
@@ -3394,16 +3386,16 @@ const GivaFilterMenu = ({
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -3450,16 +3442,16 @@ const GivaFilterMenu = ({
                               borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
+                              {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
                               "&.MuiPaper-root.MuiAccordion-root:before": {
                                 background: "none",
                               },
                             }}
-                            // expanded={accExpanded}
-                            // defaultExpanded={}
+                          // expanded={accExpanded}
+                          // defaultExpanded={}
                           >
                             <AccordionSummary
                               expandIcon={
@@ -3507,7 +3499,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
               <div className="filter_menu_giva">
                 <Typography
-                  sx={{ fontSize: "16px" }}
+                  sx={{ fontSize: "15px" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(2)}
                 >
@@ -3559,7 +3551,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
               <div className="filter_menu_giva">
                 <Typography
-                  sx={{ fontSize: "16px" }}
+                  sx={{ fontSize: "15px" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(3)}
                 >
@@ -3676,7 +3668,7 @@ const GivaFilterMenu = ({
               {storeInit?.IsMetalCustComb === 1 && (
                 <div className="filter_menu_giva">
                   <Typography
-                    sx={{ fontSize: "16px" }}
+                    sx={{ fontSize: "15px" }}
                     className="fmg_menu"
                     onClick={() => HandleMenu(5)}
                   >
@@ -3727,10 +3719,10 @@ const GivaFilterMenu = ({
         </div>
         {/* <FilterSelectedView selectedFilterValues={checkedFilterNames}/> */}
         <ClearAllAndTotalResult
-        afterFilterCount={afterFilterCount} 
-        filterChecked={filterChecked}
-         afterCountStatus={afterCountStatus} 
-        handelFilterClearAll={handelFilterClearAll}
+          afterFilterCount={afterFilterCount}
+          filterChecked={filterChecked}
+          afterCountStatus={afterCountStatus}
+          handelFilterClearAll={handelFilterClearAll}
         />
       </div>
     </>
@@ -3859,50 +3851,50 @@ const BreadCumView = ({ BreadCumsObj, handleBreadcums, IsBreadCumShow }) => {
   );
 };
 
-const ClearAllAndTotalResult = ({afterFilterCount ,filterChecked ,afterCountStatus ,handelFilterClearAll})=>{
+const ClearAllAndTotalResult = ({ afterFilterCount, filterChecked, afterCountStatus, handelFilterClearAll }) => {
   return <div className="clear_fmg_list">
     <span className="mala_filter_text">
-        <span>
-          {Object.values(filterChecked).filter(
-            (ele) => ele.checked
-          )?.length === 0 ? (
-            ""
-          ) : (
-            <>
-              {afterCountStatus == true ? (
-                <Skeleton
-                  variant="rounded"
-                  width={140}
-                  height={22}
-                  className="pSkelton"
-                />
-              ) : (
-                <span className="fmg_total_product">{`Product Found : ${afterFilterCount}`}</span>
-              )}
-            </>
-          )}
-        </span>
-        <span onClick={() => handelFilterClearAll()}>
-          {Object.values(filterChecked).filter(
-            (ele) => ele.checked
-          )?.length > 0 ? (
-            <div className="fmg_remove_All">Remove All <IoClose/></div>
-          ) : (
-            <>
-              {afterCountStatus == true ? (
-                <Skeleton
-                  variant="rounded"
-                  width={140}
-                  height={22}
-                  className="pSkelton"
-                />
-              ) : (
-                <span className="fmg_total_product">{`Total Products : ${afterFilterCount}`}</span>
-              )}
-            </>
-          )}
-        </span>
+      <span>
+        {Object.values(filterChecked).filter(
+          (ele) => ele.checked
+        )?.length === 0 ? (
+          ""
+        ) : (
+          <>
+            {afterCountStatus == true ? (
+              <Skeleton
+                variant="rounded"
+                width={140}
+                height={22}
+                className="pSkelton"
+              />
+            ) : (
+              <span className="fmg_total_product">{`Product Found : ${afterFilterCount}`}</span>
+            )}
+          </>
+        )}
       </span>
+      <span onClick={() => handelFilterClearAll()}>
+        {Object.values(filterChecked).filter(
+          (ele) => ele.checked
+        )?.length > 0 ? (
+          <div className="fmg_remove_All">Remove All <IoClose /></div>
+        ) : (
+          <>
+            {afterCountStatus == true ? (
+              <Skeleton
+                variant="rounded"
+                width={140}
+                height={22}
+                className="pSkelton"
+              />
+            ) : (
+              <span className="fmg_total_product">{`Total Products : ${afterFilterCount}`}</span>
+            )}
+          </>
+        )}
+      </span>
+    </span>
   </div>
 }
 

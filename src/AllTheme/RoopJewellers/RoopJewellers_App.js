@@ -42,6 +42,7 @@ const RoopJewellers_App = () => {
   const [localData, setLocalData] = useState();
   const navigation = useNavigate();
   const setIsLoginState = useSetRecoilState(roop_loginState);
+  let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   const setCartNo = useSetRecoilState(roop_CartNo);
   const location = useLocation();
   const search = location?.search;
@@ -184,7 +185,9 @@ const RoopJewellers_App = () => {
             <Route path="/Confirmation" element={<Confirmation />} />
             <Route path="/account" element={<Account />} />
           </Route>
-          <Route path="/Lookbook" element={<Lookbook />} />
+          {storeinit?.IsDesignSetInMenu == 1 && (
+            <Route path="/Lookbook" element={<Lookbook />} />
+          )}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
