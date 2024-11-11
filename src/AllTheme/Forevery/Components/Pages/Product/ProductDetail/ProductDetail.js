@@ -1483,6 +1483,52 @@ const ProductDetail = () => {
 
   }
 
+  const imageRefs = useRef([])
+const [origin ,setorigin] = useState({x:0 , y :0 });
+
+  const handleMouseMove = (e, index) => {
+    const imageRef = imageRefs?.current[index];
+    if (!imageRef) return;
+  
+    const imageContainer = imageRef?.parentElement;
+    if (!imageContainer) return;
+  
+    const rect = imageContainer.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+  
+    const zoomLevel = 1.5;
+  
+    const transformOriginX = x * 100;
+    const transformOriginY = y * 100;
+  
+    setorigin({x:transformOriginX , y:transformOriginY})
+    imageRef.style.transformOrigin = `${transformOriginX}% ${transformOriginY}%`;
+    imageRef.style.transform = `scale(${zoomLevel})`;
+  };
+  
+  const handleMouseLeave = (index) => {
+    const imageReff = imageRefs?.current[index]
+    if (!imageReff) return
+
+    imageReff.style.transform = 'scale(1)';
+    imageReff.style.transformOrigin = 'center center'; // reset the origin to center
+    setorigin({x:0,y:0})
+    
+  }
+
+  useEffect(() => {
+    // Cleanup logic when component unmounts or ref changes
+    return () => {
+      // Reset all image transformations
+      imageRefs.current.forEach((ref) => {
+        if (ref) {
+          ref.style.transform = 'scale(1)';
+          ref.style.transformOrigin = 'center center';
+        }
+      });
+    };
+  }, []);
   return (
     <div className="for_ProductDet_mainDiv">
       <div className="for_ProductDet_div">
@@ -1563,12 +1609,23 @@ const ProductDetail = () => {
                             </div>
                             {(
                               imageSrc || PdImageArr?.length > 1 ? (
-                                <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
+                                <Slider
+                                
+                                 {...settings} ref={sliderRef} lazyLoad="progressive">
                                   {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
                                     <div key={i} className="for_slider_card">
-                                      <div className="for_image">
+                                      <div className="for_image"
+                                      style={{
+                                        position:"relative",
+                                        overflow:"hidden",
+                                        cursor:"zoom-in" ,
+                                      }}
+                                      onMouseMove={(e) => handleMouseMove(e, i)}
+                                      onMouseLeave={() => handleMouseLeave(i)}
+                                      >
                                         {val?.type === "img" ? (
                                           <img
+                                          ref={el => imageRefs.current[i] = el}
                                             loading="lazy"
                                             src={val?.src}
                                             alt=""
@@ -1651,6 +1708,7 @@ const ProductDetail = () => {
                                   key={i}
                                   className={`for_box_mob ${i === currentSlide ? "active" : ""}`}
                                   onClick={() => handleThumbnailClick(i)}
+                                 
                                 >
                                   {val?.type === "img" ? (
                                     <img
@@ -1691,15 +1749,31 @@ const ProductDetail = () => {
                             {(
                               imageSrc || PdImageArr?.length > 1 ? (
                                 <Slider {...settings} ref={sliderRef} lazyLoad="progressive">
-                                  {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
+                                  {PdImageArr?.length > 0 && PdImageArr?.map((val, i) => (
                                     <div key={i} className="for_slider_card_mob">
-                                      <div className="for_image_mob">
+                                      <div className="for_image_mob"
+                                          style={{
+                                            position:"relative",
+                                            overflow:"hidden",
+                                            cursor:"zoom-in" ,
+                                            border:"1px solid black",
+                                            width:"100%"
+                                          }}
+                                          onMouseMove={(e) => handleMouseMove(e, i)}
+                                        onMouseLeave={() => handleMouseLeave(i)}
+                                      >
                                         {val?.type === "img" ? (
                                           <img
-                                            loading="lazy"
-                                            src={val?.src}
+                                          ref={el => imageRefs.current[i] = el}
+                                          loading="lazy"
+                                          src={val?.src}
                                             alt=""
-                                            style={{ transition: 'transform 0.3s ease' }}
+                                            style={{
+                                              transition: 'transform 0.3s ease',
+                                              transform: (origin.x && origin.y) ? 'scale(1.3)' : 'scale(0.8)',
+                                              transformOrigin:`${origin.x}% ${origin.y}%`,
+                                              width:"100%"
+                                            }}
                                             onLoad={() => setIsImageLoad(false)}
                                           />
                                         ) : (
