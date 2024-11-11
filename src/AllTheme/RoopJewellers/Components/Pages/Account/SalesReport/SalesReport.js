@@ -98,74 +98,74 @@ function parseCustomDate(dateString) {
 }
 function descendingComparator(a, b, orderBy) {
   if (!orderBy) return 0; // Add null check for orderBy
-  
+
   if (orderBy === 'EntryDate') {
-      try {
-        const dateA = new Date(a[orderBy].split(' ').reverse().join(' '));
-        const dateB = new Date(b[orderBy].split(' ').reverse().join(' '));
+    try {
+      const dateA = new Date(a[orderBy].split(' ').reverse().join(' '));
+      const dateB = new Date(b[orderBy].split(' ').reverse().join(' '));
 
-        if (dateB < dateA) {
-            return -1;
-        }
-        if (dateB > dateA) {
-            return 1;
-        }
-        return 0;
-          // const dateA = parseCustomDate(a[orderBy]);
-          // const dateB = parseCustomDate(b[orderBy]);
-
-          // if (dateB < dateA) {
-          //     return -1;
-          // }
-          // if (dateB > dateA) {
-          //     return 1;
-          // }
-          // return 0;
-      } catch (error) {
-          console.error('Error parsing date:', error.message);
-          return 0;
+      if (dateB < dateA) {
+        return -1;
       }
-    
-  } else if(orderBy === 'MetalAmount' || 
-            orderBy === "Unit Cost" ||
-            orderBy === 'DiamondAmount' || 
-            orderBy === 'ColorStoneAmount' || 
-            orderBy === 'LabourAmount' || 
-            orderBy === 'OtherAmount' ||
-            orderBy === 'GrossWt' ||
-            orderBy === 'NetWt' ||
-            orderBy === 'DiaPcs' ||
-            orderBy === 'DiaWt' ||
-            orderBy === 'CsPcs' ||
-            orderBy === 'CsWt'
-            ){
-    
+      if (dateB > dateA) {
+        return 1;
+      }
+      return 0;
+      // const dateA = parseCustomDate(a[orderBy]);
+      // const dateB = parseCustomDate(b[orderBy]);
+
+      // if (dateB < dateA) {
+      //     return -1;
+      // }
+      // if (dateB > dateA) {
+      //     return 1;
+      // }
+      // return 0;
+    } catch (error) {
+      console.error('Error parsing date:', error.message);
+      return 0;
+    }
+
+  } else if (orderBy === 'MetalAmount' ||
+    orderBy === "Unit Cost" ||
+    orderBy === 'DiamondAmount' ||
+    orderBy === 'ColorStoneAmount' ||
+    orderBy === 'LabourAmount' ||
+    orderBy === 'OtherAmount' ||
+    orderBy === 'GrossWt' ||
+    orderBy === 'NetWt' ||
+    orderBy === 'DiaPcs' ||
+    orderBy === 'DiaWt' ||
+    orderBy === 'CsPcs' ||
+    orderBy === 'CsWt'
+  ) {
+
     const valueA = parseFloat(a[orderBy]) || 0;
     const valueB = parseFloat(b[orderBy]) || 0;
 
     if (valueB < valueA) {
-        return -1;
+      return -1;
     }
     if (valueB > valueA) {
-        return 1;
+      return 1;
     }
 
     return 0;
 
-  }else if ((orderBy === 'StockDocumentNo') || (orderBy === 'MetalType') || (orderBy === 'SKUNo') || (orderBy === 'designno')) {
+  } else if ((orderBy === 'StockDocumentNo') || (orderBy === 'MetalType') || (orderBy === 'SKUNo') || (orderBy === 'designno')) {
     // Handle sorting for SKU# column
     return customComparator_Col(a[orderBy], b[orderBy]);
-}  else {
-      const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
-      const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
+  } else {
+    const valueA = a[orderBy]?.toString()?.toLowerCase() || '';
+    const valueB = b[orderBy]?.toString()?.toLowerCase() || '';
 
-      if (valueB < valueA) {
-          return -1;
-      }
-      if (valueB > valueA) {
-          return 1;
-      }
-      return 0;
+    if (valueB < valueA) {
+      return -1;
+    }
+    if (valueB > valueA) {
+      return 1;
+    }
+    return 0;
   }
 }
 
@@ -201,24 +201,25 @@ function EnhancedTableHead(props) {
             style={{
               minWidth: headCell.minWidth,
               textAlign: headCell?.align || "left",
+              fontFamily: "Spectral-Regular"
             }}
           >
-         {
-          (headCell?.id?.toLowerCase() === 'srno') ? 'SrNo' : 
-          <TableSortLabel
-          active={orderBy === headCell.id}
-          direction={orderBy === headCell.id ? order : "asc"}
-          onClick={createSortHandler(headCell.id)}
-          sx={{ textAlign: "center" }}
-        >
-          {headCell.label}
-          {orderBy === headCell.id ? (
-            <Box component="span" sx={visuallyHidden}>
-              {order === "desc" ? "sorted descending" : "sorted ascending"}
-            </Box>
-          ) : null}
-        </TableSortLabel>
-         }
+            {
+              (headCell?.id?.toLowerCase() === 'srno') ? 'SrNo' :
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : "asc"}
+                  onClick={createSortHandler(headCell.id)}
+                  sx={{ textAlign: "center" }}
+                >
+                  {headCell.label}
+                  {orderBy === headCell.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc" ? "sorted descending" : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -306,7 +307,7 @@ const SalesReport = () => {
     [order, orderBy, page, rowsPerPage, filterData]
   );
 
-  const handleSearch = ( eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo ) => { 
+  const handleSearch = (eve, searchValue, fromDates, toDates, grossWtFrom, grossWtTo) => {
     setPage(0);
     let datass = [];
     let count = 0;
@@ -325,78 +326,78 @@ const SalesReport = () => {
 
       let fromdates = `${fromDates?.["$y"]}-${checkMonth(fromDates?.["$M"])}-${fromDates?.["$D"]}`;
       let todates = `${toDates?.["$y"]}-${checkMonth(toDates?.["$M"])}-${toDates?.["$D"]}`;
-  
+
       let cutDate = cutDates;
       const dateString = cutDates.join(' ');
       const formattedDate = moment(dateString).format('YYYY-MM-DD');
 
       cutDate = formattedDate;
-      if(cutDate !== undefined){
+      if (cutDate !== undefined) {
         if (!fromdates?.includes(undefined) && !todates?.includes(undefined)) {
 
-            let fromdat = moment(fromdates);
-            let todat = moment(todates);
-            let cutDat = moment(cutDate);
-            if(moment(fromdat).isSameOrBefore(todat)){
-                const isBetween = cutDat.isBetween(fromdat, todat);
-                if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
-                    flags.toDate = true;
-                    flags.fromDate = true;
-                }
+          let fromdat = moment(fromdates);
+          let todat = moment(todates);
+          let cutDat = moment(cutDate);
+          if (moment(fromdat).isSameOrBefore(todat)) {
+            const isBetween = cutDat.isBetween(fromdat, todat);
+            if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
+              flags.toDate = true;
+              flags.fromDate = true;
             }
-            else{
-              setTimeout(() => {
-                resetAllFilters();
-                setFilterData(data);
+          }
+          else {
+            setTimeout(() => {
+              resetAllFilters();
+              setFilterData(data);
             }, 0)
-            }
-            
+          }
+
         } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
-        
-            flags.toDate = true;
-            flags.fromDate = true;
-            count++;
-            Swal.fire({
-              title: "Error !",
-              text: "Enter Valid From Date",
-              icon: "error",
-              confirmButtonText: "ok"
-            });
-            resetAllFilters();
-    
+
+          flags.toDate = true;
+          flags.fromDate = true;
+          count++;
+          Swal.fire({
+            title: "Error !",
+            text: "Enter Valid From Date",
+            icon: "error",
+            confirmButtonText: "ok"
+          });
+          resetAllFilters();
+
         } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-         
-            flags.toDate = true;
-            flags.fromDate = true;
-            count++;
-            Swal.fire({
-              title: "Error !",
-              text: "Enter Valid Date To",
-              icon: "error",
-              confirmButtonText: "ok"
-            });
-            resetAllFilters();
+
+          flags.toDate = true;
+          flags.fromDate = true;
+          count++;
+          Swal.fire({
+            title: "Error !",
+            text: "Enter Valid Date To",
+            icon: "error",
+            confirmButtonText: "ok"
+          });
+          resetAllFilters();
         } else if (fromdates?.includes(undefined) && todates?.includes(undefined)) {
-            flags.toDate = true;
-            flags.fromDate = true;
+          flags.toDate = true;
+          flags.fromDate = true;
         }
-       } 
+      }
 
 
 
 
-      if ( String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-           String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
-          String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+      if (String(e?.SrNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.EntryDate)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.StockDocumentNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.SKUNo)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.designno)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.MetalType)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.MetalAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.DiamondAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.ColorStoneAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.LabourAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.OtherAmount)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
+        String(e?.UnitCost)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         String(e?.Category)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         String(e?.GrossWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
         String(e?.NetWt)?.toLowerCase()?.includes(searchValue?.trim()?.toLowerCase()) ||
@@ -408,7 +409,7 @@ const SalesReport = () => {
       ) {
         flags.searchValue = true;
       }
-      
+
       if (grossWtFrom?.trim() === "" || +grossWtFrom <= e?.GrossWt) {
         flags.grossWtFrom = true;
       }
@@ -440,7 +441,7 @@ const SalesReport = () => {
         flags.toDate === true &&
         flags.grossWtFrom === true &&
         flags.grossWtTo === true &&
-        count === 0 
+        count === 0
       ) {
         let dataObj = createData(
           i + 1,
@@ -467,7 +468,7 @@ const SalesReport = () => {
         );
         datass?.push(dataObj);
       }
-   
+
     });
     if (count === 0) {
       setFilterData(datass);
@@ -494,7 +495,7 @@ const SalesReport = () => {
   const handleChangegrossWt = (eve) => {
     const { name, value } = eve?.target;
     setGrossWtInput({ ...grossWtInput, [name]: value });
-   
+
   };
 
   const fetchData = async () => {
@@ -508,7 +509,7 @@ const SalesReport = () => {
       let currencyRate = storeInit?.CurrencyRate;
 
       const response = await getSalesReportData(currencyRate, FrontEnd_RegNo, customerid, data);
-      
+
       if (response.Data?.rd) {
         let datass = [];
         let totals = { ...total };
@@ -563,12 +564,12 @@ const SalesReport = () => {
         setData(datass);
         setFilterData(datass);
         setTotal(totals);
-      }else{
+      } else {
         setData([]);
         setFilterData([]);
         setIsLoading(false);
       }
-      
+
     } catch (error) {
       console.log("Error:", error);
       setIsLoading(false);
@@ -614,7 +615,7 @@ const SalesReport = () => {
         >
           <table>
             <tbody>
-              <tr>
+              <tr style={{ fontFamily: "Spectral-Regular" }}>
                 <td>Total Gross Wt</td>
                 <td>Total Net Wt(24k)</td>
                 <td>Total Net Wt</td>
@@ -622,7 +623,7 @@ const SalesReport = () => {
                 <td>Total Color Stones</td>
                 <td>Unique Designs</td>
               </tr>
-              <tr>
+              <tr style={{ fontFamily: "Spectral-Regular" }}>
                 <td className="fw_bold">
                   {NumberWithCommas(total?.GrossWt, 3)}
                 </td>
@@ -643,7 +644,7 @@ const SalesReport = () => {
                   {NumberWithCommas(total?.uniqueDesigns, 0)}
                 </td>
               </tr>
-              <tr>
+              <tr style={{ fontFamily: "Spectral-Regular" }}>
                 <td>Total Metal Amt</td>
                 <td>Total Dia. Amt</td>
                 <td>Total CST Amt</td>
@@ -651,7 +652,7 @@ const SalesReport = () => {
                 <td>Total Other Amt</td>
                 <td>Unique Customers</td>
               </tr>
-              <tr>
+              <tr style={{ fontFamily: "Spectral-Regular" }}>
                 <td className="fw_bold">
                   {NumberWithCommas(total?.MetalAmount, 2)}
                 </td>
@@ -673,8 +674,8 @@ const SalesReport = () => {
           </table>
         </Box>
         <Box sx={{ paddingBottom: "20px", paddingRight: "15px" }}>
-          <Typography>Total Amount</Typography>
-          <Typography sx={{ fontWeight: 700, textAlign: "center" }}>
+          <Typography sx={{ fontFamily: "Spectral-Regular" }}>Total Amount</Typography>
+          <Typography sx={{ fontWeight: 700, textAlign: "center", fontFamily: "Spectral-Regular" }}>
             {NumberWithCommas(total?.TotalAmount, 2)}
           </Typography>
         </Box>
@@ -720,7 +721,7 @@ const SalesReport = () => {
         >
           <Button
             variant="contained"
-            sx={{ background: "#7d7f85" }}
+            sx={{ background: "#7d7f85", fontFamily: "Spectral-Regular" }}
             className="muiSmilingRocksBtn"
             onClick={(eve) => resetAllFilters(eve)}
           >
@@ -742,6 +743,12 @@ const SalesReport = () => {
             id="standard-basic"
             label="Search"
             variant="outlined"
+            InputProps={{
+              style: { fontFamily: "Spectral-Regular" }
+            }}
+            InputLabelProps={{
+              style: { fontFamily: "Spectral-Regular" }
+            }}
             value={searchVal}
             onChange={(eve) => {
               setSearchVal(eve?.target?.value);
@@ -780,20 +787,20 @@ const SalesReport = () => {
                 if (newValue === null) {
                   setFromDate(null)
                 } else {
-                    if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
-                        setFromDate(newValue)
-                    } else {
-                        Swal.fire({
-                            title: "Error !",
-                            text: "Enter Valid Date To",
-                            icon: "error",
-                            confirmButtonText: "ok"
-                        });
-                        resetAllFilters();
-                    }
+                  if (((newValue["$y"] <= 2099 && newValue["$y"] >= 1900) || newValue["$y"] < 1000) || isNaN(newValue["$y"])) {
+                    setFromDate(newValue)
+                  } else {
+                    Swal.fire({
+                      title: "Error !",
+                      text: "Enter Valid Date To",
+                      icon: "error",
+                      confirmButtonText: "ok"
+                    });
+                    resetAllFilters();
+                  }
                 }
-            }}
-         
+              }}
+
             />
           </LocalizationProvider>
         </Box>
@@ -853,13 +860,19 @@ const SalesReport = () => {
           </Button>
         </Box>
         <Box sx={{ paddingRight: "10px", paddingBottom: "20px" }}>
-          <Typography>Gross Wt : </Typography>
+          <Typography sx={{ fontFamily: "Spectral-Regular" }}>Gross Wt : </Typography>
         </Box>
         <Box sx={{ paddingRight: "15px", paddingBottom: "20px" }}>
           <TextField
             placeholder="From"
             name="from"
             sx={{ maxWidth: "150px" }}
+            InputProps={{
+              style: { fontFamily: "Spectral-Regular" }
+            }}
+            InputLabelProps={{
+              style: { fontFamily: "Spectral-Regular" }
+            }}
             className="grossWtinputSecSalesReport"
             value={grossWtInput?.from}
             onChange={(eve) => handleChangegrossWt(eve)}
@@ -870,6 +883,12 @@ const SalesReport = () => {
             placeholder="To"
             name="to"
             sx={{ maxWidth: "150px" }}
+            InputProps={{
+              style: { fontFamily: "Spectral-Regular" }
+            }}
+            InputLabelProps={{
+              style: { fontFamily: "Spectral-Regular" }
+            }}
             className="grossWtinputSecSalesReport"
             value={grossWtInput?.to}
             onChange={(eve) => handleChangegrossWt(eve)}
@@ -907,8 +926,8 @@ const SalesReport = () => {
         </Box>
       ) : (
         <>
-          {  <Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
-            <TableContainer sx={{ maxHeight: 580, overflowX:"auto", overflowY:"auto" }}>
+          {<Paper sx={{ width: "100%", mb: 2 }} className="salesReportTableSecWeb">
+            <TableContainer sx={{ maxHeight: 580, overflowX: "auto", overflowY: "auto" }}>
               <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                 <EnhancedTableHead
                   numSelected={selected.length}
@@ -919,7 +938,7 @@ const SalesReport = () => {
                   rowCount={filterData.length}
                 />
                 <TableBody>
-                  { filterData?.length > 0 ? visibleRows?.map((row, index) => {
+                  {filterData?.length > 0 ? visibleRows?.map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
@@ -934,37 +953,37 @@ const SalesReport = () => {
                           handleimageShow(eve, row?.imgsrc)
                         }
                       >
-                        <TableCell id={labelId} scope="row" align="center">
+                        <TableCell id={labelId} scope="row" align="center" style={{ fontFamily: "Spectral-Regular" }}>
                           {" "}
                           {index + 1}{" "}
                         </TableCell>
-                        <TableCell align="center">{row.EntryDate}</TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.EntryDate}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
                           {row.StockDocumentNo}
                         </TableCell>
-                        <TableCell align="center">{row.SKUNo}</TableCell>
-                        <TableCell align="center">{row.designno}</TableCell>
-                        <TableCell align="center">{row.MetalType}</TableCell>
-                        <TableCell align="center">{formatAmount(row.MetalAmount)}</TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.SKUNo}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.designno}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.MetalType}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.MetalAmount)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
                           {formatAmount(row.DiamondAmount)}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>
                           {formatAmount(row.ColorStoneAmount)}
                         </TableCell>
-                        <TableCell align="center">{formatAmount(row.LabourAmount)}</TableCell>
-                        <TableCell align="center">{formatAmount(row.OtherAmount)}</TableCell>
-                        <TableCell align="center">{formatAmount(row.UnitCost)}</TableCell>
-                        <TableCell align="center">{row.Category}</TableCell>
-                        <TableCell align="center">{row.GrossWt}</TableCell>
-                        <TableCell align="center">{row.NetWt}</TableCell>
-                        <TableCell align="center">{row.DiaPcs}</TableCell>
-                        <TableCell align="center">{row.DiaWt}</TableCell>
-                        <TableCell align="center">{row.CsPcs}</TableCell>
-                        <TableCell align="center">{row.CsWt}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.LabourAmount)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.OtherAmount)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.UnitCost)}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Category}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.GrossWt}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.NetWt}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.DiaPcs}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.DiaWt}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.CsPcs}</TableCell>
+                        <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.CsWt}</TableCell>
                       </TableRow>
                     );
-                  }) : <TableCell colSpan={headCells?.length} align="center" style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                  }) : <TableCell colSpan={headCells?.length} align="center" style={{ color: 'grey', fontWeight: 'bold', fontFamily: "Spectral-Regular" }}>Data Not Present</TableCell>}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -977,7 +996,7 @@ const SalesReport = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </Paper> }
+          </Paper>}
         </>
       )}
     </Box>

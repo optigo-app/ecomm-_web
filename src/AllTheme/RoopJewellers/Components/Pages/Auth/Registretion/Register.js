@@ -207,7 +207,7 @@ export default function Register() {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
           navigation(singupRedirectUrl);
-          
+
           // sessionStorage.setItem('LoginUser', true)
           // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           // setIsLoginState(true)
@@ -250,7 +250,7 @@ export default function Register() {
       )}
       <div>
         <div className='smling-register-main'>
-          <p 
+          <p
             className='AuthScreenRegisterMainTitle'
           >Register</p>
 
@@ -262,6 +262,12 @@ export default function Register() {
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
+              InputProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
               value={firstName}
               inputRef={firstNameRef}
               onKeyDown={(e) => handleKeyDown(e, lastNameRef)}
@@ -274,6 +280,12 @@ export default function Register() {
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
+              InputProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
               className='labgrowRegister'
               style={{ margin: '15px' }}
               value={lastName}
@@ -289,6 +301,12 @@ export default function Register() {
               label="Mobile No."
               variant="outlined"
               autoComplete='off'
+              InputProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
               className='labgrowRegister'
               style={{ margin: '15px' }}
               value={mobileNo}
@@ -306,6 +324,12 @@ export default function Register() {
               variant="outlined"
               className='labgrowRegister'
               style={{ margin: '15px' }}
+              InputProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
               value={email}
               inputRef={emailRef}
               onKeyDown={(e) => handleKeyDown(e, passwordRef)}
@@ -323,6 +347,9 @@ export default function Register() {
               style={{ margin: '15px' }}
               value={password}
               onChange={handlePasswordChange}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
               error={!!passwordError}
               helperText={passwordError}
               inputRef={passwordRef}
@@ -340,6 +367,7 @@ export default function Register() {
                     </IconButton>
                   </InputAdornment>
                 ),
+                style: { fontFamily: "Spectral-Regular" }
               }}
             />
 
@@ -352,6 +380,9 @@ export default function Register() {
               autoComplete='off'
               value={confirmPassword}
               inputRef={confirmPasswordRef}
+              InputLabelProps={{
+                style: { fontFamily: "Spectral-Regular" }
+              }}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') {
                   handleSubmit();
@@ -373,6 +404,7 @@ export default function Register() {
                     </IconButton>
                   </InputAdornment>
                 ),
+                style: { fontFamily: "Spectral-Regular" }
               }}
             />
 

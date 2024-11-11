@@ -32,6 +32,16 @@
     border-bottom: 1px solid lightgray;
   }
 
+  .roop_Top_header_sub.fixed {
+    position: absolute;
+    // top: 50px;
+    box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+    z-index: 1000;
+    transform: translateY(0px);
+    transition: all 0.4s ease;
+    height: 60px;
+  }
+
   .roop_Top2_header_div3 {
     // width: 40%;
     display: flex;
@@ -159,23 +169,24 @@
     max-width: 500px;
   }
 
-  .stam_Top_Header_fixed_main {
+  .roop_Top_Header_fixed_main {
     width: 100%;
-    background-color: $stambackcolor;
+    background-color: white;
     display: flex;
+    color: black;
     align-items: center;
     text-align: center;
     transform: translateY(-300px);
     height: 110px;
   }
 
-  .stam_Top_Header_fixed_main.fixed {
+  .roop_Top_Header_fixed_main.fixed {
     position: fixed;
     top: 0;
     box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
     z-index: 1000;
     transform: translateY(0px);
-    transition: all 0.7s ease;
+    transition: all 0.4s ease;
     height: 110px;
   }
 
@@ -185,6 +196,8 @@
   }
 
   .roop_A_linkFixed {
+    font-size: 17px;
+    margin-left: 15px;
     text-decoration: none;
     color: black;
   }
@@ -223,6 +236,16 @@
   }
 
   .roop_shop_dropdown.open.fixed {
+    position: absolute;
+    // top: 50px;
+    box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
+    z-index: 1000;
+    transform: translateY(0px);
+    transition: all 0.4s ease;
+    height: 60px;
+  }
+
+  .roop_shop_dropdown.fixed {
     position: absolute;
     // top: 50px;
     box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);

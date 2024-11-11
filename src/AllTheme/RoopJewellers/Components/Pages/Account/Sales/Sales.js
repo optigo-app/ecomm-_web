@@ -49,9 +49,9 @@ const descendingComparator = (a, b, orderBy) => {
         return 0;
     } else if (orderBy === 'SrNo' || orderBy === 'Amount') {
         return b[orderBy] - a[orderBy];
-    } else if ((orderBy === 'StockDocumentNo') ) {
+    } else if ((orderBy === 'StockDocumentNo')) {
         return customComparator_Col(a[orderBy], b[orderBy]);
-    }  else {
+    } else {
         const valueA = typeof a[orderBy] === 'string' ? a[orderBy].toLowerCase() : a[orderBy];
         const valueB = typeof b[orderBy] === 'string' ? b[orderBy].toLowerCase() : b[orderBy];
 
@@ -97,22 +97,25 @@ function EnhancedTableHead(props) {
                         align={headCell.align}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        style={{
+                            fontFamily: "Spectral-Regular"
+                        }}
                     >
                         {
-                            ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ? `${headCell?.label}` 
-                            : 
-                            <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
+                            ((headCell?.id?.toLowerCase() === 'srno') || (headCell?.id?.toLowerCase() === 'print')) ? `${headCell?.label}`
+                                :
+                                <TableSortLabel
+                                    active={orderBy === headCell.id}
+                                    direction={orderBy === headCell.id ? order : 'asc'}
+                                    onClick={createSortHandler(headCell.id)}
+                                >
+                                    {headCell.label}
+                                    {orderBy === headCell.id ? (
+                                        <Box component="span" sx={visuallyHidden}>
+                                            {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                        </Box>
+                                    ) : null}
+                                </TableSortLabel>
                         }
                     </TableCell>
                 ))}
@@ -141,10 +144,10 @@ const Sales = () => {
     const handleRequestSort = (event, property) => {
 
         let isAsc = ((orderBy === property) && (order === 'asc'));
-        if(isAsc){
-          setOrder('desc');
-        }else{
-          setOrder('asc');
+        if (isAsc) {
+            setOrder('desc');
+        } else {
+            setOrder('asc');
         }
         setOrderBy(property);
     };
@@ -207,7 +210,7 @@ const Sales = () => {
 
         let filteredData = [];
         let count = 0;
-      
+
         data?.forEach((e, i) => {
             let cutDate = "";
             cutDate = e?.["Date"]?.split("-");
@@ -236,19 +239,19 @@ const Sales = () => {
                     let fromdat = moment(fromdates);
                     let todat = moment(todates);
                     let cutDat = moment(cutDate);
-                    if(moment(fromdat).isSameOrBefore(todat)){
+                    if (moment(fromdat).isSameOrBefore(todat)) {
                         const isBetween = cutDat.isBetween(fromdat, todat, null, '[]');
                         if (isBetween || cutDat.isSame(fromdat) || cutDat.isSame(todat)) {
                             flags.dateTo = true;
                             flags.dateFrom = true;
                         }
-                    }else{
+                    } else {
                         setTimeout(() => {
                             resetAllFilters();
                         }, 0)
                     }
                 } else if (fromdates?.includes(undefined) && !todates?.includes(undefined)) {
-             
+
                     count = count + 1;
                     flags.dateTo = true;
                     Swal.fire({
@@ -259,7 +262,7 @@ const Sales = () => {
                     });
 
                 } else if (!fromdates?.includes(undefined) && todates?.includes(undefined)) {
-          
+
                     count = count + 1;
                     flags.dateFrom = true;
                     Swal.fire({
@@ -280,9 +283,9 @@ const Sales = () => {
             }
 
         });
-        if(count === 0){
+        if (count === 0) {
             setFilterData(filteredData);
-        }else{
+        } else {
             resetAllFilters();
         }
     }
@@ -309,7 +312,7 @@ const Sales = () => {
             // const response = await CommonAPI(body);
 
             const response = await getSalesData(currencyRate, FrontEnd_RegNo, customerid, data);
-            
+
             if (response?.Data?.rd) {
                 let rows = [];
                 response?.Data?.rd?.forEach((e, i) => {
@@ -352,7 +355,7 @@ const Sales = () => {
     const scrollToTop = () => {
         const tableContainer = document.querySelector('.quotationJobSec');
         if (tableContainer) {
-          tableContainer.scrollTop = 0;
+            tableContainer.scrollTop = 0;
         }
     };
 
@@ -362,16 +365,23 @@ const Sales = () => {
                 <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                     <Box sx={{ paddingRight: "15px" }} className="salesPagePagBtn"> <Button variant="contained" className="muiSmilingRocksBtn " sx={{ background: "#7d7f85", display: "flex", alignItems: "center", marginBottom: 0, padding: "6px 0", }} onClick={eve => resetAllFilters(eve)}>All</Button></Box>
                     <Box sx={{ display: "flex", alignItems: "center", position: "relative", padding: "0 15px 35px 0", maxWidth: "max-content" }} className="searchbox salesPagePagBtn">
-                        <TextField id="standard-basic" label="Search" variant="outlined" value={searchVal} onChange={eve => {
-                            setSearchVal(eve?.target?.value);
-                            handleSearch(eve, eve?.target?.value, fromDate, toDate);
-                        }} />
+                        <TextField id="standard-basic" label="Search" variant="outlined"
+                            InputProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            value={searchVal} onChange={eve => {
+                                setSearchVal(eve?.target?.value);
+                                handleSearch(eve, eve?.target?.value, fromDate, toDate);
+                            }} />
                         <Button sx={{ padding: 0, maxWidth: "max-content", minWidth: "max-content", position: "absolute", right: "8px", color: "#757575" }}
                             onClick={eve => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon /></Button>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap" }} className="sal_flexcol">
                         <Box sx={{ display: "flex", alignItems: "center", paddingRight: "15px", paddingBottom: "35px" }} className="salesPagePagBtn date_from_sal">
-                            <p  style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>Date: </p>
+                            <p style={{ paddingRight: "8px", fontSize: '14px', marginBottom: '0px', fontFamily: "Spectral-Regular" }}>Date: </p>
                             <Box>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
@@ -403,7 +413,7 @@ const Sales = () => {
                             </Box>
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center", paddingBottom: "35px", paddingRight: "15px" }} className="salesPagePagBtn">
-                            <p style={{ paddingRight: "8px", fontSize:'14px', marginBottom:'0px' }}>To: </p>
+                            <p style={{ paddingRight: "8px", fontSize: '14px', marginBottom: '0px', fontFamily: "Spectral-Regular" }}>To: </p>
                             <Box>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
@@ -439,9 +449,9 @@ const Sales = () => {
                         <Button variant='contained' className="muiSmilingRocksBtn" sx={{ padding: "7px 10px", minWidth: "max-content", background: "#7d7f85" }} onClick={(eve) => handleSearch(eve, searchVal, fromDate, toDate)}><SearchIcon sx={{ color: "#fff !important" }} /></Button>
                     </Box>
                 </Box>
-                    {isLoading ?
+                {isLoading ?
                     <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <>
-                        {  <Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
+                        {<Paper sx={{ width: '100%', mb: 2 }} className="salesApiTable">
                             <TableContainer className='salesPartTable'>
                                 <Table
                                     sx={{ minWidth: 750, border: "1px solid rgba(224, 224, 224, 1)", }}
@@ -464,7 +474,7 @@ const Sales = () => {
                                                 <TableRow
                                                     hover
                                                     onClick={(event) => handleClick(event, index)}
-                                        
+
                                                     tabIndex={-1}
                                                     key={index}
                                                     sx={{ cursor: 'pointer' }}
@@ -475,26 +485,26 @@ const Sales = () => {
                                                         id={labelId}
                                                         scope="row"
                                                         padding="none"
-                                                        align="center"
+                                                        align="center" style={{ fontFamily: "Spectral-Regular" }}
                                                     >
                                                         {page * rowsPerPage + index + 1}
                                                     </TableCell>
-                                                    <TableCell align="center">{row.Date}</TableCell>
-                                                    <TableCell align="center">{row.StockDocumentNo}</TableCell>
-                                                    <TableCell align="right">{formatAmount(row.Amount)}</TableCell>
-                                                    <TableCell align="center"> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
-                                                                    <PrintIcon   />
-                                                                </div></TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.Date}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}>{row.StockDocumentNo}</TableCell>
+                                                    <TableCell align="right" style={{ fontFamily: "Spectral-Regular" }}>{formatAmount(row.Amount)}</TableCell>
+                                                    <TableCell align="center" style={{ fontFamily: "Spectral-Regular" }}> <div onClick={() => handlePrintUrl(row?.PrintUrl)}>
+                                                        <PrintIcon />
+                                                    </div></TableCell>
                                                 </TableRow>
                                             );
-                                        }) : <TableCell colSpan={headCells?.length} align='center' style={{color:'grey', fontWeight:'bold'}}>Data Not Present</TableCell>}
+                                        }) : <TableCell colSpan={headCells?.length} align='center' style={{ color: 'grey', fontWeight: 'bold', fontFamily: "Spectral-Regular" }}>Data Not Present</TableCell>}
                                         {emptyRows > 0 && (
                                             <TableRow
                                                 style={{
                                                     height: (dense ? 33 : 53) * emptyRows,
                                                 }}
                                             >
-                                                <TableCell colSpan={6} />
+                                                <TableCell style={{ fontFamily: "Spectral-Regular" }} colSpan={6} />
                                             </TableRow>
                                         )}
                                     </TableBody>
@@ -509,9 +519,9 @@ const Sales = () => {
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
-                        </Paper> }
+                        </Paper>}
                     </>
-                    }
+                }
 
             </Box>
         </div>

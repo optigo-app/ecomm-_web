@@ -337,6 +337,9 @@ export default function LoginWithEmail() {
                                     handleSubmit();
                                 }
                             }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -350,6 +353,7 @@ export default function LoginWithEmail() {
                                         </IconButton>
                                     </InputAdornment>
                                 ),
+                                style: { fontFamily: "Spectral-Regular" }
                             }}
                         />
 

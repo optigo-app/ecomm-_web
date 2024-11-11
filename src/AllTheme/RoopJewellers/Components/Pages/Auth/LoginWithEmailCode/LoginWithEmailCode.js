@@ -186,6 +186,12 @@ export default function LoginWithEmailCode() {
                             label="Enter Code"
                             variant="outlined"
                             className='labgrowRegister'
+                            InputProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
                             style={{ margin: '15px' }}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {

@@ -139,6 +139,9 @@ export default function ForgotPass() {
                             autoComplete="current-password"
                             className='smr_forgotBox'
                             style={{ margin: '15px' }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
                             value={password}
                             onChange={handlePasswordChange}
                             onKeyDown={(event) => {
@@ -161,6 +164,7 @@ export default function ForgotPass() {
                                         </IconButton>
                                     </InputAdornment>
                                 ),
+                                style: { fontFamily: "Spectral-Regular" }
                             }}
                         />
 
@@ -172,6 +176,9 @@ export default function ForgotPass() {
                             className='smr_forgotBox'
                             style={{ margin: '15px' }}
                             value={confirmPassword}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
                             onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
                             error={!!errors.confirmPassword}
                             helperText={errors.confirmPassword}
@@ -188,6 +195,7 @@ export default function ForgotPass() {
                                         </IconButton>
                                     </InputAdornment>
                                 ),
+                                style: { fontFamily: "Spectral-Regular" }
                             }}
                         />
 

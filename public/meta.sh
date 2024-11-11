@@ -129,3 +129,6 @@
 
     // "start": "react-scripts --max_old_space_size=6144 start",
     // "build": "react-scripts --max_old_space_size=6144 build",
+
+    #  "start": "react-scripts --max_old_space_size=4096 start",
+    # "build": "react-scripts --max_old_space_size=4096 build",

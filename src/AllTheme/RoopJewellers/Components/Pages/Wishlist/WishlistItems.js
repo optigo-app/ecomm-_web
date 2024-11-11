@@ -28,7 +28,7 @@ const WishlistItems = ({
     handleWishlistToCart,
     handleMoveToDetail,
 }) => {
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
 
     const setWishCountVal = useSetRecoilState(roop_WishCount);
     const setCartCountVal = useSetRecoilState(roop_CartCount);

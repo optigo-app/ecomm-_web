@@ -137,7 +137,7 @@ export default function ContinueWithEmail() {
                         marginTop: '-60px',
                         fontSize: '16px',
                         color: '#7d7f85',
-                        fontFamily: 'Spectral-Regular, sans-serif'
+                        fontFamily: 'Spectral-Regular, sans-serif !important'
                     }}
 
                         className='AuthScreenSubTitle'
@@ -149,6 +149,12 @@ export default function ContinueWithEmail() {
                             id="outlined-basic"
                             label="Email"
                             variant="outlined"
+                            InputProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
+                            InputLabelProps={{
+                                style: { fontFamily: "Spectral-Regular" }
+                            }}
                             className='smr_continuEmailBox'
                             style={{ margin: '15px' }}
                             value={email}
