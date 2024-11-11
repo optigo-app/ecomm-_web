@@ -979,7 +979,7 @@ const Header = () => {
                             </ul>
                         </div>
 
-                        <div style={{ padding: '0px 0px 5px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
+                        <div style={{ padding: '0px 0px 5px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '23px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
                             <div className="dt_headermainDiv1">
                                 <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
                                 <input

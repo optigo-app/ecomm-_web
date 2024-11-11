@@ -91,6 +91,7 @@ const Lookbook = () => {
   const [isPgLoading, setIsPgLoading] = useState(false);
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen1, setIsDrawerOpen1] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [isShowfilter, setIsShowFilter] = useState(false);
   const SwiperSlideRef = useRef();
@@ -108,7 +109,6 @@ const Lookbook = () => {
     if (SwiperSlideRef.current) {
       const { offsetWidth } = SwiperSlideRef.current;
       setDynamicSize({ w: `${offsetWidth}px`, h: `${offsetWidth}px` });
-      console.log("Size updated:", offsetWidth, offsetWidth);
     }
   };;
 
@@ -128,7 +128,6 @@ const Lookbook = () => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
         setDynamicSize({ w: `${width}px`, h: `${height}px` });
-        console.log("Resized:", width, height);
       }
     });
 
@@ -645,13 +644,22 @@ const Lookbook = () => {
           setIsDrawerOpen(false);
         }}
         className="roop_filterDrawer"
+        slotProps={{
+          backdrop: {
+            style: {
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              backdropFilter: "blur(2px)",
+            },
+          },
+        }}
       >
         {filterData?.length > 0 && (
-          <div className="smr1_lookBookFilterSubDiv" style={{ padding: "20px" }}>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div className="roop_lookBookFilterSubDiv" style={{ padding: "20px", marginTop: '2rem' }}>
+            <div style={{ position: 'absolute', right: '0.8rem' }}>
               <IoClose
                 style={{
                   width: "30px",
+                  cursor: 'pointer',
                   height: "30px",
                   color: "rgba(143, 140, 139, 0.9019607843)",
                 }}
@@ -659,7 +667,7 @@ const Lookbook = () => {
               />
             </div>
             <span className="roop_filter_text">
-              <span>Filters</span>
+              <span style={{ fontFamily: 'Spectral-Regular' }}>Filters</span>
               <span onClick={() => handelFilterClearAll()}>
                 {Object.values(filterChecked).filter((ele) => ele.checked)
                   ?.length > 0
@@ -699,6 +707,7 @@ const Lookbook = () => {
                             "&.MuiAccordionSummary-root": {
                               padding: 0,
                             },
+                            fontFamily: 'Spectral-Regular',
                           }}
                         // className="filtercategoryLable"
                         >
@@ -740,7 +749,10 @@ const Lookbook = () => {
                                   alignItems: "center",
                                   width: "100%",
                                   flexDirection: "row-reverse",
-                                  justifyContent: "space-between"
+                                  justifyContent: "space-between",
+                                  '& .MuiFormControlLabel-label': {
+                                    fontFamily: 'Spectral-Regular', // Apply Spectral-Regular font to the label
+                                  }
                                 }}
                                 control={
                                   <Checkbox
@@ -761,6 +773,7 @@ const Lookbook = () => {
                                       color: "#7d7f85 !important",
                                       padding: 0,
                                       width: "10px",
+                                      fontFamily: 'Spectral-Regular',
                                     }}
                                     onClick={(e) =>
                                       handleCheckboxChange(
@@ -779,7 +792,7 @@ const Lookbook = () => {
                                 //   flexDirection: "row-reverse", // Align items to the right
                                 //   fontFamily:'TT Commons Regular'
                                 // }}
-                                className="roop_mui_checkbox_label"
+                                className="roop_mui_checkbox_label_rp"
                                 label={opt.Name}
                               />
                             </div>
@@ -814,6 +827,7 @@ const Lookbook = () => {
                           "&.MuiAccordionSummary-root": {
                             padding: 0,
                           },
+                          fontFamily: 'Spectral-Regular',
                         }}
                       // className="filtercategoryLable"
                       >
@@ -855,7 +869,10 @@ const Lookbook = () => {
                                 alignItems: "center",
                                 width: "100%",
                                 flexDirection: "row-reverse",
-                                justifyContent: "space-between"
+                                justifyContent: "space-between",
+                                '& .MuiFormControlLabel-label': {
+                                  fontFamily: 'Spectral-Regular', // Apply Spectral-Regular font to the label
+                                }
                               }}
                               control={
                                 <Checkbox
@@ -875,6 +892,7 @@ const Lookbook = () => {
                                     color: "#7f7d85",
                                     padding: 0,
                                     width: "10px",
+                                    fontFamily: 'Spectral-Regular',
                                   }}
                                   onClick={(e) =>
                                     handleCheckboxChange(e, ele?.id, opt)
@@ -889,7 +907,7 @@ const Lookbook = () => {
                               //   flexDirection: "row-reverse", // Align items to the right
                               //   fontFamily:'TT Commons Regular'
                               // }}
-                              className="roop_mui_checkbox_label"
+                              className="roop_mui_checkbox_label_rp"
                               // label={
                               //   opt?.Minval == 0
                               //     ? `Under ${decodeEntities(
@@ -979,11 +997,13 @@ const Lookbook = () => {
                   <AccordionDetails
                     sx={{
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                      minHeight: "fit-content",
-                      maxHeight: "300px",
-                      overflow: "auto",
+                      alignItems: "center",
+                      width: "100%",
+                      flexDirection: "row-reverse",
+                      justifyContent: "space-between",
+                      '& .MuiFormControlLabel-label': {
+                        fontFamily: 'Spectral-Regular', // Apply Spectral-Regular font to the label
+                      }
                     }}
                   >
                     {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
@@ -1012,6 +1032,7 @@ const Lookbook = () => {
                                 color: "#7f7d85",
                                 padding: 0,
                                 width: "10px",
+                                fontFamily: 'Spectral-Regular',
                               }}
                               onClick={(e) =>
                                 handleCheckboxChangeNew(e, opt?.Name)
@@ -1019,7 +1040,7 @@ const Lookbook = () => {
                               size="small"
                             />
                           }
-                          className="roop_mui_checkbox_label"
+                          className="roop_mui_checkbox_label_rp"
                           label={opt.Name}
                         />
                       </div>
@@ -1042,16 +1063,8 @@ const Lookbook = () => {
       ) : (
 
         <div className="smr1_LookBookSubMainDiv">
-          <div
-            className="roop_lookBookMobileTopLine"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              margin: "0px 5px 25px 5px",
-              gap: '20px'
-            }}
-          >
-            <div className="roop_lookBook_FilterIconeDiv" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
+          <div className="roop_lookBookMobileTopLine">
+            <div className="roop_lookBook_FilterIconeDiv" onClick={() => setIsDrawerOpen1(true)} style={{ fontSize: '12px' }}>
               {isShowfilter ? "HIDE FILTER" : "SHOW FILTER"}
               <FilterListIcon style={{ color: 'white' }} />
             </div>
@@ -1065,6 +1078,8 @@ const Lookbook = () => {
               {/* <HtmlTooltip
                 title={<CustomTooltipContent categories={selectedCategories} />}
               > */}
+            </div>
+            <div className="rp_lookbookFIlter_div">
               <button
                 onClick={handleOpen}
                 className="roop_lookBookSelectViewBtn"
@@ -1111,14 +1126,44 @@ const Lookbook = () => {
           </div>
           <div className="roop_SubDiv_LookBookSubMainDiv">
             <div className="roop_lookbookFilterMain" style={{ transition: "1s ease", backgroundColor: 'white', zIndex: '1111111111111', width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: 'absolute', top: '100px', display: isShowfilter ? "block" : "none" }}>
-
-              {filterData?.length > 0 && (
-                <div className="smr1_lookBookFilterSubDiv">
-                  <span className="roop_filter_text">
-                    <span>Filters</span>
-
-
-                    {/* <span>
+              <Drawer
+                PaperProps={{
+                  sx: {
+                    width: '20rem',
+                    paddingInline: '1.5rem'
+                  }
+                }}
+                slotProps={{
+                  backdrop: {
+                    style: {
+                      backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      backdropFilter: "blur(2px)", // Apply the blur effect here
+                    },
+                  },
+                }}
+                open={isDrawerOpen1}
+                onClose={() => {
+                  setIsDrawerOpen1(false);
+                }}
+                className="roop_filterDrawer"
+              >
+                {filterData?.length > 0 && (
+                  <div className="roop_lookBookFilterSubDiv" style={{ marginTop: '2rem' }}>
+                    <div style={{ position: 'absolute', right: '0.8rem' }}>
+                      <IoClose
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          marginRight: '0.5rem',
+                          cursor: 'pointer',
+                          color: "rgba(143, 140, 139, 0.9019607843)",
+                        }}
+                        onClick={() => setIsDrawerOpen1(false)}
+                      />
+                    </div>
+                    <span className="roop_filter_text">
+                      <span style={{ fontFamily: 'Spectral-Regular' }}>Filters</span>
+                      {/* <span>
                                         {Object.values(filterChecked).filter(
                                             (ele) => ele.checked
                                         )?.length === 0
@@ -1128,25 +1173,143 @@ const Lookbook = () => {
                                             `Product Found:
                                              ${afterFilterCount}`}
                                     </span> */}
-                    <span onClick={() => handelFilterClearAll()}>
-                      {Object.values(filterChecked).filter((ele) => ele.checked)
-                        ?.length > 0
-                        ? "Clear All"
-                        : ""}
+                      <span onClick={() => handelFilterClearAll()}>
+                        {Object.values(filterChecked).filter((ele) => ele.checked)
+                          ?.length > 0
+                          ? "Clear All"
+                          : ""}
+                      </span>
                     </span>
-                  </span>
-                  <div style={{ marginTop: "12px" }}>
-                    {filterData?.map((ele) => (
-                      <>
-                        {!ele?.id?.includes("Range") &&
-                          !ele?.id?.includes("Price") && (
+                    <div style={{ marginTop: "12px" }}>
+                      {filterData?.map((ele) => (
+                        <>
+                          {!ele?.id?.includes("Range") &&
+                            !ele?.id?.includes("Price") && (
+                              <Accordion
+                                elevation={0}
+                                sx={{
+                                  borderBottom: "1px solid #c7c8c9",
+                                  borderRadius: 0,
+                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                  {
+                                    borderBottomLeftRadius: "0px",
+                                    borderBottomRightRadius: "0px",
+                                  },
+                                  "&.MuiPaper-root.MuiAccordion-root:before": {
+                                    background: "none",
+                                  },
+                                }}
+                              // expanded={accExpanded}
+                              // defaultExpanded={}
+                              >
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                                  aria-controls="panel1-content"
+                                  id="panel1-header"
+                                  sx={{
+                                    color: "#7d7f85 !important",
+                                    borderRadius: 0,
+                                    "&.MuiAccordionSummary-root": {
+                                      padding: 0,
+                                    },
+                                    fontFamily: 'Spectral-Regular', // Apply the Spectral-Regular font here
+                                  }}
+                                >
+                                  {ele.Name}
+                                </AccordionSummary>
+                                <AccordionDetails
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "4px",
+                                    minHeight: "fit-content",
+                                    maxHeight: "300px",
+                                    overflow: "auto",
+                                  }}
+                                >
+                                  {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        gap: "12px",
+                                      }}
+                                      key={opt?.id}
+                                    >
+                                      {/* <small
+                                        style={{
+                                          fontFamily: "TT Commons, sans-serif",
+                                          color: "#7f7d85",
+                                        }}
+                                      >
+                                        {opt.Name}
+                                      </small> */}
+                                      <FormControlLabel
+                                        sx={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          width: "100%",
+                                          flexDirection: "row-reverse",
+                                          justifyContent: "space-between",
+                                          '& .MuiFormControlLabel-label': {
+                                            fontFamily: 'Spectral-Regular', // Apply Spectral-Regular font to the label
+                                          }
+                                        }}
+                                        control={
+                                          <Checkbox
+                                            name={`${ele?.id}${opt?.id}`}
+                                            // checked={
+                                            //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                            //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                            //     : false
+                                            // }
+                                            checked={
+                                              filterChecked[`${ele?.id}${opt?.id}`]
+                                                ?.checked === undefined
+                                                ? false
+                                                : filterChecked[
+                                                  `${ele?.id}${opt?.id}`
+                                                ]?.checked
+                                            }
+                                            style={{
+                                              color: "#7f7d85",
+                                              padding: 0,
+                                              width: "10px",
+                                              fontFamily: 'Spectral-Regular',
+                                            }}
+                                            onClick={(e) =>
+                                              handleCheckboxChange(
+                                                e,
+                                                ele?.id,
+                                                opt?.Name
+                                              )
+                                            }
+                                            size="small"
+                                          />
+                                        }
+                                        // sx={{
+                                        //   display: "flex",
+                                        //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                        //   width: "100%",
+                                        //   flexDirection: "row-reverse", // Align items to the right
+                                        //   fontFamily:'TT Commons Regular'
+                                        // }}
+                                        className="roop_mui_checkbox_label_rp"
+                                        label={opt.Name}
+                                      />
+                                    </div>
+                                  ))}
+                                </AccordionDetails>
+                              </Accordion>
+                            )}
+                          {ele?.id?.includes("Price") && (
                             <Accordion
                               elevation={0}
                               sx={{
                                 borderBottom: "1px solid #c7c8c9",
                                 borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                {
+                                "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                                   borderBottomLeftRadius: "0px",
                                   borderBottomRightRadius: "0px",
                                 },
@@ -1170,6 +1333,7 @@ const Lookbook = () => {
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,
                                   },
+                                  fontFamily: 'Spectral-Regular',
                                 }}
                               // className="filtercategoryLable"
                               >
@@ -1187,17 +1351,18 @@ const Lookbook = () => {
                                   overflow: "auto",
                                 }}
                               >
-                                {(JSON?.parse(ele?.options) ?? [])?.map((opt) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={opt?.id}
-                                  >
-                                    {/* <small
+                                {(JSON?.parse(ele?.options) ?? [])?.map(
+                                  (opt, i) => (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        gap: "12px",
+                                      }}
+                                      key={i}
+                                    >
+                                      {/* <small
                                         style={{
                                           fontFamily: "TT Commons, sans-serif",
                                           color: "#7f7d85",
@@ -1205,202 +1370,87 @@ const Lookbook = () => {
                                       >
                                         {opt.Name}
                                       </small> */}
-                                    <FormControlLabel
-                                      sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        width: "100%",
-                                        flexDirection: "row-reverse",
-                                        justifyContent: "space-between"
-                                      }}
-                                      control={
-                                        <Checkbox
-                                          name={`${ele?.id}${opt?.id}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`${ele?.id}${opt?.id}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[
-                                                `${ele?.id}${opt?.id}`
-                                              ]?.checked
+                                      <FormControlLabel
+                                        sx={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          width: "100%",
+                                          flexDirection: "row-reverse",
+                                          justifyContent: "space-between",
+                                          '& .MuiFormControlLabel-label': {
+                                            fontFamily: 'Spectral-Regular', // Apply Spectral-Regular font to the label
                                           }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(
-                                              e,
-                                              ele?.id,
-                                              opt?.Name
-                                            )
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="roop_mui_checkbox_label"
-                                      label={opt.Name}
-                                    />
-                                  </div>
-                                ))}
+                                        }}
+                                        control={
+                                          <Checkbox
+                                            name={`Price${i}${i}`}
+                                            // checked={
+                                            //   filterChecked[`checkbox${index + 1}${i + 1}`]
+                                            //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
+                                            //     : false
+                                            // }
+                                            checked={
+                                              filterChecked[`Price${i}${i}`]
+                                                ?.checked === undefined
+                                                ? false
+                                                : filterChecked[`Price${i}${i}`]
+                                                  ?.checked
+                                            }
+                                            style={{
+                                              color: "#7f7d85",
+                                              padding: 0,
+                                              width: "10px",
+                                              fontFamily: 'Spectral-Regular',
+                                            }}
+                                            onClick={(e) =>
+                                              handleCheckboxChange(e, ele?.id, opt)
+                                            }
+                                            size="small"
+                                          />
+                                        }
+                                        // sx={{
+                                        //   display: "flex",
+                                        //   justifyContent: "space-between", // Adjust spacing between checkbox and label
+                                        //   width: "100%",
+                                        //   flexDirection: "row-reverse", // Align items to the right
+                                        //   fontFamily:'TT Commons Regular'
+                                        // }}
+                                        className="roop_mui_checkbox_label_rp"
+                                        // label={
+                                        //   opt?.Minval == 0
+                                        //     ? `Under ${decodeEntities(
+                                        //       storeInit?.Currencysymbol
+                                        //     )}${opt?.Maxval}`
+                                        //     : opt?.Maxval == 0
+                                        //       ? `Over ${decodeEntities(
+                                        //         storeInit?.Currencysymbol
+                                        //       )}${opt?.Minval}`
+                                        //       : `${decodeEntities(
+                                        //         storeInit?.Currencysymbol
+                                        //       )}${opt?.Minval} - ${decodeEntities(
+                                        //         storeInit?.Currencysymbol
+                                        //       )}${opt?.Maxval}`
+                                        // }
+                                        label={
+                                          opt?.Minval == 0
+                                            ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                            : opt?.Maxval == 0
+                                              ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
+                                              : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
+                                        }
+                                      />
+                                    </div>
+                                  )
+                                )}
                               </AccordionDetails>
                             </Accordion>
                           )}
-                        {ele?.id?.includes("Price") && (
-                          <Accordion
-                            elevation={0}
-                            sx={{
-                              borderBottom: "1px solid #c7c8c9",
-                              borderRadius: 0,
-                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                                borderBottomLeftRadius: "0px",
-                                borderBottomRightRadius: "0px",
-                              },
-                              "&.MuiPaper-root.MuiAccordion-root:before": {
-                                background: "none",
-                              },
-                            }}
-                          // expanded={accExpanded}
-                          // defaultExpanded={}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon sx={{ width: "20px" }} />
-                              }
-                              aria-controls="panel1-content"
-                              id="panel1-header"
-                              sx={{
-                                color: "#7d7f85 !important",
-                                borderRadius: 0,
-
-                                "&.MuiAccordionSummary-root": {
-                                  padding: 0,
-                                },
-                              }}
-                            // className="filtercategoryLable"
-                            >
-                              {/* <span> */}
-                              {ele.Name}
-                              {/* </span> */}
-                            </AccordionSummary>
-                            <AccordionDetails
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                minHeight: "fit-content",
-                                maxHeight: "300px",
-                                overflow: "auto",
-                              }}
-                            >
-                              {(JSON?.parse(ele?.options) ?? [])?.map(
-                                (opt, i) => (
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between",
-                                      gap: "12px",
-                                    }}
-                                    key={i}
-                                  >
-                                    {/* <small
-                                        style={{
-                                          fontFamily: "TT Commons, sans-serif",
-                                          color: "#7f7d85",
-                                        }}
-                                      >
-                                        {opt.Name}
-                                      </small> */}
-                                    <FormControlLabel
-                                      sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        width: "100%",
-                                        flexDirection: "row-reverse",
-                                        justifyContent: "space-between"
-                                      }}
-                                      control={
-                                        <Checkbox
-                                          name={`Price${i}${i}`}
-                                          // checked={
-                                          //   filterChecked[`checkbox${index + 1}${i + 1}`]
-                                          //     ? filterChecked[`checkbox${index + 1}${i + 1}`]?.checked
-                                          //     : false
-                                          // }
-                                          checked={
-                                            filterChecked[`Price${i}${i}`]
-                                              ?.checked === undefined
-                                              ? false
-                                              : filterChecked[`Price${i}${i}`]
-                                                ?.checked
-                                          }
-                                          style={{
-                                            color: "#7f7d85",
-                                            padding: 0,
-                                            width: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                            handleCheckboxChange(e, ele?.id, opt)
-                                          }
-                                          size="small"
-                                        />
-                                      }
-                                      // sx={{
-                                      //   display: "flex",
-                                      //   justifyContent: "space-between", // Adjust spacing between checkbox and label
-                                      //   width: "100%",
-                                      //   flexDirection: "row-reverse", // Align items to the right
-                                      //   fontFamily:'TT Commons Regular'
-                                      // }}
-                                      className="roop_mui_checkbox_label"
-                                      // label={
-                                      //   opt?.Minval == 0
-                                      //     ? `Under ${decodeEntities(
-                                      //       storeInit?.Currencysymbol
-                                      //     )}${opt?.Maxval}`
-                                      //     : opt?.Maxval == 0
-                                      //       ? `Over ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval}`
-                                      //       : `${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Minval} - ${decodeEntities(
-                                      //         storeInit?.Currencysymbol
-                                      //       )}${opt?.Maxval}`
-                                      // }
-                                      label={
-                                        opt?.Minval == 0
-                                          ? `Under ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                          : opt?.Maxval == 0
-                                            ? `Over ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval}`
-                                            : `${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Minval} - ${loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}${opt?.Maxval}`
-                                      }
-                                    />
-                                  </div>
-                                )
-                              )}
-                            </AccordionDetails>
-                          </Accordion>
-                        )}
-                      </>
-                    ))}
+                        </>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </Drawer>
             </div>
             <div className="roop_Main_lookBookImgDiv" style={{ transition: "1s ease", width: '100%' }}>
 

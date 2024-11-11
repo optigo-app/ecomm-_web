@@ -675,7 +675,7 @@ const NavbarLeft = ({
                   setshowMenu(false);
                 }
               }}
-              // }}
+            // }}
             >
               {val?.disabled ? (
                 <div
@@ -959,7 +959,7 @@ const FirstNavMenu = ({
     Solitaire: "Solitaire/style",
     Halo: "Halo/style",
     Vintage: "Vintage/style",
-    Side_Stone: "Side Stone/style",
+    "Side Stone": "Side Stone/style",
     Designer: "Designer/style",
   };
 
@@ -1385,11 +1385,10 @@ const ThirdNavMenu = ({ data }) => {
                           }
                         >
                           <Link
-                            to={`/p/${menuItem?.param0dataname}/${
-                              subMenuItem.param1dataname
-                            }/?M=${btoa(
-                              `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
-                            )}`}
+                            to={`/p/${menuItem?.param0dataname}/${subMenuItem.param1dataname
+                              }/?M=${btoa(
+                                `${menuItem?.param0dataname},${subMenuItem?.param1dataname}/${menuItem?.param0name},${subMenuItem?.param1name}`
+                              )}`}
                           >
                             {subMenuItem.param1dataname}
                           </Link>
@@ -1412,7 +1411,7 @@ const ThirdNavMenu = ({ data }) => {
           <div className="second_section">
             <div
               className="images"
-              // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
+            // style={{ backgroundImage: `url(${BespokeBannerImage})` }}
             >
               <img
                 src={BespokeBannerImage}

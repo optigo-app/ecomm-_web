@@ -1078,7 +1078,10 @@ const ProductList = () => {
                   '& .MuiDrawer-paper': {
                     width: maxwidth375px ? '18rem' : maxwidth464px ? '22rem' : '25rem',
                   },
-                }} open={open1} onClose={toggleDrawer(false)} className="for_productList_drawer_div">
+                }}
+                  open={open1}
+                  onClose={toggleDrawer(false)}
+                  className="for_productList_drawer_div">
                   <div className="for_modal_cancel_btn_div_pd" onClick={toggleDrawer(false)}>
                     <IoClose className='for_modal_cancel_btn_pd' size={28} />
                   </div>

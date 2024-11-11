@@ -206,7 +206,7 @@ const Diamond = () => {
             earth created diamonds. They also minimize environmental impact and
             allow you to maximize your budget.
           </p>
-          <button>shop labgrown diamonds</button>
+          <button onClick={() => Navigate(`/certified-loose-lab-grown-diamonds/diamond/Round`)}>shop labgrown diamonds</button>
         </div>
       </div>
       <LabgrownMobile />
@@ -334,7 +334,7 @@ const Diamond = () => {
       </div>
       <OurServices />
       <NewsletterSignup />
-    </div>
+    </div >
   );
 };
 

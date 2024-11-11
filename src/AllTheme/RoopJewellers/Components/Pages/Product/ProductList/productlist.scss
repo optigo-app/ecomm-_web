@@ -451,7 +451,7 @@
     justify-content: space-between;
     width: 100%;
     flex-direction: row-reverse;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular !important;
   }
 
   .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
@@ -506,7 +506,8 @@
   }
 
   .smrWeb_app_instock {
-    background-color: #00d300;
+    // background-color: #00d300;
+    background-color: #9f7adb;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -520,7 +521,8 @@
     /* border-radius: 50px; */
     /* color: red !important; */
     // margin-left: 5px;
-    background-color: #ff5100;
+    background-color: #8a8df3;
+    // background-color: #ff5100;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -557,7 +559,8 @@
   }
 
   .smrWeb_app_newarrival {
-    background-color: darkblue;
+    background-color: #eb8d8d;
+    // background-color: darkblue;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -572,7 +575,8 @@
     /* border-radius: 50px; */
     /* color: red !important; */
     // margin-left: 5px;
-    background-color: darkorange;
+    background-color: #ef476f;
+    // background-color: darkorange;
     color: white;
     text-transform: uppercase;
     width: 70px;

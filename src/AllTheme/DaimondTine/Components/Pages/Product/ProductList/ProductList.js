@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  CardMedia,
   Checkbox,
   Drawer,
   FormControlLabel,
@@ -111,6 +112,8 @@ const ProductList = () => {
 
   let cookie = Cookies.get("visiterId");
 
+  const prevLoadedProducts = useRef([]);
+  const [loadedProducts, setLoadedProducts] = useState([])
 
   let maxwidth1483 = useMediaQuery('(max-width:1483px)')
 
@@ -519,17 +522,7 @@ const ProductList = () => {
       value: loginUserDetail?.firstname ?? 'User Not Login',
     });
 
-    await ProductListApi(
-      output,
-      1,
-      obj,
-      prodListType,
-      cookie,
-      sortBySelect,
-      DiaRange,
-      netRange,
-      grossRange
-    )
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -558,17 +551,7 @@ const ProductList = () => {
     let netRange = { netMin: Rangeval1[0], netMax: Rangeval1[1] }
     let grossRange = { grossMin: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[0], grossMax: (diafilter2?.Min == sliderValue2[0] || diafilter2?.Max == sliderValue2[1]) ? "" : sliderValue2[1] }
 
-    await ProductListApi(
-      output,
-      1,
-      obj,
-      prodListType,
-      cookie,
-      sortBySelect,
-      DiaRange,
-      netRange,
-      grossRange
-    )
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -597,17 +580,7 @@ const ProductList = () => {
     let netRange = { netMin: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[0], netMax: (diafilter1?.Min == sliderValue1[0] || diafilter1?.Max == sliderValue1[1]) ? "" : sliderValue1[1] }
     let grossRange = { grossMin: Rangeval2[0], grossMax: Rangeval2[1] }
 
-    await ProductListApi(
-      output,
-      1,
-      obj,
-      prodListType,
-      cookie,
-      sortBySelect,
-      DiaRange,
-      netRange,
-      grossRange
-    )
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect, DiaRange, netRange, grossRange)
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -970,13 +943,80 @@ const ProductList = () => {
 
 
   function checkImageAvailability(imageUrl) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => resolve(true);
       img.onerror = () => resolve(false);
       img.src = imageUrl;
     });
   }
+
+  const LoadImage = async (index, img, id) => {
+    const imageObject = { id: index, src: img };
+
+    if (!prevLoadedProducts.current.some((item) => item.id === index)) {
+      try {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            setLoadedProducts((prev) => {
+              if (!prev.some((item) => item.id === index)) {
+                prev.push(imageObject);
+              }
+              return [...prev];
+            });
+            prevLoadedProducts.current.push(imageObject);
+            resolve();
+          }, 300 * (index + 1));
+        });
+      } catch (error) {
+        console.error('Error loading image:', error);
+      }
+    }
+  };
+
+
+  const ImageMaking = async (index, data) => {
+    let imgSrc = imageNotFound;
+    let isImageFound = false;
+
+    const findValidImage = async (data) => {
+      if (data?.ImageCount > 0) {
+        imgSrc = storeInit?.DesignImageFol +
+          data?.designno +
+          "_" +
+          1 +
+          "." +
+          data?.ImageExtension;
+        const isAvailable = await checkImageAvailability(imgSrc);
+        if (isAvailable) {
+          isImageFound = true;
+          return imgSrc;
+        }
+      }
+
+      if (!isImageFound) {
+        imgSrc = imageNotFound;
+      }
+      return imgSrc;
+    }
+
+    const validImageSrc = await findValidImage(data);
+
+    LoadImage(index, validImageSrc);
+
+    return validImageSrc;
+  }
+
+  useEffect(() => {
+    const loadAllImages = async () => {
+      for (let index = 0; index < productListData.length; index++) {
+        const data = productListData[index];
+        await ImageMaking(index, data);
+      }
+    };
+
+    loadAllImages();
+  }, [productListData]);
 
   const handelCustomCombo = (obj) => {
     let output = FilterValueWithCheckedOnly();
@@ -1186,21 +1226,37 @@ const ProductList = () => {
     });
   }, []);
 
-  const handleImgRollover = (pd) => {
+  const handleImgRollover = async (pd) => {
     if (pd?.images?.length >= 1) {
+      const imageUrl = pd?.images[1];
+      const isImageAvailable = await checkImageAvailability(imageUrl);
       // setRolloverImgPd((prev) => pd?.images[1])
-      setRolloverImgPd((prev) => {
-        return { [pd?.autocode]: pd?.images[1] };
-      });
+      if (isImageAvailable) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: pd?.images[1] };
+        });
+      } else {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: imageNotFound };
+        });
+      }
     }
   };
 
-  const handleLeaveImgRolloverImg = (pd) => {
+  const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
-      setRolloverImgPd((prev) => {
-        return { [pd?.autocode]: pd?.images[0] };
-      });
+      const imageUrl = pd?.images[0];
+      const isImageAvailable = await checkImageAvailability(imageUrl);
+      if (isImageAvailable) {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: pd?.images[0] };
+        });
+      } else {
+        setRolloverImgPd((prev) => {
+          return { [pd?.autocode]: imageNotFound };
+        });
+      }
     }
   };
 
@@ -1465,8 +1521,8 @@ const ProductList = () => {
                         }
                       </span>
                       <span
-                       onClick={() => { if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) { handelFilterClearAll() } }}
-                       >
+                        onClick={() => { if (Object.values(filterChecked).filter((ele) => ele.checked)?.length > 0) { handelFilterClearAll() } }}
+                      >
                         {Object.values(filterChecked).filter((ele) => ele.checked)
                           ?.length > 0
                           ? "Clear All"
@@ -2185,8 +2241,8 @@ const ProductList = () => {
                               Recommended
                             </option>
                             <option className="option" value="Bestseller">
-                        BestSeller
-                      </option>
+                              BestSeller
+                            </option>
                             <option className="option" value="New">
                               New
                             </option>
@@ -2332,7 +2388,7 @@ const ProductList = () => {
                                         }}
                                       >
                                         {ele
-                                        ?.Fil_DisName}
+                                          ?.Fil_DisName}
                                       </AccordionSummary>
                                       <AccordionDetails
                                         sx={{
@@ -2693,214 +2749,227 @@ const ProductList = () => {
                           <>
                             {!filterProdListEmpty ? (
                               <div className={`smilingAllProductDataMainMobile`}>
-                                {finalProductListData?.map((productData, i) => (
-                                  <div className={`main-ProdcutListConatiner`}>
-                                    <div className={`listing-card`}>
-                                      <div className="listing-image">
-                                        <div>
-                                          <div
-                                            onMouseEnter={() => {
-                                              handleImgRollover(productData);
-                                              if (productData?.VideoCount > 0) {
-                                                setIsRollOverVideo({
-                                                  [productData?.autocode]: true,
-                                                });
-                                              } else {
-                                                setIsRollOverVideo({
-                                                  [productData?.autocode]: false,
-                                                });
-                                              }
-                                            }}
-                                            onClick={() =>
-                                              handleMoveToDetail(productData)
-                                            }
-                                            onMouseLeave={() => {
-                                              handleLeaveImgRolloverImg(
-                                                productData
-                                              );
-                                              setIsRollOverVideo({
-                                                [productData?.autocode]: false,
-                                              });
-                                            }}
-                                            className="dt_ImgandVideoContainer"
-                                          >
-                                            {isRollOverVideo[
-                                              productData?.autocode
-                                            ] == true ? (
-                                              <video
-                                                src={
-                                                  productData?.VideoCount > 0
-                                                    ? (storeInit?.DesignImageFol).slice(
-                                                      0,
-                                                      -13
-                                                    ) +
-                                                    "video/" +
-                                                    productData?.designno +
-                                                    "_" +
-                                                    1 +
-                                                    "." +
-                                                    productData?.VideoExtension
-                                                    : ""
-                                                }
-                                                loop={true}
-                                                autoPlay={true}
-                                                className="dt_productCard_video"
-                                              />
+                                {finalProductListData?.map((productData, i) => {
+                                  const isLoading = loadedProducts[i]?.id !== i;
+                                  return (
+                                    <div className={`main-ProdcutListConatiner`}>
+                                      <div className={`listing-card`}>
+                                        <div className="listing-image">
+                                          <div>
+                                            {isLoading ? (
+                                              <CardMedia
+                                                style={{ width: "100%" }}
+                                                className="cardMainSkeleton"
+                                              >
+                                                <Skeleton
+                                                  animation="wave"
+                                                  variant="rect"
+                                                  width={"100%"}
+                                                  height="280px"
+                                                  style={{ backgroundColor: "#e8e8e86e" }}
+                                                />
+                                              </CardMedia>
                                             ) : (
-                                              <img
-                                                className="dt_productListCard_Image"
-                                                id={`dt_productListCard_Image${productData?.autocode}`}
-                                                src={
-                                                  rollOverImgPd[
-                                                    productData?.autocode
-                                                  ]
-                                                    ? rollOverImgPd[
-                                                    productData?.autocode
-                                                    ]
-                                                    : productData?.images?.length >
-                                                      0
-                                                      ? productData?.images[0]
-                                                      : imageNotFound
+                                              <div
+                                                onMouseEnter={() => {
+                                                  handleImgRollover(productData);
+                                                  if (productData?.VideoCount > 0) {
+                                                    setIsRollOverVideo({
+                                                      [productData?.autocode]: true,
+                                                    });
+                                                  } else {
+                                                    setIsRollOverVideo({
+                                                      [productData?.autocode]: false,
+                                                    });
+                                                  }
+                                                }}
+                                                onClick={() =>
+                                                  handleMoveToDetail(productData)
                                                 }
-                                                alt=""
-                                              />
+                                                onMouseLeave={() => {
+                                                  handleLeaveImgRolloverImg(
+                                                    productData
+                                                  );
+                                                  setIsRollOverVideo({
+                                                    [productData?.autocode]: false,
+                                                  });
+                                                }}
+                                                className="dt_ImgandVideoContainer"
+                                              >
+                                                <>
+                                                  {isRollOverVideo[
+                                                    productData?.autocode
+                                                  ] == true ? (
+                                                    <video
+                                                      src={
+                                                        productData?.VideoCount > 0
+                                                          ? (storeInit?.DesignImageFol).slice(
+                                                            0,
+                                                            -13
+                                                          ) +
+                                                          "video/" +
+                                                          productData?.designno +
+                                                          "_" +
+                                                          1 +
+                                                          "." +
+                                                          productData?.VideoExtension
+                                                          : ""
+                                                      }
+                                                      loop={true}
+                                                      autoPlay={true}
+                                                      className="dt_productCard_video"
+                                                    />
+                                                  ) : (
+                                                    <img
+                                                      className="dt_productListCard_Image"
+                                                      id={`dt_productListCard_Image${productData?.autocode}`}
+                                                      src={rollOverImgPd[productData?.autocode] || loadedProducts[i]?.src || imageNotFound}
+                                                      alt=""
+                                                    />
+                                                  )
+                                                  }
+                                                </>
+                                              </div>
                                             )}
-                                          </div>
-                                          <div className="dt_product_label">
-                                            {productData?.IsInReadyStock == 1 ? (
-                                              <span className="dt_instock">
-                                                In Stock
-                                              </span>
-                                            )
-                                              :
-                                              (
+
+                                            <div className="dt_product_label">
+                                              {productData?.IsInReadyStock == 1 ? (
                                                 <span className="dt_instock">
-                                                  Make To Order
+                                                  In Stock
                                                 </span>
                                               )
-                                            }
-                                            {productData?.IsBestSeller == 1 && (
-                                              <span className="dt_bestSeller">
-                                                Best Seller
-                                              </span>
-                                            )}
-                                            {productData?.IsTrending == 1 && (
-                                              <span className="dt_intrending">
-                                                Trending
-                                              </span>
-                                            )}
-                                            {productData?.IsNewArrival == 1 && (
-                                              <span className="dt_newarrival">
-                                                New Arrival
-                                              </span>
-                                            )}
+                                                :
+                                                (
+                                                  <span className="dt_instock">
+                                                    Make To Order
+                                                  </span>
+                                                )
+                                              }
+                                              {productData?.IsBestSeller == 1 && (
+                                                <span className="dt_bestSeller">
+                                                  Best Seller
+                                                </span>
+                                              )}
+                                              {productData?.IsTrending == 1 && (
+                                                <span className="dt_intrending">
+                                                  Trending
+                                                </span>
+                                              )}
+                                              {productData?.IsNewArrival == 1 && (
+                                                <span className="dt_newarrival">
+                                                  New Arrival
+                                                </span>
+                                              )}
+                                            </div>
+                                            <Button
+                                              className="cart-icon"
+                                              style={{ display: "none" }}
+                                            >
+                                              <Checkbox
+                                                icon={
+                                                  <LocalMallOutlinedIcon
+                                                    sx={{
+                                                      fontSize: "22px",
+                                                      color: "#7d7f85",
+                                                      opacity: ".7",
+                                                    }}
+                                                  />
+                                                }
+                                                checkedIcon={
+                                                  <LocalMallIcon
+                                                    sx={{
+                                                      fontSize: "22px",
+                                                      color: "#009500",
+                                                    }}
+                                                  />
+                                                }
+                                                disableRipple={true}
+                                                sx={{ padding: "5px" }}
+                                                onChange={(e) =>
+                                                  handleCartandWish(
+                                                    e,
+                                                    productData,
+                                                    "Cart"
+                                                  )
+                                                }
+                                                checked={
+                                                  cartArr[productData?.autocode] ??
+                                                    productData?.IsInCart === 1
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                            </Button>
+                                            <Button className={"wishlist-icon"}>
+                                              <Checkbox
+                                                icon={
+                                                  <FavoriteBorderIcon
+                                                    sx={{
+                                                      fontSize: "22px",
+                                                      color: "#7d7f85",
+                                                      opacity: ".7",
+                                                    }}
+                                                  />
+                                                }
+                                                checkedIcon={
+                                                  <FavoriteIcon
+                                                    sx={{
+                                                      fontSize: "22px",
+                                                      color: "#e31b23",
+                                                    }}
+                                                  />
+                                                }
+                                                disableRipple={true}
+                                                sx={{ padding: "5px" }}
+                                                onChange={(e) =>
+                                                  handleCartandWish(
+                                                    e,
+                                                    productData,
+                                                    "Wish"
+                                                  )
+                                                }
+                                                checked={
+                                                  wishArr[productData?.autocode] ??
+                                                    productData?.IsInWish === 1
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                            </Button>
                                           </div>
-                                          <Button
-                                            className="cart-icon"
-                                            style={{ display: "none" }}
-                                          >
-                                            <Checkbox
-                                              icon={
-                                                <LocalMallOutlinedIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#7d7f85",
-                                                    opacity: ".7",
-                                                  }}
-                                                />
-                                              }
-                                              checkedIcon={
-                                                <LocalMallIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#009500",
-                                                  }}
-                                                />
-                                              }
-                                              disableRipple={true}
-                                              sx={{ padding: "5px" }}
-                                              onChange={(e) =>
-                                                handleCartandWish(
-                                                  e,
-                                                  productData,
-                                                  "Cart"
-                                                )
-                                              }
-                                              checked={
-                                                cartArr[productData?.autocode] ??
-                                                  productData?.IsInCart === 1
-                                                  ? true
-                                                  : false
-                                              }
-                                            />
-                                          </Button>
-                                          <Button className={"wishlist-icon"}>
-                                            <Checkbox
-                                              icon={
-                                                <FavoriteBorderIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#7d7f85",
-                                                    opacity: ".7",
-                                                  }}
-                                                />
-                                              }
-                                              checkedIcon={
-                                                <FavoriteIcon
-                                                  sx={{
-                                                    fontSize: "22px",
-                                                    color: "#e31b23",
-                                                  }}
-                                                />
-                                              }
-                                              disableRipple={true}
-                                              sx={{ padding: "5px" }}
-                                              onChange={(e) =>
-                                                handleCartandWish(
-                                                  e,
-                                                  productData,
-                                                  "Wish"
-                                                )
-                                              }
-                                              checked={
-                                                wishArr[productData?.autocode] ??
-                                                  productData?.IsInWish === 1
-                                                  ? true
-                                                  : false
-                                              }
-                                            />
-                                          </Button>
                                         </div>
-                                      </div>
 
-                                      {productData?.TitleLine?.length !== 0 ? (
-                                        <div className="listing-details">
-                                          <p
+                                        {productData?.TitleLine?.length !== 0 ? (
+                                          <div className="listing-details">
+                                            <p
+                                              className="prodTitle"
+                                              title={`${productData?.TitleLine}`}
+                                            >
+                                              {/* {productData?.designno} {" - "}  */}
+                                              {productData?.TitleLine}
+                                            </p>
+                                          </div>
+                                        ) : (
+                                          <div className="listing-details">
+                                            {/* <p
                                             className="prodTitle"
-                                            title={`${productData?.TitleLine}`}
+                                            title={`${productData?.designno}`}
                                           >
-                                            {/* {productData?.designno} {" - "}  */}
-                                            {productData?.TitleLine}
-                                          </p>
+                                            {productData?.designno}
+                                          </p> */}
+                                          </div>
+                                        )}
+                                        <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
+                                          {/* <label className="from">Form:</label> */}
+                                          <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
+                                          <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
                                         </div>
-                                      ) : (
-                                        <div className="listing-details">
-                                          {/* <p
-                                        className="prodTitle"
-                                        title={`${productData?.designno}`}
-                                      >
-                                        {productData?.designno}
-                                      </p> */}
-                                        </div>
-                                      )}
-                                      <div style={{ margin: '0px', fontSize: '15px', display: 'flex', justifyContent: 'center', width: '100%', gap: '5px' }}>
-                                        {/* <label className="from">Form:</label> */}
-                                        <div className="currencyFont" style={{ fontSize: '16px', color: '#8d8d8d' }}>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode}</div>
-                                        <div style={{ fontFamily: 'Roboto, sans-serif', fontSize: '16px', color: '#8d8d8d' }}>{formatter.format(productData?.UnitCostWithMarkUp)}</div>
                                       </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  )
+                                })}
+
+
                                 {storeInit?.IsProductListPagination == 1 &&
                                   Math.ceil(afterFilterCount / storeInit.PageSize) > 1 && (
                                     <div
