@@ -792,7 +792,7 @@ const NavitemsWrapper = ({
       <div
         className="first_nav"
         style={{
-          top: `${height}px`,
+          top: `${height+25}px`,
         }}
         ref={firstNavRef}
       >

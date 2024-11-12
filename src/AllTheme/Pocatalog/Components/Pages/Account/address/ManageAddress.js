@@ -358,14 +358,26 @@ const ManageAddress = () => {
                     name="controlled-radio-buttons-group"
                     value={defaultAdd}
                     onChange={handleDefault}
-                    style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}
+                    style={{display:'flex', flexDirection:'row', alignItems:'center',flexWrap:"wrap" }}
                 >
                     {
-                        isLoading ? <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "10px" }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px" }} className="addressMainSec">
+                        isLoading ? <Box sx={{ display: "flex",  justifyContent: "center", paddingTop: "10px" ,
+                            width:"100%",
+                            height:"50vh",
+                            alignItems:"center"
+                         }}><CircularProgress className='loadingBarManage' /></Box> : <Box sx={{ display: "flex", flexWrap: "wrap", paddingTop: "10px"  ,gap:"0 !important" }} className="addressMainSec">
                             {
                                 addressData?.map((item, index) => {
-                                    return <Box className="AddressSec" key={index}>
-                                        <Box className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
+                                    return <Box sx={{
+                                        width:{
+                                            sm :"100%",
+                                            lg:"22%" ,
+                                            md:"50%"
+                                        }
+                                    }} className="AddressSec" key={index}>
+                                        <Box sx={{
+                                            marginLeft :"10px"
+                                        }} className={`manageAddressBlock ${item.isdefault === 1 && `manageAddressDefault`}`}>
                                             <Box sx={{ display: "flex", flexWrap: "wrap", }}>
                                                 <Box sx={{ paddingRight: "5px", fontweight: "600", paddingBottom: "10px" }}>
                                                     <h6>{item?.shippingfirstname && item?.shippingfirstname}</h6>
