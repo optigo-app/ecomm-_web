@@ -43,9 +43,9 @@ const TopVideoSection = () => {
             className="for_desktop"
             width="100%"
             src={Video[0]}
-            autoPlay={true}
+            autoPlay={false}
             muted={true}
-            loop={true}
+            loop={false}
             playsInline={true}
             poster={VideoBanner[0]}
           ></video>
