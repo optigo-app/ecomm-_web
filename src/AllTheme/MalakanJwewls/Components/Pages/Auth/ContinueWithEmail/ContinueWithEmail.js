@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import Footer from "../../Home/Footer/Footer";
 import { ContinueWithEmailAPI } from "../../../../../../utils/API/Auth/ContinueWithEmailAPI";
-import {MuiInputPlaceholder} from '../style'
+import { MuiInputPlaceholder } from '../style'
 
 
 export default function ContinueWithEmail() {
@@ -73,7 +73,7 @@ export default function ContinueWithEmail() {
       .then((response) => {
         setIsLoading(false);
         if (response.Status == 400 || response.Data == "" || null) {
-          toast.error("Somthing want worng");
+          toast.error("Something went wrong");
         } else {
           if (
             response.Data.rd[0].stat == 1 &&
@@ -167,8 +167,8 @@ export default function ContinueWithEmail() {
           >
             <TextField
               sx={{
-                ...MuiInputPlaceholder ,
-                color:'white'
+                ...MuiInputPlaceholder,
+                color: 'white'
               }}
               autoFocus
               id="outlined-basic"

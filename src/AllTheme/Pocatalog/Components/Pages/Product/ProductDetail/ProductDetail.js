@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { MetalTypeComboAPI } from "../../../../../../utils/API/Combo/MetalTypeComboAPI";
 import { DiamondQualityColorComboAPI } from "../../../../../../utils/API/Combo/DiamondQualityColorComboAPI";
@@ -63,6 +64,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoChevronLeft } from "react-icons/go";
 import { HiOutlineChevronRight } from "react-icons/hi2";
+import { HiOutlineChevronLeft } from "react-icons/hi2";
 import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 
 const ProductDetail = () => {
@@ -106,6 +108,8 @@ const ProductDetail = () => {
   const [imageData, setImageData] = useState([]);
   const SoketData = useRecoilValue(soketProductData);
   const [imageStates, setImageStates] = useState({});
+
+  const maxwidth1023px = useMediaQuery('(max-width: 1023px)')
 
   const [stockItemArr, setStockItemArr] = useState([]);
   const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
@@ -627,8 +631,8 @@ const ProductDetail = () => {
     callAllApi();
   }, [storeInit]);
 
-    console.log('stockItemArrstockItemArr',stockItemArr);
-    
+  console.log('stockItemArrstockItemArr', stockItemArr);
+
   useEffect(() => {
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     if (storeinit) setStoreInit(storeinit);
@@ -1475,21 +1479,21 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const checkImages = async () => {
-        const updatedStates = {};
+      const updatedStates = {};
 
-        for (const ele of stockItemArr) {
-            const imageUrl = `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`;
-            const available = await checkImageAvailability(imageUrl);
-            updatedStates[ele.StockId] = available ? imageUrl : imageNotFound;
-        }
+      for (const ele of stockItemArr) {
+        const imageUrl = `${storeInit?.DesignImageFol}${ele?.designno}_1.${ele?.ImageExtension}`;
+        const available = await checkImageAvailability(imageUrl);
+        updatedStates[ele.StockId] = available ? imageUrl : imageNotFound;
+      }
 
-        setImageStates(updatedStates);
+      setImageStates(updatedStates);
     };
 
     if (stockItemArr.length) {
-        checkImages();
+      checkImages();
     }
-}, [stockItemArr]);
+  }, [stockItemArr]);
 
 
   return (
@@ -2401,7 +2405,7 @@ const ProductDetail = () => {
                       onClick={handlePrev}
                       style={{ backgroundColor: "transparent", border: "none" }}
                     >
-                      <GoChevronLeft className="rightIconeP" />
+                      <HiOutlineChevronLeft className="rightIconeP" />
                     </button>
                     <button
                       className="proDuct_swiper_button_next"
@@ -2416,7 +2420,7 @@ const ProductDetail = () => {
                     </button>
                   </div>
                 </Swiper>
-                
+
 
                 <div className="smr_material_details_portion">
                   {diaList?.length > 0 && (
@@ -2571,56 +2575,76 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                <div className="proCat_moreProduct_swiperMainDiv">
-                  <p className="smr_details_title">More Products</p>
-                  <div className="smr_swiper_container">
-                    <Swiper
-                      spaceBetween={10}
-                      lazy={true}
-                      navigation={true}
-                      breakpoints={{
-                        1440: {
-                          slidesPerView: 6,
-                        },
-                        1024: {
-                          slidesPerView: 4,
-                        },
-                        768: {
-                          slidesPerView: 2,
-                        },
-                        0: {
-                          slidesPerView: 2,
-                        },
-                      }}
-                      modules={[Keyboard, FreeMode, Navigation]}
-                      keyboard={{ enabled: true }}
-                      pagination={false}
-                    >
-                      {imageData?.map((ele) => (
-                        <SwiperSlide
-                          key={ele?.autocode}
-                          className="proCat_Swiper_slide_custom"
-                          onClick={() => handleMoveToDetail(ele)}
-                        >
-                          <div
-                            className="procat_design_slide_detailpage"
-                            style={{
-                              border:
-                                singleProd?.designno == ele?.designno &&
-                                "1px solid #d8a4a4",
+                {imageData?.length > 0 && (
+                  <>
+                    {(imageData?.length < 5 && !maxwidth1023px) ? (
+                      <div className="proCat_moreProduct_cardContainer">
+                        <p className="smr_details_title">More Products</p>
+                        <div className="smr_swiper_container">
+                          {imageData?.map((ele) => (
+                            <div
+                              key={ele?.autocode}
+                              className="procat_design_slide_detailpage_card"
+                              onClick={() => handleMoveToDetail(ele)}
+                              style={{
+                                border: singleProd?.designno === ele?.designno ? "1px solid #d8a4a4" : "",
+                              }}
+                            >
+                              <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" />
+                              <p>{ele?.TitleLine}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="proCat_moreProduct_swiperMainDiv">
+                        <p className="smr_details_title">More Products</p>
+                        <div className="smr_swiper_container">
+                          <Swiper
+                            spaceBetween={10}
+                            lazy={true}
+                            navigation={true}
+                            breakpoints={{
+                              1440: {
+                                slidesPerView: 6,
+                              },
+                              1024: {
+                                slidesPerView: 4,
+                              },
+                              768: {
+                                slidesPerView: 2,
+                              },
+                              0: {
+                                slidesPerView: 2,
+                              },
                             }}
+                            modules={[Keyboard, FreeMode, Navigation]}
+                            keyboard={{ enabled: true }}
+                            pagination={false}
                           >
-                            <img
-                              src={ele.imageSrc}
-                              alt={ele?.TitleLine}
-                              loading="lazy"
-                            />
-                          </div>
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                  </div>
-                </div>
+                            {imageData?.map((ele) => (
+                              <SwiperSlide
+                                key={ele?.autocode}
+                                className="proCat_Swiper_slide_custom"
+                                onClick={() => handleMoveToDetail(ele)}
+                              >
+                                <div
+                                  className="procat_design_slide_detailpage"
+                                  style={{
+                                    border: singleProd?.designno === ele?.designno ? "1px solid #d8a4a4" : "",
+                                  }}
+                                >
+                                  <img src={ele?.imageSrc} alt={ele?.TitleLine} loading="lazy" />
+                                </div>
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+
 
                 {stockItemArr?.length > 0 &&
                   storeInit?.IsStockWebsite === 1 && (
@@ -2642,7 +2666,7 @@ const ProductDetail = () => {
                                 //   "." +
                                 //   ele?.ImageExtension
                                 // }
-                                src={imageStates[ele.StockId] || imageNotFound} 
+                                src={imageStates[ele.StockId] || imageNotFound}
                                 alt={""}
                               />
                               <div

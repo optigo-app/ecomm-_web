@@ -19,6 +19,7 @@
 
 .roop_LookBookMain {
   // background-color: $backgroundColor;
+  font-family: $fontRegular;
 
 
   .roop_lookbookFilterMain {
@@ -38,6 +39,27 @@
   }
 
   .roop_SubDiv_LookBookSubMainDiv {
+    display: flex;
+  }
+
+  .roop_filterDrawer {
+    font-family: $fontRegular !important;
+  }
+
+  .roop_filter_text {
+    span {
+      font-family: $fontRegular;
+    }
+  }
+
+  .roop_lookBookMobileTopLine {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 5px 25px 5px;
+    gap: 20px;
+  }
+
+  .rp_lookbookFIlter_div {
     display: flex;
   }
 
@@ -89,7 +111,7 @@
     font-size: $fontSize6;
     color: #fff;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
   }
 
   .roop_lb1designList_title {
@@ -100,7 +122,7 @@
     font-size: $fontSize4;
     color: #fff;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
   }
 
   .roop_lb3designList_title {
@@ -108,7 +130,15 @@
     font-size: $fontSize6;
     color: $titleColor;
     text-transform: capitalize;
-    font-family: $primaryFontFamily;
+    font-family: $fontRegular;
+  }
+
+  .roop_mui_checkbox_label_rp {
+    font-family: $fontRegular !important;
+  }
+
+  .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
+    font-family: $fontRegular !important;
   }
 
   .roop_lb3TotalBtnGroups {
@@ -177,7 +207,7 @@
     margin-right: 20px;
 
     @media screen and (max-width:500px) {
-      width: 140px;
+      width: 120px;
       margin-right: 12px;
     }
   }
@@ -231,8 +261,8 @@
     }
   }
 
-  .smr1_lookBookFilterSubDiv {
-    margin: 10px 10px 0px 10px;
+  .roop_lookBookFilterSubDiv {
+    margin: 2px 10px 0px 10px;
   }
 
   .roop_lookBookImgDivMain {
@@ -444,6 +474,9 @@
 
     .roop_lookBookMobileTopLine {
       margin-top: 10px !important;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
     }
   }
 
@@ -597,7 +630,7 @@
   }
 
   .roop_lb3srthelook_prodinfo_inner {
-    font-family: $primaryFontFamilyMedium;
+    font-family: $fontRegular;
   }
 
   .smr1_lb3ctlImg_containe {
@@ -873,6 +906,7 @@
     justify-content: flex-end !important;
     width: 100%;
   }
+
   .roop_lookBookImgDeatilSub_sel2 {
     display: flex !important;
     justify-content: flex-end !important;
@@ -938,4 +972,8 @@
 
 .roop_LookBookMobileThridViewMain_swiper_w {
   width: 100% !important;
+}
+
+.MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
+  font-family: $fontRegular !important;
 }

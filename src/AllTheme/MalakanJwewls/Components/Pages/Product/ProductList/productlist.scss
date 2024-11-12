@@ -7,10 +7,12 @@
   background-color: #17372f;
   color: white;
   font-family: $rown !important;
+
   @media screen and (max-width: 1200px) {
     margin-top: 80px;
     padding-top: 36px;
   }
+
   .mala_outerContain {
     display: flex;
     justify-content: center;
@@ -198,17 +200,20 @@
     margin-bottom: 2rem;
 
     @media screen and (max-width:1288px) {
-    grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
     }
+
     @media screen and (max-width:988px) {
       grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
-      }
-      @media screen and (max-width:620px) {
-        grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
-        }
-        @media screen and (max-width:300px) {
-          grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-          }
+    }
+
+    @media screen and (max-width:620px) {
+      grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+    }
+
+    @media screen and (max-width:300px) {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
   }
 
   .mala_productCard {
@@ -221,8 +226,8 @@
     font-family: $primaryFontFamily;
     border-radius: 5px;
   }
-  
-  .mala_productCard:hover{
+
+  .mala_productCard:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   }
 
@@ -246,25 +251,31 @@
 
   .mala_prod_card_info {
     height: 90px;
-    @media screen and (max-width:768px){
-    height: 100px;
+
+    @media screen and (max-width:768px) {
+      height: 100px;
     }
+
     margin-bottom: 10px;
-    .fmg_mal1_prodBtn{
-      background:  #094234e3;
+
+    .fmg_mal1_prodBtn {
+      background: #094234e3;
       color: white !important;
       font-weight: 500;
       padding: 6px 0;
+
       @media screen and (max-width:500px) {
-      padding: 5px 0;
-      font-size: 13px;
-      font-weight: 500;
+        padding: 5px 0;
+        font-size: 13px;
+        font-weight: 500;
       }
-      &:hover{
-      background:   #17372f;
+
+      &:hover {
+        background: #17372f;
       }
-      .fmg_mal1_prodBtn_proBtn_text{
-      color: white !important;
+
+      .fmg_mal1_prodBtn_proBtn_text {
+        color: white !important;
       }
     }
   }
@@ -391,7 +402,8 @@
 
   .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.MuiTypography-root {
     font-family: $primaryFontFamily;
-    color: $primaryfontcolor;
+    color: #818181;
+    // color: $primaryfontcolor;
     // font-size: 12px;
   }
 
@@ -431,16 +443,18 @@
 
   .smrWeb_app_product_label {
     position: absolute;
-    bottom: 100px;
+    top: 1rem;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 3px;
     font-size: 14px;
-    width: 60px
+    width: 60px;
+    left: 5px;
   }
 
   .smrWeb_app_instock {
-    background-color: #00d300;
+    background-color: #2cb32c;
+    // background-color: #00d300;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -454,7 +468,8 @@
     /* border-radius: 50px; */
     /* color: red !important; */
     // margin-left: 5px;
-    background-color: #ff5100;
+    background-color: #8e5bff;
+    // background-color: #ff5100;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -474,7 +489,8 @@
   }
 
   .mala_app_newarrival {
-    background-color: darkblue;
+    background-color: #2e2eff;
+    // background-color: darkblue;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -482,7 +498,8 @@
   }
 
   .smrWeb_app_newarrival {
-    background-color: darkblue;
+    background-color: #2e2eff;
+    // background-color: darkblue;
     color: white;
     text-transform: uppercase;
     width: 70px;
@@ -497,7 +514,8 @@
     /* border-radius: 50px; */
     /* color: red !important; */
     // margin-left: 5px;
-    background-color: darkorange;
+    background-color: #c90039;
+    // background-color: darkorange;
     color: white;
     text-transform: uppercase;
     width: 70px;

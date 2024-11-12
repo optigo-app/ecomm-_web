@@ -392,7 +392,7 @@ const ProductList = () => {
       setIsProdLoading(true)
       //  if(location?.state?.SearchVal === undefined){ 
       setprodListType(productlisttype)
-      await ProductListApi({}, 1, obj, productlisttype, cookie)
+      await ProductListApi({}, 1, obj, productlisttype, cookie, sortBySelect)
         .then((res) => {
           if (res) {
             // console.log("productList", res);
@@ -2766,6 +2766,7 @@ const GivaFilterMenu = ({
       sx={{
         fontFamily: "Spectral-Regular , sans-serif !important",
         textWrap: "nowrap",
+        color: 'black',
         letterSpacing: "0.5px",
         fontSize: {
           xs: "13.2px !important", // Mobile screens
@@ -2896,7 +2897,7 @@ const GivaFilterMenu = ({
               <div className="filter_menu_giva_roop">
 
                 <Typography
-                  sx={{ fontSize: "16px" }}
+                  sx={{ fontSize: "15px" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(1)}
                 >
@@ -2924,7 +2925,7 @@ const GivaFilterMenu = ({
                   />
                 </Typography>
                 {showMenu === 1 && (
-                  <div className="giva_roop_filter_menu_list">
+                  <div className="giva_roop_filter_menu_list_filterM">
                     {filterData?.map((ele) => (
                       <>
                         {!ele?.id?.includes("Range") &&
@@ -3206,7 +3207,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
               <div className="filter_menu_giva_roop">
                 <Typography
-                  sx={{ fontSize: "16px" }}
+                  sx={{ fontSize: "15px" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(2)}
                 >
@@ -3258,7 +3259,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
               <div className="filter_menu__roop">
                 <Typography
-                  sx={{ fontSize: "16px" }}
+                  sx={{ fontSize: "15px" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(3)}
                 >
@@ -3315,7 +3316,7 @@ const GivaFilterMenu = ({
             {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
               <div className="filter_menu_giva_roop">
                 <Typography
-                  sx={{ fontSize: "16px" }}
+                  sx={{ fontSize: "15px" }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(4)}
                 >
@@ -3375,7 +3376,7 @@ const GivaFilterMenu = ({
               {storeInit?.IsMetalCustComb === 1 && (
                 <div className="filter_menu_giva_roop">
                   <Typography
-                    sx={{ fontSize: "16px" }}
+                    sx={{ fontSize: "15px" }}
                     className="fmg_menu"
                     onClick={() => HandleMenu(5)}
                   >
