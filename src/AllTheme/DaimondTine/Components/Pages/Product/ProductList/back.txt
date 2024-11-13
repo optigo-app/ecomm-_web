@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductListApi from "../../../../../../utils/API/ProductListAPI/ProductListApi";
 import { FilterListAPI } from "../../../../../../utils/API/FilterAPI/FilterListAPI";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,23 +44,23 @@ import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import GoogleAnalytics from 'react-ga4'
 
 const ProductList = () => {
-  const loginUserDetail = JSON.parse(sessionStorage?.getItem("loginUserDetail"));
+  const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const formatter = new Intl.NumberFormat('en-IN')
 
   useEffect(() => {
-    let storeinit = JSON?.parse(sessionStorage?.getItem("storeInit"));
+    let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
     setStoreInit(storeinit);
 
-    let mtCombo = JSON?.parse(sessionStorage?.getItem("metalTypeCombo"));
+    let mtCombo = JSON.parse(sessionStorage.getItem("metalTypeCombo"));
     setMetalTypeCombo(mtCombo);
 
-    let diaQcCombo = JSON?.parse(
-      sessionStorage?.getItem("diamondQualityColorCombo")
+    let diaQcCombo = JSON.parse(
+      sessionStorage.getItem("diamondQualityColorCombo")
     );
     setDiaQcCombo(diaQcCombo);
 
-    let CsQcCombo = JSON?.parse(
-      sessionStorage?.getItem("ColorStoneQualityColorCombo")
+    let CsQcCombo = JSON.parse(
+      sessionStorage.getItem("ColorStoneQualityColorCombo")
     );
     setCsQcCombo(CsQcCombo);
   }, []);
@@ -300,93 +300,35 @@ const ProductList = () => {
     setCurrPage(1)
   }, [location?.key]);
 
-  const [loadingIndex, setLoadingIndex] = useState(0)
-
-  // useEffect(() => {
-  //   const finalProdWithPrice = productListData?.map((product) => {
-  //     let pdImgList = [];
-
-  //     if (product?.ImageCount > 0) {
-  //       for (let i = 1; i <= product?.ImageCount; i++) {
-  //         let imgString =
-  //           storeInit?.DesignImageFol +
-  //           product?.designno +
-  //           "_" +
-  //           i +
-  //           "." +
-  //           product?.ImageExtension;
-  //         pdImgList.push(imgString);
-  //       }
-  //     } else {
-  //       pdImgList.push(imageNotFound);
-  //     }
-
-  //     let images =  pdImgList;
-
-  //     return {
-  //       ...product,
-  //       images,
-  //     };
-  //   });
-    
-    
-
-  //   setFinalProductListData(finalProdWithPrice);
-  // }, [productListData]);
-
-
-  const generateImageList = useCallback((product) => {
-    let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
-    console.log(storeInit ,"storeInitX")
-    let pdImgList = []
-    if (product?.ImageCount > 0) {
-      for (let i = 1; i <= product?.ImageCount; i++) {
-        let imgString =
-        storeInitX?.DesignImageFol +
-          product?.designno +
-          "_" +
-          i +
-          "." +
-          product?.ImageExtension
-        pdImgList?.push(imgString)
-      }
-    } else {
-      pdImgList?.push(imageNotFound)
-    }
-    return pdImgList
-  }, [])
-
   useEffect(() => {
-    const initialProducts = productListData?.map(product => ({
-      ...product,
-      images: [],
-      loading: true
-    }))
-    setFinalProductListData(initialProducts)
-    setLoadingIndex(0)
-  }, [productListData])
+    const finalProdWithPrice = productListData?.map((product) => {
+      let pdImgList = [];
 
-  useEffect(() => {
-    if (loadingIndex >= finalProductListData?.length) return
-
-    const loadNextProductImages = () => {
-      setFinalProductListData(prevData => {
-        const newData = [...prevData]
-        newData[loadingIndex] = {
-          ...newData[loadingIndex],
-          images: generateImageList(newData[loadingIndex]),
-          loading: false
+      if (product?.ImageCount > 0) {
+        for (let i = 1; i <= product?.ImageCount; i++) {
+          let imgString =
+            storeInit?.DesignImageFol +
+            product?.designno +
+            "_" +
+            i +
+            "." +
+            product?.ImageExtension;
+          pdImgList.push(imgString);
         }
-        return newData
-      })
+      } else {
+        pdImgList.push(imageNotFound);
+      }
 
-      setLoadingIndex(prevIndex => prevIndex + 1)
-    }
+      let images = pdImgList;
 
-    const timer = setTimeout(loadNextProductImages, 15)
-    return () => clearTimeout(timer)
-  }, [loadingIndex, finalProductListData, generateImageList])
+      return {
+        ...product,
+        images,
+      };
+    });
 
+    setFinalProductListData(finalProdWithPrice);
+  }, [productListData]);
 
   const BreadCumsObj = () => {
     let BreadCum = decodeURI(atob(location?.search.slice(3))).split("/");
@@ -953,8 +895,6 @@ const ProductList = () => {
     }
   };
 
-  
-
   useEffect(() => {
     setAfterCountStatus(true);
     let output = FilterValueWithCheckedOnly();
@@ -1303,7 +1243,6 @@ const ProductList = () => {
     }
   };
 
-
   const handleLeaveImgRolloverImg = async (pd) => {
     if (pd?.images?.length > 0) {
       // setRolloverImgPd((prev) => pd?.images[0] )
@@ -1320,7 +1259,6 @@ const ProductList = () => {
       }
     }
   };
-
 
   const handleLabelMenuName = () => {
     switch (location?.search.charAt(1)) {
@@ -1340,7 +1278,6 @@ const ProductList = () => {
         return menuList?.menuname
     }
   }
-
 
   return (
     <div>
@@ -2813,7 +2750,7 @@ const ProductList = () => {
                             {!filterProdListEmpty ? (
                               <div className={`smilingAllProductDataMainMobile`}>
                                 {finalProductListData?.map((productData, i) => {
-                                  const isLoading = productData && productData?.loading === true;
+                                  const isLoading = loadedProducts[i]?.id !== i;
                                   return (
                                     <div className={`main-ProdcutListConatiner`}>
                                       <div className={`listing-card`}>
@@ -2886,25 +2823,7 @@ const ProductList = () => {
                                                     <img
                                                       className="dt_productListCard_Image"
                                                       id={`dt_productListCard_Image${productData?.autocode}`}
-                                                      src={
-
-                                                        // {new code }
-
-                                                        productData?.images[0] 
-                                                        // || rollOverImgPd[productData?.autocode] || loadedProducts[i]?.src || imageNotFound
-
-                                                        // {old code }
-                                                        // rollOverImgPd[
-                                                        //   productData?.autocode
-                                                        // ]
-                                                        //   ? rollOverImgPd[
-                                                        //   productData?.autocode
-                                                        //   ]
-                                                        //   : productData?.images?.length >
-                                                        //     0
-                                                        //     ? productData?.images[0]
-                                                        //     : imageNotFound
-                                                      }
+                                                      src={rollOverImgPd[productData?.autocode] || loadedProducts[i]?.src || imageNotFound}
                                                       alt=""
                                                     />
                                                   )
