@@ -18,16 +18,16 @@ const WishlistData = ({
   handelMenu
 }) => {
 
-  console.log('itemLength', items?.length);
 
   return (
     <div className="dt_WlListData">
       <>
         <Grid container spacing={1}>
-          {items.map(item => (
+          {items.map((item,i) => (
             <WishlistItems
               key={item.id}
               item={item}
+              index={i}
               updateCount={updateCount}
               countDataUpdted={countDataUpdted}
               currency={curr}

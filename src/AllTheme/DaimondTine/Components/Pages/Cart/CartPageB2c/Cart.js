@@ -163,9 +163,10 @@ function Cart(props) {
                       <tbody style={{
                         padding:"15px 0"
                       }}>
-                        {cartData?.map((item) => (
+                        {cartData?.map((item,index) => (
                           <CartItem
-                            key={item.id}
+                            key={item?.id}
+                            index={index}
                             cartData={item}
                             isloding={isloding}
                             qtyCount={qtyCount}
