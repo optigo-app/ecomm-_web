@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import './dt3_cartPage.scss';
-import Customization from './Customization';
-import noImageFound from "../../../Assets/image-not-found.jpg"
+import React, { useEffect, useState } from "react";
+import "./dt3_cartPage.scss";
+import Customization from "./Customization";
+import noImageFound from "../../../Assets/image-not-found.jpg";
+import { CardContent, Skeleton } from "@mui/material";
 
 const CartDetails = ({
   ispriceloding,
@@ -28,30 +29,57 @@ const CartDetails = ({
   handleSizeChange,
   onUpdateCart,
   decodeEntities,
-  handleMoveToDetail
+  handleMoveToDetail,
+  index,
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
+  const [Isloading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   if (selectedItem?.ImageCount > 0) {
+  //     CartCardImageFunc(selectedItem,index).then((src) => {
+  //       setImageSrc(src);
+  //     });
+  //   } else {
+  //     setImageSrc(noImageFound);
+  //   }
+  // }, [selectedItem]);
+
   useEffect(() => {
     if (selectedItem?.ImageCount > 0) {
-      CartCardImageFunc(selectedItem).then((src) => {
+      setIsLoading(true);
+      CartCardImageFunc(selectedItem, index).then((src) => {
         setImageSrc(src);
+        setIsLoading(false);
       });
     } else {
       setImageSrc(noImageFound);
+      setIsLoading(false); //
     }
-  }, [selectedItem]);
+  }, [selectedItem, index, CartCardImageFunc]);
 
-  const keyToCheck = "stockno"
+  const keyToCheck = "stockno";
   return (
     <div className="dt3_cart-container">
       <div className="dt3_Cart-imageDiv">
         {/* <img src={selectedItem?.imageUrl} alt="Cluster Diamond" className='dt3_cartImage' /> */}
-          <img
+        {/* <img
             src={imageSrc}
             alt="image"
             className='dt3_cartDetailImage'
             onClick={() => handleMoveToDetail(selectedItem)}
+          /> */}
+        {!imageSrc ? (
+          <CardContent>
+            <Skeleton height={200} width={150} />
+          </CardContent>
+        ) : (
+          <img
+            src={imageSrc}
+            alt={selectedItem?.name}
+            onClick={() => handleMoveToDetail(selectedItem)}
           />
+        )}
       </div>
       <Customization
         ispriceloding={ispriceloding}
@@ -81,4 +109,3 @@ const CartDetails = ({
 };
 
 export default CartDetails;
-

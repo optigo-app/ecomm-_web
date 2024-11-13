@@ -82,7 +82,7 @@ const Usewishlist = () => {
     try {
       const response = await DiamondListData(1, "", commaSeparatedString);
       if (response && response.Data) {
-        let resData = response.Data?.rd
+        let resData = response.Data?.rd ;
         setDiamondWishData(resData)
         setIsWlLoading(false)
       } else {
@@ -246,13 +246,17 @@ const Usewishlist = () => {
   //   });
   // };
 
-  const WishCardImageFunc = (pd) => {
+  const WishCardImageFunc = (pd,index) => {
     return new Promise((resolve) => {
       const loadImage = (src) => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.src = src;
-          img.onload = () => resolve(src);
+          img.onload = () => {
+            setTimeout(() => {
+              resolve(src)
+            }, 150 * index);
+          };
           img.onerror = () => reject(src);
         });
       };

@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import { formatter } from '../../../../../../utils/Glob_Functions/GlobalFunction';
+import { CardContent, Skeleton } from '@mui/material';
 
 const WishItem = ({
     item,
@@ -21,15 +22,17 @@ const WishItem = ({
     WishCardImageFunc,
     handleRemoveItem,
     handleWishlistToCart,
-    handleMoveToDetail
+    handleMoveToDetail,
+    index
 }) => {
     const [loding, setloding] = useState(false);
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
     const [storeInitData, setStoreInitData] = useState();
     const setWishlistCount = useSetRecoilState(dt_WishCount);
     const setCartCount = useSetRecoilState(dt_CartCount);
     const visiterId = Cookies.get('visiterId');
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const storeinitData = JSON.parse(sessionStorage.getItem('storeInit'));
@@ -59,21 +62,26 @@ const WishItem = ({
 
     useEffect(() => {
         if (item?.ImageCount > 0) {
-            WishCardImageFunc(item).then((src) => {
-            setImageSrc(src);
-          });
+            setIsLoading(true); // Set loading state to true when the image starts loading
+            WishCardImageFunc(item, index).then((src) => {
+              setImageSrc(src);
+              setIsLoading(false);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound); // If no images, set fallback
+            setIsLoading(false); //
         }
-      }, [item]);
+    }, [item, index, WishCardImageFunc]);
 
     return (
         <tr>
             <td className="product" onClick={() => handleMoveToDetail(item)}>
-                <img
+               {!imageSrc ? <CardContent>
+                <Skeleton height={200} width={150}/>
+               </CardContent> : <img
                     src={imageSrc}
                     alt={item?.name}
-                />
+                />}
                  <div className="product-details">
                     <p>{item?.TitleLine != "" || item?.TitleLine != null && item?.TitleLine}</p>
                 </div>

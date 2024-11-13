@@ -564,13 +564,17 @@ const useCart = () => {
     return txt.value;
   }
 
-  const CartCardImageFunc = (pd) => {
+  const CartCardImageFunc = (pd ,index) => {
     return new Promise((resolve) => {
       const loadImage = (src) => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.src = src;
-          img.onload = () => resolve(src);
+          img.onload = () => {
+            setTimeout(() => {
+              resolve(src)
+            }, 150 * index);
+          };
           img.onerror = () => reject(src);
         });
       };

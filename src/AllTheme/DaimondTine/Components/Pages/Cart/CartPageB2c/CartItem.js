@@ -9,7 +9,7 @@ import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatter } from "../../../../../../utils/Glob_Functions/GlobalFunction";
-import { Box, Typography } from "@mui/material";
+import { Box, CardContent, Skeleton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import RemarkModal from "../B2bCart/RemarkModal";
 
@@ -28,14 +28,16 @@ const CartItem = ({
   handleAddReamrk,
   handleRemarkChange,
   handleSave,
+  index
 }) => {
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [storeInitData, setStoreInitData] = useState();
   const setCartCountVal = useSetRecoilState(dt_CartCount);
   const [remark, setRemark] = useState(cartData?.Remarks || "");
   const visiterId = Cookies.get("visiterId");
   const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+  const [Isloading , setIsLoading] =useState(true)
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -55,13 +57,18 @@ const CartItem = ({
 
   useEffect(() => {
     if (cartData?.ImageCount > 0) {
-      CartCardImageFunc(cartData).then((src) => {
+      setIsLoading(true);
+      CartCardImageFunc(cartData,index).then((src) => {
         setImageSrc(src);
+        setIsLoading(false);
       });
     } else {
       setImageSrc(noImageFound);
+      setIsLoading(false); //
     }
-  }, [cartData]);
+  }, [cartData ,index,CartCardImageFunc]);
+
+
 
   function truncateText(text, maxLength) {
     if (text.length <= maxLength) {
@@ -91,11 +98,17 @@ const CartItem = ({
       style={{
         padding:"25px 0"
       }}>
-        <img
+         {!imageSrc ? <CardContent>
+                <Skeleton height={200} width={150}/>
+               </CardContent> : <img 
+                    src={imageSrc}
+                    alt={cartData?.name}
+          onClick={() => handleMoveToDetail(cartData)}    
+                />}
+        {/* <img
           src={imageSrc}
           alt={cartData?.name}
-          onClick={() => handleMoveToDetail(cartData)}
-        />
+        /> */}
         <div className="product-details">
           <p>{cartData?.TitleLine}</p>
         </div>

@@ -11,6 +11,7 @@ import { dt_CartCount, dt_WishCount } from '../../../Recoil/atom';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
 import noImageFound from "../../../Assets/image-not-found.jpg"
 import Cookies from "js-cookie";
+import { Skeleton } from '@mui/material';
 
 const WishlistItems = (
     {
@@ -24,13 +25,16 @@ const WishlistItems = (
         WishCardImageFunc,
         handleRemoveItem,
         handleWishlistToCart,
-        handleMoveToDetail
+        handleMoveToDetail ,
+        index
     }) => {
 
     const setWishCountVal = useSetRecoilState(dt_WishCount)
     const setCartCountVal = useSetRecoilState(dt_CartCount);
-    const [imageSrc, setImageSrc] = useState(noImageFound);
+    const [imageSrc, setImageSrc] = useState();
+    const [Imageload ,setimageload] = useState(0);
     const visiterId = Cookies.get('visiterId');
+    const [isLoading, setIsLoading] = useState(true);
 
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
     const loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -57,25 +61,37 @@ const WishlistItems = (
 
     useEffect(() => {
         if (item?.ImageCount > 0) {
-            WishCardImageFunc(item).then((src) => {
-            setImageSrc(src);
-          });
+            setIsLoading(true); // Set loading state to true when the image starts loading
+            WishCardImageFunc(item, index).then((src) => {
+              setImageSrc(src);
+              setIsLoading(false);
+            });
         } else {
-          setImageSrc(noImageFound);
+            setImageSrc(noImageFound); // If no images, set fallback
+            setIsLoading(false); //
         }
-      }, [item]);
+    }, [item, index, WishCardImageFunc]);
 
     return (
         <Grid item xs={itemsLength <= 2 ? 6 : 6} sm={itemsLength <= 2 ? 4 : 4} md={itemsLength <= 2 ? 4 : 4} lg={itemsLength <= 2 ? 3 : 3}>
             <Card className='dt_WlListCard'>
                 <div className='cardContent'>
+                {!imageSrc ? <CardContent style={{
+                    width:"100%",
+                    height:"100%",
+                    display:"flex",
+                    alignItems:"center",
+                    justifyContent:"center"
+                }}>
+                <Skeleton height={'400px'} width={'100%'}/>
+               </CardContent> :
                     <CardMedia
                         component="img"
                         image={imageSrc}
                         alt={item?.TitleLine}
                         className='dt_WlListImage'
                         onClick={() => handleMoveToDetail(item)}
-                    />
+                    />}
                     <CardContent className='dt_cardContent'>
                         <div className='cardText'>
                             <Typography variant="body2" className='dt_card-ContentData dt_WlTitleline'>
