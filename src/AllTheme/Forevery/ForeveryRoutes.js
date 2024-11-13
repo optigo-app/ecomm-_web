@@ -70,6 +70,7 @@ import ZaraStyleSlider from "./Components/Pages/AZara";
 import { storImagePath } from "../../utils/Glob_Functions/GlobalFunction";
 import PromotionalBanner from "./Components/Pages/PromotionalBanner/PromotionalBanner";
 import usePromotionalBanner from "./Components/hooks/usePromotionalBanner";
+import TaxStructure from "./Components/Pages/Common/TaxStructure/TaxStructure";
 
 const ForEveryRoutes = () => {
   const { openPromotionalBanner, handleCloseBanner } =
@@ -177,7 +178,6 @@ const ForEveryRoutes = () => {
     }
   }
 
-  console.log(openPromotionalBanner, "openPromotionalBanner")
 
   return (
     <>
@@ -190,6 +190,7 @@ const ForEveryRoutes = () => {
           <PromotionalBanner onClose={handleCloseBanner} />
         )}
         <TopBar />
+        <TaxStructure/>
         <Navbar />
       </div>
       <div
