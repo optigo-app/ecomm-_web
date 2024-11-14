@@ -12,10 +12,10 @@ const CartMain = () => {
         // const cartNo = 1;
 
         switch (cartNo) {   
-                case 2:
+                case 1:
                 setCartComponent(<B2cCart />);
                 break;
-                case 1:
+                case 2:
                 setCartComponent(<B2bCart />);
                 break;
                 case 3:

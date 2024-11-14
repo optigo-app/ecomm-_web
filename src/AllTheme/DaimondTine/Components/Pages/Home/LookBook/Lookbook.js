@@ -1561,6 +1561,10 @@ const Lookbook = () => {
                                           detail?.TitleLine ? detail?.TitleLine : ""
                                         )
                                       }
+                                      onError={(e)=>{
+                                        e.target.src = imageNotFound ;
+                                        e.target.alt = `Sub image ${subIndex} for slide ${index}`;
+                                      }}
                                     />
                                     {/* <p style={{ margin: '0px 0px 5px 2px', color: '#ccc', fontSize: '12px' }}>{detail?.CategoryName}</p> */}
                                     <div
@@ -1793,6 +1797,10 @@ const Lookbook = () => {
                                               : ""
                                           )
                                         }
+                                        onError={(e)=>{
+                                          e.target.src = imageNotFound ;
+                                          e.target.alt = `Sub image ${subIndex} for slide ${index}`;
+                                        }}
                                       />
                                       <div
                                         style={{
@@ -1867,6 +1875,10 @@ const Lookbook = () => {
                                                   : ""
                                               )
                                             }
+                                            onError={(e)=>{
+                                              e.target.src = imageNotFound ;
+                                              e.target.alt = `Sub image ${subIndex} for slide ${index}`;
+                                            }}
                                           />
                                           <div
                                             style={{
