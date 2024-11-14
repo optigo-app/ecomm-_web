@@ -697,8 +697,13 @@
     }
   }
 
-  @media screen and (min-width: 426px) {
+  @media screen and (min-width: 500px) {
     .roop_top_header3_logo_mobile {
+      display: none !important;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .roop_top_header3_logo_Web {
       display: none !important;
     }
   }
