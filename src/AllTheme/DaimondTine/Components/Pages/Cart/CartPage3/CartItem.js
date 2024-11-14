@@ -6,7 +6,7 @@ import { green } from '@mui/material/colors';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, useMediaQuery } from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, Radio, RadioGroup, Skeleton, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RemarkModal from './RemarkModal';
 import { GetCountAPI } from '../../../../../../utils/API/GetCount/GetCountAPI';
@@ -21,7 +21,6 @@ const CartItem = ({
   item,
   diamondValue,
   itemlength,
-  index,
   CartCardImageFunc,
   onSelect,
   CurrencyData,
@@ -39,15 +38,19 @@ const CartItem = ({
   handleRemarkChange,
   handleSave,
   handleCancel,
-  openHandleUpdateCartModal
+  openHandleUpdateCartModal ,
+  index,
 }) => {
-  const [imageSrc, setImageSrc] = useState(noImageFound);
+  const [imageSrc, setImageSrc] = useState();
   const [open, setOpen] = useState(false);
   const [remark, setRemark] = useState(item?.Remarks || '');
   const [isSelectedItems, setIsSelectedItems] = useState();
   const setCartCountVal = useSetRecoilState(dt_CartCount)
   const [storeInitData, setStoreInitData] = useState();
   const visiterId = Cookies.get('visiterId');
+  const [isLoading, setIsLoading] = useState(true);
+
+  
 
   const isLargeScreen = useMediaQuery('(min-width: 1600px)');
   const isMediumScreen = useMediaQuery('(min-width: 1038px) and (max-width: 1599px)');
@@ -92,7 +95,6 @@ const CartItem = ({
     }
   };
 
-
   function truncateText(text, maxLength) {
     if (text.length <= maxLength) {
       return text;
@@ -102,13 +104,17 @@ const CartItem = ({
 
   useEffect(() => {
     if (item?.ImageCount > 0) {
-      CartCardImageFunc(item).then((src) => {
-        setImageSrc(src);
-      });
+        setIsLoading(true);
+        CartCardImageFunc(item,index).then((src) => {
+          setImageSrc(src);
+          setIsLoading(false);
+        });
     } else {
-      setImageSrc(noImageFound);
+        setImageSrc(noImageFound); 
+        setIsLoading(false); //
     }
-  }, [item]);
+}, [item, index, CartCardImageFunc]);
+
 
   const diamondData = diamondValue?.find((dia) => dia?.stockno == item?.Sol_StockNo);
 
@@ -124,7 +130,13 @@ const CartItem = ({
       >
         <div className="dt3_cart-item">
           <div className="dt3_cart-item__image">
-            <img src={imageSrc} alt='Product-image' />
+            {/* <img src={imageSrc} alt='Product-image' /> */}
+            {imageSrc ? <CardContent>
+                <Skeleton height={200} width={150}/>
+               </CardContent> : <img
+                    src={imageSrc}
+                    alt={item?.name}
+                />}
           </div>
           <div className="dt3_cart-item__details">
             <h3>{item?.designno != "" && item?.designno}

@@ -106,8 +106,8 @@ const DiamondFilter = () => {
   const [storeInitData, setStoreInitData] = useState();
   const [sortValue, setSortValue] = useState("");
   const [selectedsort, setselectedsort] = useState({
-    title: "Price",
-    sort: "Low to High",
+    title: "Best Match",
+    sort: "",
   });
   const [sliderState, setSliderState] = useState({
     price: [],
@@ -317,7 +317,6 @@ const DiamondFilter = () => {
 
   const handleSortChange = (value, label, categories) => {
     setSortValue(value);
-    //("Selected Sort Value:", value);
     //(label, "eikedekdb", categories);
     setselectedsort({
       title: categories,
@@ -471,10 +470,11 @@ const DiamondFilter = () => {
   };
 
   const fetchData = async (shape, parsedData) => {
+    console.log(selectedValues ,"call api")
     setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
-      const filterData = await DiamondListData(1, shape, "", parsedData);
+      const filterData = await DiamondListData(1, shape, "", parsedData, sortValue ? `order by ${sortValue}` : "");
       const data1 = filterData?.Data?.rd[0];
       const resData = filterData?.Data?.rd;
       // const Newmap = resData?.map((val, index) => ({
@@ -684,7 +684,7 @@ const DiamondFilter = () => {
       try {
         const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
         if (getFilterdata !== null && getFilterdata !== undefined) {
-          const gapSize = getFilterdata?.Color?.options?.length / 1;
+          const gapSize = getFilterdata?.Color?.options?.length / 1 ;
           // const gapSize = numberOfLabels / 1;
 
           const value = (
@@ -747,9 +747,10 @@ const DiamondFilter = () => {
     setTimeout(() => {
       setFinalArray(updatedArray);
     }, 500);
-  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
+  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname ]);
 
   useEffect(() => {
+    
     setTimeout(() => {
       const extractedValue = location?.pathname.split("f=")[1] ?? "";
       const decodedUrlData = decodeAndDecompress(extractedValue);
@@ -786,7 +787,7 @@ const DiamondFilter = () => {
         }`;
       const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : "" 
         }`;
       Navigate(newPath);
     }, 600);
@@ -814,6 +815,7 @@ const DiamondFilter = () => {
   }
 
   useEffect(() => {
+
     const extractedValue = location?.pathname.split("f=")[1] ?? "";
     const shape = location?.pathname?.split("/")[3];
     if (extractedValue) {
@@ -828,7 +830,7 @@ const DiamondFilter = () => {
     } else {
       fetchData(shape);
     }
-  }, [location?.pathname]);
+  }, [location?.pathname,sortValue,selectedsort]);
 
   return (
     <>

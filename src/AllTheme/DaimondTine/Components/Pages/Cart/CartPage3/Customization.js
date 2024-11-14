@@ -21,7 +21,7 @@ const Customization = ({
   handleColorStoneChange,
   handleSizeChange,
   decodeEntities,
-  onUpdateCart
+  onUpdateCart,
 }) => {
 
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
