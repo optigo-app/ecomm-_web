@@ -164,6 +164,8 @@ export default function ForgotPass() {
                                 }}
                                 error={!!passwordError}
                                 helperText={passwordError}
+                                     aria-invalid={!!passwordError} // Indicates if the password input has an error
+                        aria-describedby="password-error-text"
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -191,6 +193,8 @@ export default function ForgotPass() {
                                 onChange={(e) => handleInputChange(e, setConfirmPassword, 'confirmPassword')}
                                 error={!!errors.confirmPassword}
                                 helperText={errors.confirmPassword}
+                                                       aria-invalid={!!errors.confirmPassword} // Indicates if the confirm password input has an error
+                        aria-describedby="confirm-password-error-text"
                                 InputProps={{ // Set InputProps for icon
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -207,8 +211,8 @@ export default function ForgotPass() {
                                 }}
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>Change Password</button>
-                            <Button style={{ marginTop: '10px', color: 'gray' ,marginBottom: '40px'}} onClick={() => navigation('/')}>CANCEL</Button>
+                            <button className='submitBtnForgot' onClick={handleSubmit}  aria-label="Submit new password" type='submit'>Change Password</button>
+                            <Button   aria-label="Cancel password reset and return to home"  style={{ marginTop: '10px', color: 'gray' ,marginBottom: '40px'}} onClick={() => navigation('/')}>CANCEL</Button>
                         </div>
 
                     </div>

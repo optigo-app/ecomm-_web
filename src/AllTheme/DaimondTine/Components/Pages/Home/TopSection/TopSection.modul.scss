@@ -1,4 +1,12 @@
 .dt_topSectionMain {
+    .cls-inducing-div {
+        display: none;
+    }
+    
+    .cls-inducing-div.show {
+        display: block;
+    }
+    
 
     .dt_imageContainer {
         margin-top: 50px;

@@ -76,7 +76,7 @@ export default function ContinueWithEmail() {
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
-            <div className='smling-forgot-main-Color'>
+            <div className='smling-forgot-main-Color' aria-labelledby="continueWithEmail">
                 <div className='smling-forgot-main'>
                     <p style={{
                         textAlign: 'center',
@@ -114,6 +114,8 @@ export default function ContinueWithEmail() {
                             onChange={handleEmailChange}
                             error={!!emailError}
                             helperText={emailError}
+                            aria-invalid={!!emailError}  // Indicate there is an error
+                            aria-describedby="email-helper-text"  
                         />
 
                         {/* <button
@@ -126,8 +128,8 @@ export default function ContinueWithEmail() {
 
                         </button> */}
 
-                        <button type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
-                        <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                        <button aria-label="Submit email" type='submit' className='submitBtnForgot' onClick={handleSubmit}>SUBMIT</button>
+                        <Button  aria-label="Cancel and go back to login options" style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
                     </div>
                 </div>
             </div>

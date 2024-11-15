@@ -28,7 +28,7 @@ const CartMain = () => {
     }, []);
 
     return (
-        <div>
+        <div role="main" aria-labelledby="cartTitle">
             {cartComponent}
         </div>
     );

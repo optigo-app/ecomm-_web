@@ -1,5 +1,13 @@
 @import '../../../scss/variable';
 
+.bls-inducing-div {
+    display: none;
+}
+
+.bls-inducing-div.show {
+    display: block;
+}
+
 .dt_mainBestSeler1Div {
 
 

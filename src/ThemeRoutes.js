@@ -47,7 +47,6 @@ import {
   storInitDataPath,
 } from "./utils/Glob_Functions/GlobalFunction";
 import { Helmet } from "react-helmet";
-import SEO from "./utils/Seo/Seo";
 import {
   proCat_companyLogo,
   proCat_companyLogoM,
@@ -95,6 +94,7 @@ export default function ThemeRoutes() {
   const [title, setTitle] = useState();
   const [htmlContent, setHtmlContent] = useState("");
   const [storeInitData, setStoreInitData] = useState();
+  const [loadTime, setLoadTime] = useState(null);
 
   useEffect(() => {
     fetch(`${storInitDataPath()}/StoreInit.json`)
@@ -151,6 +151,26 @@ export default function ThemeRoutes() {
   }, []);
 
   useEffect(() => {
+    const observer = new PerformanceObserver((entryList) => {
+      const entries = entryList.getEntriesByType('navigation');
+      if (entries.length > 0) {
+        const entry = entries[0];
+        const calculatedLoadTime = entry.loadEventEnd - entry.startTime;
+
+        if (calculatedLoadTime > 0) {
+          setLoadTime(calculatedLoadTime);
+        }
+      }
+    });
+
+    observer.observe({ type: 'navigation', buffered: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     setTitle(title);
     let CompanyinfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -172,12 +192,11 @@ export default function ThemeRoutes() {
         }
       }
     }
-    console.log("worked call")
     if (storeinit) {
-      console.log("worked htmlcontent")
+   setTimeout(() => {
       callAllApi();
-      // callAllApi(htmlContent?.rd[0]);
-    }
+    }, 6000);
+  }
   }, [htmlContent]);
 
   const callAllApi = () => {

@@ -2,7 +2,8 @@ import React from 'react'
 
 const Auth = () => {
   return (
-    <div>Auth</div>
+    <div           aria-label="Dummy Auth Page"
+>Auth</div>
   )
 }
 
