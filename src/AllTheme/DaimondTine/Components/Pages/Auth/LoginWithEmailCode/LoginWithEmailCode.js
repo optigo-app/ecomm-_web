@@ -182,7 +182,7 @@ export default function LoginWithEmailCode() {
         <div className='dt_loginWithEmailCodeMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
             <ToastContainer />
             {isLoading && (
-                <div className="loader-overlay">
+                <div className="loader-overlay" aria-live="assertive" aria-busy="true">
                     <CircularProgress className='loadingBarManage' />
                 </div>
             )}
@@ -225,14 +225,17 @@ export default function LoginWithEmailCode() {
                                 onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
                                 error={!!errors.mobileNo}
                                 helperText={errors.mobileNo}
+                                aria-invalid={!!errors.mobileNo} // Indicate error state
+                                aria-describedby="mobileNo-error" // Link error message
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>Login</button>
-                            <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
-                            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <button aria-label="Submit the code to login" className='submitBtnForgot' onClick={handleSubmit}>Login</button>
+                            <p style={{ marginTop: '10px' }}>Didn't get the code ? {resendTimer === 0 ? <span   aria-label="Click to resend the code" 
+                             style={{ fontWeight: 500, color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={handleResendCode}>Resend Code</span> : <span>Resend in {Math.floor(resendTimer / 60).toString().padStart(2, '0')}:{(resendTimer % 60).toString().padStart(2, '0')}</span>}</p>
+                            <Button   aria-label="Cancel login and return to login options" style={{ marginTop: '10px', color: 'gray', marginBottom: '40px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
                         </div>
                     </div>
-                </div>
+                </div>  
                 <Footer />
             </div>
         </div>

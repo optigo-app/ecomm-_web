@@ -13,7 +13,6 @@ export default function Footer() {
   const [socialMediaData, setSocialMediaData] = useState([]);
   const [email, setEmail] = useState();
   const [islogin, setIsLogin] = useRecoilState(dt_loginState);
-  const [selectedFooteVal, setSelectedVal] = useState(0);
   const navigation = useNavigate();
 
   const handleEmailChange = (event) => {
@@ -111,8 +110,10 @@ export default function Footer() {
                 value={email}
                 onChange={handleEmailChange}
                 required
+                 aria-label="Email for subscription"
               />
-              <button className="FooterSubBtn" onClick={handleSubmitNewlater}>
+              <button                 aria-label="Subscribe to newsletter"
+ className="FooterSubBtn" onClick={handleSubmitNewlater}>
                 SUBSCRIBE
               </button>
             </div>
@@ -130,6 +131,8 @@ export default function Footer() {
                 <span
                   onClick={() => navigation("/aboutUs")}
                   className="dt_footerLermore"
+                     aria-label="Learn more about Diamondtime"
+                     role="link"
                 >
                   {" "}
                   Learn More
@@ -144,10 +147,12 @@ export default function Footer() {
                   navigation("/faq");
                   window.scroll(0, 0);
                 }}
+                 aria-label="FAQ page"
+                 role="link"
               >
                 FAQs
               </p>
-              <p className="FoooterTextLink" onClick={openPdf}>
+              <p className="FoooterTextLink"  aria-label="Size guide PDF" role="link" onClick={openPdf}>
                 Size Guide
               </p>
               {/* <p className='FoooterTextLink'>Gift Cards</p> */}
@@ -157,6 +162,8 @@ export default function Footer() {
                   navigation("/MaterialCore");
                   window.scroll(0, 0);
                 }}
+                   aria-label="Material & Care page"
+                 role="link"
               >
                 Material & Care
               </p>
@@ -166,6 +173,8 @@ export default function Footer() {
                   navigation("/term&condition");
                   window.scroll(0, 0);
                 }}
+                  aria-label="Terms & Conditions page"
+                  role="link"
               >
                 Terms & Conditions
               </p>
@@ -175,6 +184,8 @@ export default function Footer() {
                   navigation("/PrivacyPolicy");
                   window.scroll(0, 0);
                 }}
+                role="link"
+                aria-label="Privacy Policy page"
               >
                 Privacy Policy
               </p>
@@ -187,6 +198,8 @@ export default function Footer() {
                   navigation("/ShipingReturn");
                   window.scroll(0, 0);
                 }}
+                aria-label="Shipping & Returns page"
+                role="link"
               >
                 Shipping & Returns
               </p>
@@ -196,6 +209,8 @@ export default function Footer() {
                   navigation("/Exchange");
                   window.scroll(0, 0);
                 }}
+                aria-label="Exchange & Buyback page"
+role="link"
               >
                 Exchange & Buyback
               </p>
@@ -204,7 +219,10 @@ export default function Footer() {
                 onClick={() => {
                   navigation("/Location");
                   window.scroll(0, 0);
-                }}
+                  
+                }} 
+                role="link"
+aria-label="Store Locations page"
               >
                 Location
               </p>
@@ -213,7 +231,10 @@ export default function Footer() {
               {/* <p className='FoooterTextLink'>Try at Home</p> */}
               <p
                 className="FoooterTextLink"
-                onClick={() => handleNavigte("/contactUs")}
+role="link"
+                onClick={() => handleNavigte("/contactUs")} 
+                aria-label="Contact Us page"
+
               >
                 Contact us
               </p>
@@ -226,11 +247,13 @@ export default function Footer() {
                   onClick={() => {
                     navigation("/account");
                     window.scroll(0, 0);
-                  }}
+                  }} 
+                  role="link"
+                  aria-label="Account page"
                 >
                   Account
                 </p>
-                <p className="FoooterTextLink" onClick={handleLogout}>
+                <p className="FoooterTextLink"   aria-label="Sign out of the account" role="link" onClick={handleLogout}>
                   Sign Out
                 </p>
                 {/* <p className='FoooterTextLink' onClick={() => navigation('/faq')}>Help</p> */}
@@ -241,6 +264,8 @@ export default function Footer() {
                 <p
                   className="FoooterTextLink"
                   onClick={() => navigation("/LoginOption")}
+                   aria-label="Sign in page"
+                   role="link"
                 >
                   Sign In
                 </p>
@@ -253,7 +278,7 @@ export default function Footer() {
           {/* <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/> */}
           {/* <img src={titleImg} className='logoImgFooter' /> */}
           {/* <p className='FooterBottomText'>Copyright © 2024 Sonasons. All Rights Reserved.</p> */}
-          <p className="FooterBottomText">
+          <p className="FooterBottomText" role="copyright" aria-label="copyright-bar">
             Copyright © 2024 Diamondtine. All Rights Reserved.
           </p>
         </div>

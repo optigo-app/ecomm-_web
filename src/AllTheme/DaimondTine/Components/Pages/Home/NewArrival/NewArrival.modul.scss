@@ -1,8 +1,16 @@
 @import '../../../scss/variable';
 
 
-.dt_newArrivalMain {
 
+.nnls-inducing-div {
+    display: none;
+}
+
+.nnls-inducing-div.show {
+    display: block;
+}
+
+.dt_newArrivalMain {
     // background: #f0e0e0;
     .dt_titleNewArrival {
         font-family: "Rosarivo", Sans-serif;

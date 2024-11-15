@@ -1133,8 +1133,17 @@ const DiamondFilter = () => {
         </div>
         <div className="filter_Head">
           <div className="for_price">
-            <span onClick={() => handleOpen("price")}>
-              price <FaChevronDown className="chveron_icon" />
+              {open === "price" && <div className="wrapper-fg"
+              style={{
+              position:"absolute",
+              top:"0",
+              padding:"4px 18px",
+              backgroundColor:"transparent" ,
+              color:"transparent",
+              }}
+              >22</div>}
+            <span onClick={() => handleOpen("price")}>      
+              Price <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionPriceRange
               data={sliderState.price}
@@ -1147,6 +1156,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Color">
+          {open === "Color" && <div className="wrapper-fg"
+              style={{
+              position:"absolute",
+              top:"0",
+              padding:"4px 18px",
+              backgroundColor:"transparent" ,
+              color:"transparent",
+              }}
+              >22</div>}
             <span onClick={() => handleOpen("Color")}>
               Color <FaChevronDown className="chveron_icon" />
             </span>
@@ -1161,6 +1179,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Carat">
+          {open === "Carat" && <div className="wrapper-fg"
+              style={{
+              position:"absolute",
+              top:"0",
+              padding:"4px 18px",
+              backgroundColor:"transparent" ,
+              color:"transparent",
+              }}
+              >22</div>}
             <span onClick={() => handleOpen("Carat")}>
               Carat <FaChevronDown className="chveron_icon" />
             </span>
@@ -1175,6 +1202,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Clarity">
+          {open === "Clarity" && <div className="wrapper-fg"
+              style={{
+              position:"absolute",
+              top:"0",
+              padding:"4px 18px",
+              backgroundColor:"transparent" ,
+              color:"transparent",
+              }}
+              >22</div>}
             <span onClick={() => handleOpen("Clarity")}>
               Clarity <FaChevronDown className="chveron_icon" />
             </span>
@@ -1189,6 +1225,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Cut">
+          {open === "Cut" && <div className="wrapper-fg"
+              style={{
+              position:"absolute",
+              top:"0",
+              padding:"4px 18px",
+              backgroundColor:"transparent" ,
+              color:"transparent",
+              }}
+              >22</div>}
             <span onClick={() => handleOpen("Cut")}>
               Cut <FaChevronDown className="chveron_icon" />
             </span>
@@ -1581,6 +1626,11 @@ const CollectionPriceRange = forwardRef(
     const handleSliderMouseDown = (event) => {
       event.stopPropagation();
     };
+
+    const handleInputClick = (event) => {
+      event.stopPropagation();  // Prevents the event from propagating when clicking inside the input field
+    };
+
     return (
       <div
         className="for_ma_collection_filter_dropdown"
@@ -1617,10 +1667,14 @@ const CollectionPriceRange = forwardRef(
           />
           <div className="for_ma_collection_slider_input">
             <div className="for_right-menu">
-              <input type="text" value={`INR ${formatter(data[0])}`} />
+              <input type="text" value={`INR ${formatter(data[0])}`} 
+              onClick={handleInputClick}
+              />
             </div>
             <div className="for_left-menu">
-              <input type="text" value={`INR ${formatter(data[1])}`} />
+              <input type="text" value={`INR ${formatter(data[1])}`}
+              onClick={handleInputClick}
+              />
             </div>
           </div>
         </div>
