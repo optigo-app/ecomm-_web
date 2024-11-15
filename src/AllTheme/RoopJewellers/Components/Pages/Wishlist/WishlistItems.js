@@ -94,7 +94,7 @@ const WishlistItems = ({
                                     // className="roop_card-ContentData roop_WlTitleline"
                                     >
                                         {item?.designno != "" && item?.designno}
-                                        {item?.TitleLine != "" || item?.TitleLine != null && " - " + item?.TitleLine}
+                                        {item?.TitleLine != "" && " - " + item?.TitleLine}
                                     </Typography>
                                     <Typography variant="body2" className="roop_card-ContentData">
                                         <div style={{ display: "flex", flexDirection: "column", gap: '1.3px' }}>

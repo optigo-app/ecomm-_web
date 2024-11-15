@@ -16,6 +16,10 @@
     align-items: center;
     color: white;
     text-decoration: none;
+
+    @media (max-width: 425px) {
+      height: 60px;
+    }
   }
 
   .roop_header_top_line_text {
@@ -184,7 +188,7 @@
     position: fixed;
     top: 0;
     box-shadow: 0 2px 5px rgba(20, 19, 19, 0.1);
-    z-index: 1000;
+    z-index: 100;
     transform: translateY(0px);
     transition: all 0.4s ease;
     height: 110px;
@@ -334,6 +338,7 @@
 
   .roop_smlingTopSerachOver.active {
     transform: translateY(0);
+    z-index: 111;
   }
 
   .roop_search_div {
@@ -702,7 +707,8 @@
       display: none !important;
     }
   }
-  @media screen and (max-width: 500px) {
+
+  @media screen and (max-width: 499px) {
     .roop_top_header3_logo_Web {
       display: none !important;
     }

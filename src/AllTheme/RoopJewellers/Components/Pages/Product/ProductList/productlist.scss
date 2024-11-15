@@ -307,6 +307,7 @@
   .roop_ImgandVideoContainer {
     border-radius: 8px;
     min-height: 300px;
+    background-color: rgba(114, 140, 165, 0.1);
 
     // @media screen and (max-width: 840px) {
     //   min-height: 250px;
@@ -314,6 +315,7 @@
 
     img {
       border-radius: 8px;
+      mix-blend-mode: multiply;
     }
   }
 
@@ -443,6 +445,7 @@
 
     .roop_currencyFont {
       font-weight: bolder;
+      font-size: 15px;
     }
 
     .roop_pricePort {
@@ -515,6 +518,7 @@
     color: white;
     text-transform: uppercase;
     width: 70px;
+    border-radius: 4px;
     font-size: 10px;
   }
 
@@ -525,11 +529,13 @@
     /* border-radius: 50px; */
     /* color: red !important; */
     // margin-left: 5px;
-    background-color: #8a8df3;
+    background-color: #67acc1;
+    // background-color: #8a8df3;  // light purple
     // background-color: #ff5100;
     color: white;
     text-transform: uppercase;
     width: 70px;
+    border-radius: 4px;
     font-size: 10px;
   }
 
@@ -541,6 +547,7 @@
     padding: 0px 5px;
     border: 1px solid #ff8c00 !important;
     border-radius: 50px;
+    border-radius: 4px;
     color: #ff8c00 !important;
     margin-left: 5px;
   }
@@ -566,6 +573,7 @@
     background-color: #eb8d8d;
     // background-color: darkblue;
     color: white;
+    border-radius: 4px;
     text-transform: uppercase;
     width: 70px;
     font-size: 10px;
@@ -582,6 +590,7 @@
     background-color: #ef476f;
     // background-color: darkorange;
     color: white;
+    border-radius: 4px;
     text-transform: uppercase;
     width: 70px;
     font-size: 10px;

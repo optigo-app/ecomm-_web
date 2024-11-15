@@ -9,15 +9,15 @@ function Collection() {
       <div className='roop_col_imageMain_div'>
         <div className='roop_col_image_div'>
           <img className='roop_col_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/Collection/collection1.jpg`} />
-          <p className='roop_col_name'>SILVER COLLECTION</p>
+          {/* <p className='roop_col_name'>SILVER COLLECTION</p> */}
         </div>
         <div className='roop_col_image_div'>
           <img className='roop_col_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/Collection/collection2.jpg`} />
-          <p className='roop_col_name'>GOLD COLLECTION</p>
+          {/* <p className='roop_col_name'>GOLD COLLECTION</p> */}
         </div>
         <div className='roop_col_image_div'>
           <img className='roop_col_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/Collection/collection3.jpg`} />
-          <p className='roop_col_name'>DIAMOND COLLECTION</p>
+          {/* <p className='roop_col_name'>DIAMOND COLLECTION</p> */}
         </div>
       </div>
 

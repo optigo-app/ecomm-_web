@@ -1330,7 +1330,7 @@ const ProductDetail = () => {
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {isImageload && (
+                      {isImageload ? (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1340,115 +1340,117 @@ const ProductDetail = () => {
                           variant="rounded"
                           className="pSkelton"
                         />
-                      )}
-
-                      <div
-                        className="smr_main_prod_img"
-                        style={{ display: isImageload ? "none" : "block" }}
-                      >
-                        {(selectedThumbImg?.type == "img") ? (
-                          <img
-                            src={selectedThumbImg?.link}
-                            // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                            // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                            onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
-                            alt={""}
-                            onLoad={() => setIsImageLoad(false)}
-                            className="smr_prod_img"
-                          />
-                        ) : (
-                          <div className="smr_prod_video">
-                            <video
-                              src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                              loop={true}
-                              autoPlay={true}
-                              style={{
-                                width: "100%",
-                                objectFit: "cover",
-                                marginTop: "40px",
-                                // height: "90%",
-                                borderRadius: "8px",
-                              }}
+                      ) : (
+                        <div
+                          className="smr_main_prod_img"
+                        // style={{ display: isImageload ? "none" : "block" }}
+                        >
+                          {(selectedThumbImg?.type == "img") ? (
+                            <img
+                              src={selectedThumbImg?.link}
+                              // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                              // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
+                              onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                              alt={""}
+                              onLoad={() => setIsImageLoad(false)}
+                              className="smr_prod_img"
                             />
-                          </div>
-                        )}
-
-                        <div className="smr_main_thumb_prod_img">
-                          {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
-                            pdThumbImg?.map((ele, i) => (
-                              <img
-                                src={ele}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="smr_prod_thumb_img"
-                                onClick={() => {
-                                  setSelectedThumbImg({
-                                    link: ele,
-                                    type: "img",
-                                  });
-                                  setThumbImgIndex(i);
-                                }}
-                              // onError={()=>{
-                              // }}
-                              />
-                            ))}
-                          {pdVideoArr?.map((data) => (
-                            <div
-                              style={{
-                                position: "relative",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                              onClick={() =>
-                                setSelectedThumbImg({ link: data, type: "vid" })
-                              }
-                            >
+                          ) : (
+                            <div className="smr_prod_video">
                               <video
-                                src={data}
-                                autoPlay={true}
+                                src={pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                                 loop={true}
-                                className="smr_prod_thumb_img"
-                                style={{ height: "70px", objectFit: "cover" }}
-                              />
-                              <IoIosPlayCircle
+                                autoPlay={true}
                                 style={{
-                                  position: "absolute",
-                                  color: "white",
-                                  width: "35px",
-                                  height: "35px",
+                                  width: "100%",
+                                  objectFit: "cover",
+                                  marginTop: "40px",
+                                  // height: "90%",
+                                  borderRadius: "8px",
                                 }}
                               />
                             </div>
-                          ))}
-                          {
-                            vison360 && vison360?.length > 0 ? (
-                              <img
-                                src={visionArround}
-                                alt={""}
-                                onLoad={() => setIsImageLoad(false)}
-                                className="smr_prod_thumb_img"
-                                id="vision360"
-                                onClick={() => {
-                                  setSelectedThumbImg({
-                                    link: vison360,
-                                    type: "img",
-                                  });
+                          )}
+
+                          <div className="smr_main_thumb_prod_img">
+                            {((pdThumbImg?.length > 1 || pdVideoArr?.length > 0) || storeInit?.IsVision360 == 1) &&
+                              pdThumbImg?.map((ele, i) => (
+                                <img
+                                  src={ele}
+                                  alt={""}
+                                  onLoad={() => setIsImageLoad(false)}
+                                  className="smr_prod_thumb_img"
+                                  onClick={() => {
+                                    setSelectedThumbImg({
+                                      link: ele,
+                                      type: "img",
+                                    });
+                                    setThumbImgIndex(i);
+                                  }}
+                                // onError={()=>{
+                                // }}
+                                />
+                              ))}
+                            {pdVideoArr?.map((data) => (
+                              <div
+                                style={{
+                                  position: "relative",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
                                 }}
-                              // onError={()=>{
-                              // }}
-                              />
-                            ) :
-                              null
-                          }
-                          {/* <div className="smr_thumb_prod_img">
+                                onClick={() =>
+                                  setSelectedThumbImg({ link: data, type: "vid" })
+                                }
+                              >
+                                <video
+                                  src={data}
+                                  autoPlay={true}
+                                  loop={true}
+                                  className="smr_prod_thumb_img"
+                                  style={{ height: "70px", objectFit: "cover" }}
+                                />
+                                <IoIosPlayCircle
+                                  style={{
+                                    position: "absolute",
+                                    color: "white",
+                                    width: "35px",
+                                    height: "35px",
+                                  }}
+                                />
+                              </div>
+                            ))}
+                            {
+                              vison360 && vison360?.length > 0 ? (
+                                <img
+                                  src={visionArround}
+                                  alt={""}
+                                  onLoad={() => setIsImageLoad(false)}
+                                  className="smr_prod_thumb_img"
+                                  id="vision360"
+                                  onClick={() => {
+                                    setSelectedThumbImg({
+                                      link: vison360,
+                                      type: "img",
+                                    });
+                                  }}
+                                // onError={()=>{
+                                // }}
+                                />
+                              ) :
+                                null
+                            }
+                            {/* <div className="smr_thumb_prod_img">
                       
                       </div> */}
+                          </div>
                         </div>
-                      </div>
+                      )}
+
+
                     </div>
                     <div className="smr_prod_shortInfo">
-                      {prodLoading ?
+                      {/* {!isImageload || !prodLoading ?
                         <Skeleton
                           variant="rounded"
                           width={"100%"}
@@ -1456,277 +1458,278 @@ const ProductDetail = () => {
                           sx={{ marginInline: "16%", marginTop: "3%" }}
                           className="pSkelton"
                         />
-                        : <div className="smr_prod_shortInfo_inner">
-                          <p className="smr_prod_titleLine">
-                            {singleProd?.TitleLine}
-                          </p>
+                        :  */}
+                      <div className="smr_prod_shortInfo_inner">
+                        <p className="smr_prod_titleLine">
+                          {singleProd?.TitleLine}
+                        </p>
 
-                          <div className="smr_prod_summury_info">
-                            <div className="smr_prod_summury_info_inner">
-                              <span className="smr_single_prod_designno">
-                                {singleProd?.designno}
+                        <div className="smr_prod_summury_info">
+                          <div className="smr_prod_summury_info_inner">
+                            <span className="smr_single_prod_designno">
+                              {singleProd?.designno}
+                            </span>
+                            {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
+                              Metal Purity :{" "}
+                              <span className="smr_prod_short_val">
+                                {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
                               </span>
-                              {(singleProd?.MetalTypePurity !== "" && selectMtType) ? <span className="smr_prod_short_key">
-                                Metal Purity :{" "}
-                                <span className="smr_prod_short_val">
-                                  {singleProd?.IsMrpBase === 1 ? singleProd?.MetalTypePurity : selectMtType}
-                                </span>
-                              </span> : null}
-                              <span className="smr_prod_short_key">
-                                Metal Color :{" "}
-                                <span className="smr_prod_short_val">
-                                  {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
-                                    (ele) => ele?.colorcode == selectMtColor
-                                  )[0]?.metalcolorname}
-                                </span>
+                            </span> : null}
+                            <span className="smr_prod_short_key">
+                              Metal Color :{" "}
+                              <span className="smr_prod_short_val">
+                                {JSON.parse(sessionStorage.getItem("MetalColorCombo"))?.filter(
+                                  (ele) => ele?.colorcode == selectMtColor
+                                )[0]?.metalcolorname}
                               </span>
-                              {(storeInit?.IsDiamondCustomization === 1 &&
-                                diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
-                                Diamond Quality Color :{" "}
-                                <span className="smr_prod_short_val">
-                                  {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
-                                </span>
-                              </span> : null}
-                              <span className="smr_prod_short_key">
-                                Net Wt :{" "}
-                                <span className="smr_prod_short_val">
-                                  {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
-                                </span>
+                            </span>
+                            {(storeInit?.IsDiamondCustomization === 1 &&
+                              diaQcCombo?.length > 0 && diaList?.length && singleProd?.DiaQuaCol !== "" && selectDiaQc) ? <span className="smr_prod_short_key">
+                              Diamond Quality Color :{" "}
+                              <span className="smr_prod_short_val">
+                                {singleProd?.IsMrpBase === 1 ? singleProd?.DiaQuaCol : `${selectDiaQc}`}
                               </span>
-                            </div>
+                            </span> : null}
+                            <span className="smr_prod_short_key">
+                              Net Wt :{" "}
+                              <span className="smr_prod_short_val">
+                                {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
+                              </span>
+                            </span>
                           </div>
+                        </div>
 
-                          {storeInit?.IsProductWebCustomization == 1 &&
-                            (
-                              <div className="smr_single_prod_customize">
-                                {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1
-                                  && (<div className="smr_single_prod_customize_metal">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      METAL TYPE:
-                                    </label>
-                                    {singleProd?.IsMrpBase == 1 ? (
-                                      <span className="menuitemSelectoreMain">
-                                        {/* {
+                        {storeInit?.IsProductWebCustomization == 1 &&
+                          (
+                            <div className="smr_single_prod_customize">
+                              {metalTypeCombo?.length > 0 && storeInit?.IsMetalCustomization === 1
+                                && (<div className="smr_single_prod_customize_metal">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    METAL TYPE:
+                                  </label>
+                                  {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {/* {
                                       metalTypeCombo?.filter(
                                         (ele) =>
                                           ele?.Metalid ==
                                           singleProd?.MetalPurityid
                                       )[0]?.metaltype
                                     } */}
-                                        {singleProd?.MetalTypePurity}
-                                      </span>
-                                    ) : (
-                                      <select
-                                        className="menuitemSelectoreMain"
-                                        value={selectMtType}
-                                        onChange={(e) =>
-                                          handleCustomChange(e, "mt")
-                                        }
-                                      // onChange={(e) => setSelectMtType(e.target.value)}
-                                      >
-                                        {metalTypeCombo.map((ele) => (
-                                          <option
-                                            key={ele?.Metalid}
-                                            value={ele?.metaltype}
-                                          >
-                                            {ele?.metaltype}
-                                          </option>
-                                        ))}
-                                      </select>
-                                    )}
-                                  </div>)}
-                                {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
-                                  <div className="smr_single_prod_customize_outer">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      METAL COLOR:
-                                    </label>
-                                    {singleProd?.IsMrpBase == 1 ? (
+                                      {singleProd?.MetalTypePurity}
+                                    </span>
+                                  ) : (
+                                    <select
+                                      className="menuitemSelectoreMain"
+                                      value={selectMtType}
+                                      onChange={(e) =>
+                                        handleCustomChange(e, "mt")
+                                      }
+                                    // onChange={(e) => setSelectMtType(e.target.value)}
+                                    >
+                                      {metalTypeCombo.map((ele) => (
+                                        <option
+                                          key={ele?.Metalid}
+                                          value={ele?.metaltype}
+                                        >
+                                          {ele?.metaltype}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  )}
+                                </div>)}
+                              {metalColorCombo?.length > 0 && storeInit?.IsMetalTypeWithColor === 1 && (
+                                <div className="smr_single_prod_customize_outer">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    METAL COLOR:
+                                  </label>
+                                  {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {
+                                        metalColorCombo?.filter(
+                                          (ele) =>
+                                            ele?.id == singleProd?.MetalColorid
+                                        )[0]?.metalcolorname
+                                      }
+                                    </span>
+                                  ) : (
+                                    <select
+                                      className="menuitemSelectoreMain"
+                                      value={selectMtColor}
+                                      onChange={(e) =>
+                                        handleMetalWiseColorImg(e)
+                                      }
+                                    >
+                                      {metalColorCombo?.map((ele) => (
+                                        <option
+                                          key={ele?.id}
+                                          value={ele?.colorcode}
+                                        >
+                                          {ele?.metalcolorname}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  )}
+                                </div>
+                              )}
+                              {(storeInit?.IsDiamondCustomization === 1 &&
+                                diaQcCombo?.length > 0 && diaList?.length) ? (
+                                <div className="smr_single_prod_customize_outer">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    DIAMOND :
+                                  </label>
+                                  {
+                                    singleProd?.IsMrpBase == 1 ? (
                                       <span className="menuitemSelectoreMain">
-                                        {
-                                          metalColorCombo?.filter(
-                                            (ele) =>
-                                              ele?.id == singleProd?.MetalColorid
-                                          )[0]?.metalcolorname
-                                        }
+                                        {singleProd?.DiaQuaCol}
                                       </span>
-                                    ) : (
-                                      <select
-                                        className="menuitemSelectoreMain"
-                                        value={selectMtColor}
-                                        onChange={(e) =>
-                                          handleMetalWiseColorImg(e)
-                                        }
-                                      >
-                                        {metalColorCombo?.map((ele) => (
-                                          <option
-                                            key={ele?.id}
-                                            value={ele?.colorcode}
-                                          >
-                                            {ele?.metalcolorname}
-                                          </option>
-                                        ))}
-                                      </select>
-                                    )}
-                                  </div>
-                                )}
-                                {(storeInit?.IsDiamondCustomization === 1 &&
-                                  diaQcCombo?.length > 0 && diaList?.length) ? (
-                                  <div className="smr_single_prod_customize_outer">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      DIAMOND :
-                                    </label>
-                                    {
-                                      singleProd?.IsMrpBase == 1 ? (
-                                        <span className="menuitemSelectoreMain">
-                                          {singleProd?.DiaQuaCol}
-                                        </span>
-                                      )
-                                        :
-                                        (
-                                          <select
-                                            className="menuitemSelectoreMain"
-                                            value={selectDiaQc}
-                                            // onChange={(e) => setSelectDiaQc(e.target.value)}
-                                            onChange={(e) =>
-                                              handleCustomChange(e, "dia")
-                                            }
-                                          >
-                                            {diaQcCombo.map((ele) => (
-                                              <option
-                                                key={ele?.QualityId}
-                                                value={`${ele?.Quality},${ele?.color}`}
-                                              >{`${ele?.Quality},${ele?.color}`}</option>
-                                            ))}
-                                          </select>
-                                        )}
-                                  </div>
-                                ) : null}
-                                {(storeInit?.IsCsCustomization === 1 &&
-                                  selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
-                                  <div className="smr_single_prod_customize_outer">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      COLOR STONE :
-                                    </label>
-                                    {
-                                      singleProd?.IsMrpBase == 1 ? (
-                                        <span className="menuitemSelectoreMain">
-                                          {singleProd?.CsQuaCol}
-                                        </span>
-                                      ) : (
+                                    )
+                                      :
+                                      (
                                         <select
                                           className="menuitemSelectoreMain"
-                                          value={selectCsQc}
-                                          // onChange={(e) => setSelectCsQc(e.target.value)}
+                                          value={selectDiaQc}
+                                          // onChange={(e) => setSelectDiaQc(e.target.value)}
                                           onChange={(e) =>
-                                            handleCustomChange(e, "cs")
+                                            handleCustomChange(e, "dia")
                                           }
                                         >
-                                          {csQcCombo.map((ele) => (
+                                          {diaQcCombo.map((ele) => (
                                             <option
                                               key={ele?.QualityId}
                                               value={`${ele?.Quality},${ele?.color}`}
                                             >{`${ele?.Quality},${ele?.color}`}</option>
                                           ))}
                                         </select>
-                                      )
-                                    }
-
-                                  </div>
-                                )
-                                  :
-                                  null
-                                }
-                                {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
-                                {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
-                                  <div className="smr_single_prod_customize_outer">
-                                    <label className="menuItemTimeEleveDeatil">
-                                      SIZE:
-                                    </label>
-                                    {singleProd?.IsMrpBase == 1 ? (
+                                      )}
+                                </div>
+                              ) : null}
+                              {(storeInit?.IsCsCustomization === 1 &&
+                                selectCsQc?.length > 0 && csList?.filter((ele) => ele?.D !== "MISC")?.length > 0) ? (
+                                <div className="smr_single_prod_customize_outer">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    COLOR STONE :
+                                  </label>
+                                  {
+                                    singleProd?.IsMrpBase == 1 ? (
                                       <span className="menuitemSelectoreMain">
-                                        {singleProd?.DefaultSize}
+                                        {singleProd?.CsQuaCol}
                                       </span>
                                     ) : (
                                       <select
                                         className="menuitemSelectoreMain"
-                                        value={sizeData}
-                                        // onChange={(e) => {
-                                        //   setSizeData(e.target.value);
-                                        // }}
+                                        value={selectCsQc}
+                                        // onChange={(e) => setSelectCsQc(e.target.value)}
                                         onChange={(e) =>
-                                          handleCustomChange(e, "sz")
+                                          handleCustomChange(e, "cs")
                                         }
                                       >
-                                        {SizeCombo?.rd?.map((ele) => (
+                                        {csQcCombo.map((ele) => (
                                           <option
-                                            value={ele?.sizename}
-                                            // selected={
-                                            //   singleProd && singleProd.DefaultSize === ele.sizename
-                                            // }
-                                            key={ele?.id}
-                                          >
-                                            {ele?.sizename}
-                                          </option>
+                                            key={ele?.QualityId}
+                                            value={`${ele?.Quality},${ele?.color}`}
+                                          >{`${ele?.Quality},${ele?.color}`}</option>
                                         ))}
                                       </select>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                                    )
+                                  }
 
-                          {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
-                            (
-                              <Accordion
-                                elevation={0}
+                                </div>
+                              )
+                                :
+                                null
+                              }
+                              {/* {console.log("sizeData",SizeCombo?.find((size) => size.IsDefaultSize === 1)?.sizename)} */}
+                              {SizeSorting(SizeCombo?.rd)?.length > 0 && singleProd?.DefaultSize !== "" && (
+                                <div className="smr_single_prod_customize_outer">
+                                  <label className="menuItemTimeEleveDeatil">
+                                    SIZE:
+                                  </label>
+                                  {singleProd?.IsMrpBase == 1 ? (
+                                    <span className="menuitemSelectoreMain">
+                                      {singleProd?.DefaultSize}
+                                    </span>
+                                  ) : (
+                                    <select
+                                      className="menuitemSelectoreMain"
+                                      value={sizeData}
+                                      // onChange={(e) => {
+                                      //   setSizeData(e.target.value);
+                                      // }}
+                                      onChange={(e) =>
+                                        handleCustomChange(e, "sz")
+                                      }
+                                    >
+                                      {SizeCombo?.rd?.map((ele) => (
+                                        <option
+                                          value={ele?.sizename}
+                                          // selected={
+                                          //   singleProd && singleProd.DefaultSize === ele.sizename
+                                          // }
+                                          key={ele?.id}
+                                        >
+                                          {ele?.sizename}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                        {storeInit?.IsPriceBreakUp == 1 && singleProd1?.IsMrpBase !== 1 && singleProd?.IsMrpBase !== 1 &&
+                          (
+                            <Accordion
+                              elevation={0}
+                              sx={{
+                                borderBottom: "1px solid #c7c8c9",
+                                borderRadius: 0,
+                                "&.MuiPaper-root.MuiAccordion-root:last-of-type":
+                                {
+                                  borderBottomLeftRadius: "0px",
+                                  borderBottomRightRadius: "0px",
+                                },
+                                "&.MuiPaper-root.MuiAccordion-root:before":
+                                {
+                                  background: "none",
+                                },
+                                width: '95.5%'
+                              }}
+                            >
+                              <AccordionSummary
+                                expandIcon={
+                                  <ExpandMoreIcon sx={{ width: "20px" }} />
+                                }
+                                aria-controls="panel1-content"
+                                id="panel1-header"
                                 sx={{
-                                  borderBottom: "1px solid #c7c8c9",
+                                  color: "#7d7f85 !important",
                                   borderRadius: 0,
-                                  "&.MuiPaper-root.MuiAccordion-root:last-of-type":
-                                  {
-                                    borderBottomLeftRadius: "0px",
-                                    borderBottomRightRadius: "0px",
+
+                                  "&.MuiAccordionSummary-root": {
+                                    padding: 0,
                                   },
-                                  "&.MuiPaper-root.MuiAccordion-root:before":
-                                  {
-                                    background: "none",
-                                  },
-                                  width: '95.5%'
+                                }}
+                              // className="filtercategoryLable"
+
+                              >
+                                <Typography sx={{ fontFamily: "Spectral-Regular !important", fontSize: '18px' }}>Price Breakup</Typography>
+                              </AccordionSummary>
+                              <AccordionDetails
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "4px",
+                                  // minHeight: "fit-content",
+                                  // maxHeight: "300px",
+                                  // overflow: "auto",
+                                  padding: '0 0 16px 0',
+
                                 }}
                               >
-                                <AccordionSummary
-                                  expandIcon={
-                                    <ExpandMoreIcon sx={{ width: "20px" }} />
-                                  }
-                                  aria-controls="panel1-content"
-                                  id="panel1-header"
-                                  sx={{
-                                    color: "#7d7f85 !important",
-                                    borderRadius: 0,
 
-                                    "&.MuiAccordionSummary-root": {
-                                      padding: 0,
-                                    },
-                                  }}
-                                // className="filtercategoryLable"
-
-                                >
-                                  <Typography sx={{ fontFamily: "Spectral-Regular !important", fontSize: '18px' }}>Price Breakup</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "4px",
-                                    // minHeight: "fit-content",
-                                    // maxHeight: "300px",
-                                    // overflow: "auto",
-                                    padding: '0 0 16px 0',
-
-                                  }}
-                                >
-
-                                  {/* <table>
+                                {/* <table>
                                 <tr>
                                   <td><Typography>{(singleProd?.Metal_Cost).toFixed(3)}</Typography></td>
                                   <td><Typography>Metal Amount</Typography></td>
@@ -1742,208 +1745,208 @@ const ProductDetail = () => {
                               </table> */}
 
 
-                                  {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Metal</Typography>
-                                    <span style={{ display: 'flex' }}>
-                                      <Typography>
-                                        {
+                                {(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Metal</Typography>
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>
+                                      {
+                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                        </span>
+                                      }
+                                    </Typography>
+                                    &nbsp;
+                                    <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Diamond </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Stone </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>MISC </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Labour </Typography>
+
+                                  <span style={{ display: 'flex' }}>
+                                    <Typography>{
+                                      <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
+                                        {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                                      </span>
+                                    }</Typography>
+                                    &nbsp;
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                  </span>
+                                </div> : null}
+
+                                {
+                                  (
+
+                                    (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                    (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                    (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                    (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                    (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                    (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
+
+                                  ) !== 0 ?
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                      <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Other </Typography>
+
+                                      <span style={{ display: 'flex' }}>
+                                        <Typography>{
                                           <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
                                             {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                                           </span>
-                                        }
-                                      </Typography>
-                                      &nbsp;
-                                      <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
-                                    </span>
-                                  </div> : null}
+                                        }</Typography>
+                                        &nbsp;
+                                        <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{
+                                          formatter.format((
 
-                                  {(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Diamond </Typography>
+                                            (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
+                                            (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
+                                            (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
+                                            (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
+                                            (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
+                                            (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
 
-                                    <span style={{ display: 'flex' }}>
-                                      <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
-                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>
-                                      }</Typography>
-                                      &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
-                                    </span>
-                                  </div> : null}
+                                          )?.toFixed(2))
+                                        }</Typography>
+                                      </span>
+                                    </div>
+                                    :
+                                    null
+                                }
 
-                                  {(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Stone </Typography>
+                              </AccordionDetails>
+                            </Accordion>
+                          )}
 
-                                    <span style={{ display: 'flex' }}>
-                                      <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
-                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>
-                                      }</Typography>
-                                      &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
-                                    </span>
-                                  </div> : null}
-
-                                  {(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>MISC </Typography>
-
-                                    <span style={{ display: 'flex' }}>
-                                      <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
-                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>
-                                      }</Typography>
-                                      &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
-                                    </span>
-                                  </div> : null}
-
-                                  {(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost) !== 0 ? <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Labour </Typography>
-
-                                    <span style={{ display: 'flex' }}>
-                                      <Typography>{
-                                        <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
-                                          {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                        </span>
-                                      }</Typography>
-                                      &nbsp;
-                                      <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
-                                    </span>
-                                  </div> : null}
-
-                                  {
-                                    (
-
-                                      (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                      (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                      (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                      (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                      (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                      (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                    ) !== 0 ?
-
-                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography className="smr_Price_breakup_label" sx={{ fontFamily: "Spectral-Regular !important" }}>Other </Typography>
-
-                                        <span style={{ display: 'flex' }}>
-                                          <Typography>{
-                                            <span className="smr_currencyFont" sx={{ fontFamily: "Spectral-Regular !important" }}>
-                                              {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                            </span>
-                                          }</Typography>
-                                          &nbsp;
-                                          <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{
-                                            formatter.format((
-
-                                              (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
-                                              (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
-                                              (singleProd1?.DesignMarkUpAmount ? singleProd1?.DesignMarkUpAmount : singleProd?.DesignMarkUpAmount) +
-                                              (singleProd1?.ColorStone_SettingCost ? singleProd1?.ColorStone_SettingCost : singleProd?.ColorStone_SettingCost) +
-                                              (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
-                                              (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
-
-                                            )?.toFixed(2))
-                                          }</Typography>
-                                        </span>
-                                      </div>
-                                      :
-                                      null
-                                  }
-
-                                </AccordionDetails>
-                              </Accordion>
+                        {storeInit?.IsPriceShow === 1 &&
+                          (<div className="smr_price_portion">
+                            {isPriceloading ? (
+                              ""
+                            ) : (
+                              <span className="smr_currencyFont">
+                                {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
+                              </span>
                             )}
-
-                          {storeInit?.IsPriceShow === 1 &&
-                            (<div className="smr_price_portion">
-                              {isPriceloading ? (
-                                ""
-                              ) : (
-                                <span className="smr_currencyFont">
-                                  {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
-                                </span>
-                              )}
-                              &nbsp;
-                              {/* {PriceWithMarkupFunction(
+                            &nbsp;
+                            {/* {PriceWithMarkupFunction(
                         mtrd?.AB,
                         finalprice,
                         storeInit?.CurrencyRate
                       )?.toFixed(2)} */}
-                              {isPriceloading ? (
-                                <Skeleton
-                                  variant="rounded"
-                                  width={140}
-                                  height={30}
-                                  className="pSkelton"
-                                />
-                              ) :
-                                formatter.format
-                                  (
-                                    singleProd1?.UnitCostWithMarkUp ??
-                                    singleProd?.UnitCostWithMarkUp
-                                  )
-                              }
-                              {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
-                            </div>)
-                          }
+                            {isPriceloading ? (
+                              <Skeleton
+                                variant="rounded"
+                                width={140}
+                                height={30}
+                                className="pSkelton"
+                              />
+                            ) :
+                              formatter.format
+                                (
+                                  singleProd1?.UnitCostWithMarkUp ??
+                                  singleProd?.UnitCostWithMarkUp
+                                )
+                            }
+                            {/* {singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp} */}
+                          </div>)
+                        }
 
-                          {prodLoading ? null :
-                            <div>
+                        {prodLoading ? null :
+                          <div>
 
-                              <div className="Smr_CartAndWish_portion">
-                                <button
-                                  className={
-                                    !addToCartFlag
-                                      ? "smr_AddToCart_btn"
-                                      : "smr_AddToCart_btn_afterCart"
-                                  }
-                                  onClick={() => handleCart(!addToCartFlag)}
+                            <div className="Smr_CartAndWish_portion">
+                              <button
+                                className={
+                                  !addToCartFlag
+                                    ? "smr_AddToCart_btn"
+                                    : "smr_AddToCart_btn_afterCart"
+                                }
+                                onClick={() => handleCart(!addToCartFlag)}
+                              >
+                                <span
+                                  className="smr_addtocart_btn_txt"
+                                  style={{ color: !addToCartFlag ? "" : "white" }}
                                 >
-                                  <span
-                                    className="smr_addtocart_btn_txt"
-                                    style={{ color: !addToCartFlag ? "" : "white" }}
-                                  >
-                                    {!addToCartFlag
-                                      ? "ADD TO CART"
-                                      : "REMOVE FROM CART"}
-                                  </span>
-                                </button>
-                                <div className="Smr_wishlistcont">
-                                  <Checkbox
-                                    icon={
-                                      <GoHeart
-                                        size={25}
-                                        color="#D14A61"
-                                      // sx={{ fontSize: "25px", color: "#D14A61" }}
-                                      />
-                                    }
-                                    checkedIcon={
-                                      <GoHeartFill
-                                        size={25}
-                                        color="#D14A61"
-                                      // sx={{ fontSize: "25px", color: "#D14A61" }}
-                                      />
-                                    }
-                                    disableRipple={true}
-                                    checked={
-                                      wishListFlag ?? singleProd?.IsInWish == 1
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={(e) => handleWishList(e, singleProd)}
-                                  />
-                                </div>
+                                  {!addToCartFlag
+                                    ? "ADD TO CART"
+                                    : "REMOVE FROM CART"}
+                                </span>
+                              </button>
+                              <div className="Smr_wishlistcont">
+                                <Checkbox
+                                  icon={
+                                    <GoHeart
+                                      size={25}
+                                      color="#D14A61"
+                                    // sx={{ fontSize: "25px", color: "#D14A61" }}
+                                    />
+                                  }
+                                  checkedIcon={
+                                    <GoHeartFill
+                                      size={25}
+                                      color="#D14A61"
+                                    // sx={{ fontSize: "25px", color: "#D14A61" }}
+                                    />
+                                  }
+                                  disableRipple={true}
+                                  checked={
+                                    wishListFlag ?? singleProd?.IsInWish == 1
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => handleWishList(e, singleProd)}
+                                />
                               </div>
-                              {
-                                // prodLoading &&
-                                singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'Spectral-Regular !important', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
-                              {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'Spectral-Regular !important', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
                             </div>
-                          }
-                        </div>}
+                            {
+                              // prodLoading &&
+                              singleProd?.InStockDays !== 0 && <p style={{ margin: '20px 0px 0px 0px', fontWeight: 500, fontSize: '18px', fontFamily: 'Spectral-Regular !important', color: '#7d7f85' }}>Express Shipping in Stock {singleProd?.InStockDays} Days Delivery</p>}
+                            {singleProd?.MakeOrderDays != 0 && <p style={{ margin: '0px', fontWeight: 500, fontSize: '18px', fontFamily: 'Spectral-Regular !important', color: '#7d7f85' }}>Make To Order {singleProd?.MakeOrderDays} Days Delivery</p>}
+                          </div>
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1971,7 +1974,7 @@ const ProductDetail = () => {
                         <li className="smr_proDeatilList">Shape</li>
                         <li className="smr_proDeatilList">Clarity</li>
                         <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="smr_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {diaList?.map((data) => (
                         <ul className="smr_mt_detail_title_ul">
@@ -2005,7 +2008,7 @@ const ProductDetail = () => {
                         <li className="smr_proDeatilList">Shape</li>
                         <li className="smr_proDeatilList">Clarity</li>
                         <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="smr_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
                         <ul className="smr_mt_detail_title_ul">
@@ -2039,7 +2042,7 @@ const ProductDetail = () => {
                         <li className="smr_proDeatilList">Shape</li>
                         <li className="smr_proDeatilList">Clarity</li>
                         <li className="smr_proDeatilList">Color</li>
-                        <li className="smr_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="smr_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
                         <ul className="smr_mt_detail_title_ul">
@@ -2415,8 +2418,8 @@ const ProductDetail = () => {
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
-                                  gap: "5px",
-                                  paddingBottom: "5px",
+                                  gap: "3px",
+                                  paddingBlock: "3px",
                                 }}
                               >
                                 <span

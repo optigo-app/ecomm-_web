@@ -622,7 +622,7 @@ const Header = () => {
                               className="nav_li_smining_Icone"
                             >
                               <ShoppingCartOutlinedIcon
-                                sx={{ height: "25px", width: "25px" }}
+                                sx={{ height: "25px", width: "25px", cursor: "pointer" }}
                               />
                             </li>
                           </Tooltip>
@@ -688,7 +688,7 @@ const Header = () => {
                                   className="nav_li_smining_Icone"
                                 >
                                   <ShoppingCartOutlinedIcon
-                                    sx={{ height: "25px", width: "25px" }}
+                                    sx={{ height: "25px", width: "25px", cursor: "pointer", }}
                                   />
                                 </li>
                               </Tooltip>
@@ -1226,7 +1226,7 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: "25px", width: "25px" }}
+                            sx={{ height: "25px", width: "25px", cursor: "pointer", }}
                           />
                         </li>
                       </Tooltip>
@@ -1285,7 +1285,7 @@ const Header = () => {
                             className="nav_li_smining_Icone"
                           >
                             <ShoppingCartOutlinedIcon
-                              sx={{ height: "20px", width: "20px" }}
+                              sx={{ height: "25px", width: "25px", cursor: "pointer" }}
                             />
                           </li>
                         </Tooltip>

@@ -1,18 +1,124 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './JewellerySet.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction'
+import { roop_loginState } from '../../../Recoil/atom';
+import imageNotFound from '../../../Assets/image-not-found.jpg';
+import { useRecoilValue } from 'recoil';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { Get_Tren_BestS_NewAr_DesigSet_Album } from '../../../../../../utils/API/Home/Get_Tren_BestS_NewAr_DesigSet_Album/Get_Tren_BestS_NewAr_DesigSet_Album';
 
 function JewellerySet() {
-    return (
-        <div className='roop_jewlSet_Main'>
 
-            <p className='roop_jewl_title'>Discover our carefully curated Jewellery Sets</p>
-            <div className='roop_jewls_main_sub'>
-                <div className='roop_jewls__image_div'>
-                    <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/1.jpg`} />
-                    <p className='roop_jewls_Div_name'>Gold Ring</p>
-                </div>
-                <div className='roop_jewls__image_div1'>
+  const [albumData, setAlbumData] = useState();
+  const navigation = useNavigate();
+  const islogin = useRecoilValue(roop_loginState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [storeInit, setStoreInit] = useState({});
+  const [validImages, setValidImages] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const storeInitData = JSON.parse(sessionStorage.getItem("storeInit"));
+    const loginUserDetail = JSON.parse(sessionStorage.getItem('loginUserDetail'));
+
+    setStoreInit(storeInitData);
+
+    const { IsB2BWebsite } = storeInitData;
+    const visiterID = Cookies.get('visiterId');
+
+    let finalID;
+    if (IsB2BWebsite == 0) {
+      finalID = islogin === false ? visiterID : (loginUserDetail?.id || '0');
+    } else {
+      finalID = loginUserDetail?.id || '0';
+    }
+
+    Get_Tren_BestS_NewAr_DesigSet_Album("GETAlbum_List", finalID)
+      .then((response) => {
+        if (response?.Data?.rd) {
+          setAlbumData(response.Data.rd);
+        } else {
+          console.log("No album data found", response);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching album data:", err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+  }, [islogin]);
+
+  const checkImageAvailability = (imageUrl) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = imageUrl;
+    });
+  };
+
+  const findValidImage = async (designDetails) => {
+    for (let i = 0; i < designDetails.length; i++) {
+      const design = designDetails[i];
+      const imageUrl = `${storeInit?.DesignImageFol}${design?.designno}_1.${design?.ImageExtension}`;
+      const isAvailable = await checkImageAvailability(imageUrl);
+
+      if (isAvailable) {
+        return imageUrl;
+      }
+    }
+    return imageNotFound;
+  };
+
+  useEffect(() => {
+    const getValidImages = async () => {
+      const images = [];
+
+      for (let index = 0; index < albumData?.length; index++) {
+        const album = albumData[index];
+        if (album?.Designdetail) {
+          const designDetails = JSON?.parse(album?.Designdetail) || [];
+          const validImage = await findValidImage(designDetails);
+          images.push({ ...album, src: validImage, name: album?.AlbumName });
+        } else {
+          images.push({ ...album, src: imageNotFound, name: album?.AlbumName });
+        }
+      }
+
+      setValidImages(images);
+    };
+
+    if (albumData?.length > 0) {
+      getValidImages();
+    }
+  }, [albumData, storeInit, imageNotFound]);
+
+  const handleNavigate = (data) => {
+    const url = `/p/${encodeURIComponent(data?.AlbumName)}/?A=${btoa(`AlbumName=${data?.AlbumName}`)}`;
+    const redirectUrl = `/loginOption/?LoginRedirect=${encodeURIComponent(url)}`;
+    sessionStorage.setItem('redirectURL', url)
+    navigation(islogin || data?.AlbumSecurityId === 0 ? url : redirectUrl);
+  };
+
+  return (
+    <div className='roop_jewlSet_Main'>
+
+      <p className='roop_jewl_title'>Discover our carefully curated Jewellery Album</p>
+      {/* <p className='roop_jewl_title'>Discover our carefully curated Jewellery Sets</p> */}
+      <div className='roop_jewls_main_sub'>
+        {validImages?.slice(0, 4)?.map((item, index) => (
+          <div className='roop_jewls__image_div' key={index}>
+            <img className='roop_jewelImg' loading="lazy" src={item?.src} alt={item?.name} onClick={() => handleNavigate(item)} />
+            <p className='roop_jewls_Div_name'>{item?.name}</p>
+          </div>
+        ))}
+
+
+        {/* <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/1.jpg`} /> */}
+        {/* <p className='roop_jewls_Div_name'>Gold Ring</p> */}
+        {/* <div className='roop_jewls__image_div1'>
                     <p className='roop_jewls_Div_name'>Gold Bar</p>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/2.jpg`} />
                 </div>
@@ -23,26 +129,26 @@ function JewellerySet() {
                 <div className='roop_jewls__image_div1'>
                     <p className='roop_jewls_Div_name'>Diamond Necklace</p>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/4.jpg`} />
-                </div>
+                </div> */}
 
-                <div className='roop_jewels_bannerImg_div'>
+        {/* <div className='roop_jewels_bannerImg_div'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/5.png`} />
                     <p className='roop_jewls_Div_name'>Silver Coin & Bars</p>
-                </div>
+                </div> */}
 
-                <div className='roop_jewls__image_div'>
+        {/* <div className='roop_jewls__image_div'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/3.jpg`} />
                     <p className='roop_jewls_Div_name'>Gold Necklace</p>
-                </div>
-                <div className='roop_jewls__image_div1'>
+                </div> */}
+        {/* <div className='roop_jewls__image_div1'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/4.jpg`} />
                     <p className='roop_jewls_Div_name'>Diamond Necklace</p>
-                </div>
-                <div className='roop_jewls__image_div'>
+                </div> */}
+        {/* <div className='roop_jewls__image_div'>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/1.jpg`} />
                     <p className='roop_jewls_Div_name'>Gold Ring</p>
-                </div>
-                {/* <div className='roop_jewls__image_div' style={{ position: 'relative', display: 'inline-block' }}>
+                </div> */}
+        {/* <div className='roop_jewls__image_div' style={{ position: 'relative', display: 'inline-block' }}>
                     <img
                         className='roop_jewelImg'
                         loading="lazy"
@@ -70,13 +176,13 @@ function JewellerySet() {
                     </p>
                 </div> */}
 
-                <div className='roop_jewls__image_div1'>
+        {/* <div className='roop_jewls__image_div1'>
                     <p className='roop_jewls_Div_name'>Gold Bar</p>
                     <img className='roop_jewelImg' loading="lazy" src={`${storImagePath()}/images/HomePage/DesignSet/2.jpg`} />
-                </div>
-            </div>
-        </div>
-    )
+                </div> */}
+      </div>
+    </div>
+  )
 }
 
 export default JewellerySet
