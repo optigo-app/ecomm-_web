@@ -1,47 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import Header from './Components/Pages/Home/Header/Header'
+import React, { Suspense, useEffect, useState } from 'react'
+// import Header from './Components/Pages/Home/Header/Header'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import Home from './Components/Pages/Home/Index'
-import LoginOption from './Components/Pages/Auth/LoginOption/LoginOption'
-import ContinueWithEmail from './Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'
-import ContimueWithMobile from './Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'
-import LoginWithEmail from './Components/Pages/Auth/LoginWithEmail/LoginWithEmail'
-import Register from './Components/Pages/Auth/Registretion/Register'
-import LoginWithMobileCode from './Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'
-import LoginWithEmailCode from './Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'
-import ForgotPass from './Components/Pages/Auth/forgotPass/ForgotPass'
-import { dt_companyLogo, dt_companyLogoM, dt_loginState, lookBookDrawer } from './Components/Recoil/atom'
-import ProductList from './Components/Pages/Product/ProductList/ProductList'
-import ProductDetail from './Components/Pages/Product/ProductDetail/ProductDetail'
-import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes'
-import Account from './Components/Pages/Account/Account';
-import CartMain from './Components/Pages/Cart/CartMain';
-import Wishlist from "./Components/Pages/Wishlist/MainWish";
-import Delivery from "./Components/Pages/OrderFlow/DeliveryPage/Delivery";
-import Payment from "./Components/Pages/OrderFlow/PaymentPage/Payment";
-import Confirmation from "./Components/Pages/OrderFlow/ConfirmationPage/Confirmation";
-import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
-import Cookies from "js-cookie";
-import FAQ from './Components/Pages/StaticPages/FAQ/FAQ'
-import TermsAndConditions from './Components/Pages/StaticPages/Terms&Condition/TermsCondition'
-import PrivacyPolicy from './Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'
-import ContactUs from './Components/Pages/StaticPages/contactUs/ContactUs'
-import ScrollToTop from './Components/Pages/ScrollToTop '
-import Lookbook from './Components/Pages/Home/LookBook/Lookbook'
-import WhtasIcone from './Components/Pages/Home/ChatMenu/ChatMenu'
-import MaterialCore from './Components/Pages/StaticPages/MaterialCore/MaterialCore'
-import ShipingReturn from './Components/Pages/StaticPages/ShipingReturn/ShipingReturn'
-import Exchange from './Components/Pages/StaticPages/Exchange/Exchange'
-import Location from './Components/Pages/StaticPages/Location/Location'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
 import GoogleAnalytics  from 'react-ga4';
-import PaymentFailure from '../../utils/PaymentSuccessFail/PaymentFailure'
+import { LoginWithEmailAPI } from '../../utils/API/Auth/LoginWithEmailAPI'
+import Cookies from "js-cookie";
+import { dt_companyLogo, dt_companyLogoM, dt_loginState, lookBookDrawer } from './Components/Recoil/atom';
+import ScrollToTop from './Components/Pages/ScrollToTop ';
+import DiamondTine_PrivateRoutes from './DiamondTine_PrivateRoutes';
 
+const Home = React.lazy(() => import('./Components/Pages/Home/Index'));
+const LoginOption = React.lazy(() => import('./Components/Pages/Auth/LoginOption/LoginOption'));
+const ContinueWithEmail = React.lazy(() => import('./Components/Pages/Auth/ContinueWithEmail/ContinueWithEmail'));
+const ContimueWithMobile = React.lazy(() => import('./Components/Pages/Auth/ContimueWithMobile/ContimueWithMobile'));
+const LoginWithEmail = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmail/LoginWithEmail'));
+const Register = React.lazy(() => import('./Components/Pages/Auth/Registretion/Register'));
+const LoginWithMobileCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithMobileCode/LoginWithMobileCode'));
+const LoginWithEmailCode = React.lazy(() => import('./Components/Pages/Auth/LoginWithEmailCode/LoginWithEmailCode'));
+const ForgotPass = React.lazy(() => import('./Components/Pages/Auth/forgotPass/ForgotPass'));
+const ProductList = React.lazy(() => import('./Components/Pages/Product/ProductList/ProductList'));
+const ProductDetail = React.lazy(() => import('./Components/Pages/Product/ProductDetail/ProductDetail'));
+const Account = React.lazy(() => import('./Components/Pages/Account/Account'));
+const CartMain = React.lazy(() => import('./Components/Pages/Cart/CartMain'));
+const Wishlist = React.lazy(() => import('./Components/Pages/Wishlist/MainWish'));
+const Delivery = React.lazy(() => import('./Components/Pages/OrderFlow/DeliveryPage/Delivery'));
+const Payment = React.lazy(() => import('./Components/Pages/OrderFlow/PaymentPage/Payment'));
+const Confirmation = React.lazy(() => import('./Components/Pages/OrderFlow/ConfirmationPage/Confirmation'));
+const FAQ = React.lazy(() => import('./Components/Pages/StaticPages/FAQ/FAQ'));
+const TermsAndConditions = React.lazy(() => import('./Components/Pages/StaticPages/Terms&Condition/TermsCondition'));
+const PrivacyPolicy = React.lazy(() => import('./Components/Pages/StaticPages/privacyPolicy/PrivacyPolicy'));
+const ContactUs = React.lazy(() => import('./Components/Pages/StaticPages/contactUs/ContactUs'));
+const Lookbook = React.lazy(() => import('./Components/Pages/Home/LookBook/Lookbook'));
+const WhtasIcone = React.lazy(() => import('./Components/Pages/Home/ChatMenu/ChatMenu'));
+const MaterialCore = React.lazy(() => import('./Components/Pages/StaticPages/MaterialCore/MaterialCore'));
+const ShipingReturn = React.lazy(() => import('./Components/Pages/StaticPages/ShipingReturn/ShipingReturn'));
+const Exchange = React.lazy(() => import('./Components/Pages/StaticPages/Exchange/Exchange'));
+const Location = React.lazy(() => import('./Components/Pages/StaticPages/Location/Location'));
+const PaymentFailure = React.lazy(() => import('../../utils/PaymentSuccessFail/PaymentFailure'));
+const Header  = React.lazy(()=>import('./Components/Pages/Home/Header/Header'));
+
+
+
+const LazyWrapper = ({ children }) => {
+  return <Suspense fallback={<></>}>{children}</Suspense>;
+};
 
 
 const DaimondTine_App = () => {
-
   const navigation = useNavigate();
   const [islogin, setIsLoginState] = useRecoilState(dt_loginState)
   const  setCompanyTitleLogo = useSetRecoilState(dt_companyLogo);
@@ -129,44 +135,53 @@ const DaimondTine_App = () => {
   }, [location?.pathname])
 
 
+ 
+  
   return (
     <div>
-      {!isDrawerLookBook && <Header />}
+      {!isDrawerLookBook && 
+      <Suspense fallback={<></>}>
+        <Header />
+      </Suspense>
+      }
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/LoginOption" element={<LoginOption />} />
-        <Route path="/ContinueWithEmail" element={<ContinueWithEmail />} />
-        <Route path="/ContimueWithMobile" element={<ContimueWithMobile />} />
-        <Route path="/LoginWithMobileCode" element={<LoginWithMobileCode />} />
-        <Route path="/LoginWithEmailCode" element={<LoginWithEmailCode />} />
-        <Route path="/LoginWithEmail" element={<LoginWithEmail />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/FAQ" element={<FAQ />} />   
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
-        <Route path="/term&condition" element={<TermsAndConditions />} />
-        <Route path="/ForgotPass" element={<ForgotPass />} />
-        <Route path="/ShipingReturn" element={<ShipingReturn />} />
-        <Route path="/Exchange" element={<Exchange />} />
-        <Route path="/Location" element={<Location />} />
-        <Route path="/MaterialCore" element={<MaterialCore />} />
-        <Route path="/Lookbook" element={<Lookbook />} />
+        <Route path="/" element={ <LazyWrapper><Home /></LazyWrapper>} />
+        <Route path="/LoginOption" element={ <LazyWrapper><LoginOption /></LazyWrapper>} />
+        <Route path="/ContinueWithEmail" element={ <LazyWrapper><ContinueWithEmail /></LazyWrapper>} />
+        <Route path="/ContimueWithMobile" element={ <LazyWrapper><ContimueWithMobile /></LazyWrapper>} />
+        <Route path="/LoginWithMobileCode" element={ <LazyWrapper><LoginWithMobileCode /></LazyWrapper>} />
+        <Route path="/LoginWithEmailCode" element={ <LazyWrapper><LoginWithEmailCode /></LazyWrapper>} />
+        <Route path="/LoginWithEmail" element={ <LazyWrapper><LoginWithEmail /></LazyWrapper>} />
+        <Route path="/Register" element={ <LazyWrapper><Register /></LazyWrapper>} />
+        <Route path="/FAQ" element={ <LazyWrapper><FAQ /></LazyWrapper>} />   
+        <Route path="/ContactUs" element={ <LazyWrapper><ContactUs /></LazyWrapper>} />
+        <Route path="/PrivacyPolicy" element={ <LazyWrapper><PrivacyPolicy /></LazyWrapper>} />
+        <Route path="/term&condition" element={ <LazyWrapper><TermsAndConditions /></LazyWrapper>} />
+        <Route path="/ForgotPass" element={ <LazyWrapper><ForgotPass /></LazyWrapper>} />
+        <Route path="/ShipingReturn" element={ <LazyWrapper><ShipingReturn /></LazyWrapper>} />
+        <Route path="/Exchange" element={ <LazyWrapper><Exchange /></LazyWrapper>} />
+        <Route path="/Location" element={ <LazyWrapper><Location /></LazyWrapper>} />
+        <Route path="/MaterialCore" element={ <LazyWrapper><MaterialCore /></LazyWrapper>} />
+        <Route path="/Lookbook" element={ <LazyWrapper><Lookbook /></LazyWrapper>} />
         <Route path="/" element={<DiamondTine_PrivateRoutes isLoginStatus={islogin} />}>
-          <Route path="/p/*" element={<ProductList />} />
-          <Route path="/d/*" element={<ProductDetail />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/cartPage" element={<CartMain />} />
-          <Route path="/myWishList" element={<Wishlist />} />
-          <Route path="/Delivery" element={<Delivery />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Confirmation" element={<Confirmation />} />
-          <Route path="/failure" element={<PaymentFailure />} />
+          <Route path="/p/*" element={ <LazyWrapper><ProductList /></LazyWrapper>} />
+          <Route path="/d/*" element={ <LazyWrapper><ProductDetail /></LazyWrapper>} />
+          <Route path="/account" element={ <LazyWrapper><Account /></LazyWrapper>} />
+          <Route path="/cartPage" element={ <LazyWrapper><CartMain /></LazyWrapper>} />
+          <Route path="/myWishList" element={ <LazyWrapper><Wishlist /></LazyWrapper>} />
+          <Route path="/Delivery" element={ <LazyWrapper><Delivery /></LazyWrapper>} />
+          <Route path="/Payment" element={ <LazyWrapper><Payment /></LazyWrapper>} />
+          <Route path="/Confirmation" element={ <LazyWrapper><Confirmation /></LazyWrapper>} />
+          <Route path="/failure" element={ <LazyWrapper><PaymentFailure /></LazyWrapper>} />
         </Route>
       </Routes>
       <ScrollToTop />
+      <LazyWrapper>
       <WhtasIcone phoneNo='9810976359'/>
+      </LazyWrapper>
     </div>
   )
 }
 
-export default DaimondTine_App
+export default DaimondTine_App;
+

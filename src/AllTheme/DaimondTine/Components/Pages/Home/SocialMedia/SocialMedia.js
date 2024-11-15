@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './SocialMedia.modul.scss'
 import { storImagePath } from '../../../../../../utils/Glob_Functions/GlobalFunction';
 import { Button } from '@mui/material';
@@ -6,7 +6,17 @@ import { AiFillInstagram } from 'react-icons/ai';
 import GoogleAnalytics from 'react-ga4';
 
 const SocialMedia = () => {
+ 
+    const [isVisible, setIsVisible] = useState(false);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsVisible(true); 
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, []);
+  
+  
     const photos = [
         {
             image: "/images/HomePage/Instagram/BottombBanner1.jpg",
@@ -57,26 +67,33 @@ const SocialMedia = () => {
     }
 
     return (
+        <div className={`smls-inducing-div ${isVisible ? 'show' : ''}`}>
         <div className='dt_SocialMedia'>
             <p className='smr_bestseler1Title'>Follow Us On Instagram</p>
             <div className='dt_SocialmediawidgetsComponentsCard'>
                 <div className="dt_instagram_gallery">
                     {photos?.map((photo, index) => (
-                        <div key={index} className="dt_instagram_photo" onClick={() =>{ window.open(DomainConnect);
+                        <div    role="link" 
+                        aria-label={`Instagram post ${index + 1}`}  key={index} className="dt_instagram_photo" onClick={() =>{ window.open(DomainConnect);
                             HandleGoogleAn(index+1)
                         }}>
-                            <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} loading='lazy' />
-                            <div className="dt_socialMedioverlay"></div>
+                            <img   alt={`Instagram Post Image ${index + 1}`} 
+                loading='lazy' 
+                aria-hidden="true"  src={storImagePath() + photo?.image} />
+                            <div className="dt_socialMedioverlay" aria-hidden="true"></div>
                         </div>
                     ))}
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button onClick={() => window.open(DomainConnect)} variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
+                <Button onClick={() => window.open(DomainConnect)} 
+                          aria-label="Follow us on Instagram"
+                variant="contained" color="secondary" style={{ backgroundColor: '#a8807c', marginTop: '1rem', boxShadow: 'none' }} startIcon={<AiFillInstagram />}>
                     Follow us
                 </Button>
             </div>
 
+        </div>
         </div>
     )
 }

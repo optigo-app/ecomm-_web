@@ -7,16 +7,24 @@ const WhtasIcone = ({phoneNo}) => {
     const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNo}&text=Hi, I Need Help with !`;
     const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${phoneNo}&text=Hi,%20I%20Need%20Help%20with%20!`;
     const isTablet = useMediaQuery('(min-width:600px) and (max-width:899px)');
+     
+  
+    
   return (
     <div className="dt_main_ChatMenu">
       <button className="wai">
         <a
            href={isTablet ? whatsappMobileUrl : whatsappMobileUrl}
           target="_blank"
+          role="link"
+          aria-live="assertive"
+          aria-label="whatsapp-link"
         >
           <img
             src={`${storImagePath()}/images/wa.png`}
-            alt=""
+            alt="whatsapp-chat"
+            aria-label="whatsapp-chat-msg"
+            loading="lazy"
           />
         </a>
       </button>

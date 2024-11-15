@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './Header.modul.scss'
 import { IoCallOutline } from 'react-icons/io5'
-import { AiFillInstagram } from "react-icons/ai";
-import { Badge, ButtonBase, Drawer, IconButton, List, ListItem, ListItemText, Tooltip, useMediaQuery } from '@mui/material';
+import { Badge, ButtonBase, Drawer, IconButton, List,  Tooltip, useMediaQuery } from '@mui/material';
 import { VscSearch } from "react-icons/vsc";
 import { dt_CartCount, dt_companyLogo, dt_companyLogoM, dt_loginState, dt_WishCount } from '../../../Recoil/atom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { GoHeart } from "react-icons/go";
-import { FaAngleUp, FaChevronDown, FaChevronUp, FaFacebookF, FaPowerOff } from "react-icons/fa";
+import {  FaChevronDown, FaChevronUp,  FaPowerOff } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GetMenuAPI } from '../../../../../../utils/API/GetMenuAPI/GetMenuAPI';
@@ -419,7 +418,7 @@ const Header = () => {
             <div className="dai_headerMainTop">
                 <div className="div_contact_info first-dt">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a href={`tel:${'98108 76359'}`} className="Dt_FontFamilySet" style={{ fontSize: "12px", color: 'white', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>
+                    <a   href={`tel:${'98108 76359'}`} className="Dt_FontFamilySet" style={{ fontSize: "12px", color: 'white', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>
                         Call: +91-98108 76359
                     </a>
                 </div>
@@ -427,7 +426,9 @@ const Header = () => {
                 <div className="dai_login_link three-dt">
                     {socialMediaData?.map((social, index) => (
                         <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                            <img src={social.SImgPath} alt={social.SName} style={{ width: '18px', height: '18px', objectFit: 'cover' }}
+                            <img src={social.SImgPath} alt={social.SName} 
+                            role="image"
+                            style={{ width: '18px', height: '18px', objectFit: 'cover' }}
                                 onError={(e) => { e.target.style.display = 'none'; }} />
                         </a>
                     ))}

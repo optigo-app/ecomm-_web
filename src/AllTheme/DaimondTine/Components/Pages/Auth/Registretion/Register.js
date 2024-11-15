@@ -231,7 +231,7 @@ export default function Register() {
   return (
     <div className='dt_registerMain' style={{ backgroundColor: 'rgba(66, 66, 66, 0.05)' }}>
       {isLoading && (
-        <div className="loader-overlay">
+        <div className="loader-overlay" aria-live="assertive" aria-busy="true">
           <CircularProgress className='loadingBarManage' />
         </div>
       )}
@@ -261,6 +261,8 @@ export default function Register() {
               onChange={(e) => handleInputChange(e, setFirstName, 'firstName')}
               error={!!Errors.firstName}
               helperText={Errors.firstName}
+              aria-describedby="first-name-error"
+          aria-invalid={!!Errors.firstName}
             />
 
             <TextField
@@ -276,6 +278,8 @@ export default function Register() {
               onChange={(e) => handleInputChange(e, setLastName, 'lastName')}
               error={!!Errors.lastName}
               helperText={Errors.lastName}
+              aria-describedby="last-name-error"
+              aria-invalid={!!Errors.lastName}
             />
 
             <TextField
@@ -290,6 +294,8 @@ export default function Register() {
               onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
               error={!!Errors.mobileNo}
               helperText={Errors.mobileNo}
+              aria-describedby="mobile-no-error"
+              aria-invalid={!!Errors.mobileNo}
             />
 
             <TextField
@@ -305,6 +311,8 @@ export default function Register() {
               onChange={(e) => handleInputChange(e, setEmail, 'email')}
               error={!!Errors.email}
               helperText={Errors.email}
+              aria-describedby="email-error"
+              aria-invalid={!!Errors.email}
             />
 
             <TextField
@@ -320,6 +328,8 @@ export default function Register() {
               helperText={passwordError}
               inputRef={passwordRef}
               onKeyDown={(e) => handleKeyDown(e, confirmPasswordRef)}
+              aria-describedby="password-error"
+              aria-invalid={!!passwordError}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -345,6 +355,8 @@ export default function Register() {
               style={{ margin: '15px' }}
               value={confirmPassword}
               inputRef={confirmPasswordRef}
+              aria-describedby="confirm-password-error"
+              aria-invalid={!!Errors.confirmPassword}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') {
                   handleSubmit();
@@ -369,13 +381,15 @@ export default function Register() {
               }}
             />
 
-            <button className='submitBtnForgot' onClick={handleSubmit}>CREATE ACCOUNT</button>
+            <button className='submitBtnForgot'           aria-label="Submit the registration form"
+ onClick={handleSubmit}>CREATE ACCOUNT</button>
 
             {/* <div style={{ display: 'flex', marginTop: '10px' }}>
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '20px' }} onClick={() => navigation('/LoginOption')}>BACK</Button>
+            <Button           aria-label="Go back to login options"
+ style={{ marginTop: '10px', color: 'gray', marginBottom: '20px' }} onClick={() => navigation('/LoginOption')}>BACK</Button>
           </div>
         </div>
       </div>

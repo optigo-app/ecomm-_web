@@ -115,12 +115,13 @@ export default function ContimueWithMobile() {
                                 onChange={(e) => handleInputChange(e, setMobileNo, 'mobileNo')}
                                 error={!!errors.mobileNo}
                                 helperText={errors.mobileNo}
+                                  aria-describedby="mobileNo-helper-text"
                             />
 
-                            <button className='submitBtnForgot' onClick={handleSubmit}>
+                            <button className='submitBtnForgot'  aria-label="Submit mobile number" onClick={handleSubmit}>
                                 SUBMIT
                             </button>
-                            <Button style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
+                            <Button   aria-label="Cancel and go back to login options" style={{ marginTop: '10px', color: 'gray', marginBottom: '50px' }} onClick={() => navigation('/LoginOption')}>CANCEL</Button>
                         </div>
                     </div>
                 </div>

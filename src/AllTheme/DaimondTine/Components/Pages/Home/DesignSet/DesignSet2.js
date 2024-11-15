@@ -29,6 +29,17 @@ const DesignSet2 = () => {
   const [imageUrlDesignSet, setImageUrlDesignSet] = useState();
   const setLoadingHome =  useSetRecoilState(dt_homeLoading);
 
+  
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+      const timer = setTimeout(() => {
+          setIsVisible(true); 
+      }, 3000);
+      return () => clearTimeout(timer);
+  }, []);
+
+
   useEffect(() => {
     setLoadingHome(true);
     const observer = new IntersectionObserver(
@@ -189,12 +200,14 @@ const DesignSet2 = () => {
   };
   return (
     <>
+              <div className={`ddls-inducing-div ${isVisible ? 'show' : ''}`}>
       <div className="dt_DesignSet2MainDiv" ref={designSetRef}>
         {designSetList?.length !== 0 && (
           <>
             <div className='smr_DesignSetTitleDiv'>
               <p className='dt_desognSetTitle'>Complete Your Look
-                <p className='dt_designSetViewmoreBtn' onClick={handleNavigate}>
+                <p className='dt_designSetViewmoreBtn'             aria-label="View more design sets"
+ onClick={handleNavigate}>
                   View more
                 </p>
               </p>
@@ -221,7 +234,7 @@ const DesignSet2 = () => {
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
                     src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.png`}
-                    alt=""
+                    alt="A complete look design set showcasing various products"
                     className="imgBG"
                   />
                 ) : (
@@ -236,6 +249,8 @@ const DesignSet2 = () => {
                       cursor: "pointer",
                     }}
                     className="imgBG"
+                    role="img"
+                    aria-label={`Design set background, color ${getRandomBgColor(index).color}`}
                   >
                     <p style={{ fontSize: "30px", color: getRandomBgColor(index).color }}>{slide?.designsetno}</p>
                   </div>
@@ -249,6 +264,7 @@ const DesignSet2 = () => {
                       slidesPerView={1}
                       speed={1000}
                       onSwiper={setSwiper}
+                      aria-label="Design set slideshow"
                     >
                       {slide?.Designdetail && (
                         <>
@@ -259,7 +275,7 @@ const DesignSet2 = () => {
                                   <img
                                     loading="lazy"
                                     src={`${imageUrlDesignSet}${detail?.designno}_1.${detail?.ImageExtension}`}
-                                    alt={`Sub image ${subIndex} for slide ${index}`}
+                                    alt={`Sub image ${subIndex + 1} for design set`}
                                     onClick={() =>
                                       handleNavigation(
                                         detail?.designno,
@@ -268,6 +284,11 @@ const DesignSet2 = () => {
                                       )
                                     }
                                     className="cardimg"
+                                    aria-label={`Navigate to product ${detail?.TitleLine || detail?.designno}`}
+                                  onError={(e)=>{
+                                    e.target.src =  imageNotFound ;
+                                    e.target.alt = "fallback"
+                                  }}
                                   />
                                 </div>
                               </div>
@@ -292,8 +313,8 @@ const DesignSet2 = () => {
                     </Swiper>
                   </div>
                   <div className="btnflex">
-                    <button className="btncst" onClick={handlePrevious}>&lt;</button>
-                    <button className="btncst" onClick={handleNext}>&gt;</button>
+                    <button className="btncst"  aria-label="Previous slide" onClick={handlePrevious}>&lt;</button>
+                    <button className="btncst"   aria-label="Next slide"  onClick={handleNext}>&gt;</button>
                   </div>
                 </div>
               </div>
@@ -303,6 +324,7 @@ const DesignSet2 = () => {
 
           </>
         )}
+      </div>
       </div>
     </>
   );

@@ -1,8 +1,12 @@
 @import "../../../scss/variable";
-
+.als-inducing-div {
+    display: none;
+}
+.als-inducing-div.show {
+    display: block;
+}
 .dt_album_container {
-
-
+  
     .smr_ablbumtitleDiv {
         text-align: center;
         padding: 10px 0px 0px 0px;

@@ -155,7 +155,7 @@ const BestSellerSection = () => {
                     <p className='smr_BestSallerViewAll' onClick={() =>  navigation(`/p/BestSeller/?B=${btoa('BestSeller')}`)}>SHOP COLLECTION</p>
         </div>
         <div className='linkingLoveImage'>
-            <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' />
+            {/* <img src={`${storImagePath()}/images/HomePage/Promo/Set/1/promoSetMainBanner.jpg`} className='linkingLoveImageDesign' /> */}
         </div>
     </div>
     </div>

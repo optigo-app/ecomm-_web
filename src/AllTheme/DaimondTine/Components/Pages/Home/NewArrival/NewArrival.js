@@ -111,16 +111,28 @@ const NewArrival = () => {
         let encodeObj = compressAndEncode(JSON.stringify(obj))
         navigation(`/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""}${designNo}?p=${encodeObj}`)
     }
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsVisible(true); 
+        }, 2000); 
+
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <>
+              <div className={`als-inducing-div ${isVisible ? 'show' : ''}`}>
             {newArrivalData?.length != 0 &&
                 <div className='dt_newArrivalMain'>
                     {/* <h1 className='dt_titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>NEW ARRIVAL</h1> */}
                     {newArrivalData?.length != 0 &&
                         <p className='smr_bestseler1Title'>
                             New Arrival
-                            {newArrivalData?.length > 5 && <span className='dt_ViewAllBtn_new' onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
+                            {newArrivalData?.length > 5 && <span 
+                                        aria-label="View all new arrival products"
+                            className='dt_ViewAllBtn_new'   aria-labelledby="View all new arrival products" onClick={() => navigation(`/p/NewArrival/?N=${btoa('NewArrival')}`)}>
                                 View more
                             </span>}
                         </p>
@@ -128,13 +140,15 @@ const NewArrival = () => {
 
                     <div className='dt_newArrivalGridMain' style={{ paddingInline: '10px', display: 'flex', justifyContent: 'start' }}>
                         {newArrivalData?.slice(0, 4).map((product, index) => (
-                            <div key={index} className='dt_NewArrivalProductMain' onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
+                            <div key={index} className='dt_NewArrivalProductMain'   role="link"
+                            tabIndex={0}  // Ensure the div is focusable for keyboard navigation
+                            aria-label={`Navigate to the product: ${product?.TitleLine || product?.designno}`} onClick={() => handleNavigation(product?.designno, product?.autocode, product?.TitleLine)}>
                                 <div className='dt_newArrivalMian'>
                                     <img
                                         style={{ height: "100%", width: "100%" }}
                                         src={`${imageUrl}/${product?.designno}_1.${product.ImageExtension}`}
                                         // src={product.image}
-                                        alt={product.title}
+                                        alt={`Image of the product: ${product?.TitleLine || product?.designno}`} // Descriptive alt text
                                         loading='lazy'
                                     />
                                 </div>
@@ -194,6 +208,7 @@ const NewArrival = () => {
                     </div>
                 </div>
             }
+            </div>
         </>
     )
 }

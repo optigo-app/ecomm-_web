@@ -1,5 +1,14 @@
 @import '../../../scss/variable';
 
+.smls-inducing-div {
+    display: none;
+}
+
+.smls-inducing-div.show {
+    display: block;
+}
+
+
 .dt_SocialMedia {
 
     margin-bottom: 70px;

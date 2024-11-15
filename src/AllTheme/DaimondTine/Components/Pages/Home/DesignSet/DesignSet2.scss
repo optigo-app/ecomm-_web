@@ -1,4 +1,11 @@
 @import "../../../scss/variable";
+.ddls-inducing-div {
+    display: none;
+}
+
+.ddls-inducing-div.show {
+    display: block;
+}
 
 .dt_DesignSet2MainDiv {
     .imgBG {

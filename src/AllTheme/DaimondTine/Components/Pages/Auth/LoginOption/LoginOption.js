@@ -28,16 +28,24 @@ export default function LoginOption() {
                         <p className='loginDiTile'>Log in or sign up in seconds</p>
                         <p style={{ textAlign: 'center', fontFamily: 'PT Sans, sans-serif', marginTop: '0px', fontSize: '14px' }}>Use your email or mobile no to continue with the organization.</p>
                         <div className='smilingLoginOptionMain'>
-                            <div className='dt_box_loginMail' onClick={() => navigation(redirectEmailUrl)}>
+                            <div className='dt_box_loginMail' onClick={() => navigation(redirectEmailUrl)}
+                                     aria-label="Continue with email"
+                                     role="button"  // Indicating it's a clickable element
+                                     tabIndex="0"  // Make it focusable for keyboard navigation
+                                >
                                 <IoMdMail style={{ height: '25px', width: '25px' }} />
                                 <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px', fontFamily: 'PT Sans, sans-serif' }}>Continue with email</p>
                             </div>
-                            <div className='dt_box_loginMobile' onClick={() => navigation(redirectMobileUrl)}>
+                            <div className='dt_box_loginMobile' onClick={() => navigation(redirectMobileUrl)}
+                                  aria-label="Log in with mobile"
+                                  role="button"  // Indicating it's a clickable element
+                                  tabIndex="0"  // Make it focusable for keyboard navigation
+                                >
                                 <FaMobileAlt style={{ height: '25px', width: '25px', marginRight: '10px' }} />
                                 <p style={{ margin: '0px', fontSize: '20px', fontWeight: 500, paddingLeft: '25px', fontFamily: 'PT Sans, sans-serif' }}>Log in with mobile</p>
                             </div>
                         </div>
-                        <p style={{ marginTop: '40px', fontSize: '14px', textAlign: 'center', marginBottom: '30px', fontFamily: 'PT Sans, sans-serif' }}>By continuing, you agree to our <span style={{cursor : 'pointer' , textDecoration: 'underline'}} onClick={() => navigation('/term&condition')}>Terms of Use.</span> Read our <span style={{cursor : 'pointer' , textDecoration: 'underline'}} onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy.</span></p>
+                        <p   aria-label="View Terms of Use" style={{ marginTop: '40px', fontSize: '14px', textAlign: 'center', marginBottom: '30px', fontFamily: 'PT Sans, sans-serif' }}>By continuing, you agree to our <span style={{cursor : 'pointer' , textDecoration: 'underline'}} onClick={() => navigation('/term&condition')}>Terms of Use.</span> Read our <span  aria-label="View Privacy Policy" style={{cursor : 'pointer' , textDecoration: 'underline'}} onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy.</span></p>
                     </div>
                 </div>
                 <Footer />

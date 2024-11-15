@@ -1,9 +1,7 @@
-
-
-
 @font-face {
     font-family: 'Playfair Display';
-    src: url('./../Assets/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf');
+    src: url('./../Assets/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf')format('woff2');
+    font-display: swap;
 }
 
 // $homePageFontFamily: if($prim, $prim, $fontFamily1), sans-serif;
