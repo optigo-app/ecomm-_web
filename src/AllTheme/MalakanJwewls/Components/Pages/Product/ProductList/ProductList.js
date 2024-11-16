@@ -103,12 +103,12 @@ const ProductList = () => {
   const [diaQcCombo, setDiaQcCombo] = useState([]);
   const [csQcCombo, setCsQcCombo] = useState([]);
   const [selectedMetalId, setSelectedMetalId] = useState(
-    loginUserDetail?.MetalId
+    loginUserDetail?.MetalId ?? storeInit?.MetalId
   );
   const [selectedDiaId, setSelectedDiaId] = useState(
-    loginUserDetail?.cmboDiaQCid
+    loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid
   );
-  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
+  const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
   const [loginInfo, setLoginInfo] = useState();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -1685,7 +1685,10 @@ const ProductList = () => {
                   }}
                   className="select"
                   value={selectedDiaId}
-                  onChange={(e) => setSelectedDiaId(e.target.value)}
+                  onChange={(e) => {
+                    const newDiaId = e.target.value;
+                    setSelectedDiaId(newDiaId);
+                  }}
                 >
                   {diaQcCombo?.map((diaQc) => (
                     <option
@@ -1693,7 +1696,6 @@ const ProductList = () => {
                       key={diaQc?.QualityId}
                       value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
                     >
-                      {" "}
                       {`${diaQc.Quality},${diaQc.color}`}
                     </option>
                   ))}
@@ -2579,6 +2581,7 @@ const ProductList = () => {
                               {/* <div className="mala_breadcums_port">{`${menuParams?.menuname || ''}${menuParams?.FilterVal1 ? ` > ${menuParams?.FilterVal1}` : ''}${menuParams?.FilterVal2 ? ` > ${menuParams?.FilterVal2}` : ''}`}</div> */}
                               <div className="mala_inner_portion">
                                 {finalProductListData?.map((productData, i) => {
+                                  const isAllWeight = productData?.Gwt > 0 && productData?.Nwt > 0 && productData?.Dwt > 0 && productData?.CSwt > 0;
                                   const isChecked = cartArr[productData?.autocode] ?? productData?.IsInCart === 1;
                                   return <>
                                     <div className="mala_productCard">
@@ -2785,11 +2788,11 @@ const ProductList = () => {
                                               display: "flex",
                                               justifyContent: "center",
                                               alignItems: "center",
-                                              letterSpacing: maxwidth590px
-                                                ? "0px"
-                                                : "1px",
-                                              // gap:maxwidth1674px ? '0px':'3px',
+                                              letterSpacing: maxwidth590px ? "0px" : "1px",
                                               flexWrap: "wrap",
+                                              overflow: "hidden",
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
                                             }}
                                           >
                                             {/* <span className="mala_por"> */}
@@ -2797,10 +2800,10 @@ const ProductList = () => {
                                             {storeInit?.IsGrossWeight == 1 &&
                                               Number(productData?.Gwt) !== 0 && (
                                                 <span className="mala_prod_wt">
-                                                  <span className="mala_main_keys">
+                                                  <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
                                                     GWT:
                                                   </span>
-                                                  <span className="mala_main_val">
+                                                  <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
                                                     {productData?.Gwt?.toFixed(3)}
                                                   </span>
                                                 </span>
@@ -2816,10 +2819,10 @@ const ProductList = () => {
                                                   |
                                                 </span>
                                                 <span className="mala_prod_wt">
-                                                  <span className="mala_main_keys">
+                                                  <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
                                                     NWT:
                                                   </span>
-                                                  <span className="mala_main_val">
+                                                  <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
                                                     {productData?.Nwt?.toFixed(3)}
                                                   </span>
                                                 </span>
@@ -2839,10 +2842,10 @@ const ProductList = () => {
                                                     |
                                                   </span>
                                                   <span className="mala_prod_wt">
-                                                    <span className="mala_main_keys">
+                                                    <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
                                                       DWT:
                                                     </span>
-                                                    <span className="mala_main_val">
+                                                    <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
                                                       {productData?.Dwt?.toFixed(
                                                         3
                                                       )}
@@ -2866,10 +2869,10 @@ const ProductList = () => {
                                                     |
                                                   </span>
                                                   <span className="mala_prod_wt">
-                                                    <span className="mala_main_keys">
+                                                    <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
                                                       CWT:
                                                     </span>
-                                                    <span className="mala_main_val">
+                                                    <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
                                                       {productData?.CSwt?.toFixed(
                                                         3
                                                       )}
@@ -3063,6 +3066,7 @@ const GivaFilterMenu = ({
   IsBreadCumShow,
   handleBreadcums,
 }) => {
+  console.log('selectedDiaId: ', selectedDiaId);
   const [showMenu, setshowMenu] = useState(-1);
   const CustomLabel = ({ text }) => (
     <Typography
@@ -3569,37 +3573,31 @@ const GivaFilterMenu = ({
                         padding: "0 15px",
                       }}
                     >
-                      {diaQcCombo?.map((diaQc, i) => (
-                        <div key={i}>
-                          <FormControlLabel
-                            className="giva_options_flex"
-                            value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
-                            control={
-                              <Checkbox
-                                name={diaQc?.Metalid}
-                                checked={
-                                  selectedDiaId ===
-                                  `${diaQc?.QualityId},${diaQc?.ColorId}`
-                                }
-                                style={{
-                                  padding: 0,
-                                }}
-                                onChange={(e) =>
-                                  setSelectedDiaId(
-                                    `${diaQc?.QualityId},${diaQc?.ColorId}`
-                                  )
-                                }
-                                size="small"
-                              />
-                            }
-                            label={
-                              <CustomLabel
-                                text={`${diaQc.Quality.toUpperCase()},${diaQc.color.toLowerCase()}`}
-                              />
-                            }
-                          />
-                        </div>
-                      ))}
+                      {diaQcCombo?.map((diaQc, i) => {
+                        return (
+                          <div key={i}>
+                            <FormControlLabel
+                              className="giva_options_flex"
+                              value={`${diaQc?.QualityId},${diaQc?.ColorId}`}
+                              control={
+                                <Checkbox
+                                  name={`${diaQc.Quality.toUpperCase()},${diaQc.color.toUpperCase()}}`}
+                                  checked={selectedDiaId === `${diaQc?.QualityId},${diaQc?.ColorId}`}
+                                  style={{
+                                    padding: 0,
+                                  }}
+                                  onChange={(e) => {
+                                    setSelectedDiaId(`${diaQc?.QualityId},${diaQc?.ColorId}`);
+                                  }}
+                                  size="small"
+                                />
+                              }
+                              label={<CustomLabel text={`${diaQc.Quality.toUpperCase()},${diaQc.color.toUpperCase()}`} />}
+                            />
+
+                          </div>
+                        )
+                      })}
                     </Box>
                   </div>
                 )}

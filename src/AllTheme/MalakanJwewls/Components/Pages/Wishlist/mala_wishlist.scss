@@ -15,7 +15,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        min-height: 400px;
+        // min-height: 400px;
     }
 
     .mala_WlListImage {
@@ -45,12 +45,13 @@
 .mala_MainWishlist_Div {
     font-family: $primaryFontFamily;
     margin-top: 220px;
-color: white;
-font-family: $rown !important;
-@media screen and (max-width: 1200px) {
-  margin-top: 80px;
-  padding-block: 45px;
-}
+    color: white;
+    font-family: $rown !important;
+
+    @media screen and (max-width: 1200px) {
+        margin-top: 80px;
+        padding-block: 45px;
+    }
 }
 
 .mala_wishlist_sub {
@@ -80,12 +81,35 @@ font-family: $rown !important;
         border-radius: 0px;
 
         .mala_ReomoveAllWLbtn {
-            display: flex;
-            align-items: center;
-            width: 200px;
-            font-size: $fontSize1;
-            color: $titleColor !important;
-            text-decoration-color: $titleColor !important;
+            // display: flex;
+            // align-items: center;
+            // width: 200px;
+            // font-size: $fontSize1;
+            // color: $titleColor !important;
+            // text-decoration-color: $titleColor !important;
+
+            font-family: $primaryFontFamily !important;
+            background-color: $btn1hoverColor;
+            color: $btn1hoverFontColor;
+            font-size: $fontSize2;
+            border: none;
+            outline: none;
+            height: 45px;
+            border-radius: 0px;
+            width: 150px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #666;
+            }
+
+
+            &.mala_cartActivebtn {
+                background-color: $btn1ActivebgColor;
+                color: $btn1hoverFontColor;
+            }
         }
 
         .mala_WlAddToCartBtn {
@@ -144,7 +168,7 @@ font-family: $rown !important;
 }
 
 .mala_WlListData {
-    padding: 60px 14px 40px 15px;
+    padding: 60px 14px 60px 15px;
 
     .mala_wlListGrid {
         display: flex !important;
@@ -259,7 +283,7 @@ font-family: $rown !important;
     text-align: center;
     color: $titleColor !important;
     font-size: $fontSize1 !important;
-    font-family: $primaryFontFamily;
+    font-family: $primaryFontFamily !important;
     padding-bottom: 6px;
 }
 
@@ -275,6 +299,11 @@ font-family: $rown !important;
         .mala_WlButton-group {
             .mala_WlAddToCartBtn {
                 width: 140px;
+                font-size: $fontSize1;
+            }
+
+            .mala_ReomoveAllWLbtn {
+                width: 100px;
                 font-size: $fontSize1;
             }
         }
@@ -304,11 +333,17 @@ font-family: $rown !important;
                 width: 140px;
                 font-size: $fontSize1;
             }
+
+            .mala_ReomoveAllWLbtn {
+                width: 100px;
+                font-size: $fontSize1;
+            }
         }
     }
 
     .mala_cardContent {
-        padding-top: 16px !important;;
+        padding-top: 16px !important;
+        ;
 
         .cardText {
             padding: 2px;
@@ -329,6 +364,11 @@ font-family: $rown !important;
         .mala_WlButton-group {
             .mala_WlAddToCartBtn {
                 width: 140px;
+                font-size: $fontSize1;
+            }
+
+            .mala_ReomoveAllWLbtn {
+                width: 100px;
                 font-size: $fontSize1;
             }
         }
@@ -371,6 +411,11 @@ font-family: $rown !important;
         .mala_WlButton-group {
             .mala_WlAddToCartBtn {
                 width: 120px;
+                font-size: $fontSize1;
+            }
+
+            .mala_ReomoveAllWLbtn {
+                width: 80px;
                 font-size: $fontSize1;
             }
         }
@@ -423,6 +468,12 @@ font-family: $rown !important;
                 font-size: $fontSize0 !important;
                 height: 34px !important;
             }
+
+            .mala_ReomoveAllWLbtn {
+                width: 70px;
+                font-size: $fontSize0 !important;
+                height: 34px !important;
+            }
         }
     }
 
@@ -442,7 +493,7 @@ font-family: $rown !important;
 
     .mala_cardContent {
         padding-top: 16px !important;
-        
+
         .mala_currencyFont {
             // margin-left: 40px;
         }

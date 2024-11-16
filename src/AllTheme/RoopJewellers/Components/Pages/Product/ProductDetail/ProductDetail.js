@@ -88,6 +88,12 @@ const ProductDetail = () => {
 
   const [pdVideoArr, setPdVideoArr] = useState([]);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
 
   // console.log("SizeCombo",SizeCombo);
 
@@ -1302,8 +1308,6 @@ const ProductDetail = () => {
 
   }
 
-  console.log("ColorStone_Cost", singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost);
-
   return (
     <>
       <Helmet>
@@ -1496,6 +1500,48 @@ const ProductDetail = () => {
                                 {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                               </span>
                             </span>
+                            {singleProd?.description && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  marginTop: "12px",
+                                }}
+                              >
+                                <p
+                                  style={{
+                                    color: "#7d7f85",
+                                    fontSize: "14px",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    display: isExpanded
+                                      ? "block"
+                                      : "-webkit-box",
+                                    WebkitBoxOrient: "vertical",
+                                    WebkitLineClamp: isExpanded ? "none" : 3,
+                                    height: isExpanded ? "auto" : "4.5em",
+                                    margin: "0px",
+                                  }}
+                                >
+                                  {singleProd?.description}
+                                </p>
+                                <a
+                                  href="#"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    toggleExpand();
+                                  }}
+                                  style={{
+                                    color: "#7d7f85",
+                                    fontSize: "13px",
+                                    fontWeight: "500",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  {isExpanded ? "Show less" : "Read more"}
+                                </a>
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -1756,7 +1802,7 @@ const ProductDetail = () => {
                                       }
                                     </Typography>
                                     &nbsp;
-                                    <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="smr_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                    <Typography sx={{ fontFamily: "Spectral-Regular !important" }} className="smr_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -1770,7 +1816,7 @@ const ProductDetail = () => {
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -1784,7 +1830,7 @@ const ProductDetail = () => {
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -1798,7 +1844,7 @@ const ProductDetail = () => {
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -1812,7 +1858,7 @@ const ProductDetail = () => {
                                       </span>
                                     }</Typography>
                                     &nbsp;
-                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                    <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{formatter.format(Math.round(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost))}</Typography>
                                   </span>
                                 </div> : null}
 
@@ -1839,7 +1885,7 @@ const ProductDetail = () => {
                                         }</Typography>
                                         &nbsp;
                                         <Typography className="smr_PriceBreakup_Price" sx={{ fontFamily: "Spectral-Regular !important" }}>{
-                                          formatter.format((
+                                          formatter.format(Math.round(
 
                                             (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
                                             (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
@@ -1848,7 +1894,7 @@ const ProductDetail = () => {
                                             (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
                                             (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
 
-                                          )?.toFixed(2))
+                                          ))
                                         }</Typography>
                                       </span>
                                     </div>
