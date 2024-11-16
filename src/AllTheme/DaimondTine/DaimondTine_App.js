@@ -61,16 +61,35 @@ const DaimondTine_App = () => {
   
 
   const TRACKING_ID = "G-6ETM8Y1KCR";
-  GoogleAnalytics.initialize(TRACKING_ID);
+  // GoogleAnalytics.initialize(TRACKING_ID);
+
+  // useEffect(() => {
+  //   GoogleAnalytics.set({ page: location.pathname });
+  //   GoogleAnalytics.send("pageview");
+  //   GoogleAnalytics.event({
+  //     category: "Navigation",
+  //     action: "Visited Route",
+  //     label: location.pathname,
+  //   });
+  // }, [location]);
 
   useEffect(() => {
-    GoogleAnalytics.set({ page: location.pathname });
-    GoogleAnalytics.send("pageview");
-    GoogleAnalytics.event({
-      category: "Navigation",
-      action: "Visited Route",
-      label: location.pathname,
-    });
+    const initGA = () => {
+      GoogleAnalytics.initialize(TRACKING_ID);
+      GoogleAnalytics.set({ page: location.pathname });
+      GoogleAnalytics.send("pageview");
+      GoogleAnalytics.event({
+        category: "Navigation",
+        action: "Visited Route",
+        label: location.pathname,
+      });
+    };
+  
+    // Delay the GA initialization by 500ms to prevent blocking the main thread
+    const timeoutId = setTimeout(initGA, 500);
+  
+    // Cleanup the timeout if component is unmounted
+    return () => clearTimeout(timeoutId);
   }, [location]);
 
   useEffect(() => {

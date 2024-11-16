@@ -9,13 +9,13 @@ import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunc
 
 const sliderData = [
   {
-    imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner1.jpg",
+    imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner1.webp",
   },
   {
-    imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner2.jpg",
+    imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner2.webp",
   },
   {
-    imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.png",
+    imageUrl: "/images/HomePage/TopBanner/HomepageMainBanner3.webp",
   },
 ];
 
@@ -35,9 +35,13 @@ const TopSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Preload the LCP image
+    const preloadImage = new Image();
+    preloadImage.src = storImagePath() + sliderData[0].imageUrl;
+
     const timer = setTimeout(() => {
       setIsVisible(true); // Reveal content after everything is loaded
-    }, 2000); // Adjust the delay as needed
+    }, 1500); // Adjust the delay as needed
 
     // Cleanup timeout
     return () => clearTimeout(timer);
@@ -68,9 +72,6 @@ const TopSection = () => {
                 src={storImagePath() + slide.imageUrl}
                 alt={`Slide ${index}`}
                 className="dt_topSectionImg"
-                // style={{ width: '100%', height: '100%', minHeight: '700px',
-                //      maxHeight: "800px", objectFit: 'cover' }}
-
                 style={{
                   width: "100%",
                   height: "auto", // Keep aspect ratio and avoid distortion
@@ -88,7 +89,7 @@ const TopSection = () => {
         </Swiper>
         <div className="dt_imageContainer" role="image-container">
           <img
-            src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.png`}
+            src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.webp`}
             className="dt_centeredImg"
             alt="Diamondtine promotional banner showcasing new arrivals"
           />

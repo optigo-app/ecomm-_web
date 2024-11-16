@@ -171,7 +171,7 @@ const Album1 = () => {
   useEffect(() => {
       const timer = setTimeout(() => {
           setIsVisible(true); 
-      }, 2000); 
+      }, 1800); 
 
       return () => clearTimeout(timer);
   }, []);
@@ -245,12 +245,13 @@ const Album1 = () => {
                       return (
                         <SwiperSlide
                           key={design?.autocode}
-                          aria-label={`Design slide for ${design?.TitleLine}`}
+                          aria-label={`Design slide for ${design?.designno}`}
                           className="swiper-slide-custom"
                         >
                           <div
                             className="design-slide"
-                            aria-label={`View details for ${design?.TitleLine}`} // Ensure the action is clear
+                            role="link"
+                            aria-label={`View details for ${design?.designno}`} // Ensure the action is clear
                             onClick={() =>
                               handleNavigation(
                                 design?.designno,

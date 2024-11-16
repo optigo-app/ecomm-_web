@@ -143,10 +143,16 @@ const TrendingView = () => {
                 <div className='dt_trendingViewTopMain'>
                     <div className='smr_trendingViewTopMain_div'>
                         <div className='smr_trendingViewTopMain_Imgdiv'>
-                            <img src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} className='linkingLoveImageDesign' />
+                            <img
+                             src={`${storImagePath()}/images/HomePage/TrendingViewBanner/TrendingViewImg.jpg`} 
+                             className='linkingLoveImageDesign'
+                             alt='linkingLoveImageDesign-image'
+                             aria-label='image-container'
+                             role='img'
+                             />
                         </div>
                         <div className='smr_trendingViewTopMain_Sliderdiv'>
-                            <p className='linkingTitle'>Trending View</p>
+                            <p role='title' className='linkingTitle'>Trending View</p>
                             <Slider {...settings} >
                                 {chunkedData?.map((chunk, index) => (
                                         <div className='linkRingLove'>
@@ -159,6 +165,9 @@ const TrendingView = () => {
                                                         `${imageUrl}${data.designno === undefined ? '' : data?.designno}_1.${data?.ImageExtension === undefined ? '' : data.ImageExtension}`
                                                     } className='likingLoveImages'
                                                         onMouseEnter={() => handleMouseEnterRing1(data)} onMouseLeave={handleMouseLeaveRing1}
+                                                                                                                alt='linkingLoveImageDesign-image'
+                                                        aria-label='image-container'
+                                                        role='img'
                                                     />
                                                 </div>
                                                 <div className='linkLoveRing1Desc'>
@@ -175,7 +184,10 @@ const TrendingView = () => {
                                     ))
                                 }
                             </Slider>
-                            <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}>SHOP COLLECTION</p>
+                            <p className='smr_TrendingViewAll' onClick={() => navigation(`/p/Trending/?T=${btoa('Trending')}`)}
+                            role='title'
+                            aria-label='title-for-page'
+                            >SHOP COLLECTION</p>
                         </div>
                     </div>
                 </div>

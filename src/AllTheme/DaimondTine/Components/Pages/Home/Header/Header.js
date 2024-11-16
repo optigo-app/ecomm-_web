@@ -414,26 +414,27 @@ const Header = () => {
 
 
     return (
-        <div className='dai_headerMain'>
+        <div className='dai_headerMain' role='menubar' aria-label='Navbar'>
             <div className="dai_headerMainTop">
                 <div className="div_contact_info first-dt">
                     <IoCallOutline style={{ height: "20px", width: "40px" }} />
-                    <a   href={`tel:${'98108 76359'}`} className="Dt_FontFamilySet" style={{ fontSize: "12px", color: 'white', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>
+                    <a   href={`tel:${'98108 76359'}`} aria-description='link' aria-label="Go to Contact" role='link' className="Dt_FontFamilySet" style={{ fontSize: "12px", color: 'white', cursor: 'pointer', textDecoration: 'none', fontWeight: 500 }}>
                         Call: +91-98108 76359
                     </a>
                 </div>
                 <p className='Dt_FontFamilySet two-dt' style={{ margin: '0px', color: 'white', fontWeight: 500 }}>100% Natural Diamonds</p>
                 <div className="dai_login_link three-dt">
                     {socialMediaData?.map((social, index) => (
-                        <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
-                            <img src={social.SImgPath} alt={social.SName} 
+                        <a key={index} aria-label='link' role='link' href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                            <img src={social.SImgPath} alt={social?.SName} 
                             role="image"
+                            aria-label={social?.SName}
                             style={{ width: '18px', height: '18px', objectFit: 'cover' }}
                                 onError={(e) => { e.target.style.display = 'none'; }} />
                         </a>
                     ))}
                     {!islogin &&
-                        <p className='Dt_FontFamilySet' style={{ margin: '0px 20px', cursor: 'pointer', color: 'white', fontWeight: 500 }} onClick={() => navigation('/LoginOption')}>
+                        <p aria-label="Go to login" role='link' className='Dt_FontFamilySet' style={{ margin: '0px 20px', cursor: 'pointer', color: 'white', fontWeight: 500 }} onClick={() => navigation('/LoginOption')}>
                             Login
                         </p>
                     }
@@ -450,12 +451,16 @@ const Header = () => {
                         onChange={(e) => setSearchText(e.target.value)}
                         className="serachinputBoxOverly"
                         onKeyDown={searchDataFucn}
+                        aria-label='input'
+                        role='input'
                     />
                 </div>
                 <div className="dt_headermainDiv2">
                     <a href='/'>
                         <img
-                            alt=""
+                            alt="main-logo"
+                            role='img'
+                            aria-label='go to hompage'
                             src={titleImg}
                             className="dt_header_logo"
                             onClick={() => navigation("/")}
@@ -463,7 +468,9 @@ const Header = () => {
                     </a>
                 </div>
                 <div className="dt_headermainDiv3">
-                    <ul className="dt_nav_ul_shop">
+                    <ul className="dt_nav_ul_shop"
+                    aria-labelledby='menu-list'
+                    role='list'>
                         {IsB2BWebsiteChek == 1 ?
                             islogin == true ?
                                 <>
@@ -477,10 +484,12 @@ const Header = () => {
                                                 backgroundColor: '#a8807c',
                                             },
                                         }}
+                                        
                                     >
                                         <Tooltip title="WishList">
                                             <li
                                                 className="dt_nav_li_smining"
+                                                aria-label="Go to myWishList"
                                                 style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
                                                 <GoHeart color="#7D7F85" fontSize='25px' />
                                             </li>
@@ -502,6 +511,8 @@ const Header = () => {
                                             <li
                                                 className="dt_nav_li_smining"
                                                 onClick={() => navigation('/CartPage')}
+                                                aria-label="Go to CartPage"
+role='link'
                                                 style={{
                                                     cursor: "pointer",
                                                     marginTop: "0px",
@@ -531,6 +542,8 @@ const Header = () => {
                                     <Tooltip title="WishList">
                                         <li
                                             className="dt_nav_li_smining"
+                                                 aria-label="Go to myWishList"
+role='link'
                                             style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
                                             <GoHeart color="#7D7F85" fontSize='25px' />
                                         </li>
@@ -556,6 +569,8 @@ const Header = () => {
                                                 cursor: "pointer",
                                                 marginTop: "0px",
                                             }}
+                                              aria-label="Go to CartPage"
+                                        role='link'
                                         >
                                             <HiOutlineShoppingBag color="#7D7F85" fontSize='25px' />
                                         </li>
@@ -570,6 +585,8 @@ const Header = () => {
                                     className="dt_nav_li_smining"
                                     style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
                                     onClick={() => { storeInit?.IsB2BWebsite == 0 && !islogin ? navigation("/LoginOption") : navigation("/account") }}
+                                               aria-label={ storeInit?.IsB2BWebsite == 0 && !islogin ? "go to LoginOption" :"go to account"}
+                                                role='link'
                                 >
                                     <IoPersonOutline color="#7D7F85" fontSize='25px' />
                                 </li>
@@ -580,6 +597,8 @@ const Header = () => {
                                 className="dt_nav_li_smining"
                                 style={{ cursor: "pointer", marginTop: "0" }}
                                 onClick={handleLogout}
+                                   aria-label="logout"
+                                        role='main'
                             >
                                 <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
                             </li>
@@ -595,6 +614,8 @@ const Header = () => {
                             className="dt_menu_li"
                             style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase' }}
                             onClick={() => { navigation('/'); window.scrollTo(0, 0); }}
+                               aria-label="go to homepage"
+                                        role='main'
                         >
                             <span className="nav-li-sminingSpan_Home">
                                 Home
@@ -614,7 +635,9 @@ const Header = () => {
                                         key: item?.param0name,
                                         value: item?.param0dataname,
                                     })}
-
+                                        aria-label={item?.menuname}
+                                        aria-describedby={item?.param0dataname}
+                                        role='link'
                             >
                                 <span className="nav_li_sminingSpan_Menu" style={{ textDecoration: hoveredIndex == index && 'underline' }}>
                                     {item.menuname}
@@ -642,6 +665,8 @@ const Header = () => {
                                             className="dt_menu_li"
                                             style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase', position: 'relative' }}
                                             onClick={() => navigation('/Lookbook')}
+                                              aria-label="go to Lookbook"
+                                        role='link'
                                         >
                                             <span className='dt_lookBookNew_header'>New</span>
                                             <span className="nav-li-sminingSpan">
@@ -660,6 +685,8 @@ const Header = () => {
                                         className="dt_menu_li"
                                         style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", textTransform: 'uppercase', position: 'relative', justifyContent: 'center' }}
                                         onClick={() => navigation('/Lookbook')}
+                                        aria-label="go to Lookbook"
+                                        role='link'
                                     >
                                         <span className='dt_lookBookNew_header'>New</span>
                                         <span className="nav-li-sminingSpan">
@@ -723,7 +750,8 @@ const Header = () => {
                                     <span onClick={() => handelMenu({ "menuname": leval1menu?.menuname, "key": leval1menu?.param0name, "value": leval1menu?.param0dataname }, { "key": param1Item.param1name, "value": param1Item.param1dataname })} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
                                     <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
                                         {param1Item?.param2?.map((param2Item, param2Index) => (
-                                            <p className="level2menuData" key={param2Index} onClick={() => handelMenu({
+                                            <p aria-label="go to menu"
+                                            role='link' className="level2menuData" key={param2Index} onClick={() => handelMenu({
                                                 menuname: leval1menu?.menuname,
                                                 key: leval1menu?.param0name,
                                                 value: leval1menu?.param0dataname,
@@ -769,13 +797,13 @@ const Header = () => {
                     }
                 </div>
                 <div className="dt_mobileView_div2">
-                    <a href="/">
-                        {titleImg && <img src={titleImg} className="dt_mobileView_div2_logo" />}
+                    <a href="/" aria-label='homepage' role='link' >
+                        {titleImg && <img src={titleImg} alt='Diamondtine-desktop-logo' aria-label='logo' role='img' className="dt_mobileView_div2_logo" />}
                     </a>
                 </div>
                 <div className="dt_mobileView_div2_mobile">
-                    <a href="/">
-                        {titleImgM && <img src={titleImgM} className="dt_mobileView_div2_logo" />}
+                    <a href="/" aria-label='homepage' role='link' >
+                        {titleImgM && <img src={titleImgM} alt='Diamondtine-mobile-logo' aria-label='logo' role='img' className="dt_mobileView_div2_logo" />}
                     </a>
                 </div>
                 <div className="dt_mobileView_div3">
@@ -784,7 +812,7 @@ const Header = () => {
                             Log in
                         </li>
                     ) : */}
-                    <ul className='dt_mobile_div3_ulMain'>
+                    <ul className='dt_mobile_div3_ulMain' role='list' aria-label='list-menu'>
 
                         {drawerOpen ?
                             <>
@@ -803,7 +831,7 @@ const Header = () => {
                                         }}
                                         className='dt_mobile_div3_li1'
                                     >
-                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => { navigation("/myWishList"); setDrawerOpen(false); }}>
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} aria-label='go to myWishList' role='link' onClick={() => { navigation("/myWishList"); setDrawerOpen(false); }}>
                                             <GoHeart color="#7D7F85" fontSize='30px' />
                                         </li>
                                     </Badge>
@@ -821,7 +849,7 @@ const Header = () => {
                                         }}
                                         className='dt_mobile_div3_li1'
                                     >
-                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} onClick={() => { navigation("/myWishList"); setDrawerOpen(false); }}>
+                                        <li style={{ listStyle: 'none', cursor: 'pointer', marginInline: '10px' }} aria-label='go to myWishList' role='link' onClick={() => { navigation("/myWishList"); setDrawerOpen(false); }}>
                                             <GoHeart color="#7D7F85" fontSize='30px' />
                                         </li>
                                     </Badge>
@@ -844,7 +872,7 @@ const Header = () => {
                                             },
                                         }}
                                     >
-                                        <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
+                                        <li style={{ marginInline: '10px' }} aria-label='go to CartPage' role='link' onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
                                             <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
                                         </li>
                                     </Badge>
@@ -861,7 +889,7 @@ const Header = () => {
                                             },
                                         }}
                                     >
-                                        <li style={{ marginInline: '10px' }} onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
+                                        <li style={{ marginInline: '10px' }} aria-label='go to CartPage' role='link'  onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}>
                                             <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' />
                                         </li>
                                     </Badge>
@@ -873,7 +901,7 @@ const Header = () => {
                                 islogin &&
                                 <li
                                     className='dt_mobile_div3_li1'
-                                    style={{ marginInline: '10px' }} onClick={() => { navigation("/account"); setDrawerOpen(false); }}>
+                                    style={{ marginInline: '10px' }} aria-label='go to account' role='link'  onClick={() => { navigation("/account"); setDrawerOpen(false); }}>
                                     <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
                             )
@@ -881,13 +909,13 @@ const Header = () => {
                         }
                         {!drawerOpen &&
                             (islogin ? (
-                                <li className='dt_mobile_div3_li3' style={{ marginInline: '10px' }} onClick={handleLogout}>
+                                <li className='dt_mobile_div3_li3' aria-label='go to logout page' role='link'  style={{ marginInline: '10px' }} onClick={handleLogout}>
                                     <FaPowerOff fontSize='30px' color="#7D7F85" />
                                 </li>
                             ) :
                                 <li
                                     className='dt_mobile_div3_li3'
-                                    style={{ marginInline: '10px' }} onClick={() => navigation("/LoginOption")}>
+                                    style={{ marginInline: '10px' }}  aria-label='go to LoginOption' role='link'  onClick={() => navigation("/LoginOption")}>
                                     <IoPersonOutline color="#7D7F85" fontSize='30px' />
                                 </li>
 
@@ -918,7 +946,7 @@ const Header = () => {
                             </div>
                             <div style={{ width: '33.33%' }}>
                                 <a href="/">
-                                    {titleImg && <img src={titleImg} style={{ maxWidth: '150px' }} />}
+                                    {titleImg && <img src={titleImg} alt='image' role='img' aria-label='image-box' style={{ maxWidth: '150px' }} />}
                                 </a>
                             </div>
                             <ul style={{ display: 'flex', listStyle: 'none', width: '33.33%', margin: '0px', padding: '0px', justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -938,6 +966,7 @@ const Header = () => {
                                     >
                                         <li
                                             onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
+                                            aria-label='go to myWishList' role='link' 
                                             style={{
                                                 marginLeft: "-10px",
                                                 cursor: "pointer",
@@ -945,6 +974,7 @@ const Header = () => {
                                                 marginTop: "5px",
                                             }}
                                             sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
+                                            
                                         >
                                             <GoHeart color="#7D7F85" fontSize='20px' />
                                         </li>
@@ -960,6 +990,7 @@ const Header = () => {
                                 >
                                     <li
                                         onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}
+                                        aria-label='go to CartPage' role='link' 
                                         style={{
                                             marginLeft: "-10px",
                                             cursor: "pointer",
@@ -974,6 +1005,8 @@ const Header = () => {
                                     className="nav-li-smining"
                                     style={{ cursor: "pointer", marginTop: "0" }}
                                     onClick={handleLogout}
+                                    aria-label='go to logout' role='link' 
+
                                 >
                                     <FaPowerOff style={{ fontSize: '20px' }} />
                                 </li>
@@ -1006,6 +1039,8 @@ const Header = () => {
                                                     component="div"
                                                     style={{ width: '100%' }}
                                                     onClick={() => { navigation('/Lookbook'); setDrawerOpen(false); }}
+                                    aria-label='go to Lookbook' role='link' 
+
                                                 >
                                                     <p style={{ padding: '0px 0px 10px 15px', display: 'flex', position: 'relative', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
                                                         <span style={{
@@ -1038,6 +1073,8 @@ const Header = () => {
                                             component="div"
                                             style={{ width: '100%' }}
                                             onClick={() => { navigation('/Lookbook'); setDrawerOpen(false); }}
+                                    aria-label='go to Lookbook' role='link' 
+
                                         >
                                             <p style={{ padding: '0px 0px 10px 15px', display: 'flex', position: 'relative', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>
                                                 <span style={{
@@ -1066,6 +1103,8 @@ const Header = () => {
                                     <ButtonBase
                                         component="div"
                                         onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
+                                    aria-label='go to menu' role='link' 
+
                                         style={{ width: '100%' }}
                                     >
                                         <p style={{ padding: '0px 0px 10px 15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0px 0px 0px', fontWeight: '500', borderBottom: '1px solid lightgray', width: '100%' }}>{menuItem.menuname}
@@ -1086,6 +1125,8 @@ const Header = () => {
                                                         key: menuItem?.param0name,
                                                         value: menuItem?.param0dataname,
                                                     })}
+                                    aria-label='go to menu' role='link' 
+
                                                 style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
                                             >
                                                 <p style={{ margin: '5px 0px 0px 15px', textDecoration: 'underline', }}>View All</p>
@@ -1097,6 +1138,8 @@ const Header = () => {
                                                             component="div"
                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname })}
                                                             style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                                    aria-label='go to menu' role='link' 
+
                                                         >
                                                             <p style={{ margin: '5px 0px 5px 15px', fontWeight: 500 }}>{subMenuItem.param1dataname}</p>
                                                         </ButtonBase>
@@ -1108,6 +1151,8 @@ const Header = () => {
                                                                             component="div"
                                                                             onClick={() => handelMenu({ "menuname": menuItem?.menuname, "key": menuItem?.param0name, "value": menuItem?.param0dataname }, { "key": subMenuItem.param1name, "value": subMenuItem.param1dataname }, { "key": subSubMenuItem.param2name, "value": subSubMenuItem.param2dataname })}
                                                                             style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                                    aria-label='go to menu' role='link' 
+
                                                                         >
                                                                             <p style={{ margin: '5px 0px 5px 25px', }}>{subSubMenuItem.param2dataname}</p>
                                                                         </ButtonBase>
