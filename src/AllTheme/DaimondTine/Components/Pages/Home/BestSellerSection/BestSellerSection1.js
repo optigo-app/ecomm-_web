@@ -40,7 +40,7 @@ const BestSellerSection1 = () => {
   useEffect(() => {
       const timer = setTimeout(() => {
           setIsVisible(true); 
-      }, 3000);
+      }, 2100);
       return () => clearTimeout(timer);
   }, []);
 
@@ -324,7 +324,7 @@ const BestSellerSection1 = () => {
             <div className="smr_rightSideBestSeler">
               {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-44.jpg?v=1638651514&width=4000" alt="modalimages" /> */}
               <img
-                src={`${storImagePath()}/images/HomePage/Banner/bestsellar.png`}
+                src={`${storImagePath()}/images/HomePage/Banner/bestsellar.webp`}
                   alt="Promotional image for best seller collection"
                   loading="lazy"
                   width="100%"   // Set the width to be responsive

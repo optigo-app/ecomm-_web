@@ -12,8 +12,8 @@ const WhtasIcone = ({phoneNo}) => {
     
   return (
     <div className="dt_main_ChatMenu">
-      <button className="wai">
         <a
+        className="wai"
            href={isTablet ? whatsappMobileUrl : whatsappMobileUrl}
           target="_blank"
           role="link"
@@ -27,7 +27,6 @@ const WhtasIcone = ({phoneNo}) => {
             loading="lazy"
           />
         </a>
-      </button>
     </div>
   );
 };

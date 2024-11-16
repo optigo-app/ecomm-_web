@@ -35,36 +35,36 @@ const DesignSet2 = () => {
   useEffect(() => {
       const timer = setTimeout(() => {
           setIsVisible(true); 
-      }, 3000);
+      }, 2600);
       return () => clearTimeout(timer);
   }, []);
 
 
   useEffect(() => {
-    setLoadingHome(true);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+    // setLoadingHome(true);
+    // const observer = new IntersectionObserver(
+    //   (entries) => {
+    //     entries.forEach((entry) => {
+    //       if (entry.isIntersecting) {
             callAPI();
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-    );
+    //         observer.unobserve(entry.target);
+    //       }
+    //     });
+    //   },
+    //   {
+    //     root: null,
+    //     threshold: 0.5,
+    //   }
+    // );
 
-    if (designSetRef.current) {
-      observer.observe(designSetRef.current);
-    }
-    return () => {
-      if (designSetRef.current) {
-        observer.unobserve(designSetRef.current);
-      }
-    };
+    // if (designSetRef.current) {
+    //   observer.observe(designSetRef.current);
+    // }
+    // return () => {
+    //   if (designSetRef.current) {
+    //     observer.unobserve(designSetRef.current);
+    //   }
+    // };
 
 
   }, []);
@@ -233,7 +233,7 @@ const DesignSet2 = () => {
                   <img
                     // src={ProdCardImageFunc(slide)}
                     // src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/clothing-look-26.jpg?height=1366&v=1638651514&width=2048"
-                    src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.png`}
+                    src={`${storImagePath()}/images/HomePage/DesignSet/BottomBannerDesignSet1.webp`}
                     alt="A complete look design set showcasing various products"
                     className="imgBG"
                   />

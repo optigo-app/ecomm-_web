@@ -168,7 +168,7 @@ const TrendingView1 = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(true); 
-        }, 4000); 
+        }, 2400); 
 
         return () => clearTimeout(timer);
     }, []);
@@ -186,7 +186,7 @@ const TrendingView1 = () => {
             <div className="smr_leftSideBestTR">
               {/* <img src="https://pipeline-theme-fashion.myshopify.com/cdn/shop/files/web-210128-BW-PF21_S219259.jpg?v=1646112530&width=2000" alt="modalimages" /> */}
               <img
-                src={`${storImagePath()}/images/HomePage/Banner/trending.png`}
+                src={`${storImagePath()}/images/HomePage/Banner/trending.webp`}
                 alt="Trending collection banner, showcasing new trendy products"
                 width="100%"   // Set the width to be responsive
                 height="800px"  // Maintain the aspect ratio, or set a fixed height if needed
@@ -195,7 +195,8 @@ const TrendingView1 = () => {
                   objectFit: "cover",
                   // Prevent distortion and ensure it covers the space
                 }}
-              />
+                aria-label="Trending collection banner, showcasing new trendy products"
+                              />
 
               <div className="smr_lookbookImageRightDT">
                 <p>SHORESIDE COLLECTION</p>
@@ -240,14 +241,16 @@ const TrendingView1 = () => {
                             }`
                           : imageNotFound
                       }
-                      alt={data.name}
+                      alt={'Trending collection banner'}
                       loading="lazy"
                       width="100%"   // Set the width to be responsive
                       height="auto"  // Maintain the aspect ratio, or set a fixed height if needed
                       style={{
                         maxWidth: "100%",  // Ensure it doesn't overflow its container
                       }}
-                    />
+                      aria-label="Trending collection banner, showcasing new trendy products"
+                      role="img"
+                                    />
                   </div>
                   <div className="trending_ifno_web_product_info">
                     <h3>{data?.TitleLine != "" && data?.TitleLine}</h3>
