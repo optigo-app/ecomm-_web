@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 import Footer from '../../Home/Footer/Footer';
 import { RegisterAPI } from '../../../../../../utils/API/Auth/RegisterAPI';
 import { mala_loginState } from '../../../Recoil/atom';
-import {MuiInputPlaceholder} from '../style'
+import { MuiInputPlaceholder } from '../style'
 
 export default function Register() {
   const navigation = useNavigate();
@@ -208,7 +208,7 @@ export default function Register() {
         setIsLoading(false);
         if (response.Data.rd[0].stat === 1) {
           navigation(singupRedirectUrl);
-          
+
           // sessionStorage.setItem('LoginUser', true)
           // sessionStorage.setItem('loginUserDetail', JSON.stringify(response.Data?.rd[0]));
           // setIsLoginState(true)
@@ -265,7 +265,7 @@ export default function Register() {
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <TextField
-            sx={MuiInputPlaceholder}
+              sx={MuiInputPlaceholder}
               autoFocus
               id="outlined-basic"
               label="First Name"
@@ -281,7 +281,7 @@ export default function Register() {
             />
 
             <TextField
-            sx={MuiInputPlaceholder}
+              sx={MuiInputPlaceholder}
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
@@ -296,7 +296,7 @@ export default function Register() {
             />
 
             <TextField
-            sx={MuiInputPlaceholder}
+              sx={MuiInputPlaceholder}
               id="outlined-basic"
               label="Mobile No."
               variant="outlined"
@@ -312,7 +312,7 @@ export default function Register() {
             />
 
             <TextField
-            sx={MuiInputPlaceholder}
+              sx={MuiInputPlaceholder}
               id="outlined-basic"
               label="Email"
               autoComplete="mala_registerEmail"
@@ -328,7 +328,7 @@ export default function Register() {
             />
 
             <TextField
-            sx={MuiInputPlaceholder}
+              sx={MuiInputPlaceholder}
               id="outlined-password-input"
               label="Password"
               type={showPassword ? 'text' : 'password'}
@@ -350,7 +350,7 @@ export default function Register() {
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {showPassword ? <VisibilityOff sx={{ color: '#fff' }} /> : <Visibility sx={{ color: '#fff' }} />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -358,7 +358,7 @@ export default function Register() {
             />
 
             <TextField
-            sx={MuiInputPlaceholder}
+              sx={MuiInputPlaceholder}
               id="outlined-confirm-password-input"
               label="Confirm Password"
               type={showConfirmPassword ? 'text' : 'password'}
@@ -384,7 +384,7 @@ export default function Register() {
                       onMouseDown={handleMouseDownConfirmPassword}
                       edge="end"
                     >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      {showConfirmPassword ? <VisibilityOff sx={{ color: '#fff' }} /> : <Visibility sx={{ color: '#fff' }} />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -397,7 +397,7 @@ export default function Register() {
               <input type='checkbox' />
               <p style={{ margin: '5px' }}>Subscribe to our newsletter</p>
             </div> */}
-            <Button style={{ marginTop: '10px', color: '#fff',fontFamily:'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
+            <Button style={{ marginTop: '10px', color: '#fff', fontFamily: 'Rowan1' }} onClick={() => navigation(cancelRedireactUrl)}>BACK</Button>
           </div>
         </div>
       </div>

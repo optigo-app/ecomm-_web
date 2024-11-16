@@ -77,6 +77,8 @@ const ProductDetail = () => {
   const [csList, setCsList] = useState([]);
   const [prodLoading, setProdLoading] = useState(false)
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
 
   const setCartCountVal = useSetRecoilState(mala_CartCount)
   const setWishCountVal = useSetRecoilState(mala_WishCount)
@@ -111,6 +113,10 @@ const ProductDetail = () => {
   // console.log("pdVideoArr", selectedThumbImg?.link ?? imageNotFound)
 
   const navigate = useNavigate()
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   const setCSSVariable = () => {
     const storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -1519,6 +1525,48 @@ const ProductDetail = () => {
                                   {(singleProd1?.Nwt ?? singleProd?.Nwt)?.toFixed(3)}
                                 </span>
                               </span>
+                              {singleProd?.description && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    marginTop: "12px",
+                                  }}
+                                >
+                                  <p
+                                    style={{
+                                      color: "#7d7f85",
+                                      fontSize: "14px",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      display: isExpanded
+                                        ? "block"
+                                        : "-webkit-box",
+                                      WebkitBoxOrient: "vertical",
+                                      WebkitLineClamp: isExpanded ? "none" : 3,
+                                      height: isExpanded ? "auto" : "4.5em",
+                                      margin: "0px",
+                                    }}
+                                  >
+                                    {singleProd?.description}
+                                  </p>
+                                  <a
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      toggleExpand();
+                                    }}
+                                    style={{
+                                      color: "#7d7f85",
+                                      fontSize: "13px",
+                                      fontWeight: "500",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    {isExpanded ? "Show less" : "Read more"}
+                                  </a>
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -1737,7 +1785,7 @@ const ProductDetail = () => {
                                 // className="filtercategoryLable"
 
                                 >
-                                  <Typography sx={{ fontSize: '18px' ,fontFamily:"Rowan1"}}>Price Breakup</Typography>
+                                  <Typography sx={{ fontSize: '18px', fontFamily: "Rowan1" }}>Price Breakup</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails
                                   sx={{
@@ -1779,7 +1827,7 @@ const ProductDetail = () => {
                                         }
                                       </Typography>
                                       &nbsp;
-                                      <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="mala_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Metal_Cost ? singleProd1?.Metal_Cost : singleProd?.Metal_Cost))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1793,7 +1841,7 @@ const ProductDetail = () => {
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="mala_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Diamond_Cost ? singleProd1?.Diamond_Cost : singleProd?.Diamond_Cost))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1807,7 +1855,7 @@ const ProductDetail = () => {
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="mala_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.ColorStone_Cost ? singleProd1?.ColorStone_Cost : singleProd?.ColorStone_Cost))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1821,7 +1869,7 @@ const ProductDetail = () => {
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="mala_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Misc_Cost ? singleProd1?.Misc_Cost : singleProd?.Misc_Cost))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1835,7 +1883,7 @@ const ProductDetail = () => {
                                         </span>
                                       }</Typography>
                                       &nbsp;
-                                      <Typography className="mala_PriceBreakup_Price">{formatter.format((singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost)?.toFixed(2))}</Typography>
+                                      <Typography className="mala_PriceBreakup_Price">{formatter.format(Math.round(singleProd1?.Labour_Cost ? singleProd1?.Labour_Cost : singleProd?.Labour_Cost))}</Typography>
                                     </span>
                                   </div> : null}
 
@@ -1862,7 +1910,7 @@ const ProductDetail = () => {
                                           }</Typography>
                                           &nbsp;
                                           <Typography className="mala_PriceBreakup_Price">{
-                                            formatter.format((
+                                            formatter.format(Math.round(
 
                                               (singleProd1?.Other_Cost ? singleProd1?.Other_Cost : singleProd?.Other_Cost) +
                                               (singleProd1?.Size_MarkUp ? singleProd1?.Size_MarkUp : singleProd?.Size_MarkUp) +
@@ -1871,7 +1919,7 @@ const ProductDetail = () => {
                                               (singleProd1?.Diamond_SettingCost ? singleProd1?.Diamond_SettingCost : singleProd?.Diamond_SettingCost) +
                                               (singleProd1?.Misc_SettingCost ? singleProd1?.Misc_SettingCost : singleProd?.Misc_SettingCost)
 
-                                            )?.toFixed(2))
+                                            ))
                                           }</Typography>
                                         </span>
                                       </div>
@@ -1978,22 +2026,22 @@ const ProductDetail = () => {
                     <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "0px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600 }}
+                          style={{ fontWeight: 600, color: '#7d7f85' }}
                         >{`Diamond Detail (${diaList?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${diaList
+                        )}/${diaList
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
                           )
-                          .toFixed(3)}ct)`}</li>
+                          .toFixed(3)} ct)`}</li>
                       </ul>
                       <ul className="mala_mt_detail_title_ul">
                         <li className="mala_proDeatilList">Shape</li>
                         <li className="mala_proDeatilList">Clarity</li>
                         <li className="mala_proDeatilList">Color</li>
-                        <li className="mala_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="mala_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {diaList?.map((data) => (
                         <ul className="mala_mt_detail_title_ul">
@@ -2012,11 +2060,11 @@ const ProductDetail = () => {
                     <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600 }}
+                          style={{ fontWeight: 600, color: '#7d7f85' }}
                         >{`ColorStone Detail (${csList?.filter((ele) => ele?.D !== "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele) => ele?.D !== "MISC")
+                        )}/${csList?.filter((ele) => ele?.D !== "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2027,7 +2075,7 @@ const ProductDetail = () => {
                         <li className="mala_proDeatilList">Shape</li>
                         <li className="mala_proDeatilList">Clarity</li>
                         <li className="mala_proDeatilList">Color</li>
-                        <li className="mala_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="mala_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D !== "MISC")?.map((data) => (
                         <ul className="mala_mt_detail_title_ul">
@@ -2046,11 +2094,11 @@ const ProductDetail = () => {
                     <div className="mala_material_details_portion_inner">
                       <ul style={{ margin: "10px 0px 3px 0px" }}>
                         <li
-                          style={{ fontWeight: 600 }}
+                          style={{ fontWeight: 600, color: '#7d7f85' }}
                         >{`MISC Detail (${csList?.filter((ele) => ele?.D === "MISC")?.reduce(
                           (accumulator, data) => accumulator + data.M,
                           0
-                        )}  ${csList?.filter((ele) => ele?.D === "MISC")
+                        )}/${csList?.filter((ele) => ele?.D === "MISC")
                           ?.reduce(
                             (accumulator, data) => accumulator + data?.N,
                             0
@@ -2061,7 +2109,7 @@ const ProductDetail = () => {
                         <li className="mala_proDeatilList">Shape</li>
                         <li className="mala_proDeatilList">Clarity</li>
                         <li className="mala_proDeatilList">Color</li>
-                        <li className="mala_proDeatilList">Pcs&nbsp;&nbsp;Wt</li>
+                        <li className="mala_proDeatilList">Pcs&nbsp;/&nbsp;Wt</li>
                       </ul>
                       {csList?.filter((ele) => ele?.D === "MISC")?.map((data) => (
                         <ul className="mala_mt_detail_title_ul">

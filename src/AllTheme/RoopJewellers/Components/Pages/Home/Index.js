@@ -56,8 +56,8 @@ function Home() {
             {/* <TheDifference /> */}
             {/* <TrendingView1 /> */}
             {/* <PromotionBaner2 /> */}
-            {/* {localData?.IsHomeAlbum === 1 && <Album1 />}
-            {localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
+            {/* {localData?.IsHomeAlbum === 1 && <Album1 />} */}
+            {/*{localData?.IsHomeBestSeller === 1 && <BestSellerSection1 />}
             {localData?.IsHomeNewArrival === 1 && <NewArrival1 />}
             {localData?.IsHomeTrending === 1 && <TrendingView1 />}
             {localData?.IsHomeDesignSet === 1 && <DesignSet1 />} */}

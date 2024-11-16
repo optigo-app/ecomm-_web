@@ -1,7 +1,7 @@
 @import "../../../scss/variable.scss";
 
 .mala_loginEmail {
-  
+
     padding-block: 70px;
     margin-top: 220px;
     background-color: #17372f;
@@ -9,9 +9,11 @@
     padding-bottom: 4rem;
     font-family: $rown !important;
     padding-block: 100px;
+
     @media screen and (max-width: 1200px) {
-      margin-top: 80px;
+        margin-top: 80px;
     }
+
     #outlined-confirm-password-input::-ms-reveal {
         display: none !important;
     }
@@ -38,9 +40,10 @@
         letter-spacing: 1;
         transition: 0.2s ease-in;
         border-radius: 3px;
+
         &:hover {
-          background-color: #ff8e72;
-    }
+            background-color: #ff8e72;
+        }
     }
 
 
@@ -62,18 +65,20 @@
         letter-spacing: 1;
         transition: 0.2s ease-in;
         border-radius: 3px;
+
         &:hover {
-          background-color: #ff8e72;
-    }
+            background-color: #ff8e72;
+        }
     }
 
     .mala_loginPasswordBox {
         width: 420px;
         margin: 10px;
+
         .MuiInputBase-input {
             font-family: $rown !important;
-            color: white !important ;
-    }
+            color: white !important;
+        }
     }
 
 
@@ -92,12 +97,12 @@
         }
 
         .submitBtnForgot {
-            width: 50%;
+            width: 90%;
             height: 50px !important;
         }
 
         .SmilingLoginCodeBtn {
-            width: 50%;
+            width: 90%;
             height: 50px !important;
 
         }
@@ -106,7 +111,7 @@
     @media screen and (max-width: 500px) {
 
         .SmilingLoginCodeBtn {
-            width: 70%;
+            width: 90%;
             height: 40px !important;
             font-size: 12px !important;
 
@@ -118,7 +123,7 @@
         }
 
         .AuthScreenSubTitle {
-            margin-top: -65px !important;
+            margin-top: -35px !important;
         }
     }
 }

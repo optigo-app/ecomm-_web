@@ -5,12 +5,13 @@
 .stam_DeliverMainDiv {
   font-family: $primaryFontFamily;
   margin-top: 220px;
-color: white;
-font-family: $rown !important;
-@media screen and (max-width: 1200px) {
-margin-top: 80px;
-padding-block: 45px;
-}
+  color: white;
+  font-family: $rown !important;
+
+  @media screen and (max-width: 1200px) {
+    margin-top: 80px;
+    padding-block: 45px;
+  }
 
   .mala_secondMaindivAdd {
     margin-inline: 6%;
@@ -21,6 +22,30 @@ padding-block: 45px;
     margin-inline: 10%;
     padding-top: 15%;
     padding-bottom: 5%;
+
+    @media screen and (max-width: 1700px) {
+      padding-top: 18%;
+    }
+
+    @media screen and (max-width: 1430px) {
+      padding-top: 20%;
+    }
+
+    @media screen and (max-width: 1300px) {
+      padding-top: 23%;
+    }
+
+    @media screen and (max-width: 1200px) {
+      padding-top: 10%;
+    }
+
+    @media screen and (max-width: 600px) {
+      padding-top: 13%;
+    }
+
+    @media screen and (max-width: 400px) {
+      padding-top: 18%;
+    }
   }
 
   .mala_getAddrMainDiv {
@@ -121,6 +146,7 @@ padding-block: 45px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     .mala_AddNewAddrbtn {
       margin-right: 20px;
       height: 40px;
