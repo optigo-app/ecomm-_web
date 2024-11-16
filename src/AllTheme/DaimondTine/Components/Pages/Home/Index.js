@@ -36,24 +36,23 @@ function Home() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-  //   setLocalData(localData);
-  // }, []);
-
   useEffect(() => {
     let localData = JSON.parse(sessionStorage.getItem("storeInit"));
-    // Wrap the state change in startTransition
-    startTransition(() => {
-      setLocalData(localData);
-    });
+    setLocalData(localData);
   }, []);
 
-
-
+  // useEffect(() => {
+  //   let localData = JSON.parse(sessionStorage.getItem("storeInit"));
+  //   // Wrap the state change in startTransition
+  //   startTransition(() => {
+  //     setLocalData(localData);
+  //   });
+  // }, []);
 
   return (
     <>
+
+
       {/* {htmlContent?.rd && htmlContent?.rd.length > 0 &&
         (
           <div>
@@ -75,6 +74,8 @@ function Home() {
             }
           </div>
         )} */}
+
+
         {htmlContent?.rd && htmlContent?.rd.length > 0 && (
   <div role="main" aria-labelledby="mainContent">
     {/* Top Section with aria-label */}
