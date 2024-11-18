@@ -1393,10 +1393,25 @@ const DiamondFilter = () => {
             </div>
             <div className="flex_for_mob">
               <div className="sorting_options">
+            
                 <span
                   onClick={() => handleOpen("Sort")}
                   className="title_for_sort"
+                  style={{
+                    position:"relative"
+                  }}
                 >
+                    {open == "Sort" && <div className="wrapper-fg"
+              style={{
+              position:"absolute",
+              top:"0",
+              padding:"4px 18px",
+              left:0 ,
+              right:0 ,
+              backgroundColor:"transparent" ,
+              color:"transparent",
+              }}
+              >22446</div>}
                   Sort By |
                   <div>
                     <span> {selectedsort?.title} </span> {selectedsort?.sort}

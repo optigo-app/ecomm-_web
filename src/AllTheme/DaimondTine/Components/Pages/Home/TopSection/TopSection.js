@@ -19,17 +19,17 @@ const sliderData = [
   },
 ];
 
-const SonasliderData = [
-  {
-    imageUrl: "/images/HomePage/TopBanner/sona/HomepageMainBanner1.png",
-  },
-  {
-    imageUrl: "/images/HomePage/TopBanner/sona/HomepageMainBanner2.png",
-  },
-  {
-    imageUrl: "/images/HomePage/TopBanner/sona/HomepageMainBanner3.png",
-  },
-];
+// const SonasliderData = [
+//   {
+//     imageUrl: "/images/HomePage/TopBanner/sona/HomepageMainBanner1.png",
+//   },
+//   {
+//     imageUrl: "/images/HomePage/TopBanner/sona/HomepageMainBanner2.png",
+//   },
+//   {
+//     imageUrl: "/images/HomePage/TopBanner/sona/HomepageMainBanner3.png",
+//   },
+// ];
 
 const TopSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -87,7 +87,7 @@ const TopSection = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="dt_imageContainer" role="image-container">
+        <div className="dt_imageContainer" >
           <img
             src={`${storImagePath()}/images/HomePage/Banner/PromoBanner1.webp`}
             className="dt_centeredImg"
