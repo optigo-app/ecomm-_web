@@ -2762,7 +2762,7 @@ const ProductList = () => {
                                           />
                                         )}
                                       </div>
-                                      <div className="mala_prod_card_info">
+                                      <div className="mala_prod_card_info" style={{ height: isAllWeight ? "110px" : "90px" }}>
                                         <div className="mala_prod_Title">
                                           <span
                                             className={
@@ -2800,10 +2800,10 @@ const ProductList = () => {
                                             {storeInit?.IsGrossWeight == 1 &&
                                               Number(productData?.Gwt) !== 0 && (
                                                 <span className="mala_prod_wt">
-                                                  <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
+                                                  <span className="mala_main_keys">
                                                     GWT:
                                                   </span>
-                                                  <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
+                                                  <span className="mala_main_val">
                                                     {productData?.Gwt?.toFixed(3)}
                                                   </span>
                                                 </span>
@@ -2819,10 +2819,10 @@ const ProductList = () => {
                                                   |
                                                 </span>
                                                 <span className="mala_prod_wt">
-                                                  <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
+                                                  <span className="mala_main_keys">
                                                     NWT:
                                                   </span>
-                                                  <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
+                                                  <span className="mala_main_val">
                                                     {productData?.Nwt?.toFixed(3)}
                                                   </span>
                                                 </span>
@@ -2842,10 +2842,10 @@ const ProductList = () => {
                                                     |
                                                   </span>
                                                   <span className="mala_prod_wt">
-                                                    <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
+                                                    <span className="mala_main_keys">
                                                       DWT:
                                                     </span>
-                                                    <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
+                                                    <span className="mala_main_val">
                                                       {productData?.Dwt?.toFixed(
                                                         3
                                                       )}
@@ -2869,10 +2869,10 @@ const ProductList = () => {
                                                     |
                                                   </span>
                                                   <span className="mala_prod_wt">
-                                                    <span className={isAllWeight ? "mala_main_keys_res" : "mala_main_keys"}>
+                                                    <span className="mala_main_keys">
                                                       CWT:
                                                     </span>
-                                                    <span className={isAllWeight ? "mala_main_val_res" : "mala_main_val"}>
+                                                    <span className="mala_main_val">
                                                       {productData?.CSwt?.toFixed(
                                                         3
                                                       )}

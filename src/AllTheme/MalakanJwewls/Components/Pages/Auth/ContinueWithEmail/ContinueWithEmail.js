@@ -73,13 +73,13 @@ export default function ContinueWithEmail() {
       .then((response) => {
         setIsLoading(false);
         if (response.Status == 400 || response.Data == "" || null) {
-          toast.error("Something went wrong");
+          // toast.error("Something went wrong");
         } else {
           if (
             response.Data.rd[0].stat == 1 &&
             response.Data.rd[0].islead == 1
           ) {
-            toast.error("You are not a customer, contact to admin");
+            // toast.error("You are not a customer, contact to admin");
           } else if (
             response.Data.rd[0].stat == 1 &&
             response.Data.rd[0].islead == 0

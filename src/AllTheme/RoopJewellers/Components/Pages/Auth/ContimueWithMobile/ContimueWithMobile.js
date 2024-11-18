@@ -71,9 +71,9 @@ export default function ContimueWithMobile() {
         ContimueWithMobileAPI(mobileNo).then((response) => {
             setIsLoading(false);
             if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '1') {
-                toast.error('You are not a customer, contact to admin')
+                // toast.error('You are not a customer, contact to admin')
             } else if (response.Data.Table1[0].stat === '1' && response.Data.Table1[0].islead === '0') {
-                toast.success('OTP send Sucssessfully');
+                // toast.success('OTP send Sucssessfully');
                 navigation(redirectMobileUrl, { state: { mobileNo: mobileNo } });
                 sessionStorage.setItem('registerMobile', mobileNo)
             } else {
