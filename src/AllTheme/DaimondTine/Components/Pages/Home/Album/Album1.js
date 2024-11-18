@@ -171,7 +171,7 @@ const Album1 = () => {
   useEffect(() => {
       const timer = setTimeout(() => {
           setIsVisible(true); 
-      }, 1800); 
+      }, 2000); 
 
       return () => clearTimeout(timer);
   }, []);
