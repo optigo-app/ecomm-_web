@@ -50,7 +50,7 @@ const WishlistItems = ({
     const handleWishlistToCartFun = async (item) => {
         const returnValue = await handleWishlistToCart(item);
         if (returnValue?.msg == "success") {
-            toast.success("Wishlist items added in cart")
+            // toast.success("Wishlist items added in cart")
             GetCountAPI(visiterId).then((res) => {
                 setCartCountVal(res?.cartcount);
             });

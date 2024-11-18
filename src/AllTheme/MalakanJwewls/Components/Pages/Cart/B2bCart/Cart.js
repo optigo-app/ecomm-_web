@@ -161,7 +161,7 @@ const CartPage = () => {
         setCartCountVal(res?.cartcount)
       })
     } else {
-      toast.error('Something went wrong!')
+      // toast.error('Something went wrong!')
     }
   }
 
