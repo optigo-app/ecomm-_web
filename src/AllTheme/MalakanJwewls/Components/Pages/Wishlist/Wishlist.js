@@ -102,14 +102,14 @@ const Wishlist = () => {
           {wishlistData?.length != 0 &&
             <>
               <div className="mala_WlButton-group">
-                <Link
+                <button
                   className="mala_ReomoveAllWLbtn"
                   href="#"
                   variant="body2"
                   onClick={handleRemoveAllDialog}
                 >
                   CLEAR ALL
-                </Link>
+                </button>
                 {!isMobileScreen &&
                   <div className="mala_Wl-title">My Wishlist</div>
                 }

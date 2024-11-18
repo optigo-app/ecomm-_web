@@ -72,6 +72,18 @@ const Header = () => {
 
   const { showTimer, countdown } = useCountdown();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsHeaderFixed(scrollPosition > 100);
+      setIsHeaderFixedDropShow(scrollPosition > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   // console.log("showtimejhjdhsjhjf", showTimer, countdown);
 
   useEffect(() => {
@@ -219,7 +231,8 @@ const Header = () => {
 
   const toggleOverlay = () => {
     // setSearchText('');
-    setSerachShowOverlay(!serachsShowOverlay);
+    // setSerachShowOverlay(!serachsShowOverlay);
+    setSerachShowOverlay(prev => !prev);
   };
 
   const [drawerShowOverlay, setDrawerShowOverlay] = useState(false);
@@ -370,6 +383,7 @@ const Header = () => {
           f: {},
         };
         let encodeObj = btoa(JSON.stringify(obj))
+        setDrawerShowOverlay(false);
         navigate(`/p/${searchText}?S=${encodeObj}`);
         toggleOverlay();
         setSearchText("")
@@ -481,12 +495,12 @@ const Header = () => {
               }}
             >
               <div className="mala_mobileHeader_top_div1"
-              
+
               >
                 <IoClose
-                size={38}
-                color="#F6C2B5"
-                cursor={'pointer'}
+                  size={38}
+                  color="#F6C2B5"
+                  cursor={'pointer'}
                   onClick={toggleDrawerOverlay}
                 />
               </div>
@@ -573,25 +587,25 @@ const Header = () => {
               </div>
             </div>
             <div className="mala_mobileMenuSubDivMain">
-            {islogin && (
-              <div
-              className="mlakna_mob_search"
-              >
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="mobileSideBarSearch"
-                />
-                <IoSearchOutline
-                  style={{
-                    height: "20px",
-                    cursor: "pointer",
-                    color: "white",
-                    width: "20px",
-                  }}
-                />
-              </div>
-            )}
+              {islogin && (
+                <div
+                  className="mlakna_mob_search"
+                >
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="mobileSideBarSearch"
+                  />
+                  <IoSearchOutline
+                    style={{
+                      height: "20px",
+                      cursor: "pointer",
+                      color: "white",
+                      width: "20px",
+                    }}
+                  />
+                </div>
+              )}
               <List
                 className="mala_ListMenuSiderMobile"
                 sx={{ paddingTop: "0", marginBottom: "0px", marginTop: "15px" }}
@@ -671,7 +685,7 @@ const Header = () => {
                                 style={{ width: "100%" }}
                               >
                                 <p
-                                className="malkan_sec_menu"
+                                  className="malkan_sec_menu"
                                   style={{
                                     margin: "0px 0px 0px 15px",
                                     width: "100%",
@@ -744,18 +758,67 @@ const Header = () => {
               <p className="mala_menuStaicMobilePage">About us</p>
             </div>
 
-            <div>
-              <p
-                className="mala_menuStaicMobilePageLink"
-                style={{ marginTop: "10px" }}
-                onClick={() => {
-                  setDrawerShowOverlay(false);
-                  navigation("/myWishList");
-                }}
-              >
-                WishList
-              </p>
-            </div>
+            {IsB2BWebsiteChek === 0 ? (
+              <>
+                {!islogin && (
+                  <div>
+                    <p
+                      className="mala_menuStaicMobilePageLink"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
+                    >
+                      LOG IN
+                    </p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {!islogin && (
+                  <div>
+                    <p
+                      className="mala_menuStaicMobilePageLink"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => { navigation("/LoginOption"); setDrawerShowOverlay(false); }}
+                    >
+                      LOG IN
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+
+            {IsB2BWebsiteChek === 1 ? (
+              islogin === true ? (
+                <div>
+                  <p
+                    className="mala_menuStaicMobilePageLink"
+                    style={{ marginTop: "10px" }}
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      navigation("/myWishList");
+                    }}
+                  >
+                    WishList
+                  </p>
+                </div>
+              ) : (
+                ""
+              )
+            ) : (
+              <div>
+                <p
+                  className="mala_menuStaicMobilePageLink"
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    setDrawerShowOverlay(false);
+                    navigation("/myWishList");
+                  }}
+                >
+                  WishList
+                </p>
+              </div>
+            )}
 
             {IsB2BWebsiteChek === 1 ? (
               islogin === true ? (
@@ -809,7 +872,7 @@ const Header = () => {
               </div>
             }
 
-            <div>
+            {/* <div>
               <p
                 className="mala_menuStaicMobilePageLink"
                 onClick={() => {
@@ -819,9 +882,25 @@ const Header = () => {
               >
                 Log Out
               </p>
-            </div>
+            </div> */}
 
-     
+            {islogin && (
+              <>
+                <div>
+                  <p
+                    className="mala_menuStaicMobilePageLink"
+                    onClick={() => {
+                      setDrawerShowOverlay(false);
+                      handleLogout();
+                    }}
+                  >
+                    Log Out
+                  </p>
+                </div>
+              </>
+            )}
+
+
           </div>
         </>
       )}
@@ -830,7 +909,7 @@ const Header = () => {
 
         <div className="mala_Top_header_sub">
           <div className="mala_Top_header_logo_div">
-          <a href="/" className="mala_logo_header_webLogo">
+            <a href="/" className="mala_logo_header_webLogo">
               <img
                 src={compnyLogo}
                 loading="lazy"
@@ -840,7 +919,7 @@ const Header = () => {
 
             <a href="/" className="mala_logo_header_Mobile">
               <img
-                src={`https://malakan.com/wp-content/uploads/2023/04/malakan-logo-header.png`||compnyLogoM}
+                src={`https://malakan.com/wp-content/uploads/2023/04/malakan-logo-header.png` || compnyLogoM}
                 loading="lazy"
                 className="mala_logo_header"
               />
@@ -1016,7 +1095,7 @@ const Header = () => {
                   <li
                     className="nav_li_smining"
                     style={{ cursor: "pointer" }}
-                    onClick={()=>handleLogout()}
+                    onClick={() => handleLogout()}
                   >
                     LOG OUT
                   </li>
@@ -1024,7 +1103,7 @@ const Header = () => {
 
                 {IsB2BWebsiteChek == 0 ? (
                   <>
-                    
+
                     <li
                       className="nav_li_smining_Icone mala_mobileHideIcone"
                       onClick={toggleOverlay}
@@ -1091,7 +1170,7 @@ const Header = () => {
                         style={{}}
                       >
                         <IoSearchOutline
-                        className="malkan_logo_nav"
+                          className="malkan_logo_nav"
                           style={{
                             height: "20px",
                             cursor: "pointer",
@@ -1112,7 +1191,7 @@ const Header = () => {
                             onClick={() => navigation("/myWishList")}
                           >
                             <FavoriteBorderIcon
-                            className="malkan_logo_nav"
+                              className="malkan_logo_nav"
                               style={{
                                 height: "20px",
                                 cursor: "pointer",
@@ -1132,7 +1211,7 @@ const Header = () => {
                       >
                         <Tooltip title="Cart">
                           <li
-                             onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
+                            onClick={IsCartNo == 3 ? toggleCartDrawer : () => navigate("/cartPage")}
                             className="nav_li_smining_Icone"
                           >
                             <ShoppingCartOutlinedIcon
@@ -1141,7 +1220,7 @@ const Header = () => {
                             />
                           </li>
                         </Tooltip>
-                      </Badge> 
+                      </Badge>
                     </>
                   )
                 )}
@@ -1240,6 +1319,7 @@ const Header = () => {
                                 style={{
                                   margin: "0px 0px 0px 6px",
                                   fontWeight: 500,
+                                  textDecoration: 'underline',
                                 }}
                               >
                                 {subMenuItem.param1dataname}

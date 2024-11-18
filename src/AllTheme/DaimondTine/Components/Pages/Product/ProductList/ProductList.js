@@ -328,8 +328,8 @@ const ProductList = () => {
   //       images,
   //     };
   //   });
-    
-    
+
+
 
   //   setFinalProductListData(finalProdWithPrice);
   // }, [productListData]);
@@ -337,12 +337,12 @@ const ProductList = () => {
 
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
-    console.log(storeInit ,"storeInitX")
+    console.log(storeInit, "storeInitX")
     let pdImgList = []
     if (product?.ImageCount > 0) {
       for (let i = 1; i <= product?.ImageCount; i++) {
         let imgString =
-        storeInitX?.DesignImageFol +
+          storeInitX?.DesignImageFol +
           product?.designno +
           "_" +
           i +
@@ -953,7 +953,7 @@ const ProductList = () => {
     }
   };
 
-  
+
 
   useEffect(() => {
     setAfterCountStatus(true);
@@ -2890,20 +2890,20 @@ const ProductList = () => {
 
                                                         // {new code }
 
-                                                        productData?.images[0] 
+
                                                         // || rollOverImgPd[productData?.autocode] || loadedProducts[i]?.src || imageNotFound
 
                                                         // {old code }
-                                                        // rollOverImgPd[
-                                                        //   productData?.autocode
-                                                        // ]
-                                                        //   ? rollOverImgPd[
-                                                        //   productData?.autocode
-                                                        //   ]
-                                                        //   : productData?.images?.length >
-                                                        //     0
-                                                        //     ? productData?.images[0]
-                                                        //     : imageNotFound
+                                                        rollOverImgPd[
+                                                          productData?.autocode
+                                                        ]
+                                                          ? rollOverImgPd[
+                                                          productData?.autocode
+                                                          ]
+                                                          : productData?.images?.length >
+                                                            0
+                                                            ? productData?.images[0]
+                                                            : imageNotFound
                                                       }
                                                       alt=""
                                                     />

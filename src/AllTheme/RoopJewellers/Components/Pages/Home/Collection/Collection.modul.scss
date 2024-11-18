@@ -56,6 +56,23 @@
     width: 25%;
     background-color: #EDF2F6;
     margin: 10px;
+
+    @media screen and (max-width: 900px) {
+      width: 47% !important;
+      // width: 100% !important;
+    }
+
+    @media screen and (max-width: 790px) {
+      width: 46% !important;
+    }
+
+    @media screen and (max-width: 620px) and (min-width: 601px) {
+      width: 45% !important;
+    }
+
+    @media screen and (max-width: 500px) {
+      width: 100% !important;
+    }
   }
 
   .imageDiv {
@@ -155,16 +172,17 @@
       display: flex !important;
       flex-wrap: wrap !important;
     }
-
-    .roop_col_shop_div {
-      width: 100% !important;
-    }
   }
 
   @media screen and (max-width: 600px) {
     .roop_col_image_div {
       margin: 10px 0px !important;
       width: 100% !important;
+    }
+
+    .roop_col_title {
+      margin: 10px 0px 0px 0px;
+      font-size: 25px !important;
     }
 
     .roop_col_imageMain_div {

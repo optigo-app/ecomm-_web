@@ -4,12 +4,13 @@
     // background-color: $backgroundColor;
     font-family: $primaryFontFamily;
     margin-top: 220px;
-  color: white;
-  font-family: $rown !important;
-  @media screen and (max-width: 1200px) {
-  margin-top: 80px;
-  padding-block: 45px;
-  }
+    color: white;
+    font-family: $rown !important;
+
+    @media screen and (max-width: 1200px) {
+        margin-top: 80px;
+        padding-block: 45px;
+    }
 }
 
 .mala_paymentSecondMainDiv {
@@ -101,6 +102,7 @@
 
 .mala_paymentButtonDiv {
     text-align: center;
+    padding-top: 2rem;
 
     .mala_payOnAccountBtn {
         margin-right: 20px;

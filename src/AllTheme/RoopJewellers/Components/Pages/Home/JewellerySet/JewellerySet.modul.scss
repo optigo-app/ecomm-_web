@@ -19,7 +19,8 @@
 
     .roop_jewls__image_div {
         position: relative;
-        width: 50%;
+        width: 25%;
+        // width: 50%;
         padding: 20px 20px 20px 0px;
 
     }
@@ -37,18 +38,37 @@
     }
 
     .roop_jewls_Div_name {
-        color: white;
+        color: black;
         position: absolute;
         font-size: 30px;
-        bottom: 20%;
-        left: 40px;
+        bottom: 12%;
+        left: 50%;
+        transform: translateX(-50%);
         font-family: $fontMedium;
+
+        @media screen and (max-width: 1200px) {
+            font-size: 20px;
+        }
+
+        @media screen and (max-width: 800px) {
+            font-size: 15px;
+        }
+
+        @media screen and (max-width: 650px) {
+            bottom: 7%;
+        }
+
+        @media screen and (max-width: 360px) {
+            bottom: 3%;
+        }
     }
+
 
     .roop_jewelImg {
         width: 100%;
         object-fit: cover;
         height: 100%;
+        cursor: pointer;
     }
 
     @media screen and (max-width:1400px) {
@@ -90,7 +110,8 @@
         }
 
         .roop_jewl_title {
-            font-size: 18px !important;
+            font-size: 22px !important;
+            padding-block: 5px;
         }
 
         .roop_jewls_Div_name {
@@ -98,7 +119,8 @@
         }
 
         .roop_jewls__image_div {
-            width: 100% !important;
+            width: 50% !important;
+            // width: 100% !important;
             padding: 5px !important;
         }
 

@@ -8,10 +8,11 @@
     padding-bottom: 4rem;
     font-family: $rown !important;
     padding-block: 100px;
+
     @media screen and (max-width: 1200px) {
-      margin-top: 80px;
+        margin-top: 80px;
     }
-    
+
 
     .css-1wc848c-MuiFormHelperText-root {
         margin-right: 0px !important;
@@ -25,10 +26,11 @@
     .mala_loginmobileBox {
         width: 420px;
         margin: 10px;
+
         .MuiInputBase-input {
             font-family: $rown !important;
-            color: white !important ;
-          }
+            color: white !important;
+        }
     }
 
     .submitBtnForgot {
@@ -47,8 +49,9 @@
         letter-spacing: 1;
         transition: 0.2s ease-in;
         border-radius: 3px;
+
         &:hover {
-          background-color: #ff8e72;
+            background-color: #ff8e72;
         }
     }
 
@@ -113,10 +116,10 @@
         }
 
         .submitBtnForgot {
-            width: 50%;
+            width: 90%;
             height: 50px !important;
-
         }
+
 
     }
 
@@ -128,7 +131,7 @@
         }
 
         .AuthScreenSubTitle {
-            margin-top: -65px !important;
+            margin-top: -35px !important;
         }
     }
 }

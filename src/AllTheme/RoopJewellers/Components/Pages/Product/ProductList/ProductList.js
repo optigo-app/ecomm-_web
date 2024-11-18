@@ -2897,7 +2897,7 @@ const GivaFilterMenu = ({
               <div className="filter_menu_giva_roop">
 
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "15px", cursor: 'pointer' }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(1)}
                 >
@@ -2921,6 +2921,8 @@ const GivaFilterMenu = ({
                   </Badge>
                   <ExpandMoreIcon
                     className="fmg_icon"
+                    sx={{ cursor: 'pointer' }}
+                    onClickCapture={() => HandleMenu(1)}
                     onClick={() => HandleMenu(1)}
                   />
                 </Typography>
@@ -3207,13 +3209,15 @@ const GivaFilterMenu = ({
             {storeInit?.IsMetalCustComb === 1 && metalTypeCombo?.length > 0 && (
               <div className="filter_menu_giva_roop">
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "15px", cursor: 'pointer' }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(2)}
                 >
                   Metal{" "}
                   <ExpandMoreIcon
                     className="fmg_icon"
+                    sx={{ cursor: 'pointer' }}
+                    onClickCapture={() => HandleMenu(2)}
                     onClick={() => HandleMenu(2)}
                   />{" "}
                 </Typography>
@@ -3259,13 +3263,15 @@ const GivaFilterMenu = ({
             {storeInit?.IsDiamondCustComb === 1 && diaQcCombo?.length > 0 && (
               <div className="filter_menu__roop">
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "15px", cursor: 'pointer' }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(3)}
                 >
                   Diamond{" "}
                   <ExpandMoreIcon
                     className="fmg_icon"
+                    sx={{ cursor: 'pointer' }}
+                    onClickCapture={() => HandleMenu(3)}
                     onClick={() => HandleMenu(3)}
                   />{" "}
                 </Typography>
@@ -3316,13 +3322,15 @@ const GivaFilterMenu = ({
             {storeInit?.IsCsCustomization === 1 && csQcCombo?.length > 0 && (
               <div className="filter_menu_giva_roop">
                 <Typography
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "15px", cursor: 'pointer' }}
                   className="fmg_menu"
                   onClick={() => HandleMenu(4)}
                 >
                   Color Stone
                   <ExpandMoreIcon
                     className="fmg_icon"
+                    sx={{ cursor: 'pointer' }}
+                    onClickCapture={() => HandleMenu(4)}
                     onClick={() => HandleMenu(4)}
                   />{" "}
                 </Typography>
@@ -3376,13 +3384,15 @@ const GivaFilterMenu = ({
               {storeInit?.IsMetalCustComb === 1 && (
                 <div className="filter_menu_giva_roop">
                   <Typography
-                    sx={{ fontSize: "15px" }}
+                    sx={{ fontSize: "15px", cursor: 'pointer' }}
                     className="fmg_menu"
                     onClick={() => HandleMenu(5)}
                   >
                     Sort by : {sortBySelect}{" "}
                     <ExpandMoreIcon
                       className="fmg_icon"
+                      sx={{ cursor: 'pointer' }}
+                      onClickCapture={() => HandleMenu(5)}
                       onClick={() => HandleMenu(5)}
                     />{" "}
                   </Typography>

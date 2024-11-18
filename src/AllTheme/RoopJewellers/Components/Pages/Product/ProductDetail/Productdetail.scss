@@ -2,13 +2,18 @@
 
 .roop_prodDetail_bodyContain {
     height: 100%;
-    width: 100%;
+    // width: 100%;
 
     .roop_prodDetail_outerContain {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        // padding-bottom: 15px;
+        // width: 100% !important;
+        margin-inline: auto;
         padding-bottom: 15px;
+        width: 100% !important;
+        max-width: 85rem;
     }
 
     .stam_prodDetail_whiteInnerContain {
@@ -17,12 +22,19 @@
     }
 
     .smr_prod_detail_main {
-        width: 100%
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .smr_prod_image_shortInfo {
         width: 100%;
         display: flex;
+
+        @media screen and (max-width: 1400px) and (min-width: 1200px) {
+            padding-inline: 2%;
+        }
     }
 
     .smr_prod_image_Sec {
@@ -52,7 +64,13 @@
         // margin-left: 51px;
 
         @media screen and (max-width: 1200px) {
+            top: 3rem;
+            flex-direction: column;
+        }
+
+        @media screen and (max-width: 768px) {
             top: 2rem;
+            flex-direction: column;
         }
     }
 
@@ -67,7 +85,7 @@
         }
 
         @media screen and (max-width : 1200px) {
-            margin-left: -56px;
+            margin-left: 0rem;
         }
 
         @media screen and (max-width : 940px) {
@@ -384,6 +402,15 @@
         width: 100%;
     }
 
+    .smr_stockutem_shortinfo {
+        background-color: $btnprimarycolor;
+
+        .smr_prod_designno,
+        .smr_stockItem_price_type_mt {
+            color: #fff;
+        }
+    }
+
     .smr_prod_Allwt {
         display: flex;
         // flex-direction: row;
@@ -437,6 +464,7 @@
         text-align: left;
         padding: 8px;
         color: #7d7f85;
+        font-size: 16px;
     }
 
     // .Smr_stockItem_table_tr:nth-child(even){
@@ -445,7 +473,7 @@
 
     .Smr_stockItem_table {
         border-collapse: collapse;
-        width: 70%;
+        width: 80%;
         font-family: $primaryFontFamily;
         border: 1px solid #dddddd;
     }
@@ -574,7 +602,8 @@
 
     @media screen and (max-width:612px) {
         .smr_Swiper_designSet {
-            max-width: 360px;
+            max-width: 100%;
+            // max-width: 360px;
         }
 
         .compeletethelook_cont {
@@ -729,6 +758,8 @@
         .smr_prod_image_shortInfo {
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .smr_prod_video {
@@ -754,6 +785,7 @@
             gap: 5px;
             position: relative;
             flex-direction: row;
+            justify-content: center;
             // justify-content: center;
             padding: 0;
             left: 0px;
@@ -762,7 +794,8 @@
         }
 
         .smr_prod_image_Sec {
-            width: 100%
+            width: 75%;
+            // width: 100%;
         }
 
         .smr_prod_shortInfo {
@@ -790,6 +823,12 @@
         }
     }
 
+    @media screen and (max-width: 768px) {
+        .smr_prod_image_Sec {
+            width: 100%;
+        }
+    }
+
     @media screen and (max-width:425px) {
         .smr_prod_titleLine {
             font-size: 30px;
@@ -800,6 +839,7 @@
             margin: 70px 20px;
         }
     }
+
 
     @media screen and (max-width: 350px) {
         .smr_prod_shortInfo {

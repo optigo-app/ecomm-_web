@@ -6,7 +6,7 @@ import CryptoJS from 'crypto-js';
 import { useNavigate } from 'react-router'
 import Footer from '../../Home/Footer/Footer';
 import { ResetPasswordAPI } from '../../../../../../utils/API/Auth/ResetPasswordAPI';
-import {MuiInputPlaceholder} from '../style'
+import { MuiInputPlaceholder } from '../style'
 
 export default function ForgotPass() {
 
@@ -148,7 +148,7 @@ export default function ForgotPass() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
-                        sx={MuiInputPlaceholder}
+                            sx={MuiInputPlaceholder}
                             autoFocus
                             id="outlined-password-input"
                             label="Password"
@@ -174,7 +174,7 @@ export default function ForgotPass() {
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            {showPassword ? <VisibilityOff sx={{ color: '#fff' }} /> : <Visibility sx={{ color: '#fff' }} />}
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -182,7 +182,7 @@ export default function ForgotPass() {
                         />
 
                         <TextField
-                        sx={MuiInputPlaceholder}
+                            sx={MuiInputPlaceholder}
                             id="outlined-confirm-password-input"
                             label="Confirm Password"
                             type={showConfirmPassword ? 'text' : 'password'}
@@ -202,7 +202,7 @@ export default function ForgotPass() {
                                             onMouseDown={handleMouseDownConfirmPassword}
                                             edge="end"
                                         >
-                                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                            {showConfirmPassword ? <VisibilityOff sx={{ color: '#fff' }} /> : <Visibility sx={{ color: '#fff' }} />}
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -210,9 +210,9 @@ export default function ForgotPass() {
                         />
 
                         <button className='createBtnRegister' onClick={handleSubmit}>Change Password</button>
-                        <Button style={{ marginTop: '10px', color: '#fff' ,fontFamily:"Rowan1"}} onClick={() => navigation('/')}>CANCEL</Button>
+                        <Button style={{ marginTop: '10px', color: '#fff', fontFamily: "Rowan1" }} onClick={() => navigation('/')}>CANCEL</Button>
                     </div>
-                        </div>
+                </div>
             </div>
 
         </div>

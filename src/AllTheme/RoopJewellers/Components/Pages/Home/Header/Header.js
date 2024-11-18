@@ -43,6 +43,7 @@ const Header = () => {
   const [isHeaderFixedDropShow, setIsHeaderFixedDropShow] = useState(false);
   const maxWidth1200 = useMediaQuery('(max-width: 1200px)');
   const maxWidth425 = useMediaQuery('(max-width: 425px)');
+  const maxWidth500 = useMediaQuery('(max-width: 500px)');
 
   const compnyLogo = useRecoilValue(roop_companyLogo);
   const compnyLogoM = useRecoilValue(roop_companyLogoM);
@@ -538,7 +539,7 @@ const Header = () => {
                       onClick={toggleDrawerOverlay}
                     />
                   </div>
-                  {!maxWidth425 && (
+                  {!maxWidth500 && (
                     <div className="roop_mobileHeader_top_div2">
                       <a href="/">
                         <img
@@ -550,7 +551,7 @@ const Header = () => {
                     </div>
                   )}
 
-                  {maxWidth425 && (
+                  {maxWidth500 && (
                     <div className="roop_mobileHeader_top_div2">
                       <a href="/">
                         <img
@@ -621,7 +622,7 @@ const Header = () => {
                               className="nav_li_smining_Icone"
                             >
                               <ShoppingCartOutlinedIcon
-                                sx={{ height: "25px", width: "25px" }}
+                                sx={{ height: "25px", width: "25px", cursor: "pointer" }}
                               />
                             </li>
                           </Tooltip>
@@ -687,7 +688,7 @@ const Header = () => {
                                   className="nav_li_smining_Icone"
                                 >
                                   <ShoppingCartOutlinedIcon
-                                    sx={{ height: "25px", width: "25px" }}
+                                    sx={{ height: "25px", width: "25px", cursor: "pointer", }}
                                   />
                                 </li>
                               </Tooltip>
@@ -1225,7 +1226,7 @@ const Header = () => {
                           className="nav_li_smining_Icone"
                         >
                           <ShoppingCartOutlinedIcon
-                            sx={{ height: "25px", width: "25px" }}
+                            sx={{ height: "25px", width: "25px", cursor: "pointer", }}
                           />
                         </li>
                       </Tooltip>
@@ -1284,7 +1285,7 @@ const Header = () => {
                             className="nav_li_smining_Icone"
                           >
                             <ShoppingCartOutlinedIcon
-                              sx={{ height: "20px", width: "20px" }}
+                              sx={{ height: "25px", width: "25px", cursor: "pointer" }}
                             />
                           </li>
                         </Tooltip>
@@ -1314,17 +1315,19 @@ const Header = () => {
                 )}
 
                 {islogin && (
-                  <li
-                    className="nav_li_roop"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleLogout()}
-                  >
-                    <IoLogOut style={{
-                      height: "25px",
-                      cursor: "pointer",
-                      width: "25px",
-                    }} />
-                  </li>
+                  <Tooltip title="Logout">
+                    <li
+                      className="nav_li_roop"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleLogout()}
+                    >
+                      <IoLogOut style={{
+                        height: "25px",
+                        cursor: "pointer",
+                        width: "25px",
+                      }} />
+                    </li>
+                  </Tooltip>
                 )}
               </ul>
             </div>
@@ -1334,6 +1337,7 @@ const Header = () => {
         {maxWidth1200 && (
           <div className={`roop_top_header3 ${isHeaderFixed ? "roop_Top_Header_fixed_main fixed" : ""}`}>
             {/* <div className="roop_top_header3"> */}
+
             <div className="roop_top_header3_logo_Web">
               <a href="/">
                 <img
