@@ -35,7 +35,7 @@ const DesignSet2 = () => {
   useEffect(() => {
       const timer = setTimeout(() => {
           setIsVisible(true); 
-      }, 2600);
+      }, 2000);
       return () => clearTimeout(timer);
   }, []);
 

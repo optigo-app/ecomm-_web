@@ -40,7 +40,7 @@ const BestSellerSection1 = () => {
   useEffect(() => {
       const timer = setTimeout(() => {
           setIsVisible(true); 
-      }, 2100);
+      }, 2000);
       return () => clearTimeout(timer);
   }, []);
 
