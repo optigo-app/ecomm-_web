@@ -1347,7 +1347,7 @@ const ProductDetail = () => {
                       ) : (
                         <div
                           className="smr_main_prod_img"
-                        // style={{ display: isImageload ? "none" : "block" }}
+                          style={{ display: isImageload ? "none" : "block" }}
                         >
                           {(selectedThumbImg?.type == "img") ? (
                             <img
