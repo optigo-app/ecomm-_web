@@ -206,6 +206,15 @@
 
 .listing-image {
     position: relative;
+    .story-diamond{
+        display: none;
+    }
+    &:hover{
+        transition: 0.5s ease-in-out;
+        .story-diamond{
+            display: block;
+        }  
+    }
 }
 
 .cart-icon {
