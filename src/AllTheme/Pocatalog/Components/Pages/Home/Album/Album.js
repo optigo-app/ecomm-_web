@@ -32,6 +32,8 @@ const Album = () => {
     setImageUrl(storeinit?.AlbumImageFol || "");
   }, []);
 
+  // console.log("test")
+
   useEffect(() => {
     const checkImages = async () => {
       const status = {};
