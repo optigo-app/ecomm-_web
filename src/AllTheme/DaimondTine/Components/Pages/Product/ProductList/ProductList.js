@@ -42,6 +42,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import GoogleAnalytics from 'react-ga4'
+import Stories from 'react-insta-stories';
 
 const ProductList = () => {
   const loginUserDetail = JSON.parse(sessionStorage?.getItem("loginUserDetail"));
@@ -337,7 +338,6 @@ const ProductList = () => {
 
   const generateImageList = useCallback((product) => {
     let storeInitX = JSON.parse(sessionStorage.getItem("storeInit"));
-    console.log(storeInit, "storeInitX")
     let pdImgList = []
     if (product?.ImageCount > 0) {
       for (let i = 1; i <= product?.ImageCount; i++) {
@@ -593,6 +593,7 @@ const ProductList = () => {
         setIsOnlyProdLoading(false);
       });
   };
+  
   const handleRangeFilterApi1 = async (Rangeval1) => {
     let diafilter = JSON.parse(
       filterData?.filter((ele) => ele?.Name == "Diamond")[0]?.options
@@ -2816,9 +2817,55 @@ const ProductList = () => {
                                   const isLoading = productData && productData?.loading === true;
                                   return (
                                     <div className={`main-ProdcutListConatiner`}>
-                                      <div className={`listing-card`}>
+                                      <div className={`listing-card`} style={{
+                                            position:"relative",
+                                          }}>
                                         <div className="listing-image">
-                                          <div>
+                                          <div >
+                                            {/* i have to put here condition for the hover the  */}
+                                           { <div className="story-diamond"
+                                            style={{
+                                              position:"absolute",
+                                              top:"0",
+                                              bottom:"0",
+                                              overflow:"hidden" ,
+                                              zIndex:"9999" ,
+                                              height:"100%",
+                                              width:"100%"
+                                            }}
+                                            >
+                                            <Stories
+
+			stories={[{
+        url: "https://images.pexels.com/photos/1302307/pexels-photo-1302307.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        url: "https://images.pexels.com/photos/28059313/pexels-photo-28059313/free-photo-of-box-with-wedding-rings-on-wooden-table.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        url: "https://images.pexels.com/photos/3585798/pexels-photo-3585798.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        url: "https://images.pexels.com/photos/1352783/pexels-photo-1352783.jpeg?auto=compress&cs=tinysrgb&w=600",
+        preloadResource: false,
+      },
+      {
+        url: "https://images.pexels.com/photos/1122473/pexels-photo-1122473.jpeg?auto=compress&cs=tinysrgb&w=600",
+        preloadResource: false,
+      }
+     ]}
+			defaultInterval={1500}
+			width={"100%"}
+			height={"100%"}
+      loop
+      // keyboardNavigation
+      // onStoryEnd={(s, st) => console.log("story ended", s, st)}
+      // onAllStoriesEnd={(s, st) => console.log("all stories ended", s, st)}
+      // onStoryStart={(s, st) => console.log("story started", s, st)}
+      // onNext={() => console.log("next button pressed")}
+      // onPrevious={() => console.log("previous button pressed")}
+		/>
+                                            </div>}
                                             {isLoading ? (
                                               <CardMedia
                                                 style={{ width: "100%" }}
