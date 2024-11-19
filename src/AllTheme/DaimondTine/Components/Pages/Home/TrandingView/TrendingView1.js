@@ -168,7 +168,7 @@ const TrendingView1 = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(true); 
-        }, 2400); 
+        }, 2000); 
 
         return () => clearTimeout(timer);
     }, []);

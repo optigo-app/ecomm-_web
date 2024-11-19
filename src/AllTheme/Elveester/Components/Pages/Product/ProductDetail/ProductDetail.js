@@ -1191,7 +1191,8 @@ const ProductDetail = () => {
                     <Skeleton className='elv_prod_det_default_1400' variant="rectangular" />
                   ) : (
                     <div className='elv_ProductDet_max1400'>
-                      <div className='elv_ProductDet_prod_img_max1400'>
+                      <div className='elv_ProductDet_prod_img_max1400'
+                      >
                         {selectedThumbImg || imageSrc ? (
                           selectedThumbImg?.type == "img" ? (
                             <img
@@ -1201,6 +1202,7 @@ const ProductDetail = () => {
                               alt={""}
                               onLoad={() => setIsImageLoad(false)}
                               className="elv_ProductDet_prod_image_max1400"
+                              style={{ display: pdLoadImage ? "none" : "block" }}
                             />
                           ) : (
                             <div>
@@ -1357,7 +1359,9 @@ const ProductDetail = () => {
                         <Skeleton className='elv_prod_det_default' variant="rectangular" />
                       ) : (
                         <>
-                          <div className='elv_ProductDet_prod_img'>
+                          <div className='elv_ProductDet_prod_img'
+                            style={{ display: pdLoadImage ? "none" : "block" }}
+                          >
                             {imageSrc || selectedThumbImg ? (
                               selectedThumbImg.type === "img" ? (
                                 <img
@@ -1411,7 +1415,9 @@ const ProductDetail = () => {
                     ) : (
                       <>
                         <div>
-                          <div className='elv_ProductDet_prod_img_max1000'>
+                          <div className='elv_ProductDet_prod_img_max1000'
+                            style={{ display: pdLoadImage ? "none" : "block" }}
+                          >
                             {selectedThumbImg || imageSrc ? (
                               selectedThumbImg?.type == "img" ? (
                                 <img

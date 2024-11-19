@@ -72,7 +72,7 @@ export default function ContinueWithEmail() {
         ContinueWithEmailAPI(trimmedEmail).then((response) => {
             setIsLoading(false);
             if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 1) {
-                toast.error('You are not a customer, contact to admin')
+                // toast.error('You are not a customer, contact to admin')
             } else if (response.Data.rd[0].stat == 1 && response.Data.rd[0].islead == 0) {
                 navigation(redirectEmailUrl, { state: { email: trimmedEmail } });
                 if (trimmedEmail) {

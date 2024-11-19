@@ -1,8 +1,9 @@
 import React, { Suspense, startTransition, useEffect, useState } from 'react'
-import {  storInitDataPath } from '../../../../../utils/Glob_Functions/GlobalFunction';
+import {  storImagePath, storInitDataPath } from '../../../../../utils/Glob_Functions/GlobalFunction';
 import './Index.modul.scss'
 import { useRecoilValue } from 'recoil';
 import { dt_homeLoading } from '../../Recoil/atom';
+import Demo from './Demo';
 
 const DesignSet2  = React.lazy(()=>import('./DesignSet/DesignSet2'));
 const TrendingView1  = React.lazy(()=>import('./TrandingView/TrendingView1'));
@@ -48,6 +49,29 @@ function Home() {
   //     setLocalData(localData);
   //   });
   // }, []);
+  const [htmlContent1, setHtmlContent1] = useState('');
+
+  // useEffect(() => {
+  //   // Fetch the HTML file when the component mounts
+  //   fetch(`${storImagePath()}/html/index.html`)
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.text();  // Get the response as text (HTML)
+  //     })
+  //     .then((data) => {
+  //       setHtmlContent1(data);  // Set the fetched HTML content in state
+  //     })
+  //     .catch((error) => {
+  //       console.error('There was a problem with the fetch operation:', error);
+  //     });
+  // }, []);
+
+  // return <>
+    {/* <div dangerouslySetInnerHTML={{__html:htmlContent1}}></div> */}
+    {/* <Demo/> */}
+  {/* </> */}
 
   return (
     <>
@@ -81,16 +105,16 @@ function Home() {
     {/* Top Section with aria-label */}
     <section aria-labelledby="topSection" role="region">
               <Suspense fallback={<></>}>
-      <TopSection />
+        <TopSection />
             </Suspense>
     </section>
 
     {/* Album Section with aria-label */}
     {htmlContent?.rd[0]?.IsHomeAlbum === 1 && (
       <section aria-labelledby="albumSection" role="region">
-                <Suspense fallback={<></>}>
-        <Album1 />
-              </Suspense>
+      <Suspense fallback={<></>}>
+      <Album1 />
+      </Suspense>
       </section>
     )}
 
@@ -130,22 +154,22 @@ function Home() {
       </section>
     )}
 
-    {/* Loading Spinner with ARIA live region */}
-   {isLoadingHome === true ? (
-  <div className="dat_Home_loader_container" role="status" aria-live="polite" aria-label="Content is loading, please wait.">
-    <div className="dt_Home_loader"></div>
-  </div>
-) : (
-  <>
-    {/* Social Media and Footer sections */}
-    <section aria-labelledby="socialMediaSection" role="region">
-              <Suspense fallback={<></>}>
+      {/* Loading Spinner with ARIA live region */}
+      {isLoadingHome === true ? (
+      <div className="dat_Home_loader_container" role="status" aria-live="polite" aria-label="Content is loading, please wait.">
+      <div className="dt_Home_loader"></div>
+      </div>
+      ) : (
+      <>
+      {/* Social Media and Footer sections */}
+      <section aria-labelledby="socialMediaSection" role="region">
+      <Suspense fallback={<></>}>
       <SocialMedia />
             </Suspense>
     </section>
     <section aria-labelledby="footerSection" role="contentinfo">
               <Suspense fallback={<></>}>
-      <Footer />
+      <Footer/>
             </Suspense>
     </section>
   </>
