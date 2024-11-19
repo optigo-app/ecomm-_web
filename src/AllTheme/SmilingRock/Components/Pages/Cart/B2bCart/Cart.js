@@ -19,7 +19,7 @@ import { handlePaymentAPI } from '../../../../../../utils/API/OrderFlow/PlaceOrd
 import { toast } from 'react-toastify';
 import { useAddress } from '../../../../../../utils/Glob_Functions/OrderFlow/useAddress';
 import Cookies from "js-cookie";
-
+import PrintIcon from '@mui/icons-material/Print';
 
 const CartPage = () => {
   const addressData = useAddress();
@@ -165,6 +165,10 @@ const CartPage = () => {
     }
   }
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className='smr_MainBGDiv'>
       <div className='cartMainPageDiv'>
@@ -189,6 +193,11 @@ const CartPage = () => {
             }
             {!isloding && cartData?.length != 0 &&
               <div className='smr_placeOrderMainbtnDivs'>
+                {storeInit?.IsPLW == 1 &&
+                  <Button variant="outlined" sx={{ border: '1px solid grey !important', color: '#7d7f85' }} startIcon={<PrintIcon />} onClick={handlePrint}>
+                    Print
+                  </Button>
+                }
                 <button className="smr_place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
               </div>
             }
@@ -358,7 +367,7 @@ const CartPage = () => {
 
         <Footer />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+      <div className='backtotop' style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
         <p style={{ margin: '0px', fontWeight: 500, color: 'white', cursor: 'pointer' }} onClick={scrollToTop}>BACK TO TOP</p>
       </div>
     </div>

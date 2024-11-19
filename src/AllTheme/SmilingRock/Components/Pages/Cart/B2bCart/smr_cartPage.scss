@@ -1073,9 +1073,17 @@ $cartUpdateBtncolor: #b1b1b1;
 
   @media(max-width: 570px) {
     .cartMainPageDiv {
+      .smr_placeOrderMainbtnDivs {
+        flex: 2 !important;
+      }
+      .cartBtnGroupMainDiv{
+        padding-block: 10px !important;
+        .smr_cart-title{
+          margin-bottom: 20px !important;
+      }
+    }
       .smr_cartMainPage {
         padding: 0;
-
         .smr_cart-left-sides {
           width: 100%;
           max-width: 100%;
@@ -1146,3 +1154,5 @@ $cartUpdateBtncolor: #b1b1b1;
   }
 
 }
+
+
