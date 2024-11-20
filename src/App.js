@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { RecoilRoot } from "recoil";
 import { BrowserRouter } from "react-router-dom";
