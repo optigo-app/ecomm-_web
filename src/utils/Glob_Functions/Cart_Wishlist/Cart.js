@@ -343,7 +343,7 @@ const useCart = () => {
   const handleSave = async (data) => {
     setShowRemark(false);
     try {
-      console.log( productRemark, visiterId,"payload")
+      console.log(productRemark, visiterId, "payload")
       const response = await handleProductRemark(data, productRemark, visiterId);
       let resStatus = response?.Data?.rd[0]
       if (resStatus?.stat == 1) {
@@ -564,17 +564,22 @@ const useCart = () => {
     return txt.value;
   }
 
-  const CartCardImageFunc = (pd ,index) => {
+  const CartCardImageFunc = (pd, index, procat) => {
+    console.log('procat: ', procat);
     return new Promise((resolve) => {
       const loadImage = (src) => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.src = src;
-          img.onload = () => {
-            setTimeout(() => {
-              resolve(src)
-            }, 150 * index);
-          };
+          if (procat === true) {
+            img.onload = () => resolve(src);
+          } else {
+            img.onload = () => {
+              setTimeout(() => {
+                resolve(src)
+              }, 150 * index);
+            };
+          }
           img.onerror = () => reject(src);
         });
       };
@@ -585,7 +590,7 @@ const useCart = () => {
       if (pd?.ImageCount > 0) {
         primaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1_${mtcCode?.colorcode}.${pd?.ImageExtension}`;
         secondaryImage = `${storeInit?.DesignImageFol}${pd?.designno}_1.${pd?.ImageExtension}`;
-      } 
+      }
       else {
         primaryImage = secondaryImage = imageNotFound;
       }
