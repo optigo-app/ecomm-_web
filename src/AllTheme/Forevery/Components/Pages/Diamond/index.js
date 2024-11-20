@@ -288,7 +288,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
+              src={data?.stockno ? (data?.image_file_url || noImageFound) : (imageMap?.colorImage || noImageFound)}
               alt=""
               style={{ cursor: 'default' }}
             />

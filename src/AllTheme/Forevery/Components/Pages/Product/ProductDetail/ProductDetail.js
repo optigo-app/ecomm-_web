@@ -60,7 +60,6 @@ const ProductDetail = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [CustPath, setCustpath] = useState(false);
-  console.log('CustPath: ', CustPath);
   const [loginData, setLoginData] = useState({});
   const [completeSet, setCompleteSet] = useState(false);
   const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
@@ -94,11 +93,9 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false)
   const [isPriceloading, setisPriceLoading] = useState(false);
   const [decodeUrl, setDecodeUrl] = useState({})
-  console.log('decodeUrl: ', decodeUrl);
   const [loadingdata, setloadingdata] = useState(false);
   const [pdImageLoading, setPdImageLoading] = useState(false);
   const [path, setpath] = useState();
-  console.log('path: ', path);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState()
   const [videoArr, SETvideoArr] = useState([]);
   const [setshape, setSetShape] = useState();
@@ -1484,37 +1481,37 @@ const ProductDetail = () => {
   }
 
   const imageRefs = useRef([])
-const [origin ,setorigin] = useState({x:0 , y :0 });
+  const [origin, setorigin] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e, index) => {
     const imageRef = imageRefs?.current[index];
     if (!imageRef) return;
-  
+
     const imageContainer = imageRef?.parentElement;
     if (!imageContainer) return;
-  
+
     const rect = imageContainer.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-  
+
     const zoomLevel = 1.5;
-  
+
     const transformOriginX = x * 100;
     const transformOriginY = y * 100;
-  
-    setorigin({x:transformOriginX , y:transformOriginY})
+
+    setorigin({ x: transformOriginX, y: transformOriginY })
     imageRef.style.transformOrigin = `${transformOriginX}% ${transformOriginY}%`;
     imageRef.style.transform = `scale(${zoomLevel})`;
   };
-  
+
   const handleMouseLeave = (index) => {
     const imageReff = imageRefs?.current[index]
     if (!imageReff) return
 
     imageReff.style.transform = 'scale(1)';
     imageReff.style.transformOrigin = 'center center'; // reset the origin to center
-    setorigin({x:0,y:0})
-    
+    setorigin({ x: 0, y: 0 })
+
   }
 
   useEffect(() => {
@@ -1610,22 +1607,22 @@ const [origin ,setorigin] = useState({x:0 , y :0 });
                             {(
                               imageSrc || PdImageArr?.length > 1 ? (
                                 <Slider
-                                
-                                 {...settings} ref={sliderRef} lazyLoad="progressive">
+
+                                  {...settings} ref={sliderRef} lazyLoad="progressive">
                                   {PdImageArr?.length > 0 && PdImageArr.map((val, i) => (
                                     <div key={i} className="for_slider_card">
                                       <div className="for_image"
-                                      style={{
-                                        position:"relative",
-                                        overflow:"hidden",
-                                        cursor:"zoom-in" ,
-                                      }}
-                                      onMouseMove={(e) => handleMouseMove(e, i)}
-                                      onMouseLeave={() => handleMouseLeave(i)}
+                                        style={{
+                                          position: "relative",
+                                          overflow: "hidden",
+                                          cursor: "zoom-in",
+                                        }}
+                                        onMouseMove={(e) => handleMouseMove(e, i)}
+                                        onMouseLeave={() => handleMouseLeave(i)}
                                       >
                                         {val?.type === "img" ? (
                                           <img
-                                          ref={el => imageRefs.current[i] = el}
+                                            ref={el => imageRefs.current[i] = el}
                                             loading="lazy"
                                             src={val?.src}
                                             alt=""
@@ -1708,7 +1705,7 @@ const [origin ,setorigin] = useState({x:0 , y :0 });
                                   key={i}
                                   className={`for_box_mob ${i === currentSlide ? "active" : ""}`}
                                   onClick={() => handleThumbnailClick(i)}
-                                 
+
                                 >
                                   {val?.type === "img" ? (
                                     <img
@@ -1752,27 +1749,27 @@ const [origin ,setorigin] = useState({x:0 , y :0 });
                                   {PdImageArr?.length > 0 && PdImageArr?.map((val, i) => (
                                     <div key={i} className="for_slider_card_mob">
                                       <div className="for_image_mob"
-                                          style={{
-                                            position:"relative",
-                                            overflow:"hidden",
-                                            cursor:"zoom-in" ,
-                                            border:"1px solid black",
-                                            width:"100%"
-                                          }}
-                                          onMouseMove={(e) => handleMouseMove(e, i)}
+                                        style={{
+                                          position: "relative",
+                                          overflow: "hidden",
+                                          cursor: "zoom-in",
+                                          border: "1px solid black",
+                                          width: "100%"
+                                        }}
+                                        onMouseMove={(e) => handleMouseMove(e, i)}
                                         onMouseLeave={() => handleMouseLeave(i)}
                                       >
                                         {val?.type === "img" ? (
                                           <img
-                                          ref={el => imageRefs.current[i] = el}
-                                          loading="lazy"
-                                          src={val?.src}
+                                            ref={el => imageRefs.current[i] = el}
+                                            loading="lazy"
+                                            src={val?.src}
                                             alt=""
                                             style={{
                                               transition: 'transform 0.3s ease',
                                               transform: (origin.x && origin.y) ? 'scale(1.3)' : 'scale(0.8)',
-                                              transformOrigin:`${origin.x}% ${origin.y}%`,
-                                              width:"100%"
+                                              transformOrigin: `${origin.x}% ${origin.y}%`,
+                                              width: "100%"
                                             }}
                                             onLoad={() => setIsImageLoad(false)}
                                           />
@@ -2881,7 +2878,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
         >
           <div className="for_dia_data_image">
             <img
-              src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
+              src={data?.stockno ? (data?.image_file_url || imageNotFound) : (imageMap?.colorImage ?? imageNotFound)}
               alt=""
               style={{ cursor: 'default' }}
             />
