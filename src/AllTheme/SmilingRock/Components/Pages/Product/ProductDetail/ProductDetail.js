@@ -584,6 +584,7 @@ const ProductDetail = () => {
     setLoginInfo(logininfo);
   }, []);
 
+
   useEffect(() => {
     callAllApi();
   }, [storeInit]);
@@ -611,6 +612,28 @@ const ProductDetail = () => {
       console.error("Error decoding and decompressing:", error);
       return null;
     }
+  };
+
+  
+  const handleMoveToDetail = (productData) => {
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {},
+    };
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+   
+    navigate(
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+    setSingleProd1()
   };
 
   useEffect(() => {
@@ -680,6 +703,7 @@ const ProductDetail = () => {
         .then(async (res) => {
           if (res) {
             setSingleProd(res?.pdList[0]);
+            console.log(res?.pdList[0],"rd")
 
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
@@ -1230,25 +1254,6 @@ const ProductDetail = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
-    let obj = {
-      a: productData?.autocode,
-      b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
-      f: {},
-    };
-
-    let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-    navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
-  };
 
   const handleCustomChange = async (e, type) => {
     let metalArr;
@@ -1330,6 +1335,7 @@ const ProductDetail = () => {
     await SingleProdListAPI(prod, size ?? sizeData, obj, cookie)
       .then((res) => {
         setSingleProd1(res?.pdList[0]);
+        console.log(res?.pdList[0] ,"rdd2")
 
         if (res?.pdList?.length > 0) {
           setisPriceLoading(false);
@@ -1364,6 +1370,8 @@ const ProductDetail = () => {
 
   const KayraCreation = 1;
 
+  console.log(  singleProd1?.UnitCostWithMarkUp ??
+    singleProd?.UnitCostWithMarkUp , "product")
   return (
     <>
       <Helmet>

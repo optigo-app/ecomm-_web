@@ -1,41 +1,41 @@
 import { atom } from "recoil";
 
 export const dt_companyLogo = atom({
-  key: 'dt_companyLogo',
+  key: 'diat_companyLogo',
   default: []
 })
 
 export const dt_companyLogoM = atom({
-  key: 'dt_companyLogoM',
+  key: 'diat_companyLogoM',
   default: []
 })
 
 export const dt_homeLoading = atom({
-  key: 'dt_homeLoading',
+  key: 'diat_homeLoading',
   default: true
 })
 
 export const dt_loginState = atom({
-  key: 'dt_loginState',
+  key: 'diat_loginState',
   default: false,
 })
 
 export const dt_CartCount = atom({
-  key: 'dt_CartCount',
+  key: 'diat_CartCount',
   default: 0
 })
 
 export const dt_WishCount = atom({
-  key: 'dt_WishCount',
+  key: 'diat_WishCount',
   default: 0
 })
 
 export const defaultAddressStateDT = atom({
-  key: 'defaultAddressStateDT',
+  key: 'dia_defaultAddressStateDT',
   default: null,
 });
 
 export const lookBookDrawer = atom({
-  key: 'lookBookDrawer',
+  key: 'dia_lookBookDrawer',
   default: false,
 });

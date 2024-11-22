@@ -16,7 +16,8 @@ export const DesignSetListAPI = async (obj, dno, visiterId) => {
     Customerid: `${customerId ?? 0}`,
     CurrencyRate: `${(loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate) ?? ''}`,
     designno: `${dno}`,
-    Metalid: `${obj?.mt == undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt}`,
+    // Metalid: `${obj?.mt == undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt}`,
+    Metalid: loginInfo?.MetalId ?? storeinit?.MetalId,
     DiaQCid: `${obj?.diaQc == undefined ? (loginInfo?.cmboDiaQCid ?? storeinit?.cmboDiaQCid) : obj?.diaQc}`,
     CsQCid: `${obj?.csQc == undefined ? (loginInfo?.cmboCSQCid ?? storeinit?.cmboCSQCid) : obj?.csQc}`,
     Laboursetid: `${storeinit?.IsB2BWebsite == 0 && islogin == false

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import SmilingRock_App from "./AllTheme/SmilingRock/SmilingRock_App";
 import DaimondTine_App from "./AllTheme/DaimondTine/DaimondTine_App";
 import Elveester_App from "./AllTheme/Elveester/Elveester_App";
@@ -96,7 +96,7 @@ export default function ThemeRoutes() {
   const [title, setTitle] = useState();
   const [htmlContent, setHtmlContent] = useState("");
   const [storeInitData, setStoreInitData] = useState();
-  const [loadTime, setLoadTime] = useState(null);
+  const hasApiBeenCalled = useRef(false);
 
   useEffect(() => {
     fetch(`${storInitDataPath()}/StoreInit.json`)
@@ -153,26 +153,6 @@ export default function ThemeRoutes() {
   }, []);
 
   useEffect(() => {
-    const observer = new PerformanceObserver((entryList) => {
-      const entries = entryList.getEntriesByType('navigation');
-      if (entries.length > 0) {
-        const entry = entries[0];
-        const calculatedLoadTime = entry.loadEventEnd - entry.startTime;
-
-        if (calculatedLoadTime > 0) {
-          setLoadTime(calculatedLoadTime);
-        }
-      }
-    });
-
-    observer.observe({ type: 'navigation', buffered: true });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
     setTitle(title);
     let CompanyinfoData = JSON.parse(sessionStorage.getItem("CompanyInfoData"));
     let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -194,11 +174,12 @@ export default function ThemeRoutes() {
         }
       }
     }
-    if (storeinit) {
-   setTimeout(() => {
-      callAllApi();
-    }, 6000);
-  }
+    if (storeinit && !hasApiBeenCalled.current) {
+      hasApiBeenCalled.current = true; 
+      setTimeout(() => {
+        callAllApi();
+      }, 6000);
+    }
   }, [htmlContent]);
 
   const callAllApi = () => {
