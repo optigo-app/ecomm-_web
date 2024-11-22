@@ -36,11 +36,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
 
 
-
-
-
-
-
 const ProductList = () => {
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
