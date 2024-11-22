@@ -75,40 +75,13 @@ const DiamondDetails = () => {
     const [singleDiaData, setSingleDiaData] = useState([]);
     const [shape, setShape] = useState()
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [IsBreadCumShow, setIsBreadcumShow] = useState(false);
-    const [selectedMetalId, setSelectedMetalId] = useState(loginUserDetail?.MetalId);
-    const [selectedDiaId, setSelectedDiaId] = useState(loginUserDetail?.cmboDiaQCid);
-    const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
-    const [metalType, setMetaltype] = useState([]);
-    const [diamondType, setDiamondType] = useState([]);
     const [loginCurrency, setLoginCurrency] = useState();
     const [storeInit, setStoreInit] = useState({});
-    const [metalTypeCombo, setMetalTypeCombo] = useState([])
-    const [diaQcCombo, setDiaQcCombo] = useState([])
-    const [csQcCombo, setCsQcCombo] = useState([])
-    const [selectDiaQc, setSelectDiaQc] = useState();
     const [isImageload, setIsImageLoad] = useState(true);
-    const [netWTData, setnetWTData] = useState([])
-    const [metalColorCombo, setMetalColorCombo] = useState([]);
-    const [selectCsQC, setSelectCsQC] = useState();
-    const [SizeCombo, setSizeCombo] = useState([]);
-    const [sizeData, setSizeData] = useState();
-    const [thumbImgIndex, setThumbImgIndex] = useState()
-    const [pdThumbImg, setPdThumbImg] = useState([]);
-    const [pdVideoArr, setPdVideoArr] = useState([]);
     const [selectedThumbImg, setSelectedThumbImg] = useState({ type: "video", src: singleDiaData?.[0]?.video_url });
     const [singleProd, setSingleProd] = useState({});
-    const [singleProd1, setSingleProd1] = useState({});
-    const [diaList, setDiaList] = useState([]);
-    const [csList, setCsList] = useState([]);
-    const [SimilarBrandArr, setSimilarBrandArr] = useState([]);
     const [isDataFound, setIsDataFound] = useState(false)
     const [isPriceloading, setisPriceLoading] = useState(false);
-    const [decodeUrl, setDecodeUrl] = useState({})
-    const [loadingdata, setloadingdata] = useState(false);
-    const [path, setpath] = useState();
-    const [metalWiseColorImg, setMetalWiseColorImg] = useState()
-    const [videoArr, SETvideoArr] = useState([]);
     const [diamondData, setDiamondData] = useState([]);
     const [settingData, setSettingData] = useState();
     const [setshape, setSetShape] = useState();
@@ -120,9 +93,7 @@ const DiamondDetails = () => {
     const [addToCardFlag, setAddToCartFlag] = useState(null);
     const [wishListFlag, setWishListFlag] = useState(false);
     const [addwishListFlag, setAddWishListFlag] = useState(null);
-    const [PdImageArr, setPdImageArr] = useState([]);
     const [price, setPrice] = useState();
-    const [ratingvalue, setratingvalue] = useState(5);
     const [filterVal, setFilterVal] = useState();
     const [Swap, setswap] = useState("diamond");
     const breadCrumb = location?.pathname?.split("/")[2];
@@ -131,6 +102,10 @@ const DiamondDetails = () => {
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
+
+    const hrdCerti = singleDiaData?.[0]?.certificate_url?.includes("hrd") ? "HRD" : null
+    const igiCerti = singleDiaData?.[0]?.certificate_url?.includes("igi") ? "IGI" : null
+    const giaCerti = singleDiaData?.[0]?.certificate_url?.includes("gia") ? "GIA" : null
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -146,18 +121,25 @@ const DiamondDetails = () => {
     }, [location?.pathname]);
 
     useEffect(() => {
+        const getCertyNameFromUrl = igiCerti ?? hrdCerti ?? giaCerti;
         const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? JSON?.parse(sessionStorage.getItem('custStepData2'))?.[1];
-        const diaStep1 = diamondDatas?.step1Data?.[0]?.certyname;
-        const diaStep2 = diamondDatas?.step2Data?.[0]?.certyname;
+        const diaStep1 = (diamondDatas?.step1Data?.[0]?.certyname || getCertyNameFromUrl);
+        const diaStep2 = (diamondDatas?.step2Data?.[0]?.certyname || getCertyNameFromUrl)
         if (singleDiaData !== undefined || diamondDatas !== undefined) {
-            const getCertiName = certificate?.find((item) => item?.certyName === singleDiaData?.[0]?.certyname);
+            const getCertiName = certificate?.find((item) => item?.certyName === (singleDiaData?.[0]?.certyname || getCertyNameFromUrl));
             const getCertiNameCompSet = certificate?.find((item) => item?.certyName === (diaStep1 ?? diaStep2))
 
             if (!compSet) {
-                setCertyLink(getCertiName);
+                setCertyLink({
+                    ...getCertiName,
+                    link: getCertiName?.certyName === getCertyNameFromUrl ? singleDiaData?.[0]?.certificate_url : "",
+                });
             }
             else {
-                setCertyLink(getCertiNameCompSet);
+                setCertyLink({
+                    ...getCertiNameCompSet,
+                    link: getCertiNameCompSet?.certyName === getCertyNameFromUrl ? singleDiaData?.[0]?.certificate_url : "",
+                });
             }
         }
     }, [singleDiaData, compSet])
@@ -1037,6 +1019,54 @@ const DiamondDetails = () => {
         return imgString
     }
 
+
+    const imageRefs = useRef([])
+    const [origin, setorigin] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e, index) => {
+        const imageRef = imageRefs?.current[index];
+        if (!imageRef) return;
+
+        const imageContainer = imageRef?.parentElement;
+        if (!imageContainer) return;
+
+        const rect = imageContainer.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+
+        const zoomLevel = 1.5;
+
+        const transformOriginX = x * 100;
+        const transformOriginY = y * 100;
+
+        setorigin({ x: transformOriginX, y: transformOriginY })
+        imageRef.style.transformOrigin = `${transformOriginX}% ${transformOriginY}%`;
+        imageRef.style.transform = `scale(${zoomLevel})`;
+    };
+
+    const handleMouseLeave = (index) => {
+        const imageReff = imageRefs?.current[index]
+        if (!imageReff) return
+
+        imageReff.style.transform = 'scale(1)';
+        imageReff.style.transformOrigin = 'center center'; // reset the origin to center
+        setorigin({ x: 0, y: 0 })
+
+    }
+
+    useEffect(() => {
+        // Cleanup logic when component unmounts or ref changes
+        return () => {
+            // Reset all image transformations
+            imageRefs.current.forEach((ref) => {
+                if (ref) {
+                    ref.style.transform = 'scale(1)';
+                    ref.style.transformOrigin = 'center center';
+                }
+            });
+        };
+    }, []);
+
     return (
         <div className="for_DiamondDet_mainDiv">
             <div className="for_DiamondDet_div">
@@ -1125,19 +1155,20 @@ const DiamondDetails = () => {
                                                             })}
                                                             {certyLink && (
                                                                 <Link
-                                                                    href={certyLink?.certificate_url}
+                                                                    to={certyLink?.link}
                                                                     className="for_box_certy"
                                                                     title="Diamond certificate"
                                                                     style={{ position: "relative" }}
+                                                                    target='_blank'
                                                                 >
                                                                     <img
-                                                                        src={certyLink?.link}
+                                                                        src={certyLink?.imageUrl}
                                                                         onError={(e) => {
                                                                             e.target.onerror = null;
                                                                             e.target.src = imageNotFound;
                                                                         }}
                                                                         alt="Diamond Certificate"
-                                                                        style={{ width: '100%', height: 'auto' }}
+                                                                        style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
                                                                     />
                                                                 </Link>
                                                             )}
@@ -1193,19 +1224,20 @@ const DiamondDetails = () => {
 
                                                             {certyLink && (
                                                                 <Link
-                                                                    href={certyLink?.certificate_url}
+                                                                    to={certyLink?.link}
                                                                     className="for_box_certy"
                                                                     title="Diamond certificate"
                                                                     style={{ position: "relative" }}
+                                                                    target="_blank"
                                                                 >
                                                                     <img
-                                                                        src={certyLink?.link}
+                                                                        src={certyLink?.imageUrl}
                                                                         onError={(e) => {
                                                                             e.target.onerror = null;
                                                                             e.target.src = imageNotFound;
                                                                         }}
                                                                         alt="Diamond Certificate"
-                                                                        style={{ width: '100%', height: 'auto' }}
+                                                                        style={{ width: '100%', height: certyLink?.certyName === 'HRD' ? '4rem' : 'auto' }}
                                                                     />
                                                                 </Link>
                                                             )}
@@ -1287,7 +1319,15 @@ const DiamondDetails = () => {
 
                                                             {compSettArr?.map((item, index) => (
                                                                 <div className="for_slider_card" key={index}>
-                                                                    <div className="for_image">
+                                                                    <div className="for_image"
+                                                                        style={{
+                                                                            position: 'relative',
+                                                                            overflow: 'hidden',
+                                                                            cursor: 'zoom-in'
+                                                                        }}
+                                                                        onMouseMove={(e) => handleMouseMove(e, index)}
+                                                                        onMouseLeave={() => handleMouseLeave(index)}
+                                                                    >
                                                                         {item?.type !== '' && (
                                                                             <>
                                                                                 {item?.type === "setting" && (
@@ -1297,6 +1337,9 @@ const DiamondDetails = () => {
                                                                                     >
                                                                                         <img
                                                                                             src={imageMap?.colorImage}
+                                                                                            ref={el => imageRefs.current[index] = el}
+                                                                                            loading='lazy'
+                                                                                            style={{ transition: 'transform 0.3s ease' }}
                                                                                             // src={item?.src}
                                                                                             onError={(e) => {
                                                                                                 e.target.onerror = null;
@@ -2244,7 +2287,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                 >
                     <div className="for_dia_data_image">
                         <img
-                            src={data?.stockno ? data?.image_file_url : imageMap?.colorImage}
+                            src={data?.stockno ? (data?.image_file_url || imageNotFound) : (imageMap?.colorImage || imageNotFound)}
                             alt=""
                             style={{ cursor: 'default' }}
                         />
