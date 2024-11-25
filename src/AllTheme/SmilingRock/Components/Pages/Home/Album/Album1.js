@@ -254,7 +254,7 @@ const Album1 = () => {
                                                     </div>
                                                 </SwiperSlide>
                                             ))}
-                                             {selectedAlbum?.length > 8 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
+                                             {selectedAlbum?.length > 3 && <SwiperSlide key="slide-1" className="swiper-slide-custom" style={{
                                                 width:"25%" ,
                                                 height:  "auto",
                                                 borderRadius:"4px",

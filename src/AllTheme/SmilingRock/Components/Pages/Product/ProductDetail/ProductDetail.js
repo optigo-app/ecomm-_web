@@ -644,6 +644,7 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
+    setExtraLoading(true)
    setisImageLoading(true)
     let navVal = location?.search.split("?p=")[1];
 
@@ -790,7 +791,9 @@ const ProductDetail = () => {
         .finally(() => {
           setIsImageLoad(false);
           setProdLoading(false);
-    // (false)
+    setTimeout(() => {
+      setExtraLoading(false)
+    }, 800);
 
         });
     };
@@ -798,7 +801,6 @@ const ProductDetail = () => {
     FetchProductData();
    if(prodLoading){
       setisImageLoading(false)
-      console.log("1","apiv1")
    }
     window.scroll({
       
@@ -912,7 +914,7 @@ const ProductDetail = () => {
 
 
   const ProdCardImageFunc = async () => {
-    setExtraLoading(true)
+    // setExtraLoading(true)
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
@@ -1037,49 +1039,27 @@ const ProductDetail = () => {
       setVision360(VisionLink);
     }
     // setIsImageLoad(false);
-    setExtraLoading(false)
-    console.log(finalprodListimg,"setextraloading")
+    // setExtraLoading(false)
+    // console.log(finalprodListimg,"setextraloading")
     return finalprodListimg;
   };
 
   useEffect(() => {
     ProdCardImageFunc();
-console.log(ExtraLoading  ,"setExtraLoading")
   }, [singleProd,singleProd1, location?.key ]);
 
   const [IsVisible, setIsVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setTimeout(() => {
-          setIsVisible(entry.isIntersecting);
-        }, 800);
-      },
-      {
-        threshold: 0.5,  
-      }
-    );
-    if (DetailsRef.current) {
-      observer.observe(DetailsRef.current);
-    }
-    return () => {
-      if (DetailsRef.current) {
-        observer.unobserve(DetailsRef.current);
-      }
-    };
-  }, [singleProd,singleProd1,isImageLoading,pdThumbImg])
-  
-  console.log(IsVisible,"details")
 
 
-  useEffect(() => {
-    if (isImageload === false) {
-      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
-        // setIsImageLoad(false)
-      }
-    }
-  }, [isImageload])
+
+  // useEffect(() => {
+  //   if (isImageload === false) {
+  //     if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+  //       setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  //       // setIsImageLoad(false)
+  //     }
+  //   }
+  // }, [isImageload])
 
   // useEffect(()=>{
   //   if(prodLoading === false){
@@ -1089,13 +1069,13 @@ console.log(ExtraLoading  ,"setExtraLoading")
   //   }
   // },[prodLoading])
 
-  useEffect(()=>{
-    if( singleProd && Object?.values(singleProd)?.length > 0 ){
-      if(pdThumbImg?.length == 0 && pdVideoArr?.length == 0){
-        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
-      }
-    }
-  },[singleProd])
+  // useEffect(()=>{
+  //   if( singleProd && Object?.values(singleProd)?.length > 0 ){
+  //     if(pdThumbImg?.length == 0 && pdVideoArr?.length == 0){
+  //       // setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  //     }
+  //   }
+  // },[singleProd,singleProd1,ExtraLoading])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1440,7 +1420,7 @@ console.log(ExtraLoading  ,"setExtraLoading")
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {!IsVisible && (
+                      {ExtraLoading && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1455,7 +1435,7 @@ console.log(ExtraLoading  ,"setExtraLoading")
                       <div
                         className="smr_main_prod_img"
                         style={{
-                          display: !IsVisible ? "none" : "block",
+                          display: ExtraLoading ? "none" : "block",
                         }}
                       >
                         {/* {isVisionShow && (
