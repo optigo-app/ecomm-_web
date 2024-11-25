@@ -470,7 +470,7 @@ const DiamondFilter = () => {
   };
 
   const fetchData = async (shape, parsedData) => {
-    console.log(selectedValues ,"call api")
+    console.log(selectedValues, "call api")
     setIsLoading(true);
     try {
       dispatch({ type: ACTIONS.SET_LOADING, payload: true });
@@ -684,7 +684,7 @@ const DiamondFilter = () => {
       try {
         const getFilterdata = JSON.parse(sessionStorage.getItem("filterMenu"));
         if (getFilterdata !== null && getFilterdata !== undefined) {
-          const gapSize = getFilterdata?.Color?.options?.length / 1 ;
+          const gapSize = getFilterdata?.Color?.options?.length / 1;
           // const gapSize = numberOfLabels / 1;
 
           const value = (
@@ -747,10 +747,10 @@ const DiamondFilter = () => {
     setTimeout(() => {
       setFinalArray(updatedArray);
     }, 500);
-  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname ]);
+  }, [sliderState1, sliderLabels1, filtersData1, location?.pathname]);
 
   useEffect(() => {
-    
+
     setTimeout(() => {
       const extractedValue = location?.pathname.split("f=")[1] ?? "";
       const decodedUrlData = decodeAndDecompress(extractedValue);
@@ -787,7 +787,7 @@ const DiamondFilter = () => {
         }`;
       const encodeUrl = compressAndEncode(urlToEncode);
       const decodedUrl = decodeAndDecompress(encodeUrl);
-      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : "" 
+      const newPath = `${pathname.slice(0, 4).join("/")}${sliderParams ? `/f=${encodeUrl}` : ""
         }`;
       Navigate(newPath);
     }, 600);
@@ -830,7 +830,7 @@ const DiamondFilter = () => {
     } else {
       fetchData(shape);
     }
-  }, [location?.pathname,sortValue,selectedsort]);
+  }, [location?.pathname, sortValue, selectedsort]);
 
   return (
     <>
@@ -1133,16 +1133,16 @@ const DiamondFilter = () => {
         </div>
         <div className="filter_Head">
           <div className="for_price">
-              {open === "price" && <div className="wrapper-fg"
+            {open === "price" && <div className="wrapper-fg"
               style={{
-              position:"absolute",
-              top:"0",
-              padding:"4px 18px",
-              backgroundColor:"transparent" ,
-              color:"transparent",
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
               }}
-              >22</div>}
-            <span onClick={() => handleOpen("price")}>      
+            >22</div>}
+            <span onClick={() => handleOpen("price")}>
               Price <FaChevronDown className="chveron_icon" />
             </span>
             <CollectionPriceRange
@@ -1156,15 +1156,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Color">
-          {open === "Color" && <div className="wrapper-fg"
+            {open === "Color" && <div className="wrapper-fg"
               style={{
-              position:"absolute",
-              top:"0",
-              padding:"4px 18px",
-              backgroundColor:"transparent" ,
-              color:"transparent",
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
               }}
-              >22</div>}
+            >22</div>}
             <span onClick={() => handleOpen("Color")}>
               Color <FaChevronDown className="chveron_icon" />
             </span>
@@ -1179,15 +1179,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Carat">
-          {open === "Carat" && <div className="wrapper-fg"
+            {open === "Carat" && <div className="wrapper-fg"
               style={{
-              position:"absolute",
-              top:"0",
-              padding:"4px 18px",
-              backgroundColor:"transparent" ,
-              color:"transparent",
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
               }}
-              >22</div>}
+            >22</div>}
             <span onClick={() => handleOpen("Carat")}>
               Carat <FaChevronDown className="chveron_icon" />
             </span>
@@ -1202,15 +1202,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Clarity">
-          {open === "Clarity" && <div className="wrapper-fg"
+            {open === "Clarity" && <div className="wrapper-fg"
               style={{
-              position:"absolute",
-              top:"0",
-              padding:"4px 18px",
-              backgroundColor:"transparent" ,
-              color:"transparent",
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
               }}
-              >22</div>}
+            >22</div>}
             <span onClick={() => handleOpen("Clarity")}>
               Clarity <FaChevronDown className="chveron_icon" />
             </span>
@@ -1225,15 +1225,15 @@ const DiamondFilter = () => {
             />
           </div>
           <div className="for_Cut">
-          {open === "Cut" && <div className="wrapper-fg"
+            {open === "Cut" && <div className="wrapper-fg"
               style={{
-              position:"absolute",
-              top:"0",
-              padding:"4px 18px",
-              backgroundColor:"transparent" ,
-              color:"transparent",
+                position: "absolute",
+                top: "0",
+                padding: "4px 18px",
+                backgroundColor: "transparent",
+                color: "transparent",
               }}
-              >22</div>}
+            >22</div>}
             <span onClick={() => handleOpen("Cut")}>
               Cut <FaChevronDown className="chveron_icon" />
             </span>
@@ -1393,25 +1393,25 @@ const DiamondFilter = () => {
             </div>
             <div className="flex_for_mob">
               <div className="sorting_options">
-            
+
                 <span
                   onClick={() => handleOpen("Sort")}
                   className="title_for_sort"
                   style={{
-                    position:"relative"
+                    position: "relative"
                   }}
                 >
-                    {open == "Sort" && <div className="wrapper-fg"
-              style={{
-              position:"absolute",
-              top:"0",
-              padding:"4px 18px",
-              left:0 ,
-              right:0 ,
-              backgroundColor:"transparent" ,
-              color:"transparent",
-              }}
-              >22446</div>}
+                  {open == "Sort" && <div className="wrapper-fg"
+                    style={{
+                      position: "absolute",
+                      top: "0",
+                      padding: "4px 18px",
+                      left: 0,
+                      right: 0,
+                      backgroundColor: "transparent",
+                      color: "transparent",
+                    }}
+                  >22446</div>}
                   Sort By |
                   <div>
                     <span> {selectedsort?.title} </span> {selectedsort?.sort}
@@ -1544,7 +1544,7 @@ const DiamondFilter = () => {
                                   {loginInfo?.CurrencyCode ??
                                     storeInitData?.CurrencyCode}
                                 </span>
-                                <span> {val?.price}</span>
+                                <span> {val?.priceIncTax}</span>
                               </div>
                             </div>
                           </>
@@ -1682,13 +1682,13 @@ const CollectionPriceRange = forwardRef(
           />
           <div className="for_ma_collection_slider_input">
             <div className="for_right-menu">
-              <input type="text" value={`INR ${formatter(data[0])}`} 
-              onClick={handleInputClick}
+              <input type="text" value={`INR ${formatter(data[0])}`}
+                onClick={handleInputClick}
               />
             </div>
             <div className="for_left-menu">
               <input type="text" value={`INR ${formatter(data[1])}`}
-              onClick={handleInputClick}
+                onClick={handleInputClick}
               />
             </div>
           </div>

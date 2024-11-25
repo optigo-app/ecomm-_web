@@ -23,7 +23,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             Metalid: dataSource?.MetalId || "",
             DiaQCid: dataSource?.cmboDiaQCid || "",
             CsQCid: dataSource?.cmboCSQCid || "",
-            IsStockWebsite: storeInit?.IsStockWebsite || "", 
+            IsStockWebsite: storeInit?.IsStockWebsite || "",
             IsPLW: storeInit?.IsPLW || "",
             CurrencyRate: dataSource?.CurrencyRate || storeInit?.CurrencyRate || "",
             Collectionid: filterObj?.collection || "",
@@ -41,6 +41,7 @@ export const Get_Tren_BestS_NewAr_DesigSet_Album = async (mode, customerID, filt
             Max_GrossWeight: '',
             Min_NetWt: '',
             Max_NetWt: '',
+            TaxId: userData?.TaxId || 0
         };
 
         // Extend params for specific modes

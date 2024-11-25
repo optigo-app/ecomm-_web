@@ -85,7 +85,7 @@ export const DiamondListData = async (
   page,
   shape,
   stockno,
-  finalArray ,
+  finalArray,
   sortbyK
 ) => {
   let storeInit = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -96,7 +96,7 @@ export const DiamondListData = async (
   const customerEmail = data?.userid ?? "";
   const { FrontEnd_RegNo } = storeInit ?? '';
   let packageId = data?.PackageId ?? 0;
-  
+
   const [priceFrom, priceTo] = finalArray?.Price || [null, null];
   const [caratFrom, caratTo] = finalArray?.Carat || [null, null];
   const [colorFrom, colorTo] = finalArray?.Color || ["", ""];
@@ -110,14 +110,14 @@ export const DiamondListData = async (
   const fluorescence = finalArray?.Fluorescence || [];
   const Culet = finalArray?.Culet || [];
   const SortBy = sortbyK ?? "";
-  
-  console.log("finalArrayApi", tableFrom, tableTo ,sortbyK);
+
+  console.log("finalArrayApi", tableFrom, tableTo, sortbyK);
 
   try {
     const combinedValue = JSON.stringify({
       PageNo: `${page ?? 1}`,
       PageSize: `${storeInit?.PageSize ?? 50}`,
-      OrderBy: SortBy ,
+      OrderBy: SortBy,
       FrontEnd_RegNo: `${FrontEnd_RegNo ?? ''}`,
       Customerid: `${customerId ?? 0}`,
       PackageId: packageId,
@@ -141,7 +141,8 @@ export const DiamondListData = async (
       FromDepth: `${depthFrom ?? ""}`,
       ToDepth: `${depthTo ?? ""}`,
       Culet: `${Culet ?? ""}`,
-      stockno: `${stockno ?? ""}`
+      stockno: `${stockno ?? ""}`,
+      TaxId: data?.TaxId || 0,
     });
 
     const encodedCombinedValue = btoa(combinedValue);

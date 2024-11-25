@@ -21,6 +21,7 @@ import diaImage from "../../../Assets/round.png"
 const CartItem = ({
   item,
   diamondValue,
+  setCartData,
   itemlength,
   index,
   CartCardImageFunc,
@@ -29,6 +30,7 @@ const CartItem = ({
   decodeEntities,
   isSelected,
   selectedItem,
+  setSelectedItem,
   selectedItemsLength,
   isActive,
   multiSelect,
@@ -233,7 +235,7 @@ const CartItem = ({
           </div>
           {storeInitData?.IsPriceShow == 1 &&
             <div className="for_cart-item__price">
-              <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUp)}</p>
+              <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUpIncTax)}</p>
               <span className="for_price-excl-vat">(Excl. VAT)</span>
             </div>
           }
@@ -242,7 +244,7 @@ const CartItem = ({
               <div className="for_cart-item__total-price">
                 {!diamondData &&
                   <>
-                    <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost)}</p>
+                    <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.Quantity > 1 ? item?.Quantity * item?.UnitCostWithMarkUpIncTax : item?.UnitCostWithMarkUpIncTax)}</p>
                     <span className="for_price-excl-vat">(Excl. VAT)</span>
                   </>
                 }
@@ -285,7 +287,7 @@ const CartItem = ({
               </div>
               {storeInitData?.IsPriceShow == 1 &&
                 <div className="for_cart-item__price">
-                  <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diamondData?.price)}</p>
+                  <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(diamondData?.priceIncTax)}</p>
                   <span className="for_price-excl-vat">(Excl. VAT)</span>
                 </div>
               }
@@ -315,7 +317,7 @@ const CartItem = ({
             <div className='for_cartDiaTPrice'>
               {storeInitData?.IsPriceShow == 1 &&
                 <div className="for_cart-item__total-price">
-                  <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.FinalCost + diamondData?.price)}</p>
+                  <p>{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}&nbsp;{formatter(item?.UnitCostWithMarkUpIncTax + diamondData?.priceIncTax)}</p>
                   <span className="for_price-excl-vat">(Excl. VAT)</span>
                 </div>
               }

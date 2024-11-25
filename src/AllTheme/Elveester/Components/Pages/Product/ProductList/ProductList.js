@@ -204,6 +204,8 @@ const ProductList = () => {
       }
     }
 
+    setCurrPage(1);
+
     return output;
   };
 

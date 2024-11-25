@@ -86,6 +86,7 @@ const ProductDetail = () => {
   const [pdVideoArr, setPdVideoArr] = useState([]);
   const [selectedThumbImg, setSelectedThumbImg] = useState();
   const [singleProd, setSingleProd] = useState();
+  console.log('singleProd: ', singleProd);
   const [singleProd1, setSingleProd1] = useState();
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
@@ -1413,22 +1414,25 @@ const ProductDetail = () => {
           return step;
         });
 
+        const shapeName = (singleProd1?.ShapeName ?? singleProd?.ShapeName)
+          ?.charAt(0).toUpperCase() + (singleProd1?.ShapeName ?? singleProd?.ShapeName)?.slice(1).toLowerCase();
+
         // If no existing step2, add new entry
         if (!updatedStep1.some(step => step.step2 !== undefined)) {
-          updatedStep1.push({ "step2": true, "shape": 'Oval' });
+          updatedStep1.push({ "step2": true, "shape": shapeName });
         }
         const step1Data = [{ "step1Data": singleProd1 ?? singleProd, 'selectedMetalId': selectedMetalId, 'selectedDiaId': selectedDiaId, 'selectedCsId': selectedCsId }]
         sessionStorage.setItem('custStepData2', JSON.stringify(step1Data));
         sessionStorage.setItem("customizeSteps2", JSON.stringify(updatedStep1));
 
 
-        navigate(`/certified-loose-lab-grown-diamonds/diamond/Oval`);
+        navigate(`/certified-loose-lab-grown-diamonds/diamond/${shapeName}`);
       }
 
     }
     else {
 
-      const totalPrice = (Number(stepsData?.[0]?.step1Data?.[0]?.price) + Number((singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp))).toFixed(2);
+      const totalPrice = (Number(stepsData?.[0]?.step1Data?.[0]?.price) + Number((singleProd1?.UnitCostWithMarkUpIncTax ?? singleProd?.UnitCostWithMarkUpIncTax))).toFixed(2);
 
       const obj = {
         a: stepsData?.[0]?.step1Data?.[0]?.stockno,
@@ -2236,7 +2240,7 @@ const ProductDetail = () => {
                       isPriceloading ?
                         <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                         :
-                        <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
+                        <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUpIncTax ?? singleProd?.UnitCostWithMarkUpIncTax)}</span>
                     }
                   </span>
                 </div>
@@ -2884,7 +2888,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
             />
           </div>
           <div className="for_dia_price">
-            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUp ?? data?.step1Data?.UnitCostWithMarkUp))}</span>
+            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.priceIncTax ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
           </div>
           <div className="for_view_rem_div">
             <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>

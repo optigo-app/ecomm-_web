@@ -1,6 +1,6 @@
 import { CommonAPI } from "../CommonAPI/CommonAPI";
 
-export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId , AlbumName = '') => {
+export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId, AlbumName = '') => {
 
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"));
   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -56,26 +56,27 @@ export const SingleProdListAPI = async (singprod, size = "", obj = {}, visiterId
     // Min_Price: '',
     // SortBy: "",
     Laboursetid: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.pricemanagement_laboursetid
-        : loginInfo?.pricemanagement_laboursetid
+      ? storeinit?.pricemanagement_laboursetid
+      : loginInfo?.pricemanagement_laboursetid
       }`,
     diamondpricelistname: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.diamondpricelistname
-        : loginInfo?.diamondpricelistname
+      ? storeinit?.diamondpricelistname
+      : loginInfo?.diamondpricelistname
       }`,
     colorstonepricelistname: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.colorstonepricelistname
-        : loginInfo?.colorstonepricelistname
+      ? storeinit?.colorstonepricelistname
+      : loginInfo?.colorstonepricelistname
       }`,
     SettingPriceUniqueNo: `${storeinit?.IsB2BWebsite == 0 && islogin == false
-        ? storeinit?.SettingPriceUniqueNo
-        : loginInfo?.SettingPriceUniqueNo
+      ? storeinit?.SettingPriceUniqueNo
+      : loginInfo?.SettingPriceUniqueNo
       }`,
     IsStockWebsite: `${storeinit?.IsStockWebsite}`,
     Size: `${size}`,
     IsFromDesDet: 1,
     AlbumName: AlbumName ?? '',
-    DomainForNo: `${storeinit?.DomainForNo ?? ""}`
+    DomainForNo: `${storeinit?.DomainForNo ?? ""}`,
+    TaxId: loginInfo?.TaxId || 0,
   };
 
   let encData = JSON.stringify(data)
