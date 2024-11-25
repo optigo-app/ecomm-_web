@@ -55,8 +55,8 @@ const Footer = ({ fromPage }) => {
               <div className='footerBottomMain' style={{ marginTop: fromPage === "ProdList" && '8%' }}>
                 <div className='footerIconMain'>
                   {socialMediaData?.map((social, index) => (
-                    <div className='footerSocialIcon'>
-                      <a key={index} href={`${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                    <div className='footerSocialIcon' key={index}>
+                      <a  href={`${social.SLink}`} target="_blank" rel="noopener noreferrer">
                         <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
                           onError={(e) => { e.target.style.display = 'none'; }} />
                       </a>
@@ -80,7 +80,7 @@ const Footer = ({ fromPage }) => {
                 <div className='footerMoreText'>
                   {/* Maiora not needed */}
                   {/* Kayra needed */}
-                  <Copyright localData={localData}/>
+                  <Copyright localData={localData} key={1}/>
                   <p style={{
                     color: '#7d7f85',
                     fontSize: '12px',
@@ -118,8 +118,8 @@ const Footer = ({ fromPage }) => {
                 </div>
                 <div className='footerIconMain'>
                   {socialMediaData?.map((social, index) => (
-                    <div className='footerSocialIcon'>
-                      <a key={index} href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
+                    <div className='footerSocialIcon' key={index}>
+                      <a  href={`https://${social.SLink}`} target="_blank" rel="noopener noreferrer">
                         <img src={social.SImgPath} alt={social.SName} style={{ width: '24px', height: '24px', objectFit: 'cover' }}
                           onError={(e) => { e.target.style.display = 'none'; }} />
                       </a>

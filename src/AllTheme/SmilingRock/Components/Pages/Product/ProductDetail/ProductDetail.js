@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Productdetail.scss";
 import Footer from "../../Home/Footer/Footer";
 import { useAsyncError, useLocation, useNavigate } from "react-router-dom";
@@ -51,7 +51,7 @@ import axios from "axios";
 
 const ProductDetail = () => {
   let location = useLocation();
-
+  
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   // const [singleProdPrice, setSingleProdPrice] = useState();
@@ -78,14 +78,18 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState();
   const [vison360, setVision360] = useState();
-
+  
+  const [ExtraLoading, setExtraLoading] = useState(true)
+  
   const [designSetList, setDesignSetList] = useState();
 
   const [thumbImgIndex, setThumbImgIndex] = useState();
+  const DetailsRef = useRef();
 
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isImageLoading,setisImageLoading] = useState(true);
 
 
 
@@ -443,6 +447,7 @@ const ProductDetail = () => {
 
     setSelectMtColor(mcArr?.colorcode);
   }, [singleProd]);
+
   // }, [metalTypeCombo, diaQcCombo, csQcCombo, singleProd])
 
   // useEffect(()=>{
@@ -584,6 +589,7 @@ const ProductDetail = () => {
     setLoginInfo(logininfo);
   }, []);
 
+
   useEffect(() => {
     callAllApi();
   }, [storeInit]);
@@ -613,7 +619,33 @@ const ProductDetail = () => {
     }
   };
 
+  
+  const handleMoveToDetail = (productData) => {
+    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
+
+    let obj = {
+      a: productData?.autocode,
+      b: productData?.designno,
+      m: loginInfo?.MetalId,
+      d: loginInfo?.cmboDiaQCid,
+      c: loginInfo?.cmboCSQCid,
+      f: {},
+    };
+
+    let encodeObj = compressAndEncode(JSON.stringify(obj));
+   
+    navigate(
+      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
+      }${productData?.designno}?p=${encodeObj}`
+    );
+    setSingleProd1()
+    setIsImageLoad(true);
+   setProdLoading(true)
+  };
+
   useEffect(() => {
+    setExtraLoading(true)
+   setisImageLoading(true)
     let navVal = location?.search.split("?p=")[1];
 
     let storeinitInside = JSON.parse(sessionStorage.getItem("storeInit"));
@@ -673,14 +705,14 @@ const ProductDetail = () => {
           
           : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
-      console.log(obj,"res?.Data?.rd")
       // setProdLoading(true);
       setisPriceLoading(true);
+      setSingleProd1()
+      setSingleProd()
       await SingleProdListAPI(decodeobj, sizeData, obj, cookie)
         .then(async (res) => {
           if (res) {
             setSingleProd(res?.pdList[0]);
-
             if (res?.pdList?.length > 0) {
               setisPriceLoading(false);
               // setIsImageLoad(false);
@@ -759,17 +791,25 @@ const ProductDetail = () => {
         .finally(() => {
           setIsImageLoad(false);
           setProdLoading(false);
+    setTimeout(() => {
+      setExtraLoading(false)
+    }, 800);
+
         });
     };
 
     FetchProductData();
-
+   if(prodLoading){
+      setisImageLoading(false)
+   }
     window.scroll({
+      
       top: 0,
       behavior: "smooth",
     });
   }, [location?.key]);
 
+  console.log(isImageLoading,"apiv1")
   // useEffect(() => {
   //   let metal = metalTypeCombo?.filter(
   //     (ele) => ele?.metaltype == selectMtType
@@ -872,7 +912,9 @@ const ProductDetail = () => {
     });
   }
 
+
   const ProdCardImageFunc = async () => {
+    // setExtraLoading(true)
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
@@ -971,6 +1013,9 @@ const ProductDetail = () => {
       setSelectedThumbImg({ link: FinalPdImgList[0], type: "img" });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0);
+    }else{
+      setPdThumbImg([])
+      setSelectedThumbImg({link:"noimage",type:'img'})
     }
 
     if (pdvideoList?.length > 0) {
@@ -994,26 +1039,27 @@ const ProductDetail = () => {
       setVision360(VisionLink);
     }
     // setIsImageLoad(false);
+    // setExtraLoading(false)
+    // console.log(finalprodListimg,"setextraloading")
     return finalprodListimg;
   };
 
   useEffect(() => {
     ProdCardImageFunc();
-  }, [singleProd, location?.key]);
+  }, [singleProd,singleProd1, location?.key ]);
+
+  const [IsVisible, setIsVisible] = useState(false)
 
 
-  // console.log("loading",isImageload === false || prodLoading === false);
-  console.log("loading", pdThumbImg?.length, pdVideoArr?.length, prodLoading, isImageload);
 
-
-  useEffect(() => {
-    if (isImageload === false) {
-      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
-        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
-        // setIsImageLoad(false)
-      }
-    }
-  }, [isImageload])
+  // useEffect(() => {
+  //   if (isImageload === false) {
+  //     if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+  //       setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  //       // setIsImageLoad(false)
+  //     }
+  //   }
+  // }, [isImageload])
 
   // useEffect(()=>{
   //   if(prodLoading === false){
@@ -1024,12 +1070,12 @@ const ProductDetail = () => {
   // },[prodLoading])
 
   // useEffect(()=>{
-  //   if(Object.values(singleProd)?.length > 0 ){
+  //   if( singleProd && Object?.values(singleProd)?.length > 0 ){
   //     if(pdThumbImg?.length == 0 && pdVideoArr?.length == 0){
-  //       setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+  //       // setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
   //     }
   //   }
-  // },[singleProd])
+  // },[singleProd,singleProd1,ExtraLoading])
 
   const decodeEntities = (html) => {
     var txt = document.createElement("textarea");
@@ -1230,25 +1276,6 @@ const ProductDetail = () => {
     }
   };
 
-  const handleMoveToDetail = (productData) => {
-    let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
-
-    let obj = {
-      a: productData?.autocode,
-      b: productData?.designno,
-      m: loginInfo?.MetalId,
-      d: loginInfo?.cmboDiaQCid,
-      c: loginInfo?.cmboCSQCid,
-      f: {},
-    };
-
-    let encodeObj = compressAndEncode(JSON.stringify(obj));
-
-    navigate(
-      `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
-      }${productData?.designno}?p=${encodeObj}`
-    );
-  };
 
   const handleCustomChange = async (e, type) => {
     let metalArr;
@@ -1330,6 +1357,7 @@ const ProductDetail = () => {
     await SingleProdListAPI(prod, size ?? sizeData, obj, cookie)
       .then((res) => {
         setSingleProd1(res?.pdList[0]);
+        console.log(res?.pdList[0] ,"rdd2")
 
         if (res?.pdList?.length > 0) {
           setisPriceLoading(false);
@@ -1362,6 +1390,7 @@ const ProductDetail = () => {
   //   }
   // },[pdThumbImg,pdVideoArr])
 
+
   const KayraCreation = 1;
 
   return (
@@ -1391,7 +1420,7 @@ const ProductDetail = () => {
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {isImageload && (
+                      {ExtraLoading && (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1406,7 +1435,7 @@ const ProductDetail = () => {
                       <div
                         className="smr_main_prod_img"
                         style={{
-                          display: isImageload ? "none" : "block",
+                          display: ExtraLoading ? "none" : "block",
                         }}
                       >
                         {/* {isVisionShow && (
@@ -1600,7 +1629,7 @@ const ProductDetail = () => {
                           className="pSkelton"
                         />
                       ) : (
-                        <div className="smr_prod_shortInfo_inner">
+                        <div ref={DetailsRef} className="smr_prod_shortInfo_inner">
                           <p className="smr_prod_titleLine">
                             {singleProd?.TitleLine}
                           </p>

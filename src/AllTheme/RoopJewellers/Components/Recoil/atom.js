@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
 export const roop_companyLogo = atom({
-  key:'companyLogo',
+  key:'roop_j_companyLogo',
   default:[]
 })
 
@@ -11,41 +11,41 @@ export const roop_companyLogoM = atom({
 })
 
 export const roop_loginState = atom({
-  key: 'loginState',
+  key: 'roop_j_loginState',
   default: false,
 })
 
 export const roop_CartCount = atom({
-  key: 'CartCount',
+  key: 'roop_j_CartCount',
   default: 0
 })
 
 export const roop_WishCount = atom({
-  key: 'WishCount',
+  key: 'roop_j_WishCount',
   default: 0
 })
 
 export const roop_cartB2CDrawer = atom({
-  key: 'cartB2CDrawer',
+  key: 'roop_j_cartB2CDrawer',
   default: false
 })
 
 export const roop_DiamondRangeArr = atom({
-  key: 'DiamondRangeArr',
+  key: 'roop_j_DiamondRangeArr',
   default: []
 })
 
 export const roop_defaultAddressState = atom({
-  key: 'defaultAddressState',
+  key: 'roop_j_defaultAddressState',
   default: null,
 });
 
 export const roop_CartNo = atom({
-  key: 'cartNo',
+  key: 'roop_j_cartNo',
   default: 0,
 });
 
 export const lookBookDrawer = atom({
-  key: 'lookBookDrawer',
+  key: 'roop_j_lookBookDrawer',
   default: false,
 });

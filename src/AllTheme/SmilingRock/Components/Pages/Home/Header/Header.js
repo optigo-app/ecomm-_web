@@ -696,9 +696,10 @@ const Header = () => {
                                     }}
                                   >
                                     {subMenuItem.param2.map(
-                                      (subSubMenuItem) => (
+                                      (subSubMenuItem,i) => (
                                         <ButtonBase
                                           component="div"
+                                          key={i}
                                           onClick={() =>
                                             handelMenu(
                                               {
@@ -1617,8 +1618,8 @@ const Header = () => {
                       </div>
                     </ButtonBase> */}
                     <div className="smr_listMain">
-                      {menuItem.param1.map((subMenuItem) => (
-                        <div key={subMenuItem.param1dataid}>
+                      {menuItem.param1.map((subMenuItem,i) => (
+                        <div key={subMenuItem?.param1dataid || i}>
                           <ButtonBase
                             component="div"
                             style={{
@@ -1657,10 +1658,11 @@ const Header = () => {
                                 paddingBottom: "0px",
                               }}
                             >
-                              {subMenuItem.param2.map((subSubMenuItem) => (
+                              {subMenuItem.param2.map((subSubMenuItem,i) => (
                                 <div
                                   component="div"
                                   style={{ width: "100%" }}
+                                  key={i}
                                   onClick={(e) =>
                                     handelMenu(
                                       {
@@ -1738,7 +1740,7 @@ const Header = () => {
         </div>
       </div>
       {IsCartNo == 2 &&
-        <CartDrawer open={isCartOpen} />
+        <CartDrawer open={isCartOpen} key={1} />
       }
     </div>
   );

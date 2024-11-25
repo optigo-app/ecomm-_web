@@ -36,11 +36,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { Helmet } from "react-helmet";
 
 
-
-
-
-
-
 const ProductList = () => {
 
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -1366,9 +1361,9 @@ const ProductList = () => {
 
   const DynamicListPageTitleLineFunc = () => {
     if (location?.search.split("=")[0]?.slice(1) == "M") {
-      return menuParams?.menuname
+      return menuParams?.menuname?.replace('%20'," ")
     } else {
-      return location?.pathname.split('/')[2]
+      return location?.pathname.split('/')[2]?.replace('%20'," ")
     }
   }
 
@@ -2336,7 +2331,8 @@ const ProductList = () => {
                                 className="smr_breadcums_port"
                                 style={{ marginLeft: "3px" }}
                               >
-                                <span>{"Album"}</span>
+                                <span>{location?.pathname.split('/')[2]?.replace("%20"," ")}</span>
+                                {/* <span>{"Album"}</span> */}
                               </div>
                             )}
 

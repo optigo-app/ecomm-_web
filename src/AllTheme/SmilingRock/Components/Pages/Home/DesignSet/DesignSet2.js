@@ -193,6 +193,7 @@ const DesignSet2 = () => {
                   position: 'relative',
                 }}
                 className="maindiv"
+                key={index}
               >
                 {ProdCardImageFunc(slide) ? (
                   <img
@@ -201,6 +202,10 @@ const DesignSet2 = () => {
                     src={`${storImagePath()}/images/HomePage/DesignSetBanner/BottomBannerDesignSet1.png`}
                     alt=""
                     className="imgBG"
+                    onError={(e)=>{
+                      e.target.src = imageNotFound  ;
+                      e.target.alt  = "no-image-found";
+                    }}
                   />
                 ) : (
                   <div
@@ -228,10 +233,10 @@ const DesignSet2 = () => {
                       speed={1000}
                       onSwiper={setSwiper}
                     >
-                      {slide?.Designdetail && (
+                      {slide?.Designdetail && ( 
                         <>
                           {parseDesignDetails(slide?.Designdetail)?.map((detail, subIndex) => (
-                            <SwiperSlide key={`detail-${detail?.id}`}>
+                            <SwiperSlide key={`detail-${detail?.id || subIndex}`}>
                               <div className="centerall">
                                 <div className="smr_ds2ImageDiv">
                                   <img
@@ -246,6 +251,10 @@ const DesignSet2 = () => {
                                       )
                                     }
                                     className="cardimg"
+                                    onError={(e)=>{
+                                      e.target.src = imageNotFound  ;
+                                      e.target.alt  = "no-image-found";
+                                    }}
                                   />
                                 </div>
                               </div>
