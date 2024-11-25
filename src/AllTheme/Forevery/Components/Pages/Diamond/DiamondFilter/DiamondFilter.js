@@ -832,6 +832,8 @@ const DiamondFilter = () => {
     }
   }, [location?.pathname,sortValue,selectedsort]);
 
+  
+
   return (
     <>
       <DiamondPage />
