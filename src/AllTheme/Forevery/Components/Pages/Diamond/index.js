@@ -90,12 +90,10 @@ const BreadCrumb = ({ breadCrumb }) => {
 };
 
 const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
-  console.log('data: ', data);
   const [storeInit, setStoreInit] = useState({});
   const [loginCurrency, setLoginCurrency] = useState();
   const [metalColor, setMetalColor] = useState([]);
   const [imageMap, setImageMap] = useState({});
-  console.log('imageMap: ', imageMap);
   const Navigation = useNavigate();
   const location = useLocation();
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
@@ -294,7 +292,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
             />
           </div>
           <div className="for_dia_price">
-            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUp ?? data?.step1Data?.UnitCostWithMarkUp))}</span>
+            <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
           </div>
           <div className="for_view_rem_div">
             <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>

@@ -102,10 +102,17 @@ const DiamondDetails = () => {
     const [compSettArr, setCompSettArr] = useState([]);
     const [getAllData, setAllData] = useState([]);
     const [certyLink, setCertyLink] = useState();
+    console.log('certyLink: ', certyLink);
+
+    const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? JSON?.parse(sessionStorage.getItem('custStepData2'))?.[1];
 
     const hrdCerti = singleDiaData?.[0]?.certificate_url?.includes("hrd") ? "HRD" : null
     const igiCerti = singleDiaData?.[0]?.certificate_url?.includes("igi") ? "IGI" : null
     const giaCerti = singleDiaData?.[0]?.certificate_url?.includes("gia") ? "GIA" : null
+
+    const diaHrdCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("hrd") ? "HRD" : null
+    const diaIgiCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("igi") ? "IGI" : null
+    const diaGiaCerti = (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url)?.includes("gia") ? "GIA" : null
 
     const StyleCondition = {
         fontSize: breadCrumb === "settings" && "14px",
@@ -122,12 +129,14 @@ const DiamondDetails = () => {
 
     useEffect(() => {
         const getCertyNameFromUrl = igiCerti ?? hrdCerti ?? giaCerti;
+        const getCertyNameFromUrlDia = diaIgiCerti ?? diaHrdCerti ?? diaGiaCerti;
         const diamondDatas = JSON?.parse(sessionStorage.getItem('custStepData'))?.[0] ?? JSON?.parse(sessionStorage.getItem('custStepData2'))?.[1];
-        const diaStep1 = (diamondDatas?.step1Data?.[0]?.certyname || getCertyNameFromUrl);
-        const diaStep2 = (diamondDatas?.step2Data?.[0]?.certyname || getCertyNameFromUrl)
+        const diaStep1 = (diamondDatas?.step1Data?.[0]?.certyname || getCertyNameFromUrlDia)
+        const diaStep2 = (diamondDatas?.step2Data?.[0]?.certyname || getCertyNameFromUrlDia)
         if (singleDiaData !== undefined || diamondDatas !== undefined) {
             const getCertiName = certificate?.find((item) => item?.certyName === (singleDiaData?.[0]?.certyname || getCertyNameFromUrl));
             const getCertiNameCompSet = certificate?.find((item) => item?.certyName === (diaStep1 ?? diaStep2))
+            console.log('getCertiNameCompSet: ', getCertiNameCompSet);
 
             if (!compSet) {
                 setCertyLink({
@@ -138,7 +147,7 @@ const DiamondDetails = () => {
             else {
                 setCertyLink({
                     ...getCertiNameCompSet,
-                    link: getCertiNameCompSet?.certyName === getCertyNameFromUrl ? singleDiaData?.[0]?.certificate_url : "",
+                    link: getCertiNameCompSet?.certyName === getCertyNameFromUrlDia ? (diamondDatas?.step1Data?.[0]?.certificate_url ?? diamondDatas?.step2Data?.[0]?.certificate_url) : "",
                 });
             }
         }
@@ -249,7 +258,7 @@ const DiamondDetails = () => {
     }, [compSet, setshape])
 
 
-    const totalPrice = (Number(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price) + Number(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)).toFixed(2);
+    const totalPrice = (Number(diamondData?.step1Data?.[0]?.priceIncTax ?? diamondData?.step2Data?.[0]?.priceIncTax) + Number(settingData?.step2Data?.UnitCostWithMarkUpIncTax ?? settingData?.step1Data?.UnitCostWithMarkUpIncTax)).toFixed(2);
 
     useEffect(() => {
         if (compSet && !isNaN(totalPrice)) {
@@ -1770,7 +1779,7 @@ const DiamondDetails = () => {
                                                 isPriceloading ?
                                                     <Skeleton variant="rounded" width={140} height={30} style={{ marginInline: "0.3rem" }} />
                                                     :
-                                                    <span>&nbsp;{formatter(singleDiaData[0]?.price)}</span>
+                                                    <span>&nbsp;{formatter(singleDiaData[0]?.priceIncTax)}</span>
                                                 // <span>&nbsp;{formatter(singleProd1?.UnitCostWithMarkUp ?? singleProd?.UnitCostWithMarkUp)}</span>
                                             }
                                         </span>
@@ -1852,7 +1861,7 @@ const DiamondDetails = () => {
                                                         </div>
                                                         <div className="for_Complete_set_price_div">
                                                             <div className="for_Complete_set_price">
-                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUp ?? settingData?.step1Data?.UnitCostWithMarkUp)}</span>
+                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(settingData?.step2Data?.UnitCostWithMarkUpIncTax ?? settingData?.step1Data?.UnitCostWithMarkUpIncTax)}</span>
                                                             </div>
                                                             <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[0]?.shape ?? setshape?.[1]?.shape}/M=${filterVal}`) }}>
                                                                 <HiOutlinePencilSquare fontWeight={700} />
@@ -1877,7 +1886,7 @@ const DiamondDetails = () => {
                                                         </div>
                                                         <div className="for_Complete_set_price_div">
                                                             <div className="for_Complete_set_price">
-                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.price ?? diamondData?.step2Data?.[0]?.price)}</span>
+                                                                <span>{loginUserDetail?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(diamondData?.step1Data?.[0]?.priceIncTax ?? diamondData?.step2Data?.[0]?.priceIncTax)}</span>
                                                             </div>
                                                             <div className="for_change_setting" onClick={() => { navigate(`/certified-loose-lab-grown-diamonds/diamond/${setshape?.[0]?.shape ?? setshape?.[1]?.shape}`) }}>
                                                                 <HiOutlinePencilSquare fontWeight={700} />
@@ -2293,7 +2302,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
                         />
                     </div>
                     <div className="for_dia_price">
-                        <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.price ?? (data?.UnitCostWithMarkUp ?? data?.step1Data?.UnitCostWithMarkUp))}</span>
+                        <span>{loginCurrency?.CurrencyCode ?? storeInit?.CurrencyCode} {formatter(data?.priceIncTax ?? (data?.UnitCostWithMarkUpIncTax ?? data?.step1Data?.UnitCostWithMarkUpIncTax))}</span>
                     </div>
                     <div className="for_view_rem_div">
                         <span onClick={(e) => { e.stopPropagation(); handleMoveToDet(data) }} className="for_view">View | </span>

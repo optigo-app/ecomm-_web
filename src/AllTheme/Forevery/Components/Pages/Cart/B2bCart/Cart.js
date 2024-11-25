@@ -29,8 +29,10 @@ const CartPage = () => {
     isloding,
     ispriceloding,
     cartData,
+    setCartData,
     diamondCartData,
     selectedItem,
+    setSelectedItem,
     selectedItems,
     multiSelect,
     openModal,
@@ -275,9 +277,11 @@ const CartPage = () => {
                     showRemark={showRemark}
                     productRemark={productRemark}
                     CurrencyData={CurrencyData}
+                    setCartData={setCartData}
                     decodeEntities={decodeEntities}
                     onSelect={handleSelectItem}
                     selectedItem={selectedItem}
+                    setSelectedItem={setSelectedItem}
                     selectedItems={selectedItems}
                     multiSelect={multiSelect}
                     onRemove={handleRemoveItem}
@@ -295,6 +299,7 @@ const CartPage = () => {
                         <CartDetails
                           ispriceloding={ispriceloding}
                           selectedItem={selectedItem}
+                          setSelectedItem={setSelectedItem}
                           diamondData={diamondCartData}
                           CartCardImageFunc={CartCardImageFunc}
                           handleIncrement={handleIncrement}
@@ -322,6 +327,7 @@ const CartPage = () => {
                         handleClose={handlecloseMobileModal}
                         ispriceloding={ispriceloding}
                         selectedItem={selectedItem}
+                        setSelectedItem={setSelectedItem}
                         diamondData={diamondCartData}
                         CartCardImageFunc={CartCardImageFunc}
                         handleIncrement={handleIncrement}

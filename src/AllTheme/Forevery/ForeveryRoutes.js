@@ -190,7 +190,7 @@ const ForEveryRoutes = () => {
           <PromotionalBanner onClose={handleCloseBanner} />
         )}
         <TopBar />
-        <TaxStructure/>
+        {/* <TaxStructure/> */}
         <Navbar />
       </div>
       <div

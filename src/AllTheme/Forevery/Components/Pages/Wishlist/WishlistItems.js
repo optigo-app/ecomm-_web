@@ -81,7 +81,6 @@ const WishlistItems = ({
     }, [item])
 
     const handleRemoveItemFun = async (item) => {
-        console.log('matchedDiamonds: ', matchedDiamonds);
         const returnValue = await handleRemoveItem(item);
 
         const existingData = JSON.parse(sessionStorage.getItem('custStepData')) || [];
@@ -260,7 +259,7 @@ const WishlistItems = ({
                             <span className="for_currencyFont">
                                 {loginInfo?.CurrencyCode ?? storeInit?.CurrencyCode}
                             </span>{" "}
-                            <span>{formatter(selectedDia && Object.keys(selectedDia).length != 0 ? (selectedDia?.price + item?.FinalCost) : item?.FinalCost)}</span>
+                            <span>{formatter(selectedDia && Object.keys(selectedDia).length != 0 ? (selectedDia?.price + item?.UnitCostWithMarkUpIncTax) : item?.UnitCostWithMarkUpIncTax)}</span>
                         </div>
                         <span className="for_totalcart">
                             {selectedDia && Object.keys(selectedDia).length != 0 &&

@@ -703,7 +703,6 @@ const SettingPage = () => {
   };
 
   const handleMoveToDetail = (productData, metalColor) => {
-    console.log('productData: ', productData);
     let pValue = isRing === 'Ring' ? { menuname: 'Engagement Ring' } : { menuname: 'Diamond Pendants' };
     let output = isRing === 'Ring' ? { category: '1' } : { category: '13' };
     let obj = {
