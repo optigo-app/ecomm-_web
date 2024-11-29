@@ -291,7 +291,7 @@ const ProductCard = ({
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
         {storeInit?.IsPriceShow == 1 && <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
-          {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
+          {productData?.UnitCostWithMarkUpIncTax?.toLocaleString("en-IN")}
         </h4>}
       </div>
     </div>

@@ -419,7 +419,7 @@ const useCart = () => {
 
     const handleIncrement = async (item) => {
         const newQuantity = (item?.Quantity || 0) + 1;
-        const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
+        const priceQty = (item?.UnitCostWithMarkUpIncTax) * newQuantity;
 
         updateCartAndSelectedItem(item, newQuantity, priceQty);
         setQtyCount(prevCount => prevCount + 1);
@@ -435,7 +435,7 @@ const useCart = () => {
     const handleDecrement = async (item) => {
         if (item?.Quantity > 1) {
             const newQuantity = item.Quantity - 1;
-            const priceQty = (item?.UnitCostWithMarkUp) * newQuantity;
+            const priceQty = (item?.UnitCostWithMarkUpIncTax) * newQuantity;
 
             updateCartAndSelectedItem(item, newQuantity, priceQty);
             setQtyCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
@@ -733,8 +733,10 @@ const useCart = () => {
         isloding,
         ispriceloding,
         cartData,
+        setCartData,
         diamondCartData,
         selectedItem,
+        setSelectedItem,
         selectedItems,
         multiSelect,
         openModal,

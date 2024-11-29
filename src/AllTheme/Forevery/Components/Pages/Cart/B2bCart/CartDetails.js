@@ -7,6 +7,7 @@ import diaImage from "../../../Assets/round.png"
 const CartDetails = ({
   ispriceloding,
   selectedItem,
+  setSelectedItem,
   diamondData,
   CartCardImageFunc,
   qtyCount,
@@ -67,6 +68,7 @@ const CartDetails = ({
       <Customization
         ispriceloding={ispriceloding}
         selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
         diamondData={diamondData}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}

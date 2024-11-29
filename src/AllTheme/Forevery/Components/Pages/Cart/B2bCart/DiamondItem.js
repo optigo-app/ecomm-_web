@@ -117,7 +117,6 @@ const DiamondItems = ({
     const diamondData = diaData?.filter(diaItem =>
         !cartData?.some(cartItem => cartItem?.Sol_StockNo === diaItem?.stockno)
     );
-    console.log("jksjdksakjd", diamondData)
 
     const handleError = (event) => {
         event.target.src = noImageFound;

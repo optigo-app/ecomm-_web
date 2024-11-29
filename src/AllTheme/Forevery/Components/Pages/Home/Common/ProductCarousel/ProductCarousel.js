@@ -15,7 +15,7 @@ import Pako from "pako";
 import btnstyle from "../../../../scss/Button.module.scss";
 import { FaChevronDown } from "react-icons/fa";
 
-const ProductCarousel = ({showmore = false}) => {
+const ProductCarousel = ({ showmore = false }) => {
   const loginUserDetail = JSON.parse(sessionStorage.getItem("loginUserDetail"));
   const navigation = useNavigate();
   const [storeInit, setStoreInit] = useState({});
@@ -62,8 +62,7 @@ const ProductCarousel = ({showmore = false}) => {
     let encodeObj = compressAndEncode(JSON.stringify(obj));
 
     navigation(
-      `/d/${titleLine.replace(/\s+/g, `_`)}${
-        titleLine?.length > 0 ? "_" : ""
+      `/d/${titleLine.replace(/\s+/g, `_`)}${titleLine?.length > 0 ? "_" : ""
       }${designNo}?p=${encodeObj}`
     );
   };
@@ -150,19 +149,17 @@ const ProductCarousel = ({showmore = false}) => {
               <SwiperSlide>
                 <ProductCard
                   title={
-                    !data?.TitleLine?.length > 0 
-                      ? data?.designno 
-                      : data?.designno + ` - ${data?.TitleLine}` 
+                    !data?.TitleLine?.length > 0
+                      ? data?.designno
+                      : data?.designno + ` - ${data?.TitleLine}`
                   }
                   SourceImg={
                     data?.ImageCount >= 1
-                      ? `${imageUrl}${
-                          data?.designno === undefined ? "" : data?.designno
-                        }_1.${
-                          data?.ImageExtension === undefined
-                            ? ""
-                            : data.ImageExtension
-                        }`
+                      ? `${imageUrl}${data?.designno === undefined ? "" : data?.designno
+                      }_1.${data?.ImageExtension === undefined
+                        ? ""
+                        : data.ImageExtension
+                      }`
                       : NoImageFound
                   }
                   productData={data}
@@ -183,7 +180,7 @@ const ProductCarousel = ({showmore = false}) => {
           })}
         </Swiper>
       </div>
-    { showmore &&  <div
+      {showmore && <div
         className="show_more_btn"
         style={{
           width: "100%",
@@ -192,16 +189,16 @@ const ProductCarousel = ({showmore = false}) => {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "transparent",
-          padding : "30px 0"
+          padding: "30px 0"
         }}
       >
         <button
-        style={{
-          padding  :"6px 50px"
-        }}
+          style={{
+            padding: "6px 50px"
+          }}
           className={`${btnstyle?.btn_for_new} for_finrJewel_btn ${btnstyle?.btn_15}`}
         >
-          Show More <FaChevronDown/>
+          Show More <FaChevronDown />
         </button>
       </div>}
     </div>
@@ -278,9 +275,9 @@ const ProductCard = ({
           )}
         </div>
         {/* <p>indulge in the enchanting beauty of 18k Gold product Forevery.</p> */}
-       {storeInit?.IsPriceShow == 1 &&   <h4 className="price_fresj">
+        {storeInit?.IsPriceShow == 1 && <h4 className="price_fresj">
           {CurrencyCode}&nbsp;
-          {productData?.UnitCostWithMarkUp?.toLocaleString("en-IN")}
+          {productData?.UnitCostWithMarkUpIncTax?.toLocaleString("en-IN")}
         </h4>}
       </div>
     </div>

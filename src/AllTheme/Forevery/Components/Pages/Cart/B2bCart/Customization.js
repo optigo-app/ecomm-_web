@@ -9,6 +9,7 @@ import btnStyle from "../../../scss/Button.module.scss"
 const Customization = ({
   ispriceloding,
   selectedItem,
+  setSelectedItem,
   diamondData,
   qtyCount,
   handleIncrement,
@@ -25,7 +26,6 @@ const Customization = ({
   onUpdateCart
 }) => {
 
-  console.log('selectedItem: ', selectedItem);
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
   const [ColorStoneCombo, setColorStoneCombo] = useState([]);
@@ -73,22 +73,42 @@ const Customization = ({
     return combinedParts.join(', ');
   }
 
-  console.log("kjhsjhkakjhd", selectedItem);
+
+  // useEffect(() => {
+  //   if (diamondData) {
+  //     setLoading(true);
+  //     try {
+  //       const diamondValue = diamondData.find((dia) => dia?.stockno === selectedItem?.Sol_StockNo);
+  //       setDiaData(diamondValue);
+  //     } catch (err) {
+  //       // setError(err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  // }, [selectedItem, diamondData]);
+
+  useEffect(() => {
+    if (diamondData && selectedItem?.Sol_StockNo) {
+      setLoading(true);
+      const diamondValue = diamondData.find(
+        (dia) => dia?.stockno === selectedItem?.Sol_StockNo
+      );
+      setDiaData(diamondValue);
+      setLoading(false);
+    }
+  }, [diamondData, selectedItem?.Sol_StockNo]);
 
 
   useEffect(() => {
-    if (diamondData) {
-      setLoading(true);
-      try {
-        const diamondValue = diamondData.find((dia) => dia?.stockno === selectedItem?.Sol_StockNo);
-        setDiaData(diamondValue);
-      } catch (err) {
-        // setError(err);
-      } finally {
-        setLoading(false);
-      }
+    if (selectedItem) {
+      const finalCost = selectedItem?.Quantity * selectedItem?.UnitCostWithMarkUpIncTax;
+      setSelectedItem((prev) => ({
+        ...prev,
+        FinalCost: finalCost,
+      }));
     }
-  }, [selectedItem, diamondData]);
+  }, [selectedItem]);
 
 
   const keyToCheck = "stockno"
@@ -209,7 +229,7 @@ const Customization = ({
                       }}
                     /> */}
                         <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                        {formatter(selectedItem?.FinalCost)}
+                        {formatter(selectedItem?.Quantity > 1 ? selectedItem?.FinalCost : selectedItem?.UnitCostWithMarkUpIncTax)}
                       </span>
                     ) :
                       <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />
@@ -281,7 +301,7 @@ const Customization = ({
                           {loading == false &&
                             <>
                               <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                              {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.FinalCost + diadata?.price) ?? selectedItem?.FinalCost)) : formatter(((selectedItem?.FinalCost)))}
+                              {selectedItem?.Sol_StockNo != "" ? formatter(((selectedItem?.UnitCostWithMarkUpIncTax + diadata?.priceIncTax) ?? selectedItem?.UnitCostWithMarkUpIncTax)) : formatter(((selectedItem?.UnitCostWithMarkUpIncTax)))}
                             </>
                           }
                         </span>
@@ -316,7 +336,7 @@ const Customization = ({
                   {!ispriceloding ? (
                     <span>
                       <span className="for_currencyFont">{loginInfo?.CurrencyCode ?? storeInitData?.CurrencyCode}</span>&nbsp;
-                      {formatter(selectedItem?.price)}
+                      {formatter(selectedItem?.priceIncTax)}
                     </span>
                   ) :
                     <Skeleton className='for_CartSkelton' variant="text" width="80%" animation="wave" />
