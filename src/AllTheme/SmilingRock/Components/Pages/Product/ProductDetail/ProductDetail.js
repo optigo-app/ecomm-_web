@@ -644,7 +644,7 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    setExtraLoading(true)
+    // setExtraLoading(true)
    setisImageLoading(true)
     let navVal = location?.search.split("?p=")[1];
 
@@ -791,9 +791,9 @@ const ProductDetail = () => {
         .finally(() => {
           setIsImageLoad(false);
           setProdLoading(false);
-    setTimeout(() => {
-      setExtraLoading(false)
-    }, 800);
+    // setTimeout(() => {
+    //   setExtraLoading(false)
+    // }, 800);
 
         });
     };
@@ -914,7 +914,7 @@ const ProductDetail = () => {
 
 
   const ProdCardImageFunc = async () => {
-    // setExtraLoading(true)
+    setExtraLoading(true)
     let finalprodListimg;
     let pdImgList = [];
     let pdvideoList = [];
@@ -1041,16 +1041,13 @@ const ProductDetail = () => {
     // setIsImageLoad(false);
     // setExtraLoading(false)
     // console.log(finalprodListimg,"setextraloading")
+    setExtraLoading(false)
     return finalprodListimg;
   };
 
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd,singleProd1, location?.key ]);
-
-  const [IsVisible, setIsVisible] = useState(false)
-
-
 
   // useEffect(() => {
   //   if (isImageload === false) {
