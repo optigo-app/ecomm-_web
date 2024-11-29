@@ -7,6 +7,10 @@ import { toast } from 'react-toastify';
 const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
     const [loginDetail, setLoginDetail] = useState(null);
     const [selectRequest, setSelectRequest] = useState('');
+    const [loading, setLoading] = useState({
+        load: false,
+        index: 0
+    });
     const [minDateTime, setMinDateTime] = useState('');
     const [formData, setFormData] = useState({
         firstname: '',
@@ -95,21 +99,24 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
         return newErrors;
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event, index) => {
         event.preventDefault();
         const formErrors = validate();
         if (Object.keys(formErrors).length === 0) {
             setIsSubmitting(true);
+            setLoading({ load: true, index })
             const formattedData = {
                 ...formData,
                 AppointmentDateTime: formatDateTime(formData?.AppointmentDateTime)
             }
             await BookAppointment(formattedData).then((res) => {
-                if(res?.stat_msg === 'success'){
+                if (res?.stat_msg === 'success') {
                     setSelectedItem({});
                     toast.success("Appointment Booked Successfully");
-                }else{
+                    setLoading({ load: false, index })
+                } else {
                     toast.error("Something went wrong");
+                    setLoading({ load: false, index });
                 }
             })
             setIsSubmitting(false);
@@ -139,7 +146,7 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
                     <button className="for_edit-btn" onClick={handleEdit}>Edit</button>
                 </div>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e, formData?.RequestId)}>
                 <div className='for_leftside'>
                     <div className="for_input-group">
                         <div className="for_input-field">
@@ -216,8 +223,8 @@ const AppointmentForm = ({ selectedItem, setSelectedItem }) => {
                         </div>
                     </div>
                     <div className="for_button-group">
-                        <button type="submit" className="for_primary-btn" disabled={isSubmitting} onClick={() => handleRequestTypeChange('1')}>Book Appointment</button>
-                        <button type="button" className="for_secondary-btn" onClick={() => handleRequestTypeChange('2')}>Request A Callback</button>
+                        <button type="submit" className="for_primary-btn" disabled={isSubmitting} onClick={() => handleRequestTypeChange('1')}>{loading?.index === '1' ? 'Booking Appointment' : 'Book Appointment'}</button>
+                        <button type="button" className="for_secondary-btn" onClick={() => handleRequestTypeChange('2')}>{loading?.index === '2' ? 'Requesting A Callback' : 'Request A Callback'}</button>
                     </div>
                 </div>
             </form>

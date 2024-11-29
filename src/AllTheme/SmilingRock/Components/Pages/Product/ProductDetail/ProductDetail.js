@@ -47,11 +47,10 @@ import "swiper/css/scrollbar";
 import Cookies from "js-cookie";
 import { DesignSetListAPI } from "../../../../../../utils/API/DesignSetListAPI/DesignSetListAPI";
 import { Helmet } from "react-helmet";
-import axios from "axios";
 
 const ProductDetail = () => {
   let location = useLocation();
-  
+
   const [singleProd, setSingleProd] = useState({});
   const [singleProd1, setSingleProd1] = useState({});
   // const [singleProdPrice, setSingleProdPrice] = useState();
@@ -78,9 +77,9 @@ const ProductDetail = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [metalWiseColorImg, setMetalWiseColorImg] = useState();
   const [vison360, setVision360] = useState();
-  
+
   const [ExtraLoading, setExtraLoading] = useState(true)
-  
+
   const [designSetList, setDesignSetList] = useState();
 
   const [thumbImgIndex, setThumbImgIndex] = useState();
@@ -89,7 +88,7 @@ const ProductDetail = () => {
   const [diaList, setDiaList] = useState([]);
   const [csList, setCsList] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isImageLoading,setisImageLoading] = useState(true);
+  const [isImageLoading, setisImageLoading] = useState(true);
 
 
 
@@ -619,8 +618,9 @@ const ProductDetail = () => {
     }
   };
 
-  
+
   const handleMoveToDetail = (productData) => {
+
     let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"));
 
     let obj = {
@@ -633,14 +633,15 @@ const ProductDetail = () => {
     };
 
     let encodeObj = compressAndEncode(JSON.stringify(obj));
-   
+
     navigate(
       `/d/${productData?.TitleLine?.replace(/\s+/g, `_`)}${productData?.TitleLine?.length > 0 ? "_" : ""
       }${productData?.designno}?p=${encodeObj}`
     );
-    setSingleProd1()
+    setSingleProd1({});
+    setSingleProd({});
     setIsImageLoad(true);
-   setProdLoading(true)
+    setProdLoading(true)
   };
 
   useEffect(() => {
@@ -702,7 +703,7 @@ const ProductDetail = () => {
           : logininfoInside?.cmboDiaQCid ?? storeinitInside?.cmboDiaQCid,
         csQc: csArr
           ? `${csArr?.QualityId},${csArr?.ColorId}`
-          
+
           : logininfoInside?.cmboCSQCid ?? storeinitInside?.cmboCSQCid,
       };
       // setProdLoading(true);
@@ -780,7 +781,7 @@ const ProductDetail = () => {
             if (storeinitInside?.IsProductDetailDesignSet === 1) {
               await DesignSetListAPI(obj, resp?.pdList[0]?.designno, cookie)
                 .then((res) => {
-                console.log(res?.Data?.rd ,"res?.Data?.rd")
+                  console.log(res?.Data?.rd, "res?.Data?.rd")
                   setDesignSetList(res?.Data?.rd);
                 })
                 .catch((err) => console.log("designsetErr", err));
@@ -799,109 +800,16 @@ const ProductDetail = () => {
     };
 
     FetchProductData();
-   if(prodLoading){
+    if (prodLoading) {
       setisImageLoading(false)
-   }
+    }
     window.scroll({
-      
+
       top: 0,
       behavior: "smooth",
     });
   }, [location?.key]);
 
-  console.log(isImageLoading,"apiv1")
-  // useEffect(() => {
-  //   let metal = metalTypeCombo?.filter(
-  //     (ele) => ele?.metaltype == selectMtType
-  //   )[0];
-  //   let dia = diaQcCombo?.filter(
-  //     (ele) =>
-  //       ele?.Quality == selectDiaQc.split(",")[0] &&
-  //       ele?.color == selectDiaQc.split(",")[1]
-  //   )[0];
-  //   let cs = csQcCombo?.filter(
-  //     (ele) =>
-  //       ele?.Quality == selectCsQc.split(",")[0] &&
-  //       ele?.color == selectCsQc.split(",")[1]
-  //   )[0];
-
-  //   let metalPdata = singleProdPrice?.rd?.filter(
-  //     (ele) => ele?.C == metal?.Metalid
-  //   )[0];
-
-  //   let diaPData = singleProdPrice?.rd1?.filter(
-  //     (ele) => ele?.G == dia?.QualityId && ele?.I == dia?.ColorId
-  //   );
-
-  //   let csPData = singleProdPrice?.rd2?.filter(
-  //     (ele) => ele?.G == cs?.QualityId && ele?.I == cs?.ColorId
-  //   );
-
-  //   let metalPrice = 0;
-  //   let diamondPrice = 0;
-  //   let csPrice = 0;
-
-  //   if (metalPdata) {
-  //     setMtrd(metalPdata);
-  //     metalPrice =
-  //       ((metalPdata?.V ?? 0) / storeInit?.CurrencyRate ?? 0) +
-  //         (metalPdata?.W ?? 0) +
-  //         (metalPdata?.X ?? 0) ?? 0;
-  //   }
-
-  //   console.log("metalPdata", metalPrice);
-
-  //   if (diaPData?.length > 0) {
-  //     setDiard1(diaPData);
-  //     let diasetRate = diard1?.reduce((acc, obj) => acc + obj.O, 0)
-  //     let diaSettRate = diard1?.reduce((acc, obj) => acc + obj.Q, 0)
-  //     setDqcRate(diasetRate ?? 0)
-  //     setDqcSettRate(diaSettRate ?? 0)
-  //     diamondPrice =
-  //       Number(diaPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
-  //   }
-
-  //   if (csPData?.length > 0) {
-  //     setCsrd2(csPData);
-  //     let csRate = csrd2?.reduce((acc, obj) => acc + obj.O, 0)
-  //     let csSettRate = csrd2?.reduce((acc, obj) => acc + obj.Q, 0)
-  //     setCsqcRate(csRate ?? 0)
-  //     setCsqcSettRate(csSettRate ?? 0)
-  //     csPrice = Number(csPData?.reduce((acc, obj) => acc + obj.S, 0)) ?? 0;
-  //   }
-
-  //   let finalPrice =
-  //     Number(metalPrice) + Number(diamondPrice)  + Number(csPrice);
-  //   console.log("pData", { metalPrice, diamondPrice, csPrice });
-
-  //   let fp = finalPrice.toFixed(2)
-  //   setFinalprice(fp)
-  // }, [singleProd, singleProdPrice, selectMtType, selectDiaQc, selectCsQc]);
-
-  // const handlePrice = () =>{
-
-  //   let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
-
-  //   if(finalSize?.IsMarkUpInAmount == 1){
-
-  //     let ultimatePrice = (Number(finalprice)+ metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
-
-  //     console.log("ultimatePrice",(mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ));
-
-  //     return PriceWithMarkupFunction((mtrd?.AB ?? 0) , ultimatePrice , mtrd?.AA , ((finalSize?.MarkUp ?? 0) / mtrd?.AA ))
-
-  //   }else{
-
-  //     let finalSize = SizeCombo?.rd?.filter((ele)=>ele?.sizename == sizeData)[0]
-  //     const percentMarkupPlus = (mtrd?.AB ?? 0) + (finalSize?.MarkUp ?? 0)
-  //     let ultimatePrice = (Number(finalprice) + metalUpdatedPrice() + diaUpdatedPrice() + colUpdatedPrice())
-
-  //     console.log("ultimatePrice",percentMarkupPlus, ultimatePrice , mtrd?.AA);
-
-  //     return PriceWithMarkupFunction(percentMarkupPlus, ultimatePrice , mtrd?.AA )
-  //   }
-
-  // }
 
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
@@ -914,6 +822,7 @@ const ProductDetail = () => {
 
 
   const ProdCardImageFunc = async () => {
+    setExtraLoading(true)
     setExtraLoading(true)
     let finalprodListimg;
     let pdImgList = [];
@@ -933,6 +842,7 @@ const ProductDetail = () => {
         (ele) => ele?.id == singleProd?.MetalColorid
       )[0];
     }
+    console.log('singleProd: ', singleProd);
 
     if (singleProd?.ColorImageCount > 0) {
       for (let i = 1; i <= singleProd?.ColorImageCount; i++) {
@@ -949,6 +859,7 @@ const ProductDetail = () => {
         let IsImg = checkImageAvailability(imgString);
         if (IsImg) {
           pdImgList.push(imgString);
+          console.log('imgString: ', imgString);
         }
       }
 
@@ -1013,9 +924,12 @@ const ProductDetail = () => {
       setSelectedThumbImg({ link: FinalPdImgList[0], type: "img" });
       setPdThumbImg(FinalPdImgList);
       setThumbImgIndex(0);
-    }else{
-      setPdThumbImg([])
-      setSelectedThumbImg({link:"noimage",type:'img'})
+    } else {
+      // setPdThumbImg([])
+      // setSelectedThumbImg({ link: "noimage", type: 'img' })
+      setSelectedThumbImg({ link: imageNotFound, type: "img" });
+      setPdThumbImg();
+      setThumbImgIndex();
     }
 
     if (pdvideoList?.length > 0) {
@@ -1042,12 +956,17 @@ const ProductDetail = () => {
     // setExtraLoading(false)
     // console.log(finalprodListimg,"setextraloading")
     setExtraLoading(false)
+    setExtraLoading(false)
     return finalprodListimg;
   };
 
   useEffect(() => {
     ProdCardImageFunc();
   }, [singleProd,singleProd1, location?.key ]);
+
+  const [IsVisible, setIsVisible] = useState(false)
+
+
 
   // useEffect(() => {
   //   if (isImageload === false) {
@@ -1057,6 +976,14 @@ const ProductDetail = () => {
   //     }
   //   }
   // }, [isImageload])
+
+  useEffect(() => {
+    if (isImageload === false) {
+      if (!(pdThumbImg?.length !== 0 || pdVideoArr?.length !== 0)) {
+        setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+      }
+    }
+  }, [isImageload])
 
   // useEffect(()=>{
   //   if(prodLoading === false){
@@ -1354,7 +1281,6 @@ const ProductDetail = () => {
     await SingleProdListAPI(prod, size ?? sizeData, obj, cookie)
       .then((res) => {
         setSingleProd1(res?.pdList[0]);
-        console.log(res?.pdList[0] ,"rdd2")
 
         if (res?.pdList?.length > 0) {
           setisPriceLoading(false);
@@ -1417,7 +1343,7 @@ const ProductDetail = () => {
                   <div className="smr_prod_image_shortInfo">
                     <div className="smr_prod_image_Sec">
                       {/* {isImageload && ( */}
-                      {ExtraLoading && (
+                      {isImageload ? (
                         <Skeleton
                           sx={{
                             width: "95%",
@@ -1427,194 +1353,196 @@ const ProductDetail = () => {
                           variant="rounded"
                           className="pSkelton"
                         />
-                      )}
+                      ) :
+                        <div
+                          className="smr_main_prod_img"
+                          style={{
+                            display: isImageload ? "none" : "block",
+                          }}
+                        >
+                          {/* {isVisionShow && (
+                        <iframe
+                          src={vison360}
+                          className="smr_prod_img"
+                          style={{
+                            height: "80%",
+                            overflow: "hidden",
+                            border: "none",
+                            marginLeft: "5%",
+                            marginTop: "5%",
+                          }}
+                        />
+                      )} */}
 
-                      <div
-                        className="smr_main_prod_img"
-                        style={{
-                          display: ExtraLoading ? "none" : "block",
-                        }}
-                      >
-                        {/* {isVisionShow && (
-                          <iframe
-                            src={vison360}
-                            className="smr_prod_img"
-                            style={{
-                              height: "80%",
-                              overflow: "hidden",
-                              border: "none",
-                              marginLeft: "5%",
-                              marginTop: "5%",
-                            }}
-                          />
-                        )} */}
+                          {/* {selectedThumbImg?.type === "img" && (
+                        <img
+                          src={selectedThumbImg?.link}
+                          // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
+                          // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
+                          // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
+                          alt={""}
+                          onLoad={() => {
+                            setIsImageLoad(false);
+                            // if(Object.values(singleProd)?.length > 0 ){
+                            //   if(pdThumbImg?.length == 0 && pdVideoArr?.length == 0){
+                            //     setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
+                            //   }
+                            // }
+                          }}
+                          className="smr_prod_img"
+                        />
+                      )} */}
 
-                        {/* {selectedThumbImg?.type === "img" && (
+                          {/* {selectedThumbImg?.type === "vid" && (
+                        <video
+                          src={selectedThumbImg?.link}
+                          loop={true}
+                          autoPlay={true}
+                          style={{
+                            width: "100%",
+                            objectFit: "cover",
+                            marginTop: "40px",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      )} */}
+
+                          {/* {(selectedThumbImg === undefined &&  !isImageload && prodLoading) )  && (
                           <img
-                            src={selectedThumbImg?.link}
+                            src={imageNotFound}
                             // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
                             // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                            // onError={() => setSelectedThumbImg({ "link": imageNotFound, "type": 'img' })}
                             alt={""}
-                            onLoad={() => {
-                              setIsImageLoad(false);
-                              // if(Object.values(singleProd)?.length > 0 ){
-                              //   if(pdThumbImg?.length == 0 && pdVideoArr?.length == 0){
-                              //     setSelectedThumbImg({ "link": imageNotFound, "type": 'img' });
-                              //   }
-                              // }
-                            }}
+                            // onLoad={() =>{
+                            //   setIsImageLoad(false)
+                            // }}
                             className="smr_prod_img"
                           />
                         )} */}
 
-                        {/* {selectedThumbImg?.type === "vid" && (
-                          <video
-                            src={selectedThumbImg?.link}
-                            loop={true}
-                            autoPlay={true}
-                            style={{
-                              width: "100%",
-                              objectFit: "cover",
-                              marginTop: "40px",
-                              borderRadius: "8px",
-                            }}
-                          />
-                        )} */}
-
-                        {/* {(selectedThumbImg === undefined &&  !isImageload && prodLoading) )  && (
-                            <img
-                              src={imageNotFound}
-                              // src={pdThumbImg?.length > 0 ? selectedThumbImg?.link : imageNotFound}
-                              // src={metalWiseColorImg ? metalWiseColorImg : (selectedThumbImg?.link ?? imageNotFound) }
-                              alt={""}
-                              // onLoad={() =>{
-                              //   setIsImageLoad(false)
-                              // }}
-                              className="smr_prod_img"
-                            />
-                          )} */}
-
-                        {!isVisionShow ? (
-                          selectedThumbImg?.type == "img" ? (
-                            <img
-                              src={selectedThumbImg?.link}
-                              onError={() => {
-                                setSelectedThumbImg({
-                                  link: imageNotFound,
-                                  type: "img",
-                                });
-                              }}
-                              alt={""}
-                              onLoad={() => {
-                                setIsImageLoad(false);
-                              }}
-                              className="smr_prod_img"
-                            />
-                          ) : (
-                            <div className="smr_prod_video">
-                              <video
-                                src={selectedThumbImg?.link}
-                                loop={true}
-                                autoPlay={true}
-                                // poster={ (prodLoading && isImageload) ? ( pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound) : null}
-                                style={{
-                                  width: "100%",
-                                  objectFit: "cover",
-                                  marginTop: "40px",
-                                  borderRadius: "8px",
-                                }}
-                              />
-                            </div>
-                          )
-                        ) : (
-                          <iframe
-                            src={vison360}
-                            className="smr_prod_img"
-                            style={{
-                              height: "80%",
-                              overflow: "hidden",
-                              border: "none",
-                              marginLeft: "5%",
-                              marginTop: "5%",
-                            }}
-                          />
-                        )}
-
-                        <div className="smr_main_thumb_prod_img">
-                          {(pdThumbImg?.length > 1 ||
-                            pdVideoArr?.length > 0 ||
-                            storeInit?.IsVision360 == 1) &&
-                            pdThumbImg?.map((ele, i) => (
+                          {!isVisionShow ? (
+                            selectedThumbImg?.type == "img" ? (
                               <img
-                                src={ele}
+                                src={selectedThumbImg?.link}
+                                onError={() => {
+                                  setSelectedThumbImg({
+                                    link: imageNotFound,
+                                    type: "img",
+                                  });
+                                }}
+                                alt={""}
+                                onLoad={() => {
+                                  setIsImageLoad(false);
+                                }}
+                                className="smr_prod_img"
+                              />
+                            ) : (
+                              <div className="smr_prod_video">
+                                <video
+                                  src={selectedThumbImg?.link}
+                                  loop={true}
+                                  autoPlay={true}
+                                  // poster={ (prodLoading && isImageload) ? ( pdVideoArr?.length > 0 ? selectedThumbImg?.link : imageNotFound) : null}
+                                  style={{
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    marginTop: "40px",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            <iframe
+                              src={vison360}
+                              className="smr_prod_img"
+                              style={{
+                                height: "80%",
+                                overflow: "hidden",
+                                border: "none",
+                                marginLeft: "5%",
+                                marginTop: "5%",
+                              }}
+                            />
+                          )}
+
+                          <div className="smr_main_thumb_prod_img">
+                            {(pdThumbImg?.length > 1 ||
+                              pdVideoArr?.length > 0 ||
+                              storeInit?.IsVision360 == 1) &&
+                              pdThumbImg?.map((ele, i) => (
+                                <img
+                                  src={ele}
+                                  alt={""}
+                                  onLoad={() => setIsImageLoad(false)}
+                                  className="smr_prod_thumb_img"
+                                  onClick={() => {
+                                    setSelectedThumbImg({
+                                      link: ele,
+                                      type: "img",
+                                    });
+                                    setThumbImgIndex(i);
+                                    setIsVisionShow(false);
+                                  }}
+                                // onError={()=>{
+                                // }}
+                                />
+                              ))}
+                            {pdVideoArr?.map((data) => (
+                              <div
+                                style={{
+                                  position: "relative",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                                onClick={() => {
+                                  setSelectedThumbImg({
+                                    link: data,
+                                    type: "vid",
+                                  });
+                                  setIsVisionShow(false);
+                                }}
+                              >
+                                <video
+                                  src={data}
+                                  autoPlay={false}
+                                  loop={true}
+                                  className="smr_prod_thumb_img"
+                                  style={{ height: "70px", objectFit: "cover" }}
+                                />
+                                <IoIosPlayCircle
+                                  style={{
+                                    position: "absolute",
+                                    color: "white",
+                                    width: "35px",
+                                    height: "35px",
+                                  }}
+                                />
+                              </div>
+                            ))}
+                            {vison360 && vison360?.length > 0 ? (
+                              <img
+                                src={visionArround}
                                 alt={""}
                                 onLoad={() => setIsImageLoad(false)}
                                 className="smr_prod_thumb_img"
+                                id="vision360"
                                 onClick={() => {
-                                  setSelectedThumbImg({
-                                    link: ele,
-                                    type: "img",
-                                  });
-                                  setThumbImgIndex(i);
-                                  setIsVisionShow(false);
+                                  setIsVisionShow(true);
                                 }}
                               // onError={()=>{
                               // }}
                               />
-                            ))}
-                          {pdVideoArr?.map((data) => (
-                            <div
-                              style={{
-                                position: "relative",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                              onClick={() => {
-                                setSelectedThumbImg({
-                                  link: data,
-                                  type: "vid",
-                                });
-                                setIsVisionShow(false);
-                              }}
-                            >
-                              <video
-                                src={data}
-                                autoPlay={false}
-                                loop={true}
-                                className="smr_prod_thumb_img"
-                                style={{ height: "70px", objectFit: "cover" }}
-                              />
-                              <IoIosPlayCircle
-                                style={{
-                                  position: "absolute",
-                                  color: "white",
-                                  width: "35px",
-                                  height: "35px",
-                                }}
-                              />
-                            </div>
-                          ))}
-                          {vison360 && vison360?.length > 0 ? (
-                            <img
-                              src={visionArround}
-                              alt={""}
-                              onLoad={() => setIsImageLoad(false)}
-                              className="smr_prod_thumb_img"
-                              id="vision360"
-                              onClick={() => {
-                                setIsVisionShow(true);
-                              }}
-                            // onError={()=>{
-                            // }}
-                            />
-                          ) : null}
-                          {/* <div className="smr_thumb_prod_img">
-                      
-                      </div> */}
+                            ) : null}
+                            {/* <div className="smr_thumb_prod_img">
+                    
+                    </div> */}
+                          </div>
                         </div>
-                      </div>
+                      }
+
+
                     </div>
                     <div className="smr_prod_shortInfo">
                       {prodLoading ? (
