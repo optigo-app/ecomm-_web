@@ -36,7 +36,7 @@ import History from './Components/Pages/Home/StaticPages/History/History'
 import Appointment from './Components/Pages/Home/StaticPages/BookAppointment/Appointment'
 import CountdownTimerFnc from './Components/Pages/Home/CountdownTimer/CountdownTimerFnc'
 import RedirectModal from './Components/Pages/Home/CountdownTimer/RedirectModal'
-import { storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
+import { handleHomePageLoad, storImagePath } from '../../utils/Glob_Functions/GlobalFunction'
 
 const Elveester_app = () => {
 
@@ -66,7 +66,7 @@ const Elveester_app = () => {
   useEffect(() => {
     let webLogo = `${storImagePath()}/logoIcon/webLogo.png`;
     let mobileLogo = `${storImagePath()}/logoIcon/mobileLogo.png`;
-    
+
     el_setCompanyTitleLogo(webLogo);
     el_setCompanyTitleLogoM(mobileLogo);
 
@@ -80,6 +80,10 @@ const Elveester_app = () => {
       setShowFooter(true);
     }
   }, [location?.pathname]);
+
+  useEffect(() => {
+    handleHomePageLoad();
+  }, [])
 
   return (
     <div>

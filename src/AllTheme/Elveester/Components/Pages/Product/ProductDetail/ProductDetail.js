@@ -28,6 +28,7 @@ import DesignSet from './DesignSet/DesignSet';
 import Stockitems from './InstockProduct/Stockitems';
 import { SaveLastViewDesign } from '../../../../../../utils/API/SaveLastViewDesign/SaveLastViewDesign';
 import { Helmet } from 'react-helmet';
+import { FilterListAPI } from '../../../../../../utils/API/FilterAPI/FilterListAPI';
 
 const ProductDetail = () => {
   const [maxWidth1400, setMaxWidth1400] = useState(false);
@@ -66,6 +67,7 @@ const ProductDetail = () => {
   const location = useLocation();
   const [saveLastView, setSaveLastView] = useState();
   const [imageSrc, setImageSrc] = useState();
+  const [filterData, setFilterData] = useState([]);
 
   const [showPlaceholder, setShowPlaceholder] = useState(false);
 
@@ -509,6 +511,8 @@ const ProductDetail = () => {
 
     setloadingdata(true);
     const FetchProductData = async () => {
+      const res1 = await FilterListAPI(decodeobj?.g, cookie);
+      setFilterData(res1)
       let obj = {
         mt: metalArr,
         diaQc: `${diaArr?.QualityId ?? 0},${diaArr?.ColorId ?? 0}`,
@@ -1106,6 +1110,7 @@ const ProductDetail = () => {
       m: loginInfo?.MetalId,
       d: loginInfo?.cmboDiaQCid,
       c: loginInfo?.cmboCSQCid,
+      g: decodeUrl?.g,
       f: {},
     };
 
@@ -1161,6 +1166,16 @@ const ProductDetail = () => {
       }));
     }
   };
+
+  const getCollectionId = (singleProd?.Collectionid ?? singleProd1?.Collectionid);
+
+  const getCollName = filterData
+    ?.filter((item) => item?.Name === "Collection")
+    ?.map((item) => {
+      const options = JSON.parse(item?.options || "[]");
+      const matchedOption = options.find((option) => option.id === getCollectionId);
+      return matchedOption?.Name || null;
+    })[0];
 
   return (
     <>
@@ -1521,6 +1536,7 @@ const ProductDetail = () => {
                       <div className='elv_Product_prod_desc_data_max1000'>
                         <h1 className='elv_ProductDet_prod_title_max1000'>{singleProd?.TitleLine}</h1>
                         <div className='elv_ProductDet_det_max1000'>
+                          <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
                           <span className='elv_ProductDet_prod_code_max1000'>{singleProd?.designno}</span>
                           <div className='elv_productDet_metal_style_max1000'>
                             <div className='elv_ProductDet_prod_text_div_max1000'>
@@ -1964,6 +1980,7 @@ const ProductDetail = () => {
                     <div className='elv_Product_prod_desc_data'>
                       <h1 className='elv_ProductDet_prod_title'>{singleProd?.TitleLine}</h1>
                       <div className='elv_ProductDet_det'>
+                        <h5 className='elv_ProductDet_prod_code_Coll'>{getCollName}</h5>
                         <span className='elv_ProductDet_prod_code'>{singleProd?.designno}</span>
                         <div className='elv_productDet_metal_style'>
                           {singleProd?.MetalTypePurity !== "" &&
