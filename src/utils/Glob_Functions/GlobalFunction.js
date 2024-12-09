@@ -1,5 +1,5 @@
 export function storImagePath() {
-  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'forevery.web' : window.location.hostname}`
+  let statiPath = `${window?.location?.protocol}//${(window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'elvee.web' : window.location.hostname}`
   return `${statiPath}/WebSiteStaticImage`
   // return `${statiPath}/Website_Store/WebSiteStaticImage`
   // return `${storeinit?.UploadLogicalPath}/${storeinit?.ukey}/${storeinit?.ufcc}`
@@ -7,7 +7,7 @@ export function storImagePath() {
 
 export function storInitDataPath() {
   let hostName = (window.location.hostname === 'localhost' || window.location.hostname === 'zen')
-    ? 'forevery.web'
+    ? 'elvee.web'
     : window.location.hostname;
   if (hostName.startsWith('www.')) {
     hostName = hostName.substring(4);
@@ -62,6 +62,29 @@ export function findCsQcId(param) {
   let item = CsQCArr?.filter(ele => ele?.Quality == quality && ele?.color == color)
   // console.log("diaa cs",item,param);
   return item
+}
+
+export function ScrollToView(param) {
+  if (window.location.pathname !== '/') {
+    sessionStorage.setItem('scrollParam', param);
+    window.location.href = '/';
+    return;
+  }
+
+  const element = document?.getElementById(param);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+export function handleHomePageLoad() {
+  const scrollParam = sessionStorage.getItem('scrollParam');
+  if (scrollParam) {
+    ScrollToView(scrollParam);
+    setTimeout(() => {
+      sessionStorage.removeItem('scrollParam');
+    }, 5000);
+  }
 }
 
 

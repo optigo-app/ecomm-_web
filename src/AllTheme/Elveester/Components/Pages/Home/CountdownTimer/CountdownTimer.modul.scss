@@ -79,6 +79,16 @@
         width: 131px;
         height: 187px;
         object-fit: contain;
+
+        @media (max-width: 1530px) {
+            width: 120px;
+        }
+        @media (max-width: 1440px) {
+            width: 100px;
+        }
+        @media (max-width: 1350px) {
+            width: 80px;
+        }
     }
 
     @media screen and (max-width: 1270px) {

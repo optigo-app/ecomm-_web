@@ -13,6 +13,8 @@ const Footer = () => {
     const [companyInfoData, setCompanuInfoData] = useState();
     const [socialMediaData, setSocialMediaData] = useState([]);
     const [email, setEmail] = useState();
+    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState();
     const [selectedFooteVal, setSelectedVal] = useState(0);
     const navigation = useNavigate();
     const isLogin = useRecoilState(el_loginState)
@@ -59,24 +61,26 @@ const Footer = () => {
         };
     }, []);
 
-    const handleSubmitNewlater = async () => {
+    const handleSubmitNewlater = () => {
+        setLoading(true);
         const storeInit = JSON?.parse(sessionStorage.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
-        if (newslater) {
+        if (newslater && email) {
             const requestOptions = {
                 method: "GET",
                 redirect: "follow"
             };
+            // const updateUrl = newslater?.replace("https://", "http://");
             const newsletterUrl = `${newslater}${email}`;
-            await fetch(newsletterUrl, requestOptions)
-                .then((response) => {
-                    response.text()
-                })
-                .then((result) => console.log(result))
-                .catch((error) => console.error(error));
+            fetch(newsletterUrl)
+                .then((response) => response.text())
+                .then((result) => { setResult(result); setLoading(false) })
+                .catch((error) => setResult(error));
         }
 
     };
+
+    const alreadySubs = 'Already Subscribed.';
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -106,9 +110,37 @@ const Footer = () => {
                     <p className='elveBox1Title'>Sign up for our updates</p>
                     <p className='elvBox1TitDesc'>Sign up for our updates
                         Subscribe to our emails to get exclusive first access to new products, surveys, and events.</p>
-                    <div className='ElveFooter1Input' style={{ marginTop: '20px', display: 'flex' }}>
-                        <input type="email" placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
-                        <button className='elevBox1Btn' onClick={handleSubmitNewlater}>SIGN UP</button>
+                    <div className="ElveFooter1Input" style={{ marginTop: "20px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <input
+                                type="email"
+                                placeholder="Enter Your Email"
+                                className="eleBox1InputBox"
+                                value={email}
+                                onChange={handleEmailChange}
+                                style={{ flex: "1" }}
+                            />
+                            <button className="elevBox1Btn" onClick={handleSubmitNewlater}>
+                                SIGN UP
+                            </button>
+                        </div>
+                        {
+                            loading ? <span className="elv_error_message">Loading...</span> : (
+                                <>
+                                    {result && (
+                                        <span
+                                            className="elv_error_message"
+                                            style={{
+                                                color: result === alreadySubs ? "#FF0000" : "#04AF70",
+                                                marginTop: "0px",
+                                                display: "block",
+                                            }}
+                                        >
+                                            {result}
+                                        </span>
+                                    )}
+                                </>
+                            )}
                     </div>
                     <div className='footerIconMain'>
                         {socialMediaData?.map((social, index) => (

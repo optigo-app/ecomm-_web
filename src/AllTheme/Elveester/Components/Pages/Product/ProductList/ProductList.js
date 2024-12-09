@@ -121,6 +121,7 @@ const ProductList = () => {
     loginUserDetail?.cmboDiaQCid
   );
 
+  const [detailsMenu, setDetailsMenu] = useState();
   const [selectedCsId, setSelectedCsId] = useState(loginUserDetail?.cmboCSQCid);
   const [close, setClose] = useState(false);
   const setCartCountVal = useSetRecoilState(el_CartCount);
@@ -139,11 +140,11 @@ const ProductList = () => {
     );
     if (showFilter) {
       setActiveIcon(
-        openGridModal ? "double_view" : filter ? "apps" : "view_grid"
+        openGridModal ? "double_view" : showFilter ? "apps" : "view_grid"
       );
     } else {
       setActiveIcon(
-        openGridModal ? "double_view" : filter ? "view_grid" : "apps"
+        openGridModal ? "double_view" : showFilter ? "view_grid" : "apps"
       );
     }
   }, [openGridModal, filter, showFilter]);
@@ -493,12 +494,14 @@ const ProductList = () => {
           let val = menuDecode?.split("/")[0].split(",");
           setIsBreadcumShow(true);
           productlisttype = [key, val];
+          setDetailsMenu(productlisttype)
         }
 
         if (SearchVar) {
           productlisttype = SearchVar;
         }
         setprodListType(productlisttype);
+        setDetailsMenu(productlisttype)
         setIsProdLoading(true);
         const res = await ProductListApi({}, 1, obj, productlisttype, cookie);
         const res1 = await FilterListAPI(productlisttype, cookie);
@@ -1201,6 +1204,7 @@ const ProductList = () => {
       d: selectedDiaId,
       c: selectedCsId,
       f: output,
+      g: detailsMenu,
     };
     // compressAndEncode(JSON.stringify(obj))
 
@@ -1986,8 +1990,14 @@ const ProductList = () => {
                     flex: "100%",
                   }}
                 >
-                  <ProductListSkeleton />
-                  <ProductFilterSkeleton />
+                  {!maxwidth700px ? (
+                    <>
+                      <ProductListSkeleton />
+                      <ProductFilterSkeleton />
+                    </>
+                  ) :
+                    <ProductFilterSkeleton />
+                  }
                 </div>
               </>
             ) : (
@@ -2013,7 +2023,23 @@ const ProductList = () => {
                             },
                           }}
                         >
-                          <div className="elv_filtered_category_div ">
+                          <div className="elv_filtered_category_div">
+                            <div className="elv_filtered_data_div_filter_drawer">
+                              <div className="elv_filtered_data_text">Filter</div>
+                              <div
+                                className="elv_filter_data_clearAll"
+                                onClick={() => handelFilterClearAll()}
+                              >
+                                {Object.values(filterChecked).filter(
+                                  (ele) => ele.checked
+                                )?.length > 0 ? (
+                                  "Clear All"
+                                ) : (
+                                  <span>{`Total Products: ${afterFilterCount || 0
+                                    }`}</span>
+                                )}
+                              </div>
+                            </div>
                             {filterData?.map((item, index) => {
                               return (
                                 <>
@@ -2616,7 +2642,11 @@ const ProductList = () => {
                       )}
                     </div>
                     {isOnlyProdLoading ? (
-                      <ProductFilterSkeleton />
+                      // <ProductFilterSkeleton />
+                      <>
+                        <ProductListSkeleton />
+                        <ProductFilterSkeleton />
+                      </>
                     ) : (
                       <>
                         {productListData.length == 0 ? (

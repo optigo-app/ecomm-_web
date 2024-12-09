@@ -190,7 +190,7 @@ const HandleDrp = forwardRef(({ index, open, handleOpen, data }, ref) => {
 
       let encodeObj = compressAndEncode(JSON.stringify(obj));
 
-      let navigateUrl = `/d/${data?.stockno}/det/?p=${encodeObj}`;
+      let navigateUrl = `/d/${data?.stockno}/det345/?p=${encodeObj}`;
       handleOpen(null)
       Navigation(navigateUrl);
     }
@@ -485,7 +485,12 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep }) => 
           <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
             <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
               onClick={() => {
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                if (getCustStepData?.[1]?.Setting === "Ring" || getCustStepData?.[1]?.Setting === "Pendant") {
+                  Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                } else {
+                  Navigation(`/certified-loose-lab-grown-diamonds/settings/${getCustStepData?.[1]?.Setting === 'Pendant' ? "Pendant" : "Ring"}/${(getCustStepData?.[1]?.Setting === 'Pendant' ? 'M=UGVuZGFudC9jYXRlZ29yeQ==' : 'M=UmluZy9jYXRlZ29yeQ==')}`)
+                }
+
                 setswap("settings");
               }}
             >

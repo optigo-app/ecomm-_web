@@ -166,6 +166,7 @@ const ProductList = () => {
 
   const handleCategory = (id) => {
     setSelectedCategory(selectedCategory === id ? null : id);
+    handleButton(6, id ?? selectedCategory);
   }
 
   const handleMetalColor = (index) => {
@@ -630,26 +631,6 @@ const ProductList = () => {
     setCurrPage(1)
   }, [location?.key,]);
 
-  useEffect(() => {
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
-
-    if (location?.key === locationKey) {
-      setIsOnlyProdLoading(true);
-      ProductListApi({}, 1, obj, prodListType, cookie, "")
-        .then((res) => {
-          if (res) {
-            setProductListData(res?.pdList);
-            setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
-          }
-          return res;
-        })
-        .catch((err) => console.log("err", err))
-        .finally(() => {
-          setIsOnlyProdLoading(false);
-        });
-    }
-  }, [selectedMetalId, selectedDiaId]);
-
   const handleBreadcums = (mparams) => {
 
     let key = Object?.keys(mparams)
@@ -738,14 +719,33 @@ const ProductList = () => {
   }, [])
 
 
+  // useEffect(() => {
+  //   let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
+
+  //   if (location?.key === locationKey) {
+  //     setIsOnlyProdLoading(true);
+  //     ProductListApi({}, 1, obj, prodListType, cookie, "")
+  //       .then((res) => {
+  //         if (res) {
+  //           setProductListData(res?.pdList);
+  //           setAfterFilterCount(res?.pdResp?.rd1[0]?.designcount)
+  //         }
+  //         return res;
+  //       })
+  //       .catch((err) => console.log("err", err))
+  //       .finally(() => {
+  //         setIsOnlyProdLoading(false);
+  //       });
+  //   }
+  // }, [selectedMetalId, selectedDiaId]);
+
   useEffect(() => {
     let output = selectedValues.filter((ele) => ele.value)
-    const filteredOutputData = output.filter(item => item.dropdownIndex !== 5);
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId };
 
     if (location?.key === locationKey) {
       setIsOnlyProdLoading(true);
-      ProductListApi(filteredOutputData, 1, obj, prodListType, cookie, "")
+      ProductListApi(output, 1, obj, prodListType, cookie, sortBySelect ?? "", "")
         .then((res) => {
           if (res) {
             setProductListData(res?.pdList);
@@ -758,10 +758,11 @@ const ProductList = () => {
           setIsOnlyProdLoading(false);
         });
     }
-  }, [selectedValues]);
+  }, [selectedValues, selectedMetalId, selectedDiaId, sortBySelect, selectedCategory]);
 
   const handleSortby = async (e) => {
     setSortBySelect(e.target?.value)
+    let output = selectedValues.filter((ele) => ele.value)
 
     let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
 
@@ -769,7 +770,7 @@ const ProductList = () => {
 
     let sortby = e.target?.value
 
-    await ProductListApi({}, 1, obj, prodListType, cookie, sortby, "")
+    await ProductListApi(output, 1, obj, prodListType, cookie, sortby, "")
       .then((res) => {
         if (res) {
           setProductListData(res?.pdList);
@@ -800,9 +801,9 @@ const ProductList = () => {
 
   const handlePriceSliderChange = async (event, newValue) => {
     const roundedValue = newValue.map(val => parseInt(val));
-    let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
-    let pricerange = { PriceMin: newValue[0], PriceMax: newValue[1] };
-    await ProductListApi(pricerange, 1, obj, prodListType, cookie);
+    // let obj = { mt: selectedMetalId, dia: selectedDiaId, cs: selectedCsId }
+    // let pricerange = { PriceMin: newValue[0], PriceMax: newValue[1] };
+    // await ProductListApi(pricerange, 1, obj, prodListType, cookie);
     setPriceRangeValue(roundedValue)
     handleButton(4, roundedValue); // index 4 is the index for price range
   };
@@ -871,17 +872,31 @@ const ProductList = () => {
   }, [metalType, diamondType, selectedDiaId, location?.pathname]);
 
   const handleRemoveValues = (index) => {
-    setSelectedValues(prev => {
-      const existingIndex = prev.findIndex(item => item?.dropdownIndex === index);
+    setSelectedValues((prev) => {
+      const existingIndex = prev.findIndex((item) => item?.dropdownIndex === index);
       const updatedValues = prev.filter((_, i) => i !== existingIndex);
 
       if (updatedValues.length === 0) {
-        // const matchCollName = getMatchCollName();
         setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
         setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
-        // setDefaultValues(matchCollName);
-        setDefaultValues();
-        // navigate(`/p/${BreadCumsObj()?.menuname}?M=${location?.search?.slice(3)}`)
+        setTrend("Recommended");
+        setSortBySelect("");
+
+        // Save metal and diamond default values
+        const ids = typeof selectedDiaId === "string" ? selectedDiaId.split(",").map(Number) : [];
+        const [qualityId, colorId] = ids;
+
+        const findMetal = metalType?.find((item) => item?.Metalid === selectedMetalId)?.metaltype;
+        const findDiamond = diamondType?.find(
+          (ele) => ele.QualityId === qualityId && ele.ColorId === colorId
+        );
+
+        const defaultValues = [
+          { dropdownIndex: 2, value: findMetal || "" },
+          { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" },
+        ];
+
+        setSelectedValues(defaultValues);
       }
 
       return updatedValues;
@@ -894,15 +909,29 @@ const ProductList = () => {
   const handleClearSelectedvalues = () => {
     setSelectedValues([]);
 
-    // const matchCollName = getMatchCollName();
     setSelectedMetalId(loginUserDetail?.MetalId ?? storeInit?.MetalId);
     setSelectedDiaId(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid);
 
     setCaratRangeValue([0.96, 41.81]);
     setPriceRangeValue([0, highestPrice]);
+    setTrend("Recommended");
+    setSortBySelect("");
 
-    // setDefaultValues(matchCollName);
-    setDefaultValues();
+    // Save metal and diamond default values
+    const ids = typeof selectedDiaId === "string" ? selectedDiaId.split(",").map(Number) : [];
+    const [qualityId, colorId] = ids;
+
+    const findMetal = metalType?.find((item) => item?.Metalid === selectedMetalId)?.metaltype;
+    const findDiamond = diamondType?.find(
+      (ele) => ele.QualityId === qualityId && ele.ColorId === colorId
+    );
+
+    const defaultValues = [
+      { dropdownIndex: 2, value: findMetal || "" },
+      { dropdownIndex: 3, value: findDiamond ? `${findDiamond.Quality}#${findDiamond.color}` : "" },
+    ];
+
+    setSelectedValues(defaultValues);
   };
 
 

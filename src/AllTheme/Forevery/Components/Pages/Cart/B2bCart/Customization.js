@@ -25,6 +25,7 @@ const Customization = ({
   decodeEntities,
   onUpdateCart
 }) => {
+  console.log('selectedItem: ', selectedItem);
 
   const [metalTypeCombo, setMetalTypeCombo] = useState([]);
   const [metalColorCombo, setMetalColorCombo] = useState([]);
@@ -100,15 +101,30 @@ const Customization = ({
   }, [diamondData, selectedItem?.Sol_StockNo]);
 
 
+  // useEffect(() => {
+  //   if (selectedItem) {
+  //     const finalCost = selectedItem?.Quantity * selectedItem?.UnitCostWithMarkUpIncTax;
+  //     setSelectedItem((prev) => ({
+  //       ...prev,
+  //       FinalCost: finalCost,
+  //     }));
+  //   }
+  // }, [selectedItem]);
+
   useEffect(() => {
-    if (selectedItem) {
-      const finalCost = selectedItem?.Quantity * selectedItem?.UnitCostWithMarkUpIncTax;
-      setSelectedItem((prev) => ({
-        ...prev,
-        FinalCost: finalCost,
-      }));
+    if (selectedItem?.Quantity && selectedItem?.UnitCostWithMarkUpIncTax) {
+      const finalCost = selectedItem.Quantity * selectedItem.UnitCostWithMarkUpIncTax;
+
+      // Only update if the value has changed to prevent unnecessary updates.
+      if (selectedItem.FinalCost !== finalCost) {
+        setSelectedItem((prev) => ({
+          ...prev,
+          FinalCost: finalCost,
+        }));
+      }
     }
-  }, [selectedItem]);
+  }, [selectedItem?.Quantity, selectedItem?.UnitCostWithMarkUpIncTax]);
+
 
 
   const keyToCheck = "stockno"

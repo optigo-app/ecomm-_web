@@ -17,7 +17,7 @@ import { GoHeart } from "react-icons/go";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GoSearch } from "react-icons/go";
 import { FaPowerOff } from "react-icons/fa";
-import { storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
+import { ScrollToView, storImagePath } from "../../../../../../utils/Glob_Functions/GlobalFunction";
 import Menubar from "../MenuBar/Menubar";
 import { RxCross1 } from "react-icons/rx";
 import { GetCountAPI } from "../../../../../../utils/API/GetCount/GetCountAPI";
@@ -125,21 +125,21 @@ const Header = () => {
     fetchData();
   }, []);
 
-  function ScrollToView(param) {
-    if (window.location.pathname !== "/") {
-      sessionStorage.setItem("scrollParam", param);
-      window.location.href = "/";
-      return;
-    }
-    const element = document?.getElementById(param);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
-    }
-  }
+  // function ScrollToView(param) {
+  //   if (window.location.pathname !== "/") {
+  //     sessionStorage.setItem("scrollParam", param);
+  //     window.location.href = "/";
+  //     return;
+  //   }
+  //   const element = document?.getElementById(param);
+  //   if (element) {
+  //     element.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "start",
+  //       inline: "nearest",
+  //     });
+  //   }
+  // }
 
   const handleIconClick = () => {
     setSearchOpen(true);
@@ -1022,6 +1022,8 @@ const Header = () => {
                 textTransform: "uppercase",
                 maxWidth: '70rem',
                 overflowX: 'auto',
+                scrollbarWidth: "thin", 
+                msOverflowStyle: "none",
               }}
             >
               {selectedData?.param1?.map((param1Item, param1Index) => {
