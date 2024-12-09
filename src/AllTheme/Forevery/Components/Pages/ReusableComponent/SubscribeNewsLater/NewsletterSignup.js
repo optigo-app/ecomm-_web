@@ -4,24 +4,28 @@ import btnStyle from "../../../scss/Button.module.scss";
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handleSubmit = () => {
+    setLoading(true)
     if (email) {
       fetch(
         `http://www.orail.co.in/demo/icontact/standard/Ajax/SendMailToSubscriber.aspx?officeid=1&groupid=1468&emailid=${email}`
       )
         .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
-      alert(`Email: ${email}`);
+        .then((result) => { setResult(result); setLoading(false) })
+        .catch((error) => setResult(error));
     } else {
       alert("Please enter your email.");
     }
   };
+
+  const alreadySubs = 'Already Subscribed.';
 
   return (
     <div className="newsletter-signup">
@@ -37,13 +41,20 @@ const NewsletterSignup = () => {
         Collection.
       </p>
       <div className="email-input">
-        <input
-          type="email"
-          placeholder="Type Your Email"
-          value={email}
-          onChange={handleInputChange}
-          required
-        />
+        <div className="email-input-with-error">
+          <input
+            type="email"
+            placeholder="Type Your Email"
+            value={email}
+            onChange={handleInputChange}
+            required
+          />{
+            loading ? <span className="for-error-message-news">Loading...</span> : (
+              <>
+                {result && <span className="for-error-message-news" style={{ color: result === alreadySubs ? '#FF0000' : '#04AF70 ' }}>{result}</span>}
+              </>
+            )}
+        </div>
         <button
           onClick={handleSubmit}
           className={`${btnStyle?.btn_for_new} ${btnStyle?.btn_15}`}

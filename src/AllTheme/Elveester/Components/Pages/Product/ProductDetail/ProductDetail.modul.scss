@@ -123,19 +123,26 @@
                 color: #424242;
                 // font-family: 'PT Sans', sans-serif;
                 font-family: $fontSansSerif !important;
-                font-size: 30px;
+                font-size: 25px;
                 font-style: normal;
                 font-weight: 400;
                 text-align: start !important;
-                line-height: 3.7rem;
+                line-height: 2.2rem;
+                // line-height: 3.7rem;
             }
         }
 
         .elv_ProductDet_det {
             display: flex;
             flex-direction: column;
-            margin-top: 1rem;
+            // margin-top: 1rem;
             width: 27rem;
+
+            .elv_ProductDet_prod_code_Coll{
+                font-size: 18px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
 
             .elv_ProductDet_prod_code {
                 font-size: 16px;
@@ -169,13 +176,21 @@
         width: 100%;
 
         .elv_Product_prod_desc_data_max1000 {
-            margin-top: 4rem;
+            margin-top: 2.2rem;
+            // margin-top: 4rem;
 
             .elv_ProductDet_prod_title_max1000 {
                 text-align: center;
                 font-size: 25px;
                 color: #7d7f85;
                 margin-bottom: 2rem;
+            }
+
+            .elv_ProductDet_prod_code_Coll{
+                font-size: 16px;
+                color: black;
+                font-weight: 700;
+                text-transform: uppercase;
             }
         }
 

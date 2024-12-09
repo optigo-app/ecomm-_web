@@ -455,6 +455,27 @@ const ProductDetail = () => {
     setCsList(res?.pdResp?.rd4)
   }
 
+  const handleMRPCustomChange = (e, type) => {
+    if (type === "mt") {
+      setMetaltype(e.target.value);
+    }
+
+    if (type === "mc") {
+      setMetalColor(e.target.value);
+    }
+
+    if (type === "dt") {
+      setSelectDiaQc(e.target.value);
+    }
+
+    if (type === "cs") {
+      setSelectCsQC(e.target.value);
+    }
+    if (type === "size") {
+      setSizeData(e.target.value);
+    }
+  }
+
   function checkImageAvailability(imageUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -1630,6 +1651,10 @@ const ProductDetail = () => {
                                             loading="lazy"
                                             src={val?.src}
                                             alt=""
+                                            onError={(e) => {
+                                              e.target.onerror = null;
+                                              e.target.src = imageNotFound;
+                                            }}
                                             style={{ transition: 'transform 0.3s ease' }}
                                             onLoad={() => setIsImageLoad(false)}
                                           />
@@ -1926,10 +1951,27 @@ const ProductDetail = () => {
                             Metal:
                           </div>
                           {singleProd?.IsMrpBase == 1 ?
-                            <span className="for_prodWeights_weights_drp">
-                              {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
-                              {/* {singleProd?.MetalTypePurity} */}
-                            </span>
+                            <>
+                              <span className="for_prodWeights_weights_drp">
+                                {/* ONLY IN FOREVERY */}
+                                {/* <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                                <select
+                                  className="for_prodWeights_weights_drp"
+                                  value={metalType}
+                                  onChange={(e) => handleMRPCustomChange(e, 'mt')}
+                                >
+                                  {metalTypeCombo.map((ele) => (
+                                    <option key={ele?.Metalid} value={ele?.metaltype}>
+                                      {ele?.metaltype}
+                                    </option>
+                                  ))}
+                                </select>
+                              </FormControl> */}
+
+                                {metalTypeCombo?.filter((ele) => ele?.Metalid == singleProd?.MetalPurityid)[0]?.metaltype}
+                                {/* {singleProd?.MetalTypePurity} */}
+                              </span>
+                            </>
                             :
                             <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                               <select
@@ -1956,6 +1998,25 @@ const ProductDetail = () => {
                             <span className="for_prodWeights_weights_drp">
                               {metalColorCombo?.filter((ele) => ele?.id == singleProd?.MetalColorid)[0]?.metalcolorname}
                             </span>
+                            // <>
+                            //   <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                            //     <select
+                            //       className="for_prodWeights_weights_drp"
+                            //       value={metalColor}
+                            //       onChange={(e) =>
+                            //         storeInit?.IsColorWiseImages === 1 ?
+                            //           handleMetalWiseColorImg(e) :
+                            //           handleMetalWiseColorImgWithFlag(e)
+                            //       }
+                            //     >
+                            //       {metalColorCombo?.map((ele) => (
+                            //         <option key={ele?.id} value={ele?.colorcode}>
+                            //           {ele?.metalcolorname}
+                            //         </option>
+                            //       ))}
+                            //     </select>
+                            //   </FormControl>
+                            // </>
                             :
                             <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                               <select
@@ -1987,6 +2048,21 @@ const ProductDetail = () => {
                               <span className="for_prodWeights_weights_drp">
                                 {singleProd?.DiaQuaCol}
                               </span>
+                              // <>
+                              //   <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              //     <select
+                              //       className="for_prodWeights_weights_drp"
+                              //       value={selectDiaQc}
+                              //       onChange={(e) => handleMRPCustomChange(e, 'dt')}
+                              //     >
+                              //       {diaQcCombo.map((ele) => (
+                              //         <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                              //           {`${ele?.Quality}#${ele?.color}`}
+                              //         </option>
+                              //       ))}
+                              //     </select>
+                              //   </FormControl>
+                              // </>
                             )
                               :
                               <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
@@ -2016,6 +2092,21 @@ const ProductDetail = () => {
                               <span className="menuitemSelectoreMain">
                                 {singleProd?.CsQuaCol}
                               </span>
+                              // <>
+                              //   <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                              //     <select
+                              //       className="for_prodWeights_weights_drp"
+                              //       value={selectCsQC}
+                              //       onChange={(e) => handleMRPCustomChange(e, 'cs')}
+                              //     >
+                              //       {csQcCombo.map((ele) => (
+                              //         <option key={ele?.QualityId} value={`${ele?.Quality},${ele?.color}`}>
+                              //           {`${ele?.Quality}#${ele?.color}`}
+                              //         </option>
+                              //       ))}
+                              //     </select>
+                              //   </FormControl>
+                              // </>
                             ) : (
                               <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                                 <select
@@ -2043,6 +2134,21 @@ const ProductDetail = () => {
                             <span className="for_prodWeights_weights_drp">
                               {singleProd?.DefaultSize}
                             </span>
+                            // <>
+                            //   <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
+                            //     <select
+                            //       className="for_prodWeights_weights_drp"
+                            //       value={sizeData}
+                            //       onChange={(e) => handleMRPCustomChange(e, 'size')}
+                            //     >
+                            //       {SizeCombo?.rd?.map((ele) => (
+                            //         <option key={ele?.id} value={ele?.sizename}>
+                            //           {ele?.sizename}
+                            //         </option>
+                            //       ))}
+                            //     </select>
+                            //   </FormControl>
+                            // </>
                             :
                             <FormControl variant="standard" sx={{ m: 1, marginLeft: '8px', minWidth: 120, margin: 0, padding: 0, background: 'transparent' }}>
                               <select
@@ -2567,8 +2673,13 @@ const DiamondNavigation = ({ Swap, StyleCondition, setswap, customizeStep, setsh
 
           <div className={`step_data ${setting === true ? 'active' : ''} d-2`}>
             <span className={`for_title_span ${isLoading ? 'disabled' : ''}`} style={StyleCondition}
-              onClick={() => {
-                Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+               onClick={() => {
+                if (getCustStepData?.[1]?.Setting === "Ring" || getCustStepData?.[1]?.Setting === "Pendant") {
+                  Navigation(`/certified-loose-lab-grown-diamonds/settings/${setshape?.[1]?.Setting ?? setshape?.[0]?.Setting}/diamond_shape=${setshape?.[1]?.shape ?? setshape?.[0]?.shape}/${((setshape?.[1]?.Setting ?? setshape?.[0]?.Setting) === 'Ring' ? 'M=UmluZy9jYXRlZ29yeQ==' : 'M=UGVuZGFudC9jYXRlZ29yeQ==')}`)
+                } else {
+                  Navigation(`/certified-loose-lab-grown-diamonds/settings/${getCustStepData?.[1]?.Setting === 'Pendant' ? "Pendant" : "Ring"}/${(getCustStepData?.[1]?.Setting === 'Pendant' ? 'M=UGVuZGFudC9jYXRlZ29yeQ==' : 'M=UmluZy9jYXRlZ29yeQ==')}`)
+                }
+
                 setswap("settings");
               }}
             >

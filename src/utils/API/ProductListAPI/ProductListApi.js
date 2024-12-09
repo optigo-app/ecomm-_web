@@ -2,13 +2,11 @@ import { CommonAPI } from "../CommonAPI/CommonAPI";
 
 
 const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", visiterId, sortby = "", diaRange = {}, netWt = {}, gross = {}, Shape = "", dno = "", album = "") => {
-  console.log('filterObj: ', filterObj?.[2]?.value ?? "");
 
   let MenuParams = {};
   let serachVar = ""
 
   console.log("mainData", sortby);
-
 
   if (Array.isArray(mainData)) {
     if (mainData?.length > 0) {
@@ -92,7 +90,18 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
   let mtid = (obj?.mt === undefined ? (loginInfo?.MetalId ?? storeinit?.MetalId) : obj?.mt)
   let filPrice = filterObj?.Price?.length > 0 ? filterObj?.Price : ''
 
-  let foreveryPrice = filterObj?.[2]?.value ? { "Minval": filterObj?.[2]?.value?.[0], "Maxval": filterObj?.[2]?.value?.[1] } : {};
+  // const priceData = filterObj.find(item => item.dropdownIndex === 4);
+  // const caratData = filterObj.find(item => item.dropdownIndex === 5);
+  // const ProductType = filterObj.find(item => item.dropdownIndex === 6);
+
+  // let foreveryPrice = priceData?.value
+  //   ? { Minval: priceData.value[0], Maxval: priceData.value[1] }
+  //   : {};
+
+  // console.log(
+  //   "data",
+  //   Object.keys(foreveryPrice)?.length > 0 ? foreveryPrice : filPrice
+  // );
 
   const data = {
     PackageId: `${(loginInfo?.PackageId ?? storeinit?.PackageId) ?? ''}`,
@@ -128,8 +137,8 @@ const ProductListApi = async (filterObj = {}, page, obj = {}, mainData = "", vis
     Min_NetWt: `${netWt?.netMin ?? ""}`,
     Max_NetWt: `${netWt?.netMax ?? ""}`,
     // FilPrice: filterObj?.Price?.length > 0 ? `${JSON.stringify(filterObj?.Price)}` : '',
-    FilPrice: foreveryPrice,
-    // FilPrice: filPrice,
+    // FilPrice: Object.keys(foreveryPrice)?.length > 0 ? foreveryPrice : (filPrice ?? ""),
+    FilPrice: filPrice,
     // Max_Price: '',
     // Min_Price: '',
     CurrencyRate: `${(loginInfo?.CurrencyRate ?? storeinit?.CurrencyRate) ?? ''}`,

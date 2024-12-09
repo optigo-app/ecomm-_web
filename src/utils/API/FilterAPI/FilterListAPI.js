@@ -2,6 +2,7 @@ import { CommonAPI } from "../CommonAPI/CommonAPI"
 
 
 export const FilterListAPI = async (mainData, visiterId) => {
+  console.log('mainData: ', mainData);
 
   let storeinit = JSON.parse(sessionStorage.getItem("storeInit"))
   let loginInfo = JSON.parse(sessionStorage.getItem("loginUserDetail"))

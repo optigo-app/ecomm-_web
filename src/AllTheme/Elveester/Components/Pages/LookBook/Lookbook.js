@@ -459,6 +459,7 @@ const Lookbook = () => {
       d: loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid,
       c: loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid,
       f: {},
+      g: [["", ""], ["", "", ""]],
     };
     let encodeObj = compressAndEncode(JSON?.stringify(obj));
     navigate(

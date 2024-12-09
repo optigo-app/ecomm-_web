@@ -123,11 +123,16 @@ const AffiliationData = () => {
                     className="affli_swiper"
                 >
                     {sliderData.map((slide, index) => (
-                        <SwiperSlide key={index}>
-                            <img src={storImagePath() + slide?.imageUrl} alt={`Slide ${index}`} style={{ height: '50px' }} />
+                        <SwiperSlide key={index} className="affiliation-slide">
+                            <img
+                                src={storImagePath() + slide?.imageUrl}
+                                alt={`Slide ${index}`}
+                                className="affiliation-image"
+                            />
                         </SwiperSlide>
                     ))}
                 </Swiper>
+
             </div>
         </div>
     )
